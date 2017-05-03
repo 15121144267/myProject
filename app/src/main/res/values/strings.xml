@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">非码配送</string>
+    <string name="toolbar_des"> </string>
+    <string name="loading">正在加载中...</string>
+    <string name="load_failed">加载失败，请点我重试</string>
+    <string name="load_end">没有更多数据</string>
+    <string name="app_login">登录</string>
+    <string name="app_quite_login">退出登录</string>
+    <string name="app_user">用户名</string>
+    <string name="app_password">密码</string>
+    <string name="user_number">编号：暂无</string>
+    <string name="user_status_open">接单中</string>
+    <string name="user_status_close">未开工</string>
+    <string name="user_notice_center">通知中心</string>
+    <string name="user_notice">我的通知</string>
+    <string name="user_work_res">工作汇总</string>
+    <string name="user_setting_center">设置中心</string>
+    <string name="user_person_center">个人中心</string>
+    <string name="user_order_detail">订单详情</string>
+    <string name="login_phone_empty">手机号不能为空</string>
+    <string name="login_password_empty">请输入密码</string>
+    <string name="login_phone_wrong">手机号格式填写有误</string>
+    <string name="text_verify_code">获取验证码</string>
+    <string name="text_take_order">取餐</string>
+    <string name="text_notice_time">2017-04-25 12:40:42</string>
+    <string name="text_notice_time_content">分配时间：</string>
+    <string name="text_notice_content">您有一份待取货订单 请及时取货</string>
+    <string name="text_setting_version">V 1.0</string>
+    <string name="text_setting_version_des">当前版本</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="all">
+        <item
+            android:id="@+id/my_notice"
+            android:icon="@drawable/vector_notice_icon"
+            android:title="@string/user_notice_center"/>
+        <item
+            android:id="@+id/my_summary"
+            android:icon="@drawable/vector_work_icon"
+            android:title="@string/user_work_res"/>
+
+        <item
+            android:id="@+id/my_setting"
+            android:icon="@drawable/vector_setting_icon"
+            android:title="@string/user_setting_center"/>
+
+    </group>
+
+</menu>

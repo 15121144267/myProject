@@ -1,0 +1,30 @@
+ext{
+
+    myVersionCode = 1
+    myVersionName = "1.0"
+
+    myCompileSdkVersion = 25
+    myBuildToolsVersion = "25.0.1"
+    myApplicationId = "com.dispatching.feima"
+    myReleaseSignFile = 'releasekeystore.jks'
+    mySignStorePassword = '64569845'
+    mySignAlias = 'feimareleasekey'
+    mySignKeyPassword = '64569845'
+    myMinSdkVersion = 19
+    myTargetSdkVersion = 25
+    myDependencies = [
+            myGreendao: "org.greenrobot:greendao:3.2.2",
+            myDsign: "com.android.support:design:25.0.1",
+            myRetrofit2: "com.squareup.retrofit2:retrofit:2.2.0",
+            myRetrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:2.2.0",
+            myRetrofit2ConverterScalars: "com.squareup.retrofit2:converter-scalars:2.2.0",
+            myRetrofit2AdapterRxjava: "com.squareup.retrofit2:adapter-rxjava2:2.2.0",
+            myOkhttp: "com.squareup.okhttp3:okhttp:3.7.0",
+            myGson: "com.google.code.gson:gson:2.8.0",
+            myRxjava: "io.reactivex.rxjava2:rxjava:2.0.9",
+            myRxandroid: "io.reactivex.rxjava2:rxandroid:2.0.1",
+            myDagger: "com.google.dagger:dagger:2.0",
+            myDaggerCompiler: "com.google.dagger:dagger-compiler:2.0",
+            myDaggerJavaxAnnotation: "org.glassfish:javax.annotation:10.0-b28"
+    ]
+}

@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+android {
+    compileSdkVersion rootProject.ext.myCompileSdkVersion
+    buildToolsVersion rootProject.ext.myBuildToolsVersion
+    defaultConfig {
+        applicationId rootProject.ext.myApplicationId
+        minSdkVersion rootProject.ext.myMinSdkVersion
+        targetSdkVersion rootProject.ext.myTargetSdkVersion
+        versionCode rootProject.ext.myVersionCode
+        versionName rootProject.ext.myVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
+    }
+
+    signingConfigs {
+        myConfig {
+            storeFile file(rootProject.ext.myReleaseSignFile)
+            storePassword rootProject.ext.mySignStorePassword
+            keyAlias rootProject.ext.mySignAlias
+            keyPassword rootProject.ext.mySignKeyPassword
+        }
+        myDebugConfig {
+            storeFile file('debugkeystore.jks')
+            storePassword '009120'
+            keyAlias 'china'
+            keyPassword '009120'
+        }
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['libs']
+        }
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            shrinkResources false
+            signingConfig signingConfigs.myDebugConfig
+
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myConfig
+        }
+    }
+    greendao{
+        schemaVersion 1
+        daoPackage 'com.dispatching.feima.gen'
+        targetGenDir 'src/main/java'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile rootProject.ext.myDependencies["myGreendao"]
+    compile rootProject.ext.myDependencies["myDsign"]
+    compile rootProject.ext.myDependencies["myRetrofit2"]
+    compile rootProject.ext.myDependencies["myRetrofit2ConverterGson"]
+    compile rootProject.ext.myDependencies["myRetrofit2ConverterScalars"]
+    compile rootProject.ext.myDependencies["myRetrofit2AdapterRxjava"]
+    compile rootProject.ext.myDependencies["myOkhttp"]
+    compile rootProject.ext.myDependencies["myGson"]
+    compile rootProject.ext.myDependencies["myRxjava"]
+    compile rootProject.ext.myDependencies["myRxandroid"]
+    compile rootProject.ext.myDependencies["myDagger"]
+    apt rootProject.ext.myDependencies["myDaggerCompiler"]
+    provided rootProject.ext.myDependencies["myDaggerJavaxAnnotation"]
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    compile 'com.rabbitmq:amqp-client:4.1.0'
+    compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.4.0_20170427.jar')
+}

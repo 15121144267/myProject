@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/white"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vector_give"
+                android:contentDescription="@string/app_name"
+                />
+
+            <TextView
+                android:id="@+id/item_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_icon"
+                android:layout_marginTop="4dp"
+                android:text="2km"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/item_icon"
+                android:maxLines="1"
+                android:text="上海市浦东新区"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_icon"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/item_text"
+                android:text="上海市浦东新区"
+                />
+
+            <View
+                style="@style/LineH_Fill_Height0_5_ForView"
+                android:layout_below="@id/item_text"
+                />
+
+            <LinearLayout
+                android:layout_width="26dp"
+                android:layout_height="15dp"
+                android:layout_below="@id/item_text"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_horizontal">
+
+                <View
+                    android:id="@+id/item_serviceSchedule_topLine"
+                    style="@style/LineV_Fill_Width1"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/vector_take"
+                android:contentDescription="@string/app_name"
+                />
+
+            <TextView
+                android:id="@+id/item_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_icon2"
+                android:layout_marginTop="4dp"
+                android:text="2km"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@id/item_icon2"
+                android:text="上海市浦东新区"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_icon2"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/item_text2"
+                android:maxLines="1"
+                android:text="上海市浦东新区"
+                />
+
+            <View
+                style="@style/LineH_Fill_Height0_5_ForView"
+                android:layout_below="@id/item_text2"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_line"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            >
+
+            <TextView
+                android:id="@+id/tweetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="订单备注："
+                android:layout_marginEnd="5dp"
+                />
+
+            <TextView
+                android:id="@+id/tweetDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单详情订单详情订单详情订单详情订单详情订单详情订单详情订单详情订单详情"
+                />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/item_get_order"
+            style="@style/Login_Button_Style"
+            android:text="@string/text_take_order"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
