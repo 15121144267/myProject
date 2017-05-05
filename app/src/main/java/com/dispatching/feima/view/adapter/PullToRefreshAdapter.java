@@ -13,6 +13,7 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<Status, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, Status item) {
         helper.setText(R.id.tweetName,"订单详情:");
+        helper.addOnClickListener(R.id.item_get_order);
     }
 
 }

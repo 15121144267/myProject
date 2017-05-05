@@ -10,7 +10,7 @@ public class MainControl {
     }
 
     public interface PresenterMain extends Presenter<MainView> {
-        void requestOrderInfo();
+
     }
 
 }

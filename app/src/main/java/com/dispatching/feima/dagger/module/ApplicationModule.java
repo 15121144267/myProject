@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.database.DbHelper;
+import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoMaster;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.utils.SharePreferenceUtil;
@@ -63,7 +64,11 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    public Gson provideGson(){return new GsonBuilder().create();}
+    Gson provideGson(){return new GsonBuilder().create();}
 
-
+    @Provides
+    @Singleton
+    BuProcessor provideBuProcessor(Context arg1, SharePreferenceUtil arg2) {
+        return new BuProcessor(arg1,arg2);
+    }
 }

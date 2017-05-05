@@ -2,6 +2,7 @@ package com.dispatching.feima.dagger;
 
 
 import com.dispatching.feima.DaggerApplication;
+import com.dispatching.feima.service.CustomerService;
 import com.dispatching.feima.view.activity.BaseActivity;
 
 /**
@@ -13,5 +14,7 @@ public interface ComponetGraph {
     void inject(DaggerApplication application);
 
     void inject(BaseActivity baseActivity);
+
+    void inject(CustomerService service);
 
 }

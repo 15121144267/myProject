@@ -9,6 +9,18 @@ import retrofit2.http.POST;
  */
 
 public interface MainApi {
-    @POST("api")
-    Observable<String> OrderInfoRequest(@Body String request);
+    @POST("Delivery/Staff_GetWaitSendOrder")
+    Observable<String> WaitOrderInfoRequest(@Body String request);
+
+    @POST("Delivery/Staff_GetSendingOrder")
+    Observable<String> SendingOrderInfoRequest(@Body String request);
+
+    @POST("Delivery/Staff_GetSendedOrder")
+    Observable<String> CompletedOrderInfoRequest(@Body String request);
+
+    @POST("Delivery/Take")
+    Observable<String> TakeDeliveryRequest(@Body String request);
+
+    @POST("Delivery/Arrived")
+    Observable<String> ArrivedDeliveryRequest(@Body String request);
 }

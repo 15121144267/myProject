@@ -14,10 +14,18 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="tweetText">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textColorLink">#888888</item>
-        <item name="android:lineSpacingExtra">4dp</item>
+    <style name="summaryText">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
+        <item name="android:background">@color/line_grey_bg</item>
+    </style>
+
+    <style name="summarySmall">
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
     </style>
 
     <style name="tweetDate">
@@ -31,6 +39,12 @@
         <item name="android:background">@color/line_grey_bg</item>
     </style>
 
+    <style name="LineH_Fill_Width1_5_ForView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1.5dip</item>
+        <item name="android:background">@color/line_grey_bg</item>
+    </style>
+
     <style name="LineH_Fill_Height0_5_ForView">
         <item name="android:layout_width">0.5dp</item>
         <item name="android:layout_height">2dp</item>
@@ -41,6 +55,13 @@
         <item name="android:layout_width">1.5dip</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/line_grey_bg</item>
+    </style>
+
+    <style name="LineV_Fill_Width2">
+        <item name="android:layout_width">2dip</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:layout_margin">@dimen/dp_4</item>
     </style>
 
     <style name="Login_Button_Style">

@@ -25,17 +25,6 @@ public class PresenterMainImpl implements MainControl.PresenterMain {
     }
 
     @Override
-    public void requestOrderInfo() {
-        mView.showLoading("加载中...");
-        mMainModel.OrderInfoRequest("").compose(mView.applySchedulers())
-                .subscribe(responseData -> {
-                }, throwable -> {
-                    showErrMessage(throwable);
-                }, () -> {
-                });
-    }
-
-    @Override
     public void setView(MainControl.MainView mainView) {
         mView = mainView;
     }

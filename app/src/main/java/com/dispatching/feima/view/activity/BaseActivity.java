@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.ApplicationComponent;
+import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.utils.SharePreferenceUtil;
@@ -30,12 +31,14 @@ import io.reactivex.schedulers.Schedulers;
 public class BaseActivity extends AppCompatActivity {
     @Inject
     protected SharePreferenceUtil mSharePreferenceUtil;
-
     @Inject
     protected DaoSession mDaoSession;
+    @Inject
+    protected BuProcessor mBuProcessor;
 
     protected Dialog mProgressDialog;
     protected CompositeDisposable mDisposable;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

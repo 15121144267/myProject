@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -15,7 +16,9 @@ import com.dispatching.feima.dagger.component.DaggerLoginActivityComponent;
 import com.dispatching.feima.dagger.component.LoginActivityComponent;
 import com.dispatching.feima.dagger.module.LoginActivityModule;
 import com.dispatching.feima.entity.LoginResponse;
+import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.listener.MyTextWatchListener;
+import com.dispatching.feima.service.CustomerService;
 import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
@@ -44,9 +47,15 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     Button mLoginSubmit;
     @BindView(R.id.login_identifying_code)
     TextView mLoginIdentifyingCode;
+
+    public static Intent getLoginIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
+    }
+
     private LoginActivityComponent mActivityComponent;
     private LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
+    private String mUserName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +66,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         mPresenterLogin = mActivityComponent.getPresenterLogin();
         mPresenterLogin.setView(this);
         mMiddleName.setText(R.string.app_login);
+
         EditText editText = mLoginUserName.getEditText();
         RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
         RxView.clicks(mLoginIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerifyCode());
@@ -76,8 +86,18 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
                 }
             });
+        mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
+        if (editText!=null&&!TextUtils.isEmpty(mUserName)){
+            editText.setText(mUserName);
+            editText.setSelection(mUserName.length());
+        }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //setIntent(intent);
+    }
 
     @Override
     public void showLoading(String msg) {
@@ -111,7 +131,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (enable) {
             mLoginIdentifyingCode.setText(getString(R.string.text_verify_code));
         } else {
-            mLoginIdentifyingCode.setText("重新发送("+String.valueOf(time)+")");
+            mLoginIdentifyingCode.setText("重新发送(" + String.valueOf(time) + ")");
         }
     }
 
@@ -125,14 +145,19 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             showToast(getString(R.string.login_password_empty));
             return;
         }
-        mPresenterLogin.onRequestLogin(myPhone, verifyCode);
-      /*  startActivity(MainActivity.getMainIntent(this));
-        finish();*/
+        //mPresenterLogin.onRequestLogin(myPhone, verifyCode);
+        if (TextUtils.isEmpty(mUserName)) {
+            mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, "15121144267");
+            startService(CustomerService.newIntent(getApplicationContext()));
+        }
+        startActivity(MainActivity.getMainIntent(this));
+        finish();
     }
 
     @Override
     public void loginSuccess(LoginResponse loginResponse) {
-
+        mBuProcessor.setUserId(loginResponse.uId);
+        mBuProcessor.setUserToken(loginResponse.token);
     }
 
     private void initializeInjector() {

@@ -4,16 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -21,29 +19,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
+import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
-import com.dispatching.feima.entity.DataServer;
-import com.dispatching.feima.listener.OnItemClickListener;
-import com.dispatching.feima.listener.TabCheckListener;
 import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.MainControl;
-import com.dispatching.feima.view.adapter.BaseQuickAdapter;
-import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
+import com.dispatching.feima.view.adapter.MyFragmentAdapter;
+import com.dispatching.feima.view.fragment.CompletedOrderFragment;
+import com.dispatching.feima.view.fragment.PendingOrderFragment;
+import com.dispatching.feima.view.fragment.SendingOrderFragment;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements MainControl.MainView, BaseQuickAdapter.RequestLoadMoreListener,
-        NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends BaseActivity implements MainControl.MainView,
+        NavigationView.OnNavigationItemSelectedListener, HasComponent<MainActivityComponent> {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -53,28 +53,26 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     DrawerLayout mDrawerLayout;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
-    @BindView(R.id.rv_list)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.swipeLayout)
-    SwipeRefreshLayout mSwipeLayout;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
+    @BindView(R.id.viewpager)
+    ViewPager mViewpager;
     private ImageView mPersonIcon;
     private TextView mPersonAccount;
     private TextView mPersonNumber;
     private TextView mPersonStatus;
     private SwitchCompat mPersonStatusControl;
-    private PullToRefreshAdapter pullToRefreshAdapter;
+
     private ActionBarDrawerToggle mDrawerToggle;
-    private static String[] modules = {"待取货", "配送中", "已完成"};
-    private boolean isErr = false;
-    private static final int TOTAL_COUNTER = 18;
-    private int mCurrentCounter = 0;
-    private boolean mLoadMoreEndGone = false;
-    private static final int PAGE_SIZE = 6;
+    private  String[] modules = {"待取货", "配送中", "已完成"};
+
+
     private MainActivityComponent mActivityComponent;
     private MainControl.PresenterMain mPresenter;
-
+    private String mUserToken;
+    private String mUserId;
+    private String mVersion;
+    private List<Fragment> mFragments;
     public static Intent getMainIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
@@ -88,23 +86,12 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         initializeInjector();
         mPresenter = mActivityComponent.getPresenterMain();
         mPresenter.setView(this);
-        initView();
-        initAdapter();
-    }
 
-    private void initAdapter() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        pullToRefreshAdapter = new PullToRefreshAdapter();
-        pullToRefreshAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        pullToRefreshAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        mRecyclerView.setAdapter(pullToRefreshAdapter);
-        mCurrentCounter = pullToRefreshAdapter.getData().size();
-        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                startActivity(OrderDetailActivity.getOrderDetailIntent(MainActivity.this));
-            }
-        });
+        mUserToken = mBuProcessor.getUserToken();
+        mUserId = mBuProcessor.getUserId();
+        mVersion = BuildConfig.VERSION_NAME;
+
+        initView();
     }
 
     private void initView() {
@@ -120,40 +107,23 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
         RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
                 aBoolean -> requestChange(aBoolean));
-        mTabLayout.addOnTabSelectedListener(new TabCheckListener() {
-            @Override
-            public void onMyTabSelected(TabLayout.Tab tab) {
-                tabSelected(tab);
-            }
-        });
+
         mMiddleName.setText(R.string.app_name);
         mNvSlidingMenu.setNavigationItemSelectedListener(this);
-        mSwipeLayout.setOnRefreshListener(this);
+
         supportActionBar(mToolbar, false);
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.toolbar_des, R.string.toolbar_des);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        for (String module : modules) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(module));
-        }
-    }
 
-    private void tabSelected(TabLayout.Tab tab) {
-        switch (tab.getPosition()) {
-            case 0:
-                //获取服务区推的订单 抢单成功存数据库
-                showToast("0");
-                mPresenter.requestOrderInfo();
-                break;
-            case 1:
-                //获取数据库存储数据 配送完成存储数据库 查询一天的数据
-                pullToRefreshAdapter.setNewData(DataServer.getSampleData(PAGE_SIZE));
-                break;
-            case 2:
-                //获取数据库存储数据
-                pullToRefreshAdapter.setNewData(DataServer.getSampleData(PAGE_SIZE));
-                break;
-        }
+        mFragments = new ArrayList<>();
+        mFragments.add(new PendingOrderFragment());
+        mFragments.add(new SendingOrderFragment());
+        mFragments.add(new CompletedOrderFragment());
+        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(),mFragments,modules);
+        mViewpager.setAdapter(adapter);
+        mViewpager.setOffscreenPageLimit(mFragments.size());
+        mTabLayout.setupWithViewPager(mViewpager);
     }
 
     private void requestChange(boolean isFlag) {
@@ -166,46 +136,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     private void requestPersonActivity() {
         startActivity(PersonCenterActivity.getPersonIntent(this));
-    }
-
-    @Override
-    public void onRefresh() {
-        pullToRefreshAdapter.setEnableLoadMore(false);
-        //网络请求
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pullToRefreshAdapter.setNewData(DataServer.getSampleData(PAGE_SIZE));
-                isErr = false;
-                mCurrentCounter = PAGE_SIZE;
-                mSwipeLayout.setRefreshing(false);
-                pullToRefreshAdapter.setEnableLoadMore(true);
-            }
-        }, 2_000);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mSwipeLayout.setEnabled(false);
-        if (pullToRefreshAdapter.getData().size() < PAGE_SIZE) {
-            pullToRefreshAdapter.loadMoreEnd(true);
-        } else {
-            if (mCurrentCounter >= TOTAL_COUNTER) {
-                pullToRefreshAdapter.loadMoreEnd(mLoadMoreEndGone);//true is gone,false is visible
-            } else {
-                if (!isErr) {
-                    pullToRefreshAdapter.addData(DataServer.getSampleData(PAGE_SIZE));
-                    mCurrentCounter = pullToRefreshAdapter.getData().size();
-                    pullToRefreshAdapter.loadMoreComplete();
-                } else {
-                    isErr = true;
-                    Toast.makeText(MainActivity.this, "网络出错", Toast.LENGTH_LONG).show();
-                    pullToRefreshAdapter.loadMoreFail();
-
-                }
-            }
-            mSwipeLayout.setEnabled(true);
-        }
     }
 
     @Override
@@ -260,6 +190,11 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public MainActivityComponent getComponent() {
+        return mActivityComponent;
     }
 
     private void initializeInjector() {
