@@ -12,6 +12,7 @@ import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/4/27.
+ * PresenterMainImpl
  */
 
 public class PresenterMainImpl implements MainControl.PresenterMain {

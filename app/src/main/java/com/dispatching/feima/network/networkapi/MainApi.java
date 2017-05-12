@@ -2,25 +2,28 @@ package com.dispatching.feima.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by helei on 2017/4/27.
+ * MainApi
  */
 
 public interface MainApi {
-    @POST("Delivery/Staff_GetWaitSendOrder")
-    Observable<String> WaitOrderInfoRequest(@Body String request);
+    @GET("api/Query/Staff/GetWaitTake")
+    Observable<String> WaitOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);
 
-    @POST("Delivery/Staff_GetSendingOrder")
-    Observable<String> SendingOrderInfoRequest(@Body String request);
+    @GET("api/Query/Staff/GetSendingOrder")
+    Observable<String> SendingOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);
 
-    @POST("Delivery/Staff_GetSendedOrder")
-    Observable<String> CompletedOrderInfoRequest(@Body String request);
+    @GET("api/Query/Staff/GetSendedOrder")
+    Observable<String> CompletedOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);
 
-    @POST("Delivery/Take")
+    @POST("api/Delivery/Take")
     Observable<String> TakeDeliveryRequest(@Body String request);
 
-    @POST("Delivery/Arrived")
+    @POST("api/Delivery/Arrived")
     Observable<String> ArrivedDeliveryRequest(@Body String request);
 }

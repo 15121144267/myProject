@@ -14,6 +14,9 @@ import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.utils.SharePreferenceUtil;
+import com.dispatching.feima.utils.ToastUtils;
+
+import java.net.ConnectException;
 
 import javax.inject.Inject;
 
@@ -23,9 +26,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/4/26.
+ * BaseActivity
  */
 
 public class BaseActivity extends AppCompatActivity {
@@ -62,7 +67,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         if (isShowIcon) {
             toolbar.setNavigationIcon(R.drawable.vector_arrow_left);
-            toolbar.setNavigationOnClickListener(v -> finish());
+            toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
         return actionBar;
     }
@@ -99,4 +104,24 @@ public class BaseActivity extends AppCompatActivity {
         mProgressDialog = null;
     }
 
+    public void showBaseToast(String message) {
+        ToastUtils.showShortToast(message);
+    }
+
+    public void showErrMessage(Throwable e) {
+        dismissDialogLoading();
+        String mErrMessage;
+        if (e instanceof HttpException || e instanceof ConnectException
+                || e instanceof RuntimeException) {
+            mErrMessage = getString(R.string.text_check_internet);
+        } else {
+            mErrMessage = getString(R.string.text_wait_try);
+        }
+        showBaseToast(mErrMessage);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

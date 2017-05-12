@@ -159,7 +159,7 @@ public class DialogFactory {
         TextView loadingText = (TextView) v.findViewById(R.id.loading_text);
         loadingText.setText(msg);
         final Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// 创建自定义样式dialog
-        loadingDialog.setCancelable(true);
+        loadingDialog.setCancelable(false);
         loadingDialog.setContentView(v);
         return loadingDialog;
 

@@ -9,11 +9,12 @@ import java.io.Serializable;
  */
 
 public class LoginResponse implements Serializable {
-    @SerializedName("u_id")
+    @SerializedName("postman_id")
     public String uId;
 
-    @SerializedName("u_name")
+    @SerializedName("postman_name")
     public String uName;
+
     @SerializedName("store_name")
     public String storeName;
 

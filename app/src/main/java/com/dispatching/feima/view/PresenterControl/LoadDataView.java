@@ -22,6 +22,8 @@ public interface LoadDataView {
 
     void addSubscription(Disposable disposable);
 
+    void showErrMessage(Throwable e);
+
     Context getContext();
 
 }

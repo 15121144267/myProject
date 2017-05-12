@@ -9,12 +9,10 @@ import java.io.Serializable;
  */
 
 public class DeliveryStatusResponse implements Serializable{
-    @SerializedName("order_id")
-    public String orderId;
+    @SerializedName("delivery_id")
+    public String deliveryId;
 
     @SerializedName("delivery_status")
     public String deliveryStatus;
-
-    public String status;
 
 }

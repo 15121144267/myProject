@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by helei on 2017/4/27.
+ * PersonCenterActivity
  */
 
 public class PersonCenterActivity extends BaseActivity {

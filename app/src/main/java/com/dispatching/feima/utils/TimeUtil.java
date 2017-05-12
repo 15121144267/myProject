@@ -1,12 +1,14 @@
 package com.dispatching.feima.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class TimeUtil {
@@ -257,5 +259,34 @@ public class TimeUtil {
             return c.get(Calendar.YEAR) + "/" + month;
         }
         return (month > 9 ? month : "0" + month) + "月";
+    }
+
+    public static Calendar getCalendar(){
+        Calendar calendar = Calendar.getInstance();
+        Calendar todayCalendar = new GregorianCalendar(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),0,0,0);
+        return todayCalendar;
+    }
+
+    public static Date formatDate(String time){
+        Date date = new Date();
+        try {
+            String tmp = time.replace("T"," ").split("\\.")[0];
+            SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = df.parse(tmp);
+        }catch (Exception ex){
+            Log.e("tag", ex.getMessage());
+        }
+        return date;
+    }
+
+    public static String getTimeNow(Date date){
+        if (null == date){
+            Calendar calendar = Calendar.getInstance();
+            date = calendar.getTime();
+        }
+        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dayStr = df.format(date);
+        return dayStr;
     }
 }

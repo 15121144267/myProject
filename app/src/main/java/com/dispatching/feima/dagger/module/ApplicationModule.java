@@ -6,11 +6,15 @@ package com.dispatching.feima.dagger.module;
 
 import android.content.Context;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.database.DbHelper;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoMaster;
 import com.dispatching.feima.gen.DaoSession;
+import com.dispatching.feima.listener.MyLocationListener;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
@@ -70,5 +74,27 @@ public class ApplicationModule {
     @Singleton
     BuProcessor provideBuProcessor(Context arg1, SharePreferenceUtil arg2) {
         return new BuProcessor(arg1,arg2);
+    }
+
+    @Provides
+    @Singleton
+    AMapLocationClient provideAMapLocationClient() {
+        AMapLocationListener mLocationListener = new MyLocationListener(application);
+        AMapLocationClient client = new AMapLocationClient(application);
+        client.setLocationListener(mLocationListener);
+        return client;
+    }
+
+    @Provides
+    @Singleton
+    AMapLocationClientOption AMapLocationClientOptionProvide() {
+        AMapLocationClientOption option = new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setNeedAddress(true);
+        option.setLocationCacheEnable(true);
+        option.setHttpTimeOut(35000);
+        option.setWifiScan(true);
+        option.setInterval(30000);
+        return option;
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,12 +29,12 @@
                 android:id="@+id/item_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/vector_give"
                 android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/vector_give"
                 />
 
             <TextView
-                android:id="@+id/item_text"
+                android:id="@+id/order_start_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_icon"
@@ -43,32 +43,34 @@
                 />
 
             <TextView
+                android:id="@+id/order_start_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/dp_35"
                 android:layout_toEndOf="@id/item_icon"
                 android:maxLines="1"
                 android:text="上海市浦东新区"
+                android:visibility="gone"
                 />
 
             <TextView
+                android:id="@+id/order_start_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_icon"
-                android:layout_marginStart="16dp"
-                android:layout_toEndOf="@id/item_text"
+                android:layout_marginStart="@dimen/dp_60"
                 android:text="上海市浦东新区"
                 />
 
             <View
                 style="@style/LineH_Fill_Height0_5_ForView"
-                android:layout_below="@id/item_text"
+                android:layout_below="@id/order_start_distance"
                 />
 
             <LinearLayout
                 android:layout_width="26dp"
                 android:layout_height="15dp"
-                android:layout_below="@id/item_text"
+                android:layout_below="@id/order_start_distance"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
                 android:gravity="center_horizontal">
@@ -87,12 +89,12 @@
                 android:id="@+id/item_icon2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/vector_take"
                 android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/vector_take"
                 />
 
             <TextView
-                android:id="@+id/item_text2"
+                android:id="@+id/order_end_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_icon2"
@@ -101,30 +103,29 @@
                 />
 
             <TextView
+                android:id="@+id/order_end_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/dp_35"
                 android:layout_toEndOf="@id/item_icon2"
                 android:text="上海市浦东新区"
+                android:visibility="gone"
                 />
 
             <TextView
+                android:id="@+id/order_end_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_icon2"
-                android:layout_marginStart="16dp"
-                android:layout_toEndOf="@id/item_text2"
+                android:layout_marginStart="@dimen/dp_60"
                 android:maxLines="1"
                 android:text="上海市浦东新区"
                 />
 
-            <View
-                style="@style/LineH_Fill_Height0_5_ForView"
-                android:layout_below="@id/item_text2"
-                />
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/layout_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -133,20 +134,20 @@
             android:padding="15dp"
             >
 
+
             <TextView
-                android:id="@+id/tweetName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:maxLines="1"
                 android:text="订单备注："
-                android:layout_marginEnd="5dp"
                 />
 
             <TextView
-                android:id="@+id/tweetDate"
+                android:id="@+id/order_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="订单详情订单详情订单详情订单详情订单详情订单详情订单详情订单详情订单详情"
+                android:text="订单备注订单备注订单备注"
                 />
         </LinearLayout>
 

@@ -11,19 +11,31 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.dagger.component.DaggerNoticeCenterActivityComponent;
+import com.dispatching.feima.dagger.module.NoticeCenterActivityModule;
+import com.dispatching.feima.database.OrderNotice;
+import com.dispatching.feima.entity.QueryParam;
 import com.dispatching.feima.listener.OnItemClickListener;
+import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.utils.ToastUtils;
+import com.dispatching.feima.view.PresenterControl.NoticeCenterControl;
 import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.NoticeAdapter;
+
+import java.util.Calendar;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by helei on 2017/4/27.
+ * NoticeCenterActivity
  */
 
-public class NoticeCenterActivity extends BaseActivity {
+public class NoticeCenterActivity extends BaseActivity implements NoticeCenterControl.NoticeCenterView {
 
     @BindView(R.id.middle_name)
     TextView mMiddleName;
@@ -32,6 +44,9 @@ public class NoticeCenterActivity extends BaseActivity {
     @BindView(R.id.notice_all)
     RecyclerView mRecyclerView;
     private NoticeAdapter mNoticeAdapter;
+    @Inject
+    NoticeCenterControl.PresenterNoticeCenter mPresenter;
+
     public static Intent getNoticeIntent(Context context) {
         Intent intent = new Intent(context, NoticeCenterActivity.class);
         return intent;
@@ -42,22 +57,66 @@ public class NoticeCenterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
         ButterKnife.bind(this);
-        supportActionBar(mToolbar,true);
+        initializeInjector();
+        mPresenter.setView(this);
+        supportActionBar(mToolbar, true);
         mMiddleName.setText(R.string.user_notice);
         initAdapter();
+        Calendar calendar = TimeUtil.getCalendar();
+        initData(calendar);
+
+    }
+
+    private void initData(Calendar calendar) {
+        QueryParam param  = new QueryParam();
+        param.today = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        param.tomorrow = calendar.getTime();
+        mPresenter.requestDbNotices(param);
+    }
+
+    @Override
+    public void querySuccess(List<OrderNotice> list) {
+        dismissLoading();
+        mNoticeAdapter.setNewData(list);
     }
 
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNoticeAdapter = new NoticeAdapter();
+        mNoticeAdapter = new NoticeAdapter(null);
         mRecyclerView.setAdapter(mNoticeAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                ToastUtils.showShortToast(position+"");
+                ToastUtils.showShortToast(position + "");
             }
         });
     }
 
+    @Override
+    public void showLoading(String msg) {
+        showDialogLoading(msg);
+    }
 
+    @Override
+    public void dismissLoading() {
+        dismissDialogLoading();
+    }
+
+    @Override
+    public void showToast(String message) {
+        showBaseToast(message);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    private void initializeInjector() {
+        DaggerNoticeCenterActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .noticeCenterActivityModule(new NoticeCenterActivityModule(this))
+                .build().inject(this);
+    }
 }

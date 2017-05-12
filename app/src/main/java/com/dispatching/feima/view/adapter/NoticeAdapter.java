@@ -1,19 +1,21 @@
 package com.dispatching.feima.view.adapter;
 
 import com.dispatching.feima.R;
-import com.dispatching.feima.entity.DataServer;
-import com.dispatching.feima.entity.Status;
+import com.dispatching.feima.database.OrderNotice;
+import com.dispatching.feima.utils.TimeUtil;
+
+import java.util.List;
 
 
-public class NoticeAdapter extends BaseQuickAdapter<Status, BaseViewHolder> {
-    public NoticeAdapter() {
-        super( R.layout.adapter_notice, DataServer.getSampleData(10));
+public class NoticeAdapter extends BaseQuickAdapter<OrderNotice, BaseViewHolder> {
+    public NoticeAdapter(List<OrderNotice> notices) {
+        super( R.layout.adapter_notice, notices);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Status item) {
-        helper.setText(R.id.adapter_content,item.getText());
-        helper.setText(R.id.adapter_time,item.getCreatedAt());
+    protected void convert(BaseViewHolder helper, OrderNotice item) {
+        //helper.setText(R.id.adapter_content,item.getOrderId());
+        helper.setText(R.id.adapter_time, TimeUtil.getTimeNow(item.getOrderTime()));
     }
 
 }

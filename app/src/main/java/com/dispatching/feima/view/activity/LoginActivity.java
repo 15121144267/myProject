@@ -19,7 +19,6 @@ import com.dispatching.feima.entity.LoginResponse;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.listener.MyTextWatchListener;
 import com.dispatching.feima.service.CustomerService;
-import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -56,6 +55,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
     private String mUserName;
+    private String mUserId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 }
             });
         mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
+        mUserId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if (editText!=null&&!TextUtils.isEmpty(mUserName)){
             editText.setText(mUserName);
             editText.setSelection(mUserName.length());
@@ -111,7 +112,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void showToast(String message) {
-        ToastUtils.showShortToast(message);
+        showBaseToast(message);
     }
 
     @Override
@@ -145,19 +146,21 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             showToast(getString(R.string.login_password_empty));
             return;
         }
-        //mPresenterLogin.onRequestLogin(myPhone, verifyCode);
-        if (TextUtils.isEmpty(mUserName)) {
-            mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, "15121144267");
-            startService(CustomerService.newIntent(getApplicationContext()));
-        }
-        startActivity(MainActivity.getMainIntent(this));
-        finish();
+        mPresenterLogin.onRequestLogin(myPhone, verifyCode);
+
     }
 
     @Override
     public void loginSuccess(LoginResponse loginResponse) {
         mBuProcessor.setUserId(loginResponse.uId);
         mBuProcessor.setUserToken(loginResponse.token);
+        mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
+        mSharePreferenceUtil.setStringValue(SpConstant.USER_ID, loginResponse.uId);
+        if (TextUtils.isEmpty(mUserId)) {
+            startService(CustomerService.newIntent(getApplicationContext()));
+        }
+        startActivity(MainActivity.getMainIntent(this));
+        finish();
     }
 
     private void initializeInjector() {

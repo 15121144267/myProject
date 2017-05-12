@@ -8,6 +8,5 @@ import java.util.ArrayList;
  */
 
 public class OrderDeliveryResponse implements Serializable {
-    public ArrayList<MyOrders> Orders;
-
+    public ArrayList<MyOrders> orders;
 }

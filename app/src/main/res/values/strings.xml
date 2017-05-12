@@ -22,9 +22,12 @@
     <string name="login_phone_wrong">手机号格式填写有误</string>
     <string name="text_verify_code">获取验证码</string>
     <string name="text_take_order">取餐</string>
+    <string name="text_complete_order">已送达</string>
     <string name="text_notice_time">2017-04-25 12:40:42</string>
     <string name="text_notice_time_content">分配时间：</string>
     <string name="text_notice_content">您有一份待取货订单 请及时取货</string>
     <string name="text_setting_version">V 1.0</string>
     <string name="text_setting_version_des">当前版本</string>
+    <string name="text_check_internet">请检查网络</string>
+    <string name="text_wait_try">请稍后重试</string>
 </resources>

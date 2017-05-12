@@ -40,6 +40,7 @@ android {
             debuggable true
             shrinkResources false
             signingConfig signingConfigs.myDebugConfig
+            buildConfigField "String", "DISPATCH_SERVICE", DUBUG_DISPATCH_SERVICE
 
         }
         release {
@@ -49,6 +50,7 @@ android {
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.myConfig
+            buildConfigField "String", "DISPATCH_SERVICE", RELEASE_DISPATCH_SERVICE
         }
     }
     greendao{

@@ -3,11 +3,13 @@ package com.dispatching.feima.view.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.List;
 
 /**
  * Created by helei on 2017/5/3.
+ * MyFragmentAdapter
  */
 
 public class MyFragmentAdapter extends FragmentPagerAdapter {
@@ -33,4 +35,11 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return modules[position];
     }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
+    }
+
+
 }

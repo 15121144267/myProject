@@ -4,6 +4,7 @@ import com.dispatching.feima.entity.LoginResponse;
 
 /**
  * Created by helei on 2017/4/27.
+ * LoginControl
  */
 
 public class LoginControl {

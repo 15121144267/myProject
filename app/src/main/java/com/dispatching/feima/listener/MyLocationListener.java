@@ -4,25 +4,25 @@ import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
+import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.utils.TimeUtil;
-import com.dispatching.feima.view.PresenterControl.OrderDetailControl;
 
 /**
  * Created by helei on 2017/4/28.
  */
 
 public class MyLocationListener implements AMapLocationListener {
-    private OrderDetailControl.OrderDetailView mView;
+    private DaggerApplication mDaggerApplication;
 
-    public MyLocationListener(OrderDetailControl.OrderDetailView mView) {
-        this.mView = mView;
+    public MyLocationListener(DaggerApplication application) {
+        this.mDaggerApplication = application;
     }
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
-                mView.transformLocation(amapLocation);
+                ((DaggerApplication)mDaggerApplication).transformLocation(amapLocation);
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"

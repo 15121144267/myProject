@@ -1,15 +1,14 @@
 package com.dispatching.feima.view.PresenterImpl;
 
+import android.content.Context;
+
+import com.dispatching.feima.R;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.model.MainModel;
 import com.dispatching.feima.view.model.ResponseData;
 
-import java.net.ConnectException;
-
 import javax.inject.Inject;
-
-import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/5/3.
@@ -18,35 +17,29 @@ import retrofit2.HttpException;
 public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCompletedOrder {
     private MainModel mMainModel;
     private CompletedOrderControl.CompletedOrderView mView;
+    private Context mContext;
 
     @Inject
-    public PresenterCompletedImpl(MainModel model) {
+    public PresenterCompletedImpl(Context context, MainModel model) {
+        mContext = context;
         mMainModel = model;
     }
 
     @Override
     public void requestCompletedOrder(Integer position, String token, String version, String uId) {
-        mView.showLoading("加载中...");
-        mMainModel.OrderInfoRequest(position, token, version, uId).compose(mView.applySchedulers())
-                .subscribe(responseData -> getPendingOrderSuccess(responseData)
-                        , throwable -> showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.showLoading(mContext.getString(R.string.loading));
+        mMainModel.CompleteOrderInfoRequest(token, version, uId).compose(mView.applySchedulers())
+                .subscribe(responseData -> getCompleteOrderSuccess(responseData)
+                        , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());
     }
 
-    private void getPendingOrderSuccess(ResponseData responseData) {
+    private void getCompleteOrderSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
             responseData.parseData(OrderDeliveryResponse.class);
             OrderDeliveryResponse response = (OrderDeliveryResponse) responseData.parsedData;
             mView.getCompletedOrderSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
-        }
-    }
-
-    private void showErrMessage(Throwable e) {
-        mView.dismissLoading();
-        if (e instanceof HttpException || e instanceof ConnectException
-                || e instanceof RuntimeException) {
-            mView.showToast("请检查网络");
         }
     }
 

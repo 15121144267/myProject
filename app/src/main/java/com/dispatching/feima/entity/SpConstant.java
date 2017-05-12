@@ -9,4 +9,5 @@ package com.dispatching.feima.entity;
 public class SpConstant {
 
     public final static String USER_NAME ="login_user";
+    public final static String USER_ID ="login_user_id";
 }

@@ -5,16 +5,27 @@ import org.json.JSONObject;
 
 /**
  * Created by helei on 2017/4/28.
+ * ModelTransform
  */
 
 public class ModelTransform {
-    private ResponseData responseData;
 
     public ResponseData transformCommon(String response) {
+        ResponseData responseData;
         try {
             JSONObject jsonObject = new JSONObject(response);
-            responseData = new ResponseData(jsonObject);
-            responseData.result = jsonObject.optString("Result") == null ? "" : jsonObject.optString("Result");
+             responseData = new ResponseData(jsonObject);
+        } catch (JSONException e) {
+            responseData = new ResponseData();
+        }
+        return responseData;
+    }
+
+    public ResponseData transformNotice(String response) {
+        ResponseData responseData;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            responseData = new ResponseData(jsonObject,1);
         } catch (JSONException e) {
             responseData = new ResponseData();
         }

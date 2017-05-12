@@ -16,7 +16,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +25,6 @@ import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
-import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
@@ -57,14 +55,13 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     TextView mMiddleName;
     @BindView(R.id.viewpager)
     ViewPager mViewpager;
-    private ImageView mPersonIcon;
     private TextView mPersonAccount;
     private TextView mPersonNumber;
     private TextView mPersonStatus;
     private SwitchCompat mPersonStatusControl;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private  String[] modules = {"待取货", "配送中", "已完成"};
+    private String[] modules = {"待取货", "配送中", "已完成"};
 
 
     private MainActivityComponent mActivityComponent;
@@ -73,6 +70,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     private String mUserId;
     private String mVersion;
     private List<Fragment> mFragments;
+
     public static Intent getMainIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
@@ -83,24 +81,53 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        supportActionBar(mToolbar, false);
         initializeInjector();
+
         mPresenter = mActivityComponent.getPresenterMain();
         mPresenter.setView(this);
+
+        mFragments = new ArrayList<>();
+        mFragments.add(new PendingOrderFragment());
+        mFragments.add(new SendingOrderFragment());
+        mFragments.add(new CompletedOrderFragment());
 
         mUserToken = mBuProcessor.getUserToken();
         mUserId = mBuProcessor.getUserId();
         mVersion = BuildConfig.VERSION_NAME;
 
         initView();
+
+    }
+
+    public void changeTabView(int position, int count) {
+        TabLayout.Tab tab = mTabLayout.getTabAt(position);
+        if(tab!=null){
+            switch (tab.getPosition()){
+                case 0:
+                    tab.setText(count ==0?modules[position]:modules[position]+"("+count+")");
+                    break;
+                case 1:
+                    tab.setText(count ==0?modules[position]:modules[position]+"("+count+")");
+                    break;
+                case 2:
+                    tab.setText(count ==0?modules[position]:modules[position]+"("+count+")");
+                    break;
+            }
+        }
     }
 
     private void initView() {
+        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
+        mViewpager.setOffscreenPageLimit(2);
+        mViewpager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewpager);
+
         View view = mNvSlidingMenu.getHeaderView(0);
         LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
         mNvSlidingMenu.setItemTextColor(null);
         mNvSlidingMenu.setItemIconTintList(null);
         RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
-        mPersonIcon = (ImageView) view.findViewById(R.id.person_icon);
         mPersonAccount = (TextView) view.findViewById(R.id.person_count);
         mPersonNumber = (TextView) view.findViewById(R.id.person_number);
         mPersonStatus = (TextView) view.findViewById(R.id.user_status);
@@ -110,20 +137,11 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
 
         mMiddleName.setText(R.string.app_name);
         mNvSlidingMenu.setNavigationItemSelectedListener(this);
-
-        supportActionBar(mToolbar, false);
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.toolbar_des, R.string.toolbar_des);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
-        mFragments = new ArrayList<>();
-        mFragments.add(new PendingOrderFragment());
-        mFragments.add(new SendingOrderFragment());
-        mFragments.add(new CompletedOrderFragment());
-        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(),mFragments,modules);
-        mViewpager.setAdapter(adapter);
-        mViewpager.setOffscreenPageLimit(mFragments.size());
-        mTabLayout.setupWithViewPager(mViewpager);
+
     }
 
     private void requestChange(boolean isFlag) {
@@ -146,8 +164,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) return true;
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item);
     }
 
     @Override
@@ -184,7 +201,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
 
     @Override
     public void showToast(String message) {
-        ToastUtils.showLongToast(message);
+        showBaseToast(message);
     }
 
     @Override

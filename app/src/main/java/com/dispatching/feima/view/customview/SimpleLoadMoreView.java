@@ -5,6 +5,7 @@ import com.dispatching.feima.R;
 
 /**
  * Created by BlingBling on 2016/10/11.
+ * SimpleLoadMoreView
  */
 
 public final class SimpleLoadMoreView extends LoadMoreView {

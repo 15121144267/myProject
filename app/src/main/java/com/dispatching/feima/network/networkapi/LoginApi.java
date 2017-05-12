@@ -12,6 +12,6 @@ public interface LoginApi {
     @POST("delivery/login")
     Observable<String> verifyCodeRequest(@Body String request);
 
-    @POST("delivery/login")
+    @POST("api/Delivery/Login")
     Observable<String> loginRequest(@Body String request);
 }

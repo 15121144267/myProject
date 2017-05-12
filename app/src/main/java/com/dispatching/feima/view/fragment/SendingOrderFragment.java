@@ -1,24 +1,29 @@
 package com.dispatching.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
-import com.dispatching.feima.entity.DataServer;
+import com.dispatching.feima.entity.BroConstant;
+import com.dispatching.feima.entity.DeliveryStatusResponse;
+import com.dispatching.feima.entity.IntentConstant;
+import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.listener.OnItemClickListener;
-import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.SendingOrderControl;
+import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.OrderDetailActivity;
 import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
@@ -30,22 +35,22 @@ import butterknife.ButterKnife;
 
 /**
  * Created by helei on 2017/5/3.
+ * SendingOrderFragment
  */
 
-public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, SendingOrderControl.SendingOrderView {
+public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, SendingOrderControl.SendingOrderView {
     @Inject
     SendingOrderControl.PresenterSendingOrder mPresenter;
-    @BindView(R.id.rv_list)
+    @BindView(R.id.sending_rv_list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.swipeLayout)
+    @BindView(R.id.sending_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
 
-    private PullToRefreshAdapter pullToRefreshAdapter;
-    private int mCurrentCounter = 0;
-    private boolean isErr = false;
-    private static final int TOTAL_COUNTER = 18;
-    private boolean mLoadMoreEndGone = false;
-    private static final int PAGE_SIZE = 6;
+    private PullToRefreshAdapter mSendingAdapter;
+    private Integer mPosition;
+    private String mUserToken;
+    private String mUserId;
+    private boolean mBroFlag = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,9 +61,8 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pending_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_sending_order, container, false);
         ButterKnife.bind(this, view);
-        mSwipeLayout.setOnRefreshListener(this);
         initAdapter();
         return view;
     }
@@ -66,71 +70,97 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.requestSendingOrder(1, mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME, mBuProcessor.getUserId());
+        mUserToken = mBuProcessor.getUserToken();
+        mUserId = mBuProcessor.getUserId();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
     }
 
     @Override
     public void getSendingOrderSuccess(OrderDeliveryResponse response) {
-
+        if (response != null && response.orders != null && response.orders.size() > 0) {
+            Log.d("sending",response.orders.get(0).deliveryStatus+"");
+            mSendingAdapter.setNewData(response.orders);
+            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, response.orders.size());
+        }
+        if (mBroFlag) {
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.COMPLETE_DELIVERY));
+            mBroFlag = false;
+        }
     }
 
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        pullToRefreshAdapter = new PullToRefreshAdapter();
-        pullToRefreshAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        pullToRefreshAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        mRecyclerView.setAdapter(pullToRefreshAdapter);
-        mCurrentCounter = pullToRefreshAdapter.getData().size();
+        mSendingAdapter = new PullToRefreshAdapter(getActivity(), null);
+        mSendingAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        mRecyclerView.setAdapter(mSendingAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity()));
+                startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mSendingAdapter.getItem(position), IntentConstant.ORDER_POSITION_TWO), IntentConstant.ORDER_POSITION_TWO);
             }
         });
-        pullToRefreshAdapter.setOnItemChildClickListener((adapter,view,position)->
-                showToast("我被点击了")
+        mSendingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                    mPosition = position;
+                    MyOrders order = (MyOrders) adapter.getItem(position);
+                    mPresenter.requestCompleteOrder(mUserToken, BuildConfig.VERSION_NAME, mUserId, order.deliveryId);
+                }
         );
+        mSwipeLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && data.getBooleanExtra(IntentConstant.ORDER_DETAIL_FLASH, false)) {
+            mBroFlag = true;
+            mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        }
+
+    }
+
+    @Override
+    public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
+        mSendingAdapter.remove(mPosition);
+        ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, mSendingAdapter.getItemCount());
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.COMPLETE_DELIVERY));
+    }
+
+    @Override
+    public void getOrderComplete() {
+        mSwipeLayout.setRefreshing(false);
+        dismissLoading();
+    }
+
+    @Override
+    public void getOrderError(Throwable throwable) {
+        mSwipeLayout.setRefreshing(false);
+        showErrMessage(throwable);
+    }
+
+
+    @Override
+    protected void addFilter() {
+        mFilter.addAction(BroConstant.TAKE_DELIVERY);
+    }
+
+    @Override
+    protected void onReceivePro(Context context, Intent intent) {
+        String action = intent.getAction();
+        switch (action) {
+            case BroConstant.TAKE_DELIVERY:
+                mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                break;
+        }
     }
 
     @Override
     public void onRefresh() {
-        showToast("我是配送页面");
-        pullToRefreshAdapter.setEnableLoadMore(false);
-        //网络请求
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pullToRefreshAdapter.setNewData(DataServer.getSampleData(PAGE_SIZE));
-                isErr = false;
-                mCurrentCounter = PAGE_SIZE;
-                mSwipeLayout.setRefreshing(false);
-                pullToRefreshAdapter.setEnableLoadMore(true);
-            }
-        }, 2_000);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mSwipeLayout.setEnabled(false);
-        if (pullToRefreshAdapter.getData().size() < PAGE_SIZE) {
-            pullToRefreshAdapter.loadMoreEnd(true);
-        } else {
-            if (mCurrentCounter >= TOTAL_COUNTER) {
-                pullToRefreshAdapter.loadMoreEnd(mLoadMoreEndGone);//true is gone,false is visible
-            } else {
-                if (!isErr) {
-                    pullToRefreshAdapter.addData(DataServer.getSampleData(PAGE_SIZE));
-                    mCurrentCounter = pullToRefreshAdapter.getData().size();
-                    pullToRefreshAdapter.loadMoreComplete();
-                } else {
-                    isErr = true;
-                    Toast.makeText(getActivity(), "网络出错", Toast.LENGTH_LONG).show();
-                    pullToRefreshAdapter.loadMoreFail();
-
-                }
-            }
-            mSwipeLayout.setEnabled(true);
-        }
+        mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
     }
 
     @Override
@@ -145,7 +175,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void showToast(String message) {
-        ToastUtils.showShortToast(message);
+        showBaseToast(message);
     }
 
     @Override

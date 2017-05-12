@@ -2,6 +2,7 @@ package com.dispatching.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.LoginApi;
@@ -36,7 +37,7 @@ public class LoginActivityModule {
     LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform) {
         return new LoginModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl("http://115.159.18.100/")
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(LoginApi.class), gson, modelTransform);

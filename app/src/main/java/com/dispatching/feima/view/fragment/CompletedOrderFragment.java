@@ -1,24 +1,26 @@
 package com.dispatching.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
-import com.dispatching.feima.entity.DataServer;
+import com.dispatching.feima.entity.BroConstant;
+import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.listener.OnItemClickListener;
-import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
+import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.OrderDetailActivity;
 import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
@@ -30,24 +32,23 @@ import butterknife.ButterKnife;
 
 /**
  * Created by helei on 2017/5/3.
+ * CompletedOrderFragment
  */
 
 public class CompletedOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, CompletedOrderControl.CompletedOrderView {
+        CompletedOrderControl.CompletedOrderView {
     @Inject
     CompletedOrderControl.PresenterCompletedOrder mPresenter;
 
-    @BindView(R.id.rv_list)
+    @BindView(R.id.completed_rv_list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.swipeLayout)
+
+    @BindView(R.id.completed_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
 
-    private PullToRefreshAdapter pullToRefreshAdapter;
-    private int mCurrentCounter = 0;
-    private boolean isErr = false;
-    private static final int TOTAL_COUNTER = 18;
-    private boolean mLoadMoreEndGone = false;
-    private static final int PAGE_SIZE = 6;
+    private PullToRefreshAdapter mCompleteAdapter;
+    private String mUserToken;
+    private String mUserId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,9 +59,8 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pending_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_complete_order, container, false);
         ButterKnife.bind(this, view);
-        mSwipeLayout.setOnRefreshListener(this);
         initAdapter();
         return view;
     }
@@ -68,69 +68,69 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.requestCompletedOrder(2, mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME, mBuProcessor.getUserId());
+        mUserToken = mBuProcessor.getUserToken();
+        mUserId = mBuProcessor.getUserId();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mPresenter.requestCompletedOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
     }
 
     @Override
     public void getCompletedOrderSuccess(OrderDeliveryResponse response) {
+        if (response != null && response.orders != null && response.orders.size() > 0) {
+            Log.d("completed",response.orders.get(0).deliveryStatus+"");
+            mCompleteAdapter.setNewData(response.orders);
+            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_THREE, response.orders.size());
+        }
+    }
 
+    @Override
+    protected void addFilter() {
+        mFilter.addAction(BroConstant.COMPLETE_DELIVERY);
+    }
+
+    @Override
+    protected void onReceivePro(Context context, Intent intent) {
+        String action = intent.getAction();
+        switch (action) {
+            case BroConstant.COMPLETE_DELIVERY:
+                mPresenter.requestCompletedOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                break;
+        }
     }
 
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        pullToRefreshAdapter = new PullToRefreshAdapter();
-        pullToRefreshAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        pullToRefreshAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        mRecyclerView.setAdapter(pullToRefreshAdapter);
-        mCurrentCounter = pullToRefreshAdapter.getData().size();
+        mCompleteAdapter = new PullToRefreshAdapter(getActivity(), null);
+        mCompleteAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        mRecyclerView.setAdapter(mCompleteAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity()));
+                startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mCompleteAdapter.getItem(position), IntentConstant.ORDER_POSITION_THREE));
             }
         });
+        mSwipeLayout.setOnRefreshListener(this);
+    }
 
+    @Override
+    public void getOrderComplete() {
+        mSwipeLayout.setRefreshing(false);
+        dismissLoading();
+    }
+
+    @Override
+    public void getOrderError(Throwable throwable) {
+        mSwipeLayout.setRefreshing(false);
+        showErrMessage(throwable);
     }
 
     @Override
     public void onRefresh() {
-        showToast("我是完成页面");
-        pullToRefreshAdapter.setEnableLoadMore(false);
-        //网络请求
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pullToRefreshAdapter.setNewData(DataServer.getSampleData(PAGE_SIZE));
-                isErr = false;
-                mCurrentCounter = PAGE_SIZE;
-                mSwipeLayout.setRefreshing(false);
-                pullToRefreshAdapter.setEnableLoadMore(true);
-            }
-        }, 2_000);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        mSwipeLayout.setEnabled(false);
-        if (pullToRefreshAdapter.getData().size() < PAGE_SIZE) {
-            pullToRefreshAdapter.loadMoreEnd(true);
-        } else {
-            if (mCurrentCounter >= TOTAL_COUNTER) {
-                pullToRefreshAdapter.loadMoreEnd(mLoadMoreEndGone);//true is gone,false is visible
-            } else {
-                if (!isErr) {
-                    pullToRefreshAdapter.addData(DataServer.getSampleData(PAGE_SIZE));
-                    mCurrentCounter = pullToRefreshAdapter.getData().size();
-                    pullToRefreshAdapter.loadMoreComplete();
-                } else {
-                    isErr = true;
-                    Toast.makeText(getActivity(), "网络出错", Toast.LENGTH_LONG).show();
-                    pullToRefreshAdapter.loadMoreFail();
-
-                }
-            }
-            mSwipeLayout.setEnabled(true);
-        }
+        mPresenter.requestCompletedOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     public void showToast(String message) {
-        ToastUtils.showShortToast(message);
+        showBaseToast(message);
     }
 
     @Override

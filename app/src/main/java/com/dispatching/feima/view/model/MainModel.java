@@ -1,7 +1,6 @@
 package com.dispatching.feima.view.model;
 
-import com.dispatching.feima.entity.MyOrderDeliveryData;
-import com.dispatching.feima.entity.OrderDeliveryRequest;
+import com.dispatching.feima.entity.DeliveryStatusRequest;
 import com.dispatching.feima.network.networkapi.MainApi;
 import com.google.gson.Gson;
 
@@ -11,6 +10,7 @@ import io.reactivex.Observable;
 
 /**
  * Created by helei on 2017/4/28.
+ * MainModel
  */
 
 public class MainModel {
@@ -25,24 +25,34 @@ public class MainModel {
         mTransform = transform;
     }
 
-    public Observable<ResponseData> OrderInfoRequest(Integer position,String token, String version, String uId) {
-        MyOrderDeliveryData data = new MyOrderDeliveryData();
-        data.uId = uId;
-        OrderDeliveryRequest request = new OrderDeliveryRequest();
+    public Observable<ResponseData> PendingOrderInfoRequest( String token, String version, String uId) {
+        return mMainApi.WaitOrderInfoRequest(token, uId, version).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> SendingOrderInfoRequest( String token, String version, String uId) {
+        return mMainApi.SendingOrderInfoRequest(token, uId, version).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> CompleteOrderInfoRequest( String token, String version, String uId) {
+        return mMainApi.CompletedOrderInfoRequest(token, uId, version).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> TakeOrderRequest(Integer position, String token, String version, String uId, String deliveryId) {
+        DeliveryStatusRequest request = new DeliveryStatusRequest();
         request.token = token;
         request.version = version;
-        request.data = data;
-        switch (position){
+        request.uId = uId;
+        request.deliveryId = deliveryId;
+        switch (position) {
             case 0:
-                return mMainApi.WaitOrderInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+                return mMainApi.TakeDeliveryRequest(mGson.toJson(request)).map(mTransform::transformCommon);
             case 1:
-                return mMainApi.SendingOrderInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-            case 2:
-                return mMainApi.CompletedOrderInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+                return mMainApi.ArrivedDeliveryRequest(mGson.toJson(request)).map(mTransform::transformCommon);
             default:
                 ResponseData responseData = new ResponseData();
                 return Observable.just(responseData);
         }
+
     }
 
 }

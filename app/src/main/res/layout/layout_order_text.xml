@@ -1,101 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/white"
+       android:orientation="vertical"
     >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
+
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             style="@style/tweetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="订单编号："
             />
+
         <TextView
-            android:layout_marginStart="5dp"
+            android:id="@+id/order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
+            android:layout_marginStart="5dp"
             android:text="234342343"
+            android:textSize="@dimen/sp_14"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
+
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             style="@style/tweetName"
-            android:text="订单编号："
-            />
-        <TextView
-            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
+            android:text="下单时间："
+            />
+
+        <TextView
+            android:id="@+id/order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="234342343"
+            android:textSize="@dimen/sp_14"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
+
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             style="@style/tweetName"
-            android:text="订单编号："
-            />
-        <TextView
-            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
+            android:text="订单渠道："
+            />
+
+        <TextView
+            android:id="@+id/order_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="234342343"
+            android:textSize="@dimen/sp_14"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
+
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             style="@style/tweetName"
-            android:text="订单编号："
-            />
-        <TextView
-            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
+            android:text="外卖单号："
+            />
+
+        <TextView
+            android:id="@+id/delivery_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="234342343"
+            android:textSize="@dimen/sp_14"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
+
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             style="@style/tweetName"
-            android:text="订单编号："
-            />
-        <TextView
-            android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
+            android:text="订单金额："
+            />
+
+        <TextView
+            android:id="@+id/order_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="234342343"
+            android:textSize="@dimen/sp_14"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            style="@style/tweetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="客户姓名："
+            />
+
+        <TextView
+            android:id="@+id/order_customer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="234342343"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            style="@style/tweetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="客户电话："
+            />
+
+        <TextView
+            android:id="@+id/order_customer_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="234342343"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            style="@style/tweetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单备注："
+            />
+
+        <TextView
+            android:id="@+id/order_customer_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="234342343"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_take"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            style="@style/tweetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取餐时间："
+            />
+
+        <TextView
+            android:id="@+id/order_get_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="234342343"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_arrived"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            style="@style/tweetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="送餐时间："
+            />
+
+        <TextView
+            android:id="@+id/order_arrived_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="234342343"
+            android:textSize="@dimen/sp_14"
+            />
+    </LinearLayout>
+
+
 </merge>

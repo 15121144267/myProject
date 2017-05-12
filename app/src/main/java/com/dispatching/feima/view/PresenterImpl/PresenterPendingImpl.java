@@ -1,37 +1,60 @@
 package com.dispatching.feima.view.PresenterImpl;
 
+import android.content.Context;
+
+import com.dispatching.feima.R;
+import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
 import com.dispatching.feima.view.model.MainModel;
 import com.dispatching.feima.view.model.ResponseData;
 
-import java.net.ConnectException;
-
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
-import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/5/3.
+ * PresenterPendingImpl
  */
 
 public class PresenterPendingImpl implements PendingOrderControl.PresenterPendingOrder {
     private MainModel mMainModel;
-    PendingOrderControl.PendingOrderView mView;
+    private PendingOrderControl.PendingOrderView mView;
+    private Context mContext;
 
     @Inject
-    public PresenterPendingImpl(MainModel model) {
+    public PresenterPendingImpl(Context context, MainModel model) {
+        mContext = context;
         mMainModel = model;
     }
 
     @Override
     public void requestPendingOrder(Integer position, String token, String version, String uId) {
-        mView.showLoading("加载中...");
-       Disposable disposable = mMainModel.OrderInfoRequest(position, token, version, uId).compose(mView.applySchedulers())
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.PendingOrderInfoRequest(token, version, uId).compose(mView.applySchedulers())
                 .subscribe(responseData -> getPendingOrderSuccess(responseData)
-                        , throwable -> showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.getOrderError(throwable), () -> mView.getPendingOrderComplete());
         mView.addSubscription(disposable);
+    }
+
+    @Override
+    public void requestTakeOrder(String token, String version, String uId, String deliveryId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.TakeOrderRequest(0,token, version, uId,deliveryId).compose(mView.applySchedulers())
+                .subscribe(responseData -> getTakeOrderSuccess(responseData)
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getTakeOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            responseData.parseData(DeliveryStatusResponse.class);
+            DeliveryStatusResponse response = (DeliveryStatusResponse) responseData.parsedData;
+            mView.updateOrderStatusSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     private void getPendingOrderSuccess(ResponseData responseData) {
@@ -41,14 +64,6 @@ public class PresenterPendingImpl implements PendingOrderControl.PresenterPendin
             mView.getPendingOrderSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
-        }
-    }
-
-    private void showErrMessage(Throwable e) {
-        mView.dismissLoading();
-        if (e instanceof HttpException || e instanceof ConnectException
-                || e instanceof RuntimeException) {
-            mView.showToast("请检查网络");
         }
     }
 

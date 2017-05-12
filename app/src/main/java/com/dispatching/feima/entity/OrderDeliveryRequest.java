@@ -1,5 +1,7 @@
 package com.dispatching.feima.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by helei on 2017/5/3.
  */
@@ -7,6 +9,6 @@ package com.dispatching.feima.entity;
 public class OrderDeliveryRequest {
     public String token;
     public String version;
-    public MyOrderDeliveryData data;
-
+    @SerializedName("postman_id")
+    public String  uId;
 }

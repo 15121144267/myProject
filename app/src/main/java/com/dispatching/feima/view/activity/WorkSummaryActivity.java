@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by helei on 2017/4/27.
+ * WorkSummaryActivity
  */
 
 public class WorkSummaryActivity extends BaseActivity {
@@ -29,7 +30,7 @@ public class WorkSummaryActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person);
+        setContentView(R.layout.activity_work_summary);
         ButterKnife.bind(this);
         supportActionBar(mToolbar,true);
         mMiddleName.setText(R.string.user_work_res);

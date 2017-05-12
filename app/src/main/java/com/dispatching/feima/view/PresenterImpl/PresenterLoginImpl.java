@@ -1,30 +1,32 @@
 package com.dispatching.feima.view.PresenterImpl;
 
+import android.content.Context;
+
+import com.dispatching.feima.R;
 import com.dispatching.feima.entity.LoginResponse;
-import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
 import com.dispatching.feima.view.model.LoginModel;
 import com.dispatching.feima.view.model.ResponseData;
 
-import java.net.ConnectException;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/4/27.
+ * PresenterLoginImpl
  */
 
 public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private LoginControl.LoginView mLoginView;
     private LoginModel mLoginModel;
-
+    private Context mContext;
     @Inject
-    public PresenterLoginImpl(LoginModel model, SharePreferenceUtil sharePreferenceUtil) {
+    public PresenterLoginImpl(Context context ,LoginModel model) {
+        mContext = context;
         mLoginModel = model;
     }
 
@@ -32,7 +34,7 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     public void onRequestVerifyCode(String phone) {
         Disposable disposable = mLoginModel.VerifyCodeRequest(phone).compose(mLoginView.applySchedulers())
                 .subscribe(responseData -> getVerifyCodeSuccess(responseData)
-                        , throwable -> showErrMessage(throwable));
+                        , throwable -> mLoginView.showErrMessage(throwable));
         mLoginView.addSubscription(disposable);
     }
 
@@ -46,9 +48,9 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
 
     @Override
     public void onRequestLogin(String name, String passWord) {
-        mLoginView.showLoading("加载中...");
+        mLoginView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mLoginModel.LoginRequest(name, passWord).compose(mLoginView.applySchedulers())
-                .subscribe(responseData ->  operationalData(responseData), throwable -> showErrMessage(throwable),
+                .subscribe(responseData ->  operationalData(responseData), throwable -> mLoginView.showErrMessage(throwable),
                         () -> mLoginView.dismissLoading());
         mLoginView.addSubscription(disposable);
     }
@@ -56,8 +58,8 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private void operationalData(ResponseData responseData) {
         if(responseData.resultCode == 100){
             responseData.parseData(LoginResponse.class);
-            LoginResponse loginRespone = (LoginResponse) responseData.parsedData;
-            mLoginView.loginSuccess(loginRespone);
+            LoginResponse loginResponse = (LoginResponse) responseData.parsedData;
+            mLoginView.loginSuccess(loginResponse);
         }else {
             mLoginView.showToast(responseData.errorDesc);
         }
@@ -89,11 +91,5 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
         mLoginView = null;
     }
 
-    private void showErrMessage(Throwable e) {
-        mLoginView.dismissLoading();
-        if (e instanceof HttpException || e instanceof ConnectException
-                || e instanceof RuntimeException) {
-            mLoginView.showToast("请检查网络");
-        }
-    }
+
 }

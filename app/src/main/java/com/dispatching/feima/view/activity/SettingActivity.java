@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by helei on 2017/4/27.
+ * SettingActivity
  */
 
 public class SettingActivity extends BaseActivity {

@@ -15,6 +15,5 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = OrderDetailActivityModule.class)
 public interface OrderDetailActivityComponent {
     AppCompatActivity activity();
-
     void inject(OrderDetailActivity activity);
 }
