@@ -24,8 +24,7 @@ public class WorkSummaryActivity extends BaseActivity {
     Toolbar mToolbar;
 
     public static Intent getSummaryIntent(Context context) {
-        Intent intent = new Intent(context, WorkSummaryActivity.class);
-        return intent;
+        return  new Intent(context, WorkSummaryActivity.class);
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

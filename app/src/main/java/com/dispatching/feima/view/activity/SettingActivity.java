@@ -33,8 +33,7 @@ public class SettingActivity extends BaseActivity {
     Button mQuiteLogin;
 
     public static Intent getSettingIntent(Context context) {
-        Intent intent = new Intent(context, SettingActivity.class);
-        return intent;
+        return new Intent(context, SettingActivity.class);
     }
 
     @Override
