@@ -192,6 +192,8 @@
     @butterknife.* <methods>;
 }
 
+-keep public class com.dispatching.feima.entity.**{*;}
+
 #Rxjava
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
