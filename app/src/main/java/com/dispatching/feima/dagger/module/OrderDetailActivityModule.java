@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.services.route.RouteSearch;
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.PerActivity;
@@ -61,6 +62,13 @@ public class OrderDetailActivityModule {
                 .builder()
                 .create(MainApi.class);
     }
+
+    @Provides
+    @PerActivity
+    RouteSearch provideRouteSearch() {
+        return new RouteSearch(activity);
+    }
+
 
     @Provides
     @PerActivity

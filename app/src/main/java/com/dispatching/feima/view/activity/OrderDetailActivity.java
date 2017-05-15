@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,12 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolylineOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.route.RidePath;
+import com.amap.api.services.route.RideRouteResult;
+import com.amap.api.services.route.RideStep;
+import com.amap.api.services.route.RouteSearch;
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -29,10 +36,13 @@ import com.dispatching.feima.dagger.module.OrderDetailActivityModule;
 import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyOrders;
+import com.dispatching.feima.listener.MyRouteSearchListener;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.OrderDetailControl;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -97,6 +107,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     MyLocationStyle mMyLocationStyle;
     @Inject
     OrderDetailControl.PresenterOrderDetail mPresenter;
+    @Inject
+    RouteSearch mRouteSearch;
 
     public static Intent getOrderDetailIntent(Context context, MyOrders orders, Integer position) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
@@ -110,6 +122,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     private AMapLocation mAMapLocation;
     private Integer position = 0;
     private boolean flag = false;
+    private List<RidePath> mRidePathList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,13 +138,32 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mMapView.onCreate(savedInstanceState);
         aMap = mMapView.getMap();
         aMap.setOnMapLoadedListener(this);
+        mRouteSearch.setRouteSearchListener(new MyRouteSearchListener() {
+            @Override
+            public void OnMyRideRouteSearched(RideRouteResult rideRouteResult, int i) {
+                List<LatLng> latLines = new ArrayList<>();
+                mRidePathList = rideRouteResult.getPaths();
+                for (RidePath ridePath : mRidePathList) {
+                    List<RideStep> rideStepList = ridePath.getSteps();
+                    for (RideStep rideStep : rideStepList) {
+                        List<LatLonPoint> polylineList = rideStep.getPolyline();
+                        for (LatLonPoint latLonPoint : polylineList) {
+                            latLines.add(new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude()));
+                        }
+                    }
+                }
+                aMap.addPolyline(new PolylineOptions().
+                        addAll(latLines).width(10).color(ContextCompat.getColor(OrderDetailActivity.this, R.color.colorPrimary)));
+            }
+
+        });
         initView();
     }
 
     @Override
     public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
         flag = true;
-        showToast("操作成功");
+        showToast(getString(R.string.text_do_success));
         mOrderDetailButton.setEnabled(false);
     }
 
@@ -245,10 +277,15 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             LatLng latLngSelf = new LatLng(latitude, longitude);
             LatLng latLngShop = new LatLng(shopLatitude, shopLongitude);
             LatLng latLngCustomer = new LatLng(customerLatitude, customerLongitude);
+            LatLonPoint startPoint = new LatLonPoint(shopLatitude, shopLongitude);
+            LatLonPoint endPoint = new LatLonPoint(customerLatitude, customerLongitude);
             markPoint(latLngShop, true);
             markPoint(latLngCustomer, false);
             float distance1 = AMapUtils.calculateLineDistance(latLngSelf, latLngShop);
             float distance2 = AMapUtils.calculateLineDistance(latLngSelf, latLngCustomer);
+            RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(startPoint, endPoint);
+            RouteSearch.RideRouteQuery query = new RouteSearch.RideRouteQuery(fromAndTo);
+            mRouteSearch.calculateRideRouteAsyn(query);
             mOrderDetailEndDistance.setText(ValueUtil.formatDistance(distance2));
             mOrderDetailStartDistance.setText(ValueUtil.formatDistance(distance1));
 

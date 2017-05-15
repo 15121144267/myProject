@@ -159,8 +159,10 @@ public class CustomerService extends Service {
                 rely.uId = mUId;
                 String relyJson = mGson.toJson(rely);
                 try {
-                    mConnection2 = factory.newConnection();
-                    mChannel2 = mConnection2.createChannel();
+                    if(mChannel2 ==null||mConnection2==null){
+                        mConnection2 = factory.newConnection();
+                        mChannel2 = mConnection2.createChannel();
+                    }
                     mChannel2.queueDeclare("delivery.postman.coordinate", false, false, false, null);
                     mChannel2.basicPublish("", "delivery.postman.coordinate", null, relyJson.getBytes());
                 } catch (Exception e) {
