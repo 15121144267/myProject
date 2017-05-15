@@ -26,6 +26,7 @@ public class WorkSummaryActivity extends BaseActivity {
     public static Intent getSummaryIntent(Context context) {
         return  new Intent(context, WorkSummaryActivity.class);
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

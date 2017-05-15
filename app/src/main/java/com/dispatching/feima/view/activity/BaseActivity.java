@@ -51,6 +51,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mDisposable != null) {
@@ -58,50 +63,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected ActionBar supportActionBar(Toolbar toolbar, boolean isShowIcon) {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
-        if (isShowIcon) {
-            toolbar.setNavigationIcon(R.drawable.vector_arrow_left);
-            toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        }
-        return actionBar;
-    }
-
-    public void addSubscription(Disposable subscription) {
-        if (mDisposable == null) {
-            mDisposable = new CompositeDisposable();
-        }
-        mDisposable.add(subscription);
-    }
-
-    final ObservableTransformer schedulersTransformer = (observable) -> (
-            ((Observable) observable).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()));
-
     public <T> ObservableTransformer<T, T> applySchedulers() {
         return (ObservableTransformer<T, T>) schedulersTransformer;
-    }
-
-    public ApplicationComponent getApplicationComponent() {
-        return ((DaggerApplication) getApplication()).getApplicationComponent();
-    }
-
-    protected void showDialogLoading(String msg) {
-        dismissDialogLoading();
-        mProgressDialog = DialogFactory.showLoadingDialog(this, msg);
-        mProgressDialog.show();
-    }
-
-    protected void dismissDialogLoading() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-        mProgressDialog = null;
     }
 
     public void showBaseToast(String message) {
@@ -120,8 +83,46 @@ public class BaseActivity extends AppCompatActivity {
         showBaseToast(mErrMessage);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public ApplicationComponent getApplicationComponent() {
+        return ((DaggerApplication) getApplication()).getApplicationComponent();
     }
+
+    public void addSubscription(Disposable subscription) {
+        if (mDisposable == null) {
+            mDisposable = new CompositeDisposable();
+        }
+        mDisposable.add(subscription);
+    }
+
+    protected ActionBar supportActionBar(Toolbar toolbar, boolean isShowIcon) {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+        if (isShowIcon) {
+            toolbar.setNavigationIcon(R.drawable.vector_arrow_left);
+            toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        }
+        return actionBar;
+    }
+
+    protected void showDialogLoading(String msg) {
+        dismissDialogLoading();
+        mProgressDialog = DialogFactory.showLoadingDialog(this, msg);
+        mProgressDialog.show();
+    }
+
+    protected void dismissDialogLoading() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+        mProgressDialog = null;
+    }
+
+    final ObservableTransformer schedulersTransformer = (observable) -> (
+            ((Observable) observable).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()));
+
 }

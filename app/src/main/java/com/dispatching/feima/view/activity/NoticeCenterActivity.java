@@ -43,14 +43,15 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     Toolbar mToolbar;
     @BindView(R.id.notice_all)
     RecyclerView mRecyclerView;
-    private NoticeAdapter mNoticeAdapter;
+
     @Inject
     NoticeCenterControl.PresenterNoticeCenter mPresenter;
 
     public static Intent getNoticeIntent(Context context) {
-        Intent intent = new Intent(context, NoticeCenterActivity.class);
-        return intent;
+        return new Intent(context, NoticeCenterActivity.class);
     }
+
+    private NoticeAdapter mNoticeAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,30 +68,10 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     }
 
-    private void initData(Calendar calendar) {
-        QueryParam param  = new QueryParam();
-        param.today = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, +1);
-        param.tomorrow = calendar.getTime();
-        mPresenter.requestDbNotices(param);
-    }
-
     @Override
     public void querySuccess(List<OrderNotice> list) {
         dismissLoading();
         mNoticeAdapter.setNewData(list);
-    }
-
-    private void initAdapter() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNoticeAdapter = new NoticeAdapter(null);
-        mRecyclerView.setAdapter(mNoticeAdapter);
-        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                ToastUtils.showShortToast(position + "");
-            }
-        });
     }
 
     @Override
@@ -111,6 +92,26 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @Override
     public Context getContext() {
         return this;
+    }
+
+    private void initAdapter() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mNoticeAdapter = new NoticeAdapter(null);
+        mRecyclerView.setAdapter(mNoticeAdapter);
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
+                ToastUtils.showShortToast(position + "");
+            }
+        });
+    }
+
+    private void initData(Calendar calendar) {
+        QueryParam param = new QueryParam();
+        param.today = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        param.tomorrow = calendar.getTime();
+        mPresenter.requestDbNotices(param);
     }
 
     private void initializeInjector() {

@@ -52,10 +52,10 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
             helper.setVisible(R.id.order_end_city, true);
             helper.setVisible(R.id.order_start_city, true);
             String city = mAMapLocation.getCity();//城市信息
-            String district = mAMapLocation.getDistrict();//城区信息
-            String cityDistrict = city + district;
-            helper.setText(R.id.order_end_city, cityDistrict);
-            helper.setText(R.id.order_start_city, cityDistrict);
+            //String district = mAMapLocation.getDistrict();//城区信息
+            //String cityDistrict = city ;
+            helper.setText(R.id.order_end_city, city);
+            helper.setText(R.id.order_start_city, city);
             double latitude = mAMapLocation.getLatitude();//获取纬度
             double longitude = mAMapLocation.getLongitude();//获取经度
             LatLng latLngSelf = new LatLng(latitude, longitude);
@@ -65,7 +65,6 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
             float distance2 = AMapUtils.calculateLineDistance(latLngSelf, latLngCustomer);
             helper.setText(R.id.order_start_distance, ValueUtil.formatDistance(distance1));
             helper.setText(R.id.order_end_distance, ValueUtil.formatDistance(distance2));
-
         }
 
     }

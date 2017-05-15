@@ -55,15 +55,13 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     TextView mMiddleName;
     @BindView(R.id.viewpager)
     ViewPager mViewpager;
+
     private TextView mPersonAccount;
     private TextView mPersonNumber;
     private TextView mPersonStatus;
     private SwitchCompat mPersonStatusControl;
-
     private ActionBarDrawerToggle mDrawerToggle;
     private String[] modules = {"待取货", "配送中", "已完成"};
-
-
     private MainActivityComponent mActivityComponent;
     private MainControl.PresenterMain mPresenter;
     private String mUserToken;
@@ -72,8 +70,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     private List<Fragment> mFragments;
 
     public static Intent getMainIntent(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        return intent;
+        return new Intent(context, MainActivity.class);
     }
 
     @Override
@@ -97,63 +94,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mVersion = BuildConfig.VERSION_NAME;
 
         initView();
-
-    }
-
-    public void changeTabView(int position, int count) {
-        TabLayout.Tab tab = mTabLayout.getTabAt(position);
-        if(tab!=null){
-            switch (tab.getPosition()){
-                case 0:
-                    tab.setText(count ==0?modules[position]:modules[position]+"("+count+")");
-                    break;
-                case 1:
-                    tab.setText(count ==0?modules[position]:modules[position]+"("+count+")");
-                    break;
-                case 2:
-                    tab.setText(count ==0?modules[position]:modules[position]+"("+count+")");
-                    break;
-            }
-        }
-    }
-
-    private void initView() {
-        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
-        mViewpager.setOffscreenPageLimit(2);
-        mViewpager.setAdapter(adapter);
-        mTabLayout.setupWithViewPager(mViewpager);
-
-        View view = mNvSlidingMenu.getHeaderView(0);
-        LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
-        mNvSlidingMenu.setItemTextColor(null);
-        mNvSlidingMenu.setItemIconTintList(null);
-        RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
-        mPersonAccount = (TextView) view.findViewById(R.id.person_count);
-        mPersonNumber = (TextView) view.findViewById(R.id.person_number);
-        mPersonStatus = (TextView) view.findViewById(R.id.user_status);
-        mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
-        RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
-                aBoolean -> requestChange(aBoolean));
-
-        mMiddleName.setText(R.string.app_name);
-        mNvSlidingMenu.setNavigationItemSelectedListener(this);
-        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.toolbar_des, R.string.toolbar_des);
-        mDrawerToggle.syncState();
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-
-
-    }
-
-    private void requestChange(boolean isFlag) {
-        if (isFlag) {
-            mPersonStatus.setText(R.string.user_status_open);
-        } else {
-            mPersonStatus.setText(R.string.user_status_close);
-        }
-    }
-
-    private void requestPersonActivity() {
-        startActivity(PersonCenterActivity.getPersonIntent(this));
     }
 
     @Override
@@ -214,10 +154,65 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         return mActivityComponent;
     }
 
+    public void changeTabView(int position, int count) {
+        TabLayout.Tab tab = mTabLayout.getTabAt(position);
+        if (tab != null) {
+            switch (tab.getPosition()) {
+                case 0:
+                    tab.setText(count == 0 ? modules[position] : modules[position] + "(" + count + ")");
+                    break;
+                case 1:
+                    tab.setText(count == 0 ? modules[position] : modules[position] + "(" + count + ")");
+                    break;
+                case 2:
+                    tab.setText(count == 0 ? modules[position] : modules[position] + "(" + count + ")");
+                    break;
+            }
+        }
+    }
+
+    private void initView() {
+        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
+        mViewpager.setOffscreenPageLimit(2);
+        mViewpager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewpager);
+
+        View view = mNvSlidingMenu.getHeaderView(0);
+        LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
+        mNvSlidingMenu.setItemTextColor(null);
+        mNvSlidingMenu.setItemIconTintList(null);
+        RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
+        mPersonAccount = (TextView) view.findViewById(R.id.person_count);
+        mPersonNumber = (TextView) view.findViewById(R.id.person_number);
+        mPersonStatus = (TextView) view.findViewById(R.id.user_status);
+        mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
+        RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
+                aBoolean -> requestChange(aBoolean));
+
+        mMiddleName.setText(R.string.app_name);
+        mNvSlidingMenu.setNavigationItemSelectedListener(this);
+        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.toolbar_des, R.string.toolbar_des);
+        mDrawerToggle.syncState();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    private void requestChange(boolean isFlag) {
+        if (isFlag) {
+            mPersonStatus.setText(R.string.user_status_open);
+        } else {
+            mPersonStatus.setText(R.string.user_status_close);
+        }
+    }
+
+    private void requestPersonActivity() {
+        startActivity(PersonCenterActivity.getPersonIntent(this));
+    }
+
     private void initializeInjector() {
         mActivityComponent = DaggerMainActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .mainActivityModule(new MainActivityModule(this))
                 .build();
     }
+
 }

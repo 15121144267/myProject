@@ -98,18 +98,18 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     @Inject
     OrderDetailControl.PresenterOrderDetail mPresenter;
 
-    private AMap aMap;
-    private MyOrders mOrder;
-    private AMapLocation mAMapLocation;
-    private Integer position = 0;
-    private boolean flag = false;
-
     public static Intent getOrderDetailIntent(Context context, MyOrders orders, Integer position) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra(IntentConstant.ORDER_DETAIL, orders);
         intent.putExtra(IntentConstant.ORDER_DETAIL_POSITION, position);
         return intent;
     }
+
+    private AMap aMap;
+    private MyOrders mOrder;
+    private AMapLocation mAMapLocation;
+    private Integer position = 0;
+    private boolean flag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +126,69 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         aMap = mMapView.getMap();
         aMap.setOnMapLoadedListener(this);
         initView();
+    }
+
+    @Override
+    public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
+        flag = true;
+        showToast("操作成功");
+        mOrderDetailButton.setEnabled(false);
+    }
+
+    @Override
+    public void onMapLoaded() {
+        aMap.setMyLocationStyle(mMyLocationStyle);
+        aMap.getUiSettings().setMyLocationButtonEnabled(true);
+        aMap.setMyLocationEnabled(true);
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        showDialogLoading(msg);
+    }
+
+    @Override
+    public void dismissLoading() {
+        dismissDialogLoading();
+    }
+
+    @Override
+    public void showToast(String message) {
+        showBaseToast(message);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (position.equals(IntentConstant.ORDER_POSITION_THREE)) {
+            super.onBackPressed();
+            return;
+        }
+        returnFlag();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+        mPresenter.onDestroy();
     }
 
     private void initView() {
@@ -173,10 +236,10 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mOrderDetailStartCity.setVisibility(View.VISIBLE);
             mOrderDetailEndCity.setVisibility(View.VISIBLE);
             String city = mAMapLocation.getCity();//城市信息
-            String district = mAMapLocation.getDistrict();//城区信息
-            String cityDistrict = city + district;
-            mOrderDetailStartCity.setText(cityDistrict);
-            mOrderDetailEndCity.setText(cityDistrict);
+            //String district = mAMapLocation.getDistrict();//城区信息
+            //String cityDistrict = city + district;
+            mOrderDetailStartCity.setText(city);
+            mOrderDetailEndCity.setText(city);
             double latitude = mAMapLocation.getLatitude();//获取纬度
             double longitude = mAMapLocation.getLongitude();//获取经度
             LatLng latLngSelf = new LatLng(latitude, longitude);
@@ -190,17 +253,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mOrderDetailStartDistance.setText(ValueUtil.formatDistance(distance1));
 
         }
-    }
-
-    private void requestUpdateOrder() {
-        mPresenter.requestUpdateOrder(position, mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME, mBuProcessor.getUserId(), mOrder.deliveryId);
-    }
-
-    @Override
-    public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
-        flag = true;
-        showToast("操作成功");
-        mOrderDetailButton.setEnabled(false);
     }
 
     private void markPoint(LatLng latLng, boolean flag) {
@@ -223,67 +275,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         position = getIntent().getIntExtra(IntentConstant.ORDER_DETAIL_POSITION, 0);
     }
 
-    @Override
-    public void onMapLoaded() {
-        aMap.setMyLocationStyle(mMyLocationStyle);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
-        aMap.setMyLocationEnabled(true);
-        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mMapView.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-        mPresenter.onDestroy();
-    }
-
-    private void initializeInjector() {
-        DaggerOrderDetailActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .orderDetailActivityModule(new OrderDetailActivityModule(OrderDetailActivity.this))
-                .build().inject(this);
-    }
-
-    @Override
-    public void showLoading(String msg) {
-        showDialogLoading(msg);
-    }
-
-    @Override
-    public void dismissLoading() {
-        dismissDialogLoading();
-    }
-
-    @Override
-    public void showToast(String message) {
-        showBaseToast(message);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (position.equals(IntentConstant.ORDER_POSITION_THREE)) {
-            super.onBackPressed();
-            return;
-        }
-        returnFlag();
+    private void requestUpdateOrder() {
+        mPresenter.requestUpdateOrder(position, mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME, mBuProcessor.getUserId(), mOrder.deliveryId);
     }
 
     private void returnFlag() {
@@ -293,4 +286,10 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         finish();
     }
 
+    private void initializeInjector() {
+        DaggerOrderDetailActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .orderDetailActivityModule(new OrderDetailActivityModule(OrderDetailActivity.this))
+                .build().inject(this);
+    }
 }

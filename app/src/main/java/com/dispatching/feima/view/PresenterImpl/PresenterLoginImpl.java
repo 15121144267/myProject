@@ -32,10 +32,11 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
 
     @Override
     public void onRequestVerifyCode(String phone) {
-        Disposable disposable = mLoginModel.VerifyCodeRequest(phone).compose(mLoginView.applySchedulers())
+       /* Disposable disposable = mLoginModel.VerifyCodeRequest(phone).compose(mLoginView.applySchedulers())
                 .subscribe(responseData -> getVerifyCodeSuccess(responseData)
                         , throwable -> mLoginView.showErrMessage(throwable));
-        mLoginView.addSubscription(disposable);
+        mLoginView.addSubscription(disposable);*/
+        getVerifyCodeSuccess(null);
     }
 
     private void getVerifyCodeSuccess(ResponseData responseData) {

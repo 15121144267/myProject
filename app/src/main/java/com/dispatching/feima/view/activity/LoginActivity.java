@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private LoginActivityComponent mActivityComponent;
     private LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
-    private String mUserName;
+    private String mVerifyCode;
     private String mUserId;
 
     @Override
@@ -86,7 +86,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
                 }
             });
-        mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
+        String mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
         mUserId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if (editText!=null&&!TextUtils.isEmpty(mUserName)){
             editText.setText(mUserName);
@@ -141,12 +141,16 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     private void requestLogin() {
-        String verifyCode = mLoginPassword.getEditText().getText().toString();
-        if (TextUtils.isEmpty(verifyCode)) {
+        EditText editText = mLoginPassword.getEditText();
+        if(editText!=null) {
+            mVerifyCode = editText.getText().toString();
+        }
+
+        if (TextUtils.isEmpty(mVerifyCode)) {
             showToast(getString(R.string.login_password_empty));
             return;
         }
-        mPresenterLogin.onRequestLogin(myPhone, verifyCode);
+        mPresenterLogin.onRequestLogin(myPhone, mVerifyCode);
 
     }
 
