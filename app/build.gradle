@@ -79,11 +79,11 @@ dependencies {
     compile rootProject.ext.myDependencies["myDagger"]
     apt rootProject.ext.myDependencies["myDaggerCompiler"]
     provided rootProject.ext.myDependencies["myDaggerJavaxAnnotation"]
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    compile 'com.rabbitmq:amqp-client:4.1.0'
-    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    compile rootProject.ext.myDependencies["myButterknife"]
+    apt rootProject.ext.myDependencies["myButterknifeApt"]
+    compile rootProject.ext.myDependencies["myCardview"]
+    compile rootProject.ext.myDependencies["myRxbinding"]
+    compile rootProject.ext.myDependencies["myRabbitmq"]
+    compile rootProject.ext.myDependencies["myCharts"]
     compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.4.0_20170427.jar')
 }

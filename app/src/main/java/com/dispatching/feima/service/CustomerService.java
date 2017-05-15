@@ -11,7 +11,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -66,10 +65,15 @@ public class CustomerService extends Service {
     @Inject
     ModelTransform mTransform;
     private Channel mChannel;
+    private Channel mChannel2;
     private ConnectionFactory factory;
     private String TASK_QUEUE_NAME;
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
+    private Connection mConnection;
+    private Connection mConnection2;
+    private double mLongitude;
+    private double mlatitude;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -82,24 +86,9 @@ public class CustomerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("onStartCommand","1");
-        if(mChannel!=null){
-
-            double longitude = intent.getDoubleExtra(IntentConstant.LONGITUDE,0.0);
-            double latitude =intent.getDoubleExtra(IntentConstant.LATITUDE,0.0);
-            RabbitRely rely = new RabbitRely();
-            rely.latitude = latitude;
-            rely.longitude = longitude;
-            rely.uId = mUId;
-            String relyJson = mGson.toJson(rely);
-            try {
-                mChannel.exchangeDeclare("delivery.postman.coordinate", "fanout" );
-                mChannel.basicPublish("delivery.postman.coordinate", "" , null , relyJson.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+        mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
+        mlatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+        new Thread(mSendRunnable).start();
         return START_STICKY;
     }
 
@@ -123,8 +112,8 @@ public class CustomerService extends Service {
         @Override
         public void run() {
             try {
-                Connection connection = factory.newConnection();
-                mChannel = connection.createChannel();
+                mConnection = factory.newConnection();
+                mChannel = mConnection.createChannel();
                 mChannel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
                 Consumer consumer = new DefaultConsumer(mChannel) {
                     @Override
@@ -160,6 +149,27 @@ public class CustomerService extends Service {
         }
     };
 
+    Runnable mSendRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (factory != null) {
+                RabbitRely rely = new RabbitRely();
+                rely.latitude = mlatitude;
+                rely.longitude = mLongitude;
+                rely.uId = mUId;
+                String relyJson = mGson.toJson(rely);
+                try {
+                    mConnection2 = factory.newConnection();
+                    mChannel2 = mConnection2.createChannel();
+                    mChannel2.queueDeclare("delivery.postman.coordinate", false, false, false, null);
+                    mChannel2.basicPublish("", "delivery.postman.coordinate", null, relyJson.getBytes());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
     private void showNotification(String msg) {
         Resources resources = getResources();
         Intent i;
@@ -190,11 +200,24 @@ public class CustomerService extends Service {
         nm.notify(0, notification);
     }
 
-    private void insertNotice(ResponseData responseData){
+    private void insertNotice(ResponseData responseData) {
         OrderNotice notice = new OrderNotice();
         notice.setOrderTime(TimeUtil.formatDate(responseData.time));
         notice.setOrderId(responseData.businessId);
         notice.setOrderFlag(0);
         mOrderNoticeDao.insert(notice);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            mChannel.close();
+            mChannel2.close();
+            mConnection2.close();
+            mConnection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
