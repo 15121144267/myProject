@@ -73,6 +73,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
 # Retrolambda
 -dontwarn java.lang.invoke.*
 
@@ -93,6 +94,7 @@
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
+
 # 保留Parcelable序列化类不被混淆
 -keep class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator *;
@@ -109,6 +111,7 @@
 -keep public class com.freemudpos.data.dao.** {
      public static <fields>;
 }
+
 # webView处理，项目中没有使用到webView忽略即可
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
     public *;
@@ -125,18 +128,21 @@
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }
 -keep public class android.support.design.R$* { *; }
+
 #高德相关
-    -keep class com.amap.api.maps.**{*;}
-    -keep class com.autonavi.**{*;}
-    -keep class com.amap.api.trace.**{*;}
-    -keep class com.amap.api.location.**{*;}
-    -keep class com.amap.api.fence.**{*;}
-    -keep class com.autonavi.aps.amapapi.model.**{*;}
-    -keep class com.amap.api.services.**{*;}
-    -keep class com.amap.api.maps2d.**{*;}
-    -keep class com.amap.api.mapcore2d.**{*;}
-    -keep class com.amap.api.navi.**{*;}
-    -keep class com.autonavi.**{*;}
+-keep class com.amap.api.maps.**{*;}
+-dontwarn com.amap.api.maps.**
+-keep class com.autonavi.**{*;}
+-keep class com.amap.api.trace.**{*;}
+-keep class com.amap.api.location.**{*;}
+-keep class com.amap.api.fence.**{*;}
+-keep class com.autonavi.aps.amapapi.model.**{*;}
+-keep class com.amap.api.services.**{*;}
+-keep class com.amap.api.maps2d.**{*;}
+-keep class com.amap.api.mapcore2d.**{*;}
+-keep class com.amap.api.navi.**{*;}
+-keep class com.autonavi.**{*;}
+
 #greendao3.2.0,此是针对3.2.0，如果是之前的，可能需要更换下包名
  -keep class org.greenrobot.greendao.**{*;}
  -keep public interface org.greenrobot.greendao.**
@@ -148,6 +154,7 @@
  -keep public interface net.sqlcipher.database.**
  -dontwarn net.sqlcipher.database.**
  -dontwarn org.greenrobot.greendao.**
+
 #retrofit2
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *;
@@ -214,8 +221,18 @@
     <init>();
 }
 
+#dagger2
 -keep class dagger.* { *; }
 -keep class javax.inject.* { *; }
 -keep class * extends dagger.internal.Binding
 -keep class * extends dagger.internal.ModuleAdapter
 -keep class * extends dagger.internal.StaticInjection
+#rabbitMq
+-dontwarn com.rabbitmq.**
+-keep class com.rabbitmq.** { *;}
+
+-dontwarn org.codehaus.**
+-dontwarn org.slf4j.impl.**
+-dontwarn java.nio.**
+-dontwarn java.lang.invoke.**
+
