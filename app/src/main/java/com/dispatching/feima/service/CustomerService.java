@@ -24,7 +24,7 @@ import com.dispatching.feima.utils.AppDeviceUtil;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.activity.LoginActivity;
-import com.dispatching.feima.view.activity.NoticeCenterActivity;
+import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.dispatching.feima.view.model.ResponseData;
 import com.google.gson.Gson;
@@ -86,8 +86,10 @@ public class CustomerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
-        mlatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+        if(intent!=null){
+            mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
+            mlatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+        }
         new Thread(mSendRunnable).start();
         return START_STICKY;
     }
@@ -179,7 +181,7 @@ public class CustomerService extends Service {
             if (AppDeviceUtil.getTopActivityName(this).equals(LoginActivity.class.getName())) {
                 i = LoginActivity.getLoginIntent(this);
             } else {
-                i = NoticeCenterActivity.getNoticeIntent(this);
+                i = MainActivity.getMainIntent(this);
             }
 
         } else {

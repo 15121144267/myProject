@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -119,6 +120,21 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         );
 
         mSwipeLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    protected void addFilter() {
+        mFilter.addAction(BroConstant.PENDING_DELIVERY);
+    }
+
+    @Override
+    protected void onReceivePro(Context context, Intent intent) {
+        String action = intent.getAction();
+        switch (action) {
+            case BroConstant.PENDING_DELIVERY:
+                mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                break;
+        }
     }
 
     @Override

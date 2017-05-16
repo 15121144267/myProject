@@ -83,7 +83,6 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void getSendingOrderSuccess(OrderDeliveryResponse response) {
         if (response != null && response.orders != null && response.orders.size() > 0) {
-            Log.d("sending",response.orders.get(0).deliveryStatus+"");
             mSendingAdapter.setNewData(response.orders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, response.orders.size());
         }

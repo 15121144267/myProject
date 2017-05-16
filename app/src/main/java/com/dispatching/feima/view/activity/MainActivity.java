@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +26,7 @@ import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
+import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
@@ -97,6 +99,12 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(BroConstant.PENDING_DELIVERY));
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
@@ -111,13 +119,13 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.my_notice:
-                startActivity(NoticeCenterActivity.getNoticeIntent(this));
+                startActivity(NoticeCenterActivity.getNoticeIntent(getContext()));
                 break;
             case R.id.my_summary:
-                startActivity(WorkSummaryActivity.getSummaryIntent(this));
+                startActivity(WorkSummaryActivity.getSummaryIntent(getContext()));
                 break;
             case R.id.my_setting:
-                startActivity(SettingActivity.getSettingIntent(this));
+                startActivity(SettingActivity.getSettingIntent(getContext()));
                 break;
         }
         return false;
@@ -205,7 +213,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     }
 
     private void requestPersonActivity() {
-        startActivity(PersonCenterActivity.getPersonIntent(this));
+        startActivity(PersonCenterActivity.getPersonIntent(getContext()));
     }
 
     private void initializeInjector() {
@@ -214,5 +222,15 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
                 .mainActivityModule(new MainActivityModule(this))
                 .build();
     }
-
+    /*private void initializeInjector() {
+        mActivityComponent = DaggerMainActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .mainActivityModule(new MainActivityModule(this))
+                .build();
+    }private void initializeInjector() {
+        mActivityComponent = DaggerMainActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .mainActivityModule(new MainActivityModule(this))
+                .build();
+    }*/
 }
