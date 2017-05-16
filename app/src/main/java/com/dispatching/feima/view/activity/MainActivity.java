@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +26,7 @@ import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
+import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
@@ -94,6 +96,13 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mVersion = BuildConfig.VERSION_NAME;
 
         initView();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mViewpager.setCurrentItem(0);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(BroConstant.PENDING_DELIVERY));
     }
 
     @Override

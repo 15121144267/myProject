@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
  */
 
 public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-       PendingOrderControl.PendingOrderView {
+        PendingOrderControl.PendingOrderView {
     @BindView(R.id.pending_rv_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.pending_swipeLayout)
@@ -50,6 +51,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     private String mUserId;
     private Integer mPosition;
     private boolean mBroFlag = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +82,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
             mPendingAdapter.setNewData(response.orders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, response.orders.size());
         }
-        if(mBroFlag){
+        if (mBroFlag) {
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.TAKE_DELIVERY));
             mBroFlag = false;
         }
@@ -107,7 +109,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(),mPendingAdapter.getItem(position),IntentConstant.ORDER_POSITION_ONE),IntentConstant.ORDER_POSITION_ONE);
+                startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mPendingAdapter.getItem(position), IntentConstant.ORDER_POSITION_ONE), IntentConstant.ORDER_POSITION_ONE);
             }
         });
 
@@ -122,9 +124,24 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     }
 
     @Override
+    protected void addFilter() {
+        mFilter.addAction(BroConstant.PENDING_DELIVERY);
+    }
+
+    @Override
+    protected void onReceivePro(Context context, Intent intent) {
+        String action = intent.getAction();
+        switch (action) {
+            case BroConstant.PENDING_DELIVERY:
+                mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                break;
+        }
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data!=null && data.getBooleanExtra(IntentConstant.ORDER_DETAIL_FLASH,false)){
+        if (data != null && data.getBooleanExtra(IntentConstant.ORDER_DETAIL_FLASH, false)) {
             mBroFlag = true;
             mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_ONE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
         }
