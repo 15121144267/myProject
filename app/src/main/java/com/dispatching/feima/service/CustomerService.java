@@ -70,6 +70,7 @@ public class CustomerService extends Service {
     private String TASK_QUEUE_NAME;
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
+    private String uId;
     private Connection mConnection;
     private Connection mConnection2;
     private double mLongitude;
@@ -82,12 +83,26 @@ public class CustomerService extends Service {
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         TASK_QUEUE_NAME = "delivery.postman." + mUId;
         initData();
+        new Thread(networkTask).start();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
-        mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+        uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        if(!uId.equals(mUId)){
+            try {
+                mConnection.close();
+                mChannel.close();
+                new Thread(networkTask).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(intent!=null){
+            mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
+            mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+        }
+
         new Thread(mSendRunnable).start();
         return START_STICKY;
     }
@@ -105,7 +120,6 @@ public class CustomerService extends Service {
         factory.setUsername("erle.li@freemud");
         factory.setPassword("A2PH8YkkQB");
         factory.setVirtualHost("vhost-waimai");
-        new Thread(networkTask).start();
     }
 
     Runnable networkTask = new Runnable() {
@@ -156,13 +170,16 @@ public class CustomerService extends Service {
                 RabbitRely rely = new RabbitRely();
                 rely.latitude = mLatitude;
                 rely.longitude = mLongitude;
-                rely.uId = mUId;
+                rely.uId = uId;
                 String relyJson = mGson.toJson(rely);
                 try {
-                    if(mChannel2 ==null||mConnection2==null){
+                    if(mConnection2==null){
                         mConnection2 = factory.newConnection();
+                    }
+                    if(mChannel2 ==null){
                         mChannel2 = mConnection2.createChannel();
                     }
+
                     mChannel2.queueDeclare("delivery.postman.coordinate", false, false, false, null);
                     mChannel2.basicPublish("", "delivery.postman.coordinate", null, relyJson.getBytes());
                 } catch (Exception e) {
