@@ -10,5 +10,11 @@ public class OrderDeliveryRequest {
     public String token;
     public String version;
     @SerializedName("postman_id")
-    public String  uId;
+    public String uId;
+    @SerializedName("start_time")
+    public String startTime;
+    @SerializedName("end_time")
+    public String endTime;
+
+
 }

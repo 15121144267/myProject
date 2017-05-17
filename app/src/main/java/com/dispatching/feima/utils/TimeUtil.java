@@ -40,7 +40,7 @@ public class TimeUtil {
     /*
      *
      */
-    public String transferLongToDate(String dateFormat, Long millSec) {
+    public static String transferLongToDate(String dateFormat, Long millSec) {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         Date date= new Date(millSec);
         return sdf.format(date);

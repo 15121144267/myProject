@@ -21,7 +21,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-
 public class RetrofitUtil {
 
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
@@ -35,7 +34,7 @@ public class RetrofitUtil {
     private String keyType;
     private Retrofit retrofit;
 
-    public RetrofitUtil(Builder builder){
+    public RetrofitUtil(Builder builder) {
         this.context = builder.context;
         this.baseUrl = builder.baseUrl;
         this.isToJson = builder.isToJson;
@@ -51,8 +50,8 @@ public class RetrofitUtil {
         OkHttpClient okHttpClient;
         OkHttpClient.Builder okHttpClientBuilder =
                 new OkHttpClient.Builder()
-                        .connectTimeout(60*1000, TimeUnit.MILLISECONDS)
-                        .readTimeout(60*1000, TimeUnit.MILLISECONDS);
+                        .connectTimeout(60 * 1000, TimeUnit.MILLISECONDS)
+                        .readTimeout(60 * 1000, TimeUnit.MILLISECONDS);
         if (isHttps) {
             SSLSocketFactory ssl = new SSLSocketUtil.Builder()
                     .context(context)
@@ -67,9 +66,9 @@ public class RetrofitUtil {
         okHttpClient = okHttpClientBuilder.build();
 
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl);
-        if (isToJson){
+        if (isToJson) {
             retrofitBuilder.addConverterFactory(GsonConverterFactory.create(gson));
-        }else {
+        } else {
             retrofitBuilder.addConverterFactory(StringConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create());
         }
@@ -78,11 +77,11 @@ public class RetrofitUtil {
                 .build();
     }
 
-    public <T> T create(final Class<T> service){
+    public <T> T create(final Class<T> service) {
         return retrofit.create(service);
     }
 
-    public static class Builder{
+    public static class Builder {
 
         private Context context;
         private boolean isHttps;
@@ -92,7 +91,7 @@ public class RetrofitUtil {
         private String keyPwd;
         private String keyType;
 
-        public Builder(){
+        public Builder() {
             this.context = null;
             this.isHttps = false;
             this.isToJson = true;
@@ -102,38 +101,38 @@ public class RetrofitUtil {
             this.keyType = "PKCS12";
         }
 
-        public Builder context(Context context){
+        public Builder context(Context context) {
             this.context = context;
             return this;
         }
 
-        public Builder isHttps(boolean isHttps){
+        public Builder isHttps(boolean isHttps) {
             this.isHttps = isHttps;
             return this;
         }
 
-        public Builder key(String keyName, String keyPwd){
+        public Builder key(String keyName, String keyPwd) {
             this.keyName = keyName;
             this.keyPwd = keyPwd;
             return this;
         }
 
-        public Builder keyType(String keyType){
+        public Builder keyType(String keyType) {
             this.keyType = keyType;
             return this;
         }
 
-        public Builder isToJson(boolean isToJson){
+        public Builder isToJson(boolean isToJson) {
             this.isToJson = isToJson;
             return this;
         }
 
-        public Builder baseUrl(String baseUrl){
+        public Builder baseUrl(String baseUrl) {
             this.baseUrl = baseUrl;
             return this;
         }
 
-        public RetrofitUtil builder(){
+        public RetrofitUtil builder() {
             return new RetrofitUtil(this);
         }
     }
@@ -143,7 +142,9 @@ public class RetrofitUtil {
 
         static final StringConverterFactory INSTANCE = new StringConverterFactory();
 
-        static StringConverterFactory create() { return INSTANCE;}
+        static StringConverterFactory create() {
+            return INSTANCE;
+        }
 
         @Override
         public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
@@ -158,7 +159,8 @@ public class RetrofitUtil {
         public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
             if (String.class.equals(type)) {
                 return new Converter<String, RequestBody>() {
-                    @Override public RequestBody convert(String value) throws IOException {
+                    @Override
+                    public RequestBody convert(String value) throws IOException {
                         return RequestBody.create(MEDIA_TYPE, value);
                     }
                 };

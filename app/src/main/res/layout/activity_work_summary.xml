@@ -24,16 +24,17 @@
             style="@style/summarySmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="测试"
+            android:text="已接"
             />
 
         <TextView
+            android:id="@+id/take_order_count"
             style="@style/summarySmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dp_40"
             android:layout_toRightOf="@id/wait_order"
-            android:text="测试"
+            android:text="0单"
             />
 
         <View
@@ -43,13 +44,13 @@
             />
 
         <TextView
-            android:id="@+id/completed_order"
+            android:id="@+id/completed_order_count"
             style="@style/summarySmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/dp_16"
-            android:text="测试"
+            android:text="0单"
             />
 
         <TextView
@@ -57,84 +58,91 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/dp_40"
-            android:layout_toLeftOf="@id/completed_order"
-            android:text="测试"
+            android:layout_toLeftOf="@id/completed_order_count"
+            android:text="已送"
             />
     </RelativeLayout>
-
-    <TextView
-        style="@style/summaryText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:text="最近七日"
-        />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60">
-
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        >
         <TextView
-            android:id="@+id/wait_order_seven"
-            style="@style/summarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="测试"
+            style="@style/summaryText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:text="最近七日"
             />
 
-        <TextView
-            style="@style/summarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dp_40"
-            android:layout_toRightOf="@id/wait_order_seven"
-            android:text="测试"
-            />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60">
 
-    <TextView
-        style="@style/summaryText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:text="最近30日"
-        />
+            <TextView
+                android:id="@+id/wait_order_seven"
+                style="@style/summarySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="测试"
+                />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60">
-
-        <TextView
-            android:id="@+id/wait_order_moth"
-            style="@style/summarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="测试"
-            />
+            <TextView
+                style="@style/summarySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_40"
+                android:layout_toRightOf="@id/wait_order_seven"
+                android:text="测试"
+                />
+        </RelativeLayout>
 
         <TextView
-            style="@style/summarySmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dp_40"
-            android:layout_toRightOf="@id/wait_order_moth"
-            android:text="测试"
+            style="@style/summaryText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:text="最近30日"
             />
-    </RelativeLayout>
-    <TextView
-        style="@style/summaryText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:text="数据统计"
-        />
-    <lecho.lib.hellocharts.view.LineChartView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-    <TextView
-        style="@style/summaryText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:text="总计：12345单"
-        android:gravity="center"
-        />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60">
+
+            <TextView
+                android:id="@+id/wait_order_moth"
+                style="@style/summarySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="测试"
+                />
+
+            <TextView
+                style="@style/summarySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dp_40"
+                android:layout_toRightOf="@id/wait_order_moth"
+                android:text="测试"
+                />
+        </RelativeLayout>
+        <TextView
+            style="@style/summaryText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:text="数据统计"
+            />
+       <!-- <lecho.lib.hellocharts.view.LineChartView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />-->
+        <TextView
+            style="@style/summaryText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:text="总计：12345单"
+            android:gravity="center"
+            />1
+    </LinearLayout>
+
 </LinearLayout>

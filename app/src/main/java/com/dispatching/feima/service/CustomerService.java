@@ -138,7 +138,8 @@ public class CustomerService extends Service {
                         ResponseData responseData = mTransform.transformNotice(message);
                         insertNotice(responseData);
                         try {
-                            showNotification(message);
+                            String noticeMessage = "单号："+responseData.businessId;
+                            showNotification(noticeMessage);
                         } catch (Exception e) {
                             mChannel.abort();
                         } finally {

@@ -66,32 +66,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         mPresenterLogin = mActivityComponent.getPresenterLogin();
         mPresenterLogin.setView(this);
         mMiddleName.setText(R.string.app_login);
-
-        EditText editText = mLoginUserName.getEditText();
-        RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
-        RxView.clicks(mLoginIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerifyCode());
-        if (editText != null)
-            editText.addTextChangedListener(new MyTextWatchListener() {
-                @Override
-                public void onMyTextChanged(CharSequence s, int start, int before, int count) {
-                    String phone = s.toString();
-                    if (!ValueUtil.isMobileNO(phone)) {
-                        mLoginSubmit.setEnabled(false);
-                        mLoginIdentifyingCode.setEnabled(false);
-                    } else {
-                        myPhone = phone;
-                        mLoginSubmit.setEnabled(true);
-                        mLoginIdentifyingCode.setEnabled(true);
-                    }
-
-                }
-            });
-        String mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
-        mUserId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if (editText!=null&&!TextUtils.isEmpty(mUserName)){
-            editText.setText(mUserName);
-            editText.setSelection(mUserName.length());
-        }
+        initView();
     }
 
     @Override
@@ -136,24 +111,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         }
     }
 
-    private void requestVerifyCode() {
-        mPresenterLogin.onRequestVerifyCode(myPhone);
-    }
-
-    private void requestLogin() {
-        EditText editText = mLoginPassword.getEditText();
-        if(editText!=null) {
-            mVerifyCode = editText.getText().toString();
-        }
-
-        if (TextUtils.isEmpty(mVerifyCode)) {
-            showToast(getString(R.string.login_password_empty));
-            return;
-        }
-        mPresenterLogin.onRequestLogin(myPhone, mVerifyCode);
-
-    }
-
     @Override
     public void loginSuccess(LoginResponse loginResponse) {
         mBuProcessor.setUserId(loginResponse.uId);
@@ -165,6 +122,52 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         }
         startActivity(MainActivity.getMainIntent(this));
         finish();
+    }
+
+    private void initView() {
+        EditText editText = mLoginUserName.getEditText();
+        RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
+        RxView.clicks(mLoginIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerifyCode());
+        if (editText != null)
+            editText.addTextChangedListener(new MyTextWatchListener() {
+                @Override
+                public void onMyTextChanged(CharSequence s, int start, int before, int count) {
+                    String phone = s.toString();
+                    if (!ValueUtil.isMobileNO(phone)) {
+                        mLoginSubmit.setEnabled(false);
+                        mLoginIdentifyingCode.setEnabled(false);
+                    } else {
+                        myPhone = phone;
+                        mLoginSubmit.setEnabled(true);
+                        mLoginIdentifyingCode.setEnabled(true);
+                    }
+
+                }
+            });
+        String mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
+        mUserId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        if (editText != null && !TextUtils.isEmpty(mUserName)) {
+            editText.setText(mUserName);
+            editText.setSelection(mUserName.length());
+        }
+    }
+
+    private void requestVerifyCode() {
+        mPresenterLogin.onRequestVerifyCode(myPhone);
+    }
+
+    private void requestLogin() {
+        EditText editText = mLoginPassword.getEditText();
+        if (editText != null) {
+            mVerifyCode = editText.getText().toString();
+        }
+
+        if (TextUtils.isEmpty(mVerifyCode)) {
+            showToast(getString(R.string.login_password_empty));
+            return;
+        }
+        mPresenterLogin.onRequestLogin(myPhone, mVerifyCode);
+
     }
 
     private void initializeInjector() {

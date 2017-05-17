@@ -27,6 +27,7 @@ import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
+import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
@@ -58,7 +59,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     @BindView(R.id.viewpager)
     ViewPager mViewpager;
 
-    private TextView mPersonAccount;
     private TextView mPersonNumber;
     private TextView mPersonStatus;
     private SwitchCompat mPersonStatusControl;
@@ -191,10 +191,11 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mNvSlidingMenu.setItemTextColor(null);
         mNvSlidingMenu.setItemIconTintList(null);
         RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
-        mPersonAccount = (TextView) view.findViewById(R.id.person_count);
+        TextView personAccount = (TextView) view.findViewById(R.id.person_count);
         mPersonNumber = (TextView) view.findViewById(R.id.person_number);
         mPersonStatus = (TextView) view.findViewById(R.id.user_status);
         mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
+        personAccount.setText(mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME));
         RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
                 aBoolean -> requestChange(aBoolean));
 

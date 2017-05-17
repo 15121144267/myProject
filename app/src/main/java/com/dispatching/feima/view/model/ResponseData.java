@@ -1,7 +1,5 @@
 package com.dispatching.feima.view.model;
 
-//import org.json.JSONException;
-//import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,12 +8,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ResponseData {
-    public static Gson sGson = new GsonBuilder().create();
+
+    private static Gson sGson = new GsonBuilder().create();
     public Integer resultCode;
     public String errorDesc;
     public String businessId;
     public String time;
-    public String result;
+    private String result;
     public Object parsedData;
 
 

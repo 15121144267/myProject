@@ -84,6 +84,5 @@ dependencies {
     compile rootProject.ext.myDependencies["myCardview"]
     compile rootProject.ext.myDependencies["myRxbinding"]
     compile rootProject.ext.myDependencies["myRabbitmq"]
-    compile rootProject.ext.myDependencies["myCharts"]
     compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.4.0_20170427.jar')
 }
