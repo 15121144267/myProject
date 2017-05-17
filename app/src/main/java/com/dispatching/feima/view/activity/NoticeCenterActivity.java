@@ -120,4 +120,10 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
                 .noticeCenterActivityModule(new NoticeCenterActivityModule(this))
                 .build().inject(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

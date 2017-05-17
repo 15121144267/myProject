@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_4"
             android:contentDescription="@string/app_name"
+            android:visibility="gone"
             app:srcCompat="@drawable/vector_arrow"
             />
     </LinearLayout>

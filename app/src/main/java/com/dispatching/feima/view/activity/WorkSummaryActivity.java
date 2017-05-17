@@ -11,11 +11,13 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerWorkSummaryComponent;
 import com.dispatching.feima.dagger.module.WorkSummaryActivityModule;
+import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.PresenterControl.WorkSummaryControl;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -55,18 +57,26 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         initData();
     }
 
-    private void initData() {
-        Calendar calendar = TimeUtil.getCalendar();
-        String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
-        calendar.add(Calendar.DAY_OF_MONTH, +1);
-        String endTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
-        mPresenter.requestAllOrderInfo(mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME,
-                mBuProcessor.getUserId(), startTime, endTime);
-    }
 
     @Override
     public void getAllOrderSuccess(OrderDeliveryResponse response) {
-
+        int takeOrderCount = 0;
+        int completeOrderCount = 0;
+        List<MyOrders> ordersList = response.orders;
+        if (ordersList != null && ordersList.size() > 0) {
+            for (MyOrders myOrders : ordersList) {
+                if (myOrders.deliveryStatus == 3) {
+                    takeOrderCount ++;
+                }
+                if (myOrders.deliveryStatus == 4) {
+                    completeOrderCount ++;
+                }
+            }
+        }
+        String transTakeCount =  takeOrderCount  +"单";
+        String transCompleteCount =  completeOrderCount  +"单";
+        mTakeOrderCount.setText(transTakeCount);
+        mCompletedOrderCount .setText(transCompleteCount);
     }
 
     @Override
@@ -87,6 +97,21 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    private void initData() {
+        Calendar calendar = TimeUtil.getCalendar();
+        String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        String endTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
+        mPresenter.requestAllOrderInfo(mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME,
+                mBuProcessor.getUserId(), startTime, endTime);
     }
 
     private void initializeInjector() {

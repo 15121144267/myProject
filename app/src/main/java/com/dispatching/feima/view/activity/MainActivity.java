@@ -33,12 +33,10 @@ import com.dispatching.feima.view.adapter.MyFragmentAdapter;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
 import com.dispatching.feima.view.fragment.PendingOrderFragment;
 import com.dispatching.feima.view.fragment.SendingOrderFragment;
-import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -190,7 +188,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
         mNvSlidingMenu.setItemTextColor(null);
         mNvSlidingMenu.setItemIconTintList(null);
-        RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
+        //RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
         TextView personAccount = (TextView) view.findViewById(R.id.person_count);
         mPersonNumber = (TextView) view.findViewById(R.id.person_number);
         mPersonStatus = (TextView) view.findViewById(R.id.user_status);

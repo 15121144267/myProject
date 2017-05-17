@@ -48,6 +48,6 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void quiteLogin() {
-
+        startActivity(LoginActivity.getLoginIntent(this));
     }
 }

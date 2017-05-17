@@ -233,9 +233,9 @@ public class CustomerService extends Service {
         super.onDestroy();
         try {
             mChannel.close();
+            mConnection.close();
             mChannel2.close();
             mConnection2.close();
-            mConnection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
