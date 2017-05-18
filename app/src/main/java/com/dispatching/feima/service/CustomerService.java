@@ -91,6 +91,7 @@ public class CustomerService extends Service {
         uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if(!uId.equals(mUId)){
             try {
+                TASK_QUEUE_NAME = "delivery.postman." + uId;
                 mConnection.close();
                 mChannel.close();
                 new Thread(networkTask).start();

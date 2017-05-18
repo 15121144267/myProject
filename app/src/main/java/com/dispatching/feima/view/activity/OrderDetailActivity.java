@@ -241,7 +241,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderId.setText(mOrder.businessId);
         mOrderTime.setText(mOrder.createTime);
         mOrderChannel.setText(mOrder.channel);
-        mDeliveryId.setText(mOrder.deliveryId);
+        //mDeliveryId.setText(mOrder.deliveryId);
         mOrderAmount.setText(ValueUtil.formatAmount(mOrder.totalFee));
         mOrderCustomerName.setText(mOrder.customer);
         mOrderCustomerPhone.setText(mOrder.phone);
