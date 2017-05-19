@@ -8,7 +8,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,8 +79,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void getSendingOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null && response.orders.size() > 0) {
-            Log.d("sending",response.orders.get(0).deliveryStatus+"");
+        if (response != null && response.orders != null ) {
             mSendingAdapter.setNewData(response.orders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, response.orders.size());
         }

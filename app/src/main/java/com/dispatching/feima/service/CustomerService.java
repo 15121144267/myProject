@@ -91,9 +91,10 @@ public class CustomerService extends Service {
         uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if(!uId.equals(mUId)){
             try {
-                TASK_QUEUE_NAME = "delivery.postman." + uId;
-                mConnection.close();
+                mUId = uId;
+                TASK_QUEUE_NAME = "delivery.postman." + mUId;
                 mChannel.close();
+                mConnection.close();
                 new Thread(networkTask).start();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -172,7 +173,7 @@ public class CustomerService extends Service {
                 RabbitRely rely = new RabbitRely();
                 rely.latitude = mLatitude;
                 rely.longitude = mLongitude;
-                rely.uId = uId;
+                rely.uId = mUId;
                 String relyJson = mGson.toJson(rely);
                 try {
                     if(mConnection2==null){

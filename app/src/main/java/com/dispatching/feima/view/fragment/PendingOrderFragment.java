@@ -76,7 +76,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void getPendingOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null && response.orders.size() > 0) {
+        if (response != null && response.orders != null ) {
             mPendingAdapter.setNewData(response.orders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, response.orders.size());
         }

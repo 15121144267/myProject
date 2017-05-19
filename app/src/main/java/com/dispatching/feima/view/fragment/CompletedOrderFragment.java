@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +78,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     public void getCompletedOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null && response.orders.size() > 0) {
-            Log.d("completed",response.orders.get(0).deliveryStatus+"");
+        if (response != null && response.orders != null ) {
             mCompleteAdapter.setNewData(response.orders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_THREE, response.orders.size());
         }
