@@ -8,6 +8,7 @@ import com.amap.api.services.route.WalkRouteResult;
 
 /**
  * Created by helei on 2017/5/15.
+ * MyRouteSearchListener
  */
 
 public abstract class MyRouteSearchListener implements RouteSearch.OnRouteSearchListener {
@@ -32,8 +33,8 @@ public abstract class MyRouteSearchListener implements RouteSearch.OnRouteSearch
 
     @Override
     public void onRideRouteSearched(RideRouteResult rideRouteResult, int i) {
-        OnMyRideRouteSearched(rideRouteResult,i);
+        OnMyRideRouteSearched(rideRouteResult);
     }
 
-    public abstract void OnMyRideRouteSearched(RideRouteResult rideRouteResult, int i);
+    public abstract void OnMyRideRouteSearched(RideRouteResult rideRouteResult);
 }

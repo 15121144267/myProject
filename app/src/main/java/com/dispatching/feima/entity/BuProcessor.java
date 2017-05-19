@@ -1,25 +1,19 @@
 package com.dispatching.feima.entity;
 
-import android.content.Context;
-
-import com.dispatching.feima.utils.SharePreferenceUtil;
-
 import javax.inject.Inject;
 
 /**
  * Created by helei on 2017/5/3.
+ * BuProcessor
  */
 
 public class BuProcessor {
-    private Context mContext;
-    private SharePreferenceUtil mSharePreferenceUtil;
 
     private String userToken;
     private String userId;
+
     @Inject
-    public BuProcessor(Context context,SharePreferenceUtil sharePreferenceUtil){
-        mContext = context;
-        mSharePreferenceUtil = sharePreferenceUtil;
+    public BuProcessor() {
     }
 
     public String getUserId() {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class ResponseData {
 
-    private static Gson sGson = new GsonBuilder().create();
+    private static final Gson sGson = new GsonBuilder().create();
     public Integer resultCode;
     public String errorDesc;
     public String businessId;

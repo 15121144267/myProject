@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerWorkSummaryComponent;
 import com.dispatching.feima.dagger.module.WorkSummaryActivityModule;
@@ -110,7 +109,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
         calendar.add(Calendar.DAY_OF_MONTH, +1);
         String endTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
-        mPresenter.requestAllOrderInfo(mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME,
+        mPresenter.requestAllOrderInfo(mBuProcessor.getUserToken(),
                 mBuProcessor.getUserId(), startTime, endTime);
     }
 

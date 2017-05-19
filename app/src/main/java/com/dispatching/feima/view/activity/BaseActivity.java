@@ -20,7 +20,6 @@ import java.net.ConnectException;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -41,18 +40,13 @@ public class BaseActivity extends AppCompatActivity {
     @Inject
     protected BuProcessor mBuProcessor;
 
-    protected Dialog mProgressDialog;
-    protected CompositeDisposable mDisposable;
+    private Dialog mProgressDialog;
+    private CompositeDisposable mDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getApplicationComponent().inject(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -64,10 +58,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public <T> ObservableTransformer<T, T> applySchedulers() {
+        //noinspection unchecked
         return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 
-    public void showBaseToast(String message) {
+    void showBaseToast(String message) {
         ToastUtils.showShortToast(message);
     }
 
@@ -83,7 +78,7 @@ public class BaseActivity extends AppCompatActivity {
         showBaseToast(mErrMessage);
     }
 
-    public ApplicationComponent getApplicationComponent() {
+    ApplicationComponent getApplicationComponent() {
         return ((DaggerApplication) getApplication()).getApplicationComponent();
     }
 
@@ -94,7 +89,7 @@ public class BaseActivity extends AppCompatActivity {
         mDisposable.add(subscription);
     }
 
-    protected ActionBar supportActionBar(Toolbar toolbar, boolean isShowIcon) {
+    void supportActionBar(Toolbar toolbar, boolean isShowIcon) {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -105,24 +100,23 @@ public class BaseActivity extends AppCompatActivity {
             toolbar.setNavigationIcon(R.drawable.vector_arrow_left);
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
-        return actionBar;
     }
 
-    protected void showDialogLoading(String msg) {
+    void showDialogLoading(String msg) {
         dismissDialogLoading();
         mProgressDialog = DialogFactory.showLoadingDialog(this, msg);
         mProgressDialog.show();
     }
 
-    protected void dismissDialogLoading() {
+    void dismissDialogLoading() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
         mProgressDialog = null;
     }
 
-    final ObservableTransformer schedulersTransformer = (observable) -> (
-            ((Observable) observable).subscribeOn(Schedulers.io())
+    private final ObservableTransformer schedulersTransformer = (observable) -> (
+            observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()));
 
 }

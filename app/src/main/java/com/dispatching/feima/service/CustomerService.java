@@ -123,7 +123,7 @@ public class CustomerService extends Service {
         factory.setVirtualHost("vhost-waimai");
     }
 
-    Runnable networkTask = new Runnable() {
+    private final Runnable networkTask = new Runnable() {
         @Override
         public void run() {
             try {
@@ -165,7 +165,7 @@ public class CustomerService extends Service {
         }
     };
 
-    Runnable mSendRunnable = new Runnable() {
+    private final Runnable mSendRunnable = new Runnable() {
         @Override
         public void run() {
             if (factory != null) {

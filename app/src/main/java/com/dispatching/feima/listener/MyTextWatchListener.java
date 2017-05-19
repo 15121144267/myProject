@@ -5,6 +5,7 @@ import android.text.TextWatcher;
 
 /**
  * Created by helei on 2017/5/1.
+ * MyTextWatchListener
  */
 
 public abstract class MyTextWatchListener implements TextWatcher {
@@ -15,7 +16,7 @@ public abstract class MyTextWatchListener implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        onMyTextChanged(s,start,before,count);
+        onMyTextChanged(s);
     }
 
 
@@ -24,5 +25,5 @@ public abstract class MyTextWatchListener implements TextWatcher {
 
     }
 
-   public abstract void onMyTextChanged(CharSequence s, int start, int before, int count) ;
+   public abstract void onMyTextChanged(CharSequence s) ;
 }

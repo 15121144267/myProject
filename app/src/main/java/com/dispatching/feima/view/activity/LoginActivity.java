@@ -72,12 +72,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        //setIntent(intent);
-    }
-
-    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }
@@ -133,9 +127,9 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
-                public void onMyTextChanged(CharSequence s, int start, int before, int count) {
+                public void onMyTextChanged(CharSequence s) {
                     String phone = s.toString();
-                    if (!ValueUtil.isMobileNO(phone)) {
+                    if (ValueUtil.isMobilePhone(phone)) {
                         mLoginSubmit.setEnabled(false);
                         mLoginIdentifyingCode.setEnabled(false);
                     } else {

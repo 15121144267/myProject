@@ -2,6 +2,7 @@ package com.dispatching.feima.entity;
 
 /**
  * Created by helei on 2017/5/10.
+ * IntentConstant
  */
 
 public class IntentConstant {

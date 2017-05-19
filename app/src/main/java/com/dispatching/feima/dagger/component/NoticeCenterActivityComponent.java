@@ -10,6 +10,7 @@ import dagger.Component;
 
 /**
  * Created by helei on 2017/4/26.
+ * NoticeCenterActivityComponent
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = NoticeCenterActivityModule.class)

@@ -11,6 +11,7 @@ import dagger.Component;
 
 /**
  * Created by helei on 2017/5/3.
+ * FragmentComponent
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {MainActivityModule.class, FragmentModule.class})

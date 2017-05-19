@@ -1,6 +1,5 @@
 package com.dispatching.feima.view.PresenterControl;
 
-import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 
 /**
@@ -11,13 +10,13 @@ import com.dispatching.feima.entity.OrderDeliveryResponse;
 public class SendingOrderControl {
     public interface SendingOrderView extends LoadDataView{
         void getSendingOrderSuccess(OrderDeliveryResponse response);
-        void updateOrderStatusSuccess(DeliveryStatusResponse response);
+        void updateOrderStatusSuccess();
         void getOrderComplete();
         void getOrderError(Throwable throwable);
     }
 
     public interface PresenterSendingOrder extends Presenter<SendingOrderView> {
-        void requestSendingOrder(Integer position,String token,String version,String uId);
-        void requestCompleteOrder(String token,String version,String uId,String deliveryId);
+        void requestSendingOrder(String token, String uId);
+        void requestCompleteOrder(String token, String uId, String deliveryId);
     }
 }

@@ -13,6 +13,7 @@ import dagger.Component;
 
 /**
  * Created by helei on 2017/4/26.
+ * MainActivityComponent
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = MainActivityModule.class)

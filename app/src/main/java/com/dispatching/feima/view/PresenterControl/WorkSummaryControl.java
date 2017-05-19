@@ -14,6 +14,6 @@ public class WorkSummaryControl {
     }
 
     public interface PresenterWorkSummary extends Presenter<WorkSummaryView> {
-        void requestAllOrderInfo(String token,String version,String uId,String startTime,String endTime);
+        void requestAllOrderInfo(String token, String uId, String startTime, String endTime);
     }
 }

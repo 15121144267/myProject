@@ -16,7 +16,7 @@ public class ValueUtil {
 
     //产生一个十位数的随机数
     public static long getRandom() {
-        long l = 10000000000l;
+        long l = 10000000000L;
         long nonce = (long) (Math.random() * l);
         if (nonce == 0) {
             getRandom();
@@ -31,16 +31,13 @@ public class ValueUtil {
     }
 
     //是否是有效的手机号
-    public static boolean isMobileNO(String mobileNO) {
+    public static boolean isMobilePhone(String mobileNO) {
         if (TextUtils.isEmpty(mobileNO)) {
-            return false;
+            return true;
         } else {
-            //preg_match("/^13[0-9]{1}[0-9]{8}$|15[0189]{1}[0-9]{8}$|189[0-9]{8}$/",$mobile)
-//				Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
-            // Pattern p = Pattern.compile("^1\\d{10}");
             Pattern p = Pattern.compile("^\\d{11}$");
             Matcher m = p.matcher(mobileNO);
-            return m.matches();
+            return !m.matches();
         }
     }
 

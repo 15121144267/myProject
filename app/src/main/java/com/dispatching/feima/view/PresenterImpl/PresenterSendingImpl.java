@@ -3,7 +3,6 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
-import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.view.PresenterControl.SendingOrderControl;
 import com.dispatching.feima.view.model.MainModel;
@@ -19,9 +18,9 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class PresenterSendingImpl implements SendingOrderControl.PresenterSendingOrder {
-    private MainModel mMainModel;
+    private final MainModel mMainModel;
     private SendingOrderControl.SendingOrderView mView;
-    private Context mContext;
+    private final Context mContext;
 
     @Inject
     public PresenterSendingImpl(Context context, MainModel model) {
@@ -30,27 +29,27 @@ public class PresenterSendingImpl implements SendingOrderControl.PresenterSendin
     }
 
     @Override
-    public void requestSendingOrder(Integer position, String token, String version, String uId) {
+    public void requestSendingOrder(String token, String uId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        mMainModel.SendingOrderInfoRequest(token, version, uId).compose(mView.applySchedulers())
-                .subscribe(responseData -> getSendingOrderSuccess(responseData)
+        mMainModel.SendingOrderInfoRequest(token, uId).compose(mView.applySchedulers())
+                .subscribe(this::getSendingOrderSuccess
                         , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());
     }
 
     @Override
-    public void requestCompleteOrder(String token, String version, String uId, String deliveryId) {
+    public void requestCompleteOrder(String token, String uId, String deliveryId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mMainModel.TakeOrderRequest(1,token, version, uId,deliveryId).compose(mView.applySchedulers())
-                .subscribe(responseData -> getCompleteOrderSuccess(responseData)
+        Disposable disposable = mMainModel.TakeOrderRequest(1,token, uId,deliveryId).compose(mView.applySchedulers())
+                .subscribe(this::getCompleteOrderSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getCompleteOrderSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
-            responseData.parseData(DeliveryStatusResponse.class);
-            DeliveryStatusResponse response = (DeliveryStatusResponse) responseData.parsedData;
-            mView.updateOrderStatusSuccess(response);
+           /* responseData.parseData(DeliveryStatusResponse.class);
+            DeliveryStatusResponse response = (DeliveryStatusResponse) responseData.parsedData;*/
+            mView.updateOrderStatusSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
         }

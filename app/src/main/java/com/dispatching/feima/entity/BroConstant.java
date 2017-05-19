@@ -2,6 +2,7 @@ package com.dispatching.feima.entity;
 
 /**
  * Created by helei on 2017/5/9.
+ * BroConstant
  */
 
 public class BroConstant {

@@ -81,9 +81,8 @@ public class DialogFactory {
         int monthOfYear = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+        return new DatePickerDialog(context,
                 callBack, year, monthOfYear, dayOfMonth);
-        return datePickerDialog;
     }
 
     public static AlertDialog newCustomViewDialog(Context context,

@@ -17,12 +17,11 @@ import retrofit2.HttpException;
 
 public class PresenterMainImpl implements MainControl.PresenterMain {
     private MainControl.MainView mView;
-    private MainModel mMainModel;
 
 
     @Inject
     public PresenterMainImpl(MainModel model, SharePreferenceUtil sharePreferenceUtil) {
-        mMainModel = model;
+
     }
 
     @Override

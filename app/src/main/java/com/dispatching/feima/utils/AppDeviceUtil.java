@@ -93,16 +93,6 @@ public class AppDeviceUtil {
 //        return false;
 //    }
 
-    public static boolean isAppBackground(Context c) {
-        String packageName = getPackageName(c);
-        String topActivityClassName = getTopActivityName(c);
-
-        if (packageName != null && topActivityClassName != null && topActivityClassName.startsWith(packageName)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     public static String getTopActivityName(Context context) {
         String topActivityClassName = null;
@@ -122,12 +112,9 @@ public class AppDeviceUtil {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
         String currentPackageName = cn.getPackageName();
-        if (!TextUtils.isEmpty(currentPackageName)
-                && currentPackageName.equals(context.getPackageName())) {
-            return true;
-        }
+        return !TextUtils.isEmpty(currentPackageName)
+                && currentPackageName.equals(context.getPackageName());
 
-        return false;
     }
 
     public static boolean isRunningForeground2(Context context) {
@@ -144,7 +131,7 @@ public class AppDeviceUtil {
             if (app.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                 Integer state = null;
                 try {
-                    state = field.getInt( app );
+                    state = field != null ? field.getInt(app) : 0;
                 } catch (Exception e) { e.printStackTrace(); }
                 if (state != null && state == START_TASK_TO_FRONT) {
                     currentInfo = app;
@@ -171,8 +158,7 @@ public class AppDeviceUtil {
     }
 
     private static String getPackageName(Context context) {
-        String packageName = context.getPackageName();
-        return packageName;
+        return context.getPackageName();
     }
 
     public static String getChannel(Context context) {

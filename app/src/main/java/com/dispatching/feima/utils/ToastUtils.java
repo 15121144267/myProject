@@ -32,12 +32,7 @@ public class ToastUtils {
      * @param text 文本
      */
     public static void showShortToastSafe(final CharSequence text) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(text, Toast.LENGTH_SHORT);
-            }
-        });
+        sHandler.post(() -> showToast(text, Toast.LENGTH_SHORT));
     }
 
     /**
@@ -46,12 +41,7 @@ public class ToastUtils {
      * @param resId 资源Id
      */
     public static void showShortToastSafe(final @StringRes int resId) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(resId, Toast.LENGTH_SHORT);
-            }
-        });
+        sHandler.post(() -> showToast(resId, Toast.LENGTH_SHORT));
     }
 
     /**
@@ -61,12 +51,7 @@ public class ToastUtils {
      * @param args  参数
      */
     public static void showShortToastSafe(final @StringRes int resId, final Object... args) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(resId, Toast.LENGTH_SHORT, args);
-            }
-        });
+        sHandler.post(() -> showToast(resId, Toast.LENGTH_SHORT, args));
     }
 
     /**
@@ -76,12 +61,7 @@ public class ToastUtils {
      * @param args   参数
      */
     public static void showShortToastSafe(final String format, final Object... args) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(format, Toast.LENGTH_SHORT, args);
-            }
-        });
+        sHandler.post(() -> showToast(format, Toast.LENGTH_SHORT, args));
     }
 
     /**
@@ -90,12 +70,7 @@ public class ToastUtils {
      * @param text 文本
      */
     public static void showLongToastSafe(final CharSequence text) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(text, Toast.LENGTH_LONG);
-            }
-        });
+        sHandler.post(() -> showToast(text, Toast.LENGTH_LONG));
     }
 
     /**
@@ -104,12 +79,7 @@ public class ToastUtils {
      * @param resId 资源Id
      */
     public static void showLongToastSafe(final @StringRes int resId) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(resId, Toast.LENGTH_LONG);
-            }
-        });
+        sHandler.post(() -> showToast(resId, Toast.LENGTH_LONG));
     }
 
     /**
@@ -119,12 +89,7 @@ public class ToastUtils {
      * @param args  参数
      */
     public static void showLongToastSafe(final @StringRes int resId, final Object... args) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(resId, Toast.LENGTH_LONG, args);
-            }
-        });
+        sHandler.post(() -> showToast(resId, Toast.LENGTH_LONG, args));
     }
 
     /**
@@ -134,12 +99,7 @@ public class ToastUtils {
      * @param args   参数
      */
     public static void showLongToastSafe(final String format, final Object... args) {
-        sHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                showToast(format, Toast.LENGTH_LONG, args);
-            }
-        });
+        sHandler.post(() -> showToast(format, Toast.LENGTH_LONG, args));
     }
 
     /**

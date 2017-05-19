@@ -14,12 +14,13 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/5/17.
+ * PresenterWorkSummaryImpl
  */
 
 public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWorkSummary {
     private WorkSummaryControl.WorkSummaryView mView;
-    private Context mContext;
-    private WorkSummaryModel mWorkSummaryModel;
+    private final Context mContext;
+    private final WorkSummaryModel mWorkSummaryModel;
     @Inject
     public PresenterWorkSummaryImpl(Context context , WorkSummaryModel workSummaryModel) {
         mContext = context;
@@ -27,11 +28,11 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
     }
 
     @Override
-    public void requestAllOrderInfo(String token, String version, String uId, String startTime, String endTime) {
+    public void requestAllOrderInfo(String token, String uId, String startTime, String endTime) {
 
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable =  mWorkSummaryModel.AllOrderInfoRequest(token,version,uId,startTime,endTime).compose(mView.applySchedulers())
-                .subscribe(responseData -> getAllOrderSuccess(responseData)
+        Disposable disposable =  mWorkSummaryModel.AllOrderInfoRequest(token,uId,startTime,endTime).compose(mView.applySchedulers())
+                .subscribe(this::getAllOrderSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

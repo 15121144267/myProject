@@ -9,10 +9,11 @@ import com.dispatching.feima.utils.TimeUtil;
 
 /**
  * Created by helei on 2017/4/28.
+ * MyLocationListener
  */
 
 public class MyLocationListener implements AMapLocationListener {
-    private DaggerApplication mDaggerApplication;
+    private final DaggerApplication mDaggerApplication;
 
     public MyLocationListener(DaggerApplication application) {
         this.mDaggerApplication = application;
@@ -22,7 +23,7 @@ public class MyLocationListener implements AMapLocationListener {
     public void onLocationChanged(AMapLocation amapLocation) {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
-                ((DaggerApplication)mDaggerApplication).transformLocation(amapLocation);
+                mDaggerApplication.transformLocation(amapLocation);
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"

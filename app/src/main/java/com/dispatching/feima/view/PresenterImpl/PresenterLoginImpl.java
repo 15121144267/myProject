@@ -22,8 +22,8 @@ import io.reactivex.disposables.Disposable;
 
 public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private LoginControl.LoginView mLoginView;
-    private LoginModel mLoginModel;
-    private Context mContext;
+    private final LoginModel mLoginModel;
+    private final Context mContext;
     @Inject
     public PresenterLoginImpl(Context context ,LoginModel model) {
         mContext = context;
@@ -51,7 +51,7 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     public void onRequestLogin(String name, String passWord) {
         mLoginView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mLoginModel.LoginRequest(name, passWord).compose(mLoginView.applySchedulers())
-                .subscribe(responseData ->  operationalData(responseData), throwable -> mLoginView.showErrMessage(throwable),
+                .subscribe(this::operationalData, throwable -> mLoginView.showErrMessage(throwable),
                         () -> mLoginView.dismissLoading());
         mLoginView.addSubscription(disposable);
     }

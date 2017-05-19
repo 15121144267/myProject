@@ -30,12 +30,14 @@ import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/5/3.
+ * BaseFragment
  */
 
+@SuppressWarnings("RedundantCast")
 public class BaseFragment extends Fragment {
-    protected CompositeDisposable mDisposable;
-    protected Dialog mProgressDialog;
-    protected IntentFilter mFilter = new IntentFilter();
+    private CompositeDisposable mDisposable;
+    private Dialog mProgressDialog;
+    final IntentFilter mFilter = new IntentFilter();
     @Inject
     BuProcessor mBuProcessor;
 
@@ -58,24 +60,26 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    protected BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             onReceivePro(context, intent);
         }
     };
 
-    protected void onReceivePro(Context context, Intent intent) {
+    void onReceivePro(Context context, Intent intent) {
     }
 
-    protected void addFilter() {
+    void addFilter() {
     }
 
-    final ObservableTransformer schedulersTransformer = (observable) -> (
+    @SuppressWarnings("RedundantCast")
+    private final ObservableTransformer schedulersTransformer = (observable) -> (
             ((Observable) observable).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()));
 
     public <T> ObservableTransformer<T, T> applySchedulers() {
+        //noinspection unchecked
         return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 
@@ -86,24 +90,25 @@ public class BaseFragment extends Fragment {
         mDisposable.add(subscription);
     }
 
-    protected <C> C getComponent(Class<C> componentType) {
+    <C> C getComponent(Class<C> componentType) {
+        //noinspection unchecked
         return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
     }
 
-    protected void showDialogLoading(String msg) {
+    void showDialogLoading(String msg) {
         dismissDialogLoading();
         mProgressDialog = DialogFactory.showLoadingDialog(getActivity(), msg);
         mProgressDialog.show();
     }
 
-    protected void dismissDialogLoading() {
+    void dismissDialogLoading() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
         mProgressDialog = null;
     }
 
-    public void showBaseToast(String message) {
+    void showBaseToast(String message) {
         ToastUtils.showShortToast(message);
     }
 

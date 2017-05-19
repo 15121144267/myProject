@@ -9,6 +9,7 @@ import dagger.Provides;
 
 /**
  * Created by helei on 2017/4/26.
+ * BaseActivityModule
  */
 @Module
 public class BaseActivityModule {

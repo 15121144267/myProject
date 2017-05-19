@@ -12,12 +12,13 @@ import javax.inject.Inject;
 
 /**
  * Created by helei on 2017/5/3.
+ * PresenterCompletedImpl
  */
 
 public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCompletedOrder {
-    private MainModel mMainModel;
+    private final MainModel mMainModel;
     private CompletedOrderControl.CompletedOrderView mView;
-    private Context mContext;
+    private final Context mContext;
 
     @Inject
     public PresenterCompletedImpl(Context context, MainModel model) {
@@ -26,10 +27,10 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     }
 
     @Override
-    public void requestCompletedOrder(Integer position, String token, String version, String uId) {
+    public void requestCompletedOrder(String token, String uId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        mMainModel.CompleteOrderInfoRequest(token, version, uId).compose(mView.applySchedulers())
-                .subscribe(responseData -> getCompleteOrderSuccess(responseData)
+        mMainModel.CompleteOrderInfoRequest(token, uId).compose(mView.applySchedulers())
+                .subscribe(this::getCompleteOrderSuccess
                         , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());
     }
 

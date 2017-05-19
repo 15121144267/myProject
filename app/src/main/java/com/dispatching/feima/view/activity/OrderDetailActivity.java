@@ -28,12 +28,10 @@ import com.amap.api.services.route.RidePath;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RideStep;
 import com.amap.api.services.route.RouteSearch;
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.dispatching.feima.dagger.module.OrderDetailActivityModule;
-import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.listener.MyRouteSearchListener;
@@ -140,7 +138,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         aMap.setOnMapLoadedListener(this);
         mRouteSearch.setRouteSearchListener(new MyRouteSearchListener() {
             @Override
-            public void OnMyRideRouteSearched(RideRouteResult rideRouteResult, int i) {
+            public void OnMyRideRouteSearched(RideRouteResult rideRouteResult) {
                 List<LatLng> latLines = new ArrayList<>();
                 mRidePathList = rideRouteResult.getPaths();
                 for (RidePath ridePath : mRidePathList) {
@@ -161,7 +159,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     @Override
-    public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
+    public void updateOrderStatusSuccess() {
         flag = true;
         showToast(getString(R.string.text_do_success));
         mOrderDetailButton.setEnabled(false);
@@ -313,7 +311,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void requestUpdateOrder() {
-        mPresenter.requestUpdateOrder(position, mBuProcessor.getUserToken(), BuildConfig.VERSION_NAME, mBuProcessor.getUserId(), mOrder.deliveryId);
+        mPresenter.requestUpdateOrder(position, mBuProcessor.getUserToken(), mBuProcessor.getUserId(), mOrder.deliveryId);
     }
 
     private void returnFlag() {

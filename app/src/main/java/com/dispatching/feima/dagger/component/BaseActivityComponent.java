@@ -9,6 +9,7 @@ import dagger.Component;
 
 /**
  * Created by helei on 2017/4/26.
+ * BaseActivityComponent
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = BaseActivityModule.class)

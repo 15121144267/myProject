@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * Created by helei on 2017/5/11.
+ * OrderNotice
  */
 @Entity
 public class OrderNotice {

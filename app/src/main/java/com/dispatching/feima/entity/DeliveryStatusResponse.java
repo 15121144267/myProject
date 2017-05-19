@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * Created by helei on 2017/5/3.
+ * DeliveryStatusResponse
  */
 
 public class DeliveryStatusResponse implements Serializable{

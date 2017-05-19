@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by helei on 2017/5/12.
+ * QueryParam
  */
 
 public class QueryParam {

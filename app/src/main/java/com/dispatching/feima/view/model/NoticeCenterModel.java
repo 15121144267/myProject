@@ -19,7 +19,7 @@ import io.reactivex.annotations.NonNull;
  */
 
 public class NoticeCenterModel {
-    private OrderNoticeDao mOrderNoticeDao;
+    private final OrderNoticeDao mOrderNoticeDao;
     @Inject
     public NoticeCenterModel(OrderNoticeDao orderNoticeDao) {
         mOrderNoticeDao = orderNoticeDao;

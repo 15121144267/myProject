@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.entity.BroConstant;
@@ -75,7 +74,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter.requestCompletedOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        mPresenter.requestCompletedOrder(mUserToken, mUserId);
     }
 
     @Override
@@ -97,7 +96,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
         String action = intent.getAction();
         switch (action) {
             case BroConstant.COMPLETE_DELIVERY:
-                mPresenter.requestCompletedOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                mPresenter.requestCompletedOrder(mUserToken, mUserId);
                 break;
         }
     }
@@ -130,7 +129,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     public void onRefresh() {
-        mPresenter.requestCompletedOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        mPresenter.requestCompletedOrder(mUserToken, mUserId);
     }
 
     @Override

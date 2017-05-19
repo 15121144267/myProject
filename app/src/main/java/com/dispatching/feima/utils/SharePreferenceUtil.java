@@ -205,8 +205,7 @@ public class SharePreferenceUtil {
         if (settings == null) {
             settings = getSharedPreferences();
         }
-        String json = settings.getString(key, null);
-        return json;
+        return settings.getString(key, null);
     }
 
 }

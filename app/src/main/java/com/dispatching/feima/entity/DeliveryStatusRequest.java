@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by helei on 2017/5/3.
+ * DeliveryStatusRequest
  */
 
 public class DeliveryStatusRequest {

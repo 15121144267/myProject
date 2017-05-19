@@ -24,8 +24,7 @@ public class PersonCenterActivity extends BaseActivity {
     Toolbar mToolbar;
 
     public static Intent getPersonIntent(Context context) {
-        Intent intent = new Intent(context, PersonCenterActivity.class);
-        return intent;
+        return new Intent(context, PersonCenterActivity.class);
     }
 
     @Override

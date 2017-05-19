@@ -17,10 +17,8 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
@@ -57,16 +55,15 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     @BindView(R.id.viewpager)
     ViewPager mViewpager;
 
-    private TextView mPersonNumber;
+    //private TextView mPersonNumber;
     private TextView mPersonStatus;
-    private SwitchCompat mPersonStatusControl;
     private ActionBarDrawerToggle mDrawerToggle;
-    private String[] modules = {"待取货", "配送中", "已完成"};
+    private final String[] modules = {"待取货", "配送中", "已完成"};
     private MainActivityComponent mActivityComponent;
     private MainControl.PresenterMain mPresenter;
-    private String mUserToken;
-    private String mUserId;
-    private String mVersion;
+    //private String mUserToken;
+    //private String mUserId;
+    //private String mVersion;
     private List<Fragment> mFragments;
 
     public static Intent getMainIntent(Context context) {
@@ -89,9 +86,9 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mFragments.add(new SendingOrderFragment());
         mFragments.add(new CompletedOrderFragment());
 
-        mUserToken = mBuProcessor.getUserToken();
-        mUserId = mBuProcessor.getUserId();
-        mVersion = BuildConfig.VERSION_NAME;
+        //mUserToken = mBuProcessor.getUserToken();
+        //mUserId = mBuProcessor.getUserId();
+        //mVersion = BuildConfig.VERSION_NAME;
 
         initView();
     }
@@ -185,17 +182,17 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mTabLayout.setupWithViewPager(mViewpager);
 
         View view = mNvSlidingMenu.getHeaderView(0);
-        LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
+       // LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
         mNvSlidingMenu.setItemTextColor(null);
         mNvSlidingMenu.setItemIconTintList(null);
         //RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
         TextView personAccount = (TextView) view.findViewById(R.id.person_count);
-        mPersonNumber = (TextView) view.findViewById(R.id.person_number);
+        //mPersonNumber = (TextView) view.findViewById(R.id.person_number);
         mPersonStatus = (TextView) view.findViewById(R.id.user_status);
-        mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
+        SwitchCompat mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
         personAccount.setText(mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME));
         RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
-                aBoolean -> requestChange(aBoolean));
+                this::requestChange);
 
         mMiddleName.setText(R.string.app_name);
         mNvSlidingMenu.setNavigationItemSelectedListener(this);
@@ -212,9 +209,9 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         }
     }
 
-    private void requestPersonActivity() {
+    /*private void requestPersonActivity() {
         startActivity(PersonCenterActivity.getPersonIntent(this));
-    }
+    }*/
 
     private void initializeInjector() {
         mActivityComponent = DaggerMainActivityComponent.builder()

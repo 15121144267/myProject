@@ -1,6 +1,5 @@
 package com.dispatching.feima.view.PresenterControl;
 
-import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 
 /**
@@ -13,11 +12,11 @@ public class PendingOrderControl {
         void getPendingOrderSuccess(OrderDeliveryResponse response);
         void getPendingOrderComplete();
         void getOrderError(Throwable throwable);
-        void updateOrderStatusSuccess(DeliveryStatusResponse response);
+        void updateOrderStatusSuccess();
     }
 
     public interface PresenterPendingOrder extends Presenter<PendingOrderView> {
-        void requestPendingOrder(Integer position,String token,String version,String uId);
-        void requestTakeOrder(String token,String version,String uId,String deliveryId);
+        void requestPendingOrder(String token, String uId);
+        void requestTakeOrder(String token, String uId, String deliveryId);
     }
 }

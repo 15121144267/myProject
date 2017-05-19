@@ -19,8 +19,8 @@ import io.reactivex.disposables.Disposable;
 public class PresenterNoticeCenterImpl implements NoticeCenterControl.PresenterNoticeCenter {
 
     private NoticeCenterControl.NoticeCenterView mView;
-    private Context mContext;
-    private NoticeCenterModel mNoticeCenterModel;
+    private final Context mContext;
+    private final NoticeCenterModel mNoticeCenterModel;
 
     @Inject
     public PresenterNoticeCenterImpl(Context context, NoticeCenterModel model) {

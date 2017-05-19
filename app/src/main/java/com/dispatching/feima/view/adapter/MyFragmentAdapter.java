@@ -3,7 +3,6 @@ package com.dispatching.feima.view.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -13,8 +12,8 @@ import java.util.List;
  */
 
 public class MyFragmentAdapter extends FragmentPagerAdapter {
-    private List<Fragment> mList;
-    private  String[] modules;
+    private final List<Fragment> mList;
+    private final String[] modules;
     public MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList,String[] array) {
         super(fm);
         mList = fragmentList;
@@ -35,11 +34,5 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return modules[position];
     }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        return super.instantiateItem(container, position);
-    }
-
 
 }

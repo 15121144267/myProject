@@ -21,6 +21,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
+@SuppressWarnings("ALL")
 public class RetrofitUtil {
 
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");

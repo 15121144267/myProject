@@ -356,12 +356,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
             if (!view.isClickable()) {
                 view.setClickable(true);
             }
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (adapter.getOnItemChildClickListener() != null) {
-                        adapter.getOnItemChildClickListener().onItemChildClick(adapter, v, getClickPosition());
-                    }
+            view.setOnClickListener(v -> {
+                if (adapter.getOnItemChildClickListener() != null) {
+                    adapter.getOnItemChildClickListener().onItemChildClick(adapter, v, getClickPosition());
                 }
             });
         }
@@ -400,14 +397,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
             if (!view.isLongClickable()) {
                 view.setLongClickable(true);
             }
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (adapter.getOnItemChildLongClickListener() != null) {
-                        return adapter.getOnItemChildLongClickListener().onItemChildLongClick(adapter, v, getClickPosition());
-                    }
-                    return false;
+            view.setOnLongClickListener(v -> {
+                if (adapter.getOnItemChildLongClickListener() != null) {
+                    return adapter.getOnItemChildLongClickListener().onItemChildLongClick(adapter, v, getClickPosition());
                 }
+                return false;
             });
         }
         return this;
@@ -551,6 +545,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      */
     public BaseViewHolder setAdapter(int viewId, Adapter adapter) {
         AdapterView view = getView(viewId);
+        //noinspection unchecked
         view.setAdapter(adapter);
         return this;
     }

@@ -161,15 +161,8 @@ public abstract class SimpleClickListener implements RecyclerView.OnItemTouchLis
 
         private void resetPressedView(final View pressedView) {
             if (pressedView!=null){
-                pressedView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (pressedView!=null){
-                            pressedView.setPressed(false);
-                        }
-
-                    }
-                },50);
+                pressedView.postDelayed(() ->
+                    pressedView.setPressed(false),50);
             }
 
             mIsPrepressed = false;
@@ -270,13 +263,10 @@ public abstract class SimpleClickListener implements RecyclerView.OnItemTouchLis
         view.getLocationOnScreen(location);
         int x = location[0];
         int y = location[1];
-        if (ev.getRawX() < x
+        return !(ev.getRawX() < x
                 || ev.getRawX() > (x + view.getWidth())
                 || ev.getRawY() < y
-                || ev.getRawY() > (y + view.getHeight())) {
-            return false;
-        }
-        return true;
+                || ev.getRawY() > (y + view.getHeight()));
     }
 
     private boolean isHeaderOrFooterPosition(int position) {

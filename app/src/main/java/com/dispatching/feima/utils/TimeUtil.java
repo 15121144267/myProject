@@ -205,8 +205,7 @@ public class TimeUtil {
     public static Date stringToDate(String dateString) {
         ParsePosition position = new ParsePosition(0);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TIME_YYMMDD_HHMMSS);
-        Date dateValue = simpleDateFormat.parse(dateString, position);
-        return dateValue;
+        return simpleDateFormat.parse(dateString, position);
     }
 
     public static String unitFormat(int i) {
@@ -226,9 +225,8 @@ public class TimeUtil {
         long timeStart = timeToLong(time, TIME_YYMMDD_HHMMSS);
 
         timeStart += (useTime * 1000);
-        String s = longToTime(timeStart, TIME_HHMM);
 
-        return s;
+        return longToTime(timeStart, TIME_HHMM);
     }
 
     /**
@@ -263,9 +261,8 @@ public class TimeUtil {
 
     public static Calendar getCalendar(){
         Calendar calendar = Calendar.getInstance();
-        Calendar todayCalendar = new GregorianCalendar(calendar.get(Calendar.YEAR),
+        return new GregorianCalendar(calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),0,0,0);
-        return todayCalendar;
     }
 
     public static Date formatDate(String time){
@@ -286,7 +283,6 @@ public class TimeUtil {
             date = calendar.getTime();
         }
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dayStr = df.format(date);
-        return dayStr;
+        return df.format(date);
     }
 }

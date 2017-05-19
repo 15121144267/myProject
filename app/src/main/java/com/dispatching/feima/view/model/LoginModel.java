@@ -14,9 +14,9 @@ import io.reactivex.Observable;
  */
 
 public class LoginModel {
-    private LoginApi mLoginApi;
-    private Gson mGson;
-    private ModelTransform mTransform;
+    private final LoginApi mLoginApi;
+    private final Gson mGson;
+    private final ModelTransform mTransform;
 
     @Inject
     public LoginModel(LoginApi api, Gson gson, ModelTransform transform) {

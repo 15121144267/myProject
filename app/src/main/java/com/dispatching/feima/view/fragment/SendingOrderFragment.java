@@ -13,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.entity.BroConstant;
-import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
@@ -77,7 +75,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        mPresenter.requestSendingOrder(mUserToken, mUserId);
     }
 
     @Override
@@ -107,7 +105,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         mSendingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     mPosition = position;
                     MyOrders order = (MyOrders) adapter.getItem(position);
-                    mPresenter.requestCompleteOrder(mUserToken, BuildConfig.VERSION_NAME, mUserId, order.deliveryId);
+                    mPresenter.requestCompleteOrder(mUserToken, mUserId, order.deliveryId);
                 }
         );
         mSwipeLayout.setOnRefreshListener(this);
@@ -118,13 +116,13 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null && data.getBooleanExtra(IntentConstant.ORDER_DETAIL_FLASH, false)) {
             mBroFlag = true;
-            mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+            mPresenter.requestSendingOrder(mUserToken, mUserId);
         }
 
     }
 
     @Override
-    public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
+    public void updateOrderStatusSuccess() {
         mSendingAdapter.remove(mPosition);
         ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, mSendingAdapter.getItemCount());
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.COMPLETE_DELIVERY));
@@ -153,14 +151,14 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         String action = intent.getAction();
         switch (action) {
             case BroConstant.TAKE_DELIVERY:
-                mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                mPresenter.requestSendingOrder(mUserToken, mUserId);
                 break;
         }
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.requestSendingOrder(IntentConstant.ORDER_POSITION_TWO, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        mPresenter.requestSendingOrder(mUserToken, mUserId);
     }
 
     @Override

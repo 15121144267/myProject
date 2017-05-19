@@ -12,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.entity.BroConstant;
-import com.dispatching.feima.entity.DeliveryStatusResponse;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
@@ -73,7 +71,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         super.onViewCreated(view, savedInstanceState);
         mUserToken = mBuProcessor.getUserToken();
         mUserId = mBuProcessor.getUserId();
-        mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_ONE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        mPresenter.requestPendingOrder(mUserToken, mUserId);
     }
 
     @Override
@@ -116,7 +114,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         mPendingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     mPosition = position;
                     MyOrders order = (MyOrders) adapter.getItem(position);
-                    mPresenter.requestTakeOrder(mUserToken, BuildConfig.VERSION_NAME, mUserId, order.deliveryId);
+                    mPresenter.requestTakeOrder(mUserToken, mUserId, order.deliveryId);
                 }
         );
 
@@ -133,7 +131,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         String action = intent.getAction();
         switch (action) {
             case BroConstant.PENDING_DELIVERY:
-                mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_THREE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+                mPresenter.requestPendingOrder(mUserToken, mUserId);
                 break;
         }
     }
@@ -143,13 +141,13 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null && data.getBooleanExtra(IntentConstant.ORDER_DETAIL_FLASH, false)) {
             mBroFlag = true;
-            mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_ONE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+            mPresenter.requestPendingOrder(mUserToken, mUserId);
         }
 
     }
 
     @Override
-    public void updateOrderStatusSuccess(DeliveryStatusResponse response) {
+    public void updateOrderStatusSuccess() {
         mPendingAdapter.remove(mPosition);
         ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, mPendingAdapter.getItemCount());
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.TAKE_DELIVERY));
@@ -157,7 +155,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        mPresenter.requestPendingOrder(IntentConstant.ORDER_POSITION_ONE, mUserToken, BuildConfig.VERSION_NAME, mUserId);
+        mPresenter.requestPendingOrder(mUserToken, mUserId);
     }
 
     @Override

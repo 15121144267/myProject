@@ -14,8 +14,8 @@ import java.util.List;
 
 
 public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHolder> {
-    private Context mContext;
-    private AMapLocation mAMapLocation;
+    private final Context mContext;
+    private final AMapLocation mAMapLocation;
 
     public PullToRefreshAdapter(Context context, List<MyOrders> list) {
         super(R.layout.layout_animation, list);
