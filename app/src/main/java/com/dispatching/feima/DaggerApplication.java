@@ -54,8 +54,9 @@ public class DaggerApplication extends Application  {
 
     public void transformLocation(AMapLocation aMapLocation) {
         this.aMapLocation = aMapLocation;
-        mUId  = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if(!TextUtils.isEmpty(mUId)){
+        if(TextUtils.isEmpty(mUId)){
+            mUId  = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        }else {
             Intent intent = new Intent(CustomerService.ACTION);
             intent.setClass(getApplicationContext(),CustomerService.class);
             intent.putExtra(IntentConstant.LONGITUDE,aMapLocation.getLongitude());

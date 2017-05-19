@@ -13,7 +13,7 @@ android {
         versionName rootProject.ext.myVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
+        ndk {  abiFilters "armeabi", "armeabi-v7a", "x86" }
     }
 
     signingConfigs {
@@ -30,11 +30,7 @@ android {
             keyPassword '009120'
         }
     }
-    sourceSets{
-        main{
-            jniLibs.srcDirs=['libs']
-        }
-    }
+
     buildTypes {
         debug {
             debuggable true
@@ -84,5 +80,7 @@ dependencies {
     compile rootProject.ext.myDependencies["myCardview"]
     compile rootProject.ext.myDependencies["myRxbinding"]
     compile rootProject.ext.myDependencies["myRabbitmq"]
-    compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.4.0_20170427.jar')
+    compile 'com.amap.api:3dmap:5.0.0'
+    compile 'com.amap.api:location:3.4.0'
+    compile 'com.amap.api:search:5.0.0'
 }

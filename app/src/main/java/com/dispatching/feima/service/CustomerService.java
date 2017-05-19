@@ -103,9 +103,8 @@ public class CustomerService extends Service {
         if(intent!=null){
             mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
             mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+            new Thread(mSendRunnable).start();
         }
-
-        new Thread(mSendRunnable).start();
         return START_STICKY;
     }
 
