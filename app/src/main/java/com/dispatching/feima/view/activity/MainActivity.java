@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     @BindView(R.id.viewpager)
     ViewPager mViewpager;
 
-    //private TextView mPersonNumber;
+    private TextView mPersonNumber;
     private TextView mPersonStatus;
     private ActionBarDrawerToggle mDrawerToggle;
     private final String[] modules = {"待取货", "配送中", "已完成"};
