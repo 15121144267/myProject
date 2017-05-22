@@ -55,9 +55,7 @@ public class BaseFragment extends Fragment {
         if (mDisposable != null) {
             mDisposable.clear();
         }
-        if (mReceiver != null){
-            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
-        }
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {

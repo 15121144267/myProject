@@ -70,7 +70,6 @@ public class CustomerService extends Service {
     private String TASK_QUEUE_NAME;
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
-    private String uId;
     private Connection mConnection;
     private Connection mConnection2;
     private double mLongitude;
@@ -88,7 +87,7 @@ public class CustomerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        String uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if(!uId.equals(mUId)){
             try {
                 mUId = uId;
