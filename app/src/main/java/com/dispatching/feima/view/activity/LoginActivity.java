@@ -138,11 +138,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         switchSetting();
     }
 
-    @Override
-    public void commonDialogBtnCancelListener(int type, int position) {
-
-    }
-
     private void initView() {
         EditText editText = mLoginUserName.getEditText();
         RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());

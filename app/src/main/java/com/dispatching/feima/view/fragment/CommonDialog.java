@@ -188,9 +188,6 @@ public class CommonDialog extends BaseDialogFragment {
                 closeCommonDialog();
                 break;
             case R.id.common_dialog_cancel:
-                if (dialogBtnListener != null) {
-                    dialogBtnListener.commonDialogBtnCancelListener(type, position);
-                }
                 closeCommonDialog();
                 break;
         }
@@ -198,8 +195,6 @@ public class CommonDialog extends BaseDialogFragment {
 
     public interface CommonDialogListener {
         void commonDialogBtnOkListener(int type, int position);
-
-        void commonDialogBtnCancelListener(int type, int position);
     }
 
     public int getType() {
