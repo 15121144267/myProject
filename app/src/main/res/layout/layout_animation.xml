@@ -20,6 +20,24 @@
         android:layout_margin="10dp"
         android:orientation="vertical"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:id="@+id/order_channel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+                android:src="@mipmap/channl_baidu"
+                />
+        </LinearLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,10 +80,6 @@
                 android:text="上海市浦东新区"
                 />
 
-            <View
-                style="@style/LineH_Fill_Height0_5_ForView"
-                android:layout_below="@id/order_start_distance"
-                />
 
             <LinearLayout
                 android:layout_width="26dp"
@@ -79,6 +93,7 @@
                     android:id="@+id/item_serviceSchedule_topLine"
                     style="@style/LineV_Fill_Width1"/>
             </LinearLayout>
+
         </RelativeLayout>
 
         <RelativeLayout

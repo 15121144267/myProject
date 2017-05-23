@@ -1,8 +1,11 @@
 package com.dispatching.feima.view.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
@@ -17,11 +20,15 @@ import com.dispatching.feima.dagger.component.LoginActivityComponent;
 import com.dispatching.feima.dagger.module.LoginActivityModule;
 import com.dispatching.feima.entity.LoginResponse;
 import com.dispatching.feima.entity.SpConstant;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.listener.MyTextWatchListener;
 import com.dispatching.feima.service.CustomerService;
+import com.dispatching.feima.utils.AppDeviceUtil;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
+import com.dispatching.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +40,9 @@ import butterknife.ButterKnife;
  * 登录页面
  */
 
-public class LoginActivity extends BaseActivity implements LoginControl.LoginView {
+public class LoginActivity extends BaseActivity implements LoginControl.LoginView ,CommonDialog.CommonDialogListener{
+    private static final int DIALOG_TYPE_ORDER_INVALID = 1;
+
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
@@ -47,6 +56,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     @BindView(R.id.login_identifying_code)
     TextView mLoginIdentifyingCode;
 
+
     public static Intent getLoginIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -58,6 +68,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private String myPhone;
     private String mVerifyCode;
     private String mUserId;
+    private RxPermissions mPermission;
+    private boolean flag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +78,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         initializeInjector();
         ButterKnife.bind(this);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
+        mPermission = new RxPermissions(this);
         mPresenterLogin.setView(this);
         mMiddleName.setText(R.string.app_login);
         initView();
@@ -120,6 +133,16 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         finish();
     }
 
+    @Override
+    public void commonDialogBtnOkListener(int type, int position) {
+        switchSetting();
+    }
+
+    @Override
+    public void commonDialogBtnCancelListener(int type, int position) {
+
+    }
+
     private void initView() {
         EditText editText = mLoginUserName.getEditText();
         RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
@@ -162,8 +185,35 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             showToast(getString(R.string.login_password_empty));
             return;
         }
-        mPresenterLogin.onRequestLogin(myPhone, mVerifyCode);
 
+        mPermission.request(Manifest.permission_group.LOCATION).subscribe(aBoolean -> {
+            if(aBoolean){
+                if (flag){
+                    mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
+                    mAMapLocationClient.startLocation();
+                }
+                mPresenterLogin.onRequestLogin(myPhone, mVerifyCode);
+            }else {
+                flag = true;
+                showDialog();
+            }
+        });
+
+
+    }
+    private void showDialog(){
+        CommonDialog commonDialog = CommonDialog.newInstance();
+        commonDialog.setContent("定位权限未开启，请重新开启");
+        commonDialog.setDialogCancleBtnDismiss();
+        commonDialog.setListener(this, DIALOG_TYPE_ORDER_INVALID);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
+    }
+
+    private void switchSetting(){
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", AppDeviceUtil.getPackageName(this), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     private void initializeInjector() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1D81FB</color>
-    <color name="colorPrimaryDark">#1D81FB</color>
+    <color name="colorPrimary">#32a52a</color>
+    <color name="colorPrimaryDark">#32a52a</color>
     <color name="colorAccent">#FF4081</color>
     <!-- AbsBaseActivity begin -->
     <color name="base_activity_bg">#e5e5e5</color>
@@ -21,9 +21,9 @@
     <color name="get_order_map_color">#515151</color>
     <color name="arrived_destination_color">#515151</color>
     <color name="payment_color">#000000</color>
-
+    <color name="text_color_blue">#6796e4</color>
     <color name="vip_duration_color">#1D81FB</color>
-
+    <color name="text_color_yellow_dark">#ffb929</color>
     <color name="vip_duration_color2">#000000</color>
 
     <color name="confirm_select_coupon_color">#7abd59</color>

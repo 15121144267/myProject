@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/common_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="30dip"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip"
+        android:layout_marginTop="30dip"
+        android:background="@drawable/bg_white_round"
+        android:minHeight="180dip"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/common_dialog_title"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/darkgrey1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:gravity="center"
+            android:text="@string/dialog_title_hint" />
+
+        <View style="@style/LineH_Yellow_Fill_Width1" />
+
+        <TextView
+            android:id="@+id/common_dialog_content"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/darkgrey1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_marginBottom="24dip"
+            android:layout_marginLeft="14dip"
+            android:layout_marginRight="14dip"
+            android:layout_marginTop="24dip"
+            android:layout_weight="1"
+            android:gravity="center_vertical" />
+
+        <View
+            android:id="@+id/common_dialog_btnLayoutLine"
+            style="@style/LineH_Fill_Width0_5_ForView" />
+
+        <LinearLayout
+            android:id="@+id/common_dialog_btnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44">
+
+            <Button
+                android:id="@+id/common_dialog_cancel"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/text_color_blue"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_common_left"
+                android:text="@string/btn_cancel" />
+
+            <View
+                android:id="@+id/common_dialog_btnLine"
+                style="@style/LineV_Fill_Width0_5_ForView" />
+
+            <Button
+                android:id="@+id/common_dialog_ok"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/text_color_blue"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_common_right"
+                android:text="@string/btn_ok" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

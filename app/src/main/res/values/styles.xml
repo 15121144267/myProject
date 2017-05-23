@@ -39,6 +39,18 @@
         <item name="android:background">@color/line_grey_bg</item>
     </style>
 
+    <style name="LineH_Yellow_Fill_Width1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1.0dip</item>
+        <item name="android:background">#ffb929</item>
+    </style>
+
+    <style name="LineV_Fill_Width0_5_ForView">
+        <item name="android:layout_width">0.5dip</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/line_grey_bg</item>
+    </style>
+
     <style name="LineH_Fill_Width1_5_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.5dip</item>
@@ -64,6 +76,21 @@
         <item name="android:layout_margin">@dimen/dp_4</item>
     </style>
 
+    <style name="TextColor_Blue_16">
+        <item name="android:textColor">@color/text_color_blue</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="TextColor_Grey_18">
+        <item name="android:textColor">@color/darkgrey1</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
+    <style name="TextColor_YellowDark_14">
+        <item name="android:textColor">@color/text_color_yellow_dark</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
     <style name="Login_Button_Style">
         <item name="android:background">@drawable/button_style_blue</item>
         <item name="android:layout_height">@dimen/dp_50</item>
@@ -74,7 +101,7 @@
         <item name="android:layout_marginTop">10.0dip</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">16.0dip</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="TextColor_Blue_16_click">

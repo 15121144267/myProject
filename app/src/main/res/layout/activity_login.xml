@@ -119,8 +119,11 @@
     <Button
         android:id="@+id/login_submit"
         style="@style/Login_Button_Style"
+        android:background="@drawable/button_style_blue2"
         android:enabled="false"
-        android:layout_below="@id/login_card_view"
-        android:layout_marginTop="@dimen/dp_50"
-        android:text="@string/app_login"/>
+        android:layout_marginTop="50dp"
+        android:text="@string/app_login"
+        android:textColor="@color/black"
+        android:layout_below="@+id/login_card_view"
+        android:layout_alignStart="@+id/login_card_view"/>
 </RelativeLayout>

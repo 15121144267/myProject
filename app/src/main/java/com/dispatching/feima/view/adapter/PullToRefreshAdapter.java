@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMapUtils;
@@ -31,6 +32,25 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
         if (item.remark != null) {
             helper.setVisible(R.id.layout_remark, true);
             helper.setText(R.id.order_remark, item.remark);
+        }
+        if(item.channel!=null){
+            switch (item.channel) {
+                case "bdwm":
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_baidu));
+                    break;
+                case "eleme":
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_elme));
+                    break;
+                case "fmwd":
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_laoxiangji));
+                    break;
+                case "mtwm":
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_meituan));
+                    break;
+                default:
+                    helper.setVisible(R.id.order_channel,false);
+                    break;
+            }
         }
         helper.setVisible(R.id.item_get_order, true);
         switch (item.deliveryStatus) {

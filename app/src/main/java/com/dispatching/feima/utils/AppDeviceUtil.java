@@ -157,7 +157,7 @@ public class AppDeviceUtil {
         }
     }
 
-    private static String getPackageName(Context context) {
+    public static String getPackageName(Context context) {
         return context.getPackageName();
     }
 

@@ -18,6 +18,7 @@ import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.listener.OnItemClickListener;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
 import com.dispatching.feima.view.activity.MainActivity;
@@ -36,7 +37,7 @@ import butterknife.ButterKnife;
  */
 
 public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        PendingOrderControl.PendingOrderView {
+        PendingOrderControl.PendingOrderView, PasswordDialog.passwordDialogListener {
     @BindView(R.id.pending_rv_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.pending_swipeLayout)
@@ -49,6 +50,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     private String mUserId;
     private Integer mPosition;
     private boolean mBroFlag = false;
+    private MyOrders mMyOrders;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void getPendingOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null ) {
+        if (response != null && response.orders != null) {
             mPendingAdapter.setNewData(response.orders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, response.orders.size());
         }
@@ -107,19 +109,22 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mPendingAdapter.getItem(position), IntentConstant.ORDER_POSITION_ONE), IntentConstant.ORDER_POSITION_ONE);
+                startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(),
+                        mPendingAdapter.getItem(position), IntentConstant.ORDER_POSITION_ONE),
+                        IntentConstant.ORDER_POSITION_ONE);
             }
         });
 
         mPendingAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     mPosition = position;
-                    MyOrders order = (MyOrders) adapter.getItem(position);
-                    mPresenter.requestTakeOrder(mUserToken, mUserId, order.deliveryId);
+                    mMyOrders = (MyOrders) adapter.getItem(position);
+                    showPasswordDialog(mMyOrders.businessId);
                 }
         );
 
         mSwipeLayout.setOnRefreshListener(this);
     }
+
 
     @Override
     protected void addFilter() {
@@ -182,5 +187,17 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     private void initialize() {
         this.getComponent(MainActivityComponent.class).inject(this);
         mPresenter.setView(this);
+    }
+
+    private void showPasswordDialog(String orderId) {
+        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+        passwordDialog.setContent(orderId);
+        passwordDialog.setListener(this);
+        DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, PasswordDialog.TAG);
+    }
+
+    @Override
+    public void passwordDialogBtnOkListener() {
+        mPresenter.requestTakeOrder(mUserToken, mUserId, mMyOrders.deliveryId);
     }
 }

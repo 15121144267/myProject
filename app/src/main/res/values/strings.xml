@@ -31,4 +31,8 @@
     <string name="text_check_internet">请检查网络</string>
     <string name="text_wait_try">请稍后重试</string>
     <string name="text_do_success">操作成功</string>
+    <string name="dialog_title_hint">温馨提示</string>
+    <string name="btn_ok">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="dialog_password_tips">请输入订单后4位</string>
 </resources>

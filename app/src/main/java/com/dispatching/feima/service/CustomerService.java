@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -191,7 +190,6 @@ public class CustomerService extends Service {
     };
 
     private void showNotification(String msg) {
-        Resources resources = getResources();
         Intent i;
         if (AppDeviceUtil.isRunningApp(this)) {
             if (AppDeviceUtil.getTopActivityName(this).equals(LoginActivity.class.getName())) {
@@ -205,7 +203,7 @@ public class CustomerService extends Service {
         }
         PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
         Notification notification = new NotificationCompat.Builder(this)
-                .setTicker(resources.getString(R.string.app_name))
+                .setTicker(getResources().getString(R.string.app_name))
                 .setSmallIcon(R.drawable.ic_takeaway)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(msg)

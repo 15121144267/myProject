@@ -80,6 +80,7 @@ dependencies {
     compile rootProject.ext.myDependencies["myCardview"]
     compile rootProject.ext.myDependencies["myRxbinding"]
     compile rootProject.ext.myDependencies["myRabbitmq"]
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     compile 'com.amap.api:3dmap:5.0.0'
     compile 'com.amap.api:location:3.4.0'
     compile 'com.amap.api:search:5.0.0'

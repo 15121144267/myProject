@@ -2,6 +2,8 @@ package com.dispatching.feima.dagger.component;
 
 import android.content.Context;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.dispatching.feima.dagger.ComponetGraph;
 import com.dispatching.feima.dagger.module.ApplicationModule;
 import com.dispatching.feima.entity.BuProcessor;
@@ -23,4 +25,6 @@ public interface ApplicationComponent extends ComponetGraph {
     BuProcessor buProcessor();
     Gson gson();
     ModelTransform modeTransform();
+    AMapLocationClient aMapLocationClient();
+    AMapLocationClientOption aMapLocationClientOption();
 }

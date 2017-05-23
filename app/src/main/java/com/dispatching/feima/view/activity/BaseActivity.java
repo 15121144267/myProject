@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.ApplicationComponent;
@@ -39,6 +41,12 @@ public class BaseActivity extends AppCompatActivity {
     protected DaoSession mDaoSession;
     @Inject
     protected BuProcessor mBuProcessor;
+
+    @Inject
+    protected AMapLocationClient mAMapLocationClient;
+
+    @Inject
+    protected AMapLocationClientOption mAMapLocationClientOption;
 
     private Dialog mProgressDialog;
     private CompositeDisposable mDisposable;

@@ -24,4 +24,5 @@ public class BaseActivityModule {
     AppCompatActivity activity() {
         return this.activity;
     }
+
 }

@@ -15,4 +15,5 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = BaseActivityModule.class)
 public interface BaseActivityComponent {
     AppCompatActivity activity();
+
 }
