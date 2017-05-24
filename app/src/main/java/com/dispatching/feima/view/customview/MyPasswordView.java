@@ -30,7 +30,7 @@ public class MyPasswordView extends RelativeLayout {
     private LinearLayout linearLayout; //文本密码的文本
     private TextView[] textViews; //文本数组
 
-    private int pwdlength = 4; //密码长度， 默认6
+    private int pwdlength = 4; //密码长度
 
     private OnTextFinishListener onTextFinishListener;
 

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -53,7 +55,7 @@ import butterknife.ButterKnife;
  * OrderDetailActivity
  */
 
-public class OrderDetailActivity extends BaseActivity implements OrderDetailControl.OrderDetailView, AMap.OnMapLoadedListener {
+public class OrderDetailActivity extends BaseActivity implements OrderDetailControl.OrderDetailView, AMap.OnMapLoadedListener, AMap.OnMapTouchListener {
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
@@ -98,6 +100,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView mOrderArrivedTime;
     @BindView(R.id.layout_arrived)
     LinearLayout mLayoutArrived;
+    @BindView(R.id.layout_deliver_order)
+    LinearLayout mLayoutDeliverOrder;
     @BindView(R.id.order_detail_button)
     Button mOrderDetailButton;
 
@@ -107,6 +111,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     OrderDetailControl.PresenterOrderDetail mPresenter;
     @Inject
     RouteSearch mRouteSearch;
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     public static Intent getOrderDetailIntent(Context context, MyOrders orders, Integer position) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
@@ -132,7 +138,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mPresenter.setView(this);
         transformIntent();
         mAMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
-        mMiddleName.setText(R.string.user_order_detail);
+        mCollapsingToolbarLayout.setTitle(getResources().getText(R.string.user_order_detail));
         mMapView.onCreate(savedInstanceState);
         aMap = mMapView.getMap();
         aMap.setOnMapLoadedListener(this);
@@ -167,10 +173,21 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     @Override
     public void onMapLoaded() {
+        aMap.setOnMapTouchListener(this);
         aMap.setMyLocationStyle(mMyLocationStyle);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
-        aMap.setMyLocationEnabled(true);
         aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+        aMap.setMyLocationEnabled(true);
+
+    }
+
+    @Override
+    public void onTouch(MotionEvent motionEvent) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                mCollapsingToolbarLayout.requestDisallowInterceptTouchEvent(true);
+                break;
+
+        }
     }
 
     @Override
@@ -239,7 +256,10 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderId.setText(mOrder.businessId);
         mOrderTime.setText(mOrder.createTime);
         mOrderChannel.setText(mOrder.channel);
-        //mDeliveryId.setText(mOrder.deliveryId);
+        if(mOrder.deliveryId !=null){
+            mLayoutDeliverOrder.setVisibility(View.VISIBLE);
+            mDeliveryId.setText(mOrder.deliveryId);
+        }
         mOrderAmount.setText(ValueUtil.formatAmount(mOrder.totalFee));
         mOrderCustomerName.setText(mOrder.customer);
         mOrderCustomerPhone.setText(mOrder.phone);

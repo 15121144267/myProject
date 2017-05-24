@@ -47,8 +47,8 @@ public class OrderDetailActivityModule {
                 fromResource(R.mipmap.location_style));
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
         myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
-        myLocationStyle.interval(2000);
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+        myLocationStyle.interval(10000);
         return myLocationStyle;
     }
 

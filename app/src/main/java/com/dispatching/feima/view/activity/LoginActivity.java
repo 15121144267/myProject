@@ -181,8 +181,12 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             return;
         }
 
-        mPermission.request(Manifest.permission_group.LOCATION).subscribe(aBoolean -> {
-            if(aBoolean){
+        mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE).subscribe(permission -> {
+            if(permission){
                 if (flag){
                     mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
                     mAMapLocationClient.startLocation();
