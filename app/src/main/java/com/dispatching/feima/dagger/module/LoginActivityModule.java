@@ -11,6 +11,7 @@ import com.dispatching.feima.view.PresenterImpl.PresenterLoginImpl;
 import com.dispatching.feima.view.model.LoginModel;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
+import com.rabbitmq.client.ConnectionFactory;
 
 import dagger.Module;
 import dagger.Provides;
@@ -35,13 +36,13 @@ public class LoginActivityModule {
 
     @Provides
     @PerActivity
-    LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform) {
+    LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform, ConnectionFactory factory) {
         return new LoginModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(LoginApi.class), gson, modelTransform);
+                .create(LoginApi.class), gson, modelTransform,factory);
     }
 
     @Provides

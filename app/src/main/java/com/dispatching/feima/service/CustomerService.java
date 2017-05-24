@@ -63,9 +63,11 @@ public class CustomerService extends Service {
     DaoSession mDaoSession;
     @Inject
     ModelTransform mTransform;
+    @Inject
+    ConnectionFactory factory;
+
     private Channel mChannel;
     private Channel mChannel2;
-    private ConnectionFactory factory;
     private String TASK_QUEUE_NAME;
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
@@ -80,7 +82,6 @@ public class CustomerService extends Service {
         mOrderNoticeDao = mDaoSession.getOrderNoticeDao();
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         TASK_QUEUE_NAME = "delivery.postman." + mUId;
-        initData();
         new Thread(networkTask).start();
     }
 
@@ -110,15 +111,6 @@ public class CustomerService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    private void initData() {
-        factory = new ConnectionFactory();
-        factory.setHost("115.159.73.217");
-        factory.setPort(5673);
-        factory.setUsername("erle.li@freemud");
-        factory.setPassword("A2PH8YkkQB");
-        factory.setVirtualHost("vhost-waimai");
     }
 
     private final Runnable networkTask = new Runnable() {

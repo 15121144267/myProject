@@ -35,4 +35,5 @@
     <string name="btn_ok">确定</string>
     <string name="btn_cancel">取消</string>
     <string name="dialog_password_tips">请输入订单后4位</string>
+    <string name="verity_send_success">发送成功</string>
 </resources>

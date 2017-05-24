@@ -19,6 +19,7 @@ import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rabbitmq.client.ConnectionFactory;
 
 import javax.inject.Singleton;
 
@@ -83,6 +84,18 @@ public class ApplicationModule {
         AMapLocationClient client = new AMapLocationClient(application);
         client.setLocationListener(mLocationListener);
         return client;
+    }
+
+    @Provides
+    @Singleton
+    ConnectionFactory provideConnectionFactory() {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("115.159.73.217");
+        factory.setPort(5673);
+        factory.setUsername("erle.li@freemud");
+        factory.setPassword("A2PH8YkkQB");
+        factory.setVirtualHost("vhost-waimai");
+        return factory;
     }
 
     @Provides

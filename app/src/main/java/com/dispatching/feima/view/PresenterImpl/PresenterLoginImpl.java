@@ -32,19 +32,21 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
 
     @Override
     public void onRequestVerifyCode(String phone) {
-       /* Disposable disposable = mLoginModel.VerifyCodeRequest(phone).compose(mLoginView.applySchedulers())
-                .subscribe(responseData -> getVerifyCodeSuccess(responseData)
+        Disposable disposable = mLoginModel.VerifyCodeRequest(phone)
+                .subscribe(this::getVerifyCodeSuccess
                         , throwable -> mLoginView.showErrMessage(throwable));
-        mLoginView.addSubscription(disposable);*/
-        getVerifyCodeSuccess(null);
+        mLoginView.addSubscription(disposable);
     }
 
-    private void getVerifyCodeSuccess(ResponseData responseData) {
+    private void getVerifyCodeSuccess(Integer code) {
         Observable.interval(0, 1, TimeUnit.SECONDS)
                 .map(aLong -> 60-aLong)
                 .take(61)
                 .compose(mLoginView.applySchedulers()).subscribe(aLong ->
                 mLoginView.setButtonEnable(false,aLong),throwable -> {},() ->  mLoginView.setButtonEnable(true,(long) 0));
+        if(code == 1){
+            mLoginView.showToast(mContext.getString(R.string.verity_send_success));
+        }
     }
 
     @Override
