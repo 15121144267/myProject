@@ -33,25 +33,32 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
             helper.setVisible(R.id.layout_remark, true);
             helper.setText(R.id.order_remark, item.remark);
         }
-        if(item.channel!=null){
+        String changeChannel = null;
+        if (item.channel != null) {
             switch (item.channel) {
                 case "bdwm":
-                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_baidu));
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.channl_baidu));
+                    changeChannel = "美团外卖";
                     break;
                 case "eleme":
-                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_elme));
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.channl_elme));
+                    changeChannel = "饿了么";
                     break;
                 case "fmwd":
-                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_laoxiangji));
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.channl_laoxiangji));
+                    changeChannel = "非码微店";
                     break;
                 case "mtwm":
-                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(),R.mipmap.channl_meituan));
+                    helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.channl_meituan));
+                    changeChannel = "美团外卖";
                     break;
                 default:
-                    helper.setVisible(R.id.order_channel,false);
+                    helper.setVisible(R.id.order_channel_layout, false);
                     break;
             }
+            helper.setText(R.id.order_channel_id, changeChannel + "#" + item.flowid);
         }
+
         helper.setVisible(R.id.item_get_order, true);
         switch (item.deliveryStatus) {
             case 1:

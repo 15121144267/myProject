@@ -19,6 +19,7 @@ import com.dispatching.feima.view.PresenterControl.NoticeCenterControl;
 import com.dispatching.feima.view.adapter.NoticeAdapter;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -67,6 +68,12 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @Override
     public void querySuccess(List<OrderNotice> list) {
         dismissLoading();
+        Collections.sort(list,(o1,o2)->{
+            if(o1.getOrderTime().before(o2.getOrderTime())){
+                return 1;
+            }
+            return -1;
+        });
         mNoticeAdapter.setNewData(list);
     }
 

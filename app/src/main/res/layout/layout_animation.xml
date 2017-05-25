@@ -21,12 +21,19 @@
         android:orientation="vertical"
         >
         <LinearLayout
+            android:id="@+id/order_channel_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <View
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:id="@+id/order_channel_id"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="测试2"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp_16"
                 />
             <ImageView
                 android:id="@+id/order_channel"

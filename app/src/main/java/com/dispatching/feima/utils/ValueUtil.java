@@ -185,4 +185,5 @@ public class ValueUtil {
         DecimalFormat format = new DecimalFormat("##0.00元");
         return format.format(newAmount);
     }
+
 }

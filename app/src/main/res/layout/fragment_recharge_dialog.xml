@@ -41,23 +41,19 @@
         <View style="@style/LineH_Yellow_Fill_Width1" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="@dimen/dp_50"
             android:layout_marginBottom="24dip"
             android:layout_marginLeft="14dip"
             android:layout_marginRight="14dip"
             android:layout_marginTop="24dip"
-            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
            <com.dispatching.feima.view.customview.MyPasswordView
                android:id="@+id/password_view"
                android:layout_width="match_parent"
-               android:layout_height="@dimen/dp_44"
+               android:layout_height="match_parent"
                />
-
-
         </LinearLayout>
 
 

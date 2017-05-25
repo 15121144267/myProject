@@ -255,7 +255,22 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderDetailEndAddress.setText(mOrder.customerAddress);
         mOrderId.setText(mOrder.businessId);
         mOrderTime.setText(mOrder.createTime);
-        mOrderChannel.setText(mOrder.channel);
+        String changeChannel = null;
+        switch (mOrder.channel) {
+            case "bdwm":
+                changeChannel = "美团外卖";
+                break;
+            case "eleme":
+                changeChannel = "饿了么";
+                break;
+            case "fmwd":
+                changeChannel = "非码微店";
+                break;
+            case "mtwm":
+                changeChannel = "美团外卖";
+                break;
+        }
+        mOrderChannel.setText(changeChannel);
         if(mOrder.flowid !=null){
             mLayoutDeliverOrder.setVisibility(View.VISIBLE);
             mDeliveryId.setText(mOrder.flowid);

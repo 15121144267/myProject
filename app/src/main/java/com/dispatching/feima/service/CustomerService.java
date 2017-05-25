@@ -196,7 +196,7 @@ public class CustomerService extends Service {
         PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker(getResources().getString(R.string.app_name))
-                .setSmallIcon(R.drawable.ic_takeaway)
+                .setSmallIcon(R.mipmap.logo)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(msg)
                 .setContentIntent(pi)
