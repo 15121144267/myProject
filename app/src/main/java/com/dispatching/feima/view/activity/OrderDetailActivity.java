@@ -256,9 +256,9 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderId.setText(mOrder.businessId);
         mOrderTime.setText(mOrder.createTime);
         mOrderChannel.setText(mOrder.channel);
-        if(mOrder.deliveryId !=null){
+        if(mOrder.flowid !=null){
             mLayoutDeliverOrder.setVisibility(View.VISIBLE);
-            mDeliveryId.setText(mOrder.deliveryId);
+            mDeliveryId.setText(mOrder.flowid);
         }
         mOrderAmount.setText(ValueUtil.formatAmount(mOrder.totalFee));
         mOrderCustomerName.setText(mOrder.customer);

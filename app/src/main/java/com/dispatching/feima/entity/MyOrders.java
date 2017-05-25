@@ -63,4 +63,5 @@ public class MyOrders implements Serializable {
     public String customer;
     public String phone;
     public String channel;
+    public String flowid;
 }
