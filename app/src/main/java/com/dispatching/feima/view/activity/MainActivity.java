@@ -67,7 +67,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     //private String mUserId;
     //private String mVersion;
     private List<Fragment> mFragments;
-    private boolean isExit = false;
 
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);

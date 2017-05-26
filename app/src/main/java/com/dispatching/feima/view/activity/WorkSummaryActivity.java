@@ -72,7 +72,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 }
             }
         }
-        String transTakeCount =  takeOrderCount  +"单";
+        String transTakeCount =  completeOrderCount+takeOrderCount  +"单";
         String transCompleteCount =  completeOrderCount  +"单";
         mTakeOrderCount.setText(transTakeCount);
         mCompletedOrderCount .setText(transCompleteCount);
