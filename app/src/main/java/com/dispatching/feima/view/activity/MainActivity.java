@@ -26,8 +26,10 @@ import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.SpConstant;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
+import com.dispatching.feima.view.fragment.CommonDialog;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
 import com.dispatching.feima.view.fragment.PendingOrderFragment;
 import com.dispatching.feima.view.fragment.SendingOrderFragment;
@@ -40,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainControl.MainView,
-        NavigationView.OnNavigationItemSelectedListener, HasComponent<MainActivityComponent> {
+        NavigationView.OnNavigationItemSelectedListener, HasComponent<MainActivityComponent>,CommonDialog.CommonDialogListener{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -54,8 +56,8 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     TextView mMiddleName;
     @BindView(R.id.viewpager)
     ViewPager mViewpager;
-
-//    private TextView mPersonNumber;
+    public static final int DIALOG_TYPE_EXIT_OK = 1;
+    //    private TextView mPersonNumber;
     private TextView mPersonStatus;
     private ActionBarDrawerToggle mDrawerToggle;
     private final String[] modules = {"待取货", "配送中", "已完成"};
@@ -65,6 +67,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     //private String mUserId;
     //private String mVersion;
     private List<Fragment> mFragments;
+    private boolean isExit = false;
 
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -138,6 +141,17 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     }
 
     @Override
+    public void onBackPressed() {
+        showDialog();
+    }
+
+    @Override
+    public void commonDialogBtnOkListener(int type, int position) {
+        finish();
+        System.exit(0);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
@@ -182,7 +196,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mTabLayout.setupWithViewPager(mViewpager);
 
         View view = mNvSlidingMenu.getHeaderView(0);
-       // LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
+        // LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
         mNvSlidingMenu.setItemTextColor(null);
         mNvSlidingMenu.setItemIconTintList(null);
         //RxView.clicks(topLinearLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestPersonActivity());
@@ -207,6 +221,13 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         } else {
             mPersonStatus.setText(R.string.user_status_close);
         }
+    }
+
+    private void showDialog() {
+        CommonDialog commonDialog = CommonDialog.newInstance();
+        commonDialog.setContent(getString(R.string.main_exit));
+        commonDialog.setListener(this, DIALOG_TYPE_EXIT_OK);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
     /*private void requestPersonActivity() {

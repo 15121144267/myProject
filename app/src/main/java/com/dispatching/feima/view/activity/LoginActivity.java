@@ -43,6 +43,12 @@ import butterknife.ButterKnife;
 public class LoginActivity extends BaseActivity implements LoginControl.LoginView ,CommonDialog.CommonDialogListener{
     private static final int DIALOG_TYPE_ORDER_INVALID = 1;
 
+    public static Intent getLoginIntent(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return intent;
+    }
+
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
@@ -55,13 +61,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     Button mLoginSubmit;
     @BindView(R.id.login_identifying_code)
     TextView mLoginIdentifyingCode;
-
-
-    public static Intent getLoginIntent(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        return intent;
-    }
 
     private LoginActivityComponent mActivityComponent;
     private LoginControl.PresenterLogin mPresenterLogin;
@@ -200,9 +199,10 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
 
     }
+
     private void showDialog(){
         CommonDialog commonDialog = CommonDialog.newInstance();
-        commonDialog.setContent("定位权限未开启，请重新开启");
+        commonDialog.setContent(getString(R.string.login_check_permission));
         commonDialog.setDialogCancleBtnDismiss();
         commonDialog.setListener(this, DIALOG_TYPE_ORDER_INVALID);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
