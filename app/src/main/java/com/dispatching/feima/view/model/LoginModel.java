@@ -10,9 +10,6 @@ import com.rabbitmq.client.ConnectionFactory;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by helei on 2017/4/28.
@@ -27,6 +24,7 @@ public class LoginModel {
     private Channel mChannel;
     private Connection mConnection;
     private String mPhone;
+
     @Inject
     public LoginModel(LoginApi api, Gson gson, ModelTransform transform, ConnectionFactory factory) {
         mLoginApi = api;
@@ -37,22 +35,19 @@ public class LoginModel {
 
     public Observable<Integer> VerifyCodeRequest(String request) {
         mPhone = request;
-        return  Observable.create(new ObservableOnSubscribe<Integer>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
-                try {
-                    new Thread(mSendRunnable).start();
-                    e.onNext(1);
-                } catch (Exception e1) {
-                    e.onError(e1);
-                }
+        return Observable.create(e -> {
+            try {
+                new Thread(mSendRunnable).start();
+                e.onNext(1);
+            } catch (Exception e1) {
+                e.onError(e1);
             }
         });
     }
 
-    public Observable<ResponseData> LoginRequest(String phone,String password) {
+    public Observable<ResponseData> LoginRequest(String phone, String password) {
         LoginRequest request = new LoginRequest();
-        request.phone =phone;
+        request.phone = phone;
         request.verifyCode = password;
         return mLoginApi.loginRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
@@ -62,10 +57,10 @@ public class LoginModel {
         public void run() {
             if (mFactory != null) {
                 try {
-                    if(mConnection==null){
+                    if (mConnection == null) {
                         mConnection = mFactory.newConnection();
                     }
-                    if(mChannel ==null){
+                    if (mChannel == null) {
                         mChannel = mConnection.createChannel();
                     }
 

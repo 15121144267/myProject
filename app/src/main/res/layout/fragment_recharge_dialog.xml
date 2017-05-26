@@ -38,6 +38,7 @@
             android:text="订单号：12324151231231231"
             android:layout_gravity="center"
             android:gravity="center_vertical" />
+
         <View style="@style/LineH_Yellow_Fill_Width1" />
         <LinearLayout
             android:layout_width="match_parent"

@@ -125,6 +125,10 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         mSwipeLayout.setOnRefreshListener(this);
     }
 
+    @Override
+    public void passwordDialogBtnOkListener() {
+        mPresenter.requestTakeOrder(mUserToken, mUserId, mMyOrders.deliveryId);
+    }
 
     @Override
     protected void addFilter() {
@@ -196,8 +200,4 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, PasswordDialog.TAG);
     }
 
-    @Override
-    public void passwordDialogBtnOkListener() {
-        mPresenter.requestTakeOrder(mUserToken, mUserId, mMyOrders.deliveryId);
-    }
 }

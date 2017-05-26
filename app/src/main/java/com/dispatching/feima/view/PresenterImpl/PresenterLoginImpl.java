@@ -24,8 +24,9 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private LoginControl.LoginView mLoginView;
     private final LoginModel mLoginModel;
     private final Context mContext;
+
     @Inject
-    public PresenterLoginImpl(Context context ,LoginModel model) {
+    public PresenterLoginImpl(Context context, LoginModel model) {
         mContext = context;
         mLoginModel = model;
     }
@@ -40,11 +41,13 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
 
     private void getVerifyCodeSuccess(Integer code) {
         Observable.interval(0, 1, TimeUnit.SECONDS)
-                .map(aLong -> 60-aLong)
+                .map(aLong -> 60 - aLong)
                 .take(61)
-                .compose(mLoginView.applySchedulers()).subscribe(aLong ->
-                mLoginView.setButtonEnable(false,aLong),throwable -> {},() ->  mLoginView.setButtonEnable(true,(long) 0));
-        if(code == 1){
+                .compose(mLoginView.applySchedulers())
+                .subscribe(aLong -> mLoginView.setButtonEnable(false, aLong),
+                        throwable -> {},
+                        () -> mLoginView.setButtonEnable(true, (long) 0));
+        if (code == 1) {
             mLoginView.showToast(mContext.getString(R.string.verity_send_success));
         }
     }
@@ -59,11 +62,11 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     }
 
     private void operationalData(ResponseData responseData) {
-        if(responseData.resultCode == 100){
+        if (responseData.resultCode == 100) {
             responseData.parseData(LoginResponse.class);
             LoginResponse loginResponse = (LoginResponse) responseData.parsedData;
             mLoginView.loginSuccess(loginResponse);
-        }else {
+        } else {
             mLoginView.showToast(responseData.errorDesc);
         }
     }
