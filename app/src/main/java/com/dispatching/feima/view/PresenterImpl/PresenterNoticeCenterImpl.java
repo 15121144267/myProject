@@ -3,6 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.QueryParam;
 import com.dispatching.feima.view.PresenterControl.NoticeCenterControl;
 import com.dispatching.feima.view.model.NoticeCenterModel;
@@ -26,6 +27,18 @@ public class PresenterNoticeCenterImpl implements NoticeCenterControl.PresenterN
     public PresenterNoticeCenterImpl(Context context, NoticeCenterModel model) {
         mContext = context;
         mNoticeCenterModel = model;
+    }
+
+    @Override
+    public void updateNoticeDB(OrderNotice orderNotice) {
+        Disposable disposable = mNoticeCenterModel.updateNoticeDB(orderNotice).compose(mView.applySchedulers())
+                .subscribe(flag ->{
+                            if(flag == 1){
+                                mView.updateSuccess();
+                            }}
+                        , throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
     }
 
     @Override

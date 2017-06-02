@@ -9,9 +9,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by helei on 2017/4/28.
@@ -27,15 +24,24 @@ public class NoticeCenterModel {
 
 
     public Observable<List<OrderNotice>> queryNoticeDB(QueryParam param) {
-        return Observable.create(new ObservableOnSubscribe<List<OrderNotice>>(){
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<List<OrderNotice>> e) throws Exception {
-                try {
-                    List<OrderNotice> list = mOrderNoticeDao.queryBuilder().where(OrderNoticeDao.Properties.OrderTime.between(param.today,param.tomorrow)).list();
-                    e.onNext(list);
-                } catch (Exception e1) {
-                    e.onError(e1);
-                }
+        return Observable.create(e->{
+            try {
+                List<OrderNotice> list = mOrderNoticeDao.queryBuilder().where(OrderNoticeDao.Properties.OrderTime.between(param.today,param.tomorrow)).list();
+                e.onNext(list);
+            } catch (Exception e1) {
+                e.onError(e1);
+            }
+        });
+    }
+
+    public Observable<Integer> updateNoticeDB(OrderNotice orderNotice) {
+        return Observable.create(e->{
+            try {
+                orderNotice.setOrderFlag(1);
+                mOrderNoticeDao.update(orderNotice);
+                e.onNext(1);
+            } catch (Exception e1) {
+                e.onError(e1);
             }
         });
     }

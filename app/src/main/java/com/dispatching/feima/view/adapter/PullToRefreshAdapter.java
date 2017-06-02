@@ -56,7 +56,7 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
                     helper.setVisible(R.id.order_channel_layout, false);
                     break;
             }
-            helper.setText(R.id.order_channel_id, changeChannel + "#" + item.flowid);
+            helper.setText(R.id.order_channel_id, changeChannel + " # " + item.flowid);
         }
 
         helper.setVisible(R.id.item_get_order, true);

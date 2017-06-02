@@ -3,16 +3,19 @@ package com.dispatching.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -39,6 +42,7 @@ import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.listener.MyRouteSearchListener;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.OrderDetailControl;
+import com.dispatching.feima.view.customview.MyTextView;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -50,6 +54,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.dispatching.feima.R.id.toolbar;
+
 /**
  * Created by helei on 2017/4/27.
  * OrderDetailActivity
@@ -58,7 +64,7 @@ import butterknife.ButterKnife;
 public class OrderDetailActivity extends BaseActivity implements OrderDetailControl.OrderDetailView, AMap.OnMapLoadedListener, AMap.OnMapTouchListener {
     @BindView(R.id.middle_name)
     TextView mMiddleName;
-    @BindView(R.id.toolbar)
+    @BindView(toolbar)
     Toolbar mToolbar;
     @BindView(R.id.map_view)
     MapView mMapView;
@@ -90,18 +96,26 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView mOrderCustomerPhone;
     @BindView(R.id.order_customer_remark)
     TextView mOrderCustomerRemark;
+    @BindView(R.id.dispatching_info)
+    TextView mDispatchingInfo;
     @BindView(R.id.layout_remark)
-    LinearLayout mLayoutRemark;
+    RelativeLayout mLayoutRemark;
+    @BindView(R.id.show_other_text_view)
+    MyTextView mShowOtherTextView;
+    @BindView(R.id.show_other_layout)
+    LinearLayout mShowOtherLayout;
+    @BindView(R.id.other_layout)
+    LinearLayout mOtherLayout;
     @BindView(R.id.order_get_time)
     TextView mOrderGetTime;
     @BindView(R.id.layout_take)
-    LinearLayout mLayoutTake;
+    RelativeLayout mLayoutTake;
     @BindView(R.id.order_arrived_time)
     TextView mOrderArrivedTime;
     @BindView(R.id.layout_arrived)
-    LinearLayout mLayoutArrived;
+    RelativeLayout mLayoutArrived;
     @BindView(R.id.layout_deliver_order)
-    LinearLayout mLayoutDeliverOrder;
+    RelativeLayout mLayoutDeliverOrder;
     @BindView(R.id.order_detail_button)
     Button mOrderDetailButton;
 
@@ -133,7 +147,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetail);
         ButterKnife.bind(this);
-        supportActionBar(mToolbar, true);
+        supportActionBar(mToolbar);
         initializeInjector();
         mPresenter.setView(this);
         transformIntent();
@@ -163,6 +177,19 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         });
         initView();
     }
+
+    private void supportActionBar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+        mToolbar.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        mToolbar.setNavigationIcon(R.drawable.vector_arrow_left_white);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
 
     @Override
     public void updateOrderStatusSuccess() {
@@ -240,6 +267,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     private void initView() {
         RxView.clicks(mOrderDetailButton).throttleFirst(2, TimeUnit.SECONDS).subscribe(o -> requestUpdateOrder());
+        RxView.clicks(mShowOtherLayout).subscribe(o -> showOtherLayout());
         switch (mOrder.deliveryStatus) {
             case 1:
                 mOrderDetailButton.setText(getResources().getString(R.string.text_take_order));
@@ -271,7 +299,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 break;
         }
         mOrderChannel.setText(changeChannel);
-        if(mOrder.flowid !=null){
+        if (mOrder.flowid != null) {
             mLayoutDeliverOrder.setVisibility(View.VISIBLE);
             mDeliveryId.setText(mOrder.flowid);
         }
@@ -282,7 +310,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mLayoutRemark.setVisibility(View.VISIBLE);
             mOrderCustomerRemark.setText(mOrder.remark);
         }
-
         if (!TextUtils.isEmpty(mOrder.takeTime)) {
             mLayoutTake.setVisibility(View.VISIBLE);
             mOrderGetTime.setText(mOrder.takeTime);
@@ -292,6 +319,9 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mOrderArrivedTime.setText(mOrder.endTime);
         }
 
+        if(TextUtils.isEmpty(mOrder.takeTime)&&TextUtils.isEmpty(mOrder.endTime)){
+            mDispatchingInfo.setVisibility(View.GONE);
+        }
 
         double shopLongitude = mOrder.shopLongitude;
         double shopLatitude = mOrder.shopLatitude;
@@ -322,6 +352,22 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mOrderDetailEndDistance.setText(ValueUtil.formatDistance(distance2));
             mOrderDetailStartDistance.setText(ValueUtil.formatDistance(distance1));
 
+        }
+    }
+
+    private void showOtherLayout() {
+        if(mOtherLayout.getVisibility() == View.GONE){
+            mOtherLayout.setVisibility(View.VISIBLE);
+            mShowOtherTextView.setText("隐藏全乎内容");
+            Drawable arrow = ContextCompat.getDrawable(getContext(),R.mipmap.top_arrow);
+            arrow.setBounds(0,0,arrow.getMinimumWidth(),arrow.getMinimumHeight());
+            mShowOtherTextView.setCompoundDrawables(null,null,arrow,null);
+        }else {
+            mOtherLayout.setVisibility(View.GONE);
+            mShowOtherTextView.setText("显示全部内容");
+            Drawable arrow = ContextCompat.getDrawable(getContext(),R.mipmap.bottom_arrow);
+            arrow.setBounds(0,0,arrow.getMinimumWidth(),arrow.getMinimumHeight());
+            mShowOtherTextView.setCompoundDrawables(null,null,arrow,null);
         }
     }
 

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
@@ -14,8 +15,10 @@ import com.dispatching.feima.dagger.component.DaggerNoticeCenterActivityComponen
 import com.dispatching.feima.dagger.module.NoticeCenterActivityModule;
 import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.QueryParam;
+import com.dispatching.feima.listener.OnItemClickListener;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.PresenterControl.NoticeCenterControl;
+import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.NoticeAdapter;
 
 import java.util.Calendar;
@@ -49,7 +52,6 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     }
 
     private NoticeAdapter mNoticeAdapter;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,14 +101,19 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNoticeAdapter = new NoticeAdapter(null);
+        mNoticeAdapter = new NoticeAdapter(null,getContext());
         mRecyclerView.setAdapter(mNoticeAdapter);
-       /* mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                ToastUtils.showShortToast(position + "");
+                mPresenter.updateNoticeDB((OrderNotice)adapter.getItem(position));
             }
-        });*/
+        });
+    }
+
+    @Override
+    public void updateSuccess() {
+        mNoticeAdapter.notifyDataSetChanged();
     }
 
     private void initData(Calendar calendar) {

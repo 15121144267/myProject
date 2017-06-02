@@ -196,6 +196,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     private void showPasswordDialog(String orderId) {
         PasswordDialog passwordDialog = PasswordDialog.newInstance();
         passwordDialog.setContent(orderId);
+        passwordDialog.setTitle(getString(R.string.dialog_password_tips));
         passwordDialog.setListener(this);
         DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, PasswordDialog.TAG);
     }

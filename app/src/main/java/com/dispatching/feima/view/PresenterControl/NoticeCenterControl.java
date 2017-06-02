@@ -13,9 +13,11 @@ import java.util.List;
 public class NoticeCenterControl {
     public interface NoticeCenterView extends LoadDataView{
         void querySuccess(List<OrderNotice> list);
+        void updateSuccess();
     }
 
     public interface PresenterNoticeCenter extends Presenter<NoticeCenterView> {
         void requestDbNotices(QueryParam param);
+        void updateNoticeDB(OrderNotice orderNotice);
     }
 }

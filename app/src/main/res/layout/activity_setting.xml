@@ -54,7 +54,8 @@
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/quite_login"
-        style="@style/Login_Button_Style"
+        style="@style/Login_Button_Style2"
+        android:background="@color/red"
         android:layout_marginTop="@dimen/dp_50"
         android:text="@string/app_quite_login"/>
 </LinearLayout>

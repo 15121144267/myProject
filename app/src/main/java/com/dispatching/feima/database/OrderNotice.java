@@ -24,12 +24,17 @@ public class OrderNotice {
     @Property(nameInDb = "orderFlag")
     private Integer orderFlag;
 
-    @Generated(hash = 40799993)
-    public OrderNotice(Long id, String orderId, Date orderTime, Integer orderFlag) {
+    @Property(nameInDb = "orderChanel")
+    private String orderChannel;
+
+    @Generated(hash = 865541259)
+    public OrderNotice(Long id, String orderId, Date orderTime, Integer orderFlag,
+            String orderChannel) {
         this.id = id;
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.orderFlag = orderFlag;
+        this.orderChannel = orderChannel;
     }
 
     @Generated(hash = 1687600177)
@@ -67,5 +72,15 @@ public class OrderNotice {
     public void setOrderFlag(Integer orderFlag) {
         this.orderFlag = orderFlag;
     }
+
+    public String getOrderChannel() {
+        return this.orderChannel;
+    }
+
+    public void setOrderChannel(String orderChannel) {
+        this.orderChannel = orderChannel;
+    }
+
+
 
 }

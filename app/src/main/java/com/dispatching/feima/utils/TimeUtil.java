@@ -42,7 +42,7 @@ public class TimeUtil {
      */
     public static String transferLongToDate(String dateFormat, Long millSec) {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-        Date date= new Date(millSec);
+        Date date = new Date(millSec);
         return sdf.format(date);
     }
 
@@ -145,26 +145,28 @@ public class TimeUtil {
         }
         return timeStr;
     }
+
     //将秒数转换为  mm:ss 20:30
     public static String secToTime2(String timeString) {
-        if (TextUtils.isEmpty(timeString) || "0".equals(timeString)){
+        if (TextUtils.isEmpty(timeString) || "0".equals(timeString)) {
             return "00:00";
         }
         long longTime = Long.parseLong(timeString);
         String timeStr = null;
         int minute = 0;
         int second = 0;
-        if (longTime <= 0){
+        if (longTime <= 0) {
             return "00:00";
-        }else if(longTime>3599){
+        } else if (longTime > 3599) {
             return "59：:59";
-        }else {
+        } else {
             minute = (int) (longTime / 60);
             second = (int) (longTime % 60);
             timeStr = unitFormat(minute) + ":" + unitFormat(second);
         }
         return timeStr;
     }
+
     /**
      * 将秒数转换为 1小时20分的格式
      *
@@ -259,30 +261,48 @@ public class TimeUtil {
         return (month > 9 ? month : "0" + month) + "月";
     }
 
-    public static Calendar getCalendar(){
+    public static Calendar getCalendar() {
         Calendar calendar = Calendar.getInstance();
         return new GregorianCalendar(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),0,0,0);
+                calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
     }
 
-    public static Date formatDate(String time){
+    public static Date formatDate(String time) {
         Date date = new Date();
         try {
-            String tmp = time.replace("T"," ").split("\\.")[0];
-            SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String tmp = time.replace("T", " ").split("\\.")[0];
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             date = df.parse(tmp);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.e("tag", ex.getMessage());
         }
         return date;
     }
 
-    public static String getTimeNow(Date date){
-        if (null == date){
+    public static String getTimeNow(Date date) {
+        if (null == date) {
             Calendar calendar = Calendar.getInstance();
             date = calendar.getTime();
         }
-        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(date);
+    }
+
+
+    //获得本月第一天0点时间
+    public static long getTimesMonthmorning() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+        return cal.getTimeInMillis();
+    }
+
+    //获得本月最后一天24点时间
+    public static long getTimesMonthnight() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        return cal.getTimeInMillis();
     }
 }

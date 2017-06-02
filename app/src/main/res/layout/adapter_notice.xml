@@ -1,38 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:background="@color/white"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/white"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardUseCompatPadding="true"
     >
+
+    <ImageView
+        android:id="@+id/order_new_message"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@mipmap/notice_new"
+        android:contentDescription="@string/app_name"
+        />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+
         <ImageView
-            android:layout_gravity="center_vertical"
+            android:id="@+id/order_channel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            app:srcCompat ="@drawable/vector_give"
+            android:layout_gravity="center_vertical"
             android:layout_margin="15dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/channl_baidu"
             />
+
         <LinearLayout
-            android:layout_gravity="center"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:gravity="center_vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/adapter_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="@string/text_notice_content"
                 android:layout_marginBottom="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/text_notice_content"
+                android:textStyle="bold"
                 />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -40,21 +62,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/text_notice_time_content"
                     />
+
                 <TextView
                     android:id="@+id/adapter_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/text_notice_time"
                     />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
     <View style="@style/LineH_Fill_Width1_5_ForView"
         />
-</LinearLayout>
+</android.support.v7.widget.CardView>

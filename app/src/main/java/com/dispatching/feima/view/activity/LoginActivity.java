@@ -153,6 +153,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                         myPhone = phone;
                         mLoginSubmit.setEnabled(true);
                         mLoginIdentifyingCode.setEnabled(true);
+
                     }
 
                 }
@@ -196,7 +197,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 showDialog();
             }
         });
-
+       // startActivity(new Intent(MainActivity.getMainIntent(this)));
 
     }
 

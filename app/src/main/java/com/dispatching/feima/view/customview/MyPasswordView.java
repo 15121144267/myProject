@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.customview;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.dispatching.feima.R;
 
 /**
  * Created by lei.he on 2017/5/23.
@@ -49,26 +52,23 @@ public class MyPasswordView extends RelativeLayout {
     }
 
     /**
-     * @param bgdrawable 背景drawable
-     * @param pwdlength 密码长度
-     * @param splilinewidth 分割线宽度
-     * @param splilinecolor 分割线颜色
-     * @param pwdcolor 密码字体颜色
-     * @param pwdsize 密码字体大小
+     * @param bgdrawable    背景drawable
+     * @param pwdlength     密码长度
+     * @param pwdcolor      密码字体颜色
+     * @param pwdsize       密码字体大小
      */
-    public void initStyle(int bgdrawable, int pwdlength, float splilinewidth, int splilinecolor, int pwdcolor, int pwdsize)
-    {
+    public void initStyle(int bgdrawable, int pwdlength, int pwdcolor, int pwdsize) {
         this.pwdlength = pwdlength;
         initEdit(bgdrawable);
-        initShowInput(bgdrawable, pwdlength, splilinewidth, splilinecolor, pwdcolor, pwdsize);
+        initShowInput(bgdrawable, pwdlength, pwdcolor, pwdsize);
     }
 
     /**
      * 初始化编辑框
+     *
      * @param bgcolor
      */
-    private void initEdit(int bgcolor)
-    {
+    private void initEdit(int bgcolor) {
         editText = new EditText(context);
         editText.setBackgroundResource(bgcolor);
         editText.setCursorVisible(false);
@@ -90,10 +90,8 @@ public class MyPasswordView extends RelativeLayout {
             @Override
             public void afterTextChanged(Editable s) {
                 initDatas(s);
-                if(s.length() == pwdlength)
-                {
-                    if(onTextFinishListener != null)
-                    {
+                if (s.length() == pwdlength) {
+                    if (onTextFinishListener != null) {
                         onTextFinishListener.onFinish(s.toString().trim());
                     }
                 }
@@ -106,57 +104,55 @@ public class MyPasswordView extends RelativeLayout {
     }
 
     /**
-     * @param bgcolor 背景drawable
+     * @param bgcolor   背景drawable
      * @param pwdlength 密码长度
-     * @param slpilinewidth 分割线宽度
-     * @param splilinecolor 分割线颜色
-     * @param pwdcolor 密码字体颜色
-     * @param pwdsize 密码字体大小
+     * @param pwdcolor  密码字体颜色
+     * @param pwdsize   密码字体大小
      */
-    public void initShowInput(int bgcolor, int pwdlength, float slpilinewidth, int splilinecolor, int pwdcolor, int pwdsize)
-    {
+    public void initShowInput(int bgcolor, int pwdlength, int pwdcolor, int pwdsize) {
         //添加密码框父布局
         linearLayout = new LinearLayout(context);
         linearLayout.setBackgroundResource(bgcolor);
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         linearLayout.setLayoutParams(layoutParams);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         addView(linearLayout);
 
         //添加密码框
         textViews = new TextView[pwdlength];
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT);
         params.weight = 1;
         params.gravity = Gravity.CENTER;
+        params.setMargins(8, 8, 8, 8);
 
-        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(dip2px(context, slpilinewidth),LayoutParams.MATCH_PARENT);
-        for(int i = 0; i < textViews.length; i++)
-        {
+        for (int i = 0; i < textViews.length; i++) {
             TextView textView = new TextView(context);
             textView.setGravity(Gravity.CENTER);
             textViews[i] = textView;
             textViews[i].setTextSize(pwdsize);
             textViews[i].setTextColor(context.getResources().getColor(pwdcolor));
             textViews[i].setInputType(InputType.TYPE_CLASS_NUMBER);
+            textViews[i].setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rectangle));
             linearLayout.addView(textView, params);
 
-
+/*
             if(i < textViews.length - 1)
             {
                 View view = new View(context);
                 view.setBackgroundColor(context.getResources().getColor(splilinecolor));
-                linearLayout.addView(view, params2);
-            }
+                linearLayout.addView(view);
+            }*/
         }
     }
 
     /**
      * 是否显示明文
+     *
      * @param showPwd
      */
     public void setShowPwd(boolean showPwd) {
         int length = textViews.length;
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (showPwd) {
                 textViews[i].setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
@@ -167,12 +163,12 @@ public class MyPasswordView extends RelativeLayout {
 
     /**
      * 设置显示类型
+     *
      * @param type
      */
-    public void setInputType(int type)
-    {
+    public void setInputType(int type) {
         int length = textViews.length;
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             textViews[i].setInputType(type);
         }
     }
@@ -180,11 +176,9 @@ public class MyPasswordView extends RelativeLayout {
     /**
      * 清除文本框
      */
-    public void clearText()
-    {
+    public void clearText() {
         editText.setText("");
-        for(int i = 0; i < pwdlength; i++)
-        {
+        for (int i = 0; i < pwdlength; i++) {
             textViews[i].setText("");
         }
     }
@@ -195,41 +189,31 @@ public class MyPasswordView extends RelativeLayout {
 
     /**
      * 根据输入字符，显示密码个数
+     *
      * @param s
      */
-    public void initDatas(Editable s)
-    {
-        if(s.length() > 0)
-        {
+    public void initDatas(Editable s) {
+        if (s.length() > 0) {
             int length = s.length();
-            for(int i = 0; i < pwdlength; i++)
-            {
-                if(i < length)
-                {
-                    for(int j = 0; j < length; j++)
-                    {
+            for (int i = 0; i < pwdlength; i++) {
+                if (i < length) {
+                    for (int j = 0; j < length; j++) {
                         char ch = s.charAt(j);
                         textViews[j].setText(String.valueOf(ch));
                     }
-                }
-                else
-                {
+                } else {
                     textViews[i].setText("");
                 }
             }
-        }
-        else
-        {
-            for(int i = 0; i < pwdlength; i++)
-            {
+        } else {
+            for (int i = 0; i < pwdlength; i++) {
                 textViews[i].setText("");
             }
         }
     }
 
-    public String getPwdText()
-    {
-        if(editText != null)
+    public String getPwdText() {
+        if (editText != null)
             return editText.getText().toString().trim();
         return "";
     }
@@ -239,13 +223,11 @@ public class MyPasswordView extends RelativeLayout {
         return (int) (dipValue * scale + 0.5f);
     }
 
-    public interface OnTextFinishListener
-    {
+    public interface OnTextFinishListener {
         void onFinish(String str);
     }
 
-    public void setFocus()
-    {
+    public void setFocus() {
         editText.requestFocus();
         editText.setFocusable(true);
         showKeyBord(editText);
@@ -253,12 +235,12 @@ public class MyPasswordView extends RelativeLayout {
 
     /**
      * 显示键盘
+     *
      * @param view
      */
-    public void showKeyBord(View view)
-    {
+    public void showKeyBord(View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 
     }
 

@@ -66,7 +66,7 @@ public class PasswordDialog extends BaseDialogFragment {
         mTitle = (TextView) view.findViewById(R.id.recharge_dialog_title);
         mContentTextView = (TextView) view.findViewById(R.id.recharge_dialog_content);
         mEditTextLayout = (MyPasswordView) view.findViewById(R.id.password_view);
-        mEditTextLayout.initStyle(R.color.white, 4, 0.33f, R.color.black, R.color.black, 30);
+        mEditTextLayout.initStyle(R.color.white, 4, R.color.black, 30);
         mEditTextLayout.setShowPwd(false);
         return view;
     }
@@ -85,7 +85,7 @@ public class PasswordDialog extends BaseDialogFragment {
             mContentTextView.setVisibility(View.GONE);
         } else {
             mContentTextView.setVisibility(View.VISIBLE);
-            String orderId = "订单号："+content;
+            String orderId = "订单号：" + content;
             mContentTextView.setText(orderId);
         }
         if (!TextUtils.isEmpty(title)) {

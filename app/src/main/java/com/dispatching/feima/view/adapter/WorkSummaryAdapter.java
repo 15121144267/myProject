@@ -4,22 +4,21 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.dispatching.feima.R;
-import com.dispatching.feima.database.OrderNotice;
-import com.dispatching.feima.utils.TimeUtil;
+import com.dispatching.feima.entity.MyOrders;
 
 import java.util.List;
 
 
-public class NoticeAdapter extends BaseQuickAdapter<OrderNotice, BaseViewHolder> {
+public class WorkSummaryAdapter extends BaseQuickAdapter<MyOrders, BaseViewHolder> {
     private Context mContext;
-    public NoticeAdapter(List<OrderNotice> notices, Context context) {
-        super( R.layout.adapter_notice, notices);
+    public WorkSummaryAdapter(List<MyOrders> list, Context context) {
+        super( R.layout.adapter_notice, list);
         mContext = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderNotice item) {
-        switch (item.getOrderChannel()) {
+    protected void convert(BaseViewHolder helper, MyOrders item) {
+        switch (item.channel) {
             case "bdwm":
                 helper.setImageDrawable(R.id.order_channel,ContextCompat.getDrawable(mContext,R.mipmap.channl_baidu));
                 break;
@@ -37,12 +36,9 @@ public class NoticeAdapter extends BaseQuickAdapter<OrderNotice, BaseViewHolder>
                 break;
         }
 
-        helper.setText(R.id.adapter_time, TimeUtil.getTimeNow(item.getOrderTime()));
-        if(item.getOrderFlag() == 0 ){
-            helper.setVisible(R.id.order_new_message,true);
-        }else {
-            helper.setVisible(R.id.order_new_message,false);
-        }
+        helper.setText(R.id.adapter_time, item.endTime);
+        String orderId = "订单编号:"+item.businessId;
+        helper.setText(R.id.adapter_content, orderId);
 
     }
 

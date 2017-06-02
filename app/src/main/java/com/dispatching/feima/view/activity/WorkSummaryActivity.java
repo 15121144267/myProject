@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
@@ -14,8 +17,9 @@ import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.PresenterControl.WorkSummaryControl;
+import com.dispatching.feima.view.adapter.WorkSummaryAdapter;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,15 +35,15 @@ import butterknife.ButterKnife;
 public class WorkSummaryActivity extends BaseActivity implements WorkSummaryControl.WorkSummaryView {
     @BindView(R.id.middle_name)
     TextView mMiddleName;
+    @BindView(R.id.order_detail_button)
+    Button mOrderSummary;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.take_order_count)
-    TextView mTakeOrderCount;
-    @BindView(R.id.completed_order_count)
-    TextView mCompletedOrderCount;
+    @BindView(R.id.order_summary)
+    RecyclerView mRecyclerView;
     @Inject
     WorkSummaryControl.PresenterWorkSummary mPresenter;
-
+    private WorkSummaryAdapter mAdapter;
     public static Intent getSummaryIntent(Context context) {
         return new Intent(context, WorkSummaryActivity.class);
     }
@@ -53,29 +57,27 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         mMiddleName.setText(R.string.user_work_res);
+        initView();
         initData();
     }
 
-
     @Override
     public void getAllOrderSuccess(OrderDeliveryResponse response) {
-        int takeOrderCount = 0;
+        List<MyOrders> completedOrder = new ArrayList<>();
         int completeOrderCount = 0;
         List<MyOrders> ordersList = response.orders;
         if (ordersList != null && ordersList.size() > 0) {
             for (MyOrders myOrders : ordersList) {
-                if (myOrders.deliveryStatus == 3) {
-                    takeOrderCount ++;
-                }
                 if (myOrders.deliveryStatus == 4) {
                     completeOrderCount ++;
+                    completedOrder.add(myOrders);
                 }
             }
+            mAdapter.setNewData(completedOrder);
+
         }
-        String transTakeCount =  completeOrderCount+takeOrderCount  +"单";
-        String transCompleteCount =  completeOrderCount  +"单";
-        mTakeOrderCount.setText(transTakeCount);
-        mCompletedOrderCount .setText(transCompleteCount);
+        mOrderSummary.setText(completeOrderCount+" 单");
+
     }
 
     @Override
@@ -104,11 +106,16 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         mPresenter.onDestroy();
     }
 
+    private void initView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new WorkSummaryAdapter(null,getContext());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     private void initData() {
-        Calendar calendar = TimeUtil.getCalendar();
-        String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
-        calendar.add(Calendar.DAY_OF_MONTH, +1);
-        String endTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, calendar.getTimeInMillis());
+
+        String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, TimeUtil.getTimesMonthmorning());
+        String endTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, TimeUtil.getTimesMonthnight());
         mPresenter.requestAllOrderInfo(mBuProcessor.getUserToken(),
                 mBuProcessor.getUserId(), startTime, endTime);
     }

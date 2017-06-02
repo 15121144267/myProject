@@ -16,7 +16,7 @@ public class ResponseData {
     public String time;
     private String result;
     public Object parsedData;
-
+    public String channel;
 
     public ResponseData() {
         resultCode = 110;
@@ -29,9 +29,10 @@ public class ResponseData {
         result = jsonObject.optString("result") == null ? "" : jsonObject.optString("result");
     }
 
-    public ResponseData(JSONObject jsonObject,Integer type) throws JSONException {
+    public ResponseData(JSONObject jsonObject, Integer type) throws JSONException {
         businessId = jsonObject.getString("business_id");
         time = jsonObject.getString("distribute_time");
+        channel = jsonObject.getString("channel");
     }
 
     public <T> T parseData(Class<T> objectClass) {

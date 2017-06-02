@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
+                android:background="@color/white"
     >
 
     <include layout="@layout/toolbar_common"/>
@@ -12,14 +11,15 @@
     <android.support.v7.widget.CardView
         android:id="@+id/login_card_view"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="6dp"
         card_view:cardUseCompatPadding="true"
+        android:layout_below="@+id/imageView3"
+        android:layout_centerHorizontal="true"
         >
 
         <LinearLayout
@@ -38,17 +38,18 @@
                 >
 
                 <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
                     android:contentDescription="@string/app_name"
-                    app:srcCompat="@drawable/vector_account"
-                    />
+                    android:background="@mipmap/phone_logo"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/login_userName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_weight="1">
 
                     <EditText
@@ -57,7 +58,23 @@
                         android:hint="@string/app_user"
                         android:inputType="number"
                         android:textColorHint="@color/nav_item_icon_tint_color"/>
+
                 </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/login_identifying_code"
+                    style="@style/TextColor_green_12_click"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/item_main_white"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:text="@string/text_verify_code"
+                    android:textColor="@drawable/text_color"
+                    />
+
             </LinearLayout>
 
 
@@ -70,9 +87,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:contentDescription="@string/app_name"
-                    app:srcCompat="@drawable/vector_password"
+                    android:layout_marginTop="5dp"
+                  android:background="@mipmap/verify_logo"
                     />
 
                 <android.support.design.widget.TextInputLayout
@@ -89,18 +106,6 @@
                         android:textColorHint="@color/nav_item_icon_tint_color"/>
                 </android.support.design.widget.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/login_identifying_code"
-                    style="@style/TextColor_Blue_16_click"
-                    android:layout_width="@dimen/dp_120"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_marginBottom="@dimen/dp_5"
-                    android:background="@drawable/item_main_white"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/text_verify_code"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -109,21 +114,28 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/login_card_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dp_40"
         android:contentDescription="@string/app_name"
-        app:srcCompat="@drawable/vector_login_icon"
-        />
+        android:background="@mipmap/freemud_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:id="@+id/imageView3"/>
 
     <Button
         android:id="@+id/login_submit"
         style="@style/Login_Button_Style"
-        android:background="@drawable/button_style_blue2"
+        android:background="@drawable/button_style_blue3"
         android:enabled="false"
-        android:layout_marginTop="50dp"
         android:text="@string/app_login"
-        android:textColor="@color/black"
-        android:layout_below="@+id/login_card_view"
-        android:layout_alignStart="@+id/login_card_view"/>
+        android:textColor="@color/white"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/imageView4"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/login_bottom"
+        android:contentDescription="@string/app_name"
+        android:id="@+id/imageView4"/>
 </RelativeLayout>

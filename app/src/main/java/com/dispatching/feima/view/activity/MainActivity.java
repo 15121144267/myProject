@@ -207,7 +207,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
                 this::requestChange);
 
-        mMiddleName.setText(R.string.app_name);
+        mMiddleName.setText(R.string.main_tool_name);
         mNvSlidingMenu.setNavigationItemSelectedListener(this);
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.toolbar_des, R.string.toolbar_des);
         mDrawerToggle.syncState();

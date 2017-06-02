@@ -3,10 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/arrived_destination_color</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+</style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/black</item>
     </style>
 
     <style name="tweetName">
@@ -17,9 +24,8 @@
     <style name="summaryText">
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:paddingStart">@dimen/dp_16</item>
-        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="summarySmall">
@@ -39,10 +45,16 @@
         <item name="android:background">@color/line_grey_bg</item>
     </style>
 
+    <style name="LineH_Fill_Width_5_ForView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">5dip</item>
+        <item name="android:background">@color/line_grey_bg</item>
+    </style>
+
     <style name="LineH_Yellow_Fill_Width1">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.0dip</item>
-        <item name="android:background">#ffb929</item>
+        <item name="android:background">@color/line_grey_bg</item>
     </style>
 
     <style name="LineV_Fill_Width0_5_ForView">
@@ -76,14 +88,19 @@
         <item name="android:layout_margin">@dimen/dp_4</item>
     </style>
 
-    <style name="TextColor_Blue_16">
-        <item name="android:textColor">@color/text_color_blue</item>
+    <style name="TextColor_White_16">
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
     <style name="TextColor_Grey_18">
         <item name="android:textColor">@color/darkgrey1</item>
         <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
+    <style name="TextColor_Grey_16">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
     <style name="TextColor_YellowDark_14">
@@ -104,11 +121,23 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Login_Button_Style2">
+        <item name="android:background">@drawable/button_style_blue4</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="TextColor_Blue_16_click">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16.0dip</item>
     </style>
-
+    <style name="TextColor_green_12_click">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12.0dip</item>
+    </style>
     <style name="loading_dialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>

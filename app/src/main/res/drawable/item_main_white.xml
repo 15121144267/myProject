@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="false">
+    <item android:state_enabled="false"
+          android:color="@color/white"
+        >
         <shape>
-            <solid android:color="#D2D1D9" />
+            <solid android:color="#D2D1D9"/>
+            <stroke android:width="1dp" android:color="#D2D1D9"
+                    android:dashGap="3dp" />
             <corners android:radius="5.0dip" />
         </shape>
     </item>
+
     <item android:state_enabled="true"
+          android:color="@color/colorPrimary"
         >
         <shape>
-            <solid android:color="@color/gold" />
+            <solid android:color="#FFFFFF"/>
+            <stroke android:width="1dp" android:color="@color/colorPrimary"
+                    android:dashGap="3dp" />
             <corners android:radius="5dp" />
         </shape>
     </item>
-    <item android:state_enabled="false">
-        <shape>
-            <solid android:color="#ffffff" />
-            <corners android:radius="5dp" />
-        </shape>
-    </item>
+
 
 </selector>

@@ -215,6 +215,7 @@ public class CustomerService extends Service {
         notice.setOrderTime(TimeUtil.formatDate(responseData.time));
         notice.setOrderId(responseData.businessId);
         notice.setOrderFlag(0);
+        notice.setOrderChannel(responseData.channel);
         mOrderNoticeDao.insert(notice);
     }
 

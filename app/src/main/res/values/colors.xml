@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#32a52a</color>
-    <color name="colorPrimaryDark">#32a52a</color>
+    <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#FF4081</color>
     <!-- AbsBaseActivity begin -->
     <color name="base_activity_bg">#e5e5e5</color>
@@ -119,7 +119,7 @@
     <!-- 橙色 -->
     <color name="lightsalmon">#FFA07A</color>
     <!-- 亮肉色 -->
-    <color name="darkorange">#FF8C00</color>
+    <color name="darkorange">#ff4f0a</color>
     <!-- 暗桔黄色 -->
     <color name="coral">#FF7F50</color>
     <!-- 珊瑚色 -->
