@@ -3,6 +3,7 @@ package com.dispatching.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -153,6 +154,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         transformIntent();
         mAMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
         mCollapsingToolbarLayout.setTitle(getResources().getText(R.string.user_order_detail));
+        mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
         mMapView.onCreate(savedInstanceState);
         aMap = mMapView.getMap();
         aMap.setOnMapLoadedListener(this);
@@ -292,7 +294,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 changeChannel = "饿了么";
                 break;
             case "fmwd":
-                changeChannel = "非码微店";
+                changeChannel = "微店";
                 break;
             case "mtwm":
                 changeChannel = "美团外卖";
@@ -335,6 +337,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             //String cityDistrict = city + district;
             mOrderDetailStartCity.setText(city);
             mOrderDetailEndCity.setText(city);
+            mOrderDetailStartCity.getPaint().setFakeBoldText(true);
+            mOrderDetailEndCity.getPaint().setFakeBoldText(true);
             double latitude = mAMapLocation.getLatitude();//获取纬度
             double longitude = mAMapLocation.getLongitude();//获取经度
             LatLng latLngSelf = new LatLng(latitude, longitude);
@@ -351,14 +355,15 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mRouteSearch.calculateRideRouteAsyn(query);
             mOrderDetailEndDistance.setText(ValueUtil.formatDistance(distance2));
             mOrderDetailStartDistance.setText(ValueUtil.formatDistance(distance1));
-
+            mOrderDetailEndDistance.getPaint().setFakeBoldText(true);
+            mOrderDetailStartDistance.getPaint().setFakeBoldText(true);
         }
     }
 
     private void showOtherLayout() {
         if(mOtherLayout.getVisibility() == View.GONE){
             mOtherLayout.setVisibility(View.VISIBLE);
-            mShowOtherTextView.setText("隐藏全乎内容");
+            mShowOtherTextView.setText("隐藏全部内容");
             Drawable arrow = ContextCompat.getDrawable(getContext(),R.mipmap.top_arrow);
             arrow.setBounds(0,0,arrow.getMinimumWidth(),arrow.getMinimumHeight());
             mShowOtherTextView.setCompoundDrawables(null,null,arrow,null);

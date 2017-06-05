@@ -46,7 +46,7 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
                     break;
                 case "fmwd":
                     helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.channl_laoxiangji));
-                    changeChannel = "非码微店";
+                    changeChannel = "微店";
                     break;
                 case "mtwm":
                     helper.setImageBitmap(R.id.order_channel, BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.channl_meituan));
@@ -78,6 +78,8 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
         if (mAMapLocation != null) {
             helper.setVisible(R.id.order_end_city, true);
             helper.setVisible(R.id.order_start_city, true);
+            helper.setFakeBoldText(R.id.order_start_city, true);
+            helper.setFakeBoldText(R.id.order_end_city, true);
             String city = mAMapLocation.getCity();//城市信息
             //String district = mAMapLocation.getDistrict();//城区信息
             //String cityDistrict = city ;
@@ -92,6 +94,8 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<MyOrders, BaseViewHol
             float distance2 = AMapUtils.calculateLineDistance(latLngSelf, latLngCustomer);
             helper.setText(R.id.order_start_distance, ValueUtil.formatDistance(distance1));
             helper.setText(R.id.order_end_distance, ValueUtil.formatDistance(distance2));
+            helper.setFakeBoldText(R.id.order_end_distance, true);
+            helper.setFakeBoldText(R.id.order_start_distance, true);
         }
 
     }

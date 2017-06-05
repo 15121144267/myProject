@@ -1,9 +1,13 @@
 package com.dispatching.feima.view.model;
 
 import com.dispatching.feima.BuildConfig;
+import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.DeliveryStatusRequest;
+import com.dispatching.feima.gen.OrderNoticeDao;
 import com.dispatching.feima.network.networkapi.MainApi;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,13 +23,14 @@ public class MainModel {
     private final Gson mGson;
     private final ModelTransform mTransform;
     private final String version;
-
+    private final OrderNoticeDao mOrderNoticeDao;
     @Inject
-    public MainModel(MainApi api, Gson gson, ModelTransform transform) {
+    public MainModel(MainApi api, Gson gson, ModelTransform transform,OrderNoticeDao orderNoticeDao) {
         mMainApi = api;
         mGson = gson;
         mTransform = transform;
         version = BuildConfig.VERSION_NAME;
+        mOrderNoticeDao = orderNoticeDao;
     }
 
     public Observable<ResponseData> PendingOrderInfoRequest(String token,String uId) {
@@ -58,4 +63,20 @@ public class MainModel {
 
     }
 
+    public Observable<Integer> updateDb(String businessId){
+        return Observable.create(e->{
+            try {
+                List<OrderNotice> list = mOrderNoticeDao.queryBuilder().where(OrderNoticeDao.Properties.OrderId.eq(businessId)).build().list();
+                if(list.size()>0){
+                   OrderNotice orderNotice = list.get(0);
+                    orderNotice.setOrderFlag(1);
+                    mOrderNoticeDao.update(orderNotice);
+                }
+                e.onNext(list.size());
+            } catch (Exception e1) {
+               e.onError(e1);
+            }
+
+        });
+    }
 }

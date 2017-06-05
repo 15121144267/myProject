@@ -124,6 +124,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         mBuProcessor.setUserId(loginResponse.uId);
         mBuProcessor.setUserToken(loginResponse.token);
         mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
+        mSharePreferenceUtil.setStringValue(SpConstant.USER_TOKEN, loginResponse.token);
         mSharePreferenceUtil.setStringValue(SpConstant.USER_ID, loginResponse.uId);
         if (TextUtils.isEmpty(mUserId)) {
             startService(CustomerService.newIntent(getApplicationContext()));

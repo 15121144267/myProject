@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -19,7 +20,6 @@ import com.dispatching.feima.entity.RabbitRely;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.gen.OrderNoticeDao;
-import com.dispatching.feima.utils.AppDeviceUtil;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.activity.LoginActivity;
@@ -75,6 +75,7 @@ public class CustomerService extends Service {
     private Connection mConnection2;
     private double mLongitude;
     private double mLatitude;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -88,7 +89,7 @@ public class CustomerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if(!uId.equals(mUId)){
+        if (!uId.equals(mUId)) {
             try {
                 mUId = uId;
                 TASK_QUEUE_NAME = "delivery.postman." + mUId;
@@ -99,7 +100,7 @@ public class CustomerService extends Service {
                 e.printStackTrace();
             }
         }
-        if(intent!=null){
+        if (intent != null) {
             mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
             mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
             new Thread(mSendRunnable).start();
@@ -129,7 +130,7 @@ public class CustomerService extends Service {
                         ResponseData responseData = mTransform.transformNotice(message);
                         insertNotice(responseData);
                         try {
-                            String noticeMessage = "单号："+responseData.businessId;
+                            String noticeMessage = "单号：" + responseData.businessId;
                             showNotification(noticeMessage);
                         } catch (Exception e) {
                             mChannel.abort();
@@ -165,10 +166,10 @@ public class CustomerService extends Service {
                 rely.uId = mUId;
                 String relyJson = mGson.toJson(rely);
                 try {
-                    if(mConnection2==null){
+                    if (mConnection2 == null) {
                         mConnection2 = factory.newConnection();
                     }
-                    if(mChannel2 ==null){
+                    if (mChannel2 == null) {
                         mChannel2 = mConnection2.createChannel();
                     }
 
@@ -183,20 +184,15 @@ public class CustomerService extends Service {
 
     private void showNotification(String msg) {
         Intent i;
-        if (AppDeviceUtil.isRunningApp(this)) {
-            if (AppDeviceUtil.getTopActivityName(this).equals(LoginActivity.class.getName())) {
-                i = LoginActivity.getLoginIntent(this);
-            } else {
-                i = MainActivity.getMainIntent(this);
-            }
-
-        } else {
+        if (TextUtils.isEmpty(mUId)) {
             i = LoginActivity.getLoginIntent(this);
+        } else {
+            i = MainActivity.getMainIntent(this);
         }
         PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker(getResources().getString(R.string.app_name))
-                .setSmallIcon(R.mipmap.logo)
+                .setSmallIcon(R.mipmap.freemud_logo)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(msg)
                 .setContentIntent(pi)

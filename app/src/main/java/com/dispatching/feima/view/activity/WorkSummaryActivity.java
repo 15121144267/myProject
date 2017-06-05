@@ -19,7 +19,6 @@ import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.PresenterControl.WorkSummaryControl;
 import com.dispatching.feima.view.adapter.WorkSummaryAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,20 +62,13 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     @Override
     public void getAllOrderSuccess(OrderDeliveryResponse response) {
-        List<MyOrders> completedOrder = new ArrayList<>();
-        int completeOrderCount = 0;
         List<MyOrders> ordersList = response.orders;
-        if (ordersList != null && ordersList.size() > 0) {
-            for (MyOrders myOrders : ordersList) {
-                if (myOrders.deliveryStatus == 4) {
-                    completeOrderCount ++;
-                    completedOrder.add(myOrders);
-                }
-            }
-            mAdapter.setNewData(completedOrder);
-
+        if (ordersList != null ) {
+            mAdapter.setNewData(ordersList);
+            String orderCount = ordersList.size()+"单";
+            mOrderSummary.setText(orderCount);
         }
-        mOrderSummary.setText(completeOrderCount+" 单");
+
 
     }
 

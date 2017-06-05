@@ -9,6 +9,7 @@ import android.content.Context;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.database.DbHelper;
 import com.dispatching.feima.entity.BuProcessor;
@@ -90,11 +91,11 @@ public class ApplicationModule {
     @Singleton
     ConnectionFactory provideConnectionFactory() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("115.159.73.217");
-        factory.setPort(5673);
-        factory.setUsername("erle.li@freemud");
-        factory.setPassword("A2PH8YkkQB");
-        factory.setVirtualHost("vhost-waimai");
+        factory.setHost(BuildConfig.RABBIT_HOST);
+        factory.setPort(BuildConfig.RABBIT_PORT);
+        factory.setUsername(BuildConfig.RABBIT_NAME);
+        factory.setPassword(BuildConfig.RABBIT_PASSWORD);
+        factory.setVirtualHost(BuildConfig.RABBIT_VHOST);
         return factory;
     }
 

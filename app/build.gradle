@@ -37,16 +37,26 @@ android {
             shrinkResources false
             signingConfig signingConfigs.myDebugConfig
             buildConfigField "String", "DISPATCH_SERVICE", DUBUG_DISPATCH_SERVICE
+            buildConfigField "String", "RABBIT_HOST", DUBUG_RABBITMQ_HOST
+            buildConfigField "Integer", "RABBIT_PORT", DUBUG_RABBITMQ_PORT
+            buildConfigField "String", "RABBIT_VHOST", DUBUG_RABBITMQ_VHOST
+            buildConfigField "String", "RABBIT_NAME", DUBUG_RABBITMQ_NAME
+            buildConfigField "String", "RABBIT_PASSWORD", DUBUG_RABBITMQ_PASSWORD
 
         }
         release {
-            debuggable false
+            debuggable true
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.myConfig
             buildConfigField "String", "DISPATCH_SERVICE", RELEASE_DISPATCH_SERVICE
+            buildConfigField "String", "RABBIT_HOST", RELEASE_RABBITMQ_HOST
+            buildConfigField "Integer", "RABBIT_PORT", RELEASE_RABBITMQ_PORT
+            buildConfigField "String", "RABBIT_VHOST", RELEASE_RABBITMQ_VHOST
+            buildConfigField "String", "RABBIT_NAME", RELEASE_RABBITMQ_NAME
+            buildConfigField "String", "RABBIT_PASSWORD", RELEASE_RABBITMQ_PASSWORD
         }
     }
     greendao{

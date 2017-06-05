@@ -4,12 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
+import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.MainApi;
+import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
 import com.dispatching.feima.view.PresenterControl.SendingOrderControl;
-import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterCompletedImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterMainImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterPendingImpl;
@@ -52,8 +53,8 @@ public class MainActivityModule {
 
     @Provides
     @PerActivity
-    MainModel provideMainModel(Gson gson, ModelTransform modelTransform,MainApi mainApi) {
-        return new MainModel(mainApi, gson, modelTransform);
+    MainModel provideMainModel(Gson gson, ModelTransform modelTransform,MainApi mainApi,DaoSession daoSession) {
+        return new MainModel(mainApi, gson, modelTransform,daoSession.getOrderNoticeDao());
     }
 
     @Provides

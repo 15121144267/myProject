@@ -109,6 +109,8 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
+                MyOrders orders = (MyOrders) adapter.getItem(position);
+                mPresenter.requestUpOrder(orders.businessId);
                 startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(),
                         mPendingAdapter.getItem(position), IntentConstant.ORDER_POSITION_ONE),
                         IntentConstant.ORDER_POSITION_ONE);

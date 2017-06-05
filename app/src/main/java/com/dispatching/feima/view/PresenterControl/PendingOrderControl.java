@@ -18,5 +18,6 @@ public class PendingOrderControl {
     public interface PresenterPendingOrder extends Presenter<PendingOrderView> {
         void requestPendingOrder(String token, String uId);
         void requestTakeOrder(String token, String uId, String deliveryId);
+        void requestUpOrder(String businessId);
     }
 }

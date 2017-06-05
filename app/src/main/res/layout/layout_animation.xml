@@ -84,6 +84,7 @@
                 android:maxLines="1"
                 android:text="上海市浦东新区"
                 android:visibility="gone"
+                android:textSize="@dimen/sp_16"
                 />
 
             <TextView
@@ -139,6 +140,7 @@
                 android:layout_marginStart="@dimen/dp_35"
                 android:layout_toEndOf="@id/item_icon2"
                 android:text="上海市浦东新区"
+                android:textSize="@dimen/sp_16"
                 android:visibility="gone"
                 />
 

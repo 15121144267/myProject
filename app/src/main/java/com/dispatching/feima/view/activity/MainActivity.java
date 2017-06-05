@@ -79,7 +79,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         ButterKnife.bind(this);
         supportActionBar(mToolbar, false);
         initializeInjector();
-
         mPresenter = mActivityComponent.getPresenterMain();
         mPresenter.setView(this);
 

@@ -39,7 +39,7 @@ public class WorkSummaryAdapter extends BaseQuickAdapter<MyOrders, BaseViewHolde
         helper.setText(R.id.adapter_time, item.endTime);
         String orderId = "订单编号:"+item.businessId;
         helper.setText(R.id.adapter_content, orderId);
-
+        helper.setVisible(R.id.order_new_message,false);
     }
 
 }

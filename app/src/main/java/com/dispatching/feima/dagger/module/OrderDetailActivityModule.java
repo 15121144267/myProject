@@ -9,6 +9,7 @@ import com.amap.api.services.route.RouteSearch;
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.PerActivity;
+import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.MainApi;
 import com.dispatching.feima.view.PresenterControl.OrderDetailControl;
@@ -72,8 +73,8 @@ public class OrderDetailActivityModule {
 
     @Provides
     @PerActivity
-    MainModel provideMainModel(Gson gson, ModelTransform modelTransform, MainApi mainApi) {
-        return new MainModel(mainApi, gson, modelTransform);
+    MainModel provideMainModel(Gson gson, ModelTransform modelTransform, MainApi mainApi,DaoSession daoSession) {
+        return new MainModel(mainApi, gson, modelTransform,daoSession.getOrderNoticeDao());
     }
 
     @Provides

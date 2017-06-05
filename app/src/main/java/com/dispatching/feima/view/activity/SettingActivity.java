@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
+import com.dispatching.feima.entity.SpConstant;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -48,6 +49,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void quiteLogin() {
+        mSharePreferenceUtil.removeKey(SpConstant.USER_ID);
         startActivity(LoginActivity.getLoginIntent(this));
     }
 }

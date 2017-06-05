@@ -111,6 +111,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public BaseViewHolder setFakeBoldText(int viewId, boolean value) {
+        TextView view = getView(viewId);
+        view.getPaint().setFakeBoldText(true);
+        return this;
+    }
+
     public BaseViewHolder setText(int viewId, @StringRes int strId) {
         TextView view = getView(viewId);
         view.setText(strId);

@@ -46,6 +46,16 @@ public class PresenterPendingImpl implements PendingOrderControl.PresenterPendin
         mView.addSubscription(disposable);
     }
 
+    @Override
+    public void requestUpOrder(String businessId) {
+        mMainModel.updateDb(businessId).compose(mView.applySchedulers()).subscribe(this::updateSuccess,
+                throwable -> mView.showErrMessage(throwable));
+    }
+
+    private void updateSuccess(Integer count) {
+
+    }
+
     private void getTakeOrderSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
             /*responseData.parseData(DeliveryStatusResponse.class);
