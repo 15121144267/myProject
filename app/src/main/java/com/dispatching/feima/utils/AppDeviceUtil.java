@@ -45,12 +45,6 @@ public class AppDeviceUtil {
         return "";
     }
 
-    /**
-     * [获取应用程序版本名称信息]
-     *
-     * @param context
-     * @return 当前应用的版本名称
-     */
     public static String getVersionName(Context context) {
         try {
             PackageManager packageManager = context.getPackageManager();

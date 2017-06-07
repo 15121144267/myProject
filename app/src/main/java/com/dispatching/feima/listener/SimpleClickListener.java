@@ -222,9 +222,6 @@ public abstract class SimpleClickListener implements RecyclerView.OnItemTouchLis
 
     private void setPressViewHotSpot(final MotionEvent e,final  View mPressedView) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            /**
-             * when   click   Outside the region  ,mPressedView is null
-             */
             if (mPressedView !=null && mPressedView.getBackground() != null) {
                 mPressedView.getBackground().setHotspot(e.getRawX(), e.getY()-mPressedView.getY());
             }
@@ -270,9 +267,6 @@ public abstract class SimpleClickListener implements RecyclerView.OnItemTouchLis
     }
 
     private boolean isHeaderOrFooterPosition(int position) {
-        /**
-         *  have a headview and EMPTY_VIEW FOOTER_VIEW LOADING_VIEW
-         */
         if (baseQuickAdapter==null){
             if (recyclerView!=null){
                 baseQuickAdapter= (BaseQuickAdapter) recyclerView.getAdapter();

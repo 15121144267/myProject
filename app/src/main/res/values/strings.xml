@@ -2,7 +2,7 @@
     <string name="app_name">非码配送</string>
     <string name="toolbar_des"> </string>
     <string name="main_tool_name">配送单</string>
-    <string name="loading">正在加载中...</string>
+    <string name="loading">正在加载中…</string>
     <string name="load_failed">加载失败，请点我重试</string>
     <string name="load_end">没有更多数据</string>
     <string name="app_login">登录</string>
@@ -22,7 +22,7 @@
     <string name="text_verify_code">获取验证码</string>
     <string name="text_take_order">取餐</string>
     <string name="text_complete_order">已送达</string>
-    <string name="text_notice_time">2017-04-25 12:40:42</string>
+    <string name="text_notice_time">2017–04-25 12:40:42</string>
     <string name="text_notice_time_content">分配时间：</string>
     <string name="text_notice_content">您有一份待取餐的订单 请及时处理</string>
     <string name="text_setting_version">V 1.0</string>

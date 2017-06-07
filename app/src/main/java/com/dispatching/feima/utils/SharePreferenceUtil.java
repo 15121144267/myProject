@@ -43,15 +43,12 @@ public class SharePreferenceUtil {
     }
 
     public String getStringValue(String key) {
-        try{
+        try {
             if (settings == null) {
                 settings = getSharedPreferences();
             }
-            if (key != null /*&& "uid".equals(key)*/) {
-                return settings.getString(key, "");
-            }
             return settings.getString(key, "");
-        }catch(Exception e){
+        } catch (Exception e) {
             return "";
         }
 
@@ -181,18 +178,20 @@ public class SharePreferenceUtil {
 
     public Object getObjectInfo(String key, java.lang.reflect.Type type) {
         String json = get(key);
-        if(json != null ){
+        if (json != null) {
             return new Gson().fromJson(json, type);
-        }else
+        } else
             return null;
     }
-    public Object getObjectInfo(String key , Class<?> clz){
+
+    public Object getObjectInfo(String key, Class<?> clz) {
         String json = get(key);
-        if(json != null ){
+        if (json != null) {
             return new Gson().fromJson(json, clz);
-        }else
+        } else
             return null;
     }
+
     public void putObjectInfo(String key, Object obj) {
         if (settings == null) {
             settings = getSharedPreferences();

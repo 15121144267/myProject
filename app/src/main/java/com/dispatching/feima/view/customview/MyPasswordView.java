@@ -23,6 +23,7 @@ import com.dispatching.feima.R;
 
 /**
  * Created by lei.he on 2017/5/23.
+ * MyPasswordView
  */
 
 public class MyPasswordView extends RelativeLayout {
@@ -130,7 +131,7 @@ public class MyPasswordView extends RelativeLayout {
             textView.setGravity(Gravity.CENTER);
             textViews[i] = textView;
             textViews[i].setTextSize(pwdsize);
-            textViews[i].setTextColor(context.getResources().getColor(pwdcolor));
+            textViews[i].setTextColor(ContextCompat.getColor(context,pwdcolor));
             textViews[i].setInputType(InputType.TYPE_CLASS_NUMBER);
             textViews[i].setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rectangle));
             linearLayout.addView(textView, params);
@@ -151,12 +152,11 @@ public class MyPasswordView extends RelativeLayout {
      * @param showPwd
      */
     public void setShowPwd(boolean showPwd) {
-        int length = textViews.length;
-        for (int i = 0; i < length; i++) {
+        for (TextView textView : textViews) {
             if (showPwd) {
-                textViews[i].setTransformationMethod(PasswordTransformationMethod.getInstance());
+                textView.setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
-                textViews[i].setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                textView.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
         }
     }
@@ -167,9 +167,8 @@ public class MyPasswordView extends RelativeLayout {
      * @param type
      */
     public void setInputType(int type) {
-        int length = textViews.length;
-        for (int i = 0; i < length; i++) {
-            textViews[i].setInputType(type);
+        for (TextView textView : textViews) {
+            textView.setInputType(type);
         }
     }
 

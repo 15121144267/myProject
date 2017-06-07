@@ -404,10 +404,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
                 view.setLongClickable(true);
             }
             view.setOnLongClickListener(v -> {
-                if (adapter.getOnItemChildLongClickListener() != null) {
-                    return adapter.getOnItemChildLongClickListener().onItemChildLongClick(adapter, v, getClickPosition());
-                }
-                return false;
+                return adapter.getOnItemChildLongClickListener() != null && adapter.getOnItemChildLongClickListener().onItemChildLongClick(adapter, v, getClickPosition());
             });
         }
         return this;

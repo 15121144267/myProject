@@ -68,11 +68,9 @@ public abstract class LoadMoreView {
         this.mLoadMoreEndGone = loadMoreEndGone;
     }
 
-    public final boolean isLoadEndMoreGone(){
-        if(getLoadEndViewId()==0){
-            return true;
-        }
-        return mLoadMoreEndGone;}
+    public final boolean isLoadEndMoreGone() {
+        return getLoadEndViewId() == 0 || mLoadMoreEndGone;
+    }
 
 
     @Deprecated

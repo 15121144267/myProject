@@ -8,11 +8,12 @@ import android.util.AttributeSet;
 
 /**
  * Created by lei.he on 2017/6/2.
+ * MyTextView
  */
 
 public class MyTextView extends AppCompatTextView {
     public MyTextView(Context context, AttributeSet attrs,
-                                  int defStyle) {
+                      int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -27,16 +28,13 @@ public class MyTextView extends AppCompatTextView {
     @Override
     protected void onDraw(Canvas canvas) {
         Drawable[] drawables = getCompoundDrawables();
-        if (drawables != null) {
-            Drawable drawableLeft = drawables[0];
-            if (drawableLeft != null) {
-                float textWidth = getPaint().measureText(getText().toString());
-                int drawablePadding = getCompoundDrawablePadding();
-                int drawableWidth = 0;
-                drawableWidth = drawableLeft.getIntrinsicWidth();
-                float bodyWidth = textWidth + drawableWidth + drawablePadding;
-                canvas.translate((getWidth() - bodyWidth) / 2, 0);
-            }
+        Drawable drawableLeft = drawables[0];
+        if (drawableLeft != null) {
+            float textWidth = getPaint().measureText(getText().toString());
+            int drawablePadding = getCompoundDrawablePadding();
+            int drawableWidth = drawableLeft.getIntrinsicWidth();
+            float bodyWidth = textWidth + drawableWidth + drawablePadding;
+            canvas.translate((getWidth() - bodyWidth) / 2, 0);
         }
         super.onDraw(canvas);
     }

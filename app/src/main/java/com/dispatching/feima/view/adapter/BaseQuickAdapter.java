@@ -793,17 +793,14 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
             return;
         }
         view.setOnClickListener(v -> {
-            if (getOnItemClickListener() != null && baseViewHolder != null) {
+            if (getOnItemClickListener() != null ) {
 
                 getOnItemClickListener().onItemClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
             }
 
         });
         view.setOnLongClickListener(v -> {
-            if (getOnItemLongClickListener() != null && baseViewHolder != null) {
-                return getOnItemLongClickListener().onItemLongClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
-            }
-            return false;
+            return getOnItemLongClickListener() != null  && getOnItemLongClickListener().onItemLongClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
 
         });
     }
@@ -1262,7 +1259,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     private void addAnimation(RecyclerView.ViewHolder holder) {
         if (mOpenAnimationEnable) {
             if (!mFirstOnlyEnable || holder.getLayoutPosition() > mLastPosition) {
-                BaseAnimation animation = null;
+                BaseAnimation animation;
                 if (mCustomAnimation != null) {
                     animation = mCustomAnimation;
                 } else {
