@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mPersonStatus = (TextView) view.findViewById(R.id.user_status);
         mPersonStatusControl = (SwitchCompat) view.findViewById(R.id.user_status_control);
         RxCompoundButton.checkedChanges(mPersonStatusControl).subscribe(
-                aBoolean -> requestChange(aBoolean));
+                this::requestChange);
 
         mMiddleName.setText(R.string.app_name);
         mNvSlidingMenu.setNavigationItemSelectedListener(this);
@@ -222,15 +222,4 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
                 .mainActivityModule(new MainActivityModule(this))
                 .build();
     }
-    /*private void initializeInjector() {
-        mActivityComponent = DaggerMainActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .mainActivityModule(new MainActivityModule(this))
-                .build();
-    }private void initializeInjector() {
-        mActivityComponent = DaggerMainActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .mainActivityModule(new MainActivityModule(this))
-                .build();
-    }*/
 }
