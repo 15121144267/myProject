@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:gravity="center_vertical"
+              android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/notice_tip"
+        android:background="@drawable/shape_oval"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+</LinearLayout>

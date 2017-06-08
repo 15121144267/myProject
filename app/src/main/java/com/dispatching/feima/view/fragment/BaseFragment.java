@@ -33,7 +33,6 @@ import retrofit2.HttpException;
  * BaseFragment
  */
 
-@SuppressWarnings("RedundantCast")
 public class BaseFragment extends Fragment {
     private CompositeDisposable mDisposable;
     private Dialog mProgressDialog;

@@ -4,11 +4,7 @@ import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.model.MainModel;
 
-import java.net.ConnectException;
-
 import javax.inject.Inject;
-
-import retrofit2.HttpException;
 
 /**
  * Created by helei on 2017/4/27.
@@ -17,11 +13,20 @@ import retrofit2.HttpException;
 
 public class PresenterMainImpl implements MainControl.PresenterMain {
     private MainControl.MainView mView;
-
-
+    private MainModel mMainModel;
     @Inject
     public PresenterMainImpl(MainModel model, SharePreferenceUtil sharePreferenceUtil) {
+        mMainModel = model;
+    }
 
+    @Override
+    public void requestNoticeCount() {
+        mMainModel.queryNoticeDb().compose(mView.applySchedulers()).subscribe(this::querySuccess,
+                throwable -> mView.showErrMessage(throwable));
+    }
+
+    private void querySuccess(Integer count){
+        mView.querySuccess(count);
     }
 
     @Override
@@ -47,13 +52,5 @@ public class PresenterMainImpl implements MainControl.PresenterMain {
     @Override
     public void onDestroy() {
         mView = null;
-    }
-
-    private void showErrMessage(Throwable e) {
-        mView.dismissLoading();
-        if (e instanceof HttpException || e instanceof ConnectException
-                || e instanceof RuntimeException) {
-            mView.showToast("请检查网络");
-        }
     }
 }

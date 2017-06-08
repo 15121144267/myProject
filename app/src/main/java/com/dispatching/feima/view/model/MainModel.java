@@ -79,4 +79,16 @@ public class MainModel {
 
         });
     }
+
+    public Observable<Integer> queryNoticeDb(){
+        return Observable.create(e->{
+            try {
+                List<OrderNotice> list = mOrderNoticeDao.queryBuilder().where(OrderNoticeDao.Properties.OrderFlag.eq(0)).build().list();
+                e.onNext(list.size());
+            } catch (Exception e1) {
+                e.onError(e1);
+            }
+
+        });
+    }
 }

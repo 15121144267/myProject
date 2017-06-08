@@ -6,12 +6,12 @@ package com.dispatching.feima.view.PresenterControl;
  */
 
 public class MainControl {
-    public interface MainView extends LoadDataView{
-
+    public interface MainView extends LoadDataView {
+        void querySuccess(Integer count);
     }
 
     public interface PresenterMain extends Presenter<MainView> {
-
+        void requestNoticeCount();
     }
 
 }

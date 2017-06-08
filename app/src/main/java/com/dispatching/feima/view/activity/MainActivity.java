@@ -41,8 +41,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.dispatching.feima.R.id.my_notice;
+
 public class MainActivity extends BaseActivity implements MainControl.MainView,
-        NavigationView.OnNavigationItemSelectedListener, HasComponent<MainActivityComponent>,CommonDialog.CommonDialogListener{
+        NavigationView.OnNavigationItemSelectedListener, HasComponent<MainActivityComponent>, CommonDialog.CommonDialogListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -67,6 +69,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     //private String mUserId;
     //private String mVersion;
     private List<Fragment> mFragments;
+    private TextView noticeCount;
 
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -115,7 +118,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.my_notice:
+            case my_notice:
                 startActivity(NoticeCenterActivity.getNoticeIntent(this));
                 break;
             case R.id.my_summary:
@@ -192,7 +195,8 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mViewpager.setOffscreenPageLimit(2);
         mViewpager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewpager);
-
+        View actionView = mNvSlidingMenu.getMenu().findItem(R.id.my_notice).getActionView();
+        noticeCount = (TextView) actionView.findViewById(R.id.notice_tip);
         View view = mNvSlidingMenu.getHeaderView(0);
         // LinearLayout topLinearLayout = (LinearLayout) view.findViewById(R.id.person_top);
         mNvSlidingMenu.setItemTextColor(null);
@@ -211,6 +215,22 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, R.string.toolbar_des, R.string.toolbar_des);
         mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.requestNoticeCount();
+    }
+
+    @Override
+    public void querySuccess(Integer count) {
+        if (count == 0) {
+            noticeCount.setVisibility(View.GONE);
+        } else {
+            noticeCount.setVisibility(View.VISIBLE);
+            noticeCount.setText(String.valueOf(count));
+        }
     }
 
     private void requestChange(boolean isFlag) {

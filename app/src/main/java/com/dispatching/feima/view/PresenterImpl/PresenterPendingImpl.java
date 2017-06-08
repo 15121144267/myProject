@@ -40,7 +40,7 @@ public class PresenterPendingImpl implements PendingOrderControl.PresenterPendin
     @Override
     public void requestTakeOrder(String token, String uId, String deliveryId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mMainModel.TakeOrderRequest(0,token, uId,deliveryId).compose(mView.applySchedulers())
+        Disposable disposable = mMainModel.TakeOrderRequest(0, token, uId, deliveryId).compose(mView.applySchedulers())
                 .subscribe(this::getTakeOrderSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
