@@ -2,9 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group android:checkableBehavior="all"
-
-        >
+    <group android:checkableBehavior="all">
         <item
             android:id="@+id/my_notice"
             android:icon="@drawable/vector_notice_icon"
@@ -19,7 +17,6 @@
             android:id="@+id/my_setting"
             android:icon="@drawable/vector_setting_icon"
             android:title="@string/user_setting_center"/>
-
     </group>
 
 </menu>
