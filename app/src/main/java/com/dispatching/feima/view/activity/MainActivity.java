@@ -84,7 +84,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         initializeInjector();
         mPresenter = mActivityComponent.getPresenterMain();
         mPresenter.setView(this);
-
         mFragments = new ArrayList<>();
         mFragments.add(new PendingOrderFragment());
         mFragments.add(new SendingOrderFragment());

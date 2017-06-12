@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2015 android10.org. All rights reserved.
+ *
  * @author Fernando Cejas (the android10 coder)
  */
 package com.dispatching.feima.dagger.module;
@@ -16,6 +17,8 @@ import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoMaster;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.listener.MyLocationListener;
+import com.dispatching.feima.superscoket.IPList;
+import com.dispatching.feima.superscoket.SocketClient;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
@@ -58,19 +61,21 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    DaoSession provideDaoSession (DbHelper dbHelper) {
+    DaoSession provideDaoSession(DbHelper dbHelper) {
         return new DaoMaster(dbHelper.getWritableDatabase()).newSession();
     }
 
     @Provides
     @Singleton
-    ModelTransform provideModelTransform ( ) {
+    ModelTransform provideModelTransform() {
         return new ModelTransform();
     }
 
     @Singleton
     @Provides
-    Gson provideGson(){return new GsonBuilder().create();}
+    Gson provideGson() {
+        return new GsonBuilder().create();
+    }
 
     @Provides
     @Singleton
@@ -97,6 +102,12 @@ public class ApplicationModule {
         factory.setPassword(BuildConfig.RABBIT_PASSWORD);
         factory.setVirtualHost(BuildConfig.RABBIT_VHOST);
         return factory;
+    }
+
+    @Provides
+    @Singleton
+    SocketClient provideSocketClient() {
+        return new SocketClient(IPList._ip, IPList._Port, 6);
     }
 
     @Provides

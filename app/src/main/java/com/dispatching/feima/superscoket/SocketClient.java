@@ -57,12 +57,10 @@ public class SocketClient {
      * 发送失败
      **/
     public static final int SENDFAILURE = -2;
-    public Handler handler = new Handler() {
 
-
+    public Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+        public boolean handleMessage(Message msg) {
             if (msg.what == CONNECTSUCCESS) {
                 new MsgReceiveThread(Client, handler).start();
             } else if (msg.what == CONNECTFAILURE) {
@@ -86,8 +84,9 @@ public class SocketClient {
                     _Result.OnSendFailure(e);
                 }
             }
+            return false;
         }
-    };
+    });
 
     public void setOnReceiveListener(ISocketPacket _packet) {
         this._packet = _packet;
@@ -100,33 +99,30 @@ public class SocketClient {
      * @return boolean
      */
     public void Connection() {
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                Message message = new Message();
-                try {
-                    Client = new Socket(host, port);
-                    Client.setSoTimeout(timeout * 3000);
-                    if (CoallBack != null) {
-                        CoallBack.OnSuccess(Client);
-                    }
-                    Log.d("Client", "Socket链接成功");
-                    message.what = CONNECTSUCCESS;
-                    handler.sendMessage(message);
-                } catch (Exception e1) {
-                    message.what = CONNECTFAILURE;
-                    message.obj = e1;
-                    e1.printStackTrace();
-                    Log.d("Client", "连接失败");
-                }
-
-
-            }
-        });
-        thread.start();
+       new Thread(socketConnection).start();
     }
 
+    Runnable socketConnection =  new Runnable() {
+        @Override
+        public void run() {
+            Message message = new Message();
+            try {
+                Client = new Socket(host, port);
+                Client.setSoTimeout(timeout * 3000);
+                if (CoallBack != null) {
+                    CoallBack.OnSuccess(Client);
+                }
+                Log.d("Client", "Socket链接成功");
+                message.what = CONNECTSUCCESS;
+                handler.sendMessage(message);
+            } catch (Exception e1) {
+                message.what = CONNECTFAILURE;
+                message.obj = e1;
+                e1.printStackTrace();
+                Log.d("Client", "连接失败");
+            }
+        }
+    };
 
     /**
      * 关闭连接的输入输出流
@@ -135,15 +131,12 @@ public class SocketClient {
      */
     public void closeConnection() {
         try {
-
             if (Client != null) {
                 Client.close();// 关闭socket
             }
-
-
         } catch (Exception e) {
-        }
 
+        }
 
     }
 
@@ -174,10 +167,6 @@ public class SocketClient {
         } catch (Exception e) {
             closeConnection();
             return false;
-
-
         }
-
-
     }
 }

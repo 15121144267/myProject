@@ -19,7 +19,7 @@ import com.dispatching.feima.utils.Utils;
 
 import javax.inject.Inject;
 
-public class DaggerApplication extends Application  {
+public class DaggerApplication extends Application {
     private ApplicationComponent mAppComponent;
     private AMapLocation aMapLocation;
     @Inject
@@ -27,9 +27,13 @@ public class DaggerApplication extends Application  {
 
     @Inject
     AMapLocationClient mAMapLocationClient;
+
     @Inject
     AMapLocationClientOption mAMapLocationClientOption;
+
+
     private String mUId;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,8 +43,8 @@ public class DaggerApplication extends Application  {
         Utils.init(this);
 
         //本地服务
-        mUId  = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if(!TextUtils.isEmpty(mUId)){
+        mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        if (!TextUtils.isEmpty(mUId)) {
             startService(CustomerService.newIntent(getApplicationContext()));
         }
 
@@ -54,18 +58,18 @@ public class DaggerApplication extends Application  {
 
     public void transformLocation(AMapLocation aMapLocation) {
         this.aMapLocation = aMapLocation;
-        if(TextUtils.isEmpty(mUId)){
-            mUId  = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        }else {
+        if (TextUtils.isEmpty(mUId)) {
+            mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        } else {
             Intent intent = new Intent(CustomerService.ACTION);
-            intent.setClass(getApplicationContext(),CustomerService.class);
-            intent.putExtra(IntentConstant.LONGITUDE,aMapLocation.getLongitude());
-            intent.putExtra(IntentConstant.LATITUDE,aMapLocation.getLatitude());
+            intent.setClass(getApplicationContext(), CustomerService.class);
+            intent.putExtra(IntentConstant.LONGITUDE, aMapLocation.getLongitude());
+            intent.putExtra(IntentConstant.LATITUDE, aMapLocation.getLatitude());
             startService(intent);
         }
     }
 
-    public AMapLocation getaMapLocation(){
+    public AMapLocation getaMapLocation() {
         return aMapLocation;
     }
 }
