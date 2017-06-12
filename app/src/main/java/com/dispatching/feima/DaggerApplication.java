@@ -19,7 +19,7 @@ import com.dispatching.feima.utils.Utils;
 
 import javax.inject.Inject;
 
-public class DaggerApplication extends Application {
+public class DaggerApplication extends Application  {
     private ApplicationComponent mAppComponent;
     private AMapLocation aMapLocation;
     @Inject
@@ -30,7 +30,6 @@ public class DaggerApplication extends Application {
 
     @Inject
     AMapLocationClientOption mAMapLocationClientOption;
-
 
     private String mUId;
 

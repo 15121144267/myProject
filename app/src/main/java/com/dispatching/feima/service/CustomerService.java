@@ -16,10 +16,11 @@ import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.IntentConstant;
-import com.dispatching.feima.entity.RabbitRely;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.gen.OrderNoticeDao;
+import com.dispatching.feima.superscoket.ICoallBack;
+import com.dispatching.feima.superscoket.SocketClient;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.activity.LoginActivity;
@@ -27,15 +28,9 @@ import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.dispatching.feima.view.model.ResponseData;
 import com.google.gson.Gson;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Consumer;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
 
-import java.io.IOException;
+import java.net.Socket;
 
 import javax.inject.Inject;
 
@@ -45,7 +40,7 @@ import javax.inject.Inject;
  * CustomerService
  */
 
-public class CustomerService extends Service {
+public class CustomerService extends Service implements ICoallBack{
 
     public static final String ACTION = "com.dispatching.customerservice";
 
@@ -65,14 +60,11 @@ public class CustomerService extends Service {
     ModelTransform mTransform;
     @Inject
     ConnectionFactory factory;
+    @Inject
+    SocketClient mSocketClient;
 
-    private Channel mChannel;
-    private Channel mChannel2;
-    private String TASK_QUEUE_NAME;
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
-    private Connection mConnection;
-    private Connection mConnection2;
     private double mLongitude;
     private double mLatitude;
 
@@ -80,17 +72,28 @@ public class CustomerService extends Service {
     public void onCreate() {
         super.onCreate();
         ((DaggerApplication) getApplication()).getApplicationComponent().inject(this);
+        mSocketClient.Connection();
+        mSocketClient.setOnConnectListener(this);
         mOrderNoticeDao = mDaoSession.getOrderNoticeDao();
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        TASK_QUEUE_NAME = "delivery.postman." + mUId;
-        new Thread(networkTask).start();
+
+    }
+
+    @Override
+    public void OnSuccess(Socket client) {
+
+    }
+
+    @Override
+    public void OnFailure(Exception e) {
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if (!uId.equals(mUId)) {
-            try {
+           /* try {
                 mUId = uId;
                 TASK_QUEUE_NAME = "delivery.postman." + mUId;
                 mChannel.close();
@@ -98,12 +101,12 @@ public class CustomerService extends Service {
                 new Thread(networkTask).start();
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
         }
         if (intent != null) {
             mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
             mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
-            new Thread(mSendRunnable).start();
+//            new Thread(mSendRunnable).start();
         }
         return START_STICKY;
     }
@@ -114,7 +117,7 @@ public class CustomerService extends Service {
         return null;
     }
 
-    private final Runnable networkTask = new Runnable() {
+  /*  private final Runnable networkTask = new Runnable() {
         @Override
         public void run() {
             try {
@@ -154,9 +157,9 @@ public class CustomerService extends Service {
             }
 
         }
-    };
+    };*/
 
-    private final Runnable mSendRunnable = new Runnable() {
+  /*  private final Runnable mSendRunnable = new Runnable() {
         @Override
         public void run() {
             if (factory != null) {
@@ -180,7 +183,7 @@ public class CustomerService extends Service {
                 }
             }
         }
-    };
+    };*/
 
     private void showNotification(String msg) {
         Intent i;
@@ -218,13 +221,13 @@ public class CustomerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        try {
+        /*try {
             mChannel.close();
             mConnection.close();
             mChannel2.close();
             mConnection2.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
