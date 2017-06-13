@@ -102,13 +102,12 @@ public class SocketClient {
        new Thread(socketConnection).start();
     }
 
-    Runnable socketConnection =  new Runnable() {
+   private Runnable socketConnection =  new Runnable() {
         @Override
         public void run() {
             Message message = new Message();
             try {
                 Client = new Socket(host, port);
-                Client.setSoTimeout(timeout * 3000);
                 if (CoallBack != null) {
                     CoallBack.OnSuccess(Client);
                 }
@@ -127,7 +126,6 @@ public class SocketClient {
     /**
      * 关闭连接的输入输出流
      *
-     * @author mick.ge
      */
     public void closeConnection() {
         try {
@@ -137,9 +135,11 @@ public class SocketClient {
         } catch (Exception e) {
 
         }
-
     }
 
+    public boolean judgeClient() {
+       return Client!=null;
+    }
 
     public void SenddData(Object msg, ISendResult _Result) {
         this._Result = _Result;

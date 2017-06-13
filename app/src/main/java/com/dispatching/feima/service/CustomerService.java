@@ -11,16 +11,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.IntentConstant;
+import com.dispatching.feima.entity.PostManLocation;
+import com.dispatching.feima.entity.PostmanLocationData;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.gen.OrderNoticeDao;
-import com.dispatching.feima.superscoket.ICoallBack;
+import com.dispatching.feima.superscoket.ISendResult;
 import com.dispatching.feima.superscoket.SocketClient;
+import com.dispatching.feima.superscoket.SuperSocketCallBack;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.activity.LoginActivity;
@@ -30,8 +34,6 @@ import com.dispatching.feima.view.model.ResponseData;
 import com.google.gson.Gson;
 import com.rabbitmq.client.ConnectionFactory;
 
-import java.net.Socket;
-
 import javax.inject.Inject;
 
 
@@ -40,7 +42,7 @@ import javax.inject.Inject;
  * CustomerService
  */
 
-public class CustomerService extends Service implements ICoallBack{
+public class CustomerService extends Service {
 
     public static final String ACTION = "com.dispatching.customerservice";
 
@@ -72,43 +74,39 @@ public class CustomerService extends Service implements ICoallBack{
     public void onCreate() {
         super.onCreate();
         ((DaggerApplication) getApplication()).getApplicationComponent().inject(this);
-        mSocketClient.Connection();
-        mSocketClient.setOnConnectListener(this);
         mOrderNoticeDao = mDaoSession.getOrderNoticeDao();
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-
-    }
-
-    @Override
-    public void OnSuccess(Socket client) {
-
-    }
-
-    @Override
-    public void OnFailure(Exception e) {
-
+        mSocketClient.setOnReceiveListener(new SuperSocketCallBack(this));
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String uId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if (!uId.equals(mUId)) {
-           /* try {
-                mUId = uId;
-                TASK_QUEUE_NAME = "delivery.postman." + mUId;
-                mChannel.close();
-                mConnection.close();
-                new Thread(networkTask).start();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
-        }
         if (intent != null) {
             mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
             mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
-//            new Thread(mSendRunnable).start();
+            PostManLocation postManLocation = new PostManLocation();
+            postManLocation.Longitude = mLongitude;
+            postManLocation.Latitude = mLatitude;
+            String locationJson = mGson.toJson(postManLocation);
+            PostmanLocationData data = new PostmanLocationData();
+            data.PostManSend = locationJson;
+            mSocketClient.SenddData(mGson.toJson(data), new ISendResult() {
+                @Override
+                public void OnSendSuccess() {
+
+                }
+
+                @Override
+                public void OnSendFailure(Exception e) {
+
+                }
+            });
         }
         return START_STICKY;
+    }
+
+    public void transformSuperSocketInfo(String msg) {
+        Log.d("connection", msg);
     }
 
     @Nullable
@@ -221,13 +219,6 @@ public class CustomerService extends Service implements ICoallBack{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        /*try {
-            mChannel.close();
-            mConnection.close();
-            mChannel2.close();
-            mConnection2.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        mSocketClient.closeConnection();
     }
 }
