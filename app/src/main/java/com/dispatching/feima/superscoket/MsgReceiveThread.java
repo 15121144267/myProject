@@ -7,18 +7,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.Socket;
 
 /**
  * Created by lei.he on 2017/6/9.
+ * MsgReceiveThread
  */
 
 public class MsgReceiveThread extends Thread implements Runnable {
-    Socket _Client;
-    Handler handler;
-    BufferedReader in;
-    InputStream mInputStream;
+    private final Socket _Client;
+    private final Handler handler;
+    private InputStream mInputStream;
 
     public MsgReceiveThread(Socket _Client, Handler handler) {
         this._Client = _Client;
@@ -37,10 +36,9 @@ public class MsgReceiveThread extends Thread implements Runnable {
     public void run() {
         super.run();
         try {
-            String line = "";
-            Reader reader;
+            String line;
             if (_Client != null && mInputStream != null) {
-                in = new BufferedReader(new InputStreamReader(mInputStream));
+                BufferedReader in = new BufferedReader(new InputStreamReader(mInputStream));
                 while ((line = in.readLine()) != null) {
                     line = line+"\n";
                     Message message = new Message();

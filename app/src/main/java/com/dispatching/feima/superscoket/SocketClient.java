@@ -14,8 +14,8 @@ import java.net.SocketTimeoutException;
 
 public class SocketClient {
     private Socket Client;
-    private OutputStream serverOutput = null;
-    private String host;
+    private final OutputStream serverOutput = null;
+    private final String host;
     private int port = -1;
     private int timeout = 3;
     private ICoallBack CoallBack = null;
@@ -58,7 +58,7 @@ public class SocketClient {
      **/
     public static final int SENDFAILURE = -2;
 
-    public Handler handler = new Handler(new Handler.Callback() {
+    public final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == CONNECTSUCCESS) {
@@ -102,7 +102,7 @@ public class SocketClient {
         new Thread(socketConnection).start();
     }
 
-    private Runnable socketConnection = new Runnable() {
+    private final Runnable socketConnection = new Runnable() {
         @Override
         public void run() {
             Message message = new Message();

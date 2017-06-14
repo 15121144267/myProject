@@ -73,7 +73,7 @@ public abstract class SimpleClickListener implements RecyclerView.OnItemTouchLis
 
     private class ItemTouchHelperGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        private RecyclerView recyclerView;
+        private final RecyclerView recyclerView;
 
         @Override
         public boolean onDown(MotionEvent e) {

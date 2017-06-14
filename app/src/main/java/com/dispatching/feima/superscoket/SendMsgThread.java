@@ -13,7 +13,7 @@ import java.net.Socket;
  */
 
 public class SendMsgThread extends Thread implements Runnable {
-    private Handler handler;
+    private final Handler handler;
     private OutputStream serverOutput;
     private Object msg = null;
 

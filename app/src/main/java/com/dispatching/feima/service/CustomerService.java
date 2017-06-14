@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -124,6 +125,7 @@ public class CustomerService extends Service {
      *
      */
     public void transformSuperSocketInfo(String msg) {
+        Log.d("myConnection",msg);
         if (!msg.trim().equals("OK")) {
             ResponseData responseData = mTransform.transformCommon(msg);
             if (responseData.resultCode == 100) {

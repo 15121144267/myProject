@@ -15,10 +15,10 @@ import javax.net.ssl.TrustManagerFactory;
 
 public class SSLSocketUtil {
 
-    private Context context;
-    private String keyStoreName; //证书名
-    private String keyPwd; //证书密码
-    private String keyType; //证书类型
+    private final Context context;
+    private final String keyStoreName; //证书名
+    private final String keyPwd; //证书密码
+    private final String keyType; //证书类型
 
     public SSLSocketUtil(Builder builder){
         this.context = builder.context;

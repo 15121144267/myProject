@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class WorkSummaryAdapter extends BaseQuickAdapter<MyOrders, BaseViewHolder> {
-    private Context mContext;
+    private final Context mContext;
     public WorkSummaryAdapter(List<MyOrders> list, Context context) {
         super( R.layout.adapter_notice, list);
         mContext = context;

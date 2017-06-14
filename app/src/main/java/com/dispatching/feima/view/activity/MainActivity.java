@@ -75,8 +75,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     private List<Fragment> mFragments;
     private TextView noticeCount;
     private QueryParam mQueryParam;
-    private String mUid;
-    private String mToken;
 
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -102,11 +100,11 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     }
 
     private void initData() {
-        mUid = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        mToken = mSharePreferenceUtil.getStringValue(SpConstant.USER_TOKEN);
-        if (TextUtils.isEmpty(mBuProcessor.getUserId()) && mUid != null) {
-            mBuProcessor.setUserId(mUid);
-            mBuProcessor.setUserToken(mToken);
+        String uid = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        String token = mSharePreferenceUtil.getStringValue(SpConstant.USER_TOKEN);
+        if (TextUtils.isEmpty(mBuProcessor.getUserId()) && uid != null) {
+            mBuProcessor.setUserId(uid);
+            mBuProcessor.setUserToken(token);
         }
         mQueryParam = new QueryParam();
         Calendar calendar = TimeUtil.getCalendar();

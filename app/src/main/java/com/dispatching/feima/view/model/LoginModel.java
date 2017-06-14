@@ -5,8 +5,6 @@ import com.dispatching.feima.network.networkapi.LoginApi;
 import com.dispatching.feima.superscoket.ISendResult;
 import com.dispatching.feima.superscoket.SocketClient;
 import com.google.gson.Gson;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 
 import javax.inject.Inject;
 
@@ -21,10 +19,7 @@ public class LoginModel {
     private final LoginApi mLoginApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private SocketClient mSocketClient;
-    private Channel mChannel;
-    private Connection mConnection;
-    private String mPhone;
+    private final SocketClient mSocketClient;
 
     @Inject
     public LoginModel(LoginApi api, Gson gson, ModelTransform transform, SocketClient socketClient) {

@@ -29,7 +29,7 @@ import com.dispatching.feima.R;
 public class MyPasswordView extends RelativeLayout {
 
     private EditText editText; //文本编辑框
-    private Context context;
+    private final Context context;
 
     private LinearLayout linearLayout; //文本密码的文本
     private TextView[] textViews; //文本数组

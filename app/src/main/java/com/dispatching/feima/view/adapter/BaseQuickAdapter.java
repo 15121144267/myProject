@@ -799,10 +799,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
             }
 
         });
-        view.setOnLongClickListener(v -> {
-            return getOnItemLongClickListener() != null  && getOnItemLongClickListener().onItemLongClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
-
-        });
+        view.setOnLongClickListener(v -> getOnItemLongClickListener() != null  && getOnItemLongClickListener().onItemLongClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount()));
     }
 
     private MultiTypeDelegate<T> mMultiTypeDelegate;

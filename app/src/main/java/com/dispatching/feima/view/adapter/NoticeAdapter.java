@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class NoticeAdapter extends BaseQuickAdapter<OrderNotice, BaseViewHolder> {
-    private Context mContext;
+    private final Context mContext;
     public NoticeAdapter(List<OrderNotice> notices, Context context) {
         super( R.layout.adapter_notice, notices);
         mContext = context;

@@ -12,7 +12,7 @@ public class ToastUtils {
     }
 
     private static Toast sToast;
-    private static Handler sHandler = new Handler(Looper.getMainLooper());
+    private static final Handler sHandler = new Handler(Looper.getMainLooper());
     private static boolean isJumpWhenMore;
 
     /**
