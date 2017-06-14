@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -25,8 +26,10 @@ import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
+import com.dispatching.feima.entity.QueryParam;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
 import com.dispatching.feima.view.fragment.CommonDialog;
@@ -36,6 +39,7 @@ import com.dispatching.feima.view.fragment.SendingOrderFragment;
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +74,9 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     //private String mVersion;
     private List<Fragment> mFragments;
     private TextView noticeCount;
+    private QueryParam mQueryParam;
+    private String mUid;
+    private String mToken;
 
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -84,16 +91,28 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         initializeInjector();
         mPresenter = mActivityComponent.getPresenterMain();
         mPresenter.setView(this);
+        initData();
         mFragments = new ArrayList<>();
         mFragments.add(new PendingOrderFragment());
         mFragments.add(new SendingOrderFragment());
         mFragments.add(new CompletedOrderFragment());
 
-        //mUserToken = mBuProcessor.getUserToken();
-        //mUserId = mBuProcessor.getUserId();
-        //mVersion = BuildConfig.VERSION_NAME;
-
         initView();
+
+    }
+
+    private void initData() {
+        mUid = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
+        mToken = mSharePreferenceUtil.getStringValue(SpConstant.USER_TOKEN);
+        if (TextUtils.isEmpty(mBuProcessor.getUserId()) && mUid != null) {
+            mBuProcessor.setUserId(mUid);
+            mBuProcessor.setUserToken(mToken);
+        }
+        mQueryParam = new QueryParam();
+        Calendar calendar = TimeUtil.getCalendar();
+        mQueryParam.today = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        mQueryParam.tomorrow = calendar.getTime();
     }
 
     @Override
@@ -219,7 +238,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.requestNoticeCount();
+        mPresenter.requestNoticeCount(mQueryParam);
     }
 
     @Override

@@ -21,14 +21,4 @@ public class ModelTransform {
         return responseData;
     }
 
-    public ResponseData transformNotice(String response) {
-        ResponseData responseData;
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            responseData = new ResponseData(jsonObject,1);
-        } catch (JSONException e) {
-            responseData = new ResponseData();
-        }
-        return responseData;
-    }
 }

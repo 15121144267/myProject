@@ -13,15 +13,17 @@ import java.net.Socket;
  */
 
 public class SendMsgThread extends Thread implements Runnable {
-    Handler handler;
-    OutputStream serverOutput;
-    Object msg = null;
+    private Handler handler;
+    private OutputStream serverOutput;
+    private Object msg = null;
 
 
     public SendMsgThread(Socket Client, Handler handler, Object msg) {
         try {
-            serverOutput = Client.getOutputStream();
-            this.msg = msg;
+            if(Client.isConnected()&&!Client.isClosed()){
+                serverOutput = Client.getOutputStream();
+                this.msg = msg;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,9 +3,12 @@ package com.dispatching.feima.view.model;
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.DeliveryStatusRequest;
+import com.dispatching.feima.entity.QueryParam;
 import com.dispatching.feima.gen.OrderNoticeDao;
 import com.dispatching.feima.network.networkapi.MainApi;
 import com.google.gson.Gson;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
@@ -80,11 +83,12 @@ public class MainModel {
         });
     }
 
-    public Observable<Integer> queryNoticeDb(){
+    public Observable<Integer> queryNoticeDb(QueryParam param){
         return Observable.create(e->{
             try {
-                List<OrderNotice> list = mOrderNoticeDao.queryBuilder().where(OrderNoticeDao.Properties.OrderFlag.eq(0)).build().list();
-                e.onNext(list.size());
+                QueryBuilder qb = mOrderNoticeDao.queryBuilder();
+                qb.where(qb.and(OrderNoticeDao.Properties.OrderFlag.eq(0),OrderNoticeDao.Properties.OrderTime.between(param.today,param.tomorrow)));
+                e.onNext(qb.build().list().size());
             } catch (Exception e1) {
                 e.onError(e1);
             }

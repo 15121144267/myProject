@@ -11,14 +11,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.IntentConstant;
+import com.dispatching.feima.entity.NoticeInfo;
+import com.dispatching.feima.entity.NoticeMessage;
 import com.dispatching.feima.entity.PostManLocation;
-import com.dispatching.feima.entity.PostmanLocationData;
+import com.dispatching.feima.entity.PushMessageInfo;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.gen.OrderNoticeDao;
@@ -33,6 +34,8 @@ import com.dispatching.feima.view.model.ModelTransform;
 import com.dispatching.feima.view.model.ResponseData;
 import com.google.gson.Gson;
 import com.rabbitmq.client.ConnectionFactory;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -67,13 +70,14 @@ public class CustomerService extends Service {
 
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
-    private double mLongitude;
-    private double mLatitude;
 
     @Override
     public void onCreate() {
         super.onCreate();
         ((DaggerApplication) getApplication()).getApplicationComponent().inject(this);
+        if (!mSocketClient.judgeClient()) {
+            mSocketClient.Connection();
+        }
         mOrderNoticeDao = mDaoSession.getOrderNoticeDao();
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         mSocketClient.setOnReceiveListener(new SuperSocketCallBack(this));
@@ -82,31 +86,61 @@ public class CustomerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
-            mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
-            mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
-            PostManLocation postManLocation = new PostManLocation();
-            postManLocation.Longitude = mLongitude;
-            postManLocation.Latitude = mLatitude;
-            String locationJson = mGson.toJson(postManLocation);
-            PostmanLocationData data = new PostmanLocationData();
-            data.PostManSend = locationJson;
-            mSocketClient.SenddData(mGson.toJson(data), new ISendResult() {
-                @Override
-                public void OnSendSuccess() {
+            double mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
+            double mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
+            if (mLongitude != 0.0 && mLatitude != 0.0) {
+                PostManLocation postManLocation = new PostManLocation();
+                postManLocation.Longitude = mLongitude;
+                postManLocation.Latitude = mLatitude;
+                postManLocation.uId = mUId;
+                String locationJson = mGson.toJson(postManLocation);
+                String locationInfo = "PostManSend:" + locationJson + "\r\n";
+                if (mSocketClient.judgeClient()) {
+                    mSocketClient.SenddData(locationInfo, new ISendResult() {
+                        @Override
+                        public void OnSendSuccess() {
 
+                        }
+
+                        @Override
+                        public void OnSendFailure(Exception e) {
+
+                        }
+                    });
+
+                } else {
+                    mSocketClient.Connection();
                 }
-
-                @Override
-                public void OnSendFailure(Exception e) {
-
-                }
-            });
+            }
         }
         return START_STICKY;
     }
 
+    /**
+     * 连接成功：1
+     * 短信发送成功:99
+     * 订单推送成功:100
+     * 只处理订单推送
+     *
+     */
     public void transformSuperSocketInfo(String msg) {
-        Log.d("connection", msg);
+        if (!msg.trim().equals("OK")) {
+            ResponseData responseData = mTransform.transformCommon(msg);
+            if (responseData.resultCode == 100) {
+                responseData.parseData(NoticeMessage.class);
+                NoticeMessage message = (NoticeMessage) responseData.parsedData;
+                List<NoticeInfo> list = message.orderslist;
+                if (list != null && list.size() > 0) {
+                    for (NoticeInfo noticeInfo : list) {
+                        PushMessageInfo info = noticeInfo.PushOrderInfo;
+                        insertNotice(info);
+                        String noticeMessage = "单号：" + noticeInfo.PushOrderInfo.businessId;
+                        showNotification(noticeMessage);
+                    }
+                }
+            }
+        }
+
     }
 
     @Nullable
@@ -115,73 +149,6 @@ public class CustomerService extends Service {
         return null;
     }
 
-  /*  private final Runnable networkTask = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                mConnection = factory.newConnection();
-                mChannel = mConnection.createChannel();
-                mChannel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
-                Consumer consumer = new DefaultConsumer(mChannel) {
-                    @Override
-                    public void handleDelivery(String consumerTag, Envelope envelope,
-                                               AMQP.BasicProperties properties, byte[] body)
-                            throws IOException {
-                        String message = new String(body, "UTF-8");
-                        ResponseData responseData = mTransform.transformNotice(message);
-                        insertNotice(responseData);
-                        try {
-                            String noticeMessage = "单号：" + responseData.businessId;
-                            showNotification(noticeMessage);
-                        } catch (Exception e) {
-                            mChannel.abort();
-                        } finally {
-                            try {
-                                mChannel.basicAck(envelope.getDeliveryTag(), false);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                };
-                try {
-                    mChannel.basicConsume(TASK_QUEUE_NAME, false, consumer);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    };*/
-
-  /*  private final Runnable mSendRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (factory != null) {
-                RabbitRely rely = new RabbitRely();
-                rely.latitude = mLatitude;
-                rely.longitude = mLongitude;
-                rely.uId = mUId;
-                String relyJson = mGson.toJson(rely);
-                try {
-                    if (mConnection2 == null) {
-                        mConnection2 = factory.newConnection();
-                    }
-                    if (mChannel2 == null) {
-                        mChannel2 = mConnection2.createChannel();
-                    }
-
-                    mChannel2.queueDeclare("delivery.postman.coordinate", false, false, false, null);
-                    mChannel2.basicPublish("", "delivery.postman.coordinate", null, relyJson.getBytes());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };*/
 
     private void showNotification(String msg) {
         Intent i;
@@ -207,13 +174,13 @@ public class CustomerService extends Service {
         nm.notify(0, notification);
     }
 
-    private void insertNotice(ResponseData responseData) {
+    private void insertNotice(PushMessageInfo info) {
         OrderNotice notice = new OrderNotice();
-        notice.setOrderTime(TimeUtil.formatDate(responseData.time));
-        notice.setOrderId(responseData.businessId);
+        notice.setOrderTime(TimeUtil.formatDate(info.distributeTime));
+        notice.setOrderId(info.businessId);
         notice.setOrderFlag(0);
-        notice.setOrderChannel(responseData.channel);
-        mOrderNoticeDao.insert(notice);
+        notice.setOrderChannel(info.channel);
+        mOrderNoticeDao.insertOrReplace(notice);
     }
 
     @Override

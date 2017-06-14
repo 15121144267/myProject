@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.PresenterImpl;
 
+import com.dispatching.feima.entity.QueryParam;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.model.MainModel;
@@ -20,8 +21,8 @@ public class PresenterMainImpl implements MainControl.PresenterMain {
     }
 
     @Override
-    public void requestNoticeCount() {
-        mMainModel.queryNoticeDb().compose(mView.applySchedulers()).subscribe(this::querySuccess,
+    public void requestNoticeCount(QueryParam queryParam) {
+        mMainModel.queryNoticeDb(queryParam).compose(mView.applySchedulers()).subscribe(this::querySuccess,
                 throwable -> mView.showErrMessage(throwable));
     }
 

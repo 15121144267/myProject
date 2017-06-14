@@ -35,9 +35,6 @@ public class LoginModel {
     }
 
     public Observable<Integer> VerifyCodeRequest(String request) {
-       /* VerifyCode verifyCode = new VerifyCode();
-        verifyCode.SmsSend = request;
-        Log.d("connection",mGson.toJson(verifyCode));*/
        String verifyInfo = "SmsSend:"+request+"\r\n";
         return Observable.create(e -> {
                 if(mSocketClient.judgeClient()){

@@ -7,4 +7,5 @@ package com.dispatching.feima.entity;
 public class PostManLocation {
     public double Longitude;
     public double Latitude;
+    public String uId;
 }

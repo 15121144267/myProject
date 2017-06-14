@@ -12,12 +12,8 @@ public class ResponseData {
     private static final Gson sGson = new GsonBuilder().create();
     public Integer resultCode;
     public String errorDesc;
-    public String businessId;
-    public String time;
     private String result;
     public Object parsedData;
-    public String channel;
-
     public ResponseData() {
         resultCode = 110;
         errorDesc = "信息获取失败";
@@ -27,12 +23,6 @@ public class ResponseData {
         resultCode = jsonObject.getInt("status_code");
         errorDesc = jsonObject.getString("msg");
         result = jsonObject.optString("result") == null ? "" : jsonObject.optString("result");
-    }
-
-    public ResponseData(JSONObject jsonObject, Integer type) throws JSONException {
-        businessId = jsonObject.getString("business_id");
-        time = jsonObject.getString("distribute_time");
-        channel = jsonObject.getString("channel");
     }
 
     public <T> T parseData(Class<T> objectClass) {

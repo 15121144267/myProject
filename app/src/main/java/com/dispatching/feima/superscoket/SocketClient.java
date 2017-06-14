@@ -99,10 +99,10 @@ public class SocketClient {
      * @return boolean
      */
     public void Connection() {
-       new Thread(socketConnection).start();
+        new Thread(socketConnection).start();
     }
 
-   private Runnable socketConnection =  new Runnable() {
+    private Runnable socketConnection = new Runnable() {
         @Override
         public void run() {
             Message message = new Message();
@@ -125,7 +125,6 @@ public class SocketClient {
 
     /**
      * 关闭连接的输入输出流
-     *
      */
     public void closeConnection() {
         try {
@@ -138,7 +137,7 @@ public class SocketClient {
     }
 
     public boolean judgeClient() {
-       return Client!=null;
+        return Client != null && Client.isConnected() && !Client.isClosed();
     }
 
     public void SenddData(Object msg, ISendResult _Result) {
@@ -158,7 +157,7 @@ public class SocketClient {
      */
     public boolean SenddData(String sndStr) {
         try {
-            serverOutput.write(sndStr.getBytes());
+            serverOutput.write(sndStr.getBytes("utf-8"));
             serverOutput.flush();
             return true;
         } catch (SocketTimeoutException ste) {

@@ -24,7 +24,9 @@ public class MsgReceiveThread extends Thread implements Runnable {
         this._Client = _Client;
         this.handler = handler;
         try {
-            mInputStream = _Client.getInputStream();
+            if(_Client.isConnected()&&!_Client.isClosed()){
+                mInputStream = _Client.getInputStream();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
