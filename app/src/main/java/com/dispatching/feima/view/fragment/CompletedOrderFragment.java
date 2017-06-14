@@ -10,11 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.IntentConstant;
+import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.listener.OnItemClickListener;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
@@ -22,6 +24,8 @@ import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.OrderDetailActivity;
 import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,6 +47,8 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @BindView(R.id.completed_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
+    @BindView(R.id.empty_layout)
+    RelativeLayout mEmptyLayout;
 
     private PullToRefreshAdapter mCompleteAdapter;
     private String mUserToken;
@@ -78,9 +84,17 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     public void getCompletedOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null ) {
-            mCompleteAdapter.setNewData(response.orders);
-            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_THREE, response.orders.size());
+        if (response != null && response.orders != null) {
+            List<MyOrders> myOrders = response.orders;
+            if (myOrders.size() > 0) {
+                mSwipeLayout.setVisibility(View.VISIBLE);
+                mEmptyLayout.setVisibility(View.GONE);
+            } else {
+                mSwipeLayout.setVisibility(View.GONE);
+                mEmptyLayout.setVisibility(View.VISIBLE);
+            }
+            mCompleteAdapter.setNewData(myOrders);
+            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_THREE, myOrders.size());
         }
     }
 
@@ -121,6 +135,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     public void getOrderError(Throwable throwable) {
+        mEmptyLayout.setVisibility(View.VISIBLE);
         mSwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }

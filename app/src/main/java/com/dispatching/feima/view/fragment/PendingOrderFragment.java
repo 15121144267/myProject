@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
@@ -25,6 +26,8 @@ import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.OrderDetailActivity;
 import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,6 +47,8 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     SwipeRefreshLayout mSwipeLayout;
     @Inject
     PendingOrderControl.PresenterPendingOrder mPresenter;
+    @BindView(R.id.empty_layout)
+    RelativeLayout mEmptyLayout;
 
     private PullToRefreshAdapter mPendingAdapter;
     private String mUserToken;
@@ -79,8 +84,16 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void getPendingOrderSuccess(OrderDeliveryResponse response) {
         if (response != null && response.orders != null) {
-            mPendingAdapter.setNewData(response.orders);
-            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, response.orders.size());
+            List<MyOrders> myOrders = response.orders;
+            if(myOrders.size()>0){
+                mSwipeLayout.setVisibility(View.VISIBLE);
+                mEmptyLayout.setVisibility(View.GONE);
+            }else {
+                mSwipeLayout.setVisibility(View.GONE);
+                mEmptyLayout.setVisibility(View.VISIBLE);
+            }
+            mPendingAdapter.setNewData(myOrders);
+            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, myOrders.size());
         }
         if (mBroFlag) {
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.TAKE_DELIVERY));
@@ -96,6 +109,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void getOrderError(Throwable throwable) {
+        mEmptyLayout.setVisibility(View.VISIBLE);
         mSwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }

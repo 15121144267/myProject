@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
@@ -24,6 +25,8 @@ import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.OrderDetailActivity;
 import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -42,6 +45,8 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     RecyclerView mRecyclerView;
     @BindView(R.id.sending_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
+    @BindView(R.id.empty_layout)
+    RelativeLayout mEmptyLayout;
 
     private PullToRefreshAdapter mSendingAdapter;
     private Integer mPosition;
@@ -79,9 +84,17 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void getSendingOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null ) {
-            mSendingAdapter.setNewData(response.orders);
-            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, response.orders.size());
+        if (response != null && response.orders != null) {
+            List<MyOrders> myOrders = response.orders;
+            if(myOrders.size()>0){
+                mSwipeLayout.setVisibility(View.VISIBLE);
+                mEmptyLayout.setVisibility(View.GONE);
+            }else {
+                mSwipeLayout.setVisibility(View.GONE);
+                mEmptyLayout.setVisibility(View.VISIBLE);
+            }
+            mSendingAdapter.setNewData(myOrders);
+            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, myOrders.size());
         }
         if (mBroFlag) {
             LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.COMPLETE_DELIVERY));
@@ -134,6 +147,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void getOrderError(Throwable throwable) {
+        mEmptyLayout.setVisibility(View.VISIBLE);
         mSwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }
