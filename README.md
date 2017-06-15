@@ -17,7 +17,7 @@
 </ol>
 
 <ol>
-    <li>![image](feima_dispatching/readmepci/login.png)</li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/slidmenu.png"></li>
     <li>![image](feima_dispatching/readmepci/main1.png)</li>
     <li>![image](feima_dispatching/readmepci/main2.png)</li>
     <li>![image](feima_dispatching/readmepci/main3.png)</li>
