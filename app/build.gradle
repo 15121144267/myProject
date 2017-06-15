@@ -71,6 +71,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            def fileName
+            if (variant.buildType.name.equals('release')) {
+                fileName = "dispatching-v" + rootProject.ext.myVersionName +  ".apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "dispatching-v" + rootProject.ext.myVersionName +  "_debug.apk"
+            }
+            output.outputFile = new File(file.parent,
+                    fileName)
+            //生成的文件名
+        }
+    }
 }
 
 dependencies {
