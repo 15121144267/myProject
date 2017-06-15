@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
@@ -38,20 +39,22 @@ import butterknife.ButterKnife;
 
 public class CompletedOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
         CompletedOrderControl.CompletedOrderView {
-    @Inject
-    CompletedOrderControl.PresenterCompletedOrder mPresenter;
+
 
     @BindView(R.id.completed_rv_list)
     RecyclerView mRecyclerView;
-
     @BindView(R.id.completed_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
     @BindView(R.id.empty_swipeLayout)
     SwipeRefreshLayout mEmptySwipeLayout;
 
+    @Inject
+    CompletedOrderControl.PresenterCompletedOrder mPresenter;
+
     private PullToRefreshAdapter mCompleteAdapter;
     private String mUserToken;
     private String mUserId;
+    private Unbinder unbind;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_complete_order, container, false);
-        ButterKnife.bind(this, view);
+        unbind = ButterKnife.bind(this, view);
         initAdapter();
         return view;
     }
@@ -160,6 +163,12 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
     @Override
     public void showToast(String message) {
         showBaseToast(message);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbind.unbind();
     }
 
     @Override

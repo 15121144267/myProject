@@ -31,6 +31,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
@@ -52,7 +53,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     private String mUserToken;
     private String mUserId;
     private boolean mBroFlag = false;
-
+    private Unbinder unbind;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sending_order, container, false);
-        ButterKnife.bind(this, view);
+        unbind = ButterKnife.bind(this, view);
         initAdapter();
         return view;
     }
@@ -193,6 +194,12 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void showToast(String message) {
         showBaseToast(message);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbind.unbind();
     }
 
     @Override
