@@ -10,12 +10,13 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.database.OrderNotice;
+import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.NoticeInfo;
 import com.dispatching.feima.entity.NoticeMessage;
@@ -125,7 +126,6 @@ public class CustomerService extends Service {
      *
      */
     public void transformSuperSocketInfo(String msg) {
-        Log.d("myConnection",msg);
         if (!msg.trim().equals("OK")) {
             ResponseData responseData = mTransform.transformCommon(msg);
             if (responseData.resultCode == 100) {
@@ -133,6 +133,7 @@ public class CustomerService extends Service {
                 NoticeMessage message = (NoticeMessage) responseData.parsedData;
                 List<NoticeInfo> list = message.orderslist;
                 if (list != null && list.size() > 0) {
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.PENDING_DELIVERY));
                     for (NoticeInfo noticeInfo : list) {
                         PushMessageInfo info = noticeInfo.PushOrderInfo;
                         insertNotice(info);

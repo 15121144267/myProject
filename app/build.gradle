@@ -42,6 +42,8 @@ android {
             buildConfigField "String", "RABBIT_VHOST", DUBUG_RABBITMQ_VHOST
             buildConfigField "String", "RABBIT_NAME", DUBUG_RABBITMQ_NAME
             buildConfigField "String", "RABBIT_PASSWORD", DUBUG_RABBITMQ_PASSWORD
+            buildConfigField "String", "SUPTER_IP", DUBUG_SUPTER_IP
+            buildConfigField "Integer", "SUPTER_PORT", DUBUG_SUPTER_PORT
 
         }
         release {
@@ -56,6 +58,8 @@ android {
             buildConfigField "String", "RABBIT_VHOST", RELEASE_RABBITMQ_VHOST
             buildConfigField "String", "RABBIT_NAME", RELEASE_RABBITMQ_NAME
             buildConfigField "String", "RABBIT_PASSWORD", RELEASE_RABBITMQ_PASSWORD
+            buildConfigField "String", "SUPTER_IP", RELEASE_SUPTER_IP
+            buildConfigField "Integer", "SUPTER_PORT", RELEASE_SUPTER_PORT
         }
     }
     greendao{

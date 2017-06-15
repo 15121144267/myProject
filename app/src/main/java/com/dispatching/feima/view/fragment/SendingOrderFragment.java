@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
@@ -45,8 +44,8 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     RecyclerView mRecyclerView;
     @BindView(R.id.sending_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
-    @BindView(R.id.empty_layout)
-    RelativeLayout mEmptyLayout;
+    @BindView(R.id.empty_swipeLayout)
+    SwipeRefreshLayout mEmptySwipeLayout;
 
     private PullToRefreshAdapter mSendingAdapter;
     private Integer mPosition;
@@ -88,10 +87,10 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
             List<MyOrders> myOrders = response.orders;
             if(myOrders.size()>0){
                 mSwipeLayout.setVisibility(View.VISIBLE);
-                mEmptyLayout.setVisibility(View.GONE);
+                mEmptySwipeLayout.setVisibility(View.GONE);
             }else {
                 mSwipeLayout.setVisibility(View.GONE);
-                mEmptyLayout.setVisibility(View.VISIBLE);
+                mEmptySwipeLayout.setVisibility(View.VISIBLE);
             }
             mSendingAdapter.setNewData(myOrders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, myOrders.size());
@@ -120,6 +119,7 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
                 }
         );
         mSwipeLayout.setOnRefreshListener(this);
+        mEmptySwipeLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -135,20 +135,27 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void updateOrderStatusSuccess() {
         mSendingAdapter.remove(mPosition);
-        ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO, mSendingAdapter.getItemCount());
+        int count = mSendingAdapter.getItemCount();
+        if(count == 0){
+            mSwipeLayout.setVisibility(View.GONE);
+            mEmptySwipeLayout.setVisibility(View.VISIBLE);
+        }
+        ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_TWO,count);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.COMPLETE_DELIVERY));
     }
 
     @Override
     public void getOrderComplete() {
         mSwipeLayout.setRefreshing(false);
+        mEmptySwipeLayout.setRefreshing(false);
         dismissLoading();
     }
 
     @Override
     public void getOrderError(Throwable throwable) {
-        mEmptyLayout.setVisibility(View.VISIBLE);
+        mEmptySwipeLayout.setVisibility(View.VISIBLE);
         mSwipeLayout.setRefreshing(false);
+        mEmptySwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }
 

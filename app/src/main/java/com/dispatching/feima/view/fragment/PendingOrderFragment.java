@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
@@ -33,6 +32,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
@@ -45,10 +45,14 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     RecyclerView mRecyclerView;
     @BindView(R.id.pending_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
+
+    @BindView(R.id.empty_swipeLayout)
+    SwipeRefreshLayout mEmptySwipeLayout;
+
     @Inject
     PendingOrderControl.PresenterPendingOrder mPresenter;
-    @BindView(R.id.empty_layout)
-    RelativeLayout mEmptyLayout;
+
+
 
     private PullToRefreshAdapter mPendingAdapter;
     private String mUserToken;
@@ -56,7 +60,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     private Integer mPosition;
     private boolean mBroFlag = false;
     private MyOrders mMyOrders;
-
+    private Unbinder unbinder;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pending_order, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         initAdapter();
         return view;
     }
@@ -85,12 +89,12 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     public void getPendingOrderSuccess(OrderDeliveryResponse response) {
         if (response != null && response.orders != null) {
             List<MyOrders> myOrders = response.orders;
-            if(myOrders.size()>0){
+            if (myOrders.size() > 0) {
                 mSwipeLayout.setVisibility(View.VISIBLE);
-                mEmptyLayout.setVisibility(View.GONE);
-            }else {
+                mEmptySwipeLayout.setVisibility(View.GONE);
+            } else {
                 mSwipeLayout.setVisibility(View.GONE);
-                mEmptyLayout.setVisibility(View.VISIBLE);
+                mEmptySwipeLayout.setVisibility(View.VISIBLE);
             }
             mPendingAdapter.setNewData(myOrders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, myOrders.size());
@@ -104,13 +108,15 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void getPendingOrderComplete() {
         mSwipeLayout.setRefreshing(false);
+        mEmptySwipeLayout.setRefreshing(false);
         dismissLoading();
     }
 
     @Override
     public void getOrderError(Throwable throwable) {
-        mEmptyLayout.setVisibility(View.VISIBLE);
+        mEmptySwipeLayout.setVisibility(View.VISIBLE);
         mSwipeLayout.setRefreshing(false);
+        mEmptySwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }
 
@@ -139,6 +145,7 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         );
 
         mSwipeLayout.setOnRefreshListener(this);
+        mEmptySwipeLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -174,7 +181,12 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void updateOrderStatusSuccess() {
         mPendingAdapter.remove(mPosition);
-        ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, mPendingAdapter.getItemCount());
+        int count = mPendingAdapter.getItemCount();
+        if(count == 0){
+            mSwipeLayout.setVisibility(View.GONE);
+            mEmptySwipeLayout.setVisibility(View.VISIBLE);
+        }
+        ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_ONE, count);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.TAKE_DELIVERY));
     }
 
@@ -217,4 +229,9 @@ public class PendingOrderFragment extends BaseFragment implements SwipeRefreshLa
         DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, PasswordDialog.TAG);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

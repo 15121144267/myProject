@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.MainActivityComponent;
@@ -47,8 +46,8 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @BindView(R.id.completed_swipeLayout)
     SwipeRefreshLayout mSwipeLayout;
-    @BindView(R.id.empty_layout)
-    RelativeLayout mEmptyLayout;
+    @BindView(R.id.empty_swipeLayout)
+    SwipeRefreshLayout mEmptySwipeLayout;
 
     private PullToRefreshAdapter mCompleteAdapter;
     private String mUserToken;
@@ -88,10 +87,10 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
             List<MyOrders> myOrders = response.orders;
             if (myOrders.size() > 0) {
                 mSwipeLayout.setVisibility(View.VISIBLE);
-                mEmptyLayout.setVisibility(View.GONE);
+                mEmptySwipeLayout.setVisibility(View.GONE);
             } else {
                 mSwipeLayout.setVisibility(View.GONE);
-                mEmptyLayout.setVisibility(View.VISIBLE);
+                mEmptySwipeLayout.setVisibility(View.VISIBLE);
             }
             mCompleteAdapter.setNewData(myOrders);
             ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_THREE, myOrders.size());
@@ -125,18 +124,21 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
             }
         });
         mSwipeLayout.setOnRefreshListener(this);
+        mEmptySwipeLayout.setOnRefreshListener(this);
     }
 
     @Override
     public void getOrderComplete() {
         mSwipeLayout.setRefreshing(false);
+        mEmptySwipeLayout.setRefreshing(false);
         dismissLoading();
     }
 
     @Override
     public void getOrderError(Throwable throwable) {
-        mEmptyLayout.setVisibility(View.VISIBLE);
+        mEmptySwipeLayout.setVisibility(View.VISIBLE);
         mSwipeLayout.setRefreshing(false);
+        mEmptySwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }
 
