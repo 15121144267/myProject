@@ -2,7 +2,7 @@
 仿造蜂鸟配送app
 感谢各种开源框架的协助
 
-功能介绍：
+<h1>功能介绍：</h1><br/>
 android 5.0 design设计风格 部分UI通过SVG转换成Vector(内存占有率少，目前适配也可以)<br />
 框架采用MVP模式+ButterKnife视图注入+Dagger2对象注入模式<br />
 编程风格采用RxJava风格 优雅的事件流风格 增加了阅读感+retrolambda风格 大大减少了代码量<br />
