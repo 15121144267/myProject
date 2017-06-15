@@ -16,8 +16,7 @@
     <li>高德地图 定位 搜索功能呢（导航功能暂时未做）</li>
 </ol>
 
-<ol>
-    <li>![image](feima_dispatching/readmepci/login.png)</li>
+    ![image](feima_dispatching/readmepci/login.png)
     <li>![image](feima_dispatching/readmepci/main1.png)</li>
     <li>![image](feima_dispatching/readmepci/main2.png)</li>
     <li>![image](feima_dispatching/readmepci/main3.png)</li>
@@ -26,6 +25,5 @@
     <li>![image](feima_dispatching/readmepci/notice.png)</li>
     <li>![image](feima_dispatching/readmepci/worksummary.png)</li>
     <li>![image](feima_dispatching/readmepci/setting.png)</li>
-</ol>
 
 
