@@ -19,7 +19,6 @@ import com.dispatching.feima.view.customview.MyPasswordView;
 /**
  * 充值dialog
  *
- * @author dongshuai
  */
 public class PasswordDialog extends BaseDialogFragment {
     public static final String TAG = PasswordDialog.class.getSimpleName();
