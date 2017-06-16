@@ -29,6 +29,12 @@ import dagger.Provides;
 @Module
 public class MainActivityModule {
     private final AppCompatActivity activity;
+    private  MainControl.MainView view;
+
+    public MainActivityModule(AppCompatActivity activity, MainControl.MainView view) {
+        this.activity = activity;
+        this.view = view;
+    }
 
     public MainActivityModule(AppCompatActivity activity) {
         this.activity = activity;
@@ -38,6 +44,12 @@ public class MainActivityModule {
     @PerActivity
     AppCompatActivity activity() {
         return this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    MainControl.MainView view() {
+        return this.view;
     }
 
     @Provides
@@ -53,8 +65,8 @@ public class MainActivityModule {
 
     @Provides
     @PerActivity
-    MainModel provideMainModel(Gson gson, ModelTransform modelTransform,MainApi mainApi,DaoSession daoSession) {
-        return new MainModel(mainApi, gson, modelTransform,daoSession.getOrderNoticeDao());
+    MainModel provideMainModel(Gson gson, ModelTransform modelTransform, MainApi mainApi, DaoSession daoSession) {
+        return new MainModel(mainApi, gson, modelTransform, daoSession.getOrderNoticeDao());
     }
 
     @Provides

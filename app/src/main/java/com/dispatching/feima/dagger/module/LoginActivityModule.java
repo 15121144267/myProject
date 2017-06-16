@@ -23,9 +23,11 @@ import dagger.Provides;
 @Module
 public class LoginActivityModule {
     private final AppCompatActivity activity;
+    private final LoginControl.LoginView view;
 
-    public LoginActivityModule(AppCompatActivity activity) {
+    public LoginActivityModule(AppCompatActivity activity, LoginControl.LoginView view) {
         this.activity = activity;
+        this.view = view;
     }
 
     @Provides
@@ -36,13 +38,19 @@ public class LoginActivityModule {
 
     @Provides
     @PerActivity
+    LoginControl.LoginView view() {
+        return this.view;
+    }
+
+    @Provides
+    @PerActivity
     LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform, SocketClient client) {
         return new LoginModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(LoginApi.class), gson, modelTransform,client);
+                .create(LoginApi.class), gson, modelTransform, client);
     }
 
     @Provides

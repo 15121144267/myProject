@@ -88,7 +88,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
         supportActionBar(mToolbar, false);
         initializeInjector();
         mPresenter = mActivityComponent.getPresenterMain();
-        mPresenter.setView(this);
         initData();
         mFragments = new ArrayList<>();
         mFragments.add(new PendingOrderFragment());
@@ -271,7 +270,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView,
     private void initializeInjector() {
         mActivityComponent = DaggerMainActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .mainActivityModule(new MainActivityModule(this))
+                .mainActivityModule(new MainActivityModule(MainActivity.this,this))
                 .build();
     }
 

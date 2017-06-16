@@ -3,7 +3,7 @@
 感谢各种开源框架的协助
 
 <h1>功能介绍：</h1><br/>
-<h3>有三个分支可以切换</h3><br/>
+<h3 style="color:red font-weight:bold">有三个分支可以切换</h3><br/>
 <ol>
     <li>android 5.0 design设计风格 部分UI通过SVG转换成Vector(内存占有率少，目前适配也可以)</li>
     <li>框架采用MVP模式+ButterKnife视图注入+Dagger2对象注入模式</li>

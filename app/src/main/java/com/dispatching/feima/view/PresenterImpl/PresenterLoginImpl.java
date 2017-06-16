@@ -21,14 +21,16 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class PresenterLoginImpl implements LoginControl.PresenterLogin {
+
     private LoginControl.LoginView mLoginView;
     private final LoginModel mLoginModel;
     private final Context mContext;
 
     @Inject
-    public PresenterLoginImpl(Context context, LoginModel model) {
+    public PresenterLoginImpl(Context context, LoginModel model,LoginControl.LoginView loginView) {
         mContext = context;
         mLoginModel = model;
+        mLoginView = loginView;
     }
 
     @Override
@@ -45,7 +47,8 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
                 .take(61)
                 .compose(mLoginView.applySchedulers())
                 .subscribe(aLong -> mLoginView.setButtonEnable(false, aLong),
-                        throwable -> {},
+                        throwable -> {
+                        },
                         () -> mLoginView.setButtonEnable(true, (long) 0));
         if (code == 1) {
             mLoginView.showToast(mContext.getString(R.string.verity_send_success));
@@ -69,22 +72,6 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
         } else {
             mLoginView.showToast(responseData.errorDesc);
         }
-    }
-
-
-    @Override
-    public void setView(LoginControl.LoginView loginView) {
-        mLoginView = loginView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

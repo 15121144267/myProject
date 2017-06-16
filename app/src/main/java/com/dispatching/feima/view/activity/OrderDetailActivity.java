@@ -150,7 +150,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         ButterKnife.bind(this);
         supportActionBar(mToolbar);
         initializeInjector();
-        mPresenter.setView(this);
         transformIntent();
         mAMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
         mCollapsingToolbarLayout.setTitle(getResources().getText(R.string.user_order_detail));
@@ -410,7 +409,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     private void initializeInjector() {
         DaggerOrderDetailActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .orderDetailActivityModule(new OrderDetailActivityModule(OrderDetailActivity.this))
+                .orderDetailActivityModule(new OrderDetailActivityModule(OrderDetailActivity.this,this))
                 .build().inject(this);
     }
 }

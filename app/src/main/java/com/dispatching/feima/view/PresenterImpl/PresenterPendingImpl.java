@@ -23,9 +23,10 @@ public class PresenterPendingImpl implements PendingOrderControl.PresenterPendin
     private final Context mContext;
 
     @Inject
-    public PresenterPendingImpl(Context context, MainModel model) {
+    public PresenterPendingImpl(Context context, MainModel model, PendingOrderControl.PendingOrderView view) {
         mContext = context;
         mMainModel = model;
+        mView = view;
     }
 
     @Override
@@ -74,21 +75,6 @@ public class PresenterPendingImpl implements PendingOrderControl.PresenterPendin
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
-
-    @Override
-    public void setView(PendingOrderControl.PendingOrderView pendingOrderView) {
-        mView = pendingOrderView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

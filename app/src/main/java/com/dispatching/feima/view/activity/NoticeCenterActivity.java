@@ -58,7 +58,6 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
         setContentView(R.layout.activity_notice);
         ButterKnife.bind(this);
         initializeInjector();
-        mPresenter.setView(this);
         supportActionBar(mToolbar, true);
         mMiddleName.setText(R.string.user_notice);
         initAdapter();
@@ -127,7 +126,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     private void initializeInjector() {
         DaggerNoticeCenterActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .noticeCenterActivityModule(new NoticeCenterActivityModule(this))
+                .noticeCenterActivityModule(new NoticeCenterActivityModule(NoticeCenterActivity.this,this))
                 .build().inject(this);
     }
 

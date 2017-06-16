@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.dagger.module.WorkSummaryActivityModule;
+import com.dispatching.feima.view.PresenterControl.WorkSummaryControl;
 import com.dispatching.feima.view.activity.WorkSummaryActivity;
 
 import dagger.Component;
@@ -16,5 +17,6 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = WorkSummaryActivityModule.class)
 public interface WorkSummaryComponent {
     AppCompatActivity activity();
+    WorkSummaryControl.WorkSummaryView view();
     void inject(WorkSummaryActivity activity);
 }

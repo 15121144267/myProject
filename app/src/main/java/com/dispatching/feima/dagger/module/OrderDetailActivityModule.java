@@ -28,15 +28,23 @@ import dagger.Provides;
 @Module
 public class OrderDetailActivityModule {
     private final AppCompatActivity activity;
+    private final OrderDetailControl.OrderDetailView view;
 
-    public OrderDetailActivityModule(AppCompatActivity activity) {
+    public OrderDetailActivityModule(AppCompatActivity activity,OrderDetailControl.OrderDetailView view) {
         this.activity = activity;
+        this.view = view;
     }
 
     @Provides
     @PerActivity
     AppCompatActivity activity() {
         return this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    OrderDetailControl.OrderDetailView view() {
+        return this.view;
     }
 
 

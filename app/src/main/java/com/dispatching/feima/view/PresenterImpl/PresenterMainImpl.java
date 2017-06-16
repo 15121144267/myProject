@@ -1,7 +1,6 @@
 package com.dispatching.feima.view.PresenterImpl;
 
 import com.dispatching.feima.entity.QueryParam;
-import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.model.MainModel;
 
@@ -13,11 +12,14 @@ import javax.inject.Inject;
  */
 
 public class PresenterMainImpl implements MainControl.PresenterMain {
+
     private MainControl.MainView mView;
     private final MainModel mMainModel;
+
     @Inject
-    public PresenterMainImpl(MainModel model, SharePreferenceUtil sharePreferenceUtil) {
+    public PresenterMainImpl(MainModel model,MainControl.MainView view) {
         mMainModel = model;
+        mView = view;
     }
 
     @Override
@@ -28,21 +30,6 @@ public class PresenterMainImpl implements MainControl.PresenterMain {
 
     private void querySuccess(Integer count){
         mView.querySuccess(count);
-    }
-
-    @Override
-    public void setView(MainControl.MainView mainView) {
-        mView = mainView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

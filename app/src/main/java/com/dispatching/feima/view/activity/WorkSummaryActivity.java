@@ -43,6 +43,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     @Inject
     WorkSummaryControl.PresenterWorkSummary mPresenter;
     private WorkSummaryAdapter mAdapter;
+
     public static Intent getSummaryIntent(Context context) {
         return new Intent(context, WorkSummaryActivity.class);
     }
@@ -52,7 +53,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_summary);
         initializeInjector();
-        mPresenter.setView(this);
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         mMiddleName.setText(R.string.user_work_res);
@@ -63,9 +63,9 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     @Override
     public void getAllOrderSuccess(OrderDeliveryResponse response) {
         List<MyOrders> ordersList = response.orders;
-        if (ordersList != null ) {
+        if (ordersList != null) {
             mAdapter.setNewData(ordersList);
-            String orderCount = ordersList.size()+"单";
+            String orderCount = ordersList.size() + "单";
             mOrderSummary.setText(orderCount);
         }
 
@@ -100,7 +100,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new WorkSummaryAdapter(null,getContext());
+        mAdapter = new WorkSummaryAdapter(null, getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -115,7 +115,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     private void initializeInjector() {
         DaggerWorkSummaryComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .workSummaryActivityModule(new WorkSummaryActivityModule(this))
+                .workSummaryActivityModule(new WorkSummaryActivityModule(WorkSummaryActivity.this, this))
                 .build().inject(this);
     }
 }

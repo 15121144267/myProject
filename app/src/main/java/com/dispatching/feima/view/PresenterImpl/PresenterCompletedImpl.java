@@ -21,9 +21,10 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     private final Context mContext;
 
     @Inject
-    public PresenterCompletedImpl(Context context, MainModel model) {
+    public PresenterCompletedImpl(Context context, MainModel model,CompletedOrderControl.CompletedOrderView view) {
         mContext = context;
         mMainModel = model;
+        mView = view;
     }
 
     @Override
@@ -42,21 +43,6 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
-
-    @Override
-    public void setView(CompletedOrderControl.CompletedOrderView completedOrderView) {
-        mView = completedOrderView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

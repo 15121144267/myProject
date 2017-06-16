@@ -17,13 +17,16 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrderDetail {
-    private final MainModel mMainModel;
+
     private OrderDetailControl.OrderDetailView mView;
     private final Context mContext;
+    private final MainModel mMainModel;
+
     @Inject
-    public PresenterOrderDetailImpl(Context context,MainModel model) {
+    public PresenterOrderDetailImpl(Context context,MainModel model,OrderDetailControl.OrderDetailView view) {
         mContext =context;
         mMainModel = model;
+        mView = view;
     }
 
     @Override
@@ -43,21 +46,6 @@ public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrd
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
-
-    @Override
-    public void setView(OrderDetailControl.OrderDetailView orderDetailView) {
-        mView = orderDetailView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

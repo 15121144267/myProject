@@ -22,9 +22,10 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
     private final Context mContext;
     private final WorkSummaryModel mWorkSummaryModel;
     @Inject
-    public PresenterWorkSummaryImpl(Context context , WorkSummaryModel workSummaryModel) {
+    public PresenterWorkSummaryImpl(Context context , WorkSummaryModel workSummaryModel,WorkSummaryControl.WorkSummaryView view) {
         mContext = context;
         mWorkSummaryModel = workSummaryModel;
+        mView = view;
     }
 
     @Override
@@ -45,21 +46,6 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
-
-    @Override
-    public void setView(WorkSummaryControl.WorkSummaryView workSummaryView) {
-        mView = workSummaryView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.dagger.module.OrderDetailActivityModule;
+import com.dispatching.feima.view.PresenterControl.OrderDetailControl;
 import com.dispatching.feima.view.activity.OrderDetailActivity;
 
 import dagger.Component;
@@ -16,5 +17,6 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = OrderDetailActivityModule.class)
 public interface OrderDetailActivityComponent {
     AppCompatActivity activity();
+    OrderDetailControl.OrderDetailView view();
     void inject(OrderDetailActivity activity);
 }

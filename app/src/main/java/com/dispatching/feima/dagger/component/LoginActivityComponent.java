@@ -16,6 +16,6 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = LoginActivityModule.class)
 public interface LoginActivityComponent {
     AppCompatActivity activity();
-
+    LoginControl.LoginView view();
     LoginControl.PresenterLogin getPresenterLogin();
 }

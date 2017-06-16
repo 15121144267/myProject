@@ -24,9 +24,10 @@ public class PresenterNoticeCenterImpl implements NoticeCenterControl.PresenterN
     private final NoticeCenterModel mNoticeCenterModel;
 
     @Inject
-    public PresenterNoticeCenterImpl(Context context, NoticeCenterModel model) {
+    public PresenterNoticeCenterImpl(Context context, NoticeCenterModel model,NoticeCenterControl.NoticeCenterView view) {
         mContext = context;
         mNoticeCenterModel = model;
+        mView = view;
     }
 
     @Override
@@ -50,22 +51,6 @@ public class PresenterNoticeCenterImpl implements NoticeCenterControl.PresenterN
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
-    }
-
-    @Override
-    public void setView(NoticeCenterControl.NoticeCenterView view) {
-        mView = view;
-    }
-
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

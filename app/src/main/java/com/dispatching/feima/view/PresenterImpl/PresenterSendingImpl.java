@@ -23,9 +23,10 @@ public class PresenterSendingImpl implements SendingOrderControl.PresenterSendin
     private final Context mContext;
 
     @Inject
-    public PresenterSendingImpl(Context context, MainModel model) {
+    public PresenterSendingImpl(Context context, MainModel model,SendingOrderControl.SendingOrderView view) {
         mContext = context;
         mMainModel = model;
+        mView = view;
     }
 
     @Override
@@ -63,21 +64,6 @@ public class PresenterSendingImpl implements SendingOrderControl.PresenterSendin
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
-
-    @Override
-    public void setView(SendingOrderControl.SendingOrderView sendingOrderView) {
-        mView = sendingOrderView;
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
     }
 
     @Override

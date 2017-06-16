@@ -18,15 +18,23 @@ import dagger.Provides;
 @Module
 public class NoticeCenterActivityModule {
     private final AppCompatActivity activity;
+    private final NoticeCenterControl.NoticeCenterView view;
 
-    public NoticeCenterActivityModule(AppCompatActivity activity) {
+    public NoticeCenterActivityModule(AppCompatActivity activity,NoticeCenterControl.NoticeCenterView view) {
         this.activity = activity;
+        this.view = view;
     }
 
     @Provides
     @PerActivity
     AppCompatActivity activity() {
         return this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    NoticeCenterControl.NoticeCenterView view() {
+        return this.view;
     }
 
     @Provides

@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         ButterKnife.bind(this);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
         mPermission = new RxPermissions(this);
-        mPresenterLogin.setView(this);
         mMiddleName.setText(R.string.app_login);
         initView();
     }
@@ -220,7 +219,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private void initializeInjector() {
         mActivityComponent = DaggerLoginActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .loginActivityModule(new LoginActivityModule(this))
+                .loginActivityModule(new LoginActivityModule(LoginActivity.this,this))
                 .build();
     }
 }

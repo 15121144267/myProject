@@ -6,11 +6,11 @@ package com.dispatching.feima.view.PresenterControl;
  */
 public interface Presenter<T extends LoadDataView> {
 
-    void setView(T t);
+//    void setView(T t);
 
-    void resume();
+//    void resume();
 
-    void pause();
+//    void pause();
 
 
     void onCreate();

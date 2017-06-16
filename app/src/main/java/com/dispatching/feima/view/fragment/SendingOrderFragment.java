@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
-import com.dispatching.feima.dagger.component.MainActivityComponent;
+import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
+import com.dispatching.feima.dagger.module.FragmentModule;
+import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyOrders;
@@ -209,7 +213,10 @@ public class SendingOrderFragment extends BaseFragment implements SwipeRefreshLa
     }
 
     private void initialize() {
-        this.getComponent(MainActivityComponent.class).inject(this);
-        mPresenter.setView(this);
+        DaggerFragmentComponent.builder()
+                .applicationComponent(((DaggerApplication)getActivity().getApplication()).getApplicationComponent())
+                .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
+                .fragmentModule(new FragmentModule(this)).build()
+                .inject(this);
     }
 }

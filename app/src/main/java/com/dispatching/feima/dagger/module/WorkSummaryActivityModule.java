@@ -22,15 +22,23 @@ import dagger.Provides;
 @Module
 public class WorkSummaryActivityModule {
     private final AppCompatActivity activity;
+    private final WorkSummaryControl.WorkSummaryView view;
 
-    public WorkSummaryActivityModule(AppCompatActivity activity) {
+    public WorkSummaryActivityModule(AppCompatActivity activity,WorkSummaryControl.WorkSummaryView view) {
         this.activity = activity;
+        this.view = view;
     }
 
     @Provides
     @PerActivity
     AppCompatActivity activity() {
         return this.activity;
+    }
+
+    @Provides
+    @PerActivity
+    WorkSummaryControl.WorkSummaryView view() {
+        return this.view;
     }
 
     @Provides
