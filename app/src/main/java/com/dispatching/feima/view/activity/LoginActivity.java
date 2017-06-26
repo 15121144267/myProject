@@ -40,12 +40,12 @@ import butterknife.ButterKnife;
  * 登录页面
  */
 
-public class LoginActivity extends BaseActivity implements LoginControl.LoginView ,CommonDialog.CommonDialogListener{
+public class LoginActivity extends BaseActivity implements LoginControl.LoginView, CommonDialog.CommonDialogListener {
     private static final int DIALOG_TYPE_ORDER_INVALID = 1;
 
     public static Intent getLoginIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
 
@@ -59,13 +59,17 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     TextInputLayout mLoginUserName;
     @BindView(R.id.login_submit)
     Button mLoginSubmit;
-    @BindView(R.id.login_identifying_code)
-    TextView mLoginIdentifyingCode;
+    @BindView(R.id.login_sign)
+    Button mLoginSign;
+    @BindView(R.id.login_forget_password)
+    Button mLoginForgetPassword;
+  /*  @BindView(R.id.login_identifying_code)
+    TextView mLoginIdentifyingCode;*/
 
     private LoginActivityComponent mActivityComponent;
     private LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
-    private String mVerifyCode;
+    private String mPassword;
     private String mUserId;
     private RxPermissions mPermission;
     private boolean flag = false;
@@ -110,12 +114,12 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void setButtonEnable(boolean enable, Long time) {
-        mLoginIdentifyingCode.setEnabled(enable);
+       /* mLoginIdentifyingCode.setEnabled(enable);
         if (enable) {
             mLoginIdentifyingCode.setText(getString(R.string.text_verify_code));
         } else {
             mLoginIdentifyingCode.setText("重新发送(" + String.valueOf(time) + ")");
-        }
+        }*/
     }
 
     @Override
@@ -140,7 +144,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private void initView() {
         EditText editText = mLoginUserName.getEditText();
         RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
-        RxView.clicks(mLoginIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerifyCode());
+        RxView.clicks(mLoginSign).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSignActivity());
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
@@ -148,11 +152,11 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
                         mLoginSubmit.setEnabled(false);
-                        mLoginIdentifyingCode.setEnabled(false);
+//                        mLoginIdentifyingCode.setEnabled(false);
                     } else {
                         myPhone = phone;
                         mLoginSubmit.setEnabled(true);
-                        mLoginIdentifyingCode.setEnabled(true);
+//                        mLoginIdentifyingCode.setEnabled(true);
 
                     }
 
@@ -166,17 +170,18 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         }
     }
 
-    private void requestVerifyCode() {
-        mPresenterLogin.onRequestVerifyCode(myPhone);
+    private void switchSignActivity() {
+//        mPresenterLogin.onRequestVerifyCode(myPhone);
+        startActivity(SignActivity.getSignIntent(this));
     }
 
     private void requestLogin() {
         EditText editText = mLoginPassword.getEditText();
         if (editText != null) {
-            mVerifyCode = editText.getText().toString();
+            mPassword = editText.getText().toString();
         }
 
-        if (TextUtils.isEmpty(mVerifyCode)) {
+        if (TextUtils.isEmpty(mPassword)) {
             showToast(getString(R.string.login_password_empty));
             return;
         }
@@ -186,22 +191,22 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE).subscribe(permission -> {
-            if(permission){
-                if (flag){
+            if (permission) {
+                if (flag) {
                     mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
                     mAMapLocationClient.startLocation();
                 }
-                mPresenterLogin.onRequestLogin(myPhone, mVerifyCode);
-            }else {
+                mPresenterLogin.onRequestLogin(myPhone, mPassword);
+            } else {
                 flag = true;
                 showDialog();
             }
         });
-       // startActivity(new Intent(MainActivity.getMainIntent(this)));
+        // startActivity(new Intent(MainActivity.getMainIntent(this)));
 
     }
 
-    private void showDialog(){
+    private void showDialog() {
         CommonDialog commonDialog = CommonDialog.newInstance();
         commonDialog.setContent(getString(R.string.login_check_permission));
         commonDialog.setDialogCancleBtnDismiss();
@@ -209,7 +214,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
-    private void switchSetting(){
+    private void switchSetting() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", AppDeviceUtil.getPackageName(this), null);
         intent.setData(uri);
@@ -219,7 +224,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private void initializeInjector() {
         mActivityComponent = DaggerLoginActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .loginActivityModule(new LoginActivityModule(LoginActivity.this,this))
+                .loginActivityModule(new LoginActivityModule(LoginActivity.this, this))
                 .build();
     }
 }

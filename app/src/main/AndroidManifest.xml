@@ -53,6 +53,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.activity.SignActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

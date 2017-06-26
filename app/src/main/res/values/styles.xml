@@ -110,6 +110,20 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Login_Button_Style3">
+        <item name="android:background">@drawable/button_style_blue</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginLeft">15.0dip</item>
+        <item name="android:layout_marginRight">15.0dip</item>
+        <item name="android:layout_marginBottom">10.0dip</item>
+        <item name="android:layout_marginTop">10.0dip</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="Login_Button_Style2">
         <item name="android:background">@drawable/button_style_blue4</item>
         <item name="android:layout_height">@dimen/dp_50</item>

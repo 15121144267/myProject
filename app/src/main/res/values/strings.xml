@@ -6,9 +6,11 @@
     <string name="load_failed">加载失败，请点我重试</string>
     <string name="load_end">没有更多数据</string>
     <string name="app_login">登录</string>
+    <string name="app_forget_password">忘记密码</string>
+    <string name="app_sign">注册</string>
     <string name="app_quite_login">退出登录</string>
     <string name="app_user">请输入手机号</string>
-    <string name="app_password">请输入验证码</string>
+    <string name="app_password">请输入密码</string>
     <string name="user_number">编号：暂无</string>
     <string name="user_status_open">接单中</string>
     <string name="user_status_close">未开工</string>
