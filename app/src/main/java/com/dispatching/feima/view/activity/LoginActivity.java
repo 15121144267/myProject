@@ -1,6 +1,5 @@
 package com.dispatching.feima.view.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,11 +7,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerLoginActivityComponent;
@@ -43,28 +40,23 @@ import butterknife.ButterKnife;
 public class LoginActivity extends BaseActivity implements LoginControl.LoginView, CommonDialog.CommonDialogListener {
     private static final int DIALOG_TYPE_ORDER_INVALID = 1;
 
-    public static Intent getLoginIntent(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        return intent;
-    }
-
-    @BindView(R.id.middle_name)
-    TextView mMiddleName;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.login_password)
-    TextInputLayout mLoginPassword;
     @BindView(R.id.login_userName)
     TextInputLayout mLoginUserName;
+    @BindView(R.id.login_password)
+    TextInputLayout mLoginPassword;
     @BindView(R.id.login_submit)
     Button mLoginSubmit;
     @BindView(R.id.login_sign)
     Button mLoginSign;
     @BindView(R.id.login_forget_password)
     Button mLoginForgetPassword;
-  /*  @BindView(R.id.login_identifying_code)
-    TextView mLoginIdentifyingCode;*/
+
+    public static Intent getLoginIntent(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return intent;
+    }
+
 
     private LoginActivityComponent mActivityComponent;
     private LoginControl.PresenterLogin mPresenterLogin;
@@ -82,7 +74,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         ButterKnife.bind(this);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
         mPermission = new RxPermissions(this);
-        mMiddleName.setText(R.string.app_login);
         initView();
     }
 
@@ -145,6 +136,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         EditText editText = mLoginUserName.getEditText();
         RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
         RxView.clicks(mLoginSign).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSignActivity());
+        RxView.clicks(mLoginForgetPassword).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchForgetActivity());
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
@@ -152,11 +144,10 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
                         mLoginSubmit.setEnabled(false);
-//                        mLoginIdentifyingCode.setEnabled(false);
                     } else {
                         myPhone = phone;
                         mLoginSubmit.setEnabled(true);
-//                        mLoginIdentifyingCode.setEnabled(true);
+                        mLoginSubmit.setAlpha(0.8f);
 
                     }
 
@@ -175,8 +166,13 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         startActivity(SignActivity.getSignIntent(this));
     }
 
+    private void switchForgetActivity() {
+        startActivity(ForgetActivity.getForgetIntent(this));
+    }
+
     private void requestLogin() {
-        EditText editText = mLoginPassword.getEditText();
+        startActivity(new Intent(MainActivity.getMainIntent(this)));
+       /* EditText editText = mLoginPassword.getEditText();
         if (editText != null) {
             mPassword = editText.getText().toString();
         }
@@ -184,9 +180,9 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (TextUtils.isEmpty(mPassword)) {
             showToast(getString(R.string.login_password_empty));
             return;
-        }
+        }*/
 
-        mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+       /* mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -201,8 +197,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 flag = true;
                 showDialog();
             }
-        });
-        // startActivity(new Intent(MainActivity.getMainIntent(this)));
+        });*/
+
 
     }
 

@@ -112,4 +112,7 @@ dependencies {
     compile rootProject.ext.myDependencies["my3DMap"]
     compile rootProject.ext.myDependencies["mySearch"]
     compile rootProject.ext.myDependencies["myLocation"]
+    compile rootProject.ext.myDependencies["myBanner"]
+    compile rootProject.ext.myDependencies["myGlide"]
+    compile project(path: ':mylibrary')
 }

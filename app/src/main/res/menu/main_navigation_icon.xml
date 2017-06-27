@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_one"
+        android:enabled="true"
+        android:icon="@mipmap/navgration_icon1"
+        android:title="首页"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_two"
+        android:enabled="true"
+        android:icon="@mipmap/navgration_icon2"
+        android:title="精彩活动"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_three"
+        android:enabled="true"
+        android:icon="@mipmap/navgration_icon3"
+        android:title="我的"
+        app:showAsAction="ifRoom" />
+</menu>

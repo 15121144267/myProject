@@ -29,7 +29,7 @@ public class PresenterMainImpl implements MainControl.PresenterMain {
     }
 
     private void querySuccess(Integer count){
-        mView.querySuccess(count);
+//        mView.querySuccess(count);
     }
 
     @Override

@@ -1,32 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/pending_swipeLayout"
-        android:visibility="gone"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:background="@mipmap/toolbar_icon"
+                android:iconifiedByDefault="false"/>
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_shop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_line_blod"
+                app:queryHint="搜索商户"/>
+        </LinearLayout>
+
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/combo_banner"
+            style="@style/BannerDefaultStyle"
+            app:banner_transitionEffect="zoom"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/pending_rv_list"
+            android:id="@+id/products_item"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="wrap_content"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/empty_swipeLayout"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-        <include layout="@layout/empty_layout"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/left_drawable"
+                android:layout_width="175dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@mipmap/holder"/>
+
+            <ImageView
+                android:id="@+id/right_drawable"
+                android:layout_width="170dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@id/left_drawable"
+                android:background="@mipmap/holder"/>
+
+            <ImageView
+                android:layout_width="170dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/right_drawable"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@id/left_drawable"
+                android:background="@mipmap/holder"/>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

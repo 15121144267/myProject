@@ -9,7 +9,7 @@ import com.dispatching.feima.entity.QueryParam;
 
 public class MainControl {
     public interface MainView extends LoadDataView {
-        void querySuccess(Integer count);
+//        void querySuccess(Integer count);
     }
 
     public interface PresenterMain extends Presenter<MainView> {

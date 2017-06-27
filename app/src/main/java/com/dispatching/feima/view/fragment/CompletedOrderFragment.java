@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -18,17 +16,11 @@ import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
-import com.dispatching.feima.entity.IntentConstant;
-import com.dispatching.feima.entity.MyOrders;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
-import com.dispatching.feima.listener.OnItemClickListener;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
-import com.dispatching.feima.view.activity.MainActivity;
-import com.dispatching.feima.view.activity.OrderDetailActivity;
-import com.dispatching.feima.view.adapter.BaseQuickAdapter;
-import com.dispatching.feima.view.adapter.PullToRefreshAdapter;
+import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -36,28 +28,30 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+
 /**
  * Created by helei on 2017/5/3.
  * CompletedOrderFragment
  */
 
-public class CompletedOrderFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        CompletedOrderControl.CompletedOrderView {
+public class CompletedOrderFragment extends BaseFragment implements CompletedOrderControl.CompletedOrderView {
 
+    @BindView(R.id.person_order)
+    Button mPersonOrder;
+    @BindView(R.id.person_address)
+    Button mPersonAddress;
+    @BindView(R.id.person_info)
+    Button mPersonInfo;
 
-    @BindView(R.id.completed_rv_list)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.completed_swipeLayout)
-    SwipeRefreshLayout mSwipeLayout;
-    @BindView(R.id.empty_swipeLayout)
-    SwipeRefreshLayout mEmptySwipeLayout;
+    public static CompletedOrderFragment newInstance() {
+//        PendingOrderFragment pendingOrderFragment = new PendingOrderFragment();
+        return new CompletedOrderFragment();
+    }
+
 
     @Inject
     CompletedOrderControl.PresenterCompletedOrder mPresenter;
 
-    private PullToRefreshAdapter mCompleteAdapter;
-    private String mUserToken;
-    private String mUserId;
     private Unbinder unbind;
 
     @Override
@@ -71,37 +65,44 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_complete_order, container, false);
         unbind = ButterKnife.bind(this, view);
+        initView();
         initAdapter();
         return view;
+    }
+
+    private void initView() {
+        RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
+        RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
+        RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());
+    }
+
+    private void requestInfo() {
+        showToast("1");
+    }
+
+    private void requestAddress() {
+        showToast("2");
+    }
+
+    private void requestOrder() {
+        showToast("3");
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mUserToken = mBuProcessor.getUserToken();
-        mUserId = mBuProcessor.getUserId();
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter.requestCompletedOrder(mUserToken, mUserId);
+
     }
 
     @Override
     public void getCompletedOrderSuccess(OrderDeliveryResponse response) {
-        if (response != null && response.orders != null) {
-            List<MyOrders> myOrders = response.orders;
-            if (myOrders.size() > 0) {
-                mSwipeLayout.setVisibility(View.VISIBLE);
-                mEmptySwipeLayout.setVisibility(View.GONE);
-            } else {
-                mSwipeLayout.setVisibility(View.GONE);
-                mEmptySwipeLayout.setVisibility(View.VISIBLE);
-            }
-            mCompleteAdapter.setNewData(myOrders);
-            ((MainActivity) getActivity()).changeTabView(IntentConstant.ORDER_POSITION_THREE, myOrders.size());
-        }
+
     }
 
     @Override
@@ -111,48 +112,23 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     protected void onReceivePro(Context context, Intent intent) {
-        String action = intent.getAction();
-        switch (action) {
-            case BroConstant.COMPLETE_DELIVERY:
-                mPresenter.requestCompletedOrder(mUserToken, mUserId);
-                break;
-        }
+
     }
 
     private void initAdapter() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mCompleteAdapter = new PullToRefreshAdapter(getActivity(), null);
-        mCompleteAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        mRecyclerView.setAdapter(mCompleteAdapter);
-        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mCompleteAdapter.getItem(position), IntentConstant.ORDER_POSITION_THREE));
-            }
-        });
-        mSwipeLayout.setOnRefreshListener(this);
-        mEmptySwipeLayout.setOnRefreshListener(this);
+
     }
 
     @Override
     public void getOrderComplete() {
-        mSwipeLayout.setRefreshing(false);
-        mEmptySwipeLayout.setRefreshing(false);
-        dismissLoading();
+
     }
 
     @Override
     public void getOrderError(Throwable throwable) {
-        mEmptySwipeLayout.setVisibility(View.VISIBLE);
-        mSwipeLayout.setRefreshing(false);
-        mEmptySwipeLayout.setRefreshing(false);
         showErrMessage(throwable);
     }
 
-    @Override
-    public void onRefresh() {
-        mPresenter.requestCompletedOrder(mUserToken, mUserId);
-    }
 
     @Override
     public void showLoading(String msg) {
@@ -183,7 +159,7 @@ public class CompletedOrderFragment extends BaseFragment implements SwipeRefresh
 
     private void initialize() {
         DaggerFragmentComponent.builder()
-                .applicationComponent(((DaggerApplication)getActivity().getApplication()).getApplicationComponent())
+                .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
                 .fragmentModule(new FragmentModule(this)).build()
                 .inject(this);

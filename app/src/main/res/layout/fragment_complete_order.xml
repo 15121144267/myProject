@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-    >
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/completed_swipeLayout"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical"
-        >
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/completed_rv_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/empty_swipeLayout"
-        android:visibility="gone"
+        android:background="@mipmap/holder"
+        android:layout_height="200dp">
+        <ImageView
+            android:id="@+id/person_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@drawable/vector_person_icon"/>
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/person_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="名字"
+            />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/person_order"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
-        <include layout="@layout/empty_layout"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
-</FrameLayout>
+        android:text="我的订单"
+        android:background="@drawable/shape_line_blod"
+        android:layout_margin="5dp"
+        android:layout_height="60dp"/>
+    <Button
+        android:id="@+id/person_address"
+        android:layout_width="match_parent"
+        android:text="我的地址"
+        android:background="@drawable/shape_line_blod"
+        android:layout_margin="5dp"
+        android:layout_height="60dp"/>
+    <Button
+        android:id="@+id/person_info"
+        android:layout_width="match_parent"
+        android:text="我的资料"
+        android:background="@drawable/shape_line_blod"
+        android:layout_margin="5dp"
+        android:layout_height="60dp"/>
+</LinearLayout>

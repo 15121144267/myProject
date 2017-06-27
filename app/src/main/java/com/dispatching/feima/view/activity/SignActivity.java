@@ -30,30 +30,31 @@ import butterknife.ButterKnife;
 
 public class SignActivity extends BaseActivity implements SignControl.SignView {
 
+
     @BindView(R.id.sign_phone)
     TextInputLayout mSignPhone;
     @BindView(R.id.sign_identifying_code)
     TextView mSignIdentifyingCode;
     @BindView(R.id.sign_password)
     TextInputLayout mSignPassword;
-    @BindView(R.id.sign_password_again)
-    TextInputLayout mSignPasswordAgain;
     @BindView(R.id.sign)
     Button mSign;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     public static Intent getSignIntent(Context context) {
 //        Intent intent = new Intent(context, SignActivity.class);
         return new Intent(context, SignActivity.class);
     }
 
-    @BindView(R.id.middle_name)
-    TextView mMiddleName;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
     @Inject
     SignControl.PresenterSign mPresenter;
 
     private String mPhone;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +114,6 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
         DaggerSignActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .signActivityModule(new SignActivityModule(SignActivity.this, this))
-                .build();
+                .build().inject(this);
     }
 }

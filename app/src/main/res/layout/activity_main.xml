@@ -1,60 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
 
-    <LinearLayout
+    <com.example.mylibrary.view.ViewSwapper
+        android:id="@+id/view_swapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_above="@+id/view_bottom_navigation"/>
 
-        <include layout="@layout/toolbar_common"/>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/black"
-            />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </android.support.v4.view.ViewPager>
-        <!--   <android.support.v4.widget.SwipeRefreshLayout
-               android:id="@+id/swipeLayout"
-               android:layout_width="match_parent"
-               android:layout_height="0dp"
-               android:layout_weight="1"
-               android:orientation="vertical"
-               >
-
-               <android.support.v7.widget.RecyclerView
-                   android:id="@+id/rv_list"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"/>
-           </android.support.v4.widget.SwipeRefreshLayout>-->
-    </LinearLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nv_sliding_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
+    <com.example.mylibrary.view.AdaptableBottomNavigationView
+        android:id="@+id/view_bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/white"
-        app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/nav_item_icon_tint_color"
-        app:itemTextColor="@color/nav_item_text_color"
-        app:menu="@menu/navigation_drawer_items"/>
-</android.support.v4.widget.DrawerLayout>
+        app:itemBackground="@color/white"
+        app:itemIconTint="@drawable/selector_menu"
+        app:itemTextColor="@drawable/selector_menu"
+        app:menu="@menu/main_navigation_icon"/>
+
+</RelativeLayout>

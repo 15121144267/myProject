@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.view.PresenterControl.MainControl;
+import com.dispatching.feima.view.activity.MainActivity;
 
 import dagger.Component;
 
@@ -17,8 +18,7 @@ import dagger.Component;
 public interface MainActivityComponent {
     AppCompatActivity activity();
     MainControl.MainView view();
-    MainControl.PresenterMain getPresenterMain();
-//    void inject(PendingOrderFragment pendingOrderFragment);
+    void inject(MainActivity activity);
 //    void inject(SendingOrderFragment sendingOrderFragment);
 //    void inject(CompletedOrderFragment completedOrderFragment);
 }

@@ -55,6 +55,13 @@
         <activity
             android:name=".view.activity.SignActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.ForgetActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.SetNewPasswordActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activity.MainActivity"

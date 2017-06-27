@@ -30,9 +30,9 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     @Override
     public void requestCompletedOrder(String token, String uId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        mMainModel.CompleteOrderInfoRequest(token, uId).compose(mView.applySchedulers())
+        /*mMainModel.CompleteOrderInfoRequest(token, uId).compose(mView.applySchedulers())
                 .subscribe(this::getCompleteOrderSuccess
-                        , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());
+                        , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());*/
     }
 
     private void getCompleteOrderSuccess(ResponseData responseData) {
