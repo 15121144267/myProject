@@ -81,6 +81,15 @@
         <activity
             android:name=".view.activity.WorkSummaryActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.MyOrderActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.AddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.AddAddressActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activity.SettingActivity"

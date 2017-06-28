@@ -2,15 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="@color/line_grey_bg"
+    >
 
     <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_orders"
+        android:id="@+id/address_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        />
+
+    <Button
+        android:id="@+id/address_add"
+        style="@style/Login_Button_Style_person"
+        android:text="添加地址"
+        />
 </LinearLayout>

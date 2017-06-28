@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <View style="@style/LineH_Fill_Width_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp">
+
+        <TextView
+            android:id="@+id/address_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="王先生"/>
+
+        <TextView
+            android:id="@+id/address_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="15121144267"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/address_address"
+        style="@style/TextColor_Grey_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="上海市普陀区祁连山南路"/>
+
+    <View
+        style="@style/LineH_Fill_Width1_ForView"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical">
+
+        <CheckBox
+            android:id="@+id/address_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_check"
+            android:button="@null"
+            />
+
+        <TextView
+            android:id="@+id/address_default_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
+            android:text="默认地址"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/address_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/address_edit"
+            android:gravity="center_vertical"
+            android:text="@string/address_edit"
+            />
+
+        <TextView
+            android:id="@+id/address_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:drawableStart="@mipmap/address_cycle"
+            android:gravity="center_vertical"
+            android:text="@string/address_delete"
+            />
+    </LinearLayout>
+</LinearLayout>

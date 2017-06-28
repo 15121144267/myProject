@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.Layout.Alignment;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.AlignmentSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.BulletSpan;
@@ -30,7 +31,6 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-
 
 import static android.graphics.BlurMaskFilter.Blur;
 
@@ -72,41 +72,42 @@ public class SpannableStringUtils {
         private int quoteColor;
 
         private boolean isLeadingMargin;
-        private int     first;
-        private int     rest;
+        private int first;
+        private int rest;
 
         private boolean isBullet;
-        private int     gapWidth;
-        private int     bulletColor;
+        private int gapWidth;
+        private int bulletColor;
 
-        private float     proportion;
-        private float     xProportion;
-        private boolean   isStrikethrough;
-        private boolean   isUnderline;
-        private boolean   isSuperscript;
-        private boolean   isSubscript;
-        private boolean   isBold;
-        private boolean   isItalic;
-        private boolean   isBoldItalic;
-        private String    fontFamily;
+        private float proportion;
+        private float xProportion;
+        private boolean isStrikethrough;
+        private boolean isUnderline;
+        private boolean isSuperscript;
+        private boolean isSubscript;
+        private boolean isBold;
+        private boolean isItalic;
+        private boolean isBoldItalic;
+        private String fontFamily;
         private Alignment align;
 
-        private boolean  imageIsBitmap;
-        private Bitmap   bitmap;
-        private boolean  imageIsDrawable;
+        private boolean imageIsBitmap;
+        private Bitmap bitmap;
+        private boolean imageIsDrawable;
         private Drawable drawable;
-        private boolean  imageIsUri;
-        private Uri      uri;
-        private boolean  imageIsResourceId;
+        private boolean imageIsUri;
+        private Uri uri;
+        private boolean imageIsResourceId;
         @DrawableRes
-        private int      resourceId;
+        private int resourceId;
 
         private ClickableSpan clickSpan;
-        private String        url;
-
+        private String url;
+        private Integer mSize = 0;
+        private boolean mIsDip;
         private boolean isBlur;
-        private float   radius;
-        private Blur    style;
+        private float radius;
+        private Blur style;
 
         private final SpannableStringBuilder mBuilder;
 
@@ -360,6 +361,18 @@ public class SpannableStringUtils {
         }
 
         /**
+         * 设置字体大小
+         *
+         * @param size 字体大小 size
+         * @return {@link Builder}
+         */
+        public Builder setSize(@NonNull Integer size, boolean isDip) {
+            mSize = size;
+            mIsDip = isDip;
+            return this;
+        }
+
+        /**
          * 设置图片
          *
          * @param resourceId 图片资源id
@@ -508,6 +521,10 @@ public class SpannableStringUtils {
             if (align != null) {
                 mBuilder.setSpan(new AlignmentSpan.Standard(align), start, end, flag);
                 align = null;
+            }
+            if (mSize != 0) {
+                mBuilder.setSpan(new AbsoluteSizeSpan(mSize, mIsDip), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                mSize = 0;
             }
             if (imageIsBitmap || imageIsDrawable || imageIsUri || imageIsResourceId) {
                 if (imageIsBitmap) {

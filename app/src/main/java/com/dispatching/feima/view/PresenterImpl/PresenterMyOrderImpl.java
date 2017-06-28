@@ -3,7 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
-import com.dispatching.feima.view.model.MainModel;
+import com.dispatching.feima.view.model.MyOrderModel;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ public class PresenterMyOrderImpl implements MyOrderControl.PresenterMyOrder {
     private final Context mContext;
 
     @Inject
-    public PresenterMyOrderImpl(Context context, MainModel model, MyOrderControl.MyOrderView view) {
+    public PresenterMyOrderImpl(Context context, MyOrderModel model, MyOrderControl.MyOrderView view) {
         mContext = context;
         mView = view;
     }

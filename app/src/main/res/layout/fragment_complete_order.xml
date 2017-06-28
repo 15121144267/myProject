@@ -1,49 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@mipmap/holder"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content"
+        android:background="@mipmap/person_background">
+
         <ImageView
             android:id="@+id/person_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_10"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/vector_person_icon"/>
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/person_icon"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:background="@mipmap/person_head_icon"
+            android:contentDescription="@string/app_name"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="名字"
-            />
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@id/person_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/person_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@mipmap/person_sex_man"
+                android:gravity="center_vertical"
+                android:text="名字名字&#160;&#160;"
+                />
+
+            <TextView
+                android:id="@+id/person_detail"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="名字单身快乐风格非名字单身快乐风格非"
+                android:textColor="#615e5e"
+                />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/person_tips"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="15dp"
+            android:background="@mipmap/person_tip_icon"/>
+
     </RelativeLayout>
-    <Button
+
+    <TextView
         android:id="@+id/person_order"
         android:layout_width="match_parent"
-        android:text="我的订单"
-        android:background="@drawable/shape_line_blod"
-        android:layout_margin="5dp"
-        android:layout_height="60dp"/>
-    <Button
+        android:layout_height="60dp"
+        android:drawableStart="@mipmap/order_icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="18dp"
+        android:text="@string/person_order"
+        android:textColor="#333333"
+        android:textSize="15sp"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <TextView
         android:id="@+id/person_address"
         android:layout_width="match_parent"
-        android:text="我的地址"
-        android:background="@drawable/shape_line_blod"
-        android:layout_margin="5dp"
-        android:layout_height="60dp"/>
-    <Button
+        android:layout_height="60dp"
+        android:drawableStart="@mipmap/address_icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="18dp"
+        android:text="@string/person_address"
+        android:textColor="#333333"
+        android:textSize="15sp"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <TextView
         android:id="@+id/person_info"
         android:layout_width="match_parent"
-        android:text="我的资料"
-        android:background="@drawable/shape_line_blod"
-        android:layout_margin="5dp"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:drawableStart="@mipmap/info_icon"
+        android:gravity="center_vertical"
+        android:paddingLeft="18dp"
+        android:text="@string/person_info"
+        android:textColor="#333333"
+        android:textSize="15sp"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 </LinearLayout>

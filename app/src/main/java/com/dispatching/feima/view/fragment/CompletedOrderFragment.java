@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -18,6 +20,9 @@ import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
+import com.dispatching.feima.view.activity.AddressActivity;
+import com.dispatching.feima.view.activity.MyOrderActivity;
+import com.dispatching.feima.view.activity.PersonCenterActivity;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -37,14 +42,21 @@ import butterknife.Unbinder;
 public class CompletedOrderFragment extends BaseFragment implements CompletedOrderControl.CompletedOrderView {
 
     @BindView(R.id.person_order)
-    Button mPersonOrder;
+    TextView mPersonOrder;
     @BindView(R.id.person_address)
-    Button mPersonAddress;
+    TextView mPersonAddress;
     @BindView(R.id.person_info)
-    Button mPersonInfo;
+    TextView mPersonInfo;
+    @BindView(R.id.person_icon)
+    ImageView mPersonIcon;
+    @BindView(R.id.person_name)
+    TextView mPersonName;
+    @BindView(R.id.person_detail)
+    TextView mPersonDetail;
+    @BindView(R.id.person_tips)
+    ImageButton mPersonTips;
 
     public static CompletedOrderFragment newInstance() {
-//        PendingOrderFragment pendingOrderFragment = new PendingOrderFragment();
         return new CompletedOrderFragment();
     }
 
@@ -77,15 +89,15 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void requestInfo() {
-        showToast("1");
+        startActivity(PersonCenterActivity.getPersonIntent(getActivity()));
     }
 
     private void requestAddress() {
-        showToast("2");
+        startActivity(AddressActivity.getIntent(getActivity()));
     }
 
     private void requestOrder() {
-        showToast("3");
+        startActivity(MyOrderActivity.getIntent(getActivity()));
     }
 
     @Override

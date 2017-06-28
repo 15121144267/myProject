@@ -2,8 +2,8 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.ForgetControl;
+import com.dispatching.feima.view.model.ForgetModel;
 
 import javax.inject.Inject;
 
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 public class PresenterForgetImpl implements ForgetControl.PresenterForget {
 
     @Inject
-    public PresenterForgetImpl(Context context, ForgetControl.ForgetView view, SharePreferenceUtil sharePreferenceUtil){
+    public PresenterForgetImpl(Context context, ForgetControl.ForgetView view, ForgetModel model){
 
     }
 

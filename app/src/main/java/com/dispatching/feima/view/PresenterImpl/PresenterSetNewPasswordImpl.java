@@ -2,8 +2,8 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.SetNewPasswordControl;
+import com.dispatching.feima.view.model.NewPasswordModel;
 
 import javax.inject.Inject;
 
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.PresenterSetNewPassword {
 
     @Inject
-    public PresenterSetNewPasswordImpl(Context context, SetNewPasswordControl.SetNewPasswordView view, SharePreferenceUtil sharePreferenceUtil){
+    public PresenterSetNewPasswordImpl(Context context, SetNewPasswordControl.SetNewPasswordView view, NewPasswordModel model){
 
     }
 

@@ -12,9 +12,12 @@
     <color name="clickspan_color">#00ddb6</color>
     <!-- old -->
     <color name="line_grey_bg">#e4e4e4</color>
+    <color name="line_grey_bg2">#ebebeb</color>
     <!-- titlebar begin -->
     <color name="common_titlebar_bg_color">#294a84</color>
     <color name="free_color">#33cc99</color>
+    <color name="light_grey_dark">#999999</color>
+    <color name="light_blue_dark">#35bbc6</color>
     <color name="busy_color">#cc3300</color>
     <color name="new_order_color">#515151</color>
     <color name="get_order_color">#000000</color>
@@ -28,6 +31,7 @@
 
     <color name="confirm_select_coupon_color">#7abd59</color>
     <color name="confirm_no_coupon_color">#cccccc</color>
+    <color name="order_price_color">#35BBc6</color>
     <!-- titlebar end -->
 
 

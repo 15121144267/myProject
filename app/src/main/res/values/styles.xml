@@ -9,7 +9,7 @@
         <item name="colorAccent">@color/arrived_destination_color</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-</style>
+    </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -31,31 +31,45 @@
     <style name="LineH_Fill_Width0_5_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dip</item>
-        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
     <style name="LineH_Fill_Width_5_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">5dip</item>
-        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
     <style name="LineH_Yellow_Fill_Width1">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.0dip</item>
-        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
     <style name="LineV_Fill_Width0_5_ForView">
         <item name="android:layout_width">0.5dip</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
     <style name="LineH_Fill_Width1_5_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.5dip</item>
         <item name="android:background">@color/line_grey_bg</item>
+    </style>
+
+    <style name="LineH_Fill_Width1_5_ForView2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_marginStart">15dip</item>
+        <item name="android:background">@color/line_grey_bg2</item>
+    </style>
+
+    <style name="LineH_Fill_Width1_ForView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">@color/line_grey_bg</item>
+        <item name="android:layout_marginStart">@dimen/dp_15</item>
     </style>
 
     <style name="LineH_Fill_Height0_5_ForView">
@@ -92,6 +106,26 @@
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
+    <style name="TextColor_Grey_15">
+        <item name="android:textColor">@color/light_grey_dark</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="TextColor_dark_black_15">
+        <item name="android:textColor">@color/darkblack</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextColor_dark_black2_15">
+        <item name="android:textColor">@color/darkblack</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <style name="TextColor_YellowDark_14">
         <item name="android:textColor">@color/text_color_yellow_dark</item>
         <item name="android:textSize">@dimen/sp_14</item>
@@ -110,6 +144,25 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Login_Button_Style_person">
+        <item name="android:background">@drawable/shape_button_blue</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:layout_marginRight">10.0dip</item>
+        <item name="android:layout_marginBottom">10.0dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="order_detail_Button_Style">
+        <item name="android:background">@color/light_blue_dark</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
     <style name="Login_Button_Style3">
         <item name="android:background">@drawable/button_style_blue</item>
         <item name="android:layout_height">@dimen/dp_50</item>

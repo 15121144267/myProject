@@ -2,8 +2,8 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.SignControl;
+import com.dispatching.feima.view.model.SignModel;
 
 import javax.inject.Inject;
 
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 public class PresenterSignImpl implements SignControl.PresenterSign {
 
     @Inject
-    public PresenterSignImpl(Context context, SignControl.SignView view, SharePreferenceUtil sharePreferenceUtil){
+    public PresenterSignImpl(Context context, SignControl.SignView view, SignModel model){
 
     }
 
