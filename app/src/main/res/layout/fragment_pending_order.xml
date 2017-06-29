@@ -16,6 +16,8 @@
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:paddingBottom="7dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:paddingTop="7dp"
             >
 
@@ -26,15 +28,15 @@
                 android:background="@mipmap/toolbar_icon"
                 android:iconifiedByDefault="false"/>
 
-            <android.support.v7.widget.SearchView
+
+            <com.dispatching.feima.view.customview.ClearEditText
                 android:id="@+id/search_shop"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_marginStart="35dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginStart="30dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_line_blod"
-                app:queryHint="搜索商户"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
         </LinearLayout>
 
         <cn.bingoogolapple.bgabanner.BGABanner
@@ -44,9 +46,9 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/products_item"
-            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
 
         <View style="@style/LineH_Fill_Width1_5_ForView"/>
 

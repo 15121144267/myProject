@@ -6,16 +6,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerForgetActivityComponent;
 import com.dispatching.feima.dagger.module.ForgetActivityModule;
+import com.dispatching.feima.listener.MyTextWatchListener;
+import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.ForgetControl;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +31,8 @@ import butterknife.ButterKnife;
  */
 
 public class ForgetActivity extends BaseActivity implements ForgetControl.ForgetView {
+
+
     public static Intent getForgetIntent(Context context) {
         return new Intent(context, ForgetActivity.class);
     }
@@ -39,7 +47,12 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     TextView mForgetIdentifyingCode;
     @BindView(R.id.forget_next_step)
     Button mForgetNextStep;
-
+    @BindView(R.id.forget_verity_code)
+    TextInputLayout mForgetVerityCode;
+    private EditText mForgetVerity;
+    private String mPhone;
+    @Inject
+    ForgetControl.PresenterForget mPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +67,33 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     private void initView() {
         RxView.clicks(mForgetNextStep).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetPasswordActivity());
         RxView.clicks(mForgetIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> getVerifyCode());
+        EditText editText = mForgetPhone.getEditText();
+        mForgetVerity =  mForgetVerityCode.getEditText();
+        if (editText != null)
+            editText.addTextChangedListener(new MyTextWatchListener() {
+                @Override
+                public void onMyTextChanged(CharSequence s) {
+                    String phone = s.toString();
+                    if (ValueUtil.isMobilePhone(phone)) {
+                        mForgetNextStep.setEnabled(false);
+                        mForgetIdentifyingCode.setEnabled(false);
+                    } else {
+                        mPhone = phone;
+                        mForgetNextStep.setEnabled(true);
+                        mForgetIdentifyingCode.setEnabled(true);
+                    }
+                }
+            });
+    }
+
+    @Override
+    public void setButtonEnable(boolean enable, long time) {
+        mForgetIdentifyingCode.setEnabled(enable);
+        if (enable) {
+            mForgetIdentifyingCode.setText(getString(R.string.text_verify_code));
+        } else {
+            mForgetIdentifyingCode.setText("重新发送(" + String.valueOf(time) + ")");
+        }
     }
 
     @Override
@@ -77,10 +117,17 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     }
 
     private void getVerifyCode() {
-
+        mPresenter.onRequestVerifyCode(mPhone);
     }
 
     private void switchSetPasswordActivity() {
+        if(mForgetVerity!=null){
+            String verityCode = mForgetVerity.getText().toString();
+            if(TextUtils.isEmpty(verityCode)){
+                showToast("验证码不能为空");
+                return;
+            }
+        }
         startActivity(SetNewPasswordActivity.getNewPasswordIntent(this));
     }
 

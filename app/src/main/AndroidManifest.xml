@@ -79,6 +79,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.activity.ShopListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".view.activity.WorkSummaryActivity"
             android:screenOrientation="portrait"/>
         <activity

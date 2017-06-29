@@ -1,9 +1,6 @@
 package com.dispatching.feima.view.model;
 
-import com.dispatching.feima.entity.LoginRequest;
 import com.dispatching.feima.network.networkapi.LoginApi;
-import com.dispatching.feima.superscoket.ISendResult;
-import com.dispatching.feima.superscoket.SocketClient;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -19,40 +16,21 @@ public class LoginModel {
     private final LoginApi mLoginApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final SocketClient mSocketClient;
+    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
 
     @Inject
-    public LoginModel(LoginApi api, Gson gson, ModelTransform transform, SocketClient socketClient) {
+    public LoginModel(LoginApi api, Gson gson, ModelTransform transform) {
         mLoginApi = api;
         mGson = gson;
         mTransform = transform;
-        mSocketClient = socketClient;
     }
 
-    public Observable<Integer> VerifyCodeRequest(String request) {
-       String verifyInfo = "SmsSend:"+request+"\r\n";
-        return Observable.create(e -> {
-                if(mSocketClient.judgeClient()){
-                    mSocketClient.SenddData(verifyInfo, new ISendResult() {
-                        @Override
-                        public void OnSendSuccess() {
-                            e.onNext(1);
-                        }
-
-                        @Override
-                        public void OnSendFailure(Exception e1) {
-                            e.onError(e1);
-                        }
-                    });
-                }
-        });
-    }
 
     public Observable<ResponseData> LoginRequest(String phone, String password) {
-        LoginRequest request = new LoginRequest();
+       /* LoginRequest request = new LoginRequest();
         request.phone = phone;
-        request.verifyCode = password;
-        return mLoginApi.loginRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+        request.password = password*/
+        return mLoginApi.loginRequest(partnerId,phone,password).map(mTransform::transformCommon);
     }
 
 }

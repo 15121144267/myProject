@@ -85,8 +85,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         setContentView(R.layout.activity_orderdetail);
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
-        initializeInjector();
-        supportActionBar(mToolbar, true);
+        initializeInjector();        supportActionBar(mToolbar, true);
         mMiddleName.setText("订单详情");
         parseIntent();
         initView();

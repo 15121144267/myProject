@@ -6,6 +6,7 @@
               android:orientation="vertical">
 
     <include layout="@layout/toolbar_common"/>
+
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <LinearLayout
@@ -39,6 +40,7 @@
             android:layout_width="92dp"
             android:layout_height="32dp"
             android:background="@drawable/item_main_white2"
+            android:enabled="false"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/text_verify_code"
@@ -47,6 +49,7 @@
 
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/sign_verityCode"
         android:layout_width="275dp"
         android:layout_height="53dp"
         android:textColorHint="#999999"
@@ -63,10 +66,10 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/sign_password"
         android:layout_width="275dp"
         android:layout_height="53dp"
         android:textColorHint="#999999"
-        android:id="@+id/sign_password"
         >
 
         <EditText
@@ -86,6 +89,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="81dp"
         android:background="@drawable/button_style_blue2"
+        android:enabled="false"
         android:text="注册"
         android:textColor="@color/white"
         />

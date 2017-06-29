@@ -81,6 +81,7 @@
         android:background="@drawable/button_style_blue3"
         android:text="@string/app_login"
         android:textColor="@color/white"
+        android:enabled="false"
         android:textSize="18sp"
         android:alpha="0.52"
         />

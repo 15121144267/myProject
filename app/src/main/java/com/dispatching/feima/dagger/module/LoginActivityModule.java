@@ -6,7 +6,6 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.LoginApi;
-import com.dispatching.feima.superscoket.SocketClient;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterLoginImpl;
 import com.dispatching.feima.view.model.LoginModel;
@@ -44,13 +43,13 @@ public class LoginActivityModule {
 
     @Provides
     @PerActivity
-    LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform, SocketClient client) {
+    LoginModel provideLoginModel(Gson gson, ModelTransform modelTransform ) {
         return new LoginModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(LoginApi.class), gson, modelTransform, client);
+                .create(LoginApi.class), gson, modelTransform);
     }
 
     @Provides

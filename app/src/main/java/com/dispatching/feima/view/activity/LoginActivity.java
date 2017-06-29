@@ -15,11 +15,9 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerLoginActivityComponent;
 import com.dispatching.feima.dagger.component.LoginActivityComponent;
 import com.dispatching.feima.dagger.module.LoginActivityModule;
-import com.dispatching.feima.entity.LoginResponse;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.listener.MyTextWatchListener;
-import com.dispatching.feima.service.CustomerService;
 import com.dispatching.feima.utils.AppDeviceUtil;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
@@ -73,7 +71,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         initializeInjector();
         ButterKnife.bind(this);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
-        mPermission = new RxPermissions(this);
+//        mPermission = new RxPermissions(this);
         initView();
     }
 
@@ -103,26 +101,17 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         mPresenterLogin.onDestroy();
     }
 
-    @Override
-    public void setButtonEnable(boolean enable, Long time) {
-       /* mLoginIdentifyingCode.setEnabled(enable);
-        if (enable) {
-            mLoginIdentifyingCode.setText(getString(R.string.text_verify_code));
-        } else {
-            mLoginIdentifyingCode.setText("重新发送(" + String.valueOf(time) + ")");
-        }*/
-    }
 
     @Override
-    public void loginSuccess(LoginResponse loginResponse) {
-        mBuProcessor.setUserId(loginResponse.uId);
-        mBuProcessor.setUserToken(loginResponse.token);
+    public void loginSuccess() {
+      /*  mBuProcessor.setUserId(loginResponse.uId);
+        mBuProcessor.setUserToken(loginResponse.token);*/
         mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
-        mSharePreferenceUtil.setStringValue(SpConstant.USER_TOKEN, loginResponse.token);
+       /* mSharePreferenceUtil.setStringValue(SpConstant.USER_TOKEN, loginResponse.token);
         mSharePreferenceUtil.setStringValue(SpConstant.USER_ID, loginResponse.uId);
         if (TextUtils.isEmpty(mUserId)) {
             startService(CustomerService.newIntent(getApplicationContext()));
-        }
+        }*/
         startActivity(MainActivity.getMainIntent(this));
         finish();
     }
@@ -133,10 +122,10 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     private void initView() {
-        EditText editText = mLoginUserName.getEditText();
         RxView.clicks(mLoginSubmit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestLogin());
         RxView.clicks(mLoginSign).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSignActivity());
         RxView.clicks(mLoginForgetPassword).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchForgetActivity());
+        EditText editText = mLoginUserName.getEditText();
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
@@ -148,7 +137,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                         myPhone = phone;
                         mLoginSubmit.setEnabled(true);
                         mLoginSubmit.setAlpha(0.8f);
-
                     }
 
                 }
@@ -162,7 +150,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     private void switchSignActivity() {
-//        mPresenterLogin.onRequestVerifyCode(myPhone);
         startActivity(SignActivity.getSignIntent(this));
     }
 
@@ -171,8 +158,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     private void requestLogin() {
-        startActivity(new Intent(MainActivity.getMainIntent(this)));
-       /* EditText editText = mLoginPassword.getEditText();
+//        startActivity(new Intent(MainActivity.getMainIntent(this)));
+        EditText editText = mLoginPassword.getEditText();
         if (editText != null) {
             mPassword = editText.getText().toString();
         }
@@ -180,7 +167,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (TextUtils.isEmpty(mPassword)) {
             showToast(getString(R.string.login_password_empty));
             return;
-        }*/
+        }
 
        /* mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -198,7 +185,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 showDialog();
             }
         });*/
-
+        mPresenterLogin.onRequestLogin(myPhone, mPassword);
 
     }
 

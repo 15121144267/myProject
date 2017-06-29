@@ -11,6 +11,7 @@
     <color name="hard_color">#48495f</color>
     <color name="clickspan_color">#00ddb6</color>
     <!-- old -->
+    <color name="province_line_border">#C7C7C7</color>
     <color name="line_grey_bg">#e4e4e4</color>
     <color name="line_grey_bg2">#ebebeb</color>
     <!-- titlebar begin -->

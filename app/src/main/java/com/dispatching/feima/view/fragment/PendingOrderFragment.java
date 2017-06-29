@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,9 @@ import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.MainProducts;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
+import com.dispatching.feima.view.activity.ShopListActivity;
 import com.dispatching.feima.view.adapter.MainProductsAdapter;
+import com.dispatching.feima.view.customview.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @BindView(R.id.combo_banner)
     BGABanner mComboBanner;
     @BindView(R.id.search_shop)
-    SearchView mSearchShop;
+    ClearEditText mSearchShop;
     @BindView(R.id.products_item)
     RecyclerView mProductsItem;
 
@@ -82,7 +83,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     private void initView() {
-        mSearchShop.setSubmitButtonEnabled(false);
+        mSearchShop.setEditHint("搜索商户");
         mComboBanner.setAdapter(this);
         mList = new ArrayList<>();
     }
@@ -147,8 +148,14 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mAdapter = new MainProductsAdapter(mList, getActivity());
         mProductsItem.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((adapter,view,position)->
-            showToast(String.valueOf(position))
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+                    if (position == 2) {
+                        startActivity(ShopListActivity.getIntent(getActivity()));
+                    } else {
+                        showToast(String.valueOf(position));
+                    }
+
+                }
         );
     }
 

@@ -155,6 +155,7 @@
         <item name="android:textSize">16.0dip</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="order_detail_Button_Style">
         <item name="android:background">@color/light_blue_dark</item>
         <item name="android:layout_height">@dimen/dp_50</item>
@@ -163,6 +164,7 @@
         <item name="android:textSize">16.0dip</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="Login_Button_Style3">
         <item name="android:background">@drawable/button_style_blue</item>
         <item name="android:layout_height">@dimen/dp_50</item>
@@ -209,6 +211,11 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="TextColor_BlackLight_16">
+        <item name="android:textColor">@color/darkblack</item>
+        <item name="android:textSize">16.0dip</item>
+    </style>
+
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
@@ -251,5 +258,10 @@
         <item name="banner_tipTextColor">@android:color/white</item>
         <!-- 加载网络数据时覆盖在BGABanner最上层的占位图 -->
         <item name="banner_placeholderDrawable">@mipmap/holder</item>
+    </style>
+
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
 </resources>

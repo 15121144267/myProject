@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -14,7 +16,7 @@ public class ForgetModel {
     private final ForgetApi mForgetApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-
+    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
     @Inject
     public ForgetModel(ForgetApi api, Gson gson, ModelTransform transform) {
         mForgetApi = api;
@@ -23,11 +25,8 @@ public class ForgetModel {
     }
 
 
-    /*public Observable<ResponseData> LoginRequest(String phone, String password) {
-        LoginRequest request = new LoginRequest();
-        request.phone = phone;
-        request.verifyCode = password;
-        return mSignApi.loginRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> verityCodeRequest(String phone) {
+        return mForgetApi.verityCodeRequest(partnerId, phone).map(mTransform::transformCommon);
+    }
 
 }

@@ -20,7 +20,7 @@ public class ResponseData {
     }
 
     public ResponseData(JSONObject jsonObject) throws JSONException {
-        resultCode = jsonObject.getInt("status_code");
+        resultCode = jsonObject.getInt("statusCode");
         errorDesc = jsonObject.getString("msg");
         result = jsonObject.optString("result") == null ? "" : jsonObject.optString("result");
     }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+             android:background="@drawable/shape_line_blod"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/custom_edittext"
+        style="@style/TextColor_BlackLight_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableStart="@mipmap/main_magnifie"
+        android:background="@null"
+        android:maxLines="1"
+        android:padding="10dip"
+        android:textColorHint="#b8b8bf"/>
+
+    <ImageView
+        android:id="@+id/custom_edittext_img"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="5dip"
+        android:src="@mipmap/btn_delete_edit"
+        android:visibility="gone"/>
+
+</LinearLayout>

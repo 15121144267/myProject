@@ -14,10 +14,12 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerSignActivityComponent;
 import com.dispatching.feima.dagger.module.SignActivityModule;
-import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.listener.MyTextWatchListener;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.SignControl;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -43,6 +45,11 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.sign_verityCode)
+    TextInputLayout mSignVerityCode;
+    private EditText mEditTextPassword;
+    private EditText mEditTextVerityCode;
+    private EditText mPhoneEditText;
 
     public static Intent getSignIntent(Context context) {
 //        Intent intent = new Intent(context, SignActivity.class);
@@ -87,27 +94,69 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
     }
 
     private void initView() {
-        EditText editText = mSignPhone.getEditText();
-        if (editText != null)
-            editText.addTextChangedListener(new MyTextWatchListener() {
+        RxView.clicks(mSignIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerityCode());
+        RxView.clicks(mSign).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestSign());
+        mPhoneEditText = mSignPhone.getEditText();
+        mEditTextPassword = mSignPassword.getEditText();
+        mEditTextVerityCode = mSignVerityCode.getEditText();
+
+        if (mPhoneEditText != null)
+            mPhoneEditText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
                 public void onMyTextChanged(CharSequence s) {
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
-                        mSign.setEnabled(false);
                         mSignIdentifyingCode.setEnabled(false);
+                        mSign.setEnabled(false);
                     } else {
                         mPhone = phone;
-                        mSign.setEnabled(true);
                         mSignIdentifyingCode.setEnabled(true);
+                        mSign.setEnabled(true);
                     }
                 }
             });
-        String mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
-        if (editText != null && !TextUtils.isEmpty(mUserName)) {
-            editText.setText(mUserName);
-            editText.setSelection(mUserName.length());
+
+    }
+
+    private void requestSign() {
+        String password = null;
+        String verityCode = null;
+        if (mEditTextPassword != null) {
+            password = mEditTextPassword.getText().toString();
+            if (TextUtils.isEmpty(password)) {
+                showToast("密码不能为空");
+                return;
+            }
         }
+        if (mEditTextVerityCode != null) {
+            verityCode = mEditTextVerityCode.getText().toString();
+            if (TextUtils.isEmpty(verityCode)) {
+                showToast("验证码不能为空");
+                return;
+            }
+
+        }
+        mPresenter.onRequestSign(mPhone,password,verityCode);
+    }
+
+    @Override
+    public void signUpSuccess() {
+        showToast(getString(R.string.sign_up_success));
+        finish();
+    }
+
+    @Override
+    public void setButtonEnable(boolean enable, Long integer) {
+        mSignIdentifyingCode.setEnabled(enable);
+        if (enable) {
+            mSignIdentifyingCode.setText(getString(R.string.text_verify_code));
+        } else {
+            mSignIdentifyingCode.setText("重新发送(" + String.valueOf(integer) + ")");
+        }
+    }
+
+    private void requestVerityCode() {
+        mPresenter.onRequestVerifyCode(mPhone);
     }
 
     private void initializeInjector() {

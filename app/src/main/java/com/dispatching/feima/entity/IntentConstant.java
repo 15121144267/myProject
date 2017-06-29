@@ -14,4 +14,5 @@ public class IntentConstant {
     public static final Integer ORDER_POSITION_ONE = 0;
     public static final Integer ORDER_POSITION_TWO = 1;
     public static final Integer ORDER_POSITION_THREE = 2;
+    public static final Integer ADD_NEW_ADDRESS_RESULT_CODE = 10;
 }
