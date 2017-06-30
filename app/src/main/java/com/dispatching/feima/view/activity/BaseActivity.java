@@ -1,11 +1,15 @@
 package com.dispatching.feima.view.activity;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -127,4 +131,16 @@ public class BaseActivity extends AppCompatActivity {
             observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()));
 
+    protected void initSystemBar(int color) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(this,color));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

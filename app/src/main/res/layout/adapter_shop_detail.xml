@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/white"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardUseCompatPadding="true"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/adapter_person_icon"
+            android:layout_width="match_parent"
+            android:layout_height="164dp"
+            android:background="@mipmap/neo"
+            />
+
+        <TextView
+            android:id="@+id/adapter_goods_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="复古猫咪刺绣短款上衣"
+            android:textColor="@color/darkblack"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="5dp">
+
+            <TextView
+                android:id="@+id/adapter_goods_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="￥567"
+                android:textColor="@color/light_blue_dark"
+                android:textSize="@dimen/sp_18"/>
+
+            <TextView
+                android:id="@+id/adapter_goods_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginEnd="10dp"
+                android:gravity="center_vertical"
+                android:drawableStart="@mipmap/product_hot"
+                android:text="销量1.2万"/>
+        </LinearLayout>
+    </LinearLayout>
+    L
+</android.support.v7.widget.CardView>

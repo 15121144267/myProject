@@ -106,7 +106,7 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
         mShopList.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, view, position) ->
-                showToast(String.valueOf(position))
+                startActivity(ShopDetailActivity.getIntent(this))
         );
     }
 

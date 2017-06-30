@@ -114,5 +114,6 @@ dependencies {
     compile rootProject.ext.myDependencies["myLocation"]
     compile rootProject.ext.myDependencies["myBanner"]
     compile rootProject.ext.myDependencies["myGlide"]
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
     compile project(path: ':mylibrary')
 }

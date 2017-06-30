@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/linear_father"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-             android:background="@drawable/shape_line_blod"
+              android:layout_height="match_parent"
+              android:background="@drawable/shape_line_blod"
               android:gravity="center_vertical"
+              android:paddingStart="10dp"
               android:orientation="horizontal">
 
     <EditText
         android:id="@+id/custom_edittext"
         style="@style/TextColor_BlackLight_16"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:drawableStart="@mipmap/main_magnifie"
         android:background="@null"
+        android:drawableStart="@mipmap/main_magnifie"
         android:maxLines="1"
-        android:padding="10dip"
         android:textColorHint="#b8b8bf"/>
 
     <ImageView

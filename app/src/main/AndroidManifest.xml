@@ -56,6 +56,9 @@
             android:name=".view.activity.SignActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".view.activity.GoodDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".view.activity.ForgetActivity"
             android:screenOrientation="portrait"/>
 
@@ -70,8 +73,8 @@
 
         <activity
             android:name=".view.activity.NoticeCenterActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             />
 
         <activity
@@ -80,6 +83,10 @@
 
         <activity
             android:name=".view.activity.ShopListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.ShopDetailActivity"
             android:screenOrientation="portrait"/>
 
         <activity

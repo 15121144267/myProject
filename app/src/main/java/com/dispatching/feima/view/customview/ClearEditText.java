@@ -22,6 +22,7 @@ import com.dispatching.feima.R;
 public class ClearEditText extends LinearLayout {
 
     private EditText editText;
+    private LinearLayout linearFather;
     private ImageView mBtnClear;
     private boolean isInputBalance = false;
     private boolean isAlwaysShowDeleteBtn = false;
@@ -48,6 +49,7 @@ public class ClearEditText extends LinearLayout {
         inflater.inflate(R.layout.view_custom_edittext, this);
         editText = (EditText) findViewById(R.id.custom_edittext);
         mBtnClear = (ImageView) findViewById(R.id.custom_edittext_img);
+        linearFather = (LinearLayout) findViewById(R.id.linear_father);
         if (isAlwaysShowDeleteBtn) {
             mBtnClear.setVisibility(View.VISIBLE);
         } else {
@@ -120,6 +122,10 @@ public class ClearEditText extends LinearLayout {
      */
     public void setEditInputPhone() {
         editText.setInputType(InputType.TYPE_CLASS_PHONE);
+    }
+
+    public void setLinearBackgroundResource(int backgound) {
+        linearFather.setBackgroundResource(backgound);
     }
 
     public void setEditHint(String text) {
