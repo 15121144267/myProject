@@ -1,121 +1,104 @@
 package com.dispatching.feima.view.fragment;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.Gravity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.help.DialogFactory;
-import com.dispatching.feima.utils.ToastUtils;
-import com.dispatching.feima.view.customview.MyPasswordView;
+import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
  * 充值dialog
- *
  */
 public class SpecificationDialog extends BaseDialogFragment {
     public static final String TAG = SpecificationDialog.class.getSimpleName();
-    private RelativeLayout mLayout;
-    private Button mSureBtn;
-    private Button mCancelBtn;
-    private TextView mContentTextView;
-    private MyPasswordView mEditTextLayout;
-    private TextView mTitle;
-    private String content;
-    private String title;
+    @BindView(R.id.dialog_goods_price)
+    TextView mDialogGoodsPrice;
+    @BindView(R.id.dialog_close)
+    ImageView mDialogClose;
+    @BindView(R.id.dialog_goods_all_count)
+    TextView mDialogGoodsAllCount;
+    @BindView(R.id.dialog_goods_color_checked)
+    TextView mDialogGoodsColorChecked;
+    @BindView(R.id.dialog_goods_reduce)
+    TextView mDialogGoodsReduce;
+    @BindView(R.id.dialog_goods_count)
+    TextView mDialogGoodsCount;
+    @BindView(R.id.dialog_goods_add)
+    TextView mDialogGoodsAdd;
+    @BindView(R.id.dialog_goods_color)
+    RecyclerView mDialogGoodsColor;
+    @BindView(R.id.dialog_goods_size)
+    RecyclerView mDialogGoodsSize;
+    @BindView(R.id.main_linear)
+    LinearLayout mMainLinear;
+    @BindView(R.id.dialog_buy_goods)
+    Button mDialogBuyGoods;
+    @BindView(R.id.dialog_person_icon)
+    PorterShapeImageView mDialogPersonIcon;
+    @BindView(R.id.recharge_dialog_layout)
+    RelativeLayout mRechargeDialogLayout;
+
     private passwordDialogListener dialogBtnListener;
-    private boolean isCanClickOutSide = false;
+    private Unbinder unbind;
 
     public static SpecificationDialog newInstance() {
         return new SpecificationDialog();
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public void setListener(passwordDialogListener dialogBtnListener) {
         this.dialogBtnListener = dialogBtnListener;
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_recharge_dialog, container, true);
-
-        mLayout = (RelativeLayout) view.findViewById(R.id.recharge_dialog_layout);
-        mSureBtn = (Button) view.findViewById(R.id.recharge_dialog_ok);
-        mCancelBtn = (Button) view.findViewById(R.id.recharge_dialog_cancel);
-        mTitle = (TextView) view.findViewById(R.id.recharge_dialog_title);
-        mContentTextView = (TextView) view.findViewById(R.id.recharge_dialog_content);
-        mEditTextLayout = (MyPasswordView) view.findViewById(R.id.password_view);
-        mEditTextLayout.initStyle(R.color.white, 4, R.color.black, 30);
-        mEditTextLayout.setShowPwd(false);
+        View view = inflater.inflate(R.layout.fragment_specification_dialog, container, true);
+        unbind = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContentTextView.setGravity(Gravity.NO_GRAVITY);
-        if (isCanClickOutSide) {
-            mLayout.setOnClickListener(this);
-        }
 
-        mSureBtn.setOnClickListener(this);
-        mCancelBtn.setOnClickListener(this);
-        if (TextUtils.isEmpty(content)) {
-            mContentTextView.setVisibility(View.GONE);
-        } else {
-            mContentTextView.setVisibility(View.VISIBLE);
-            String orderId = "订单号：" + content;
-            mContentTextView.setText(orderId);
-        }
-        if (!TextUtils.isEmpty(title)) {
-            mTitle.setText(title);
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.recharge_dialog_layout:
+            case R.id.dialog_close:
                 closeRechargeDialog();
                 break;
             case R.id.recharge_dialog_ok:
-                String number = mEditTextLayout.getPwdText();
-                if (number.length() < 4) {
-                    ToastUtils.showShortToast("请填写完成");
-                    return;
-                }
-
-                String checkNumber = content.substring(content.length() - 4, content.length());
-                if (checkNumber.equals(number) && dialogBtnListener != null) {
-                    dialogBtnListener.passwordDialogBtnOkListener();
-                    closeRechargeDialog();
-                } else {
-                    ToastUtils.showShortToast("请核对单号是否正确");
-                }
 
                 break;
             case R.id.recharge_dialog_cancel:
                 closeRechargeDialog();
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbind.unbind();
     }
 
     public interface passwordDialogListener {
