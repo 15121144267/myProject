@@ -14,16 +14,15 @@
         android:background="@color/white"
         android:orientation="vertical"
         >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="140dp"
             android:layout_marginTop="14dp"
-
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/dialog_goods_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,6 +39,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/dialog_goods_all_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="142dp"
@@ -50,6 +50,7 @@
             android:textSize="@dimen/sp_15"/>
 
         <TextView
+            android:id="@+id/dialog_goods_color_checked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -90,6 +91,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/dialog_goods_reduce"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
@@ -100,7 +102,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/dialog_goods_count"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -111,6 +113,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/dialog_goods_add"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -129,7 +132,8 @@
             android:text="颜色分类"
             android:textColor="@color/black"/>
 
-        <GridView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dialog_goods_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"/>
@@ -147,14 +151,15 @@
             android:text="尺寸"
             android:textColor="@color/black"/>
 
-        <GridView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dialog_goods_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"/>
     </LinearLayout>
 
     <Button
-        android:id="@+id/goods_detail_button"
+        android:id="@+id/dialog_buy_goods"
         style="@style/order_detail_Button_Style4"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/dp_5"
