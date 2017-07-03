@@ -7,10 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopListActivityComponent;
 import com.dispatching.feima.dagger.module.ShopListActivityModule;
@@ -25,13 +23,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bingoogolapple.bgabanner.BGABanner;
 
 /**
  * Created by lei.he on 2017/6/29.
  */
 
-public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView, BGABanner.Adapter<ImageView, String> {
+public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView{
     public static Intent getIntent(Context context) {
         return new Intent(context, ShopListActivity.class);
     }
@@ -40,8 +37,6 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.shop_banner)
-    BGABanner mShopBanner;
     @BindView(R.id.shop_list)
     RecyclerView mShopList;
     @Inject
@@ -87,20 +82,8 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
         mPresenter.onDestroy();
     }
 
-    @Override
-    public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
-        Glide.with(itemView.getContext())
-                .load(model)
-                .placeholder(R.mipmap.holder)
-                .error(R.mipmap.holder)
-                .dontAnimate()
-                .centerCrop()
-                .into(itemView);
-    }
-
     private void initView() {
         mList = new ArrayList<>();
-        mShopBanner.setAdapter(this);
         mShopList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this);
         mShopList.setAdapter(mAdapter);

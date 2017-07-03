@@ -14,6 +14,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,10 +31,10 @@
                 android:textColor="@color/light_blue_dark"
                 android:textSize="@dimen/sp_20"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/dialog_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_marginEnd="14dp"
                 android:src="@mipmap/dialog_close"/>
         </LinearLayout>
@@ -44,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="142dp"
             android:layout_marginTop="8dp"
-            android:layout_weight="wrap_content"
             android:text="库存307件"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_15"/>
@@ -56,7 +56,6 @@
             android:layout_marginBottom="12dp"
             android:layout_marginStart="142dp"
             android:layout_marginTop="11dp"
-            android:layout_weight="wrap_content"
             android:text="已选图片色"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_15"/>
@@ -92,10 +91,9 @@
 
                 <TextView
                     android:id="@+id/dialog_goods_reduce"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
-                    android:layout_weight="1"
                     android:text="—"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_18"
@@ -105,19 +103,18 @@
                     android:id="@+id/dialog_goods_count"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:text="1"
+                    android:gravity="center"
+                    android:text="239"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_18"
                     />
 
                 <TextView
                     android:id="@+id/dialog_goods_add"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="7dp"
                     android:text="+"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_20"
@@ -125,53 +122,83 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="颜色分类"
-            android:textColor="@color/black"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/dialog_goods_color"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <View
-            style="@style/LineH_Fill_Width1_ForView"
-            android:layout_marginEnd="15dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:text="颜色分类"
+                    android:textColor="@color/black"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/dialog_goods_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:nestedScrollingEnabled="false"/>
+
+                </RelativeLayout>
+
+
+                <View
+                    style="@style/LineH_Fill_Width1_ForView"
+                    android:layout_marginEnd="15dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="14dp"
+                    android:text="尺寸"
+                    android:textColor="@color/black"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/dialog_goods_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:nestedScrollingEnabled="false"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/dialog_buy_goods"
+            style="@style/order_detail_Button_Style4"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/dp_5"
+            android:text="立刻购买"
             />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="14dp"
-            android:text="尺寸"
-            android:textColor="@color/black"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/dialog_goods_size"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/dialog_buy_goods"
-        style="@style/order_detail_Button_Style4"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/dp_5"
-        android:text="立刻购买"
-        />
 
     <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
         android:id="@+id/dialog_person_icon"
         android:layout_width="110dp"
         android:layout_height="110dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="340dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="280dp"
         android:src="@mipmap/neo"
         app:siShape="@drawable/shape_rectangle_icon2"
         app:siSquare="true"/>

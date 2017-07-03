@@ -10,20 +10,16 @@ import android.content.Context;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.database.DbHelper;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoMaster;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.listener.MyLocationListener;
-import com.dispatching.feima.superscoket.IPList;
-import com.dispatching.feima.superscoket.SocketClient;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rabbitmq.client.ConnectionFactory;
 
 import javax.inject.Singleton;
 
@@ -92,23 +88,6 @@ public class ApplicationModule {
         return client;
     }
 
-    @Provides
-    @Singleton
-    ConnectionFactory provideConnectionFactory() {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(BuildConfig.RABBIT_HOST);
-        factory.setPort(BuildConfig.RABBIT_PORT);
-        factory.setUsername(BuildConfig.RABBIT_NAME);
-        factory.setPassword(BuildConfig.RABBIT_PASSWORD);
-        factory.setVirtualHost(BuildConfig.RABBIT_VHOST);
-        return factory;
-    }
-
-    @Provides
-    @Singleton
-    SocketClient provideSocketClient() {
-        return new SocketClient(IPList._ip, IPList._Port, 6);
-    }
 
     @Provides
     @Singleton

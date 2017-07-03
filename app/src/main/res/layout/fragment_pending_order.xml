@@ -14,10 +14,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:gravity="center_vertical"
-            android:paddingBottom="7dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:paddingBottom="7dp"
             android:paddingTop="7dp"
             >
 
@@ -32,17 +32,20 @@
             <com.dispatching.feima.view.customview.ClearEditText
                 android:id="@+id/search_shop"
                 android:layout_width="0dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="15dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="35dp"
                 android:layout_weight="1"/>
 
         </LinearLayout>
 
-        <cn.bingoogolapple.bgabanner.BGABanner
-            android:id="@+id/combo_banner"
-            style="@style/BannerDefaultStyle"
-            app:banner_transitionEffect="zoom"/>
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="205dp"
+            app:indicator_height="8dp"
+            app:indicator_width="8dp"/>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/products_item"
@@ -62,7 +65,7 @@
                 android:layout_height="170dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="16dp"
-                android:background="@mipmap/holder"/>
+                android:background="@mipmap/main_right_first"/>
 
             <ImageView
                 android:id="@+id/right_drawable"
@@ -72,7 +75,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="16dp"
                 android:layout_toEndOf="@id/left_drawable"
-                android:background="@mipmap/holder"/>
+                android:background="@mipmap/main_right_second"
+                />
 
             <ImageView
                 android:layout_width="170dp"
@@ -80,7 +84,8 @@
                 android:layout_below="@id/right_drawable"
                 android:layout_margin="10dp"
                 android:layout_toEndOf="@id/left_drawable"
-                android:background="@mipmap/holder"/>
+                android:background="@mipmap/main_left_first"
+                />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -1,12 +1,18 @@
 package com.dispatching.feima.utils;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -221,5 +227,41 @@ public class ValueUtil {
             child.setLayoutParams(params);
             child.invalidate();
         }
+    }
+
+    public static String convertIconToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, baos);
+        byte[] appicon = baos.toByteArray();// 转为byte数组
+        return Base64.encodeToString(appicon, Base64.DEFAULT);
+
+    }
+
+    public static String drawableToByte(Drawable drawable) {
+
+        if (drawable != null) {
+            Bitmap bitmap = Bitmap
+                    .createBitmap(
+                            drawable.getIntrinsicWidth(),
+                            drawable.getIntrinsicHeight(),
+                            drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                                    : Bitmap.Config.RGB_565);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight());
+            drawable.draw(canvas);
+            int size = bitmap.getWidth() * bitmap.getHeight() * 4;
+
+            // 创建一个字节数组输出流,流的大小为size
+            ByteArrayOutputStream baos = new ByteArrayOutputStream(size);
+            // 设置位图的压缩格式，质量为100%，并放入字节数组输出流中
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            // 将字节数组输出流转化为字节数组byte[]
+            byte[] imagedata = baos.toByteArray();
+
+            String icon = Base64.encodeToString(imagedata, Base64.DEFAULT);
+            return icon;
+        }
+        return null;
     }
 }

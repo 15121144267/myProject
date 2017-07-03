@@ -20,14 +20,10 @@ import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.NoticeInfo;
 import com.dispatching.feima.entity.NoticeMessage;
-import com.dispatching.feima.entity.PostManLocation;
 import com.dispatching.feima.entity.PushMessageInfo;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.gen.OrderNoticeDao;
-import com.dispatching.feima.superscoket.ISendResult;
-import com.dispatching.feima.superscoket.SocketClient;
-import com.dispatching.feima.superscoket.SuperSocketCallBack;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.activity.LoginActivity;
@@ -35,7 +31,6 @@ import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.dispatching.feima.view.model.ResponseData;
 import com.google.gson.Gson;
-import com.rabbitmq.client.ConnectionFactory;
 
 import java.util.List;
 
@@ -65,10 +60,7 @@ public class CustomerService extends Service {
     DaoSession mDaoSession;
     @Inject
     ModelTransform mTransform;
-    @Inject
-    ConnectionFactory factory;
-    @Inject
-    SocketClient mSocketClient;
+
 
     private OrderNoticeDao mOrderNoticeDao;
     private String mUId;
@@ -77,12 +69,9 @@ public class CustomerService extends Service {
     public void onCreate() {
         super.onCreate();
         ((DaggerApplication) getApplication()).getApplicationComponent().inject(this);
-        if (!mSocketClient.judgeClient()) {
-            mSocketClient.Connection();
-        }
+
         mOrderNoticeDao = mDaoSession.getOrderNoticeDao();
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        mSocketClient.setOnReceiveListener(new SuperSocketCallBack(this));
     }
 
     @Override
@@ -90,30 +79,7 @@ public class CustomerService extends Service {
         if (intent != null) {
             double mLongitude = intent.getDoubleExtra(IntentConstant.LONGITUDE, 0.0);
             double mLatitude = intent.getDoubleExtra(IntentConstant.LATITUDE, 0.0);
-            if (mLongitude != 0.0 && mLatitude != 0.0) {
-                PostManLocation postManLocation = new PostManLocation();
-                postManLocation.Longitude = mLongitude;
-                postManLocation.Latitude = mLatitude;
-                postManLocation.uId = mUId;
-                String locationJson = mGson.toJson(postManLocation);
-                String locationInfo = "PostManSend:" + locationJson + "\r\n";
-                if (mSocketClient.judgeClient()) {
-                    mSocketClient.SenddData(locationInfo, new ISendResult() {
-                        @Override
-                        public void OnSendSuccess() {
 
-                        }
-
-                        @Override
-                        public void OnSendFailure(Exception e) {
-
-                        }
-                    });
-
-                } else {
-                    mSocketClient.Connection();
-                }
-            }
         }
         return START_STICKY;
     }
@@ -189,6 +155,6 @@ public class CustomerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSocketClient.closeConnection();
+
     }
 }

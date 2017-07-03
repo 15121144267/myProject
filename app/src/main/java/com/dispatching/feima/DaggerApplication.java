@@ -14,7 +14,6 @@ import com.dispatching.feima.dagger.module.ApplicationModule;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.service.CustomerService;
-import com.dispatching.feima.superscoket.SocketClient;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.Utils;
 import com.google.gson.Gson;
@@ -33,8 +32,7 @@ public class DaggerApplication extends Application {
     Gson mGson;
     @Inject
     AMapLocationClientOption mAMapLocationClientOption;
-    @Inject
-    SocketClient mSocketClient;
+
     private String mUId;
 
     @Override
@@ -50,7 +48,6 @@ public class DaggerApplication extends Application {
         if (!TextUtils.isEmpty(mUId)) {
             startService(CustomerService.newIntent(getApplicationContext()));
         }
-        mSocketClient.Connection();
 
         mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
         mAMapLocationClient.startLocation();

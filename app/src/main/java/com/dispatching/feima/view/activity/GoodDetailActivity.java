@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.dispatching.feima.dagger.module.GoodsDetailActivityModule;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
+import com.dispatching.feima.view.fragment.SpecificationDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
  * GoodDetailActivity
  */
 
-public class GoodDetailActivity extends BaseActivity implements GoodsDetailControl.GoodsDetailView {
+public class GoodDetailActivity extends BaseActivity implements GoodsDetailControl.GoodsDetailView, SpecificationDialog.specificationDialogListener {
 
     @BindView(R.id.toolbar_right_icon)
     ImageView mToolbarRightIcon;
@@ -131,7 +133,24 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void requestGoodsSpecification() {
+        SpecificationDialog dialog = SpecificationDialog.newInstance();
+        dialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(),dialog,SpecificationDialog.TAG);
+    }
 
+    @Override
+    public void reduceCountListener() {
+        showToast("減少");
+    }
+
+    @Override
+    public void addCountListener() {
+        showToast("增加");
+    }
+
+    @Override
+    public void buyButtonListener() {
+        showToast("购买");
     }
 
     private void initializeInjector() {

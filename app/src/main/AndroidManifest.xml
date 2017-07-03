@@ -55,11 +55,32 @@
         <activity
             android:name=".view.activity.SignActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.ActivitiesActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.MusicActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.GoodDetailActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.BrandActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.ActivityDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.SkyFlowerActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.ForgetActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.PartCarActivity"
             android:screenOrientation="portrait"/>
 
         <activity

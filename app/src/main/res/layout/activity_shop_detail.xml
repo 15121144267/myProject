@@ -100,10 +100,11 @@
 
         </RelativeLayout>
 
-        <cn.bingoogolapple.bgabanner.BGABanner
-            android:id="@+id/shop_detail_banner"
-            style="@style/BannerDefaultStyle"
-            app:banner_transitionEffect="zoom"/>
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="205dp" />
+
 
         <View style="@style/LineH_Fill_Width_5_ForView"/>
 

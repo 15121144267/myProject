@@ -6,14 +6,10 @@
 
     <include layout="@layout/toolbar_common"/>
 
-    <com.youth.banner.Banner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"/>
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/shop_list"
+        android:id="@+id/activities_recycle_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

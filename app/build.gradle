@@ -107,12 +107,11 @@ dependencies {
     apt rootProject.ext.myDependencies["myButterknifeApt"]
     compile rootProject.ext.myDependencies["myCardview"]
     compile rootProject.ext.myDependencies["myRxbinding"]
-    compile rootProject.ext.myDependencies["myRabbitmq"]
     compile rootProject.ext.myDependencies["myRxPermission"]
     compile rootProject.ext.myDependencies["my3DMap"]
     compile rootProject.ext.myDependencies["mySearch"]
     compile rootProject.ext.myDependencies["myLocation"]
-    compile rootProject.ext.myDependencies["myBanner"]
+    compile 'com.youth.banner:banner:1.4.9'  //最新版本
     compile rootProject.ext.myDependencies["myGlide"]
     compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
     compile project(path: ':mylibrary')

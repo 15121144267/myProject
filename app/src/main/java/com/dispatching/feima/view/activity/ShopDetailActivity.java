@@ -33,7 +33,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bingoogolapple.bgabanner.BGABanner;
 
 /**
  * Created by lei.he on 2017/6/30.
@@ -50,8 +49,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     PorterShapeImageView mShopDetailShopIcon;
     @BindView(R.id.shop_detail_shop_name)
     TextView mShopDetailShopName;
-    @BindView(R.id.shop_detail_banner)
-    BGABanner mShopDetailBanner;
+
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.shop_detail_recyclerView)
