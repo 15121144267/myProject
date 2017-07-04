@@ -6,12 +6,16 @@ package com.dispatching.feima.view.PresenterControl;
  */
 
 public class ForgetControl {
-    public interface ForgetView extends LoadDataView{
-       void setButtonEnable(boolean enable, long time);
+    public interface ForgetView extends LoadDataView {
+        void setButtonEnable(boolean enable, long time);
+
+        void checkCodeSuccess();
     }
 
     public interface PresenterForget extends Presenter<ForgetView> {
         void onRequestVerifyCode(String phone);
+
+        void requestCheckCode(String phone, String code);
     }
 
 }

@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.AddressResponse;
 import com.dispatching.feima.utils.ToastUtils;
@@ -53,6 +55,10 @@ public class AddAddressActivity extends BaseActivity {
     CheckBox mAddAddressDefault;
     @BindView(R.id.address_save)
     Button mAddressSave;
+    private AMapLocation mAMapLocation;
+    private String mProvince;
+    private String mCity;
+    private String mDistrict;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +72,10 @@ public class AddAddressActivity extends BaseActivity {
     }
 
     private void initView() {
+        mAMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
+        mProvince = mAMapLocation.getProvince();
+        mCity = mAMapLocation.getCity();
+        mDistrict = mAMapLocation.getDistrict();
         RxView.clicks(mAddAddressLocation).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> showAddressDialog());
         RxView.clicks(mAddressSave).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> AddNewAddress());
     }
@@ -100,19 +110,21 @@ public class AddAddressActivity extends BaseActivity {
         response.address = address + addressDetail;
         response.checkedAddress = mAddAddressDefault.isChecked();
         Intent intent = new Intent();
-        intent.putExtra("newAddress",response);
-        setResult(RESULT_OK,intent);
+        intent.putExtra("newAddress", response);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
     private void showAddressDialog() {
-        CityPicker cityPicker = new CityPicker.Builder(AddAddressActivity.this).textSize(20)
-                .titleTextColor("#000000")
+        CityPicker cityPicker = new CityPicker.Builder(AddAddressActivity.this).textSize(18)
+                .title(" ")
+                .cancelTextColor("#35BBc6")
+                .confirTextColor("#35BBc6")
                 .backgroundPop(0xa0000000)
-                .province("上海市")
-                .city("上海市")
-                .district("普陀区")
-                .textColor(Color.parseColor("#000000"))
+                .province(mProvince == null ? "北京市" : mProvince)
+                .city(mCity == null ? "北京市" : mCity)
+                .district(mDistrict == null ? "朝阳区" : mDistrict)
+                .textColor(Color.parseColor("#35BBc6"))
                 .provinceCyclic(true)
                 .cityCyclic(false)
                 .districtCyclic(false)

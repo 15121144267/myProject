@@ -155,13 +155,13 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
     /**
      * Color.BLACK
      */
-    private String cancelTextColorStr = "#000000";
+    private String cancelTextColorStr = "#35BBc6";
 
 
     /**
      * Color.BLUE
      */
-    private String confirmTextColorStr = "#0000FF";
+    private String confirmTextColorStr = "##35BBc6";
 
     /**
      * 标题背景颜色

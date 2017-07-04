@@ -10,10 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.ToastUtils;
 
 import java.net.ConnectException;
@@ -37,12 +39,16 @@ public class BaseFragment extends Fragment {
     private CompositeDisposable mDisposable;
     private Dialog mProgressDialog;
     final IntentFilter mFilter = new IntentFilter();
+
     @Inject
     BuProcessor mBuProcessor;
+    @Inject
+    SharePreferenceUtil mSharePreferenceUtil;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((DaggerApplication) getActivity().getApplication()).getApplicationComponent().inject(this);
         setRetainInstance(true);
         addFilter();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, mFilter);

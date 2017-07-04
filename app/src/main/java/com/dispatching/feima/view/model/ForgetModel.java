@@ -29,4 +29,8 @@ public class ForgetModel {
         return mForgetApi.verityCodeRequest(partnerId, phone).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> checkCodeRequest(String phone ,String code) {
+        return mForgetApi.checkCodeRequest(partnerId,phone, code).map(mTransform::transformCommon);
+    }
+
 }

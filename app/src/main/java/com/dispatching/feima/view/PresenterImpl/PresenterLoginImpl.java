@@ -3,6 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
 import com.dispatching.feima.view.model.LoginModel;
 import com.dispatching.feima.view.model.ResponseData;
@@ -21,12 +22,13 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private LoginControl.LoginView mLoginView;
     private final LoginModel mLoginModel;
     private final Context mContext;
-
+    private SharePreferenceUtil mSharePreferenceUtil;
     @Inject
-    public PresenterLoginImpl(Context context, LoginModel model,LoginControl.LoginView loginView) {
+    public PresenterLoginImpl(Context context, LoginModel model,LoginControl.LoginView loginView,SharePreferenceUtil sharePreferenceUtil) {
         mContext = context;
         mLoginModel = model;
         mLoginView = loginView;
+        mSharePreferenceUtil = sharePreferenceUtil;
     }
 
 

@@ -51,7 +51,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     public static Intent getLoginIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
 
@@ -104,14 +103,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void loginSuccess() {
-      /*  mBuProcessor.setUserId(loginResponse.uId);
-        mBuProcessor.setUserToken(loginResponse.token);*/
         mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
-       /* mSharePreferenceUtil.setStringValue(SpConstant.USER_TOKEN, loginResponse.token);
-        mSharePreferenceUtil.setStringValue(SpConstant.USER_ID, loginResponse.uId);
-        if (TextUtils.isEmpty(mUserId)) {
-            startService(CustomerService.newIntent(getApplicationContext()));
-        }*/
         startActivity(MainActivity.getMainIntent(this));
         finish();
     }

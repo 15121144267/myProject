@@ -13,18 +13,24 @@ import com.dispatching.feima.entity.SpConstant;
  */
 
 public class WelcomeActivity extends BaseActivity {
+    private boolean mFirstOpen = false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_activity);
-        String userId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if(TextUtils.isEmpty(userId)){
-            startActivity(LoginActivity.getLoginIntent(this));
-        }else {
-            mBuProcessor.setUserId(userId);
-            mBuProcessor.setUserToken(mSharePreferenceUtil.getStringValue(SpConstant.USER_TOKEN));
-            startActivity(MainActivity.getMainIntent(this));
+        mFirstOpen = mSharePreferenceUtil.getBooleanValue("isFirstOpen", true);
+        if (mFirstOpen) {
+            startActivity(GuideActivity.getIntent(this));
             finish();
+            return;
+        }
+
+        String userId = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
+        if(TextUtils.isEmpty(userId)&&!mFirstOpen){
+            startActivity(LoginActivity.getLoginIntent(this));
+            finish();
+        }else {
+            startActivity(MainActivity.getMainIntent(this));
         }
     }
 }

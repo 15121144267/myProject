@@ -10,7 +10,7 @@ import retrofit2.http.POST;
  */
 
 public interface NewPasswordApi {
-    @POST("delivery/login")
-    Observable<String> verifyCodeRequest(@Body String request);
+    @POST("member/updatepwd")
+    Observable<String> setPasswordRequest(@Body String request);
 
 }

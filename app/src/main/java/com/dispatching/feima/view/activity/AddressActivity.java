@@ -16,6 +16,7 @@ import com.dispatching.feima.dagger.component.DaggerAddressActivityComponent;
 import com.dispatching.feima.dagger.module.AddressActivityModule;
 import com.dispatching.feima.entity.AddressResponse;
 import com.dispatching.feima.entity.IntentConstant;
+import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.view.PresenterControl.AddressControl;
 import com.dispatching.feima.view.adapter.AddressAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -53,6 +54,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     private AddressAdapter mAdapter;
     private List<AddressResponse> mList;
+    private String mUserPhone;
     @Inject
     AddressControl.PresenterAddress mPresenter;
 
@@ -89,6 +91,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     }
 
     private void initView() {
+        mUserPhone = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
         mList = new ArrayList<>();
         mAdapter = new AddressAdapter(null, this);
         mAddressList.setLayoutManager(new LinearLayoutManager(this));
@@ -123,14 +126,14 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
-            if (data != null){
+            if (data != null) {
                 AddressResponse newAddress = (AddressResponse) data.getSerializableExtra("newAddress");
-                if(newAddress.checkedAddress){
+                if (newAddress.checkedAddress) {
                     for (AddressResponse addressResponse : mList) {
                         addressResponse.checkedAddress = false;
                     }
-                    mList.add(0,newAddress);
-                }else {
+                    mList.add(0, newAddress);
+                } else {
                     mList.add(newAddress);
                 }
                 mAdapter.setNewData(mList);
@@ -139,6 +142,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     }
 
     private void initData() {
+        mPresenter.requestAddressList(mUserPhone);
         for (int i = 0; i < 2; i++) {
             AddressResponse response = new AddressResponse();
             if (i == 0) {

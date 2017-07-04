@@ -7,11 +7,11 @@ package com.dispatching.feima.view.PresenterControl;
 
 public class SetNewPasswordControl {
     public interface SetNewPasswordView extends LoadDataView{
-
+        void setPasswordSuccess();
     }
 
     public interface PresenterSetNewPassword extends Presenter<SetNewPasswordView> {
-        void onRequestForSure(String phone);
+        void onRequestForSure(String phone,String smsCode,String password);
     }
 
 }

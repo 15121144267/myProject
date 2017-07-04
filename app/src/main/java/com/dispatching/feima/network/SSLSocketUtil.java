@@ -46,8 +46,8 @@ public class SSLSocketUtil {
     public SSLSocketFactory getSocketFactory(){
         try{
             AssetManager am = context.getAssets();
-            InputStream is = am.open("fm.p12");
-            String password = "zhuihu";
+            InputStream is = am.open("my.p12");
+            String password = "freemud123";
             //CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
             //Certificate certificate = certificateFactory.generateCertificate(is);
             KeyStore keyStore = KeyStore.getInstance("PKCS12");

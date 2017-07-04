@@ -10,5 +10,6 @@ public class AddressControl {
     }
 
     public interface PresenterAddress extends Presenter<AddressView> {
+        void requestAddressList(String phone);
     }
 }

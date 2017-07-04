@@ -10,6 +10,9 @@ import retrofit2.http.Query;
  */
 
 public interface ForgetApi {
-    @GET("member/sms?")
+    @GET("member/sms")
     Observable<String> verityCodeRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
+
+    @GET("member/sms/verify")
+    Observable<String> checkCodeRequest(@Query("partnerId") String partnerId, @Query("phone") String phone, @Query("smsCode") String code);
 }

@@ -51,6 +51,7 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     TextInputLayout mForgetVerityCode;
     private EditText mForgetVerity;
     private String mPhone;
+    private String mVirefyCode;
     @Inject
     ForgetControl.PresenterForget mPresenter;
     @Override
@@ -122,13 +123,19 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
 
     private void switchSetPasswordActivity() {
         if(mForgetVerity!=null){
-            String verityCode = mForgetVerity.getText().toString();
-            if(TextUtils.isEmpty(verityCode)){
+            mVirefyCode = mForgetVerity.getText().toString();
+            if(TextUtils.isEmpty(mVirefyCode)){
                 showToast("验证码不能为空");
                 return;
             }
         }
-        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this));
+        mPresenter.requestCheckCode(mPhone,mVirefyCode);
+
+    }
+
+    @Override
+    public void checkCodeSuccess() {
+        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this,mPhone,mVirefyCode));
     }
 
     private void initializeInjector() {

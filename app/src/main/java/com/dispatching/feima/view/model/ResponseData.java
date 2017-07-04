@@ -14,15 +14,16 @@ public class ResponseData {
     public String errorDesc;
     private String result;
     public Object parsedData;
+
     public ResponseData() {
         resultCode = 110;
         errorDesc = "信息获取失败";
     }
 
     public ResponseData(JSONObject jsonObject) throws JSONException {
-        resultCode = jsonObject.getInt("statusCode");
-        errorDesc = jsonObject.getString("msg");
-        result = jsonObject.optString("result") == null ? "" : jsonObject.optString("result");
+        resultCode = jsonObject.optInt("statusCode");
+        errorDesc = jsonObject.optString("msg");
+        result = jsonObject.optString("result");
     }
 
     public <T> T parseData(Class<T> objectClass) {

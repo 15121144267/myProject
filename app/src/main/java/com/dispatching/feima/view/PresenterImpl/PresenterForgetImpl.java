@@ -37,6 +37,15 @@ public class PresenterForgetImpl implements ForgetControl.PresenterForget {
     }
 
     @Override
+    public void requestCheckCode(String phone, String code) {
+        Disposable disposable = mModel.checkCodeRequest(phone, code)
+                .compose(mView.applySchedulers())
+                .subscribe(this::checkCodeSuccess
+                        , throwable -> mView.showErrMessage(throwable));
+        mView.addSubscription(disposable);
+    }
+
+    @Override
     public void onRequestVerifyCode(String phone) {
         Disposable disposable = mModel.verityCodeRequest(phone)
                 .compose(mView.applySchedulers())
@@ -45,13 +54,22 @@ public class PresenterForgetImpl implements ForgetControl.PresenterForget {
         mView.addSubscription(disposable);
     }
 
+    private void checkCodeSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            mView.checkCodeSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+
     private void getVerifyCodeSuccess(ResponseData responseData) {
         Observable.interval(0, 1, TimeUnit.SECONDS)
-                .map(aLong -> 60 - aLong)
-                .take(61)
+                .map(aLong -> 59 - aLong)
+                .take(60)
                 .compose(mView.applySchedulers())
                 .subscribe(aLong -> mView.setButtonEnable(false, aLong),
-                        throwable -> {},
+                        throwable -> {
+                        },
                         () -> mView.setButtonEnable(true, (long) 0));
         if (responseData.resultCode == 100) {
             mView.showToast(mContext.getString(R.string.verity_send_success));

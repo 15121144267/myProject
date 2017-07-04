@@ -218,6 +218,18 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mBanner.startAutoPlay();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBanner.stopAutoPlay();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();

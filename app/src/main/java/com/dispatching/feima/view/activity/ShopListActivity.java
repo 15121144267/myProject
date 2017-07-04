@@ -13,8 +13,10 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopListActivityComponent;
 import com.dispatching.feima.dagger.module.ShopListActivityModule;
 import com.dispatching.feima.entity.ShopListResponse;
+import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.ShopListControl;
 import com.dispatching.feima.view.adapter.ShopListAdapter;
+import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,10 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/29.
  */
 
-public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView{
+public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView {
+    @BindView(R.id.banner)
+    Banner mBanner;
+
     public static Intent getIntent(Context context) {
         return new Intent(context, ShopListActivity.class);
     }
@@ -43,7 +48,7 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     ShopListControl.PresenterShopList mPresenter;
     private ShopListAdapter mAdapter;
     private List<ShopListResponse> mList;
-
+    private List<Integer> mImageList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +89,12 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
 
     private void initView() {
         mList = new ArrayList<>();
+        mImageList = new ArrayList<>();
+        mImageList.add( R.mipmap.main_banner_first);
+        mImageList.add(R.mipmap.main_banner_second);
+        mImageList.add(R.mipmap.main_banner_third);
+        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
+
         mShopList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this);
         mShopList.setAdapter(mAdapter);

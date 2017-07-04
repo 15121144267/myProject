@@ -86,6 +86,9 @@
         <activity
             android:name=".view.activity.SetNewPasswordActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.GuideActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activity.MainActivity"
