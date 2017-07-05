@@ -50,6 +50,7 @@
             android:text="昵称"/>
 
         <TextView
+            android:id="@+id/person_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
@@ -78,6 +79,7 @@
             android:text="性别"/>
 
         <TextView
+            android:id="@+id/person_sex"
             style="@style/TextColor_Grey_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,6 +107,7 @@
             android:text="生日"/>
 
         <TextView
+            android:id="@+id/person_birthday_date"
             style="@style/TextColor_Grey_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,4 +119,13 @@
     </LinearLayout>
 
     <View style="@style/LineH_Fill_Width1_ForView"/>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+    <Button
+        android:id="@+id/update_person_info"
+        style="@style/Login_Button_Style_person"
+        android:text="保存"
+        />
 </LinearLayout>

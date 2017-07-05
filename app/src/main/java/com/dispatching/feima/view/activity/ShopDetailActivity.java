@@ -17,6 +17,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopDetailActivityComponent;
 import com.dispatching.feima.dagger.module.ShopDetailActivityModule;
 import com.dispatching.feima.entity.ShopDetailResponse;
+import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.listener.TabCheckListener;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.ShopDetailControl;
@@ -24,6 +25,7 @@ import com.dispatching.feima.view.adapter.ShopDetailAdapter;
 import com.dispatching.feima.view.customview.ClearEditText;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +56,15 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     TabLayout mTabLayout;
     @BindView(R.id.shop_detail_recyclerView)
     RecyclerView mShopDetailRecyclerView;
+    @BindView(R.id.banner)
+    Banner mBanner;
     private View mView;
     private ImageView mTabItemPriceLow;
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
     private ShopDetailAdapter mAdapter;
     private List<ShopDetailResponse> mList;
+    private List<Integer> mImageList;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, ShopDetailActivity.class);
@@ -100,12 +105,29 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mBanner.startAutoPlay();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBanner.stopAutoPlay();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
     }
 
     private void initView() {
+        mImageList = new ArrayList<>();
+        mImageList.add(R.mipmap.main_banner_first);
+        mImageList.add(R.mipmap.main_banner_second);
+        mImageList.add(R.mipmap.main_banner_third);
+        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
         mList = new ArrayList<>();
         mShopDetailRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new ShopDetailAdapter(null, this);

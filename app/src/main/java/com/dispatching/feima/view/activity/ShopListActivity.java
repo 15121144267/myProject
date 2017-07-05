@@ -15,6 +15,7 @@ import com.dispatching.feima.dagger.module.ShopListActivityModule;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.ShopListControl;
+import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.ShopListAdapter;
 import com.youth.banner.Banner;
 
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/29.
  */
 
-public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView {
+public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.banner)
     Banner mBanner;
 
@@ -47,8 +48,11 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     @Inject
     ShopListControl.PresenterShopList mPresenter;
     private ShopListAdapter mAdapter;
-    private List<ShopListResponse> mList;
     private List<Integer> mImageList;
+    private Integer mPagerSize = 10;
+    private Integer mPagerNo = 1;
+    private List<ShopListResponse.ListBean> mList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,26 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
         mMiddleName.setText(R.string.app_shop_list);
         initView();
         initData();
+    }
+
+    @Override
+    public void getShopListSuccess(List<ShopListResponse.ListBean> list) {
+        mList = list;
+        if (list.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() < mPagerSize) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            mPresenter.requestShopList(++mPagerNo, mPagerSize);
+        }
     }
 
     @Override
@@ -82,15 +106,26 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mBanner.startAutoPlay();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBanner.stopAutoPlay();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
     }
 
     private void initView() {
-        mList = new ArrayList<>();
         mImageList = new ArrayList<>();
-        mImageList.add( R.mipmap.main_banner_first);
+        mImageList.add(R.mipmap.main_banner_first);
         mImageList.add(R.mipmap.main_banner_second);
         mImageList.add(R.mipmap.main_banner_third);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
@@ -98,20 +133,15 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
         mShopList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this);
         mShopList.setAdapter(mAdapter);
-
+        mAdapter.setOnLoadMoreListener(this, mShopList);
         mAdapter.setOnItemClickListener((adapter, view, position) ->
                 startActivity(ShopDetailActivity.getIntent(this))
         );
     }
 
     private void initData() {
-        for (int i = 0; i < 3; i++) {
-            ShopListResponse response = new ShopListResponse();
-            response.shopDesContent = i + "轻轻的我来了";
-            response.shopLocation = i + "F L2046";
-            mList.add(response);
-        }
-        mAdapter.setNewData(mList);
+        mPresenter.requestShopList(mPagerNo, mPagerSize);
+
     }
 
     private void initializeInjector() {

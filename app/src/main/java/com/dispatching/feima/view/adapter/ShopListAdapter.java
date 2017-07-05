@@ -1,28 +1,38 @@
 package com.dispatching.feima.view.adapter;
 
 import android.content.Context;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.ShopListResponse;
 
 import java.util.List;
 
 
-public class ShopListAdapter extends BaseQuickAdapter<ShopListResponse, BaseViewHolder> {
+public class ShopListAdapter extends BaseQuickAdapter<ShopListResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
 
-    public ShopListAdapter(List<ShopListResponse> notices, Context context) {
+    public ShopListAdapter(List<ShopListResponse.ListBean> notices, Context context) {
         super(R.layout.adapter_shop_item, notices);
         mContext = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ShopListResponse item) {
+    protected void convert(BaseViewHolder helper, ShopListResponse.ListBean item) {
         if (item == null) return;
-        helper.setText(R.id.item_shop_content1,item.shopDesContent);
-        helper.setText(R.id.item_shop_content2,item.shopDesContent);
-        helper.setText(R.id.item_shop_content3,item.shopDesContent);
-        helper.setText(R.id.item_shop_location,item.shopLocation);
+        List<ShopListResponse.ListBean.BusinessImagesBean> mList = item.businessImages;
+
+        if (mList.size() != 0) {
+            Glide.with(mContext).load(mList.get(0).imageUrl)
+                    .error(R.mipmap.freemud_logo).into((ImageView) helper.getView(R.id.item_shop_pic));
+            Glide.with(mContext).load(mList.get(0).imageUrl)
+                    .error(R.mipmap.freemud_logo).into((ImageView) helper.getView(R.id.item_shop_name));
+        }
+       /* helper.setText(R.id.item_shop_content1, item.shopDesContent);
+        helper.setText(R.id.item_shop_content2, item.shopDesContent);
+        helper.setText(R.id.item_shop_content3, item.shopDesContent);
+        helper.setText(R.id.item_shop_location, item.shopLocation);*/
 
     }
 

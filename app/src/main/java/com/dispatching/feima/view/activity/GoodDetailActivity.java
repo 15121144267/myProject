@@ -17,10 +17,14 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.dispatching.feima.dagger.module.GoodsDetailActivityModule;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
 import com.dispatching.feima.view.fragment.SpecificationDialog;
 import com.jakewharton.rxbinding2.view.RxView;
+import com.youth.banner.Banner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -61,6 +65,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     LinearLayout mGoodsDetailLinear;
     @Inject
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
+    @BindView(R.id.banner)
+    Banner mBanner;
+
+    private List<Integer> mImageList;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, GoodDetailActivity.class);
@@ -104,6 +112,13 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void initView() {
+        mImageList = new ArrayList<>();
+        mImageList.add(R.mipmap.main_banner_first);
+        mImageList.add(R.mipmap.main_banner_second);
+        mImageList.add(R.mipmap.main_banner_third);
+        mBanner.isAutoPlay(false);
+        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
+
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
         RxView.clicks(mGoodsDetailButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugGoods());
@@ -135,7 +150,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private void requestGoodsSpecification() {
         SpecificationDialog dialog = SpecificationDialog.newInstance();
         dialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(),dialog,SpecificationDialog.TAG);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationDialog.TAG);
     }
 
     @Override

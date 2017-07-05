@@ -14,14 +14,16 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerAddressActivityComponent;
 import com.dispatching.feima.dagger.module.AddressActivityModule;
+import com.dispatching.feima.entity.AddAddressRequest;
 import com.dispatching.feima.entity.AddressResponse;
 import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.SpConstant;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.AddressControl;
 import com.dispatching.feima.view.adapter.AddressAdapter;
+import com.dispatching.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +37,7 @@ import butterknife.ButterKnife;
  * AddressActivity
  */
 
-public class AddressActivity extends BaseActivity implements AddressControl.AddressView {
+public class AddressActivity extends BaseActivity implements AddressControl.AddressView, CommonDialog.CommonDialogListener {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, AddressActivity.class);
@@ -51,10 +53,10 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     @BindView(R.id.address_add)
     Button mAddressAdd;
     private CheckBox mCheckBox;
-
+    private AddressResponse.DataBean mBean;
     private AddressAdapter mAdapter;
-    private List<AddressResponse> mList;
     private String mUserPhone;
+    private Integer mPosition;
     @Inject
     AddressControl.PresenterAddress mPresenter;
 
@@ -92,20 +94,21 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     private void initView() {
         mUserPhone = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
-        mList = new ArrayList<>();
         mAdapter = new AddressAdapter(null, this);
         mAddressList.setLayoutManager(new LinearLayoutManager(this));
         mAddressList.setAdapter(mAdapter);
         RxView.clicks(mAddressAdd).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddAddress());
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+                    mPosition = position;
+                    mBean = (AddressResponse.DataBean) adapter.getItem(position);
                     mCheckBox = (CheckBox) view.findViewById(R.id.address_default);
                     switch (view.getId()) {
                         case R.id.address_edit:
-                            showToast("我被编辑了");
+                            startActivity(AddAddressActivity.getIntent(this, mBean));
                             break;
                         case R.id.address_delete:
-                            showToast("我被删除了");
-
+                            showDialog();
+                            break;
                         case R.id.address_default:
                             if (!mCheckBox.isChecked()) {
                                 mCheckBox.setChecked(true);
@@ -119,41 +122,47 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     }
 
     private void requestAddAddress() {
-        startActivityForResult(AddAddressActivity.getIntent(this), IntentConstant.ORDER_POSITION_ONE);
+        startActivityForResult(AddAddressActivity.getIntent(this, null), IntentConstant.ORDER_POSITION_ONE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
-            if (data != null) {
-                AddressResponse newAddress = (AddressResponse) data.getSerializableExtra("newAddress");
-                if (newAddress.checkedAddress) {
-                    for (AddressResponse addressResponse : mList) {
-                        addressResponse.checkedAddress = false;
-                    }
-                    mList.add(0, newAddress);
-                } else {
-                    mList.add(newAddress);
-                }
-                mAdapter.setNewData(mList);
-            }
+            mPresenter.requestAddressList(mUserPhone);
+        }
+
+    }
+
+    @Override
+    public void commonDialogBtnOkListener(int type, int position) {
+        AddAddressRequest request = new AddAddressRequest();
+        request.id = mBean.id;
+        request.phone = mUserPhone;
+        mPresenter.requestDeleteAddress(request);
+    }
+
+    @Override
+    public void deleteAddressSuccess() {
+        mAdapter.remove(mPosition);
+    }
+
+    @Override
+    public void addressListSuccess(List<AddressResponse.DataBean> data) {
+        if (data.size() > 0) {
+            mAdapter.setNewData(data);
         }
     }
 
     private void initData() {
         mPresenter.requestAddressList(mUserPhone);
-        for (int i = 0; i < 2; i++) {
-            AddressResponse response = new AddressResponse();
-            if (i == 0) {
-                response.checkedAddress = true;
-            }
-            response.address = "上海市祁连山耀光国际1803";
-            response.name = "何先生";
-            response.phone = "15121144267";
-            mList.add(response);
-        }
-        mAdapter.setNewData(mList);
+    }
+
+    private void showDialog() {
+        CommonDialog commonDialog = CommonDialog.newInstance();
+        commonDialog.setContent(getString(R.string.delete_address));
+        commonDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
     private void initializeInjector() {

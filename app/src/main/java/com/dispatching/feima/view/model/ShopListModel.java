@@ -1,9 +1,12 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.entity.ShopListRequest;
 import com.dispatching.feima.network.networkapi.ShopListApi;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * Created by helei on 2017/4/28.
@@ -14,7 +17,7 @@ public class ShopListModel {
     private final ShopListApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
+    private final String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61";
 
     @Inject
     public ShopListModel(ShopListApi api, Gson gson, ModelTransform transform) {
@@ -23,5 +26,11 @@ public class ShopListModel {
         mTransform = transform;
     }
 
-
+    public Observable<ResponseData> shopListRequest(Integer pagerNo, Integer pagerSize) {
+        ShopListRequest request = new ShopListRequest();
+        request.partnerId = partnerId;
+        request.pageNo = pagerNo;
+        request.pageSize = pagerSize;
+        return mApi.shopListRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    }
 }

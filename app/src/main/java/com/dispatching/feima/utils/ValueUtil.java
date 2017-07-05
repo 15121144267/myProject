@@ -96,10 +96,16 @@ public class ValueUtil {
     /**
      * 包括中文数字和英文 不包括任何特殊字符
      */
-    public static boolean checkSpecialString(String str) {
+    public static boolean checkSpecialString1(String str) {
         Pattern p = Pattern.compile("^[\u4e00-\u9fa5A-Za-z0-9]+$");
 
         return p.matcher(str).matches();
+    }
+
+    public static boolean checkSpecialString(String str) {
+        String regEx = "^[a-zA-Z][a-zA-Z0-9_]{3,19}$";
+        Pattern pattern = Pattern.compile(regEx);
+        return pattern.matcher(str).matches();
     }
 
     /**

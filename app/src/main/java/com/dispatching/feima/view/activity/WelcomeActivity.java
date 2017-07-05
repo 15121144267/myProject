@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.dispatching.feima.R;
 import com.dispatching.feima.entity.SpConstant;
 
 /**
@@ -14,10 +13,10 @@ import com.dispatching.feima.entity.SpConstant;
 
 public class WelcomeActivity extends BaseActivity {
     private boolean mFirstOpen = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_activity);
         mFirstOpen = mSharePreferenceUtil.getBooleanValue("isFirstOpen", true);
         if (mFirstOpen) {
             startActivity(GuideActivity.getIntent(this));
@@ -26,10 +25,10 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         String userId = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
-        if(TextUtils.isEmpty(userId)&&!mFirstOpen){
+        if (TextUtils.isEmpty(userId) && !mFirstOpen) {
             startActivity(LoginActivity.getLoginIntent(this));
             finish();
-        }else {
+        } else {
             startActivity(MainActivity.getMainIntent(this));
         }
     }

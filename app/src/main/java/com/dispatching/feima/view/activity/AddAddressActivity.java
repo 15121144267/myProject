@@ -7,21 +7,32 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
+import com.dispatching.feima.dagger.component.DaggerAddAddressActivityComponent;
+import com.dispatching.feima.dagger.module.AddAddressActivityModule;
+import com.dispatching.feima.entity.AddAddressRequest;
 import com.dispatching.feima.entity.AddressResponse;
+import com.dispatching.feima.entity.IntentConstant;
+import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
+import com.dispatching.feima.view.PresenterControl.AddAddressControl;
 import com.dispatching.feima.view.customview.citypickerview.widget.CityPicker;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,10 +41,14 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/28.
  */
 
-public class AddAddressActivity extends BaseActivity {
+public class AddAddressActivity extends BaseActivity implements AddAddressControl.AddAddressView {
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, AddAddressActivity.class);
+    public static Intent getIntent(Context context, AddressResponse.DataBean bean) {
+        Intent intent = new Intent(context, AddAddressActivity.class);
+        if (bean != null) {
+            intent.putExtra(IntentConstant.ADDRESS_DETAIL, bean);
+        }
+        return intent;
     }
 
     @BindView(R.id.middle_name)
@@ -46,7 +61,9 @@ public class AddAddressActivity extends BaseActivity {
     @BindView(R.id.add_address_tel)
     EditText mAddAddressTel;
     @BindView(R.id.add_address_location)
-    TextView mAddAddressLocation;
+    LinearLayout mAddAddressLocation;
+    @BindView(R.id.add_address_location_text)
+    TextView mAddAddressLocationText;
     @BindView(R.id.add_address_location_detail)
     EditText mAddAddressLocationDetail;
     @BindView(R.id.add_address_time)
@@ -59,16 +76,40 @@ public class AddAddressActivity extends BaseActivity {
     private String mProvince;
     private String mCity;
     private String mDistrict;
+    private AddAddressRequest request = new AddAddressRequest();
+    @Inject
+    AddAddressControl.PresenterAddAddress mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address);
         ButterKnife.bind(this);
+        initializeInjector();
         supportActionBar(mToolbar, true);
         mMiddleName.setText("新增收货地址");
         initView();
         initData();
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        showDialogLoading(msg);
+    }
+
+    @Override
+    public void dismissLoading() {
+        dismissDialogLoading();
+    }
+
+    @Override
+    public void showToast(String message) {
+        showBaseToast(message);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     private void initView() {
@@ -93,7 +134,7 @@ public class AddAddressActivity extends BaseActivity {
             return;
         }
 
-        String address = mAddAddressLocation.getText().toString().trim();
+        String address = mAddAddressLocationText.getText().toString().trim();
         if (TextUtils.isEmpty(address)) {
             ToastUtils.showShortToast("所在区域不能为空");
             return;
@@ -104,18 +145,25 @@ public class AddAddressActivity extends BaseActivity {
             ToastUtils.showShortToast("详细地址不能为空");
             return;
         }
-        AddressResponse response = new AddressResponse();
-        response.name = name;
-        response.phone = phone;
-        response.address = address + addressDetail;
-        response.checkedAddress = mAddAddressDefault.isChecked();
-        Intent intent = new Intent();
-        intent.putExtra("newAddress", response);
-        setResult(RESULT_OK, intent);
+        request.receiverName = name;
+        request.receiverPhone = phone;
+        request.address = address;
+        request.area = addressDetail;
+        request.phone = mBuProcessor.getUserPhone() == null ? mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME) : mBuProcessor.getUserPhone();
+        request.isDefault = mAddAddressDefault.isChecked() ? 1 : 0;
+        mPresenter.requestAddAddress(request);
+
+    }
+
+    @Override
+    public void addAddressSuccess() {
+        showToast("操作成功");
+        setResult(RESULT_OK);
         finish();
     }
 
     private void showAddressDialog() {
+        hideSoftInput(mAddAddressLocation);
         CityPicker cityPicker = new CityPicker.Builder(AddAddressActivity.this).textSize(18)
                 .title(" ")
                 .cancelTextColor("#35BBc6")
@@ -136,12 +184,11 @@ public class AddAddressActivity extends BaseActivity {
             @Override
             public void onSelected(String... citySelected) {
                 if (citySelected[0].equals(citySelected[1])) {
-                    mAddAddressLocation.setText(citySelected[0] + citySelected[2]);
+                    mAddAddressLocationText.setText(citySelected[0] + citySelected[2]);
                 } else {
-                    mAddAddressLocation.setText(citySelected[0] + citySelected[1]
+                    mAddAddressLocationText.setText(citySelected[0] + citySelected[1]
                             + citySelected[2]);
                 }
-
             }
 
             @Override
@@ -151,6 +198,26 @@ public class AddAddressActivity extends BaseActivity {
     }
 
     private void initData() {
+        if (getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL) != null) {
+            AddressResponse.DataBean bean = (AddressResponse.DataBean) getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL);
+            mAddAddressName.setText(bean.receiverName + "");
+            mAddAddressTel.setText(bean.receiverPhone);
+            mAddAddressLocationText.setText(bean.address);
+            mAddAddressLocationDetail.setText(bean.area);
+            mAddAddressDefault.setChecked(bean.isDefault == 1);
+            request.id = bean.id;
+        }
+    }
 
+    protected void hideSoftInput(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void initializeInjector() {
+        DaggerAddAddressActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .addAddressActivityModule(new AddAddressActivityModule(AddAddressActivity.this, this))
+                .build().inject(this);
     }
 }

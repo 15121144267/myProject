@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -70,7 +71,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         initializeInjector();
         ButterKnife.bind(this);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
-//        mPermission = new RxPermissions(this);
+        mPermission = new RxPermissions(this);
         initView();
     }
 
@@ -103,6 +104,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void loginSuccess() {
+        mBuProcessor.setUserPhone(myPhone);
         mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
         startActivity(MainActivity.getMainIntent(this));
         finish();
@@ -161,7 +163,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             return;
         }
 
-       /* mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+        mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -176,8 +178,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 flag = true;
                 showDialog();
             }
-        });*/
-        mPresenterLogin.onRequestLogin(myPhone, mPassword);
+        });
+//        mPresenterLogin.onRequestLogin(myPhone, mPassword);
 
     }
 

@@ -11,6 +11,7 @@ public class BuProcessor {
 
     private String userToken;
     private String userId;
+    private String userPhone;
 
     @Inject
     public BuProcessor() {
@@ -22,6 +23,14 @@ public class BuProcessor {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getUserToken() {

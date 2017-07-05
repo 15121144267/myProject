@@ -28,15 +28,14 @@
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <ImageView
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@mipmap/neo"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"/>
-
 
                 <include layout="@layout/toolbar_common"/>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -105,29 +104,33 @@
                     android:layout_marginTop="8dp"
                     android:background="@mipmap/button_expand_detail"
                     />
+
                 <LinearLayout
                     android:id="@+id/goods_detail_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
                     android:layout_marginTop="8dp"
                     android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone"
                     >
+
                     <ImageView
                         android:id="@+id/goods_detail"
-                        android:background="@mipmap/goods_detail"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/goods_detail"/>
+
                     <ImageView
-                        android:src="@mipmap/notice_before_bug"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/notice_before_bug"/>
+
                     <TextView
                         android:id="@+id/goods_notice_before"
                         android:layout_width="match_parent"
-                        android:text="大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡 "
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡 "/>
                 </LinearLayout>
 
             </LinearLayout>

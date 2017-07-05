@@ -45,10 +45,8 @@ public class BaseActivity extends AppCompatActivity {
     protected DaoSession mDaoSession;
     @Inject
     protected BuProcessor mBuProcessor;
-
     @Inject
     protected AMapLocationClient mAMapLocationClient;
-
     @Inject
     protected AMapLocationClientOption mAMapLocationClientOption;
 
@@ -137,7 +135,6 @@ public class BaseActivity extends AppCompatActivity {
                 Window window = getWindow();
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 window.setStatusBarColor(ContextCompat.getColor(this,color));
-
             }
         } catch (Exception e) {
             e.printStackTrace();

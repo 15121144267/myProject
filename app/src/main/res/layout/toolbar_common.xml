@@ -28,4 +28,14 @@
         android:layout_marginEnd="15dp"
         android:background="@mipmap/toobar_more"
         />
+    <TextView
+        android:id="@+id/toolbar_right_text"
+        android:text="确定"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:layout_gravity="end"
+        android:textColor="@color/black"
+        android:layout_marginEnd="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </android.support.v7.widget.Toolbar>

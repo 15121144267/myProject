@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.entity.AddAddressRequest;
 import com.dispatching.feima.network.networkapi.AddressApi;
 import com.google.gson.Gson;
 
@@ -27,7 +28,12 @@ public class AddressModel {
 
 
     public Observable<ResponseData> addressListRequest(String phone) {
-        return mApi.addressListRequest(partnerId, phone).map(mTransform::transformCommon);
+        return mApi.addressListRequest(partnerId, phone).map(mTransform::transformTypeThree);
+    }
+
+    public Observable<ResponseData> deleteAddressRequest(AddAddressRequest request) {
+        request.partnerId = partnerId;
+        return mApi.deleteAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 }

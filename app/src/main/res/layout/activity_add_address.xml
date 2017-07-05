@@ -61,6 +61,7 @@
     <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <LinearLayout
+        android:id="@+id/add_address_location"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -73,7 +74,7 @@
             android:text="所在区域"/>
 
         <TextView
-            android:id="@+id/add_address_location"
+            android:id="@+id/add_address_location_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="40dp"

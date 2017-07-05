@@ -16,6 +16,10 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="StartTheme" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/activity_welcome</item>
+    </style>
+
     <style name="tweetName">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>

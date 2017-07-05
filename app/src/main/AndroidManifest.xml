@@ -40,6 +40,7 @@
         <activity
             android:name=".view.activity.WelcomeActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/StartTheme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -70,6 +71,9 @@
             android:name=".view.activity.BrandActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".view.activity.SexChoiceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".view.activity.ActivityDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -81,6 +85,9 @@
 
         <activity
             android:name=".view.activity.PartCarActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.PersonNameActivity"
             android:screenOrientation="portrait"/>
 
         <activity

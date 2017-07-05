@@ -3,6 +3,8 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.entity.AddAddressRequest;
+import com.dispatching.feima.entity.AddressResponse;
 import com.dispatching.feima.view.PresenterControl.AddressControl;
 import com.dispatching.feima.view.model.AddressModel;
 import com.dispatching.feima.view.model.ResponseData;
@@ -37,10 +39,31 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
     }
 
     private void addressListRequestSuccess(ResponseData responseData) {
-       // if()
-       // mView.updateAddressList
+        if(responseData.resultCode == 100){
+            responseData.parseData(AddressResponse.class);
+            AddressResponse response  = (AddressResponse) responseData.parsedData;
+            mView.addressListSuccess(response.data);
+        }else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
+    @Override
+    public void requestDeleteAddress(AddAddressRequest request) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.deleteAddressRequest(request).compose(mView.applySchedulers())
+                .subscribe(this::deleteAddressSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void deleteAddressSuccess(ResponseData responseData) {
+        if(responseData.resultCode == 100){
+            mView.deleteAddressSuccess();
+        }else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
     @Override
     public void onCreate() {
 

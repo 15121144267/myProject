@@ -2,7 +2,6 @@ package com.dispatching.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.ShopListApi;
@@ -46,7 +45,7 @@ public class ShopListActivityModule {
     ShopListModel provideShopListModel(Gson gson, ModelTransform modelTransform) {
         return new ShopListModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .baseUrl("http://console.freemudvip.com/service/restful/")
                 .isToJson(false)
                 .builder()
                 .create(ShopListApi.class), gson, modelTransform);
