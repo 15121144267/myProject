@@ -97,7 +97,7 @@ public class ValueUtil {
      * 包括中文数字和英文 不包括任何特殊字符
      */
     public static boolean checkSpecialString1(String str) {
-        Pattern p = Pattern.compile("^[\u4e00-\u9fa5A-Za-z0-9]+$");
+        Pattern p = Pattern.compile("^[\u4e00-\u9fa5A-Za-z0-9]{4,20}+$");
 
         return p.matcher(str).matches();
     }
@@ -118,6 +118,16 @@ public class ValueUtil {
         String reg = "^[A-Za-z\\d\\u4E00-\\u9FA5\\p{P}‘’“”\\f\\n\\r]+$";
         Pattern p = Pattern.compile(reg);
         return p.matcher(str).matches();
+    }
+
+    public static String replaceBlank(String str) {
+        String dest = "";
+        if (str!=null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
     }
 
     /**

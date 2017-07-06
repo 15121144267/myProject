@@ -3,6 +3,7 @@ package com.dispatching.feima.dagger.module;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.dagger.PerActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,4 +26,9 @@ public class BaseActivityModule {
         return this.activity;
     }
 
+    @Provides
+    @PerActivity
+    RxPermissions provideRxPermissions() {
+        return new RxPermissions(activity);
+    }
 }

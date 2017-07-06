@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/recharge_dialog_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#90000000">
+
+    <Button
+        android:id="@+id/dialog_photo_close"
+        style="@style/order_detail_Button_Style4"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="取消"
+        />
+
+    <LinearLayout
+        style="@style/order_detail_Button_Style4"
+        android:layout_height="100dp"
+        android:layout_above="@id/dialog_photo_close"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:id="@+id/dialog_photo_take"
+            style="@style/order_detail_Button_Style4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="拍照"
+            />
+
+        <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+        <Button
+            android:id="@+id/dialog_photo_direct"
+            style="@style/order_detail_Button_Style4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="我的相册"
+            />
+    </LinearLayout>
+</RelativeLayout>

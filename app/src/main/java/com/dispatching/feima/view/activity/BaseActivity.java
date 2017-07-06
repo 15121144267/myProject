@@ -16,11 +16,15 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.ApplicationComponent;
+import com.dispatching.feima.dagger.component.BaseActivityComponent;
+import com.dispatching.feima.dagger.component.DaggerBaseActivityComponent;
+import com.dispatching.feima.dagger.module.BaseActivityModule;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.ToastUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.net.ConnectException;
 
@@ -50,13 +54,21 @@ public class BaseActivity extends AppCompatActivity {
     @Inject
     protected AMapLocationClientOption mAMapLocationClientOption;
 
+    protected RxPermissions mRxPermissions;
+
     private Dialog mProgressDialog;
     private CompositeDisposable mDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getApplicationComponent().inject(this);
+        BaseActivityComponent component =DaggerBaseActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .baseActivityModule(new BaseActivityModule(BaseActivity.this))
+                .build();
+        mRxPermissions = component.rxPermissions();
+        component.inject(this);
+//        this.getApplicationComponent().inject(this);
     }
 
     @Override
@@ -134,7 +146,7 @@ public class BaseActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(ContextCompat.getColor(this,color));
+                window.setStatusBarColor(ContextCompat.getColor(this, color));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,7 +24,6 @@ import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
 import com.dispatching.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -61,7 +60,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private String myPhone;
     private String mPassword;
     private String mUserId;
-    private RxPermissions mPermission;
     private boolean flag = false;
 
     @Override
@@ -71,7 +69,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         initializeInjector();
         ButterKnife.bind(this);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
-        mPermission = new RxPermissions(this);
         initView();
     }
 
@@ -163,7 +160,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             return;
         }
 
-        mPermission.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+        mRxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,

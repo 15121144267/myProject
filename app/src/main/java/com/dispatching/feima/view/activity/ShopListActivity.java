@@ -32,13 +32,14 @@ import butterknife.ButterKnife;
  */
 
 public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView, BaseQuickAdapter.RequestLoadMoreListener {
-    @BindView(R.id.banner)
-    Banner mBanner;
+
 
     public static Intent getIntent(Context context) {
         return new Intent(context, ShopListActivity.class);
     }
 
+    @BindView(R.id.banner)
+    Banner mBanner;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)

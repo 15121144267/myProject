@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.utils.ValueUtil;
+import com.dispatching.feima.view.customview.timepickview.ClearEditText2;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import butterknife.BindView;
@@ -28,9 +31,12 @@ public class PersonNameActivity extends BaseActivity {
     Toolbar mToolbar;
     @BindView(R.id.toolbar_right_text)
     TextView mToolbarRightText;
+    @BindView(R.id.change_name)
+    ClearEditText2 mChangeName;
 
-    public static Intent getIntent(Context context) {
+    public static Intent getIntent(Context context,String name) {
         Intent intent = new Intent(context, PersonNameActivity.class);
+        intent.putExtra("name",name);
         return intent;
     }
 
@@ -45,12 +51,25 @@ public class PersonNameActivity extends BaseActivity {
     }
 
     private void initView() {
+        String name = getIntent().getStringExtra("name");
+        if(!TextUtils.isEmpty(name)){
+            mChangeName.setEditText(name);
+        }
         mToolbarRightText.setVisibility(View.VISIBLE);
-        RxView.clicks(mToolbarRightText).subscribe(v->requestSure());
+        RxView.clicks(mToolbarRightText).subscribe(v -> requestSure());
     }
 
     private void requestSure() {
 
+        String name = mChangeName.getEditText();
+        if(ValueUtil.checkSpecialString1(name)){
+            Intent intent = new Intent();
+            intent.putExtra("name",name);
+            setResult(RESULT_OK,intent);
+            finish();
+        }else {
+            showBaseToast("不符合");
+        }
     }
 
 

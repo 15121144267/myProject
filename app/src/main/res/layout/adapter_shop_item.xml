@@ -8,6 +8,7 @@
         android:layout_width="97dp"
         android:layout_height="96dp"
         android:layout_centerVertical="true"
+        android:scaleType="fitXY"
         android:background="@mipmap/main_right_first"/>
 
     <LinearLayout
@@ -80,14 +81,17 @@
             />
     </LinearLayout>
 
-    <ImageView
+    <TextView
         android:id="@+id/item_shop_name"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_above="@id/item_shop_des"
         android:layout_marginStart="5dp"
+        android:gravity="center"
         android:layout_toEndOf="@id/item_shop_pic"
-        android:background="@mipmap/main_right_second"
+        android:text="怡红院"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/black"
         />
 
     <View

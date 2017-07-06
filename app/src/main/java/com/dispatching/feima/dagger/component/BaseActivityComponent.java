@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.dagger.module.BaseActivityModule;
+import com.dispatching.feima.view.activity.BaseActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import dagger.Component;
 
@@ -15,5 +17,6 @@ import dagger.Component;
 @Component(dependencies = ApplicationComponent.class, modules = BaseActivityModule.class)
 public interface BaseActivityComponent {
     AppCompatActivity activity();
-
+    RxPermissions rxPermissions();
+    void inject(BaseActivity activity);
 }

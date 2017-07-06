@@ -24,6 +24,7 @@ import com.dispatching.feima.view.adapter.AddressAdapter;
 import com.dispatching.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -149,6 +150,12 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     @Override
     public void addressListSuccess(List<AddressResponse.DataBean> data) {
+        Collections.sort(data,(o1,o2)->{
+            if(o1.isDefault<(o2.isDefault)){
+                return 1;
+            }
+            return -1;
+        });
         if (data.size() > 0) {
             mAdapter.setNewData(data);
         }

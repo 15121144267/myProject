@@ -26,13 +26,8 @@ public class ShopListAdapter extends BaseQuickAdapter<ShopListResponse.ListBean,
         if (mList.size() != 0) {
             Glide.with(mContext).load(mList.get(0).imageUrl)
                     .error(R.mipmap.freemud_logo).into((ImageView) helper.getView(R.id.item_shop_pic));
-            Glide.with(mContext).load(mList.get(0).imageUrl)
-                    .error(R.mipmap.freemud_logo).into((ImageView) helper.getView(R.id.item_shop_name));
+            helper.setText(R.id.item_shop_name,item.fullName);
         }
-       /* helper.setText(R.id.item_shop_content1, item.shopDesContent);
-        helper.setText(R.id.item_shop_content2, item.shopDesContent);
-        helper.setText(R.id.item_shop_content3, item.shopDesContent);
-        helper.setText(R.id.item_shop_location, item.shopLocation);*/
 
     }
 
