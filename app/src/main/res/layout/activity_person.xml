@@ -29,7 +29,7 @@
             android:id="@+id/person_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@mipmap/person_fake_icon"
             app:siBorderWidth="2dp"
             app:siBorderColor="@color/darkgray"/>

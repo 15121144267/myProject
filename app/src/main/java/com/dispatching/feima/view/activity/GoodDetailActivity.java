@@ -67,6 +67,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
     @BindView(R.id.banner)
     Banner mBanner;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
+
 
     private List<Integer> mImageList;
 
@@ -81,6 +84,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         ButterKnife.bind(this);
         initializeInjector();
         supportActionBar(mToolbar, true);
+        mMiddleName.setText("商品详情");
         initView();
         initData();
     }

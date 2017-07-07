@@ -1,4 +1,4 @@
-package com.dispatching.feima.animation;
+package com.example.mylibrary.animation;
 
 import android.animation.Animator;
 import android.view.View;

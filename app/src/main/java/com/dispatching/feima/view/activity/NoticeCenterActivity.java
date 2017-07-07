@@ -15,11 +15,11 @@ import com.dispatching.feima.dagger.component.DaggerNoticeCenterActivityComponen
 import com.dispatching.feima.dagger.module.NoticeCenterActivityModule;
 import com.dispatching.feima.database.OrderNotice;
 import com.dispatching.feima.entity.QueryParam;
-import com.dispatching.feima.listener.OnItemClickListener;
 import com.dispatching.feima.utils.TimeUtil;
 import com.dispatching.feima.view.PresenterControl.NoticeCenterControl;
-import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.NoticeAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.listener.OnItemClickListener;
 
 import java.util.Calendar;
 import java.util.Collections;

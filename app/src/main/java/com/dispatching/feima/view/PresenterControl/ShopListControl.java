@@ -12,6 +12,7 @@ import java.util.List;
 public class ShopListControl {
     public interface ShopListView extends LoadDataView{
         void getShopListSuccess(List<ShopListResponse.ListBean> list);
+        void loadFail(Throwable throwable);
     }
 
     public interface PresenterShopList extends Presenter<ShopListView> {

@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MyOrders;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 

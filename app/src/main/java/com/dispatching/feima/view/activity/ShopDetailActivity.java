@@ -23,6 +23,7 @@ import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.ShopDetailControl;
 import com.dispatching.feima.view.adapter.ShopDetailAdapter;
 import com.dispatching.feima.view.customview.ClearEditText;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
@@ -40,7 +41,11 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/30.
  */
 
-public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView {
+public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener {
+    public static Intent getIntent(Context context) {
+        return new Intent(context, ShopDetailActivity.class);
+    }
+
     @BindView(R.id.search_goods)
     ClearEditText mSearchGoods;
     @BindView(R.id.shop_detail_tool_left)
@@ -58,20 +63,18 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     RecyclerView mShopDetailRecyclerView;
     @BindView(R.id.banner)
     Banner mBanner;
+    @Inject
+    ShopDetailControl.PresenterShopDetail mPresenter;
+
     private View mView;
     private ImageView mTabItemPriceLow;
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
     private ShopDetailAdapter mAdapter;
-    private List<ShopDetailResponse> mList;
     private List<Integer> mImageList;
-
-    public static Intent getIntent(Context context) {
-        return new Intent(context, ShopDetailActivity.class);
-    }
-
-    @Inject
-    ShopDetailControl.PresenterShopDetail mPresenter;
+    private Integer mPagerNo = 1;
+    private final Integer mPagerSize = 8;
+    private List<ShopDetailResponse.ProductsBean> mList;
     private final String[] modules = {"销量", "价格", "新品"};
 
     @Override
@@ -82,6 +85,32 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         initializeInjector();
         initView();
         initData();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() < mPagerSize) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            mPresenter.requestShopGoodsList(++mPagerNo, mPagerSize);
+        }
+    }
+
+    @Override
+    public void transformShopGoodsListSuccess(List<ShopDetailResponse.ProductsBean> products) {
+        mList = products;
+        if (products.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
     }
 
     @Override
@@ -129,13 +158,21 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         mImageList.add(R.mipmap.main_banner_third);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
         mList = new ArrayList<>();
+
         mShopDetailRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new ShopDetailAdapter(null, this);
         mShopDetailRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this, mShopDetailRecyclerView);
+        mAdapter.setOnItemClickListener((adapter, view, position) ->
+                startActivity(GoodDetailActivity.getIntent(this))
+        );
+
         mSearchGoods.setLinearBackgroundResource(R.drawable.shape_line_grey);
         mSearchGoods.setEditHint("搜索商品");
+
         RxView.clicks(mShopDetailToolLeft).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
         RxView.clicks(mShopDetailToolRight).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> showToast("点我啊"));
+
         mTabLayout.addTab(mTabLayout.newTab().setText(modules[0]));
         mTabLayout.addTab(addOtherView());
         mTabLayout.addTab(mTabLayout.newTab().setText(modules[2]));
@@ -158,13 +195,11 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
             }
         });
 
-        mAdapter.setOnItemClickListener((adapter, view, position) ->
-                startActivity(GoodDetailActivity.getIntent(this))
-        );
 
     }
 
     private void changeStatus(TabLayout.Tab tab) {
+        if (tab.getTag() == null) return;
         if (tab.isSelected()) {
             //改变状态
             if ((Integer) tab.getTag() == 1) {
@@ -202,14 +237,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void initData() {
-        for (int i = 0; i < 5; i++) {
-            ShopDetailResponse response = new ShopDetailResponse();
-            response.productCount = i + "1.1万件";
-            response.productName = "连衣裙款式" + i;
-            response.productPrice = "Y 24" + i;
-            mList.add(response);
-        }
-        mAdapter.setNewData(mList);
+        mPresenter.requestShopGoodsList(mPagerNo, mPagerSize);
     }
 
     private void initializeInjector() {

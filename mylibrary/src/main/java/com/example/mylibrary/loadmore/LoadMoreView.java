@@ -1,10 +1,14 @@
-package com.dispatching.feima.view.customview;
+package com.example.mylibrary.loadmore;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 
-import com.dispatching.feima.view.adapter.BaseViewHolder;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
+
+/**
+ * Created by BlingBling on 2016/11/11.
+ */
 
 public abstract class LoadMoreView {
 
@@ -68,23 +72,45 @@ public abstract class LoadMoreView {
         this.mLoadMoreEndGone = loadMoreEndGone;
     }
 
-    public final boolean isLoadEndMoreGone() {
-        return getLoadEndViewId() == 0 || mLoadMoreEndGone;
-    }
+    public final boolean isLoadEndMoreGone(){
+        if(getLoadEndViewId()==0){
+            return true;
+        }
+        return mLoadMoreEndGone;}
 
-
+    /**
+     * No more data is hidden
+     * @return true for no more data hidden load more
+     * @deprecated Use {@link BaseQuickAdapter#loadMoreEnd(boolean)} instead.
+     */
     @Deprecated
     public boolean isLoadEndGone(){return mLoadMoreEndGone;}
 
-    public abstract @LayoutRes
-    int getLayoutId();
+    /**
+     * load more layout
+     *
+     * @return
+     */
+    public abstract @LayoutRes int getLayoutId();
 
-    protected abstract @IdRes
-    int getLoadingViewId();
+    /**
+     * loading view
+     *
+     * @return
+     */
+    protected abstract @IdRes int getLoadingViewId();
 
-    protected abstract @IdRes
-    int getLoadFailViewId();
+    /**
+     * load fail view
+     *
+     * @return
+     */
+    protected abstract @IdRes int getLoadFailViewId();
 
-    protected abstract @IdRes
-    int getLoadEndViewId();
+    /**
+     * load end view, you can return 0
+     *
+     * @return
+     */
+    protected abstract @IdRes int getLoadEndViewId();
 }

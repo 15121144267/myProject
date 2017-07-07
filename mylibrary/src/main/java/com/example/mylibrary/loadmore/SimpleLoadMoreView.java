@@ -1,11 +1,10 @@
-package com.dispatching.feima.view.customview;
+package com.example.mylibrary.loadmore;
 
 
-import com.dispatching.feima.R;
+import com.example.mylibrary.R;
 
 /**
  * Created by BlingBling on 2016/10/11.
- * SimpleLoadMoreView
  */
 
 public final class SimpleLoadMoreView extends LoadMoreView {

@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.ShopListResponse;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 

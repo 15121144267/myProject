@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import com.dispatching.feima.R;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 

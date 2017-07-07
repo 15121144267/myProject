@@ -1,4 +1,4 @@
-package com.dispatching.feima.utils;
+package com.example.mylibrary.util;
 
 import android.support.annotation.LayoutRes;
 import android.util.SparseIntArray;

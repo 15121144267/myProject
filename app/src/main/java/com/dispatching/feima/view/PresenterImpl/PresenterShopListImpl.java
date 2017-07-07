@@ -32,7 +32,7 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
     public void requestShopList(Integer pagerNo, Integer pagerSize) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.shopListRequest(pagerNo, pagerSize).compose(mView.applySchedulers())
-                .subscribe(this::shopListRequestSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::shopListRequestSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

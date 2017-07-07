@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MainProducts;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 

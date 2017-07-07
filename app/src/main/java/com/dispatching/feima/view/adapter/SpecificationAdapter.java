@@ -3,6 +3,8 @@ package com.dispatching.feima.view.adapter;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.dispatching.feima.network.networkapi;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by helei on 2017/4/27.
@@ -10,9 +10,6 @@ import retrofit2.http.POST;
  */
 
 public interface ShopDetailApi {
-    @POST("delivery/login")
-    Observable<String> verifyCodeRequest(@Body String request);
-
-    @POST("api/Delivery/Login")
-    Observable<String> loginRequest(@Body String request);
+    @GET("Query/Shop/ListAllProducts")
+    Observable<String> shopGoodsListRequest(@Query("pagenumber") Integer number,@Query("pagesize") Integer pagesize,@Query("shopId") String shopId);
 }

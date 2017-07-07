@@ -7,6 +7,8 @@ import android.text.SpannableStringBuilder;
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.utils.SpannableStringUtils;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 

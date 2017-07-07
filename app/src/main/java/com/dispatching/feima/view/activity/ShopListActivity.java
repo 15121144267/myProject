@@ -15,8 +15,8 @@ import com.dispatching.feima.dagger.module.ShopListActivityModule;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.ShopListControl;
-import com.dispatching.feima.view.adapter.BaseQuickAdapter;
 import com.dispatching.feima.view.adapter.ShopListAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -78,9 +78,15 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     }
 
     @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
     public void onLoadMoreRequested() {
         if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(true);
+            mAdapter.loadMoreEnd(false);
         } else {
             mPresenter.requestShopList(++mPagerNo, mPagerSize);
         }

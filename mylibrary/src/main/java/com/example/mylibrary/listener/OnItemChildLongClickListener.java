@@ -1,24 +1,22 @@
-package com.dispatching.feima.listener;
+package com.example.mylibrary.listener;
 
 import android.view.View;
 
-import com.dispatching.feima.view.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 
 /**
  * Created by AllenCoder on 2016/8/03.
- *
- *
- * A convenience class to extend when you only want to OnItemClickListener for a subset
+ * A convenience class to extend when you only want to OnItemChildLongClickListener for a subset
  * of all the SimpleClickListener. This implements all methods in the
  * {@link SimpleClickListener}
- */
-public abstract   class OnItemClickListener extends SimpleClickListener {
+ **/
+public abstract class OnItemChildLongClickListener extends SimpleClickListener {
 
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        onSimpleItemClick(adapter,view,position);
+
     }
 
     @Override
@@ -33,7 +31,7 @@ public abstract   class OnItemClickListener extends SimpleClickListener {
 
     @Override
     public void onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
-
+        onSimpleItemChildLongClick(adapter,view,position);
     }
-    public abstract void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position);
+    public abstract void onSimpleItemChildLongClick(BaseQuickAdapter adapter, View view, int position);
 }
