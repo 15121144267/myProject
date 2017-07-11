@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,6 +24,7 @@ import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
 import com.dispatching.feima.view.fragment.SpecificationDialog;
+import com.dispatching.feima.view.fragment.SpecificationEmptyDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
@@ -149,7 +151,15 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void requestBugGoods() {
+        if(TextUtils.isEmpty(mGoodsSpecification.getText())){
+//            showEmptyDialog();
+            startActivity(PayActivity.getIntent(this));
+        }
+    }
 
+    private void showEmptyDialog() {
+        SpecificationEmptyDialog dialog =SpecificationEmptyDialog.newInstance();
+        DialogFactory.showDialogFragment(getSupportFragmentManager(),dialog,SpecificationEmptyDialog.TAG);
     }
 
     private void requestShowDetail() {

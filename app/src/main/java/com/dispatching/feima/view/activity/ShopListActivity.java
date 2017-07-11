@@ -138,11 +138,11 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
 
         mShopList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ShopListAdapter(null, this);
+        mAdapter = new ShopListAdapter(null, this,mImageLoaderHelper);
         mShopList.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this, mShopList);
         mAdapter.setOnItemClickListener((adapter, view, position) ->
-                startActivity(ShopDetailActivity.getIntent(this))
+                startActivity(ShopDetailActivity.getIntent(this,(ShopListResponse.ListBean)adapter.getItem(position)))
         );
     }
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopDetailActivityComponent;
 import com.dispatching.feima.dagger.module.ShopDetailActivityModule;
 import com.dispatching.feima.entity.ShopDetailResponse;
+import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.listener.TabCheckListener;
 import com.dispatching.feima.utils.ValueUtil;
@@ -28,6 +30,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,8 +46,10 @@ import butterknife.ButterKnife;
 public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener {
 
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, ShopDetailActivity.class);
+    public static Intent getIntent(Context context, ShopListResponse.ListBean item) {
+        Intent intent = new Intent(context, ShopDetailActivity.class);
+        intent.putExtra("shopInfo", item);
+        return intent;
     }
 
     @BindView(R.id.search_goods)
@@ -75,8 +80,10 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private List<Integer> mImageList;
     private Integer mPagerNo = 1;
     private final Integer mPagerSize = 8;
+    private ShopListResponse.ListBean mShopInfo;
     private List<ShopDetailResponse.ProductsBean> mList;
     private final String[] modules = {"销量", "价格", "新品"};
+    private List<ShopDetailResponse.ProductsBean> mAllGoodsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +107,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @Override
     public void transformShopGoodsListSuccess(List<ShopDetailResponse.ProductsBean> products) {
         mList = products;
+        mAllGoodsList.addAll(products);
         if (products.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -153,13 +161,21 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void initView() {
+        mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
+        List<ShopListResponse.ListBean.BusinessImagesBean> shopItemInfo = mShopInfo.businessImages;
+        if (shopItemInfo.size() != 0) {
+            mImageLoaderHelper.displayRoundedCornerImage(this, shopItemInfo.get(0).imageUrl, mShopDetailShopIcon, 6);
+        } else {
+            mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.freemud_logo, mShopDetailShopIcon, 6);
+        }
+        mShopDetailShopName.setText(mShopInfo.fullName == null ? "未知" : mShopInfo.fullName);
         mImageList = new ArrayList<>();
         mImageList.add(R.mipmap.main_banner_first);
         mImageList.add(R.mipmap.main_banner_second);
         mImageList.add(R.mipmap.main_banner_third);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
         mList = new ArrayList<>();
-        mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.neo, mShopDetailShopIcon, 6);
+        mAllGoodsList = new ArrayList<>();
         mShopDetailRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new ShopDetailAdapter(null, this);
         mShopDetailRecyclerView.setAdapter(mAdapter);
@@ -188,15 +204,54 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         mTabLayout.addOnTabSelectedListener(new TabCheckListener() {
             @Override
             public void onMyTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1) {
-                    mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue_dark));
-                } else {
-                    mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                switch (tab.getPosition()) {
+                    case 0:
+                        mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                        sortGoodsBySaleCount(mAllGoodsList);
+                        break;
+                    case 1:
+                        mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue_dark));
+                        break;
+                    case 2:
+                        mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                        break;
                 }
             }
         });
 
+    }
 
+    private void sortGoodsBySaleCount(List<ShopDetailResponse.ProductsBean> list) {
+        Collections.sort(list, (o1, o2) -> {
+            if (o1.saleCount >= o2.saleCount) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+        mAdapter.setNewData(list);
+    }
+
+    private void sortGoodsByPriceUp(List<ShopDetailResponse.ProductsBean> list) {
+        Collections.sort(list, (o1, o2) -> {
+            if (o1.finalPrice > o2.finalPrice) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+        mAdapter.setNewData(list);
+    }
+
+    private void sortGoodsByPriceDown(List<ShopDetailResponse.ProductsBean> list) {
+        Collections.sort(list, (o1, o2) -> {
+            if (o1.finalPrice > o2.finalPrice) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+        mAdapter.setNewData(list);
     }
 
     private void switchToGoodsDetail(ShopDetailResponse.ProductsBean goodsInfo) {
@@ -211,10 +266,13 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
                 tab.setTag(2);
+                sortGoodsByPriceDown(mAllGoodsList);
+
             } else {
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
                 tab.setTag(1);
+                sortGoodsByPriceUp(mAllGoodsList);
             }
         } else {
             //不改变状态
@@ -222,6 +280,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
                 tab.setTag(1);
+                sortGoodsByPriceUp(mAllGoodsList);
             } else {
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
@@ -231,7 +290,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private TabLayout.Tab addOtherView() {
-        mView = LayoutInflater.from(this).inflate(R.layout.tab_view, null);
+        mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
         mTabItemPriceGoods = (TextView) mView.findViewById(R.id.good_price);
         mTabItemPriceLow = (ImageView) mView.findViewById(R.id.price_low);
         mTabItemPriceUp = (ImageView) mView.findViewById(R.id.price_up);

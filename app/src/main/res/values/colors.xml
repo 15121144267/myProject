@@ -33,6 +33,8 @@
 
     <color name="confirm_select_coupon_color">#7abd59</color>
     <color name="confirm_no_coupon_color">#cccccc</color>
+
+
     <color name="order_price_color">#35BBc6</color>
     <!-- titlebar end -->
 

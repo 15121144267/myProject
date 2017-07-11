@@ -21,7 +21,7 @@ public class ShopListResponse implements Serializable {
     public int count;
     public List<ListBean> list;
 
-    public static class ListBean {
+    public static class ListBean implements Serializable{
         /**
          * address : åäºç¯ä¸å®¿æ¾è·¯äº¤å£ç»¿å°ä¸­å¿åçç¼è¡åº
          * briefName :
@@ -56,7 +56,7 @@ public class ShopListResponse implements Serializable {
         public String longitude;
         public List<BusinessImagesBean> businessImages;
 
-        public static class BusinessImagesBean {
+        public static class BusinessImagesBean implements Serializable{
             /**
              * sortIndex : 0
              * imageUrl : http://7xrib0.com2.z0.glb.qiniucdn.com/201706/1498641170074.jpg

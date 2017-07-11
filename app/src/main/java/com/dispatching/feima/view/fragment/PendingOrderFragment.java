@@ -244,11 +244,11 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     /*private void showPasswordDialog(String orderId) {
-        PasswordDialog passwordDialog = PasswordDialog.newInstance();
+        SpecificationEmptyDialog passwordDialog = SpecificationEmptyDialog.newInstance();
         passwordDialog.setContent(orderId);
         passwordDialog.setTitle(getString(R.string.dialog_password_tips));
         passwordDialog.setListener(this);
-        DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, PasswordDialog.TAG);
+        DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, SpecificationEmptyDialog.TAG);
     }*/
 
     @Override

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/specification_empty_dialog_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#90000000"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+    >
+
+    <FrameLayout
+        android:layout_width="287dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="285dp"
+        android:background="@drawable/shape_corners_white">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/specification_empty"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/specification_empty_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="14dp"
+                android:background="@mipmap/specification_empty_close"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dp_15"
+                android:text="请选择规格"
+                android:textColor="@color/darkblack"
+                android:textSize="@dimen/sp_15"/>
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>
