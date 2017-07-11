@@ -8,6 +8,7 @@ import com.dispatching.feima.dagger.ComponetGraph;
 import com.dispatching.feima.dagger.module.ApplicationModule;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoSession;
+import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ public interface ApplicationComponent extends ComponetGraph {
     SharePreferenceUtil sharePreferenceUtil();
     DaoSession daoSession();
     BuProcessor buProcessor();
+    ImageLoaderHelper imageLoaderHelper();
     Gson gson();
     ModelTransform modeTransform();
     AMapLocationClient aMapLocationClient();

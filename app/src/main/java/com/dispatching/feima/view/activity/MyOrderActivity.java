@@ -71,7 +71,7 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     private void initView() {
         mList = new ArrayList<>();
         mMyOrders.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new MyOrdersAdapter(null, this);
+        mAdapter = new MyOrdersAdapter(null, this,mImageLoaderHelper);
         mMyOrders.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, view, position) ->{

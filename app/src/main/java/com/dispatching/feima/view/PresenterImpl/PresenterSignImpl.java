@@ -38,10 +38,11 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
 
     @Override
     public void onRequestVerifyCode(String phone) {
+        mView.showLoading("正在获取");
         Disposable disposable = mSignModel.verityCodeRequest(phone)
                 .compose(mView.applySchedulers())
                 .subscribe(this::getVerifyCodeSuccess
-                        , throwable -> mView.showErrMessage(throwable));
+                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 

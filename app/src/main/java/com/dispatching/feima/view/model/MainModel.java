@@ -27,6 +27,7 @@ public class MainModel {
     private final ModelTransform mTransform;
     private final String version;
     private final OrderNoticeDao mOrderNoticeDao;
+    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
     @Inject
     public MainModel(MainApi api, Gson gson, ModelTransform transform,OrderNoticeDao orderNoticeDao) {
         mMainApi = api;
@@ -36,8 +37,8 @@ public class MainModel {
         mOrderNoticeDao = orderNoticeDao;
     }
 
-    public Observable<ResponseData> PendingOrderInfoRequest(String token,String uId) {
-        return mMainApi.WaitOrderInfoRequest(token, uId, version).map(mTransform::transformCommon);
+    public Observable<ResponseData> personInfoRequest(String phone) {
+        return mMainApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> SendingOrderInfoRequest(String token, String uId) {

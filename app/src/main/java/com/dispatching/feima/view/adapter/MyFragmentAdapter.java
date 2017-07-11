@@ -13,11 +13,9 @@ import java.util.List;
 
 public class MyFragmentAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mList;
-    private final String[] modules;
-    public MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList,String[] array) {
+    public MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
         super(fm);
         mList = fragmentList;
-        modules =array;
     }
 
     @Override
@@ -28,11 +26,6 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mList.size();
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return modules[position];
     }
 
 }

@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -23,11 +26,9 @@ public class GoodsDetailModel {
     }
 
 
-   /* public Observable<ResponseData> LoginRequest(String phone, String password) {
-        LoginRequest request = new LoginRequest();
-        request.phone = phone;
-        request.verifyCode = password;
-        return mLoginApi.loginRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> goodInfoRequest(String productId) {
+
+        return mApi.goodInfoRequest(productId).map(mTransform::transformTypeTwo);
+    }
 
 }

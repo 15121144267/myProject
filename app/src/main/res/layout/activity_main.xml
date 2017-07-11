@@ -7,13 +7,13 @@
     android:orientation="vertical"
     >
 
-    <com.example.mylibrary.view.ViewSwapper
+    <android.support.v4.view.ViewPager
         android:id="@+id/view_swapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/view_bottom_navigation"/>
 
-    <com.example.mylibrary.view.AdaptableBottomNavigationView
+    <android.support.design.widget.BottomNavigationView
         android:id="@+id/view_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -2,7 +2,6 @@ package com.dispatching.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.GoodsDetailApi;
@@ -46,7 +45,7 @@ public class GoodsDetailActivityModule {
     GoodsDetailModel provideGoodsDetailModel(Gson gson, ModelTransform modelTransform ) {
         return new GoodsDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .baseUrl("http://118.89.192.122:9998/")
                 .isToJson(false)
                 .builder()
                 .create(GoodsDetailApi.class), gson, modelTransform);

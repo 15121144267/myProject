@@ -34,17 +34,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="83dp"
-        android:background="@color/line_grey_bg2"
+        android:background="@color/line_grey_bg3"
         android:gravity="center_vertical">
 
-        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        <ImageView
             android:id="@+id/adapter_person_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="19dp"
             android:src="@mipmap/neo"
-            app:siShape="@drawable/shape_rectangle_icon"
-            app:siSquare="true"/>
+            android:background="@drawable/shape_rectangle_icon2"
+            android:scaleType="fitXY"
+           />
 
         <LinearLayout
             android:layout_width="0dp"

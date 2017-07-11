@@ -21,7 +21,7 @@ public class ShopDetailResponse implements Serializable {
     public int count;
     public List<ProductsBean> products;
 
-    public static class ProductsBean {
+    public static class ProductsBean implements Serializable {
         /**
          * barcode :
          * category :
@@ -60,7 +60,7 @@ public class ShopDetailResponse implements Serializable {
         public String unit;
         public List<LabelNamesBean> labelNames;
 
-        public static class LabelNamesBean {
+        public static class LabelNamesBean implements Serializable {
             /**
              * lid : 2
              * name : 即时送

@@ -1,6 +1,6 @@
 package com.dispatching.feima.view.PresenterControl;
 
-import com.dispatching.feima.entity.OrderDeliveryResponse;
+import com.dispatching.feima.entity.PersonInfoResponse;
 
 /**
  * Created by helei on 2017/5/3.
@@ -9,14 +9,12 @@ import com.dispatching.feima.entity.OrderDeliveryResponse;
 
 public class CompletedOrderControl {
     public interface CompletedOrderView extends LoadDataView {
-        void getCompletedOrderSuccess(OrderDeliveryResponse response);
 
-        void getOrderComplete();
+        void getPersonInfoSuccess(PersonInfoResponse response);
 
-        void getOrderError(Throwable throwable);
     }
 
     public interface PresenterCompletedOrder extends Presenter<CompletedOrderView> {
-        void requestCompletedOrder(String token, String uId);
+        void requestPersonInfo(String phone);
     }
 }

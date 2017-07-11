@@ -86,7 +86,7 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     @Override
     public void onLoadMoreRequested() {
         if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(false);
+            mAdapter.loadMoreEnd(true);
         } else {
             mPresenter.requestShopList(++mPagerNo, mPagerSize);
         }

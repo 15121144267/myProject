@@ -15,6 +15,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.HasComponent;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.utils.ToastUtils;
 
@@ -44,7 +45,8 @@ public class BaseFragment extends Fragment {
     BuProcessor mBuProcessor;
     @Inject
     SharePreferenceUtil mSharePreferenceUtil;
-
+    @Inject
+    ImageLoaderHelper mImageLoaderHelper;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

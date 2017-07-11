@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.model;
 
-import com.dispatching.feima.entity.AddAddressRequest;
+import com.dispatching.feima.entity.PersonInfoResponse;
+import com.dispatching.feima.entity.UpdatePersonInfoRequest;
 import com.dispatching.feima.network.networkapi.PersonCenterApi;
 import com.google.gson.Gson;
 
@@ -17,7 +18,6 @@ public class PersonCenterModel {
     private final PersonCenterApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
 
     @Inject
     public PersonCenterModel(PersonCenterApi api, Gson gson, ModelTransform transform) {
@@ -27,9 +27,16 @@ public class PersonCenterModel {
     }
 
 
-    public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = partnerId;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    public Observable<ResponseData> updatePersonInfoRequest(PersonInfoResponse response) {
+        UpdatePersonInfoRequest request = new UpdatePersonInfoRequest();
+        request.partnerId = response.partnerId;
+        request.memberId = response.memberId;
+        request.avatarUrl = response.avatarUrl;
+        request.birthday = response.birthday;
+        request.phone = response.phone;
+        request.sex = response.sex;
+        request.nickName = response.nickName;
+        return mApi.updatePersonInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 }

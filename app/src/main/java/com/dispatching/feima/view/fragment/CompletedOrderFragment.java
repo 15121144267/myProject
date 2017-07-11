@@ -2,8 +2,10 @@ package com.dispatching.feima.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +20,13 @@ import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
-import com.dispatching.feima.entity.OrderDeliveryResponse;
+import com.dispatching.feima.entity.PersonInfoResponse;
+import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.activity.AddressActivity;
 import com.dispatching.feima.view.activity.MyOrderActivity;
 import com.dispatching.feima.view.activity.PersonCenterActivity;
+import com.dispatching.feima.view.customview.MoveScrollView;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -55,6 +59,10 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     TextView mPersonDetail;
     @BindView(R.id.person_tips)
     ImageButton mPersonTips;
+    @BindView(R.id.move_image)
+    ImageView mMoveImage;
+    @BindView(R.id.scroll_layout)
+    MoveScrollView mScrollLayout;
 
     public static CompletedOrderFragment newInstance() {
         return new CompletedOrderFragment();
@@ -65,6 +73,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     CompletedOrderControl.PresenterCompletedOrder mPresenter;
 
     private Unbinder unbind;
+    private PersonInfoResponse mResponse;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,18 +87,29 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         View view = inflater.inflate(R.layout.fragment_complete_order, container, false);
         unbind = ButterKnife.bind(this, view);
         initView();
-        initAdapter();
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initData();
+    }
+
     private void initView() {
+        mScrollLayout.setMoveImageView(mMoveImage);
         RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
         RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
         RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());
+
+    }
+
+    private void initData() {
+        mPresenter.requestPersonInfo(mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME));
     }
 
     private void requestInfo() {
-        startActivity(PersonCenterActivity.getPersonIntent(getActivity()));
+        startActivity(PersonCenterActivity.getPersonIntent(getActivity(), mResponse));
     }
 
     private void requestAddress() {
@@ -101,46 +121,37 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    public void getPersonInfoSuccess(PersonInfoResponse response) {
+        mResponse = response;
+        mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
+        if (response.avatarUrl != null) {
+            mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl, mPersonIcon);
+        }
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
+        Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
+        drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());
+        drawable2.setBounds(0, 0, drawable2.getMinimumHeight(), drawable2.getMinimumHeight());
+        if (response.sex != null) {
+            if (response.sex == 1) {
+                mPersonName.setCompoundDrawables(null, null, drawable, null);
+            } else {
+                mPersonName.setCompoundDrawables(null, null, drawable2, null);
+            }
+        }
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.UPDATE_PERSON_INFO);
     }
 
     @Override
-    public void getCompletedOrderSuccess(OrderDeliveryResponse response) {
-
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.UPDATE_PERSON_INFO)) {
+            mPresenter.requestPersonInfo(mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME));
+        }
     }
-
-    @Override
-    protected void addFilter() {
-        mFilter.addAction(BroConstant.COMPLETE_DELIVERY);
-    }
-
-    @Override
-    protected void onReceivePro(Context context, Intent intent) {
-
-    }
-
-    private void initAdapter() {
-
-    }
-
-    @Override
-    public void getOrderComplete() {
-
-    }
-
-    @Override
-    public void getOrderError(Throwable throwable) {
-        showErrMessage(throwable);
-    }
-
 
     @Override
     public void showLoading(String msg) {

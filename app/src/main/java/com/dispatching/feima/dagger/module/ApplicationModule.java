@@ -15,6 +15,7 @@ import com.dispatching.feima.database.DbHelper;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.gen.DaoMaster;
 import com.dispatching.feima.gen.DaoSession;
+import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.listener.MyLocationListener;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.model.ModelTransform;
@@ -47,6 +48,12 @@ public class ApplicationModule {
     @Singleton
     SharePreferenceUtil provideSharePreferenceUtil(Context ctx) {
         return new SharePreferenceUtil(ctx);
+    }
+
+    @Provides
+    @Singleton
+    ImageLoaderHelper provideImageLoaderHelper() {
+        return new ImageLoaderHelper();
     }
 
     @Provides

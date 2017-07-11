@@ -25,14 +25,13 @@
             android:gravity="center_vertical"
             android:text="头像"/>
 
-        <com.github.siyamed.shapeimageview.CircularImageView
+        <ImageView
             android:id="@+id/person_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="fitXY"
             android:src="@mipmap/person_fake_icon"
-            app:siBorderWidth="2dp"
-            app:siBorderColor="@color/darkgray"/>
+            />
 
         <ImageView
             android:layout_width="wrap_content"

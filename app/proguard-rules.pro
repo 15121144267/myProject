@@ -112,18 +112,6 @@
      public static <fields>;
 }
 
-# webView处理，项目中没有使用到webView忽略即可
--keepclassmembers class fqcn.of.javascript.interface.for.webview {
-    public *;
-}
--keepclassmembers class * extends android.webkit.webViewClient {
-    public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
-    public boolean *(android.webkit.WebView, java.lang.String);
-}
--keepclassmembers class * extends android.webkit.webViewClient {
-    public void *(android.webkit.webView, java.lang.String);
-}
-
 -dontwarn android.support.design.**
 -keep class android.support.design.** { *; }
 -keep interface android.support.design.** { *; }

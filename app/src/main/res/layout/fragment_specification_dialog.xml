@@ -33,10 +33,10 @@
 
             <ImageButton
                 android:id="@+id/dialog_close"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="14dp"
-                android:src="@mipmap/dialog_close"/>
+                android:background="@mipmap/dialog_close"/>
         </LinearLayout>
 
         <TextView
@@ -192,14 +192,15 @@
     </LinearLayout>
 
 
-    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+    <ImageView
         android:id="@+id/dialog_person_icon"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="340dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/shape_rectangle_icon2"
         android:layout_marginStart="16dp"
         android:src="@mipmap/neo"
-        app:siShape="@drawable/shape_rectangle_icon2"
-        app:siSquare="true"/>
+        />
 </RelativeLayout>

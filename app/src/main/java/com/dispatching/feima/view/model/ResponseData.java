@@ -26,13 +26,14 @@ public class ResponseData {
         result = jsonObject.optString("data");
     }
 
-    public ResponseData(JSONObject jsonObject,Integer flag) throws JSONException {
+    public ResponseData(JSONObject jsonObject, Integer flag) throws JSONException {
         resultCode = jsonObject.optInt("errcode");
         errorDesc = jsonObject.optString("errmsg");
         result = jsonObject.optString("data");
+
     }
 
-    public ResponseData(JSONObject jsonObject,String  response) throws JSONException {
+    public ResponseData(JSONObject jsonObject, String response) throws JSONException {
         resultCode = jsonObject.optInt("statusCode");
         errorDesc = jsonObject.optString("msg");
         result = response;

@@ -112,13 +112,12 @@ dependencies {
     compile rootProject.ext.myDependencies["my3DMap"]
     compile rootProject.ext.myDependencies["mySearch"]
     compile rootProject.ext.myDependencies["myLocation"]
-    compile 'com.youth.banner:banner:1.4.9'  //最新版本
+    compile rootProject.ext.myDependencies["myBanner"]
     compile rootProject.ext.myDependencies["myGlide"]
-    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+    compile rootProject.ext.myDependencies["myPartOnePhoto"]
+    compile rootProject.ext.myDependencies["myPartTwoPhoto"]
+    compile rootProject.ext.myDependencies["myPartThreePhoto"]
+    compile 'jp.wasabeef:glide-transformations:2.0.0'
     compile project(path: ':mylibrary')
-
-    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
-    compile 'com.darsh.multipleimageselect:multipleimageselect:1.0.4'
-    compile 'me.shaohui.advancedluban:library:1.3.5'
 
 }

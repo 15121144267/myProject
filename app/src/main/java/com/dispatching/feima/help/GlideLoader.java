@@ -14,7 +14,7 @@ import com.youth.banner.loader.ImageLoader;
 public class GlideLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
-        Glide.with(context).load(path).error(R.mipmap.holder).into(imageView);
+        Glide.with(context).load(path).error(R.mipmap.freemud_logo).into(imageView);
     }
 
 }

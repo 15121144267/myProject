@@ -12,8 +12,8 @@ import retrofit2.http.Query;
  */
 
 public interface MainApi {
-    @GET("api/Query/Staff/GetWaitTake")
-    Observable<String> WaitOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);
+    @GET("member/info")
+    Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
 
     @GET("api/Query/Staff/GetSendingOrder")
     Observable<String> SendingOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);

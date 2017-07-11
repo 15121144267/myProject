@@ -10,7 +10,7 @@ import retrofit2.http.POST;
  */
 
 public interface PersonCenterApi {
-    @POST("member/deliveraddress")
-    Observable<String> addAddressRequest(@Body String request);
+    @POST("member/info")
+    Observable<String> updatePersonInfoRequest(@Body String request);
 
 }

@@ -1,99 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<com.dispatching.feima.view.customview.MoveScrollView
+    android:id="@+id/scroll_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/person_background">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-        <ImageView
-            android:id="@+id/person_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:background="@mipmap/person_head_icon"
-            android:contentDescription="@string/app_name"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@id/person_icon"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/person_name"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/move_image"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@mipmap/person_sex_man"
-                android:gravity="center_vertical"
-                android:text="名字名字&#160;&#160;"
-                />
+                android:scaleType="fitXY"
+                android:background="@mipmap/person_background"/>
 
-            <TextView
-                android:id="@+id/person_detail"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="名字单身快乐风格非名字单身快乐风格非"
-                android:textColor="#615e5e"
-                />
-        </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+               >
 
-        <ImageButton
-            android:id="@+id/person_tips"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="15dp"
-            android:background="@mipmap/person_tip_icon"/>
+                <ImageView
+                    android:id="@+id/person_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/person_head_icon"
+                   />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/person_icon"
+                    android:orientation="vertical">
 
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/person_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@mipmap/person_sex_man"
+                        android:gravity="center_vertical"
 
-    <TextView
-        android:id="@+id/person_order"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:drawableStart="@mipmap/order_icon"
-        android:gravity="center_vertical"
-        android:paddingLeft="18dp"
-        android:text="@string/person_order"
-        android:textColor="#333333"
-        android:textSize="15sp"/>
+                        android:text="名字名字&#160;&#160;"
+                        />
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+                    <TextView
+                        android:id="@+id/person_detail"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="暂没数据"
+                        android:textColor="#615e5e"
+                        />
+                </LinearLayout>
 
-    <TextView
-        android:id="@+id/person_address"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:drawableStart="@mipmap/address_icon"
-        android:gravity="center_vertical"
-        android:paddingLeft="18dp"
-        android:text="@string/person_address"
-        android:textColor="#333333"
-        android:textSize="15sp"/>
+                <ImageButton
+                    android:id="@+id/person_tips"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="15dp"
+                    android:background="@mipmap/person_tip_icon"/>
+            </RelativeLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+        </FrameLayout>
 
-    <TextView
-        android:id="@+id/person_info"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:drawableStart="@mipmap/info_icon"
-        android:gravity="center_vertical"
-        android:paddingLeft="18dp"
-        android:text="@string/person_info"
-        android:textColor="#333333"
-        android:textSize="15sp"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/person_order"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@mipmap/order_icon"
+            android:gravity="center_vertical"
+            android:paddingLeft="18dp"
+            android:text="@string/person_order"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+
+        <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+        <TextView
+            android:id="@+id/person_address"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@mipmap/address_icon"
+            android:gravity="center_vertical"
+            android:paddingLeft="18dp"
+            android:text="@string/person_address"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+
+        <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+        <TextView
+            android:id="@+id/person_info"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@mipmap/info_icon"
+            android:gravity="center_vertical"
+            android:paddingLeft="18dp"
+            android:text="@string/person_info"
+            android:textColor="#333333"
+            android:textSize="15sp"/>
+
+        <View style="@style/LineH_Fill_Width1_5_ForView"/>
+    </LinearLayout>
+
+</com.dispatching.feima.view.customview.MoveScrollView>

@@ -3,7 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
-import com.dispatching.feima.entity.OrderDeliveryResponse;
+import com.dispatching.feima.entity.PersonInfoResponse;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.model.MainModel;
 import com.dispatching.feima.view.model.ResponseData;
@@ -28,18 +28,19 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     }
 
     @Override
-    public void requestCompletedOrder(String token, String uId) {
+    public void requestPersonInfo(String phone) {
         mView.showLoading(mContext.getString(R.string.loading));
-        /*mMainModel.CompleteOrderInfoRequest(token, uId).compose(mView.applySchedulers())
-                .subscribe(this::getCompleteOrderSuccess
-                        , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());*/
+        mMainModel.personInfoRequest(phone).compose(mView.applySchedulers())
+                .subscribe(this::getPersonInfoSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
     }
 
-    private void getCompleteOrderSuccess(ResponseData responseData) {
+
+    private void getPersonInfoSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
-            responseData.parseData(OrderDeliveryResponse.class);
-            OrderDeliveryResponse response = (OrderDeliveryResponse) responseData.parsedData;
-            mView.getCompletedOrderSuccess(response);
+            responseData.parseData(PersonInfoResponse.class);
+            PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
+            mView.getPersonInfoSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }

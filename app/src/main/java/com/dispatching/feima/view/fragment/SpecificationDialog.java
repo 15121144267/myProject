@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.view.adapter.SpecificationAdapter;
-import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     @BindView(R.id.dialog_buy_goods)
     Button mDialogBuyGoods;
     @BindView(R.id.dialog_person_icon)
-    PorterShapeImageView mDialogPersonIcon;
+    ImageView mDialogPersonIcon;
     @BindView(R.id.recharge_dialog_layout)
     RelativeLayout mRechargeDialogLayout;
 
@@ -66,9 +67,13 @@ public class SpecificationDialog extends BaseDialogFragment {
     private final String[] mSizeStrings = {"S", "M", "L", "XL", "均码", "M", "L", "XL", "均码"};
     private SpecificationAdapter colorAdapter;
     private SpecificationAdapter sizeAdapter;
-
+    private ImageLoaderHelper mImageLoaderHelper;
     public static SpecificationDialog newInstance() {
         return new SpecificationDialog();
+    }
+
+    public void setImageLoadHelper(ImageLoaderHelper imageLoadHelper) {
+        mImageLoaderHelper = imageLoadHelper;
     }
 
 
@@ -83,7 +88,7 @@ public class SpecificationDialog extends BaseDialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_specification_dialog, container, true);
         unbind = ButterKnife.bind(this, view);
-
+        mImageLoaderHelper.displayRoundedCornerImage(getActivity(),R.mipmap.neo,mDialogPersonIcon,6);
         mDialogGoodsColor.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         colorAdapter = new SpecificationAdapter(null, getActivity());
         mDialogGoodsColor.setAdapter(colorAdapter);

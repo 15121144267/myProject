@@ -3,9 +3,11 @@ package com.dispatching.feima.view.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
+import android.widget.ImageView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MyOrdersResponse;
+import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.utils.SpannableStringUtils;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
@@ -15,15 +17,18 @@ import java.util.List;
 
 public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse, BaseViewHolder> {
     private final Context mContext;
-
-    public MyOrdersAdapter(List<MyOrdersResponse> notices, Context context) {
+    private ImageLoaderHelper mImageLoaderHelper;
+    public MyOrdersAdapter(List<MyOrdersResponse> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_my_orders, notices);
         mContext = context;
+        mImageLoaderHelper = imageLoaderHelper;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MyOrdersResponse item) {
         if (item == null) return;
+        ImageView iconView = helper.getView(R.id.adapter_person_icon);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext,R.mipmap.neo,iconView,6);
         helper.addOnClickListener(R.id.order_pull_off).addOnClickListener(R.id.order_pull_sure);
         helper.setText(R.id.shop_name, "  "+item.shopName);
         helper.setText(R.id.product_name, item.productName);

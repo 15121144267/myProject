@@ -24,7 +24,6 @@ import com.dispatching.feima.view.PresenterControl.ShopDetailControl;
 import com.dispatching.feima.view.adapter.ShopDetailAdapter;
 import com.dispatching.feima.view.customview.ClearEditText;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
-import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
@@ -42,6 +41,8 @@ import butterknife.ButterKnife;
  */
 
 public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener {
+
+
     public static Intent getIntent(Context context) {
         return new Intent(context, ShopDetailActivity.class);
     }
@@ -53,7 +54,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @BindView(R.id.shop_detail_tool_right)
     ImageView mShopDetailToolRight;
     @BindView(R.id.shop_detail_shop_icon)
-    PorterShapeImageView mShopDetailShopIcon;
+    ImageView mShopDetailShopIcon;
     @BindView(R.id.shop_detail_shop_name)
     TextView mShopDetailShopName;
 
@@ -158,13 +159,13 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         mImageList.add(R.mipmap.main_banner_third);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
         mList = new ArrayList<>();
-
+        mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.neo, mShopDetailShopIcon, 6);
         mShopDetailRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new ShopDetailAdapter(null, this);
         mShopDetailRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this, mShopDetailRecyclerView);
         mAdapter.setOnItemClickListener((adapter, view, position) ->
-                startActivity(GoodDetailActivity.getIntent(this))
+                switchToGoodsDetail((ShopDetailResponse.ProductsBean) adapter.getItem(position))
         );
 
         mSearchGoods.setLinearBackgroundResource(R.drawable.shape_line_grey);
@@ -196,6 +197,10 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         });
 
 
+    }
+
+    private void switchToGoodsDetail(ShopDetailResponse.ProductsBean goodsInfo) {
+        startActivity(GoodDetailActivity.getIntent(this, goodsInfo));
     }
 
     private void changeStatus(TabLayout.Tab tab) {
