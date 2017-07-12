@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/payMethod_dialog_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000">
+
+    <LinearLayout
+        android:id="@+id/payMethod_dialog_animLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <View style="@style/LineH_Fill_Width0_5_ForView" />
+
+        <LinearLayout
+            android:id="@+id/payMethod_ZFBLayout"
+            style="@style/Layout_Item_Height_60"
+            android:weightSum="5">
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dip"
+                android:src="@mipmap/img_pay_zfb" />
+
+            <TextView
+                style="@style/TextColor_BlackLight_16"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.2"
+                android:text="支付宝支付" />
+        </LinearLayout>
+
+        <View style="@style/LineH_Fill_Width0_5_ForView" />
+
+        <LinearLayout
+            android:id="@+id/payMethod_WXLayout"
+            style="@style/Layout_Item_Height_60"
+            android:weightSum="5">
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.8" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dip"
+                android:src="@mipmap/img_pay_wx" />
+
+            <TextView
+                style="@style/TextColor_BlackLight_16"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.2"
+                android:text="微信支付" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/payMethod_WXLine"
+            style="@style/LineH_Fill_Width0_5_ForView" />
+
+        <TextView
+            android:id="@+id/payMethod_dialog_cancel"
+            style="@style/Layout_Item_Height_55"
+            android:gravity="center"
+            android:text="取 消"
+            android:textColor="@color/order_price_color"
+            android:textSize="16.0dip" />
+    </LinearLayout>
+
+</RelativeLayout>

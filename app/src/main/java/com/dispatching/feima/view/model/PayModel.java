@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.entity.AddAddressRequest;
 import com.dispatching.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
@@ -17,7 +18,7 @@ public class PayModel {
     private final PayApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
+    private final String partnerId = BuildConfig.PARTNER_ID;
 
     @Inject
     public PayModel(PayApi api, Gson gson, ModelTransform transform) {

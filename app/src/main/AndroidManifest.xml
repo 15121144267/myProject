@@ -35,6 +35,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--7.0文件是配-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -49,6 +50,20 @@
             android:value="dc1e9a4a7116cc67feb0e7535d41b693"/>
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
+        <!--支付宝相关-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <!---->
         <activity
             android:name=".view.activity.WelcomeActivity"
             android:screenOrientation="portrait"

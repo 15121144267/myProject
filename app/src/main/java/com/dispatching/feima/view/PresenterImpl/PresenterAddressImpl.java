@@ -30,6 +30,15 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
     }
 
     @Override
+    public void requestAddressDefault(AddressResponse.DataBean request) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.addressDefaultRequest(request).compose(mView.applySchedulers())
+                .subscribe(this::addressDefaultSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    @Override
     public void requestAddressList(String phone) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.addressListRequest(phone).compose(mView.applySchedulers())
@@ -44,6 +53,13 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
             AddressResponse response  = (AddressResponse) responseData.parsedData;
             mView.addressListSuccess(response.data);
         }else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+    private void addressDefaultSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            mView.addressDefaultSuccess();
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }

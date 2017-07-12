@@ -15,6 +15,6 @@ public class ShopDetailControl {
     }
 
     public interface PresenterShopDetail extends Presenter<ShopDetailView> {
-        void requestShopGoodsList(Integer pagerNumber,Integer pagerSize);
+        void requestShopGoodsList(String storeCode,Integer pagerNumber,Integer pagerSize);
     }
 }

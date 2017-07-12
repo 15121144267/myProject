@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.help.AniCreator;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.view.adapter.SpecificationAdapter;
@@ -27,15 +27,13 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-/**
- * 充值dialog
- */
+
 public class SpecificationDialog extends BaseDialogFragment {
     public static final String TAG = SpecificationDialog.class.getSimpleName();
     @BindView(R.id.dialog_goods_price)
     TextView mDialogGoodsPrice;
     @BindView(R.id.dialog_close)
-    ImageButton mDialogClose;
+    ImageView mDialogClose;
     @BindView(R.id.dialog_goods_all_count)
     TextView mDialogGoodsAllCount;
     @BindView(R.id.dialog_goods_color_checked)
@@ -99,6 +97,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogGoodsAdd.setOnClickListener(this);
         mDialogBuyGoods.setOnClickListener(this);
         mDialogClose.setOnClickListener(this);
+        AniCreator.getInstance().apply_animation_translate(mRechargeDialogLayout, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
         return view;
     }
 

@@ -254,4 +254,22 @@
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
+
+    <style name="Layout_Item_Height_60">
+        <item name="android:background">@drawable/item_main_white</item>
+        <item name="android:layout_height">@dimen/dp_60</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">14.0dip</item>
+        <item name="android:paddingRight">14.0dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Layout_Item_Height_55">
+        <item name="android:background">@drawable/item_main_white</item>
+        <item name="android:layout_height">@dimen/dp_55</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingLeft">14.0dip</item>
+        <item name="android:paddingRight">14.0dip</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 </resources>

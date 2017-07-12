@@ -84,6 +84,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private List<ShopDetailResponse.ProductsBean> mList;
     private final String[] modules = {"销量", "价格", "新品"};
     private List<ShopDetailResponse.ProductsBean> mAllGoodsList;
+    private String mStoreCode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +101,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestShopGoodsList(++mPagerNo, mPagerSize);
+            mPresenter.requestShopGoodsList(mStoreCode,++mPagerNo, mPagerSize);
         }
     }
 
@@ -162,13 +163,17 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
     private void initView() {
         mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
-        List<ShopListResponse.ListBean.BusinessImagesBean> shopItemInfo = mShopInfo.businessImages;
-        if (shopItemInfo.size() != 0) {
-            mImageLoaderHelper.displayRoundedCornerImage(this, shopItemInfo.get(0).imageUrl, mShopDetailShopIcon, 6);
-        } else {
-            mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.freemud_logo, mShopDetailShopIcon, 6);
+        if (mShopInfo != null) {
+            mStoreCode = mShopInfo.storeCode;
+            List<ShopListResponse.ListBean.BusinessImagesBean> shopItemInfo = mShopInfo.businessImages;
+            if (shopItemInfo.size() != 0) {
+                mImageLoaderHelper.displayRoundedCornerImage(this, shopItemInfo.get(0).imageUrl, mShopDetailShopIcon, 6);
+            } else {
+                mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.freemud_logo, mShopDetailShopIcon, 6);
+            }
+            mShopDetailShopName.setText(mShopInfo.fullName == null ? "未知" : mShopInfo.fullName);
         }
-        mShopDetailShopName.setText(mShopInfo.fullName == null ? "未知" : mShopInfo.fullName);
+
         mImageList = new ArrayList<>();
         mImageList.add(R.mipmap.main_banner_first);
         mImageList.add(R.mipmap.main_banner_second);
@@ -301,7 +306,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void initData() {
-        mPresenter.requestShopGoodsList(mPagerNo, mPagerSize);
+        mPresenter.requestShopGoodsList(mStoreCode,mPagerNo, mPagerSize);
     }
 
     private void initializeInjector() {

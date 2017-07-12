@@ -115,11 +115,30 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                                 mCheckBox.setChecked(true);
                                 return;
                             }
-                            mAdapter.setChecked(position, true);
+                            mPresenter.requestAddressDefault((AddressResponse.DataBean)adapter.getItem(position));
                             break;
                     }
                 }
         );
+    }
+
+    @Override
+    public void addressDefaultSuccess() {
+        List< AddressResponse.DataBean> list = mAdapter.getData();
+        for (int i = 0; i < list.size(); i++) {
+            if(i == mPosition){
+                list.get(i).isDefault = 1;
+            }else {
+                list.get(i).isDefault = 0;
+            }
+        }
+        Collections.sort(list,(o1,o2)->{
+            if(o1.isDefault<(o2.isDefault)){
+                return 1;
+            }
+            return -1;
+        });
+        mAdapter.setNewData(list);
     }
 
     private void requestAddAddress() {

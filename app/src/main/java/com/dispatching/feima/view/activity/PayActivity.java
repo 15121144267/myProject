@@ -17,8 +17,11 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerPayActivityComponent;
 import com.dispatching.feima.dagger.module.PayActivityModule;
 import com.dispatching.feima.entity.MyOrdersResponse;
+import com.dispatching.feima.entity.PayConstant;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.adapter.PayGoodsListAdapter;
+import com.dispatching.feima.view.fragment.PayMethodDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import butterknife.ButterKnife;
  * MyOrderActivity
  */
 
-public class PayActivity extends BaseActivity implements PayControl.PayView {
+public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, PayActivity.class);
@@ -118,9 +121,24 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
         return this;
     }
 
-    private void requestPay() {
-        showBaseToast("购买");
+    @Override
+    public void clickRechargeBtn(String payType) {
+        switch (payType){
+            case PayConstant.PAY_TYPE_WX:
+                showToast("微信");
+                break;
+            case PayConstant.PAY_TYPE_ZFB:
+                showToast("支付宝");
+                break;
+        }
     }
+
+    private void requestPay() {
+        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
+        payMethodDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
+    }
+
 
     private void addHeadView() {
         mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);

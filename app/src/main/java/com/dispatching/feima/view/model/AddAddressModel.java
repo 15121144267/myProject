@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.entity.AddAddressRequest;
 import com.dispatching.feima.network.networkapi.AddAddressApi;
 import com.google.gson.Gson;
@@ -17,7 +18,6 @@ public class AddAddressModel {
     private final AddAddressApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = "a8bee0dd-09d1-4fa9-a9eb-80cb36d3d611";
 
     @Inject
     public AddAddressModel(AddAddressApi api, Gson gson, ModelTransform transform) {
@@ -28,7 +28,7 @@ public class AddAddressModel {
 
 
     public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = partnerId;
+        request.partnerId = BuildConfig.PARTNER_ID;
         return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 

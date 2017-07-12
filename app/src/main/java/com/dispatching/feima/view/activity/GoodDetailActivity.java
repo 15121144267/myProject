@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,14 +65,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     TextView mGoodsPrice;
     @BindView(R.id.goods_specification)
     TextView mGoodsSpecification;
-    @BindView(R.id.expand_good_detail)
-    ImageButton mExpandGoodDetail;
     @BindView(R.id.goods_detail_button)
     Button mGoodsDetailButton;
-    @BindView(R.id.goods_detail)
-    ImageView mGoodsDetail;
-    @BindView(R.id.goods_notice_before)
-    TextView mGoodsNoticeBefore;
     @BindView(R.id.goods_detail_linear)
     LinearLayout mGoodsDetailLinear;
     @BindView(R.id.banner)
@@ -82,7 +77,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private List<Integer> mImageList;
     private ShopDetailResponse.ProductsBean mGoodsInfo;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +90,15 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void getGoodsInfoSuccess(GoodsInfoResponse data) {
-
+        String[] array  =data.detailText.split("~");
+        for (String s : array) {
+            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ImageView imageview = new ImageView(this);
+            imageview.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageview.setLayoutParams(params);
+            mImageLoaderHelper.displayImage(this,s.trim(),imageview);
+            mGoodsDetailLinear.addView(imageview);
+        }
     }
 
     @Override
@@ -141,7 +143,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
         RxView.clicks(mGoodsDetailButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugGoods());
-        RxView.clicks(mExpandGoodDetail).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestShowDetail());
+//        RxView.clicks(mExpandGoodDetail).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestShowDetail());
         RxView.clicks(mGoodsSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestGoodsSpecification());
         mCollapsingToolbarLayout.setTitle(" ");
     }
@@ -162,7 +164,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         DialogFactory.showDialogFragment(getSupportFragmentManager(),dialog,SpecificationEmptyDialog.TAG);
     }
 
-    private void requestShowDetail() {
+   /* private void requestShowDetail() {
         if (mGoodsDetailLinear.getVisibility() == View.GONE) {
             mGoodsDetailLinear.setVisibility(View.VISIBLE);
             mExpandGoodDetail.setVisibility(View.GONE);
@@ -170,7 +172,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             mGoodsDetailLinear.setVisibility(View.GONE);
             mExpandGoodDetail.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 
     private void requestGoodsSpecification() {
         SpecificationDialog dialog = SpecificationDialog.newInstance();

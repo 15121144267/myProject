@@ -16,7 +16,8 @@ public class ShopDetailModel {
     private final ShopDetailApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String shopId = "178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040";
+    private String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61_";
+    private String shopId;
 
     @Inject
     public ShopDetailModel(ShopDetailApi api, Gson gson, ModelTransform transform) {
@@ -26,9 +27,9 @@ public class ShopDetailModel {
     }
 
 
-    public Observable<ResponseData> shopGoodsListRequest(Integer pagerNumber,Integer pagerSize) {
-
-        return mApi.shopGoodsListRequest(pagerNumber,pagerSize,shopId).map(mTransform::transformTypeTwo);
+    public Observable<ResponseData> shopGoodsListRequest(String storeCode, Integer pagerNumber, Integer pagerSize) {
+        shopId = partnerId +storeCode;
+        return mApi.shopGoodsListRequest(pagerNumber, pagerSize, shopId).map(mTransform::transformTypeTwo);
     }
 
 }

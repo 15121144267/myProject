@@ -133,27 +133,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    >
-
-                    <ImageView
-                        android:id="@+id/goods_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/goods_detail"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/notice_before_bug"/>
-
-                    <TextView
-                        android:id="@+id/goods_notice_before"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡大公鸡 "/>
-                </LinearLayout>
-
+                    />
             </LinearLayout>
 
 

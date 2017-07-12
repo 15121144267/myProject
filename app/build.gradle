@@ -38,6 +38,7 @@ android {
             shrinkResources false
             signingConfig signingConfigs.myDebugConfig
             buildConfigField "String", "DISPATCH_SERVICE", DUBUG_DISPATCH_SERVICE
+            buildConfigField "String", "PARTNER_ID", DUBUG_PARTNER_ID
             buildConfigField "String", "RABBIT_HOST", DUBUG_RABBITMQ_HOST
             buildConfigField "Integer", "RABBIT_PORT", DUBUG_RABBITMQ_PORT
             buildConfigField "String", "RABBIT_VHOST", DUBUG_RABBITMQ_VHOST
@@ -54,6 +55,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.myConfig
             buildConfigField "String", "DISPATCH_SERVICE", RELEASE_DISPATCH_SERVICE
+            buildConfigField "String", "PARTNER_ID", RELEASE_PARTNER_ID
             buildConfigField "String", "RABBIT_HOST", RELEASE_RABBITMQ_HOST
             buildConfigField "Integer", "RABBIT_PORT", RELEASE_RABBITMQ_PORT
             buildConfigField "String", "RABBIT_VHOST", RELEASE_RABBITMQ_VHOST
@@ -119,5 +121,5 @@ dependencies {
     compile rootProject.ext.myDependencies["myPartThreePhoto"]
     compile 'jp.wasabeef:glide-transformations:2.0.0'
     compile project(path: ':mylibrary')
-
+    compile files('libs/alipaySdk-20170710.jar')
 }
