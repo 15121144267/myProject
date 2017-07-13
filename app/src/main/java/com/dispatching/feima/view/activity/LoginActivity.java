@@ -16,6 +16,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerLoginActivityComponent;
 import com.dispatching.feima.dagger.component.LoginActivityComponent;
 import com.dispatching.feima.dagger.module.LoginActivityModule;
+import com.dispatching.feima.entity.PersonInfoResponse;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.listener.MyTextWatchListener;
@@ -103,6 +104,14 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     public void loginSuccess() {
         mBuProcessor.setUserPhone(myPhone);
         mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
+        mPresenterLogin.requestPersonInfo(myPhone);
+    }
+
+    @Override
+    public void getPersonInfoSuccess(PersonInfoResponse response) {
+        mBuProcessor.setUserId(response.memberId);
+        mBuProcessor.setUserPhone(response.phone);
+        mBuProcessor.setPersonInfo(response);
         startActivity(MainActivity.getMainIntent(this));
         finish();
     }
@@ -149,7 +158,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     private void requestLogin() {
-//        startActivity(new Intent(MainActivity.getMainIntent(this)));
         EditText editText = mLoginPassword.getEditText();
         if (editText != null) {
             mPassword = editText.getText().toString();
@@ -176,7 +184,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 showDialog();
             }
         });
-//        mPresenterLogin.onRequestLogin(myPhone, mPassword);
 
     }
 

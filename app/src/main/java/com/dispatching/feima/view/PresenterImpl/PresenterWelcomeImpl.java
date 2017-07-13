@@ -2,42 +2,40 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.dispatching.feima.R;
 import com.dispatching.feima.entity.PersonInfoResponse;
-import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
-import com.dispatching.feima.view.model.MainModel;
+import com.dispatching.feima.view.PresenterControl.WelcomeControl;
 import com.dispatching.feima.view.model.ResponseData;
+import com.dispatching.feima.view.model.WelcomeModel;
 
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by helei on 2017/5/3.
- * PresenterCompletedImpl
+ * Created by helei on 2017/4/27.
+ * PresenterLoginImpl
  */
 
-public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCompletedOrder {
-    private final MainModel mMainModel;
-    private CompletedOrderControl.CompletedOrderView mView;
+public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
+
+    private WelcomeControl.WelcomeView mView;
+    private final WelcomeModel mModel;
     private final Context mContext;
 
     @Inject
-    public PresenterCompletedImpl(Context context, MainModel model,CompletedOrderControl.CompletedOrderView view) {
+    public PresenterWelcomeImpl(Context context, WelcomeModel model, WelcomeControl.WelcomeView view) {
         mContext = context;
-        mMainModel = model;
+        mModel = model;
         mView = view;
     }
 
     @Override
     public void requestPersonInfo(String phone) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable =  mMainModel.personInfoRequest(phone).compose(mView.applySchedulers())
+        Disposable disposable = mModel.personInfoRequest(phone).compose(mView.applySchedulers())
                 .subscribe(this::getPersonInfoSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
     }
-
 
     private void getPersonInfoSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
@@ -58,4 +56,6 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     public void onDestroy() {
         mView = null;
     }
+
+
 }

@@ -2,14 +2,14 @@ package com.dispatching.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
-import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.network.RetrofitUtil;
-import com.dispatching.feima.network.networkapi.PayApi;
-import com.dispatching.feima.view.PresenterControl.PayControl;
-import com.dispatching.feima.view.PresenterImpl.PresenterPayImpl;
+import com.dispatching.feima.network.networkapi.WelcomeApi;
+import com.dispatching.feima.view.PresenterControl.WelcomeControl;
+import com.dispatching.feima.view.PresenterImpl.PresenterWelcomeImpl;
 import com.dispatching.feima.view.model.ModelTransform;
-import com.dispatching.feima.view.model.PayModel;
+import com.dispatching.feima.view.model.WelcomeModel;
 import com.google.gson.Gson;
 
 import dagger.Module;
@@ -20,11 +20,11 @@ import dagger.Provides;
  * LoginActivityModule
  */
 @Module
-public class PayActivityModule {
+public class WelcomeActivityModule {
     private final AppCompatActivity activity;
-    private final PayControl.PayView view;
+    private final WelcomeControl.WelcomeView view;
 
-    public PayActivityModule(AppCompatActivity activity, PayControl.PayView view) {
+    public WelcomeActivityModule(AppCompatActivity activity, WelcomeControl.WelcomeView view) {
         this.activity = activity;
         this.view = view;
     }
@@ -37,24 +37,24 @@ public class PayActivityModule {
 
     @Provides
     @PerActivity
-    PayControl.PayView view() {
+    WelcomeControl.WelcomeView view() {
         return this.view;
     }
 
     @Provides
     @PerActivity
-    PayModel providePayModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
-        return new PayModel(new RetrofitUtil.Builder()
+    WelcomeModel provideWelcomeModel(Gson gson, ModelTransform modelTransform ) {
+        return new WelcomeModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl("http://118.89.192.122:9997/")
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(PayApi.class), gson, modelTransform,buProcessor,activity);
+                .create(WelcomeApi.class), gson, modelTransform);
     }
 
     @Provides
     @PerActivity
-    PayControl.PresenterPay providePresenterPay(PresenterPayImpl presenter) {
+    WelcomeControl.PresenterWelcome providePresenterWelcome(PresenterWelcomeImpl presenter) {
         return presenter;
     }
 }

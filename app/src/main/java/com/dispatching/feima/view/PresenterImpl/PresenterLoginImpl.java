@@ -3,6 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.entity.PersonInfoResponse;
 import com.dispatching.feima.utils.SharePreferenceUtil;
 import com.dispatching.feima.view.PresenterControl.LoginControl;
 import com.dispatching.feima.view.model.LoginModel;
@@ -23,8 +24,9 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private final LoginModel mLoginModel;
     private final Context mContext;
     private SharePreferenceUtil mSharePreferenceUtil;
+
     @Inject
-    public PresenterLoginImpl(Context context, LoginModel model,LoginControl.LoginView loginView,SharePreferenceUtil sharePreferenceUtil) {
+    public PresenterLoginImpl(Context context, LoginModel model, LoginControl.LoginView loginView, SharePreferenceUtil sharePreferenceUtil) {
         mContext = context;
         mLoginModel = model;
         mLoginView = loginView;
@@ -46,6 +48,25 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
            /* responseData.parseData(LoginResponse.class);
             LoginResponse loginResponse = (LoginResponse) responseData.parsedData;*/
             mLoginView.loginSuccess();
+        } else {
+            mLoginView.showToast(responseData.errorDesc);
+        }
+    }
+
+    @Override
+    public void requestPersonInfo(String phone) {
+        mLoginView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mLoginModel.personInfoRequest(phone).compose(mLoginView.applySchedulers())
+                .subscribe(this::getPersonInfoSuccess
+                        , throwable -> mLoginView.showErrMessage(throwable), () -> mLoginView.dismissLoading());
+        mLoginView.addSubscription(disposable);
+    }
+
+    private void getPersonInfoSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            responseData.parseData(PersonInfoResponse.class);
+            PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
+            mLoginView.getPersonInfoSuccess(response);
         } else {
             mLoginView.showToast(responseData.errorDesc);
         }

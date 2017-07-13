@@ -16,8 +16,11 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerPayActivityComponent;
 import com.dispatching.feima.dagger.module.PayActivityModule;
-import com.dispatching.feima.entity.MyOrdersResponse;
+import com.dispatching.feima.entity.MyPayOrderRequest;
+import com.dispatching.feima.entity.OrderConfirmedRequest;
+import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayConstant;
+import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.adapter.PayGoodsListAdapter;
@@ -57,7 +60,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private PayGoodsListAdapter mAdapter;
     private View mHeadView;
     private View mFootView;
-    private List<MyOrdersResponse> mList;
+    private List<MyPayOrderRequest> mList;
+    private ShopListResponse.ListBean mShopInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,9 +75,48 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         initData();
     }
 
+    @Override
+    public void orderConfirmedSuccess(OrderConfirmedResponse response) {
+
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        showDialogLoading(msg);
+    }
+
+    @Override
+    public void dismissLoading() {
+        dismissDialogLoading();
+    }
+
+    @Override
+    public void showToast(String message) {
+        showBaseToast(message);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void clickRechargeBtn(String payType) {
+        switch (payType) {
+            case PayConstant.PAY_TYPE_WX:
+                showToast("微信");
+                break;
+            case PayConstant.PAY_TYPE_ZFB:
+                showToast("支付宝");
+                break;
+        }
+    }
+
     private void initData() {
+        mShopInfo = mBuProcessor.getShopInfo();
+        mPresenter.requestOrderConfirmed(new OrderConfirmedRequest());
         for (int i = 0; i < 2; i++) {
-            MyOrdersResponse response = new MyOrdersResponse();
+            MyPayOrderRequest response = new MyPayOrderRequest();
             response.productcount = i;
             response.productDes1 = "2017年最新款,最新欧美风 V领模式巴拉巴拉";
             response.productDes2 = "尺码：M 颜色：白色";
@@ -99,38 +142,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 showToast(position + "")
         );
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
-    }
-
-    @Override
-    public void showLoading(String msg) {
-        showDialogLoading(msg);
-    }
-
-    @Override
-    public void dismissLoading() {
-        dismissDialogLoading();
-    }
-
-    @Override
-    public void showToast(String message) {
-        showBaseToast(message);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void clickRechargeBtn(String payType) {
-        switch (payType){
-            case PayConstant.PAY_TYPE_WX:
-                showToast("微信");
-                break;
-            case PayConstant.PAY_TYPE_ZFB:
-                showToast("支付宝");
-                break;
-        }
     }
 
     private void requestPay() {

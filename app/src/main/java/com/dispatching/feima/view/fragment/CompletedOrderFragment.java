@@ -97,6 +97,8 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initView() {
+        mResponse = mBuProcessor.getPersonInfo();
+        update(mResponse);
         mScrollLayout.setMoveImageView(mMoveImage);
         RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
         RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
@@ -105,7 +107,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initData() {
-        mPresenter.requestPersonInfo(mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME));
+
     }
 
     private void requestInfo() {
@@ -123,21 +125,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
         mResponse = response;
-        mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
-        if (response.avatarUrl != null) {
-            mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl, mPersonIcon);
-        }
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
-        Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
-        drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());
-        drawable2.setBounds(0, 0, drawable2.getMinimumHeight(), drawable2.getMinimumHeight());
-        if (response.sex != null) {
-            if (response.sex == 1) {
-                mPersonName.setCompoundDrawables(null, null, drawable, null);
-            } else {
-                mPersonName.setCompoundDrawables(null, null, drawable2, null);
-            }
-        }
+        update(response);
     }
 
     @Override
@@ -178,6 +166,24 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    private void update(PersonInfoResponse response) {
+        mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
+        if (response.avatarUrl != null) {
+            mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl, mPersonIcon);
+        }
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
+        Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
+        drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());
+        drawable2.setBounds(0, 0, drawable2.getMinimumHeight(), drawable2.getMinimumHeight());
+        if (response.sex != null) {
+            if (response.sex == 1) {
+                mPersonName.setCompoundDrawables(null, null, drawable, null);
+            } else {
+                mPersonName.setCompoundDrawables(null, null, drawable2, null);
+            }
+        }
     }
 
     private void initialize() {

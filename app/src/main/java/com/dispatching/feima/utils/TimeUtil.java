@@ -20,7 +20,7 @@ public class TimeUtil {
     public static final String TIME_MMDD_CH = "M月d日";
     public static final String TIME_YYMMDD_HHMMSS = "yyyy-MM-dd HH:mm:ss";
     public static final String TIME_YYMMDD_HHMM = "yyyy-MM-dd HH:mm";
-    public static final String TIME_MMDD_HHMMSS1 = "MM/dd HH:mm";
+    public static final String TIME_MMDD_HHMMSS1 = "MM-dd HH:mm";
     public static final String TIME_YYMMDD_HHMMSS1 = "yyyy/MM/dd HH:mm";
     public static final String TIME_MMDD_HHMMSS = "M月d日 HH时mm分";
     public static final String TIME_YYMMDD_CH = "yyyy年MM月dd日";

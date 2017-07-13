@@ -7,14 +7,12 @@ import com.dispatching.feima.entity.PersonInfoResponse;
  * LoginControl
  */
 
-public class LoginControl {
-    public interface LoginView extends LoadDataView{
-        void loginSuccess( );
+public class WelcomeControl {
+    public interface WelcomeView extends LoadDataView{
         void getPersonInfoSuccess(PersonInfoResponse response);
     }
 
-    public interface PresenterLogin extends Presenter<LoginView> {
-        void onRequestLogin(String phone,String passWord);
+    public interface PresenterWelcome extends Presenter<WelcomeView> {
         void requestPersonInfo(String phone);
     }
 

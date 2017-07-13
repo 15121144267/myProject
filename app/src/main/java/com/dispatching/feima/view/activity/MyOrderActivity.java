@@ -15,9 +15,11 @@ import com.dispatching.feima.dagger.module.MyOrderActivityModule;
 import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
 import com.dispatching.feima.view.adapter.MyOrdersAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +29,7 @@ import butterknife.ButterKnife;
  * MyOrderActivity
  */
 
-public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOrderView {
+public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOrderView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static Intent getIntent(Context context) {
         return new Intent(context, MyOrderActivity.class);
@@ -40,7 +42,11 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     @BindView(R.id.my_orders)
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse> mList;
+    private List<MyOrdersResponse.OrdersBean> mList;
+    private Integer mPagerSize = 10;
+    private Integer mPagerNo = 1;
+    @Inject
+    MyOrderControl.PresenterMyOrder mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,29 +60,41 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
         initData();
     }
 
-    private void initData() {
-        for (int i = 0; i < 3; i++) {
-            MyOrdersResponse response = new MyOrdersResponse();
-            response.productcount = i;
-            response.productDes1 = "2017年最新款,最新欧美风 V领模式巴拉巴拉";
-            response.productDes2 = "尺码：M 颜色：白色";
-            response.productName = "文艺复古连衣裙";
-            response.productPrice = 250;
-            response.shopName = "淘宝店";
-            mList.add(response);
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() < mPagerSize) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
         }
+    }
+
+    @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void getMyOrderListSuccess(MyOrdersResponse response) {
+        if (response == null) return;
+        mList = response.orders;
         mAdapter.setNewData(mList);
     }
 
+    private void initData() {
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize);
+    }
+
     private void initView() {
-        mList = new ArrayList<>();
         mMyOrders.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new MyOrdersAdapter(null, this,mImageLoaderHelper);
+        mAdapter = new MyOrdersAdapter(null, this, mImageLoaderHelper);
+        mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((adapter, view, position) ->{
-                    MyOrdersResponse response = (MyOrdersResponse) adapter.getItem(position);
-                    startActivity(OrderDetailActivity.getOrderDetailIntent(this,response));
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+                    MyOrdersResponse.OrdersBean response = (MyOrdersResponse.OrdersBean) adapter.getItem(position);
+                    startActivity(OrderDetailActivity.getOrderDetailIntent(this, response));
                 }
 
         );

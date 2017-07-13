@@ -9,10 +9,8 @@ import retrofit2.http.Query;
  * LoginApi
  */
 
-public interface LoginApi {
+public interface WelcomeApi {
     @GET("member/info")
     Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
 
-    @GET("member/login?")
-    Observable<String> loginRequest(@Query("partnerId") String partnerId,@Query("phone") String phone,@Query("password") String password);
 }

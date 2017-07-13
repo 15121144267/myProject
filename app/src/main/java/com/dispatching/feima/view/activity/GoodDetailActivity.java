@@ -2,11 +2,13 @@ package com.dispatching.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import com.dispatching.feima.view.fragment.SpecificationEmptyDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +50,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     public static Intent getIntent(Context context, ShopDetailResponse.ProductsBean goodsInfo) {
         Intent intent = new Intent(context, GoodDetailActivity.class);
-        intent.putExtra("goodsInfo",goodsInfo);
+        intent.putExtra("goodsInfo", goodsInfo);
         return intent;
     }
 
@@ -77,6 +80,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private List<Integer> mImageList;
     private ShopDetailResponse.ProductsBean mGoodsInfo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,15 +94,33 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void getGoodsInfoSuccess(GoodsInfoResponse data) {
-        String[] array  =data.detailText.split("~");
-        for (String s : array) {
-            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ImageView imageview = new ImageView(this);
-            imageview.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageview.setLayoutParams(params);
-            mImageLoaderHelper.displayImage(this,s.trim(),imageview);
-            mGoodsDetailLinear.addView(imageview);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(data.detailText, Html.FROM_HTML_MODE_LEGACY, imgGetter, null);
+        } else {
+            Html.fromHtml(data.detailText, imgGetter, null);
         }
+    }
+
+    @Override
+    public void reduceCountListener() {
+        showToast("減少");
+    }
+
+    @Override
+    public void addCountListener() {
+        showToast("增加");
+    }
+
+    @Override
+    public void buyButtonListener() {
+        showToast("购买");
+    }
+
+    private void initializeInjector() {
+        DaggerGoodsDetailActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .goodsDetailActivityModule(new GoodsDetailActivityModule(GoodDetailActivity.this, this))
+                .build().inject(this);
     }
 
     @Override
@@ -129,9 +151,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private void initView() {
         mGoodsInfo = (ShopDetailResponse.ProductsBean) getIntent().getSerializableExtra("goodsInfo");
-        if(mGoodsInfo!=null){
+        if (mGoodsInfo != null) {
+            mBuProcessor.setGoodsInfo(mGoodsInfo);
             mGoodsName.setText(mGoodsInfo.name);
-            mGoodsPrice.setText("￥"+ValueUtil.formatAmount(mGoodsInfo.finalPrice));
+            mGoodsPrice.setText("￥" + ValueUtil.formatAmount(mGoodsInfo.finalPrice));
         }
         mImageList = new ArrayList<>();
         mImageList.add(R.mipmap.main_banner_first);
@@ -153,15 +176,15 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void requestBugGoods() {
-        if(TextUtils.isEmpty(mGoodsSpecification.getText())){
+        if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
 //            showEmptyDialog();
             startActivity(PayActivity.getIntent(this));
         }
     }
 
     private void showEmptyDialog() {
-        SpecificationEmptyDialog dialog =SpecificationEmptyDialog.newInstance();
-        DialogFactory.showDialogFragment(getSupportFragmentManager(),dialog,SpecificationEmptyDialog.TAG);
+        SpecificationEmptyDialog dialog = SpecificationEmptyDialog.newInstance();
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationEmptyDialog.TAG);
     }
 
    /* private void requestShowDetail() {
@@ -181,25 +204,22 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationDialog.TAG);
     }
 
-    @Override
-    public void reduceCountListener() {
-        showToast("減少");
-    }
 
-    @Override
-    public void addCountListener() {
-        showToast("增加");
-    }
+    Html.ImageGetter imgGetter = source -> {
+        URL url;
+        try {
+            url = new URL(source);
+            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ImageView imageView = new ImageView(GoodDetailActivity.this);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setLayoutParams(params);
+            mImageLoaderHelper.displayImage(GoodDetailActivity.this, url.toString().trim(), imageView);
+            mGoodsDetailLinear.addView(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    };
 
-    @Override
-    public void buyButtonListener() {
-        showToast("购买");
-    }
-
-    private void initializeInjector() {
-        DaggerGoodsDetailActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .goodsDetailActivityModule(new GoodsDetailActivityModule(GoodDetailActivity.this, this))
-                .build().inject(this);
-    }
 }

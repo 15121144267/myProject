@@ -20,6 +20,7 @@
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <TextView
+        android:id="@+id/adapter_order_status"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:drawableStart="@mipmap/order_already_out"
@@ -42,10 +43,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="19dp"
-            android:src="@mipmap/neo"
             android:background="@drawable/shape_rectangle_icon2"
             android:scaleType="fitXY"
-           />
+            android:src="@mipmap/neo"
+            />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -146,18 +147,34 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-    <RelativeLayout
+    <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="43dp"
+        android:gravity="center_vertical"
         android:paddingEnd="19dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/order_for_pay"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/shape_line_bold_blue"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="去支付"
+            android:textColor="#35bbc6"
+            />
 
         <TextView
             android:id="@+id/order_pull_off"
             android:layout_width="75dp"
             android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
             android:background="@drawable/shape_line_bold_blue"
             android:gravity="center"
@@ -169,14 +186,13 @@
             android:id="@+id/order_pull_sure"
             android:layout_width="75dp"
             android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/order_pull_off"
+            android:layout_marginStart="15dp"
             android:background="@drawable/shape_line_bold_blue"
             android:gravity="center"
             android:text="确定收货"
             android:textColor="#35bbc6"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View style="@style/LineH_Fill_Width_5_ForView"/>
 </LinearLayout>

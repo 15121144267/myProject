@@ -164,6 +164,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private void initView() {
         mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
         if (mShopInfo != null) {
+            mBuProcessor.setShopInfo(mShopInfo);
             mStoreCode = mShopInfo.storeCode;
             List<ShopListResponse.ListBean.BusinessImagesBean> shopItemInfo = mShopInfo.businessImages;
             if (shopItemInfo.size() != 0) {

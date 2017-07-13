@@ -10,7 +10,7 @@ import retrofit2.http.POST;
  */
 
 public interface PayApi {
-    @POST("member/deliveraddress")
-    Observable<String> addAddressRequest(@Body String request);
+    @POST("Order/Create")
+    Observable<String> orderConfirmedRequest(@Body String request);
 
 }

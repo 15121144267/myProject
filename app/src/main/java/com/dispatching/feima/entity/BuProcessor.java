@@ -11,10 +11,30 @@ public class BuProcessor {
 
     private String userToken;
     private String userId;
-    private String userPhone;
 
+    private ShopDetailResponse.ProductsBean mGoodsInfo;
+    private String userPhone;
+    private ShopListResponse.ListBean shopInfo;
+    private PersonInfoResponse personInfo;
     @Inject
     public BuProcessor() {
+    }
+
+
+    public PersonInfoResponse getPersonInfo() {
+        return personInfo;
+    }
+
+    public void setPersonInfo(PersonInfoResponse personInfo) {
+        this.personInfo = personInfo;
+    }
+
+    public ShopDetailResponse.ProductsBean getGoodsInfo() {
+        return mGoodsInfo;
+    }
+
+    public void setGoodsInfo(ShopDetailResponse.ProductsBean goodsInfo) {
+        mGoodsInfo = goodsInfo;
     }
 
     public String getUserId() {
@@ -31,6 +51,14 @@ public class BuProcessor {
 
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
+    }
+
+    public ShopListResponse.ListBean getShopInfo() {
+        return shopInfo;
+    }
+
+    public void setShopInfo(ShopListResponse.ListBean shopInfo) {
+        this.shopInfo = shopInfo;
     }
 
     public String getUserToken() {

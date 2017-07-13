@@ -2,8 +2,8 @@ package com.dispatching.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
+import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.MyOrderApi;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
@@ -43,13 +43,13 @@ public class MyOrderActivityModule {
 
     @Provides
     @PerActivity
-    MyOrderModel provideMyOrderModel(Gson gson, ModelTransform modelTransform) {
+    MyOrderModel provideMyOrderModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new MyOrderModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .baseUrl("http://118.89.192.122:9997/")
                 .isToJson(false)
                 .builder()
-                .create(MyOrderApi.class), gson, modelTransform);
+                .create(MyOrderApi.class), gson, modelTransform,buProcessor);
     }
 
     @Provides

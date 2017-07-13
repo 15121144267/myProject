@@ -1,7 +1,7 @@
 package com.dispatching.feima.view.model;
 
 import com.dispatching.feima.BuildConfig;
-import com.dispatching.feima.network.networkapi.LoginApi;
+import com.dispatching.feima.network.networkapi.WelcomeApi;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -13,26 +13,21 @@ import io.reactivex.Observable;
  * LoginModel
  */
 
-public class LoginModel {
-    private final LoginApi mLoginApi;
+public class WelcomeModel {
+    private final WelcomeApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
     private final String partnerId = BuildConfig.PARTNER_ID;
 
     @Inject
-    public LoginModel(LoginApi api, Gson gson, ModelTransform transform) {
-        mLoginApi = api;
+    public WelcomeModel(WelcomeApi api, Gson gson, ModelTransform transform) {
+        mApi = api;
         mGson = gson;
         mTransform = transform;
     }
 
-
-    public Observable<ResponseData> LoginRequest(String phone, String password) {
-        return mLoginApi.loginRequest(partnerId,phone,password).map(mTransform::transformCommon);
-    }
-
     public Observable<ResponseData> personInfoRequest(String phone) {
-        return mLoginApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
+        return mApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
     }
 
 }

@@ -13,6 +13,8 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.dispatching.feima.dagger.module.OrderDetailActivityModule;
 import com.dispatching.feima.entity.MyOrdersResponse;
+import com.dispatching.feima.utils.TimeUtil;
+import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.OrderDetailControl;
 
 import javax.inject.Inject;
@@ -70,9 +72,9 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView mOrderDetailPayType;
     @BindView(R.id.order_detail_buy_again)
     Button mOrderDetailBuyAgain;
-    private MyOrdersResponse mOrder;
+    private MyOrdersResponse.OrdersBean mOrder;
 
-    public static Intent getOrderDetailIntent(Context context, MyOrdersResponse order) {
+    public static Intent getOrderDetailIntent(Context context, MyOrdersResponse.OrdersBean order) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("orderDetail", order);
         return intent;
@@ -92,7 +94,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void parseIntent() {
-        mOrder = (MyOrdersResponse) getIntent().getSerializableExtra("orderDetail");
+        mOrder = (MyOrdersResponse.OrdersBean) getIntent().getSerializableExtra("orderDetail");
     }
 
     @Override
@@ -122,7 +124,38 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void initView() {
-
+        MyOrdersResponse.OrdersBean.ProductsBean product = mOrder.products.get(0);
+        MyOrdersResponse.OrdersBean.AccountsBean accounts = mOrder.accounts.get(0);
+        switch (mOrder.status) {
+            case 2:
+                mOrderDetailStatus.setText("  待支付");
+                mOrderDetailBuyAgain.setText("去支付");
+                break;
+            case 3:
+                mOrderDetailStatus.setText("  代发货");
+                break;
+            case 4:
+                mOrderDetailStatus.setText("  配送中");
+                break;
+            default:
+                mOrderDetailStatus.setText("  系统处理中");
+        }
+        mOrderDetailCompleteTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate),TimeUtil.TIME_MMDD_HHMMSS1));
+        mOrderDetailShopName.setText(mOrder.shopName);
+        String price = "￥" + ValueUtil.formatAmount(product.finalPrice);
+        String amount = "x" + product.productNumber;
+        String totalPrice = "￥" + ValueUtil.formatAmount(product.finalPrice * product.productNumber);
+        String dispatchPrice = "￥"+ ValueUtil.formatAmount(accounts.price);
+        String finalPrice = "￥"+ ValueUtil.formatAmount(product.finalPrice * product.productNumber)+ ValueUtil.formatAmount(accounts.price);
+        mOrderDetailProductName.setText(price);
+        mOrderDetailProductCount.setText(amount);
+        mOrderDetailProductTotalAmount.setText(totalPrice);
+        mOrderDetailPrice.setText(totalPrice);
+        mOrderDetailDispatchPrice.setText(dispatchPrice);
+        mImageLoaderHelper.displayRoundedCornerImage(this, product.picture, mOrderDetailProductPic, 6);
+        mOrderDetailPayPrice.setText(finalPrice);
+        mOrderDetailOrderId.setText(String.valueOf(mOrder.oid));
+        mOrderDetailBeginTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate),TimeUtil.TIME_YYMMDD_HHMMSS));
     }
 
     private void initializeInjector() {
