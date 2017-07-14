@@ -29,5 +29,8 @@ public class GoodsDetailModel {
     public Observable<ResponseData> goodInfoRequest(String productId) {
         return mApi.goodInfoRequest(productId).map(mTransform::transformTypeTwo);
     }
+    public Observable<ResponseData> goodInfoSpecificationRequest(String productId) {
+        return mApi.goodInfoSpecificationRequest(productId).map(mTransform::transformTypeTwo);
+    }
 
 }

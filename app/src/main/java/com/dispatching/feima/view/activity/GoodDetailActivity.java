@@ -22,6 +22,7 @@ import com.dispatching.feima.dagger.component.DaggerGoodsDetailActivityComponent
 import com.dispatching.feima.dagger.module.GoodsDetailActivityModule;
 import com.dispatching.feima.entity.GoodsInfoResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
+import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.utils.ValueUtil;
@@ -78,9 +79,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Inject
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
 
-    private List<Integer> mImageList;
+    private List<String> mImageList;
     private ShopDetailResponse.ProductsBean mGoodsInfo;
-
+    private SpecificationResponse mSpecificationResponse;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,14 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         supportActionBar(mToolbar, true);
         initView();
         initData();
+    }
+
+    @Override
+    public void goodInfoSpecificationSuccess(SpecificationResponse data) {
+       /* mSpecificationResponse = data;
+        List<SpecificationResponse.ProductsBean> list  = mSpecificationResponse.products;
+        SpecificationResponse.ProductsBean bean = list.get(0);
+        List<SpecificationResponse.ProductsBean.ProductSpecificationBean> been = bean.productSpecification;*/
     }
 
     @Override
@@ -157,9 +166,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             mGoodsPrice.setText("￥" + ValueUtil.formatAmount(mGoodsInfo.finalPrice));
         }
         mImageList = new ArrayList<>();
-        mImageList.add(R.mipmap.main_banner_first);
-        mImageList.add(R.mipmap.main_banner_second);
-        mImageList.add(R.mipmap.main_banner_third);
+        mImageList.add(mGoodsInfo.picture);
         mBanner.isAutoPlay(false);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
 
@@ -173,6 +180,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private void initData() {
         mPresenter.requestGoodInfo(mGoodsInfo.pid);
+//        mPresenter.requestGoodsSpecification(mGoodsInfo.pid);
     }
 
     private void requestBugGoods() {
@@ -200,6 +208,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private void requestGoodsSpecification() {
         SpecificationDialog dialog = SpecificationDialog.newInstance();
         dialog.setImageLoadHelper(mImageLoaderHelper);
+        dialog.productSpecifition(mGoodsInfo);
         dialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationDialog.TAG);
     }

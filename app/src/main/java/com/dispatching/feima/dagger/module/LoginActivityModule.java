@@ -47,6 +47,8 @@ public class LoginActivityModule {
         return new LoginModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .isHttps(!BuildConfig.DEBUG)
+                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
                 .create(LoginApi.class), gson, modelTransform);

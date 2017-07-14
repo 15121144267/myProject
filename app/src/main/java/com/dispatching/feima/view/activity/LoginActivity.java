@@ -102,6 +102,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void loginSuccess() {
+        mSharePreferenceUtil.setBooleanValue("isFirstOpen", false);
         mBuProcessor.setUserPhone(myPhone);
         mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
         mPresenterLogin.requestPersonInfo(myPhone);
@@ -109,9 +110,9 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
-        mBuProcessor.setUserId(response.memberId);
-        mBuProcessor.setUserPhone(response.phone);
-        mBuProcessor.setPersonInfo(response);
+        mBuProcessor.setUserId(response != null ? response.memberId : "");
+        mBuProcessor.setUserPhone(response != null ? response.phone : "");
+        mBuProcessor.setPersonInfo(response != null ? response : null);
         startActivity(MainActivity.getMainIntent(this));
         finish();
     }

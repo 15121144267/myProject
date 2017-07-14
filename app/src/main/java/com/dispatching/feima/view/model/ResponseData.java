@@ -12,7 +12,7 @@ public class ResponseData {
     private static final Gson sGson = new GsonBuilder().create();
     public Integer resultCode;
     public String errorDesc;
-    private String result;
+    public String result;
     public Object parsedData;
 
     public ResponseData() {

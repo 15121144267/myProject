@@ -1,12 +1,9 @@
 package com.dispatching.feima.view.model;
 
 import com.dispatching.feima.BuildConfig;
-import com.dispatching.feima.entity.QueryParam;
 import com.dispatching.feima.gen.OrderNoticeDao;
 import com.dispatching.feima.network.networkapi.MainApi;
 import com.google.gson.Gson;
-
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import javax.inject.Inject;
 
@@ -37,7 +34,7 @@ public class MainModel {
         return mMainApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
     }
 
-    public Observable<Integer> queryNoticeDb(QueryParam param){
+    /*public Observable<Integer> queryNoticeDb(QueryParam param){
         return Observable.create(e->{
             try {
                 QueryBuilder qb = mOrderNoticeDao.queryBuilder();
@@ -48,5 +45,5 @@ public class MainModel {
             }
 
         });
-    }
+    }*/
 }

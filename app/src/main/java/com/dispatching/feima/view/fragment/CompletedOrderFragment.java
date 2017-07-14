@@ -24,6 +24,7 @@ import com.dispatching.feima.entity.PersonInfoResponse;
 import com.dispatching.feima.entity.SpConstant;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.activity.AddressActivity;
+import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.MyOrderActivity;
 import com.dispatching.feima.view.activity.PersonCenterActivity;
 import com.dispatching.feima.view.customview.MoveScrollView;
@@ -169,28 +170,26 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void update(PersonInfoResponse response) {
+        if (response == null) return;
         mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
-        if (response.avatarUrl != null) {
-            mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl, mPersonIcon);
-        }
+        mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl == null ? R.mipmap.person_head_icon : response.avatarUrl, mPersonIcon);
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
         Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
         drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());
         drawable2.setBounds(0, 0, drawable2.getMinimumHeight(), drawable2.getMinimumHeight());
-        if (response.sex != null) {
-            if (response.sex == 1) {
-                mPersonName.setCompoundDrawables(null, null, drawable, null);
-            } else {
-                mPersonName.setCompoundDrawables(null, null, drawable2, null);
-            }
+        if (response.sex == 2) {
+            mPersonName.setCompoundDrawables(null, null, drawable, null);
+        } else {
+            mPersonName.setCompoundDrawables(null, null, drawable2, null);
         }
+
     }
 
     private void initialize() {
         DaggerFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
-                .fragmentModule(new FragmentModule(this)).build()
+                .fragmentModule(new FragmentModule(this,(MainActivity)getActivity())).build()
                 .inject(this);
     }
 }

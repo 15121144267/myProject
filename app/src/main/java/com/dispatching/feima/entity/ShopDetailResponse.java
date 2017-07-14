@@ -8,38 +8,36 @@ import java.util.List;
  */
 
 public class ShopDetailResponse implements Serializable {
-    public String productName;
-    public String productPrice;
-    public String productCount;
-
 
     /**
-     * count : 63
-     * products : [{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0622000250","finalPrice":1490,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1},{"lid":4,"name":"凑单","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":5},{"lid":21,"name":"label3","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":4},{"lid":24,"name":"label6","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":4}],"name":"智利红提","originalPrice":1390,"picture":"http://oryfeje0z.bkt.clouddn.com/%E6%99%BA%E5%88%A9%E7%BA%A2%E6%8F%90120x180.jpg","pid":"1158","saleCount":0,"sellTimeName":"a","specification":"250g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"6527000500","finalPrice":7900,"labelNames":[{"lid":4,"name":"凑单","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":5},{"lid":22,"name":"label4","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":4}],"name":"美国车厘子","originalPrice":7800,"picture":"http://oryfeje0z.bkt.clouddn.com/%E8%BD%A6%E5%8E%98%E5%AD%90120x180.jpg","pid":"1159","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0689000500","finalPrice":6900,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1},{"lid":4,"name":"凑单","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":5}],"name":"黑加仑","originalPrice":6800,"picture":"http://oryfeje0z.bkt.clouddn.com/%E6%81%90%E9%BE%99%E8%9B%8B120x180.jpg","pid":"1162","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0657000500","finalPrice":790,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1},{"lid":4,"name":"凑单","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":5}],"name":"埃及橙","originalPrice":780,"picture":"http://oryfeje0z.bkt.clouddn.com/%E5%9F%83%E5%8F%8A%E6%A9%99120x180.jpg","pid":"1163","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0654000500","finalPrice":990,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1}],"name":"美国橙","originalPrice":980,"picture":"http://oryfeje0z.bkt.clouddn.com/%E7%BE%8E%E5%9B%BD%E6%A9%99120x180.jpg","pid":"1164","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0644000500","finalPrice":1690,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1}],"name":"南非柑","originalPrice":1680,"picture":"","pid":"1165","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0723000500","finalPrice":1850,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1},{"lid":3,"name":"特价","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":2}],"name":"特价山竹2A","originalPrice":1830,"picture":"","pid":"1167","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0795000500","finalPrice":1390,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1}],"name":"干尧榴莲","originalPrice":1390,"picture":"http://oryfeje0z.bkt.clouddn.com/%E5%B9%B2%E5%B0%A7%E6%A6%B4%E8%8E%B2120x180.jpg","pid":"1168","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"1242000500","finalPrice":1390,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1}],"name":"18度红心火龙果","originalPrice":1390,"picture":"http://oryfeje0z.bkt.clouddn.com/18%E5%BA%A6%E7%BA%A2%E5%BF%83%E7%81%AB%E9%BE%99%E6%9E%9C120x180.jpg","pid":"1170","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"},{"barcode":"","category":"","categoryName":"进口水果","companyId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c","customerCode":"0731000500","finalPrice":1390,"labelNames":[{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1}],"name":"金火龙果","originalPrice":1390,"picture":"http://oryfeje0z.bkt.clouddn.com/%E9%87%91%E7%81%AB%E9%BE%99%E6%9E%9C120x180.jpg","pid":"1171","saleCount":0,"sellTimeName":"a","specification":"500g","status":1,"type":1,"unit":"g"}]
+     * count : 42
+     * products : [{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":328000,"labelNames":[],"name":"白鞋高帮规格商品","originalPrice":328000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500008924.jpg","pid":"1415","productSpecification":[{"color":"黑高帮","size":"39","productId":1263},{"color":"黑高帮","size":"40","productId":1264},{"color":"黑高帮","size":"41","productId":1265},{"color":"白高帮","size":"40","productId":1266},{"color":"白高帮","size":"41","productId":1267},{"color":"白高帮","size":"42","productId":1268},{"color":"黑纹高帮","size":"39","productId":1279},{"color":"黑纹高帮","size":"40","productId":1280},{"color":"黑纹高帮","size":"41","productId":1281}],"saleCount":0,"sellTimeName":"可售时间","specification":"码","specificationList":[{"partName":"color","value":["黑高帮","白高帮","黑纹高帮"]},{"partName":"size","value":["39","40","41","42"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":348000,"labelNames":[],"name":"三角形高帮规格商品","originalPrice":348000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500008939.jpg","pid":"1416","productSpecification":[{"color":"黑色","size":"36","productId":1282},{"color":"黑色","size":"37","productId":1283},{"color":"黑色","size":"38","productId":1284},{"color":"黑色","size":"39","productId":1285},{"color":"黑色","size":"40","productId":1286},{"color":"白色","size":"37","productId":1274},{"color":"白色","size":"39","productId":1275},{"color":"白色","size":"40","productId":1276},{"color":"白色","size":"41","productId":1277},{"color":"白色","size":"42","productId":1278}],"saleCount":0,"sellTimeName":"可售时间","specification":"码","specificationList":[{"partName":"color","value":["黑色","白色"]},{"partName":"size","value":["36","37","38","39","40","41","42"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":288000,"labelNames":[],"name":"两色三角高帮规格商品","originalPrice":288000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500008999.jpg","pid":"1420","productSpecification":[{"color":"白色面黑色","size":"37","productId":1313},{"color":"白色面黑色","size":"39","productId":1314},{"color":"白色面黑色","size":"40","productId":1315},{"color":"白色面黑色","size":"41","productId":1316},{"color":"白色面黑色","size":"42","productId":1317},{"color":"灰色面红色","size":"37","productId":1318},{"color":"灰色面红色","size":"38","productId":1319},{"color":"灰色面红色","size":"39","productId":1320}],"saleCount":0,"sellTimeName":"可售时间","specification":"码/颜色","specificationList":[{"partName":"color","value":["白色面黑色","灰色面红色"]},{"partName":"size","value":["37","38","39","40","41","42"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":308800,"labelNames":[],"name":"钻石面款规格商品","originalPrice":308800,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500008981.jpg","pid":"1419","productSpecification":[{"color":"黑色","size":"43","productId":1312},{"color":"黑色","size":"42","productId":1311},{"color":"黑色","size":"41","productId":1310},{"color":"黑色","size":"40","productId":1309},{"color":"黑色","size":"39","productId":1308},{"color":"黑色","size":"38","productId":1307},{"color":"黑色","size":"37","productId":1306},{"color":"白色","size":"42","productId":1304},{"color":"白色","size":"41","productId":1303},{"color":"白色","size":"40","productId":1302},{"color":"白色","size":"39","productId":1301},{"color":"白色","size":"38","productId":1300},{"color":"白色","size":"37","productId":1299},{"color":"白色","size":"36","productId":1298}],"saleCount":0,"sellTimeName":"可售时间","specification":"码/颜色","specificationList":[{"partName":"color","value":["黑色","白色"]},{"partName":"size","value":["36","37","38","39","40","41","42","43"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":308000,"labelNames":[],"name":"低帮无拉链规格商品","originalPrice":308000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_e41d30b0-90f2-4d87-8452-a84a23ddd449_1500020170.jpg","pid":"1418","productSpecification":[{"color":"蓝色","size":"37","productId":1296},{"color":"蓝色","size":"38","productId":1297},{"color":"粉色","size":"38","productId":1305}],"saleCount":0,"sellTimeName":"可售时间","specification":"码/颜色","specificationList":[{"partName":"color","value":["蓝色","粉色"]},{"partName":"size","value":["37","38"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":308000,"labelNames":[],"name":"低帮米色规格商品","originalPrice":308000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500008967.jpg","pid":"1417","productSpecification":[{"size":"36","productId":1287,"拉链":"有拉链"},{"size":"37","productId":1288,"拉链":"有拉链"},{"size":"38","productId":1289,"拉链":"有拉链"},{"size":"39","productId":1290,"拉链":"有拉链"},{"size":"38","productId":1291,"拉链":"无拉链"},{"size":"39","productId":1292,"拉链":"无拉链"},{"size":"40","productId":1293,"拉链":"无拉链"},{"size":"41","productId":1294,"拉链":"无拉链"},{"size":"42","productId":1295,"拉链":"无拉链"}],"saleCount":0,"sellTimeName":"可售时间","specification":"码/有无拉链","specificationList":[{"partName":"拉链","value":["有拉链","无拉链"]},{"partName":"size","value":["36","37","38","39","40","41","42"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"鞋","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":268000,"labelNames":[],"name":"低帮灰色斑点底面规格商品","originalPrice":268000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1499772700.jpg","pid":"1270","productSpecification":[],"saleCount":0,"sellTimeName":"可售时间","specification":"码","specificationList":[{"partName":"size","value":["39","41","42","43"]}],"status":2,"type":6,"unit":"双"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":78900,"labelNames":[],"name":"皮面眼睛黑色双肩包规格商品","originalPrice":78900,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500009353.jpg","pid":"1434","productSpecification":[{"color":"黑色","productId":1327}],"saleCount":0,"sellTimeName":"可售时间","specification":"黑色","specificationList":[{"partName":"color","value":["黑色"]}],"status":2,"type":6,"unit":"个"},{"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":16800,"labelNames":[],"name":"美元手包规格商品","originalPrice":16800,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500009319.jpg","pid":"1431","productSpecification":[{"color":"黑色","productId":1325},{"color":"白色","productId":1326}],"saleCount":0,"sellTimeName":"可售时间","specification":"黑白","specificationList":[{"partName":"color","value":["黑色","白色"]}],"status":2,"type":6,"unit":"个"},{"barcode":"","category":"","categoryName":"包","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":19900,"labelNames":[],"name":"绒面大眼睛手包","originalPrice":19900,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_53c69e54-c788-495c-bed3-2dbfc6fd5c61_1500020802.jpg","pid":"1460","saleCount":0,"sellTimeName":"a","specification":"白","status":2,"type":1,"unit":"个"}]
      */
 
     public int count;
     public List<ProductsBean> products;
 
-    public static class ProductsBean implements Serializable {
+    public static class ProductsBean implements Serializable  {
         /**
          * barcode :
          * category :
-         * categoryName : 进口水果
-         * companyId : 178a14ba-85a8-40c7-9ff4-6418418f5a0c
-         * customerCode : 0622000250
-         * finalPrice : 1490
-         * labelNames : [{"lid":2,"name":"即时送","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":1},{"lid":4,"name":"凑单","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":5},{"lid":21,"name":"label3","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":4},{"lid":24,"name":"label6","shopId":"178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040","type":4}]
-         * name : 智利红提
-         * originalPrice : 1390
-         * picture : http://oryfeje0z.bkt.clouddn.com/%E6%99%BA%E5%88%A9%E7%BA%A2%E6%8F%90120x180.jpg
-         * pid : 1158
+         * categoryName : 生活用品
+         * companyId : 53c69e54-c788-495c-bed3-2dbfc6fd5c61
+         * customerCode :
+         * finalPrice : 328000
+         * labelNames : []
+         * name : 白鞋高帮规格商品
+         * originalPrice : 328000
+         * picture : http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_5d3d1a22-c822-42fb-9688-8328803ea81c_1500008924.jpg
+         * pid : 1415
+         * productSpecification : [{"color":"黑高帮","size":"39","productId":1263},{"color":"黑高帮","size":"40","productId":1264},{"color":"黑高帮","size":"41","productId":1265},{"color":"白高帮","size":"40","productId":1266},{"color":"白高帮","size":"41","productId":1267},{"color":"白高帮","size":"42","productId":1268},{"color":"黑纹高帮","size":"39","productId":1279},{"color":"黑纹高帮","size":"40","productId":1280},{"color":"黑纹高帮","size":"41","productId":1281}]
          * saleCount : 0
-         * sellTimeName : a
-         * specification : 250g
-         * status : 1
-         * type : 1
-         * unit : g
+         * sellTimeName : 可售时间
+         * specification : 码
+         * specificationList : [{"partName":"color","value":["黑高帮","白高帮","黑纹高帮"]},{"partName":"size","value":["39","40","41","42"]}]
+         * status : 2
+         * type : 6
+         * unit : 双
          */
 
         public String barcode;
@@ -58,20 +56,30 @@ public class ShopDetailResponse implements Serializable {
         public int status;
         public int type;
         public String unit;
-        public List<LabelNamesBean> labelNames;
+        public List<?> labelNames;
+        public List<ProductSpecificationBean> productSpecification;
+        public List<SpecificationListBean> specificationList;
 
-        public static class LabelNamesBean implements Serializable {
+        public static class ProductSpecificationBean implements Serializable {
             /**
-             * lid : 2
-             * name : 即时送
-             * shopId : 178a14ba-85a8-40c7-9ff4-6418418f5a0c_31310040
-             * type : 1
+             * color : 黑高帮
+             * size : 39
+             * productId : 1263
              */
 
-            public int lid;
-            public String name;
-            public String shopId;
-            public int type;
+            public String color;
+            public String size;
+            public int productId;
+        }
+
+        public static class SpecificationListBean implements Serializable {
+            /**
+             * partName : color
+             * value : ["黑高帮","白高帮","黑纹高帮"]
+             */
+
+            public String partName;
+            public List<String> value;
         }
     }
 }

@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private ShopDetailAdapter mAdapter;
     private List<Integer> mImageList;
     private Integer mPagerNo = 1;
-    private final Integer mPagerSize = 8;
+    private final Integer mPagerSize = 10;
     private ShopListResponse.ListBean mShopInfo;
     private List<ShopDetailResponse.ProductsBean> mList;
     private final String[] modules = {"销量", "价格", "新品"};
@@ -101,7 +102,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestShopGoodsList(mStoreCode,++mPagerNo, mPagerSize);
+            mPresenter.requestShopGoodsList(mStoreCode, ++mPagerNo, mPagerSize);
         }
     }
 
@@ -163,6 +164,12 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
     private void initView() {
         mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
+        String storeCode = getIntent().getStringExtra("shopCode");
+        String imageIcon = getIntent().getStringExtra("shopIcon");
+        mImageLoaderHelper.displayRoundedCornerImage(this, imageIcon, mShopDetailShopIcon, 6);
+        if (!TextUtils.isEmpty(storeCode)) {
+            mStoreCode = storeCode;
+        }
         if (mShopInfo != null) {
             mBuProcessor.setShopInfo(mShopInfo);
             mStoreCode = mShopInfo.storeCode;
@@ -307,7 +314,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void initData() {
-        mPresenter.requestShopGoodsList(mStoreCode,mPagerNo, mPagerSize);
+        mPresenter.requestShopGoodsList(mStoreCode, mPagerNo, mPagerSize);
     }
 
     private void initializeInjector() {

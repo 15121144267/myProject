@@ -145,6 +145,7 @@
         style="@style/order_detail_Button_Style4"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/dp_5"
+        android:enabled="false"
         android:text="立刻购买"
         />
 </LinearLayout>

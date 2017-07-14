@@ -79,6 +79,7 @@
                 />
 
             <ImageView
+                android:id="@+id/right_down_drawable"
                 android:layout_width="170dp"
                 android:layout_height="80dp"
                 android:layout_below="@id/right_drawable"

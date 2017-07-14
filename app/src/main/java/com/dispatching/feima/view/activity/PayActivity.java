@@ -20,8 +20,10 @@ import com.dispatching.feima.entity.MyPayOrderRequest;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayConstant;
+import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.adapter.PayGoodsListAdapter;
 import com.dispatching.feima.view.fragment.PayMethodDialog;
@@ -62,6 +64,14 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private View mFootView;
     private List<MyPayOrderRequest> mList;
     private ShopListResponse.ListBean mShopInfo;
+    private TextView PayOrderId;
+    private TextView PayOrderName;
+    private TextView PayOrderPhone;
+    private TextView PayOrderAddress;
+    private TextView mDispatchPrice;
+    private TextView mfinalPrice;
+    private ShopDetailResponse.ProductsBean mGoodInfo;
+    private OrderConfirmedResponse mResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +87,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
-
+        mResponse = response;
+        PayOrderId.setText(String.valueOf(mResponse.oid));
     }
 
     @Override
@@ -115,29 +126,22 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private void initData() {
         mShopInfo = mBuProcessor.getShopInfo();
         mPresenter.requestOrderConfirmed(new OrderConfirmedRequest());
-        for (int i = 0; i < 2; i++) {
-            MyPayOrderRequest response = new MyPayOrderRequest();
-            response.productcount = i;
-            response.productDes1 = "2017年最新款,最新欧美风 V领模式巴拉巴拉";
-            response.productDes2 = "尺码：M 颜色：白色";
-            response.productName = "文艺复古连衣裙";
-            response.productPrice = 250;
-            response.shopName = "淘宝店";
-            mList.add(response);
-        }
-        mAdapter.setNewData(mList);
-        if (mList.size() > 0) {
-            addHeadView();
-            addFootView();
-        }
-
     }
 
     private void initView() {
+        mGoodInfo = mBuProcessor.getGoodsInfo();
         mList = new ArrayList<>();
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);
         mPayOrderList.setAdapter(mAdapter);
+        List<ShopDetailResponse.ProductsBean> list = new ArrayList<>();
+        if (mGoodInfo != null) {
+            list.add(mGoodInfo);
+            addHeadView();
+            addFootView();
+            mAdapter.setNewData(list);
+        }
+
         mAdapter.setOnItemClickListener((adapter, view, position) ->
                 showToast(position + "")
         );
@@ -154,11 +158,20 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private void addHeadView() {
         mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addHeaderView(mHeadView);
+        PayOrderId = (TextView) mHeadView.findViewById(R.id.pay_order_id);
+        PayOrderName = (TextView) mHeadView.findViewById(R.id.pay_order_name);
+        PayOrderPhone = (TextView) mHeadView.findViewById(R.id.pay_order_phone);
+        PayOrderAddress = (TextView) mHeadView.findViewById(R.id.pay_order_address);
+
+
     }
 
     private void addFootView() {
         mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addFooterView(mFootView);
+        mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
+        mfinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
+        mfinalPrice.setText(ValueUtil.formatAmount(mGoodInfo.finalPrice + 500));
     }
 
     private void initializeInjector() {

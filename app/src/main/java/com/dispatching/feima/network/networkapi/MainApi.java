@@ -12,18 +12,8 @@ import retrofit2.http.Query;
  */
 
 public interface MainApi {
+
+
     @GET("member/info")
     Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
-
-    @GET("api/Query/Staff/GetSendingOrder")
-    Observable<String> SendingOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);
-
-    @GET("api/Query/Staff/GetSendedOrder")
-    Observable<String> CompletedOrderInfoRequest(@Query("token") String token, @Query("postman_id") String uId, @Query("version") String version);
-
-    @POST("api/Delivery/Take")
-    Observable<String> TakeDeliveryRequest(@Body String request);
-
-    @POST("api/Delivery/Arrived")
-    Observable<String> ArrivedDeliveryRequest(@Body String request);
 }

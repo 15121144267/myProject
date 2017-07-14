@@ -52,6 +52,7 @@
             android:id="@+id/item_shop_content1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -62,6 +63,7 @@
         <TextView
             android:id="@+id/item_shop_content2"
             android:layout_width="match_parent"
+            android:visibility="invisible"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
@@ -74,6 +76,7 @@
             android:id="@+id/item_shop_content3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="大是大非三个都是感受到大是大非三个都是感受到"
@@ -89,7 +92,7 @@
         android:layout_marginStart="5dp"
         android:gravity="center"
         android:layout_toEndOf="@id/item_shop_pic"
-        android:text="怡红院"
+        android:text="店名"
         android:textSize="@dimen/sp_15"
         android:textColor="@color/black"
         />

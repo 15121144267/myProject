@@ -48,6 +48,8 @@ public class OrderDetailActivityModule {
         return new OrderDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .isHttps(!BuildConfig.DEBUG)
+                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
                 .create(OrderDetailApi.class), gson, modelTransform);

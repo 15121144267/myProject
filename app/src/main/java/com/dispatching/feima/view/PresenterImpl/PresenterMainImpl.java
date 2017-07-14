@@ -24,8 +24,8 @@ public class PresenterMainImpl implements MainControl.PresenterMain {
 
     @Override
     public void requestNoticeCount(QueryParam queryParam) {
-        mMainModel.queryNoticeDb(queryParam).compose(mView.applySchedulers()).subscribe(this::querySuccess,
-                throwable -> mView.showErrMessage(throwable));
+        /*mMainModel.queryNoticeDb(queryParam).compose(mView.applySchedulers()).subscribe(this::querySuccess,
+                throwable -> mView.showErrMessage(throwable));*/
     }
 
     private void querySuccess(Integer count){

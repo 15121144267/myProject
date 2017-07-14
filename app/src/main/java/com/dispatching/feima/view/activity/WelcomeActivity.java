@@ -52,6 +52,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     public void getPersonInfoSuccess(PersonInfoResponse response) {
         mBuProcessor.setUserId(response.memberId);
         mBuProcessor.setUserPhone(response.phone);
+        mBuProcessor.setPartnerId(response.partnerId);
         mBuProcessor.setPersonInfo(response);
         startActivity(MainActivity.getMainIntent(this));
         finish();

@@ -50,10 +50,10 @@
                         android:id="@+id/person_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@mipmap/person_sex_man"
+                        android:drawableEnd="@mipmap/person_sex_women"
                         android:gravity="center_vertical"
 
-                        android:text="名字名字&#160;&#160;"
+                        android:text="未知&#160;&#160;"
                         />
 
                     <TextView

@@ -210,7 +210,7 @@ public class ValueUtil {
 
     public static String formatAmount(double amount) {
         double newAmount = amount / 100;
-        DecimalFormat format = new DecimalFormat("##0.00元");
+        DecimalFormat format = new DecimalFormat("##0元");
         return format.format(newAmount);
     }
 

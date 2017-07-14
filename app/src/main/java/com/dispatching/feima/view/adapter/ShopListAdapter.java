@@ -33,6 +33,11 @@ public class ShopListAdapter extends BaseQuickAdapter<ShopListResponse.ListBean,
         }else {
             mImageLoaderHelper.displayImage(mContext,R.mipmap.freemud_logo, imageView);
         }
+        if(item.storeCode.equals("107")){
+            helper.setText(R.id.item_shop_location,"LMS 1-107");
+        }else {
+            helper.setText(R.id.item_shop_location,"大创 A-101");
+        }
     }
 
 }

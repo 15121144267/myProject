@@ -176,7 +176,7 @@
     </style>
 
     <style name="order_detail_Button_Style4">
-        <item name="android:background">@drawable/shape_button_blue</item>
+        <item name="android:background">@drawable/button_style_blue3</item>
         <item name="android:layout_height">@dimen/dp_50</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center</item>

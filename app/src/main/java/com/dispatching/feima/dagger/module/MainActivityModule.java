@@ -29,7 +29,7 @@ import dagger.Provides;
 @Module
 public class MainActivityModule {
     private final AppCompatActivity activity;
-    private  MainControl.MainView view;
+    private MainControl.MainView view;
 
     public MainActivityModule(AppCompatActivity activity, MainControl.MainView view) {
         this.activity = activity;
@@ -52,21 +52,18 @@ public class MainActivityModule {
         return this.view;
     }
 
-    @Provides
-    @PerActivity
-    MainApi provideMainApi() {
-        return new RetrofitUtil.Builder()
-                .context(activity)
-                .baseUrl(BuildConfig.DISPATCH_SERVICE)
-                .isToJson(false)
-                .builder()
-                .create(MainApi.class);
-    }
 
     @Provides
     @PerActivity
-    MainModel provideMainModel(Gson gson, ModelTransform modelTransform, MainApi mainApi, DaoSession daoSession) {
-        return new MainModel(mainApi, gson, modelTransform, daoSession.getOrderNoticeDao());
+    MainModel provideMainModel(Gson gson, ModelTransform modelTransform, DaoSession daoSession) {
+        return new MainModel(new RetrofitUtil.Builder()
+                .context(activity)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .isHttps(!BuildConfig.DEBUG)
+                .key(BuildConfig.STORE_NAME, BuildConfig.STORE_PASSWORD)
+                .isToJson(false)
+                .builder()
+                .create(MainApi.class), gson, modelTransform, daoSession.getOrderNoticeDao());
     }
 
     @Provides

@@ -12,4 +12,7 @@ import retrofit2.http.POST;
 public interface ShopListApi {
     @POST("base?op=getShopList")
     Observable<String> shopListRequest(@Body String request);
+
+    @POST("base?op=getShop")
+    Observable<String> shopIdRequest(@Body String request);
 }

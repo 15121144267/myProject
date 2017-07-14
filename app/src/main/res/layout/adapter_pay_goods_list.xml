@@ -82,7 +82,7 @@
                     android:id="@+id/adapter_pay_goods_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="x50"
+                    android:text="x1"
                     android:textColor="@color/darkblack"
                     />
             </LinearLayout>

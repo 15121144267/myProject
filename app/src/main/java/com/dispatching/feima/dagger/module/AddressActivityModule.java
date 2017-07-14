@@ -47,6 +47,8 @@ public class AddressActivityModule {
         return new AddressModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .isHttps(!BuildConfig.DEBUG)
+                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
                 .create(AddressApi.class), gson, modelTransform);

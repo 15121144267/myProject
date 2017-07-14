@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.model;
 
 import com.dispatching.feima.entity.ShopListRequest;
+import com.dispatching.feima.entity.ShopRequest;
 import com.dispatching.feima.network.networkapi.ShopListApi;
 import com.google.gson.Gson;
 
@@ -32,5 +33,13 @@ public class ShopListModel {
         request.pageNo = pagerNo;
         request.pageSize = pagerSize;
         return mApi.shopListRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    }
+
+    public Observable<ResponseData> shopIdRequest(String storeCode,Integer type) {
+        ShopRequest request = new ShopRequest();
+        request.partnerId = partnerId;
+        request.storeCode = storeCode;
+        request.typeFlag = type;
+        return mApi.shopIdRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 }

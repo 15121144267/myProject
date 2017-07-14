@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -21,16 +22,20 @@ import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.MainProducts;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
+import com.dispatching.feima.entity.ShopResponse;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
 import com.dispatching.feima.view.activity.ActivitiesActivity;
 import com.dispatching.feima.view.activity.BrandActivity;
+import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.MusicActivity;
 import com.dispatching.feima.view.activity.PartCarActivity;
+import com.dispatching.feima.view.activity.ShopDetailActivity;
 import com.dispatching.feima.view.activity.ShopListActivity;
 import com.dispatching.feima.view.activity.SkyFlowerActivity;
 import com.dispatching.feima.view.adapter.MainProductsAdapter;
 import com.dispatching.feima.view.customview.ClearEditText;
+import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +59,13 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @BindView(R.id.products_item)
     RecyclerView mProductsItem;
     @BindView(R.id.banner)
-    com.youth.banner.Banner mBanner;
+    Banner mBanner;
+    @BindView(R.id.right_down_drawable)
+    ImageView mRightDownDrawable;
+    @BindView(R.id.left_drawable)
+    ImageView mLeftDrawable;
+    @BindView(R.id.right_drawable)
+    ImageView mRightDrawable;
 
     public static PendingOrderFragment newInstance() {
         return new PendingOrderFragment();
@@ -91,10 +102,48 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mSearchShop.setEditHint("搜索商户");
         mList = new ArrayList<>();
         mImageList = new ArrayList<>();
-        mImageList.add( R.mipmap.main_banner_first);
+        mImageList.add(R.mipmap.main_banner_first);
         mImageList.add(R.mipmap.main_banner_second);
         mImageList.add(R.mipmap.main_banner_third);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
+        mBanner.setOnBannerListener(this::requestShopId);
+        mRightDownDrawable.setOnClickListener(this::imageClick);
+        mLeftDrawable.setOnClickListener(this::imageClick1);
+        mRightDrawable.setOnClickListener(this::imageClick2);
+    }
+
+    private void imageClick(View v) {
+        startActivity(MusicActivity.getIntent(getActivity()));
+    }
+
+    private void imageClick1(View v) {
+        mPresenter.requestShopId("107", 3);
+    }
+
+    private void imageClick2(View v) {
+        mPresenter.requestShopId("107", 3);
+    }
+
+    private void requestShopId(int position) {
+        switch (position) {
+            case 0:
+                startActivity(MusicActivity.getIntent(getActivity()));
+                break;
+            case 1:
+                mPresenter.requestShopId("107", 3);
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void getShopSuccess(ShopResponse response) {
+        String iamge = response.businessImages.get(0).imageUrl;
+        Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
+        intent.putExtra("shopCode", response.storeCode);
+        intent.putExtra("shopIcon", iamge);
+        startActivity(intent);
     }
 
     @Override
@@ -239,7 +288,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         DaggerFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
-                .fragmentModule(new FragmentModule(this)).build()
+                .fragmentModule(new FragmentModule(this, (MainActivity) getActivity())).build()
                 .inject(this);
     }
 

@@ -26,7 +26,7 @@ public class ShopDetailAdapter extends BaseQuickAdapter<ShopDetailResponse.Produ
         if (item == null) return;
         helper.setText(R.id.adapter_goods_name, item.name);
         helper.setText(R.id.adapter_goods_price, "￥"+ValueUtil.formatAmount(item.finalPrice));
-        helper.setText(R.id.adapter_goods_count, item.saleCount+"件");
+        helper.setText(R.id.adapter_goods_count, "销量"+item.saleCount);
         Glide.with(mContext).load(item.picture).error(R.mipmap.freemud_logo).into((ImageView) helper.getView(R.id.adapter_person_icon));
     }
 

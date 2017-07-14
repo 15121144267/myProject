@@ -57,6 +57,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textColor="@color/darkblack"
                 android:background="@drawable/button_common_left"
                 android:text="@string/btn_cancel" />
 

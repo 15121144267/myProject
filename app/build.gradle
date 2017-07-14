@@ -38,6 +38,8 @@ android {
             shrinkResources false
             signingConfig signingConfigs.myDebugConfig
             buildConfigField "String", "DISPATCH_SERVICE", DUBUG_DISPATCH_SERVICE
+            buildConfigField "String", "ORDER_SERVICE", DEBUG_ORDER_SERVICE
+            buildConfigField "String", "GOODS_SERVICE", DEBUG_GOODS_SERVICE
             buildConfigField "String", "PARTNER_ID", DUBUG_PARTNER_ID
             buildConfigField "String", "RABBIT_HOST", DUBUG_RABBITMQ_HOST
             buildConfigField "Integer", "RABBIT_PORT", DUBUG_RABBITMQ_PORT
@@ -46,15 +48,20 @@ android {
             buildConfigField "String", "RABBIT_PASSWORD", DUBUG_RABBITMQ_PASSWORD
             buildConfigField "String", "SUPTER_IP", DUBUG_SUPTER_IP
             buildConfigField "Integer", "SUPTER_PORT", DUBUG_SUPTER_PORT
+            buildConfigField "String", "STORE_NAME", HTTPS_STORE_NAME
+            buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
 
         }
         release {
+            debuggable true
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.myConfig
             buildConfigField "String", "DISPATCH_SERVICE", RELEASE_DISPATCH_SERVICE
+            buildConfigField "String", "ORDER_SERVICE", RELEASE_ORDER_SERVICE
+            buildConfigField "String", "GOODS_SERVICE", RELEASE_GOODS_SERVICE
             buildConfigField "String", "PARTNER_ID", RELEASE_PARTNER_ID
             buildConfigField "String", "RABBIT_HOST", RELEASE_RABBITMQ_HOST
             buildConfigField "Integer", "RABBIT_PORT", RELEASE_RABBITMQ_PORT
@@ -63,6 +70,8 @@ android {
             buildConfigField "String", "RABBIT_PASSWORD", RELEASE_RABBITMQ_PASSWORD
             buildConfigField "String", "SUPTER_IP", RELEASE_SUPTER_IP
             buildConfigField "Integer", "SUPTER_PORT", RELEASE_SUPTER_PORT
+            buildConfigField "String", "STORE_NAME", HTTPS_STORE_NAME
+            buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
         }
     }
     greendao{

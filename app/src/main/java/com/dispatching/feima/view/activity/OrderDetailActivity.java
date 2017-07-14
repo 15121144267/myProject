@@ -70,6 +70,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView mOrderDetailBeginTime;
     @BindView(R.id.order_detail_pay_type)
     TextView mOrderDetailPayType;
+    @BindView(R.id.order_detail_should_pay)
+    TextView mOrderDetailShouldPay;
     @BindView(R.id.order_detail_buy_again)
     Button mOrderDetailBuyAgain;
     private MyOrdersResponse.OrdersBean mOrder;
@@ -146,16 +148,18 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         String amount = "x" + product.productNumber;
         String totalPrice = "￥" + ValueUtil.formatAmount(product.finalPrice * product.productNumber);
         String dispatchPrice = "￥"+ ValueUtil.formatAmount(accounts.price);
-        String finalPrice = "￥"+ ValueUtil.formatAmount(product.finalPrice * product.productNumber)+ ValueUtil.formatAmount(accounts.price);
-        mOrderDetailProductName.setText(price);
+        String finalPrice = "￥"+ ValueUtil.formatAmount(product.finalPrice * product.productNumber+ accounts.price);
+        mOrderDetailProductName.setText(product.name);
+        mOrderDetailProductPrice.setText(price);
         mOrderDetailProductCount.setText(amount);
         mOrderDetailProductTotalAmount.setText(totalPrice);
         mOrderDetailPrice.setText(totalPrice);
         mOrderDetailDispatchPrice.setText(dispatchPrice);
         mImageLoaderHelper.displayRoundedCornerImage(this, product.picture, mOrderDetailProductPic, 6);
-        mOrderDetailPayPrice.setText(finalPrice);
+        mOrderDetailPayPrice.setText("实付"+finalPrice);
         mOrderDetailOrderId.setText(String.valueOf(mOrder.oid));
         mOrderDetailBeginTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate),TimeUtil.TIME_YYMMDD_HHMMSS));
+        mOrderDetailShouldPay.setText("应付"+finalPrice);
     }
 
     private void initializeInjector() {

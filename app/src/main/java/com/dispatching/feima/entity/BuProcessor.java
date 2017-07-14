@@ -16,10 +16,18 @@ public class BuProcessor {
     private String userPhone;
     private ShopListResponse.ListBean shopInfo;
     private PersonInfoResponse personInfo;
+    private String mPartnerId;
     @Inject
     public BuProcessor() {
     }
 
+    public String getPartnerId() {
+        return mPartnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        mPartnerId = partnerId;
+    }
 
     public PersonInfoResponse getPersonInfo() {
         return personInfo;

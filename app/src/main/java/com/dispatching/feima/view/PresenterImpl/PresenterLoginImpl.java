@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.PersonInfoResponse;
@@ -45,8 +46,6 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
 
     private void operationalData(ResponseData responseData) {
         if (responseData.resultCode == 100) {
-           /* responseData.parseData(LoginResponse.class);
-            LoginResponse loginResponse = (LoginResponse) responseData.parsedData;*/
             mLoginView.loginSuccess();
         } else {
             mLoginView.showToast(responseData.errorDesc);
@@ -64,9 +63,15 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
 
     private void getPersonInfoSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
-            responseData.parseData(PersonInfoResponse.class);
-            PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
-            mLoginView.getPersonInfoSuccess(response);
+            if(!TextUtils.isEmpty(responseData.result)){
+                responseData.parseData(PersonInfoResponse.class);
+                PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
+                mLoginView.getPersonInfoSuccess(response);
+            }else {
+                mLoginView.getPersonInfoSuccess(null);
+            }
+
+
         } else {
             mLoginView.showToast(responseData.errorDesc);
         }

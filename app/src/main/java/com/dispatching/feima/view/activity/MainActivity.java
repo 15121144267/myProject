@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
+import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
+import com.dispatching.feima.view.fragment.CommonDialog;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
 import com.dispatching.feima.view.fragment.PendingOrderFragment;
 import com.dispatching.feima.view.fragment.SendingOrderFragment;
@@ -27,9 +29,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements MainControl.MainView ,BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements MainControl.MainView, BottomNavigationView.OnNavigationItemSelectedListener, CommonDialog.CommonDialogListener {
 
-
+    public static final Integer DIALOG_TYPE_EXIT_OK = 1;
     @BindView(R.id.view_swapper)
     ViewPager mViewSwapper;
     @BindView(R.id.view_bottom_navigation)
@@ -99,7 +101,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView ,
         fragments.add(pendingOrderFragment);
         fragments.add(sendingOrderFragment);
         fragments.add(completedOrderFragment);
-        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(),fragments);
+        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
         mViewSwapper.setOffscreenPageLimit(fragments.size());
         mViewSwapper.setAdapter(adapter);
         mViewBottomNavigation.setOnNavigationItemSelectedListener(this);
@@ -107,18 +109,28 @@ public class MainActivity extends BaseActivity implements MainControl.MainView ,
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-       switch (item.getItemId()){
-           case R.id.action_one:
-               mViewSwapper.setCurrentItem(0);
-               break;
-           case R.id.action_two:
-               mViewSwapper.setCurrentItem(1);
-               break;
-           case R.id.action_three:
-               mViewSwapper.setCurrentItem(2);
-               break;
-       }
+        switch (item.getItemId()) {
+            case R.id.action_one:
+                mViewSwapper.setCurrentItem(0);
+                break;
+            case R.id.action_two:
+                mViewSwapper.setCurrentItem(1);
+                break;
+            case R.id.action_three:
+                mViewSwapper.setCurrentItem(2);
+                break;
+        }
         return true;
+    }
+
+    @Override
+    public void commonDialogBtnOkListener(int type, int position) {
+        switch (type) {
+            case 1:
+                finish();
+                System.exit(0);
+                break;
+        }
     }
 
     @Override
@@ -129,10 +141,10 @@ public class MainActivity extends BaseActivity implements MainControl.MainView ,
 
 
     private void showDialog() {
-       /* CommonDialog commonDialog = CommonDialog.newInstance();
+        CommonDialog commonDialog = CommonDialog.newInstance();
         commonDialog.setContent(getString(R.string.main_exit));
         commonDialog.setListener(this, DIALOG_TYPE_EXIT_OK);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);*/
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
 
