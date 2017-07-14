@@ -35,8 +35,10 @@ public class ShopListAdapter extends BaseQuickAdapter<ShopListResponse.ListBean,
         }
         if(item.storeCode.equals("107")){
             helper.setText(R.id.item_shop_location,"LMS 1-107");
+            helper.setText(R.id.item_shop_content1,"LMS集合线下实体、O2O、品牌商业运营团队、潮流造势团队，将独立设计师品牌等潮流元素打造出潮流品牌。");
         }else {
             helper.setText(R.id.item_shop_location,"大创 A-101");
+            helper.setText(R.id.item_shop_content1,"合肥大创生活馆是日本大创在安徽的首家门店，大创为您提供从厨房用品、洗漱用品等一系列生活用品。");
         }
     }
 

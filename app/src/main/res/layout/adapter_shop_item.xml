@@ -52,22 +52,20 @@
             android:id="@+id/item_shop_content1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:text="大是大非三个都是感受到"
+            android:maxLines="3"
+            android:text="合肥大创生活馆是日本大创在安徽的首家门店，大创为您提供从厨房用品、洗漱用品等一系列生活用品。"
             android:textColor="@color/gray_color"
             />
 
-        <TextView
+              <TextView
             android:id="@+id/item_shop_content2"
             android:layout_width="match_parent"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
-            android:maxLines="1"
             android:text="大是大非三个都是感受到"
             android:textColor="@color/gray_color"
             />
@@ -76,9 +74,8 @@
             android:id="@+id/item_shop_content3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:ellipsize="end"
-            android:maxLines="1"
             android:text="大是大非三个都是感受到大是大非三个都是感受到"
             android:textColor="@color/gray_color"
             />
