@@ -54,6 +54,7 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     private String mVirefyCode;
     @Inject
     ForgetControl.PresenterForget mPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,7 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
         RxView.clicks(mForgetNextStep).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetPasswordActivity());
         RxView.clicks(mForgetIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> getVerifyCode());
         EditText editText = mForgetPhone.getEditText();
-        mForgetVerity =  mForgetVerityCode.getEditText();
+        mForgetVerity = mForgetVerityCode.getEditText();
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
@@ -117,25 +118,31 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
         return this;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
     private void getVerifyCode() {
         mPresenter.onRequestVerifyCode(mPhone);
     }
 
     private void switchSetPasswordActivity() {
-        if(mForgetVerity!=null){
+        if (mForgetVerity != null) {
             mVirefyCode = mForgetVerity.getText().toString();
-            if(TextUtils.isEmpty(mVirefyCode)){
+            if (TextUtils.isEmpty(mVirefyCode)) {
                 showToast("验证码不能为空");
                 return;
             }
         }
-        mPresenter.requestCheckCode(mPhone,mVirefyCode);
+        mPresenter.requestCheckCode(mPhone, mVirefyCode);
 
     }
 
     @Override
     public void checkCodeSuccess() {
-        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this,mPhone,mVirefyCode));
+        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this, mPhone, mVirefyCode));
     }
 
     private void initializeInjector() {

@@ -131,6 +131,11 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
         return this;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 
     private void initializeInjector() {
         DaggerMyOrderActivityComponent.builder()

@@ -112,6 +112,12 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
         return this;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
     private void initView() {
         mAMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
         mProvince = mAMapLocation.getProvince();

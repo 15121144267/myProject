@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21dp"
-                    android:text="总有一款适合你"
+                    android:text="总有一款属于你"
                     android:textColor="@color/darkblack"
                     android:textSize="@dimen/sp_20"/>
 

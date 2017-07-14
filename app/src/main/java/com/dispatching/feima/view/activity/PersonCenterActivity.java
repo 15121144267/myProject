@@ -120,6 +120,12 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public Context getContext() {
         return this;
     }

@@ -17,8 +17,19 @@ public class BuProcessor {
     private ShopListResponse.ListBean shopInfo;
     private PersonInfoResponse personInfo;
     private String mPartnerId;
+    private ShopResponse mShopResponse;
+
     @Inject
     public BuProcessor() {
+    }
+
+
+    public ShopResponse getShopResponse() {
+        return mShopResponse;
+    }
+
+    public void setShopResponse(ShopResponse shopResponse) {
+        mShopResponse = shopResponse;
     }
 
     public String getPartnerId() {

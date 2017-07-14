@@ -112,6 +112,12 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public void clickRechargeBtn(String payType) {
         switch (payType) {
             case PayConstant.PAY_TYPE_WX:

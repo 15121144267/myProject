@@ -132,6 +132,9 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
             case 1:
                 mPresenter.requestShopId("107", 3);
                 break;
+            case 2:
+                mPresenter.requestShopId("107", 3);
+                break;
 
         }
 
@@ -139,10 +142,8 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
 
     @Override
     public void getShopSuccess(ShopResponse response) {
-        String iamge = response.businessImages.get(0).imageUrl;
         Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
-        intent.putExtra("shopCode", response.storeCode);
-        intent.putExtra("shopIcon", iamge);
+        intent.putExtra("ShopResponse",response);
         startActivity(intent);
     }
 

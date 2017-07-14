@@ -1,12 +1,13 @@
 package com.dispatching.feima.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lei.he on 2017/7/14.
  */
 
-public class ShopResponse {
+public class ShopResponse implements Serializable{
 
 
     /**
@@ -45,7 +46,7 @@ public class ShopResponse {
     public String longitude;
     public List<BusinessImagesBean> businessImages;
 
-    public static class BusinessImagesBean {
+    public static class BusinessImagesBean implements Serializable{
         /**
          * sortIndex : 0
          * imageUrl : http://7xrib0.com2.z0.glb.qiniucdn.com/201706/1498641170074.jpg

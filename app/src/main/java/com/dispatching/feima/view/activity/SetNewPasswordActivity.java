@@ -29,11 +29,11 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/26.
  */
 
-public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswordControl.SetNewPasswordView{
-    public static Intent getNewPasswordIntent(Context context,String phone,String code){
-        Intent intent = new Intent(context,SetNewPasswordActivity.class);
-        intent.putExtra("phone",phone);
-        intent.putExtra("verityCode",code);
+public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswordControl.SetNewPasswordView {
+    public static Intent getNewPasswordIntent(Context context, String phone, String code) {
+        Intent intent = new Intent(context, SetNewPasswordActivity.class);
+        intent.putExtra("phone", phone);
+        intent.putExtra("verityCode", code);
         return intent;
     }
 
@@ -53,6 +53,7 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     private String mVerityCode;
     @Inject
     SetNewPasswordControl.PresenterSetNewPassword mPresenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +88,12 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public Context getContext() {
         return this;
     }
@@ -94,9 +101,9 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     private void initView() {
         mPhone = getIntent().getStringExtra("phone");
         mVerityCode = getIntent().getStringExtra("verityCode");
-        mPasswordEdit =  mSettingPassword.getEditText();
-        mPasswordAgainEdit =  mSettingPasswordAgain.getEditText();
-        TextChange textChange=new TextChange();
+        mPasswordEdit = mSettingPassword.getEditText();
+        mPasswordAgainEdit = mSettingPasswordAgain.getEditText();
+        TextChange textChange = new TextChange();
         mPasswordEdit.addTextChangedListener(textChange);
         mPasswordAgainEdit.addTextChangedListener(textChange);
         RxView.clicks(mSettingForSure).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetForSure());
@@ -105,10 +112,10 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     private void switchSetForSure() {
         String password = mPasswordEdit.getText().toString();
         String passwordAgain = mPasswordAgainEdit.getText().toString();
-        if(!password.equals(passwordAgain)){
+        if (!password.equals(passwordAgain)) {
             showToast("密码不一致,请重新输入");
-        }else{
-            mPresenter.onRequestForSure(mPhone,mVerityCode,password);
+        } else {
+            mPresenter.onRequestForSure(mPhone, mVerityCode, password);
         }
 
     }
@@ -133,9 +140,9 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (mPasswordEdit.length()>0&&mPasswordAgainEdit.length()>0){
+            if (mPasswordEdit.length() > 0 && mPasswordAgainEdit.length() > 0) {
                 mSettingForSure.setEnabled(true);
-            }else{
+            } else {
                 mSettingForSure.setEnabled(false);
             }
         }

@@ -34,6 +34,7 @@ public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.Presen
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
     }
+
     private void setPasswordSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
             mView.setPasswordSuccess();
@@ -41,6 +42,7 @@ public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.Presen
             mView.showToast(responseData.errorDesc);
         }
     }
+
     @Override
     public void onCreate() {
 
@@ -49,6 +51,6 @@ public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.Presen
 
     @Override
     public void onDestroy() {
-
+        mView = null;
     }
 }

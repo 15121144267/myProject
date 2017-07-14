@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/shop_detail_shop_icon"
-                        android:text="大创生活馆"
+                        android:text="未知"
                         android:textColor="@color/black"/>
 
                     <LinearLayout

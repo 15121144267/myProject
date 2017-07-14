@@ -73,6 +73,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     private boolean colorFirst = false;
     private boolean sizeFirst = false;
     private Integer count = 1;
+    private String mStoreCode;
 
     public static SpecificationDialog newInstance() {
         return new SpecificationDialog();
@@ -84,6 +85,10 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     public void productSpecifition(ShopDetailResponse.ProductsBean product) {
         mProduct = product;
+    }
+
+    public void setStoreCode(String storeCode) {
+        mStoreCode = storeCode;
     }
 
 
@@ -158,6 +163,12 @@ public class SpecificationDialog extends BaseDialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (mStoreCode.equals("107")){
+            mDialogGoodsAllCount.setText("库存1件");
+        }else {
+            mDialogGoodsAllCount.setText("库存2件");
+        }
+
         mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
         if (mProduct.specificationList != null) {
@@ -180,7 +191,7 @@ public class SpecificationDialog extends BaseDialogFragment {
                 mSpecificationLayout.setVisibility(View.INVISIBLE);
             }
 
-        }else {
+        } else {
             mSpecificationLayout.setVisibility(View.INVISIBLE);
         }
 

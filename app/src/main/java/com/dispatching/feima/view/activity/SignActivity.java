@@ -93,6 +93,12 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
         return this;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
     private void initView() {
         RxView.clicks(mSignIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerityCode());
         RxView.clicks(mSign).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestSign());
@@ -136,7 +142,7 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
             }
 
         }
-        mPresenter.onRequestSign(mPhone,password,verityCode);
+        mPresenter.onRequestSign(mPhone, password, verityCode);
     }
 
     @Override

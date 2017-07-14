@@ -79,6 +79,6 @@ public class PresenterForgetImpl implements ForgetControl.PresenterForget {
 
     @Override
     public void onDestroy() {
-
+        mView = null;
     }
 }

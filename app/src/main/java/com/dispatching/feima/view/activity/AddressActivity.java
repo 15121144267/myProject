@@ -89,6 +89,12 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public Context getContext() {
         return this;
     }
@@ -115,7 +121,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                                 mCheckBox.setChecked(true);
                                 return;
                             }
-                            mPresenter.requestAddressDefault((AddressResponse.DataBean)adapter.getItem(position));
+                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
                             break;
                     }
                 }
@@ -124,16 +130,16 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     @Override
     public void addressDefaultSuccess() {
-        List< AddressResponse.DataBean> list = mAdapter.getData();
+        List<AddressResponse.DataBean> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
-            if(i == mPosition){
+            if (i == mPosition) {
                 list.get(i).isDefault = 1;
-            }else {
+            } else {
                 list.get(i).isDefault = 0;
             }
         }
-        Collections.sort(list,(o1,o2)->{
-            if(o1.isDefault<(o2.isDefault)){
+        Collections.sort(list, (o1, o2) -> {
+            if (o1.isDefault < (o2.isDefault)) {
                 return 1;
             }
             return -1;
@@ -169,8 +175,8 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     @Override
     public void addressListSuccess(List<AddressResponse.DataBean> data) {
-        Collections.sort(data,(o1,o2)->{
-            if(o1.isDefault<(o2.isDefault)){
+        Collections.sort(data, (o1, o2) -> {
+            if (o1.isDefault < (o2.isDefault)) {
                 return 1;
             }
             return -1;
