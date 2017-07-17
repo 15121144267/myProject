@@ -17,17 +17,6 @@
     <li>高德地图 定位 搜索功能呢（导航功能暂时未做）</li>
 </ol>
 
-<ol>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/login.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/main1.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/main2.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/main3.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/order.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/slidmenu.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/notice.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/worksummary.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/setting.png" height="350" width="230"></li>
-</ol>
 <h3>分支：helei_banshengyuan商城类app</h3><br/>
 <h3>一下为UI界面</h3><br/>
 <ol>
