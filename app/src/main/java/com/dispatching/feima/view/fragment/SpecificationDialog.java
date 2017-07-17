@@ -61,11 +61,21 @@ public class SpecificationDialog extends BaseDialogFragment {
     RelativeLayout mRechargeDialogLayout;
     @BindView(R.id.specification_layout)
     NestedScrollView mSpecificationLayout;
+    @BindView(R.id.color_text)
+    TextView mColorText;
+    @BindView(R.id.list_color_text)
+    RelativeLayout mListColorText;
+    @BindView(R.id.size_text)
+    TextView mSizeText;
+    @BindView(R.id.list_size_text)
+    RelativeLayout mListSizeText;
+    @BindView(R.id.specification_empty_line)
+    View mSpecificationEmptyLine;
 
     private specificationDialogListener dialogListener;
     private Unbinder unbind;
-    private final List<String> sizeList = new ArrayList<>();
-    private final List<String> colorList = new ArrayList<>();
+    private final List<String> mSizeList = new ArrayList<>();
+    private final List<String> mColorList = new ArrayList<>();
     private SpecificationColorAdapter colorAdapter;
     private SpecificationSizeAdapter sizeAdapter;
     private ImageLoaderHelper mImageLoaderHelper;
@@ -103,19 +113,11 @@ public class SpecificationDialog extends BaseDialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_specification_dialog, container, true);
         unbind = ButterKnife.bind(this, view);
-        mDialogGoodsColor.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        colorAdapter = new SpecificationColorAdapter(null, getActivity());
-        mDialogGoodsColor.setAdapter(colorAdapter);
-        mDialogGoodsSize.setLayoutManager(new GridLayoutManager(getActivity(), 5));
-        sizeAdapter = new SpecificationSizeAdapter(null, getActivity());
-        mDialogGoodsSize.setAdapter(sizeAdapter);
         mDialogGoodsReduce.setOnClickListener(this);
         mDialogGoodsAdd.setOnClickListener(this);
         mDialogBuyGoods.setOnClickListener(this);
         mDialogClose.setOnClickListener(this);
         AniCreator.getInstance().apply_animation_translate(mRechargeDialogLayout, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
-        colorAdapter.setOnItemClickListener(this::changeColorUI);
-        sizeAdapter.setOnItemClickListener(this::changeSizeUI);
         return view;
     }
 
@@ -124,17 +126,20 @@ public class SpecificationDialog extends BaseDialogFragment {
             colorAdapter.setPosition(position);
         } else {
             colorFirst = true;
-            sizeList.clear();
+            mSizeList.clear();
             colorAdapter.setPosition(position);
-            String color = (String) adapter.getItem(position);
-            sizeAdapter.setPosition(Integer.MAX_VALUE);
-            List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
-            for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-                if (productSpecificationBean.color.equals(color)) {
-                    sizeList.add(productSpecificationBean.size);
+            if (sizeAdapter != null) {
+                String color = (String) adapter.getItem(position);
+                sizeAdapter.setPosition(Integer.MAX_VALUE);
+                List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
+                for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+                    if (productSpecificationBean.color.equals(color)) {
+                        mSizeList.add(productSpecificationBean.size);
+                    }
                 }
+                sizeAdapter.setNewData(mSizeList);
             }
-            sizeAdapter.setNewData(sizeList);
+
         }
 
     }
@@ -145,17 +150,20 @@ public class SpecificationDialog extends BaseDialogFragment {
             sizeAdapter.setPosition(position);
         } else {
             sizeFirst = true;
-            colorList.clear();
-            String size = (String) adapter.getItem(position);
+            mColorList.clear();
             sizeAdapter.setPosition(position);
-            colorAdapter.setPosition(Integer.MAX_VALUE);
-            List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
-            for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-                if (productSpecificationBean.size.equals(size)) {
-                    colorList.add(productSpecificationBean.color);
+            if (colorAdapter != null) {
+                String size = (String) adapter.getItem(position);
+                colorAdapter.setPosition(Integer.MAX_VALUE);
+                List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
+                for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+                    if (productSpecificationBean.size.equals(size)) {
+                        mColorList.add(productSpecificationBean.color);
+                    }
                 }
+                colorAdapter.setNewData(mColorList);
             }
-            colorAdapter.setNewData(colorList);
+
         }
 
     }
@@ -163,9 +171,9 @@ public class SpecificationDialog extends BaseDialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mStoreCode.equals("107")){
+        if (mStoreCode.equals("107")) {
             mDialogGoodsAllCount.setText("库存1件");
-        }else {
+        } else {
             mDialogGoodsAllCount.setText("库存2件");
         }
 
@@ -176,15 +184,51 @@ public class SpecificationDialog extends BaseDialogFragment {
             if (list1.size() > 0) {
                 for (ShopDetailResponse.ProductsBean.SpecificationListBean specificationListBean : list1) {
                     if (specificationListBean.partName.equals("color")) {
+                        mColorText.setVisibility(View.VISIBLE);
+                        mListColorText.setVisibility(View.VISIBLE);
                         List<String> colorList = specificationListBean.value;
-                        colorList.addAll(sizeList);
-                        colorAdapter.setNewData(colorList);
-                    }
-                    if (specificationListBean.partName.equals("size")) {
+                        String maxText = "";
+                        for (String s : colorList) {
+                            if (s.length() > maxText.length()) {
+                                maxText = s;
+                            }
+                        }
+                        int number = 0;
+                        Integer news =maxText.length();
+                        switch (maxText.length()) {
+                            case 1:
+                            case 2:
+                                number = 5;
+                                break;
+                            case 3:
+                            case 4:
+                                number = 4;
+                                break;
+                            case 5:
+                            case 6:
+                                number = 3;
+                                break;
+                            case 7:
+                            case 8:
+                                number = 2;
+                                break;
+                            default:
+                                number = 1;
+                        }
+                        mDialogGoodsColor.setLayoutManager(new GridLayoutManager(getActivity(), number));
+                        colorAdapter = new SpecificationColorAdapter(colorList, getActivity());
+                        mDialogGoodsColor.setAdapter(colorAdapter);
+                        colorAdapter.setOnItemClickListener(this::changeColorUI);
+                    } else if (specificationListBean.partName.equals("size")) {
+                        mSizeText.setVisibility(View.VISIBLE);
+                        mListSizeText.setVisibility(View.VISIBLE);
                         List<String> sizeList = specificationListBean.value;
-                        sizeList.addAll(colorList);
-                        sizeAdapter.setNewData(sizeList);
-
+                        mDialogGoodsSize.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+                        sizeAdapter = new SpecificationSizeAdapter(sizeList, getActivity());
+                        mDialogGoodsSize.setAdapter(sizeAdapter);
+                        sizeAdapter.setOnItemClickListener(this::changeSizeUI);
+                    } else {
+                        mSpecificationLayout.setVisibility(View.INVISIBLE);
                     }
                 }
             } else {

@@ -135,14 +135,18 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/color_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:visibility="invisible"
                     android:text="颜色分类"
                     android:textColor="@color/black"/>
 
                 <RelativeLayout
+                    android:id="@+id/list_color_text"
                     android:layout_width="match_parent"
+                    android:visibility="invisible"
                     android:layout_height="match_parent">
 
                     <android.support.v7.widget.RecyclerView
@@ -156,19 +160,24 @@
 
 
                 <View
+                    android:id="@+id/specification_empty_line"
                     style="@style/LineH_Fill_Width1_ForView"
                     android:layout_marginEnd="15dp"
                     />
 
                 <TextView
+                    android:id="@+id/size_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="14dp"
+                    android:visibility="invisible"
                     android:text="尺寸"
                     android:textColor="@color/black"/>
 
                 <RelativeLayout
+                    android:id="@+id/list_size_text"
+                    android:visibility="invisible"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 

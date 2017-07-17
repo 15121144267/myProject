@@ -3,6 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.entity.PersonInfoResponse;
+import com.dispatching.feima.help.RetryWithDelay;
 import com.dispatching.feima.view.PresenterControl.WelcomeControl;
 import com.dispatching.feima.view.model.ResponseData;
 import com.dispatching.feima.view.model.WelcomeModel;
@@ -31,7 +32,7 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
 
     @Override
     public void requestPersonInfo(String phone) {
-        Disposable disposable = mModel.personInfoRequest(phone).compose(mView.applySchedulers())
+        Disposable disposable = mModel.personInfoRequest(phone).retryWhen(new RetryWithDelay(3,3000)).compose(mView.applySchedulers())
                 .subscribe(this::getPersonInfoSuccess
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);

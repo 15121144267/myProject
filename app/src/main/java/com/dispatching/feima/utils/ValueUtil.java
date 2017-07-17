@@ -1,5 +1,6 @@
 package com.dispatching.feima.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
@@ -280,5 +282,14 @@ public class ValueUtil {
             return icon;
         }
         return null;
+    }
+    public static Integer getNumber (TextView text){
+
+        return null;
+    }
+
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
     }
 }
