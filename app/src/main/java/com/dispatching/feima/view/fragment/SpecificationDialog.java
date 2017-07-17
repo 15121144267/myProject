@@ -193,14 +193,15 @@ public class SpecificationDialog extends BaseDialogFragment {
                                 maxText = s;
                             }
                         }
-                        int number = 0;
-                        Integer news =maxText.length();
+                        int number;
                         switch (maxText.length()) {
                             case 1:
                             case 2:
-                                number = 5;
+                                number = 6;
                                 break;
                             case 3:
+                                number = 5;
+                                break;
                             case 4:
                                 number = 4;
                                 break;
