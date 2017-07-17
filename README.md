@@ -4,6 +4,7 @@
 
 <h1>功能介绍：</h1><br/>
 <h3>有三个分支可以切换</h3><br/>
+<h3>配送分支服务器已经下架，暂无后续更新</h3><br/>
 <ol>
     <li>android 5.0 design设计风格 部分UI通过SVG转换成Vector(内存占有率少，目前适配也可以)</li>
     <li>框架采用MVP模式+ButterKnife视图注入+Dagger2对象注入模式</li>
@@ -26,6 +27,27 @@
     <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/notice.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/worksummary.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/setting.png" height="350" width="230"></li>
+</ol>
+<h3>分支：helei_banshengyuan商城类app</h3><br/>
+<h3>一下为UI界面</h3><br/>
+<ol>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_1.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_2.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_3.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_4.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_5.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_6.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_7.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_8.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_9.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_10.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_11.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_12.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_13.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_14.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_15.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_16.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/feima_dispatching/blob/dispatching_super_socket/readmepci/banshengyuan_17.png" height="350" width="230"></li>
 </ol>
 
 
