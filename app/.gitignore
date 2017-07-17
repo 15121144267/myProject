@@ -8,7 +8,5 @@
 /captures
 .externalNativeBuild
 src/androidTest/
-src/main/java/com/dispatching/feima/gen/OrderNoticeDao.java
-src/main/res/animator/
 src/test/
 *.jks

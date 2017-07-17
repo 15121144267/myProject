@@ -123,13 +123,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         showToast("购买");
     }
 
-    private void initializeInjector() {
-        DaggerGoodsDetailActivityComponent.builder()
-                .applicationComponent(getApplicationComponent())
-                .goodsDetailActivityModule(new GoodsDetailActivityModule(GoodDetailActivity.this, this))
-                .build().inject(this);
-    }
-
     @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
@@ -193,16 +186,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationEmptyDialog.TAG);
     }
 
-   /* private void requestShowDetail() {
-        if (mGoodsDetailLinear.getVisibility() == View.GONE) {
-            mGoodsDetailLinear.setVisibility(View.VISIBLE);
-            mExpandGoodDetail.setVisibility(View.GONE);
-        } else {
-            mGoodsDetailLinear.setVisibility(View.GONE);
-            mExpandGoodDetail.setVisibility(View.VISIBLE);
-        }
-    }*/
-
     private void requestGoodsSpecification() {
         SpecificationDialog dialog = SpecificationDialog.newInstance();
         dialog.setImageLoadHelper(mImageLoaderHelper);
@@ -217,22 +200,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationDialog.TAG);
     }
 
-
-    /*Html.ImageGetter imgGetter = source -> {
-        URL url;
-        try {
-            url = new URL(source);
-            LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ImageView imageView = new ImageView(GoodDetailActivity.this);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setLayoutParams(params);
-            mImageLoaderHelper.displayImage(GoodDetailActivity.this, url.toString().trim(), imageView);
-            mGoodsDetailLinear.addView(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return null;
-    };*/
-
+    private void initializeInjector() {
+        DaggerGoodsDetailActivityComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .goodsDetailActivityModule(new GoodsDetailActivityModule(GoodDetailActivity.this, this))
+                .build().inject(this);
+    }
 }
