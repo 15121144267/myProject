@@ -126,7 +126,7 @@
                     android:background="@mipmap/button_expand_detail"
                     />
 
-                <LinearLayout
+                <TextView
                     android:id="@+id/goods_detail_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

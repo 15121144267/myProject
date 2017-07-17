@@ -473,15 +473,12 @@ public class WheelView extends View {
         if (onItemSelectListener == null && onWheelListener == null) {
             return;
         }
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (onItemSelectListener != null) {
-                    onItemSelectListener.onSelected(selectedIndex);
-                }
-                if (onWheelListener != null) {
-                    onWheelListener.onSelected(true, selectedIndex, items.get(selectedIndex).getName());
-                }
+        postDelayed(() -> {
+            if (onItemSelectListener != null) {
+                onItemSelectListener.onSelected(selectedIndex);
+            }
+            if (onWheelListener != null) {
+                onWheelListener.onSelected(true, selectedIndex, items.get(selectedIndex).getName());
             }
         }, 200L);
     }

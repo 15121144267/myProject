@@ -30,6 +30,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainControl.MainView, BottomNavigationView.OnNavigationItemSelectedListener, CommonDialog.CommonDialogListener {
+    public static Intent getMainIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     public static final Integer DIALOG_TYPE_EXIT_OK = 1;
     @BindView(R.id.view_swapper)
@@ -37,13 +40,8 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     @BindView(R.id.view_bottom_navigation)
     BottomNavigationView mViewBottomNavigation;
 
-    public static Intent getMainIntent(Context context) {
-        return new Intent(context, MainActivity.class);
-    }
-
     @Inject
     MainControl.PresenterMain mPresenter;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,8 +51,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         initializeInjector();
         initView();
         initData();
-
-
     }
 
     private void initData() {
@@ -91,7 +87,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     public Context getContext() {
         return this;
     }
-
 
     private void initView() {
         List<Fragment> fragments = new ArrayList<>();
@@ -133,20 +128,12 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-
     private void showDialog() {
         CommonDialog commonDialog = CommonDialog.newInstance();
         commonDialog.setContent(getString(R.string.main_exit));
         commonDialog.setListener(this, DIALOG_TYPE_EXIT_OK);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
-
 
     private void initializeInjector() {
         DaggerMainActivityComponent.builder()

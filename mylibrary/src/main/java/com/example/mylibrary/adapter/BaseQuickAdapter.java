@@ -727,7 +727,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     @Override
     public K onCreateViewHolder(ViewGroup parent, int viewType) {
-        K baseViewHolder = null;
+        K baseViewHolder;
         this.mContext = parent.getContext();
         this.mLayoutInflater = LayoutInflater.from(mContext);
         switch (viewType) {
@@ -1014,13 +1014,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
                 constructor.setAccessible(true);
                 return (K) constructor.newInstance(view);
             }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
         }
         return null;
@@ -1421,7 +1415,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     private void addAnimation(RecyclerView.ViewHolder holder) {
         if (mOpenAnimationEnable) {
             if (!mFirstOnlyEnable || holder.getLayoutPosition() > mLastPosition) {
-                BaseAnimation animation = null;
+                BaseAnimation animation;
                 if (mCustomAnimation != null) {
                     animation = mCustomAnimation;
                 } else {
@@ -1695,7 +1689,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     public void expandAll() {
-        for (int i = mData.size() - 1; i >= 0 + getHeaderLayoutCount(); i--) {
+        for (int i = mData.size() - 1; i >= getHeaderLayoutCount(); i--) {
             expandAll(i, false, false);
         }
     }
@@ -1708,7 +1702,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         }
         IExpandable expandable = (IExpandable) item;
         int subItemCount = 0;
-        if (expandable.isExpanded()) {
+        if (expandable != null && expandable.isExpanded()) {
             List<T> subItems = expandable.getSubItems();
             for (int i = subItems.size() - 1; i >= 0; i--) {
                 T subItem = subItems.get(i);

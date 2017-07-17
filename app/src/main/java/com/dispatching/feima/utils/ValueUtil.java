@@ -223,6 +223,7 @@ public class ValueUtil {
             e.printStackTrace();
         }
 
+        assert tabStrip != null;
         tabStrip.setAccessible(true);
         LinearLayout llTab = null;
         try {
@@ -234,7 +235,7 @@ public class ValueUtil {
         int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
         int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
 
-        for (int i = 0; i < llTab.getChildCount(); i++) {
+        for (int i = 0; i < (llTab != null ? llTab.getChildCount() : 0); i++) {
             View child = llTab.getChildAt(i);
             child.setPadding(0, 0, 0, 0);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);

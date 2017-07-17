@@ -87,9 +87,9 @@ android {
         variant.outputs.each { output ->
             def file = output.outputFile
             def fileName
-            if (variant.buildType.name.equals('release')) {
+            if (variant.buildType.name == 'release') {
                 fileName = "dispatching-v" + rootProject.ext.myVersionName +  ".apk"
-            } else if (variant.buildType.name.equals('debug')) {
+            } else if (variant.buildType.name == 'debug') {
                 fileName = "dispatching-v" + rootProject.ext.myVersionName +  "_debug.apk"
             }
             output.outputFile = new File(file.parent,

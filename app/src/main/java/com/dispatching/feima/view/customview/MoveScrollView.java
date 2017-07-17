@@ -3,7 +3,6 @@ package com.dispatching.feima.view.customview;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -117,15 +116,12 @@ public class MoveScrollView extends ScrollView {
 					// 设置动画
 					ValueAnimator anim = ObjectAnimator.ofFloat(0.0F, 1.0F).setDuration(200);
 
-					anim.addUpdateListener(new AnimatorUpdateListener() {
-						@Override
-						public void onAnimationUpdate(ValueAnimator animation) {
-							float cVal = (Float) animation.getAnimatedValue();
-							lp.width = (int) (w - (w - newW) * cVal);
-							lp.height = (int) (h - (h - newH) * cVal);
-							image.setLayoutParams(lp);
-						}
-					});
+					anim.addUpdateListener(animation -> {
+                        float cVal = (Float) animation.getAnimatedValue();
+                        lp.width = (int) (w - (w - newW) * cVal);
+                        lp.height = (int) (h - (h - newH) * cVal);
+                        image.setLayoutParams(lp);
+                    });
 					anim.start();
 
 					break;

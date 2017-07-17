@@ -117,11 +117,11 @@ public class WheelView extends View {
     private WheelRecycle recycle = new WheelRecycle(this);
     
     // Listeners
-    private List<OnWheelChangedListener> changingListeners = new LinkedList<OnWheelChangedListener>();
+    private List<OnWheelChangedListener> changingListeners = new LinkedList<>();
     
-    private List<OnWheelScrollListener> scrollingListeners = new LinkedList<OnWheelScrollListener>();
+    private List<OnWheelScrollListener> scrollingListeners = new LinkedList<>();
     
-    private List<OnWheelClickedListener> clickingListeners = new LinkedList<OnWheelClickedListener>();
+    private List<OnWheelClickedListener> clickingListeners = new LinkedList<>();
     
     /**
      * Constructor
@@ -673,7 +673,7 @@ public class WheelView extends View {
         
         //从中间到顶部渐变处理
         int count = getVisibleItems() == 2 ? 1 : getVisibleItems() / 2;
-        int height = (int) (count * getItemHeight());
+        int height = count * getItemHeight();
         
         topShadow.setBounds(0, 0, getWidth(), height);
         topShadow.draw(canvas);
@@ -878,7 +878,7 @@ public class WheelView extends View {
      * @return true if items are rebuilt
      */
     private boolean rebuildItems() {
-        boolean updated = false;
+        boolean updated;
         ItemsRange range = getItemsRange();
         if (itemsLayout != null) {
             int first = recycle.recycleItems(itemsLayout, firstItem, range);
@@ -891,10 +891,10 @@ public class WheelView extends View {
         }
         
         if (!updated) {
-            updated = firstItem != range.getFirst() || itemsLayout.getChildCount() != range.getCount();
+            updated = firstItem != (range != null ? range.getFirst() : 0) || itemsLayout.getChildCount() != (range != null ? range.getCount() : 0);
         }
         
-        if (firstItem > range.getFirst() && firstItem <= range.getLast()) {
+        if (firstItem > (range != null ? range.getFirst() : 0) && firstItem <= (range != null ? range.getLast() : 0)) {
             for (int i = firstItem - 1; i >= range.getFirst(); i--) {
                 if (!addViewItem(i, true)) {
                     break;

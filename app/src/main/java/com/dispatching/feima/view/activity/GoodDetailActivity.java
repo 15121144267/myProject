@@ -6,15 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
@@ -25,6 +22,8 @@ import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.GlideLoader;
+import com.dispatching.feima.help.HtmlHelp.MxgsaTagHandler;
+import com.dispatching.feima.help.HtmlHelp.URLImageParser;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
 import com.dispatching.feima.view.fragment.SpecificationDialog;
@@ -32,7 +31,6 @@ import com.dispatching.feima.view.fragment.SpecificationEmptyDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +70,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @BindView(R.id.goods_detail_button)
     Button mGoodsDetailButton;
     @BindView(R.id.goods_detail_linear)
-    LinearLayout mGoodsDetailLinear;
+    TextView mGoodsDetailLinear;
     @BindView(R.id.banner)
     Banner mBanner;
 
@@ -104,9 +102,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Override
     public void getGoodsInfoSuccess(GoodsInfoResponse data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(data.detailText, Html.FROM_HTML_MODE_LEGACY, imgGetter, null);
+            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText,Html.FROM_HTML_MODE_LEGACY, new URLImageParser(mGoodsDetailLinear,this), new MxgsaTagHandler(this)));
         } else {
-            Html.fromHtml(data.detailText, imgGetter, null);
+            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, new URLImageParser(mGoodsDetailLinear,this), new MxgsaTagHandler(this)));
         }
     }
 
@@ -220,7 +218,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
 
-    Html.ImageGetter imgGetter = source -> {
+    /*Html.ImageGetter imgGetter = source -> {
         URL url;
         try {
             url = new URL(source);
@@ -235,6 +233,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             return null;
         }
         return null;
-    };
+    };*/
 
 }

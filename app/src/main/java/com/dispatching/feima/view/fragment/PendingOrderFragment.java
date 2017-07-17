@@ -21,7 +21,6 @@ import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.MainProducts;
-import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.entity.ShopResponse;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
@@ -79,7 +78,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     private MainProductsAdapter mAdapter;
     private List<MainProducts> mList;
     private List<Integer> mImageList;
-    private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花园", "会员积分", "更多"};
+    private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -177,21 +176,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
 
     }
 
-    @Override
-    public void getPendingOrderSuccess(OrderDeliveryResponse response) {
-
-    }
-
-    @Override
-    public void getPendingOrderComplete() {
-        dismissLoading();
-    }
-
-    @Override
-    public void getOrderError(Throwable throwable) {
-        showErrMessage(throwable);
-    }
-
     private void initAdapter() {
 
         mProductsItem.setLayoutManager(new GridLayoutManager(getActivity(), 4));
@@ -245,13 +229,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         }
     }
 
-
-    @Override
-    public void updateOrderStatusSuccess() {
-
-    }
-
-
     @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
@@ -292,14 +269,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
                 .fragmentModule(new FragmentModule(this, (MainActivity) getActivity())).build()
                 .inject(this);
     }
-
-    /*private void showPasswordDialog(String orderId) {
-        SpecificationEmptyDialog passwordDialog = SpecificationEmptyDialog.newInstance();
-        passwordDialog.setContent(orderId);
-        passwordDialog.setTitle(getString(R.string.dialog_password_tips));
-        passwordDialog.setListener(this);
-        DialogFactory.showDialogFragment(getActivity().getSupportFragmentManager(), passwordDialog, SpecificationEmptyDialog.TAG);
-    }*/
 
     @Override
     public void onDestroyView() {

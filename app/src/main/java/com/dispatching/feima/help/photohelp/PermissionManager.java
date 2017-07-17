@@ -70,9 +70,9 @@ public class PermissionManager {
     public static TPermissionType checkPermission(@NonNull TContextWrap contextWrap, @NonNull Method method) {
         String methodName = method.getName();
         boolean contain=false;
-        for(int i=0,j=methodNames.length;i<j;i++){
-            if(TextUtils.equals(methodName,methodNames[i])){
-                contain=true;
+        for (String methodName1 : methodNames) {
+            if (TextUtils.equals(methodName, methodName1)) {
+                contain = true;
                 break;
             }
         }

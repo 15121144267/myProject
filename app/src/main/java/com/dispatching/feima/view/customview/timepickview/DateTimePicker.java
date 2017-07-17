@@ -16,7 +16,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
 
@@ -432,30 +431,27 @@ public class DateTimePicker extends WheelPicker {
             yearView.setLayoutParams(new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1.0f));
             yearView.setItems(years, selectedYearIndex);
             //yearView.setLabel(yearLabel);
-            yearView.setOnItemSelectListener(new WheelView.OnItemSelectListener() {
-                @Override
-                public void onSelected(int index) {
-                    selectedYearIndex = index;
-                    String selectedYearStr = years.get(selectedYearIndex);
-                    if (onWheelListener != null) {
-                        onWheelListener.onYearWheeled(selectedYearIndex, selectedYearStr);
-                    }
-                    if (resetWhileWheel) {
-                        selectedMonthIndex = 0;//重置月份索引
-                        selectedDayIndex = 0;//重置日子索引
-                    }
-                    //需要根据年份及月份动态计算天数
-                    int selectedYear = DateUtils.trimZero(selectedYearStr);
-                    changeMonthData(selectedYear);
-                    monthView.setItems(months, selectedMonthIndex);
-                    if (onWheelListener != null) {
-                        onWheelListener.onMonthWheeled(selectedMonthIndex, months.get(selectedMonthIndex));
-                    }
-                    changeDayData(selectedYear, DateUtils.trimZero(months.get(selectedMonthIndex)));
-                    dayView.setItems(days, selectedDayIndex);
-                    if (onWheelListener != null) {
-                        onWheelListener.onDayWheeled(selectedDayIndex, days.get(selectedDayIndex));
-                    }
+            yearView.setOnItemSelectListener(index -> {
+                selectedYearIndex = index;
+                String selectedYearStr = years.get(selectedYearIndex);
+                if (onWheelListener != null) {
+                    onWheelListener.onYearWheeled(selectedYearIndex, selectedYearStr);
+                }
+                if (resetWhileWheel) {
+                    selectedMonthIndex = 0;//重置月份索引
+                    selectedDayIndex = 0;//重置日子索引
+                }
+                //需要根据年份及月份动态计算天数
+                int selectedYear = DateUtils.trimZero(selectedYearStr);
+                changeMonthData(selectedYear);
+                monthView.setItems(months, selectedMonthIndex);
+                if (onWheelListener != null) {
+                    onWheelListener.onMonthWheeled(selectedMonthIndex, months.get(selectedMonthIndex));
+                }
+                changeDayData(selectedYear, DateUtils.trimZero(months.get(selectedMonthIndex)));
+                dayView.setItems(days, selectedDayIndex);
+                if (onWheelListener != null) {
+                    onWheelListener.onDayWheeled(selectedDayIndex, days.get(selectedDayIndex));
                 }
             });
             layout.addView(yearView);
@@ -471,29 +467,26 @@ public class DateTimePicker extends WheelPicker {
             monthView.setLayoutParams(new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1.0f));
             monthView.setItems(months, selectedMonthIndex);
             //monthView.setLabel(monthLabel);
-            monthView.setOnItemSelectListener(new WheelView.OnItemSelectListener() {
-                @Override
-                public void onSelected(int index) {
-                    selectedMonthIndex = index;
-                    String selectedMonthStr = months.get(selectedMonthIndex);
-                    if (onWheelListener != null) {
-                        onWheelListener.onMonthWheeled(selectedMonthIndex, selectedMonthStr);
+            monthView.setOnItemSelectListener(index -> {
+                selectedMonthIndex = index;
+                String selectedMonthStr = months.get(selectedMonthIndex);
+                if (onWheelListener != null) {
+                    onWheelListener.onMonthWheeled(selectedMonthIndex, selectedMonthStr);
+                }
+                if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
+                    if (resetWhileWheel) {
+                        selectedDayIndex = 0;//重置日子索引
                     }
-                    if (dateMode == YEAR_MONTH_DAY || dateMode == MONTH_DAY) {
-                        if (resetWhileWheel) {
-                            selectedDayIndex = 0;//重置日子索引
-                        }
-                        int selectedYear;
-                        if (dateMode == YEAR_MONTH_DAY) {
-                            selectedYear = DateUtils.trimZero(getSelectedYear());
-                        } else {
-                            selectedYear = Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR);
-                        }
-                        changeDayData(selectedYear, DateUtils.trimZero(selectedMonthStr));
-                        dayView.setItems(days, selectedDayIndex);
-                        if (onWheelListener != null) {
-                            onWheelListener.onDayWheeled(selectedDayIndex, days.get(selectedDayIndex));
-                        }
+                    int selectedYear;
+                    if (dateMode == YEAR_MONTH_DAY) {
+                        selectedYear = DateUtils.trimZero(getSelectedYear());
+                    } else {
+                        selectedYear = Calendar.getInstance(Locale.CHINA).get(Calendar.YEAR);
+                    }
+                    changeDayData(selectedYear, DateUtils.trimZero(selectedMonthStr));
+                    dayView.setItems(days, selectedDayIndex);
+                    if (onWheelListener != null) {
+                        onWheelListener.onDayWheeled(selectedDayIndex, days.get(selectedDayIndex));
                     }
                 }
             });
@@ -510,13 +503,10 @@ public class DateTimePicker extends WheelPicker {
             dayView.setLayoutParams(new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1.0f));
             dayView.setItems(days, selectedDayIndex);
             //dayView.setLabel(dayLabel);
-            dayView.setOnItemSelectListener(new WheelView.OnItemSelectListener() {
-                @Override
-                public void onSelected(int index) {
-                    selectedDayIndex = index;
-                    if (onWheelListener != null) {
-                        onWheelListener.onDayWheeled(selectedDayIndex, days.get(selectedDayIndex));
-                    }
+            dayView.setOnItemSelectListener(index -> {
+                selectedDayIndex = index;
+                if (onWheelListener != null) {
+                    onWheelListener.onDayWheeled(selectedDayIndex, days.get(selectedDayIndex));
                 }
             });
             layout.addView(dayView);
@@ -532,16 +522,13 @@ public class DateTimePicker extends WheelPicker {
             hourView.setLayoutParams(new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1.0f));
             hourView.setItems(hours, selectedHour);
             //hourView.setLabel(hourLabel);
-            hourView.setOnItemSelectListener(new WheelView.OnItemSelectListener() {
-                @Override
-                public void onSelected(int index) {
-                    selectedHour = hours.get(index);
-                    if (onWheelListener != null) {
-                        onWheelListener.onHourWheeled(index, selectedHour);
-                    }
-                    changeMinuteData(DateUtils.trimZero(selectedHour));
-                    minuteView.setItems(minutes, selectedMinute);
+            hourView.setOnItemSelectListener(index -> {
+                selectedHour = hours.get(index);
+                if (onWheelListener != null) {
+                    onWheelListener.onHourWheeled(index, selectedHour);
                 }
+                changeMinuteData(DateUtils.trimZero(selectedHour));
+                minuteView.setItems(minutes, selectedMinute);
             });
             layout.addView(hourView);
             if (!TextUtils.isEmpty(hourLabel)) {
@@ -554,13 +541,10 @@ public class DateTimePicker extends WheelPicker {
             minuteView.setLayoutParams(new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1.0f));
             minuteView.setItems(minutes, selectedMinute);
             //minuteView.setLabel(minuteLabel);
-            minuteView.setOnItemSelectListener(new WheelView.OnItemSelectListener() {
-                @Override
-                public void onSelected(int index) {
-                    selectedMinute = minutes.get(index);
-                    if (onWheelListener != null) {
-                        onWheelListener.onMinuteWheeled(index, selectedMinute);
-                    }
+            minuteView.setOnItemSelectListener(index -> {
+                selectedMinute = minutes.get(index);
+                if (onWheelListener != null) {
+                    onWheelListener.onMinuteWheeled(index, selectedMinute);
                 }
             });
             layout.addView(minuteView);
@@ -603,19 +587,16 @@ public class DateTimePicker extends WheelPicker {
 
     private int findItemIndex(ArrayList<String> items, int item) {
         //折半查找有序元素的索引
-        int index = Collections.binarySearch(items, item, new Comparator<Object>() {
-            @Override
-            public int compare(Object lhs, Object rhs) {
-                String lhsStr = lhs.toString();
-                String rhsStr = rhs.toString();
-                lhsStr = lhsStr.startsWith("0") ? lhsStr.substring(1) : lhsStr;
-                rhsStr = rhsStr.startsWith("0") ? rhsStr.substring(1) : rhsStr;
-                try {
-                    return Integer.parseInt(lhsStr) - Integer.parseInt(rhsStr);
-                } catch (java.lang.NumberFormatException e) {
-                    e.printStackTrace();
-                    return 0;
-                }
+        int index = Collections.binarySearch(items, item, (lhs, rhs) -> {
+            String lhsStr = lhs.toString();
+            String rhsStr = rhs.toString();
+            lhsStr = lhsStr.startsWith("0") ? lhsStr.substring(1) : lhsStr;
+            rhsStr = rhsStr.startsWith("0") ? rhsStr.substring(1) : rhsStr;
+            try {
+                return Integer.parseInt(lhsStr) - Integer.parseInt(rhsStr);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                return 0;
             }
         });
         if (index < 0) {

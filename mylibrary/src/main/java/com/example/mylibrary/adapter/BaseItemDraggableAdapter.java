@@ -59,7 +59,7 @@ public abstract class BaseItemDraggableAdapter<T, K extends BaseViewHolder> exte
         if (mItemTouchHelper != null && itemDragEnabled && viewType != LOADING_VIEW && viewType != HEADER_VIEW
                 && viewType != EMPTY_VIEW && viewType != FOOTER_VIEW) {
             if (mToggleViewId != NO_TOGGLE_VIEW) {
-                View toggleView = ((BaseViewHolder) holder).getView(mToggleViewId);
+                View toggleView = holder.getView(mToggleViewId);
                 if (toggleView != null) {
                     toggleView.setTag(R.id.BaseQuickAdapter_viewholder_support, holder);
                     if (mDragOnLongPress) {
@@ -162,7 +162,7 @@ public abstract class BaseItemDraggableAdapter<T, K extends BaseViewHolder> exte
 
     /**
      * <p>Enable swipe items.</p>
-     * You should attach {@link ItemTouchHelper} which construct with {@link ItemDragAndSwipeCallback} to the Recycler when you enable this.
+     * You should attach {@link ItemTouchHelper} which construct with {@link } to the Recycler when you enable this.
      */
     public void enableSwipeItem() {
         itemSwipeEnabled = true;

@@ -34,7 +34,7 @@
     <string name="text_verify_code">获取验证码</string>
     <string name="text_take_order">取餐</string>
     <string name="text_complete_order">已送达</string>
-    <string name="text_notice_time">2017–04-25 12:40:42</string>
+    <string name="text_notice_time">2017–04–25 12:40:42</string>
     <string name="text_notice_time_content">分配时间：</string>
     <string name="text_notice_content">您有一份待取餐的订单 请及时处理</string>
     <string name="text_setting_version">V 1.0</string>
@@ -69,7 +69,7 @@
     <string name="tip_type_not_image">选择的不是图片</string>
     <string name="tip_no_camera">没有相机</string>
     <string name="tip_tips">提示</string>
-    <string name="tip_compress">正在压缩照片...</string>
+    <string name="tip_compress">正在压缩照片…</string>
     <string name="tip_compress_failed">"%1$s 图片压缩失败:%2$s picturePath:%3$s"</string>
     <string name="msg_crop_failed">"有裁切失败的图片"</string>
     <string name="msg_compress_failed">"有压缩失败的图片"</string>

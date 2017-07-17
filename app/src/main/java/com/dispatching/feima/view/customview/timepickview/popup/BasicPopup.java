@@ -157,22 +157,16 @@ public abstract class BasicPopup<V extends View> implements DialogInterface.OnKe
     }
 
     public void setOnDismissListener(final DialogInterface.OnDismissListener onDismissListener) {
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                BasicPopup.this.onDismiss(dialog);
-                onDismissListener.onDismiss(dialog);
-            }
+        dialog.setOnDismissListener(dialog1 -> {
+            BasicPopup.this.onDismiss(dialog1);
+            onDismissListener.onDismiss(dialog1);
         });
     }
 
     public void setOnKeyListener(final DialogInterface.OnKeyListener onKeyListener) {
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                BasicPopup.this.onKey(dialog, keyCode, event);
-                return onKeyListener.onKey(dialog, keyCode, event);
-            }
+        dialog.setOnKeyListener((dialog1, keyCode, event) -> {
+            BasicPopup.this.onKey(dialog1, keyCode, event);
+            return onKeyListener.onKey(dialog1, keyCode, event);
         });
     }
 

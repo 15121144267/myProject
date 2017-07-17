@@ -52,18 +52,6 @@ public class PresenterPendingImpl implements PendingOrderControl.PresenterPendin
     }
 
     @Override
-    public void requestTakeOrder(String token, String uId, String deliveryId) {
-
-    }
-
-    @Override
-    public void requestUpOrder(String businessId) {
-       /* mMainModel.updateDb(businessId).compose(mView.applySchedulers()).subscribe(this::updateSuccess,
-                throwable -> mView.showErrMessage(throwable));*/
-    }
-
-
-    @Override
     public void onCreate() {
 
     }

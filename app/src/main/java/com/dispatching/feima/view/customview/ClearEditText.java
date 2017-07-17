@@ -55,17 +55,14 @@ public class ClearEditText extends LinearLayout {
         } else {
             mBtnClear.setVisibility(View.GONE);
         }
-        mBtnClear.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (!TextUtils.isEmpty(editText.getText())) {
-                    editText.setText("");
-                }
-                if (!isAlwaysShowDeleteBtn) {
-                    mBtnClear.setVisibility(View.GONE);
-                }
-                editText.requestFocus();
+        mBtnClear.setOnClickListener(arg0 -> {
+            if (!TextUtils.isEmpty(editText.getText())) {
+                editText.setText("");
             }
+            if (!isAlwaysShowDeleteBtn) {
+                mBtnClear.setVisibility(View.GONE);
+            }
+            editText.requestFocus();
         });
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -82,7 +79,7 @@ public class ClearEditText extends LinearLayout {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (isInputBalance == true) {
+                if (isInputBalance) {
                     String temp = s.toString();
                     if (temp.length() > 1) {
                         char c1 = temp.charAt(0);
@@ -106,7 +103,7 @@ public class ClearEditText extends LinearLayout {
                 if (isAlwaysShowDeleteBtn) {
                     mBtnClear.setVisibility(View.VISIBLE);
                 } else {
-                    if (TextUtils.isEmpty(s.toString()) == false) {
+                    if (!TextUtils.isEmpty(s.toString())) {
                         mBtnClear.setVisibility(View.VISIBLE);
                     } else {
                         mBtnClear.setVisibility(View.GONE);
@@ -215,7 +212,7 @@ public class ClearEditText extends LinearLayout {
     }
 
     public void setEnable(boolean enable) {
-        if (enable == false) {
+        if (!enable) {
             mBtnClear.setVisibility(View.INVISIBLE);
         } else {
             mBtnClear.setVisibility(View.VISIBLE);

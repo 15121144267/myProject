@@ -72,16 +72,14 @@ public abstract class LoadMoreView {
         this.mLoadMoreEndGone = loadMoreEndGone;
     }
 
-    public final boolean isLoadEndMoreGone(){
-        if(getLoadEndViewId()==0){
-            return true;
-        }
-        return mLoadMoreEndGone;}
+    public final boolean isLoadEndMoreGone() {
+        return getLoadEndViewId() == 0 || mLoadMoreEndGone;
+    }
 
     /**
      * No more data is hidden
      * @return true for no more data hidden load more
-     * @deprecated Use {@link BaseQuickAdapter#loadMoreEnd(boolean)} instead.
+     * @deprecated Use {@link #(boolean)} instead.
      */
     @Deprecated
     public boolean isLoadEndGone(){return mLoadMoreEndGone;}

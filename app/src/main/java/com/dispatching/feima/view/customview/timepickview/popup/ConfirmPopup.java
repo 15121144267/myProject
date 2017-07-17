@@ -320,12 +320,9 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         if (cancelTextSize != 0) {
             cancelButton.setTextSize(cancelTextSize);
         }
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                onCancel();
-            }
+        cancelButton.setOnClickListener(v -> {
+            dismiss();
+            onCancel();
         });
         topButtonLayout.addView(cancelButton);
 
@@ -365,12 +362,9 @@ public abstract class ConfirmPopup<V extends View> extends BasicPopup<View> {
         if (submitTextSize != 0) {
             submitButton.setTextSize(submitTextSize);
         }
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                onSubmit();
-            }
+        submitButton.setOnClickListener(v -> {
+            dismiss();
+            onSubmit();
         });
         topButtonLayout.addView(submitButton);
 

@@ -65,17 +65,17 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
     /**
      * key - 省 value - 市
      */
-    protected Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
+    protected Map<String, String[]> mCitisDatasMap = new HashMap<>();
 
     /**
      * key - 市 values - 区
      */
-    protected Map<String, String[]> mDistrictDatasMap = new HashMap<String, String[]>();
+    protected Map<String, String[]> mDistrictDatasMap = new HashMap<>();
 
     /**
      * key - 区 values - 邮编
      */
-    protected Map<String, String> mZipcodeDatasMap = new HashMap<String, String>();
+    protected Map<String, String> mZipcodeDatasMap = new HashMap<>();
 
     /**
      * 当前省的名称
@@ -294,23 +294,17 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         // 添加change事件
         mViewDistrict.addChangingListener(this);
         // 添加onclick事件
-        mTvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onCancel();
-                hide();
-            }
+        mTvCancel.setOnClickListener(v -> {
+            listener.onCancel();
+            hide();
         });
-        mTvOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (showProvinceAndCity) {
-                    listener.onSelected(mCurrentProviceName, mCurrentCityName, "", mCurrentZipCode);
-                } else {
-                    listener.onSelected(mCurrentProviceName, mCurrentCityName, mCurrentDistrictName, mCurrentZipCode);
-                }
-                hide();
+        mTvOK.setOnClickListener(v -> {
+            if (showProvinceAndCity) {
+                listener.onSelected(mCurrentProviceName, mCurrentCityName, "", mCurrentZipCode);
+            } else {
+                listener.onSelected(mCurrentProviceName, mCurrentCityName, mCurrentDistrictName, mCurrentZipCode);
             }
+            hide();
         });
 
     }
@@ -643,7 +637,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
                 }
             }
         }
-        ArrayWheelAdapter arrayWheelAdapter = new ArrayWheelAdapter<String>(context, mProvinceDatas);
+        ArrayWheelAdapter arrayWheelAdapter = new ArrayWheelAdapter<>(context, mProvinceDatas);
         mViewProvince.setViewAdapter(arrayWheelAdapter);
         //获取所设置的省的位置，直接定位到该位置
         if (-1 != provinceDefault) {
@@ -669,7 +663,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
      */
 
     protected void initProvinceDatas(Context context) {
-        List<ProvinceModel> provinceList = null;
+        List<ProvinceModel> provinceList;
         AssetManager asset = context.getAssets();
         try {
             InputStream input = asset.open("province_data.xml");
@@ -694,8 +688,8 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
                 }
             }
             //*/
-            mProvinceDatas = new String[provinceList.size()];
-            for (int i = 0; i < provinceList.size(); i++) {
+            mProvinceDatas = new String[provinceList != null ? provinceList.size() : 0];
+            for (int i = 0; i < (provinceList != null ? provinceList.size() : 0); i++) {
                 // 遍历所有省的数据
                 mProvinceDatas[i] = provinceList.get(i).getName();
                 List<CityModel> cityList = provinceList.get(i).getCityList();
@@ -752,7 +746,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             }
         }
 
-        ArrayWheelAdapter districtWheel = new ArrayWheelAdapter<String>(context, areas);
+        ArrayWheelAdapter districtWheel = new ArrayWheelAdapter<>(context, areas);
         // 设置可见条目数量
         districtWheel.setTextColor(textColor);
         districtWheel.setTextSize(textSize);
@@ -793,7 +787,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             }
         }
 
-        ArrayWheelAdapter cityWheel = new ArrayWheelAdapter<String>(context, cities);
+        ArrayWheelAdapter cityWheel = new ArrayWheelAdapter<>(context, cities);
         // 设置可见条目数量
         cityWheel.setTextColor(textColor);
         cityWheel.setTextSize(textSize);

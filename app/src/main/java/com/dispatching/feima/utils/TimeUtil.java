@@ -106,10 +106,10 @@ public class TimeUtil {
     //将秒数转换为  hh:mm:ss 00:20:30
     public static String secToTime(long timeString) {
 
-        String timeStr = null;
-        int hour = 0;
-        int minute = 0;
-        int second = 0;
+        String timeStr;
+        int hour;
+        int minute;
+        int second;
         if (timeString <= 0)
             return "00:00:00";
         else {
@@ -133,9 +133,9 @@ public class TimeUtil {
     //将秒数转换为  mm:ss 20:30
     public static String secToTime2(long timeString) {
 
-        String timeStr = null;
-        int minute = 0;
-        int second = 0;
+        String timeStr;
+        int minute;
+        int second;
         if (timeString <= 0)
             return "00:00";
         else {
@@ -152,9 +152,9 @@ public class TimeUtil {
             return "00:00";
         }
         long longTime = Long.parseLong(timeString);
-        String timeStr = null;
-        int minute = 0;
-        int second = 0;
+        String timeStr;
+        int minute;
+        int second;
         if (longTime <= 0) {
             return "00:00";
         } else if (longTime > 3599) {
@@ -175,9 +175,9 @@ public class TimeUtil {
      */
     public static String secToTime1(long timeString) {
 
-        String timeStr = null;
-        int hour = 0;
-        int minute = 0;
+        String timeStr;
+        int hour;
+        int minute;
         if (timeString <= 0) {
             return "数据有误";
         } else if (timeString < 60) {
@@ -211,7 +211,7 @@ public class TimeUtil {
     }
 
     public static String unitFormat(int i) {
-        String retStr = null;
+        String retStr;
         if (i >= 0 && i < 10)
             retStr = "0" + Integer.toString(i);
         else

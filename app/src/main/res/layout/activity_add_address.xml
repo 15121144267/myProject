@@ -120,7 +120,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="40dp"
             android:background="@null"
-            android:textColorHint="@color/light_grey_dark"
             android:textSize="14sp"/>
     </LinearLayout>
 

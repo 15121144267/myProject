@@ -50,36 +50,33 @@ public class CompressImageUtil {
 			sendMsg(false,imgPath,"像素压缩失败,bitmap is null",listener);
 			return;
 		}
-		new Thread(new Runnable() {//开启多线程进行压缩处理
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				int options = 100;
-				bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//质量压缩方法，把压缩后的数据存放到baos中 (100表示不压缩，0表示压缩到最小)
-				while (baos.toByteArray().length >config.getMaxSize()) {//循环判断如果压缩后图片是否大于指定大小,大于继续压缩
-					baos.reset();//重置baos即让下一次的写入覆盖之前的内容 
-					options -= 5;//图片质量每次减少5
-					if(options<=5)options=5;//如果图片质量小于5，为保证压缩后的图片质量，图片最底压缩质量为5
-					bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//将压缩后的图片保存到baos中
-					if(options==5)break;//如果图片的质量已降到最低则，不再进行压缩
-				}
+		new Thread(() -> {
+            // TODO Auto-generated method stub
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int options = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//质量压缩方法，把压缩后的数据存放到baos中 (100表示不压缩，0表示压缩到最小)
+            while (baos.toByteArray().length >config.getMaxSize()) {//循环判断如果压缩后图片是否大于指定大小,大于继续压缩
+                baos.reset();//重置baos即让下一次的写入覆盖之前的内容
+                options -= 5;//图片质量每次减少5
+                if(options<=5)options=5;//如果图片质量小于5，为保证压缩后的图片质量，图片最底压缩质量为5
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//将压缩后的图片保存到baos中
+                if(options==5)break;//如果图片的质量已降到最低则，不再进行压缩
+            }
 //				if(bitmap!=null&&!bitmap.isRecycled()){
 //					bitmap.recycle();//回收内存中的图片
 //				}
-				try {
-					File thumbnailFile=getThumbnailFile(new File(imgPath));
-					FileOutputStream fos = new FileOutputStream(thumbnailFile);//将压缩后的图片保存的本地上指定路径中
-					fos.write(baos.toByteArray());
-					fos.flush();
-					fos.close();
-					sendMsg(true, thumbnailFile.getPath(),null,listener);
-				} catch (Exception e) {
-					sendMsg(false,imgPath,"质量压缩失败",listener);
-					e.printStackTrace();
-				}
-			}
-		}).start();
+            try {
+                File thumbnailFile=getThumbnailFile(new File(imgPath));
+                FileOutputStream fos = new FileOutputStream(thumbnailFile);//将压缩后的图片保存的本地上指定路径中
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
+                sendMsg(true, thumbnailFile.getPath(),null,listener);
+            } catch (Exception e) {
+                sendMsg(false,imgPath,"质量压缩失败",listener);
+                e.printStackTrace();
+            }
+        }).start();
 	}
 	/**
 	 * 按比例缩小图片的像素以达到压缩的目的
@@ -129,16 +126,13 @@ public class CompressImageUtil {
 	 * @param message
 	 */
 	private void sendMsg(final boolean isSuccess, final String imagePath,final String message, final CompressListener listener){
-		mhHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				if (isSuccess){
-					listener.onCompressSuccess(imagePath);
-				}else{
-					listener.onCompressFailed(imagePath,message);
-				}
-			}
-		});
+		mhHandler.post(() -> {
+            if (isSuccess){
+                listener.onCompressSuccess(imagePath);
+            }else{
+                listener.onCompressFailed(imagePath,message);
+            }
+        });
 	}
 	private File getThumbnailFile(File file){
 		if (file==null||!file.exists())return file;
