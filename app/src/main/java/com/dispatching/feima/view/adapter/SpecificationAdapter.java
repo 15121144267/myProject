@@ -19,8 +19,9 @@ public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.Pr
     private SpecificationDialog mDialog;
     private List<ShopDetailResponse.ProductsBean.SpecificationListBean> mSpecificationList;
 
-    public void setPosition(Integer position) {
+    public void setPosition(Integer position,List<ShopDetailResponse.ProductsBean.SpecificationListBean> list) {
         mPosition = position;
+        mSpecificationList = list;
         notifyDataSetChanged();
     }
 
@@ -37,9 +38,12 @@ public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.Pr
         if (helper.getAdapterPosition() == mSpecificationList.size() - 1) {
             helper.setVisible(R.id.specification_line, false);
         }
-        helper.setText(R.id.adapter_specification_name, item.partName);
-        RecyclerView recyclerView = helper.getView(R.id.adapter_specification);
-        decideSpecification(helper, item, recyclerView);
+        if(helper.getAdapterPosition() != mPosition){
+            helper.setText(R.id.adapter_specification_name, item.partName);
+            RecyclerView recyclerView = helper.getView(R.id.adapter_specification);
+            decideSpecification(helper, item, recyclerView);
+        }
+
     }
 
     private void decideSpecification(BaseViewHolder helper, ShopDetailResponse.ProductsBean.SpecificationListBean bean, RecyclerView recyclerView) {

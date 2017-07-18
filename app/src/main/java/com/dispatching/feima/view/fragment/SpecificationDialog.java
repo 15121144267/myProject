@@ -63,6 +63,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     private Unbinder unbind;
     private final List<String> mSizeList = new ArrayList<>();
     private final List<String> mColorList = new ArrayList<>();
+    private final List<String> mZipperList = new ArrayList<>();
     private SpecificationColorAdapter colorAdapter;
     private SpecificationSizeAdapter sizeAdapter;
     private ImageLoaderHelper mImageLoaderHelper;
@@ -91,29 +92,40 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public void setSelectPosition(String name, Integer position, String flagName) {
+        mSizeList.clear();
+        mColorList.clear();
+        mZipperList.clear();
         List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
         List<ShopDetailResponse.ProductsBean.SpecificationListBean> list = mProduct.specificationList;
 //        ShopDetailResponse.ProductsBean.SpecificationListBean bean  =list.get(position);
         for (int i = 0; i < list.size(); i++) {
-            if(position!=i){
-                ShopDetailResponse.ProductsBean.SpecificationListBean bean  = list.get(i);
-               if(!bean.partName.equals(flagName)){
-                   for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-                       if (productSpecificationBean.zipper.equals(name)) {
-                           mSizeList.add(productSpecificationBean.size);
-                           mColorList.add(productSpecificationBean.color);
-                       } else if (productSpecificationBean.size.equals(name)) {
-                           mSizeList.add(productSpecificationBean.size);
-                           mColorList.add(productSpecificationBean.zipper);
-                       } else {
-
-                       }
-                   }
-               }
+            if (position != i) {
+                ShopDetailResponse.ProductsBean.SpecificationListBean bean = list.get(i);
+                if (!bean.partName.equals(flagName)) {
+                    for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+                        if (productSpecificationBean.zipper!=null&&productSpecificationBean.zipper.equals(name)) {
+                            mSizeList.add(productSpecificationBean.size);
+                            mColorList.add(productSpecificationBean.color);
+                        } else if (productSpecificationBean.size!=null&&productSpecificationBean.size.equals(name)) {
+                            mSizeList.add(productSpecificationBean.size);
+                            mZipperList.add(productSpecificationBean.zipper);
+                        } else if(productSpecificationBean.color!=null&&productSpecificationBean.color.equals(name)){
+                            mSizeList.add(productSpecificationBean.size);
+                            mZipperList.add(productSpecificationBean.zipper);
+                        }
+                    }
+                    if (bean.partName.equals("color")) {
+                        bean.value = mColorList;
+                    } else if (bean.partName.equals("size")) {
+                        bean.value = mSizeList;
+                    } else if (bean.partName.equals("zipper")) {
+                        bean.value = mZipperList;
+                    }
+                }
 
             }
-
         }
+        mAdapter.setPosition(position,list);
 
     }
 
