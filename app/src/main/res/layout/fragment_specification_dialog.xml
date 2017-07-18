@@ -122,14 +122,19 @@
                     android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
-
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/specification_diff_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+      <!--  <android.support.v4.widget.NestedScrollView
             android:id="@+id/specification_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
             <LinearLayout
+                android:id="@+id/specification_diff_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -143,20 +148,12 @@
                     android:text="颜色分类"
                     android:textColor="@color/black"/>
 
-                <RelativeLayout
-                    android:id="@+id/list_color_text"
-                    android:layout_width="match_parent"
-                    android:visibility="invisible"
-                    android:layout_height="match_parent">
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/dialog_goods_color"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
-                        android:nestedScrollingEnabled="false"/>
-
-                </RelativeLayout>
+                       />
 
 
                 <View
@@ -175,12 +172,6 @@
                     android:text="尺寸"
                     android:textColor="@color/black"/>
 
-                <RelativeLayout
-                    android:id="@+id/list_size_text"
-                    android:visibility="invisible"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/dialog_goods_size"
                         android:layout_width="match_parent"
@@ -188,10 +179,9 @@
                         android:layout_margin="15dp"
                        />
 
-                </RelativeLayout>
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>-->
 
         <Button
             android:id="@+id/dialog_buy_goods"

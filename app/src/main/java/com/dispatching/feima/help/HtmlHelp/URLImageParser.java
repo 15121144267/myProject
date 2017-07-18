@@ -24,11 +24,12 @@ public class URLImageParser implements Html.ImageGetter {
     }
 
     public Drawable getDrawable(String source) {
-        final URLDrawable urlDrawable = new URLDrawable();
+        final URLDrawable urlDrawable = new URLDrawable(mContext);
         Glide.with(mContext).load(source).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 urlDrawable.bitmap = resource;
+                urlDrawable.setHeight(resource.getHeight());
                 urlDrawable.setBounds(0,0,mContext.getResources().getDisplayMetrics().widthPixels ,resource.getHeight());
                 mTextView.invalidate();
                 mTextView.setText(mTextView.getText());//解决图片重叠

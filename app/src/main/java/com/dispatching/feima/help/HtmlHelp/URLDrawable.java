@@ -1,7 +1,9 @@
 package com.dispatching.feima.help.HtmlHelp;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 
 /**
@@ -10,11 +12,19 @@ import android.graphics.drawable.BitmapDrawable;
 
 public class URLDrawable  extends BitmapDrawable {
     protected Bitmap bitmap;
-
+    private Context mContext;
+    private float height;
+    public URLDrawable(Context context){
+        mContext= context;
+    }
+    public void setHeight(float height){
+        this.height = height;
+    }
     @Override
     public void draw(Canvas canvas) {
         if (bitmap != null) {
-            canvas.drawBitmap(bitmap, 0, 0, getPaint());
+            RectF rectF = new RectF(0,0,mContext.getResources().getDisplayMetrics().widthPixels,height);
+            canvas.drawBitmap(bitmap, null, rectF, getPaint());
         }
     }
 }

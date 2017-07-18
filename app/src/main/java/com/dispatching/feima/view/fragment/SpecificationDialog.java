@@ -1,8 +1,7 @@
 package com.dispatching.feima.view.fragment;
 
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.dispatching.feima.help.AniCreator;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.utils.ValueUtil;
+import com.dispatching.feima.view.adapter.SpecificationAdapter;
 import com.dispatching.feima.view.adapter.SpecificationColorAdapter;
 import com.dispatching.feima.view.adapter.SpecificationSizeAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
@@ -47,10 +47,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     TextView mDialogGoodsCount;
     @BindView(R.id.dialog_goods_add)
     TextView mDialogGoodsAdd;
-    @BindView(R.id.dialog_goods_color)
-    RecyclerView mDialogGoodsColor;
-    @BindView(R.id.dialog_goods_size)
-    RecyclerView mDialogGoodsSize;
+
     @BindView(R.id.main_linear)
     LinearLayout mMainLinear;
     @BindView(R.id.dialog_buy_goods)
@@ -59,18 +56,8 @@ public class SpecificationDialog extends BaseDialogFragment {
     ImageView mDialogPersonIcon;
     @BindView(R.id.recharge_dialog_layout)
     RelativeLayout mRechargeDialogLayout;
-    @BindView(R.id.specification_layout)
-    NestedScrollView mSpecificationLayout;
-    @BindView(R.id.color_text)
-    TextView mColorText;
-    @BindView(R.id.list_color_text)
-    RelativeLayout mListColorText;
-    @BindView(R.id.size_text)
-    TextView mSizeText;
-    @BindView(R.id.list_size_text)
-    RelativeLayout mListSizeText;
-    @BindView(R.id.specification_empty_line)
-    View mSpecificationEmptyLine;
+    @BindView(R.id.specification_diff_recycle_view)
+    RecyclerView mSpecificationDiffRecycleView;
 
     private specificationDialogListener dialogListener;
     private Unbinder unbind;
@@ -84,21 +71,50 @@ public class SpecificationDialog extends BaseDialogFragment {
     private boolean sizeFirst = false;
     private Integer count = 1;
     private String mStoreCode;
+    private SpecificationAdapter mAdapter;
+    private SpecificationDialog mDialog;
 
-    public static SpecificationDialog newInstance() {
-        return new SpecificationDialog();
+    public void setInstance(SpecificationDialog dialog) {
+        mDialog = dialog;
     }
 
     public void setImageLoadHelper(ImageLoaderHelper imageLoadHelper) {
         mImageLoaderHelper = imageLoadHelper;
     }
 
-    public void productSpecifition(ShopDetailResponse.ProductsBean product) {
+    public void productSpecification(ShopDetailResponse.ProductsBean product) {
         mProduct = product;
     }
 
     public void setStoreCode(String storeCode) {
         mStoreCode = storeCode;
+    }
+
+    public void setSelectPosition(String name, Integer position, String flagName) {
+        List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
+        List<ShopDetailResponse.ProductsBean.SpecificationListBean> list = mProduct.specificationList;
+//        ShopDetailResponse.ProductsBean.SpecificationListBean bean  =list.get(position);
+        for (int i = 0; i < list.size(); i++) {
+            if(position!=i){
+                ShopDetailResponse.ProductsBean.SpecificationListBean bean  = list.get(i);
+               if(!bean.partName.equals(flagName)){
+                   for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+                       if (productSpecificationBean.zipper.equals(name)) {
+                           mSizeList.add(productSpecificationBean.size);
+                           mColorList.add(productSpecificationBean.color);
+                       } else if (productSpecificationBean.size.equals(name)) {
+                           mSizeList.add(productSpecificationBean.size);
+                           mColorList.add(productSpecificationBean.zipper);
+                       } else {
+
+                       }
+                   }
+               }
+
+            }
+
+        }
+
     }
 
 
@@ -133,8 +149,14 @@ public class SpecificationDialog extends BaseDialogFragment {
                 sizeAdapter.setPosition(Integer.MAX_VALUE);
                 List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
                 for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-                    if (productSpecificationBean.color.equals(color)) {
-                        mSizeList.add(productSpecificationBean.size);
+                    if (productSpecificationBean.color != null) {
+                        if (productSpecificationBean.color.equals(color)) {
+                            mSizeList.add(productSpecificationBean.size);
+                        }
+                    } else {
+                        if (productSpecificationBean.zipper.equals(color)) {
+                            mSizeList.add(productSpecificationBean.size);
+                        }
                     }
                 }
                 sizeAdapter.setNewData(mSizeList);
@@ -143,7 +165,6 @@ public class SpecificationDialog extends BaseDialogFragment {
         }
 
     }
-
 
     private void changeSizeUI(BaseQuickAdapter adapter, View view, int position) {
         if (colorFirst) {
@@ -161,6 +182,7 @@ public class SpecificationDialog extends BaseDialogFragment {
                         mColorList.add(productSpecificationBean.color);
                     }
                 }
+
                 colorAdapter.setNewData(mColorList);
             }
 
@@ -179,57 +201,26 @@ public class SpecificationDialog extends BaseDialogFragment {
 
         mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
-        if (mProduct.specificationList != null) {
+        mAdapter = new SpecificationAdapter(mProduct.specificationList, getActivity(), mDialog);
+        mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSpecificationDiffRecycleView.setAdapter(mAdapter);
+       /* if (mProduct.specificationList != null) {
             List<ShopDetailResponse.ProductsBean.SpecificationListBean> list1 = mProduct.specificationList;
             if (list1.size() > 0) {
                 for (ShopDetailResponse.ProductsBean.SpecificationListBean specificationListBean : list1) {
                     if (specificationListBean.partName.equals("color")) {
-                        mColorText.setVisibility(View.VISIBLE);
-                        mListColorText.setVisibility(View.VISIBLE);
-                        List<String> colorList = specificationListBean.value;
-                        String maxText = "";
-                        for (String s : colorList) {
-                            if (s.length() > maxText.length()) {
-                                maxText = s;
-                            }
-                        }
-                        int number;
-                        switch (maxText.length()) {
-                            case 1:
-                            case 2:
-                                number = 6;
-                                break;
-                            case 3:
-                                number = 5;
-                                break;
-                            case 4:
-                                number = 4;
-                                break;
-                            case 5:
-                            case 6:
-                                number = 3;
-                                break;
-                            case 7:
-                            case 8:
-                                number = 2;
-                                break;
-                            default:
-                                number = 1;
-                        }
-                        mDialogGoodsColor.setLayoutManager(new GridLayoutManager(getActivity(), number));
-                        colorAdapter = new SpecificationColorAdapter(colorList, getActivity());
-                        mDialogGoodsColor.setAdapter(colorAdapter);
-                        colorAdapter.setOnItemClickListener(this::changeColorUI);
+                        mColorText.setText("颜色");
+                        decideSpecification(specificationListBean);
                     } else if (specificationListBean.partName.equals("size")) {
                         mSizeText.setVisibility(View.VISIBLE);
-                        mListSizeText.setVisibility(View.VISIBLE);
                         List<String> sizeList = specificationListBean.value;
                         mDialogGoodsSize.setLayoutManager(new GridLayoutManager(getActivity(), 5));
                         sizeAdapter = new SpecificationSizeAdapter(sizeList, getActivity());
                         mDialogGoodsSize.setAdapter(sizeAdapter);
                         sizeAdapter.setOnItemClickListener(this::changeSizeUI);
-                    } else {
-                        mSpecificationLayout.setVisibility(View.INVISIBLE);
+                    }else {
+                        mColorText.setText("规格");
+                        decideSpecification(specificationListBean);
                     }
                 }
             } else {
@@ -238,9 +229,45 @@ public class SpecificationDialog extends BaseDialogFragment {
 
         } else {
             mSpecificationLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
     }
+   /* private void decideSpecification(ShopDetailResponse.ProductsBean.SpecificationListBean bean){
+        mColorText.setVisibility(View.VISIBLE);
+        String maxText = "";
+        for (String s : bean.value) {
+            if (s.length() > maxText.length()) {
+                maxText = s;
+            }
+        }
+        int number;
+        switch (maxText.length()) {
+            case 1:
+            case 2:
+                number = 6;
+                break;
+            case 3:
+                number = 5;
+                break;
+            case 4:
+                number = 4;
+                break;
+            case 5:
+            case 6:
+                number = 3;
+                break;
+            case 7:
+            case 8:
+                number = 2;
+                break;
+            default:
+                number = 1;
+        }
+        mDialogGoodsColor.setLayoutManager(new GridLayoutManager(getActivity(), number));
+        colorAdapter = new SpecificationColorAdapter(bean.value, getActivity());
+        mDialogGoodsColor.setAdapter(colorAdapter);
+        colorAdapter.setOnItemClickListener(this::changeColorUI);
+    }*/
 
     @Override
     public void onClick(View v) {

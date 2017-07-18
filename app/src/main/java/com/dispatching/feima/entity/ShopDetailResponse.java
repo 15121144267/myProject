@@ -70,6 +70,7 @@ public class ShopDetailResponse implements Serializable {
             public String color;
             public String size;
             public int productId;
+            public String zipper;
         }
 
         public static class SpecificationListBean implements Serializable {
