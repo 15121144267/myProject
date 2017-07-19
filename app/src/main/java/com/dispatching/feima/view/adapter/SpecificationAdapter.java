@@ -10,7 +10,9 @@ import com.dispatching.feima.view.fragment.SpecificationDialog;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.ProductsBean.SpecificationListBean, BaseViewHolder> {
@@ -18,15 +20,17 @@ public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.Pr
     private Integer mPosition = Integer.MAX_VALUE;
     private SpecificationDialog mDialog;
     private List<ShopDetailResponse.ProductsBean.SpecificationListBean> mSpecificationList;
+    private Set<Integer> positionSet;
 
-    public void setPosition(Integer position,List<ShopDetailResponse.ProductsBean.SpecificationListBean> list) {
-        mPosition = position;
+    public void setPosition(Set<Integer> positionSet, List<ShopDetailResponse.ProductsBean.SpecificationListBean> list) {
+        this.positionSet = positionSet;
         mSpecificationList = list;
         notifyDataSetChanged();
     }
 
     public SpecificationAdapter(List<ShopDetailResponse.ProductsBean.SpecificationListBean> specificationList, Context context, SpecificationDialog dialog) {
         super(R.layout.adapter_specifiaction, specificationList);
+        positionSet = new HashSet<>();
         mContext = context;
         mDialog = dialog;
         mSpecificationList = specificationList;
@@ -38,11 +42,19 @@ public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.Pr
         if (helper.getAdapterPosition() == mSpecificationList.size() - 1) {
             helper.setVisible(R.id.specification_line, false);
         }
-        if(helper.getAdapterPosition() != mPosition){
+
+        if (positionSet.iterator().hasNext()) {
+            if (!positionSet.contains(helper.getAdapterPosition())) {
+                helper.setText(R.id.adapter_specification_name, item.partName);
+                RecyclerView recyclerView = helper.getView(R.id.adapter_specification);
+                decideSpecification(helper, item, recyclerView);
+            }
+        } else {
             helper.setText(R.id.adapter_specification_name, item.partName);
             RecyclerView recyclerView = helper.getView(R.id.adapter_specification);
             decideSpecification(helper, item, recyclerView);
         }
+
 
     }
 
@@ -56,8 +68,10 @@ public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.Pr
         int number;
         switch (maxText.length()) {
             case 1:
-            case 2:
                 number = 7;
+                break;
+            case 2:
+                number = 6;
                 break;
             case 3:
                 number = 5;
@@ -80,9 +94,10 @@ public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.Pr
         SpecificationColorAdapter specificationColorAdapter = new SpecificationColorAdapter(bean.value, mContext);
         recyclerView.setAdapter(specificationColorAdapter);
         specificationColorAdapter.setOnItemClickListener((adapter, view, position2) -> {
+            positionSet.add(helper.getAdapterPosition());
             specificationColorAdapter.setPosition(position2);
             String name = (String) adapter.getItem(position2);
-            mDialog.setSelectPosition(name, helper.getAdapterPosition(),bean.partName);
+            mDialog.setSelectPosition(name, positionSet, bean.partName);
         });
     }
 }

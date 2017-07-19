@@ -25,6 +25,7 @@ import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,41 +92,22 @@ public class SpecificationDialog extends BaseDialogFragment {
         mStoreCode = storeCode;
     }
 
-    public void setSelectPosition(String name, Integer position, String flagName) {
-        mSizeList.clear();
-        mColorList.clear();
-        mZipperList.clear();
+    public void setSelectPosition(String name, Set<Integer> positionSet, String flagName) {
+
         List<ShopDetailResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
         List<ShopDetailResponse.ProductsBean.SpecificationListBean> list = mProduct.specificationList;
-//        ShopDetailResponse.ProductsBean.SpecificationListBean bean  =list.get(position);
-        for (int i = 0; i < list.size(); i++) {
-            if (position != i) {
-                ShopDetailResponse.ProductsBean.SpecificationListBean bean = list.get(i);
-                if (!bean.partName.equals(flagName)) {
-                    for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-                        if (productSpecificationBean.zipper!=null&&productSpecificationBean.zipper.equals(name)) {
-                            mSizeList.add(productSpecificationBean.size);
-                            mColorList.add(productSpecificationBean.color);
-                        } else if (productSpecificationBean.size!=null&&productSpecificationBean.size.equals(name)) {
-                            mSizeList.add(productSpecificationBean.size);
-                            mZipperList.add(productSpecificationBean.zipper);
-                        } else if(productSpecificationBean.color!=null&&productSpecificationBean.color.equals(name)){
-                            mSizeList.add(productSpecificationBean.size);
-                            mZipperList.add(productSpecificationBean.zipper);
-                        }
-                    }
-                    if (bean.partName.equals("color")) {
-                        bean.value = mColorList;
-                    } else if (bean.partName.equals("size")) {
-                        bean.value = mSizeList;
-                    } else if (bean.partName.equals("zipper")) {
-                        bean.value = mZipperList;
-                    }
-                }
-
+        for (ShopDetailResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+            if(productSpecificationBean.size!=null&&productSpecificationBean.size.equals(name)){
+                mSizeList.add(productSpecificationBean.size);
+            }else if(productSpecificationBean.zipper!=null&&productSpecificationBean.zipper.equals(name)){
+                mZipperList.add(productSpecificationBean.zipper);
+            }else if(productSpecificationBean.color!=null&&productSpecificationBean.color.equals(name)){
+                mZipperList.add(productSpecificationBean.color);
             }
         }
-        mAdapter.setPosition(position,list);
+        
+
+        mAdapter.setPosition(positionSet, list);
 
     }
 
