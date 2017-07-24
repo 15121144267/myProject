@@ -1,103 +1,175 @@
 package com.dispatching.feima.view.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.dispatching.feima.R;
-import com.dispatching.feima.entity.ShopDetailResponse;
+import com.dispatching.feima.entity.SpecificationResponse;
+import com.dispatching.feima.view.customview.MyLinearLayout;
 import com.dispatching.feima.view.fragment.SpecificationDialog;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 
-public class SpecificationAdapter extends BaseQuickAdapter<ShopDetailResponse.ProductsBean.SpecificationListBean, BaseViewHolder> {
+public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse.ProductsBean.SpecificationListBean, BaseViewHolder> {
     private final Context mContext;
     private Integer mPosition = Integer.MAX_VALUE;
     private SpecificationDialog mDialog;
-    private List<ShopDetailResponse.ProductsBean.SpecificationListBean> mSpecificationList;
-    private Set<Integer> positionSet;
+    private List<SpecificationResponse.ProductsBean.SpecificationListBean> mSpecificationList;
+    private SpecificationResponse.ProductsBean mProduct;
+    private Set<Integer> mPositionSet;
+    private final List<String> mSizeList = new ArrayList<>();
+    private final List<String> mColorList = new ArrayList<>();
+    private final List<String> mZipperList = new ArrayList<>();
+    private MyLinearLayout myLinearLayout;
+    private HashMap<String, String> selectProMap;
+    private ArrayList<HashMap<String, TextView[]>> mViewList;
 
-    public void setPosition(Set<Integer> positionSet, List<ShopDetailResponse.ProductsBean.SpecificationListBean> list) {
-        this.positionSet = positionSet;
-        mSpecificationList = list;
-        notifyDataSetChanged();
+    public HashMap<String, String> getSelectProMap() {
+        return selectProMap;
     }
 
-    public SpecificationAdapter(List<ShopDetailResponse.ProductsBean.SpecificationListBean> specificationList, Context context, SpecificationDialog dialog) {
+    public void setSelectProMap(HashMap<String, String> selectProMap) {
+        this.selectProMap = selectProMap;
+    }
+
+    public SpecificationAdapter(SpecificationResponse.ProductsBean productsBean, List<SpecificationResponse.ProductsBean.SpecificationListBean> specificationList, Context context, SpecificationDialog dialog, HashMap<String, String> hashMap) {
         super(R.layout.adapter_specifiaction, specificationList);
-        positionSet = new HashSet<>();
+        mProduct = productsBean;
         mContext = context;
         mDialog = dialog;
         mSpecificationList = specificationList;
+        mViewList = new ArrayList<>();
+        if (hashMap == null) {
+            selectProMap = new HashMap<>();
+        } else {
+            selectProMap = hashMap;
+        }
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ShopDetailResponse.ProductsBean.SpecificationListBean item) {
+    protected void convert(BaseViewHolder helper, SpecificationResponse.ProductsBean.SpecificationListBean item) {
         if (item == null || mSpecificationList == null) return;
-        if (helper.getAdapterPosition() == mSpecificationList.size() - 1) {
-            helper.setVisible(R.id.specification_line, false);
+
+        String type = item.partName;
+        switch (type) {
+            case "color":
+                helper.setText(R.id.adapter_specification_name, "颜色");
+                break;
+            case "size":
+                helper.setText(R.id.adapter_specification_name, "尺寸");
+                break;
+            case "zipper":
+                helper.setText(R.id.adapter_specification_name, "有无拉链");
+                break;
         }
 
-        if (positionSet.iterator().hasNext()) {
-            if (!positionSet.contains(helper.getAdapterPosition())) {
-                helper.setText(R.id.adapter_specification_name, item.partName);
-                RecyclerView recyclerView = helper.getView(R.id.adapter_specification);
-                decideSpecification(helper, item, recyclerView);
+        myLinearLayout = helper.getView(R.id.adapter_specification);
+        if (myLinearLayout.getChildCount() == 0) {
+            List<String> mList = item.value;
+            TextView[] textViews = new TextView[mList.size()];
+            for (int i = 0; i < mList.size(); i++) {
+                TextView textView = new TextView(mContext);
+                textView.setGravity(17);
+                textView.setPadding(25, 15, 25, 15);
+                textViews[i] = textView;
+                textViews[i].setBackgroundResource(R.drawable.selector_enable);
+                textViews[i].setText(mList.get(i));
+                textViews[i].setTag(i);
+                myLinearLayout.addView(textViews[i]);
             }
-        } else {
-            helper.setText(R.id.adapter_specification_name, item.partName);
-            RecyclerView recyclerView = helper.getView(R.id.adapter_specification);
-            decideSpecification(helper, item, recyclerView);
+            for (int j = 0; j < textViews.length; j++) {
+                textViews[j].setTag(textViews);
+                textViews[j].setOnClickListener(new SpecificationClickListener(type));
+            }
         }
-
-
+        /**判断之前是否已选中标签*/
+        if (selectProMap.get(type) != null) {
+            for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
+                TextView v = (TextView) myLinearLayout.getChildAt(j);
+                if (selectProMap.get(type).equals(v.getText().toString())) {
+                    v.setBackgroundResource(R.mipmap.specification_back);
+                    selectProMap.put(type, v.getText().toString());
+                }
+            }
+        }
     }
 
-    private void decideSpecification(BaseViewHolder helper, ShopDetailResponse.ProductsBean.SpecificationListBean bean, RecyclerView recyclerView) {
-        String maxText = "";
-        for (String s : bean.value) {
-            if (s.length() > maxText.length()) {
-                maxText = s;
+    class SpecificationClickListener implements View.OnClickListener {
+        private String type;
+
+        public SpecificationClickListener(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (type) {
+                case "color":
+                    mSizeList.clear();
+                    mZipperList.clear();
+                    break;
+                case "size":
+                    mZipperList.clear();
+                    mColorList.clear();
+                    break;
+                case "zipper":
+                    mSizeList.clear();
+                    mColorList.clear();
+                    break;
             }
+            myLinearLayout.removeAllViews();
+            TextView[] textViews = (TextView[]) v.getTag();
+            TextView tv = (TextView) v;
+            for (int i = 0; i < textViews.length; i++) {
+                if (tv.equals(textViews[i])) {
+                    String specificationContent = textViews[i].getText().toString();
+                    List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecificationList = mProduct.productSpecification;
+                    for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecificationList) {
+                        if (productSpecificationBean.zipper != null && productSpecificationBean.zipper.equals(specificationContent)) {
+
+                            mSizeList.add(productSpecificationBean.size);
+                            mColorList.add(productSpecificationBean.color);
+                        } else if (productSpecificationBean.size != null && productSpecificationBean.size.equals(specificationContent)) {
+
+                            mZipperList.add(productSpecificationBean.zipper);
+                            mColorList.add(productSpecificationBean.color);
+                        } else if (productSpecificationBean.color != null && productSpecificationBean.color.equals(specificationContent)) {
+
+                            mSizeList.add(productSpecificationBean.size);
+                            mZipperList.add(productSpecificationBean.zipper);
+                        }
+                    }
+                    for (SpecificationResponse.ProductsBean.SpecificationListBean specificationListBean : mSpecificationList) {
+                        if (!specificationListBean.partName.equals(type)) {
+                            switch (specificationListBean.partName) {
+                                case "color":
+                                    specificationListBean.value = mColorList;
+                                    break;
+                                case "size":
+                                    specificationListBean.value = mSizeList;
+                                    break;
+                                case "zipper":
+                                    specificationListBean.value = mZipperList;
+                                    break;
+                            }
+                        }
+                    }
+                    textViews[i].setBackgroundResource(R.mipmap.specification_back);
+                    selectProMap.put(type, specificationContent);
+                } else {
+                    textViews[i].setBackgroundResource(R.drawable.selector_enable);
+                }
+            }
+            mDialog.setSpecificationContent(selectProMap);
+            notifyDataSetChanged();
         }
-        int number;
-        switch (maxText.length()) {
-            case 1:
-                number = 7;
-                break;
-            case 2:
-                number = 6;
-                break;
-            case 3:
-                number = 5;
-                break;
-            case 4:
-                number = 4;
-                break;
-            case 5:
-            case 6:
-                number = 3;
-                break;
-            case 7:
-            case 8:
-                number = 2;
-                break;
-            default:
-                number = 1;
-        }
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, number));
-        SpecificationColorAdapter specificationColorAdapter = new SpecificationColorAdapter(bean.value, mContext);
-        recyclerView.setAdapter(specificationColorAdapter);
-        specificationColorAdapter.setOnItemClickListener((adapter, view, position2) -> {
-            positionSet.add(helper.getAdapterPosition());
-            specificationColorAdapter.setPosition(position2);
-            String name = (String) adapter.getItem(position2);
-            mDialog.setSelectPosition(name, positionSet, bean.partName);
-        });
     }
+
 }

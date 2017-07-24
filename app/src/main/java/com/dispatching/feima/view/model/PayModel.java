@@ -62,7 +62,7 @@ public class PayModel {
         List<OrderConfirmedRequest.AccountsBean> accountList = new ArrayList<>();
         OrderConfirmedRequest.AccountsBean accountsBean = new OrderConfirmedRequest.AccountsBean();
         accountsBean.sequence = 0;
-        accountsBean.accountId = "account-1";
+        accountsBean.accountId = "123456";
         accountsBean.number = "1";
         accountsBean.name = "运费";
         accountsBean.type = "1";
@@ -81,7 +81,7 @@ public class PayModel {
         request.userId = mBuProcessor.getUserId();
         request.payChannel = "";
         request.longitude = String.valueOf(mLocationInfo.getLongitude());
-        request.latitude = String.valueOf(mLocationInfo.getLongitude());
+        request.latitude = String.valueOf(mLocationInfo.getLatitude());
         request.status = 1;
         request.shopId = partnerId + mBean.storeCode;
         request.accounts = accountList;

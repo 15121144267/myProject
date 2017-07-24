@@ -13,17 +13,18 @@
         android:text="规格"
         android:textColor="@color/black"
        />
-    <android.support.v7.widget.RecyclerView
+    <com.dispatching.feima.view.customview.MyLinearLayout
         android:id="@+id/adapter_specification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_5"
         />
-
     <View
         android:id="@+id/specification_line"
         style="@style/LineH_Fill_Width1_ForView"
         android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="@dimen/dp_15"
         />
 

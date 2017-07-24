@@ -14,9 +14,10 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:imeOptions="actionSearch"
         android:background="@null"
         android:drawableStart="@mipmap/main_magnifie"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textColorHint="#b8b8bf"/>
 
     <ImageView

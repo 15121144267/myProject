@@ -7,11 +7,14 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dispatching.feima.R;
 
@@ -26,6 +29,12 @@ public class ClearEditText extends LinearLayout {
     private ImageView mBtnClear;
     private boolean isInputBalance = false;
     private boolean isAlwaysShowDeleteBtn = false;
+    private Context mContext;
+    public setOnMyEditorActionListener mListenerInterface;
+
+    public void setOnMyEditorActionListener(setOnMyEditorActionListener listenerInterface) {
+        mListenerInterface = listenerInterface;
+    }
 
     public void setIsAlwaysShowDeleteBtn(boolean isAlwaysShowDeleteBtn) {
         this.isAlwaysShowDeleteBtn = isAlwaysShowDeleteBtn;
@@ -45,6 +54,7 @@ public class ClearEditText extends LinearLayout {
 
     public ClearEditText(final Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_custom_edittext, this);
         editText = (EditText) findViewById(R.id.custom_edittext);
@@ -64,7 +74,18 @@ public class ClearEditText extends LinearLayout {
             }
             editText.requestFocus();
         });
-
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if(mListenerInterface!=null){
+                        mListenerInterface.onMyEditorAction();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -237,4 +258,7 @@ public class ClearEditText extends LinearLayout {
         editText.setGravity(gravityId);
     }
 
+    public interface setOnMyEditorActionListener {
+        void onMyEditorAction();
+    }
 }

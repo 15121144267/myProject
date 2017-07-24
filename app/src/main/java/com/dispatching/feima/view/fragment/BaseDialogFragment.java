@@ -14,18 +14,18 @@ import android.view.ViewGroup;
 /**
  * @author helei
  */
-public  class BaseDialogFragment extends DialogFragment implements View.OnClickListener{
-	public static final String TAG = BaseDialogFragment.class.getSimpleName();
+public class BaseDialogFragment extends DialogFragment implements View.OnClickListener{
+    public static final String TAG = BaseDialogFragment.class.getSimpleName();
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
-	}
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        if(getDialog() == null){
+        if (getDialog() == null) {
             setShowsDialog(false);
         }
         super.onActivityCreated(savedInstanceState);
@@ -34,23 +34,24 @@ public  class BaseDialogFragment extends DialogFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
+
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        if(dialog.getWindow()!=null)
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        if (dialog.getWindow() != null)
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
 
     }
 
     @Override
-	public void onDestroy() {
+    public void onDestroy() {
 
-		super.onDestroy();
-	}
+        super.onDestroy();
+    }
 
     @Override
     public void onClick(View v) {

@@ -32,7 +32,6 @@ public class SpecificationColorAdapter extends BaseQuickAdapter<String, BaseView
         }
 
         helper.setText(R.id.specification_string, item);
-
     }
 
 }

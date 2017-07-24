@@ -122,6 +122,7 @@
                     android:textStyle="bold"/>
             </LinearLayout>
         </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/specification_diff_recycle_view"
             android:layout_width="match_parent"

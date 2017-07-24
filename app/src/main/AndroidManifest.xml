@@ -134,6 +134,7 @@
         <activity
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
 
         <activity
@@ -156,6 +157,9 @@
 
         <activity
             android:name=".view.activity.WorkSummaryActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.MyOrderActivity"

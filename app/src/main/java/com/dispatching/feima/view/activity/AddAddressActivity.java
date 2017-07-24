@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -215,10 +213,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
         }
     }
 
-    protected void hideSoftInput(View view) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+
 
     private void initializeInjector() {
         DaggerAddAddressActivityComponent.builder()

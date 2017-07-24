@@ -11,6 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/white"
+        android:fitsSystemWindows="true"
         app:contentScrim="?attr/colorPrimary"
         >
 
@@ -25,6 +26,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="64dp"
+                android:fitsSystemWindows="true"
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -45,7 +47,6 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:title=" "
-                    android:background="@color/transparent"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
                     <ImageView
@@ -145,7 +146,6 @@
         style="@style/order_detail_Button_Style4"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/dp_5"
-        android:enabled="false"
         android:text="立刻购买"
         />
 </LinearLayout>

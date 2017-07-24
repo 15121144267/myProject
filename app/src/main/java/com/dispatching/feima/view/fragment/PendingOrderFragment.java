@@ -29,6 +29,7 @@ import com.dispatching.feima.view.activity.BrandActivity;
 import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.MusicActivity;
 import com.dispatching.feima.view.activity.PartCarActivity;
+import com.dispatching.feima.view.activity.SearchActivity;
 import com.dispatching.feima.view.activity.ShopDetailActivity;
 import com.dispatching.feima.view.activity.ShopListActivity;
 import com.dispatching.feima.view.activity.SkyFlowerActivity;
@@ -98,6 +99,10 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     private void initView() {
+        mSearchShop.setOnMyEditorActionListener(() -> {
+            hideSoftInput(mSearchShop);
+            startActivity(SearchActivity.getIntent(getActivity()));
+        });
         mSearchShop.setEditHint("搜索商户");
         mList = new ArrayList<>();
         mImageList = new ArrayList<>();
@@ -110,6 +115,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mLeftDrawable.setOnClickListener(this::imageClick1);
         mRightDrawable.setOnClickListener(this::imageClick2);
     }
+
 
     private void imageClick(View v) {
         startActivity(MusicActivity.getIntent(getActivity()));

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
@@ -129,5 +131,8 @@ public class BaseFragment extends Fragment {
         showBaseToast(mErrMessage);
     }
 
-
+    protected void hideSoftInput(View view) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

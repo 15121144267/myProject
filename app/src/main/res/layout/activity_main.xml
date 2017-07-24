@@ -7,7 +7,7 @@
     android:orientation="vertical"
     >
 
-    <android.support.v4.view.ViewPager
+    <com.dispatching.feima.view.customview.MyNoScrollViewPager
         android:id="@+id/view_swapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

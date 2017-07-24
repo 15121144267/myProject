@@ -2,6 +2,7 @@ package com.dispatching.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,7 +33,9 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -80,6 +83,11 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private List<String> mImageList;
     private ShopDetailResponse.ProductsBean mGoodsInfo;
     private SpecificationResponse mSpecificationResponse;
+    private StringBuilder mButter;
+    private SpecificationResponse.ProductsBean mProduct;
+    private SpecificationDialog mSpecificationDialog;
+    private HashMap<String, String> mHashMap;
+    private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,19 +101,37 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void goodInfoSpecificationSuccess(SpecificationResponse data) {
-       /* mSpecificationResponse = data;
-        List<SpecificationResponse.ProductsBean> list  = mSpecificationResponse.products;
-        SpecificationResponse.ProductsBean bean = list.get(0);
-        List<SpecificationResponse.ProductsBean.ProductSpecificationBean> been = bean.productSpecification;*/
+        mSpecificationResponse = data;
+        mProduct = mSpecificationResponse.products.get(0);
     }
 
     @Override
     public void getGoodsInfoSuccess(GoodsInfoResponse data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText,Html.FROM_HTML_MODE_LEGACY, new URLImageParser(mGoodsDetailLinear,this), new MxgsaTagHandler(this)));
+            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, Html.FROM_HTML_MODE_LEGACY, new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
         } else {
-            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, new URLImageParser(mGoodsDetailLinear,this), new MxgsaTagHandler(this)));
+            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
         }
+    }
+
+    @Override
+    public void closeSpecificationDialog(HashMap<String, String> hashMap) {
+        mHashMap = hashMap;
+        mButter = new StringBuilder();
+        for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
+            switch (stringStringEntry.getKey()) {
+                case "color":
+                    mButter.append("颜色:" + stringStringEntry.getValue() + " ");
+                    break;
+                case "size":
+                    mButter.append("尺寸:" + stringStringEntry.getValue() + " ");
+                    break;
+                case "zipper":
+                    mButter.append("有无拉链:" + stringStringEntry.getValue() + " ");
+                    break;
+            }
+        }
+        mGoodsSpecification.setText(mButter.toString());
     }
 
     @Override
@@ -119,8 +145,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void buyButtonListener() {
-        showToast("购买");
+    public void buyButtonListener(HashMap<String, String> hashMap) {
+        checkProductId(hashMap);
     }
 
     @Override
@@ -166,19 +192,70 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         RxView.clicks(mGoodsDetailButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugGoods());
 //        RxView.clicks(mExpandGoodDetail).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestShowDetail());
         RxView.clicks(mGoodsSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestGoodsSpecification());
-        mCollapsingToolbarLayout.setTitle(" ");
+        mCollapsingToolbarLayout.setTitle("商品详情");
+        mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
     }
 
     private void initData() {
         mPresenter.requestGoodInfo(mGoodsInfo.pid);
-//        mPresenter.requestGoodsSpecification(mGoodsInfo.pid);
+        mPresenter.requestGoodsSpecification(mGoodsInfo.pid);
     }
 
     private void requestBugGoods() {
-        if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
-//            showEmptyDialog();
-            startActivity(PayActivity.getIntent(this));
+        if (mHashMap == null || TextUtils.isEmpty(mGoodsSpecification.getText())) {
+            showEmptyDialog();
+        } else {
+            if (mProduct.specificationList.size() == mHashMap.size()) {
+                checkProductId(mHashMap);
+                startActivity(PayActivity.getIntent(this));
+            } else {
+                showToast("规格未选全");
+            }
         }
+
+    }
+
+    private void checkProductId(HashMap<String, String> hashMap) {
+        //根据已选规格删选最终产品
+        List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
+        for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+            if(productSpecificationBean.size!=null){
+                if(productSpecificationBean.size.equals(hashMap.get("size"))){
+                    if(productSpecificationBean.color!=null){
+                        if(productSpecificationBean.color.equals(hashMap.get("color"))){
+                            if(productSpecificationBean.zipper!=null){
+                                if(productSpecificationBean.zipper.equals(hashMap.get("zipper"))){
+                                    mProductSpecification = productSpecificationBean;
+                                }
+                            }else {
+                                mProductSpecification = productSpecificationBean;
+                            }
+                        }
+                    }else {
+                        mProductSpecification = productSpecificationBean;
+                    }
+                }
+            }else {
+                if(productSpecificationBean.color!=null){
+                    if(productSpecificationBean.color.equals(hashMap.get("color"))){
+                        if(productSpecificationBean.zipper!=null){
+                            if(productSpecificationBean.zipper.equals(hashMap.get("zipper"))){
+                                mProductSpecification = productSpecificationBean;
+                            }
+                        }else {
+                            mProductSpecification = productSpecificationBean;
+                        }
+                    }
+                }else {
+                    if(productSpecificationBean.zipper!=null){
+                        if(productSpecificationBean.zipper.equals(hashMap.get("zipper"))){
+                            mProductSpecification = productSpecificationBean;
+                        }
+                    }
+                }
+            }
+        }
+        showToast(mProductSpecification.productId+"");
     }
 
     private void showEmptyDialog() {
@@ -187,18 +264,23 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void requestGoodsSpecification() {
-        SpecificationDialog dialog = new SpecificationDialog();
-        dialog.setInstance(dialog);
-        dialog.setImageLoadHelper(mImageLoaderHelper);
-        dialog.productSpecification(mGoodsInfo);
-        if(mBuProcessor.getShopInfo()!=null){
-            dialog.setStoreCode(mBuProcessor.getShopInfo().storeCode);
-        }else {
-            dialog.setStoreCode(mBuProcessor.getShopResponse().storeCode);
+        mSpecificationDialog = new SpecificationDialog();
+        mSpecificationDialog.setInstance(mSpecificationDialog);
+        mSpecificationDialog.setGoodsView(this);
+        if (mHashMap != null) {
+            mSpecificationDialog.setSpecificationHashMap(mHashMap);
+            mSpecificationDialog.setTextContent(mButter.toString());
+        }
+        mSpecificationDialog.setImageLoadHelper(mImageLoaderHelper);
+        mSpecificationDialog.productSpecification(mProduct);
+        if (mBuProcessor.getShopInfo() != null) {
+            mSpecificationDialog.setStoreCode(mBuProcessor.getShopInfo().storeCode);
+        } else {
+            mSpecificationDialog.setStoreCode(mBuProcessor.getShopResponse().storeCode);
         }
 
-        dialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationDialog.TAG);
+        mSpecificationDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), mSpecificationDialog, SpecificationDialog.TAG);
     }
 
     private void initializeInjector() {
