@@ -8,7 +8,13 @@ import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.MyOrderApi;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
+import com.dispatching.feima.view.PresenterControl.OrderCompleteControl;
+import com.dispatching.feima.view.PresenterControl.PayCompleteControl;
+import com.dispatching.feima.view.PresenterControl.WaitPayControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterMyOrderImpl;
+import com.dispatching.feima.view.PresenterImpl.PresenterOrderCompleteImpl;
+import com.dispatching.feima.view.PresenterImpl.PresenterPayCompleteImpl;
+import com.dispatching.feima.view.PresenterImpl.PresenterWaitPayImpl;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.dispatching.feima.view.model.MyOrderModel;
 import com.google.gson.Gson;
@@ -23,11 +29,15 @@ import dagger.Provides;
 @Module
 public class MyOrderActivityModule {
     private final AppCompatActivity activity;
-    private final MyOrderControl.MyOrderView view;
+    private  MyOrderControl.MyOrderView view;
 
     public MyOrderActivityModule(AppCompatActivity activity, MyOrderControl.MyOrderView view) {
         this.activity = activity;
         this.view = view;
+    }
+
+    public MyOrderActivityModule(AppCompatActivity activity) {
+        this.activity = activity;
     }
 
     @Provides
@@ -50,12 +60,30 @@ public class MyOrderActivityModule {
                 .baseUrl(BuildConfig.ORDER_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(MyOrderApi.class), gson, modelTransform,buProcessor);
+                .create(MyOrderApi.class), gson, modelTransform, buProcessor);
     }
 
     @Provides
     @PerActivity
     MyOrderControl.PresenterMyOrder providePresenterMyOrder(PresenterMyOrderImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    WaitPayControl.PresenterWaitPay providePresenterWaitPay(PresenterWaitPayImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PayCompleteControl.PresenterPayComplete providePresenterPayComplete(PresenterPayCompleteImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    OrderCompleteControl.PresenterOrderComplete providePresenterOrderComplete(PresenterOrderCompleteImpl presenter) {
         return presenter;
     }
 }

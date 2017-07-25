@@ -20,9 +20,12 @@ import com.dispatching.feima.entity.MyPayOrderRequest;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayConstant;
+import com.dispatching.feima.entity.PayResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
+import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.help.DialogFactory;
+import com.dispatching.feima.help.PayZFBHelper;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.adapter.PayGoodsListAdapter;
@@ -45,8 +48,10 @@ import butterknife.ButterKnife;
 
 public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, PayActivity.class);
+    public static Intent getIntent(Context context,SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification) {
+        Intent intent =new Intent(context, PayActivity.class);
+        intent.putExtra("productSpecification",productSpecification);
+        return intent;
     }
 
     @BindView(R.id.middle_name)
@@ -72,7 +77,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private TextView mfinalPrice;
     private ShopDetailResponse.ProductsBean mGoodInfo;
     private OrderConfirmedResponse mResponse;
-
+    private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,17 +129,38 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 showToast("微信");
                 break;
             case PayConstant.PAY_TYPE_ZFB:
-                showToast("支付宝");
+                if(mResponse!=null){
+                    mPresenter.requestPayInfo(mResponse.oid,PayConstant.PAY_TYPE_ZFB);
+                }
                 break;
         }
     }
 
+    @Override
+    public void orderPayInfoSuccess(PayResponse response) {
+        if (PayConstant.PAY_TYPE_WX.equals(String.valueOf(response.pay_ebcode))){
+//            PayWXHelper.getInstance().pay(response.biz_content, view);
+        }else{
+            PayZFBHelper.getInstance().pay(response.biz_content,this);
+        }
+    }
+
+    @Override
+    public void orderPaySuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        this.finish();
+    }
+
     private void initData() {
         mShopInfo = mBuProcessor.getShopInfo();
-        mPresenter.requestOrderConfirmed(new OrderConfirmedRequest());
+        mPresenter.requestOrderConfirmed(new OrderConfirmedRequest(),mProductSpecification);
     }
 
     private void initView() {
+        mProductSpecification = (SpecificationResponse.ProductsBean.ProductSpecificationBean) getIntent().getSerializableExtra("productSpecification");
         mGoodInfo = mBuProcessor.getGoodsInfo();
         mList = new ArrayList<>();
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));

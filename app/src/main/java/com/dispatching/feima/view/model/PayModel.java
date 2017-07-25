@@ -6,8 +6,10 @@ import com.amap.api.location.AMapLocation;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
+import com.dispatching.feima.entity.PayRequest;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
+import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
 
@@ -45,18 +47,19 @@ public class PayModel {
     }
 
 
-    public Observable<ResponseData> orderConfirmedRequest(OrderConfirmedRequest request) {
+    public Observable<ResponseData> orderConfirmedRequest(OrderConfirmedRequest request, SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification) {
         mBean = mBuProcessor.getShopInfo();
         mGoodsInfo = mBuProcessor.getGoodsInfo();
 
         List<OrderConfirmedRequest.ProductsBean> list = new ArrayList<>();
         OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
         productsBean.productName = mGoodsInfo.name;
-        productsBean.number = "1";
+        productsBean.number = String.valueOf(productSpecification.count);
         productsBean.sequence = "0";
-        productsBean.specification = "紫色 XL";
-        productsBean.productId = mGoodsInfo.pid;
-        productsBean.price = mGoodsInfo.finalPrice;
+
+        productsBean.specification = productSpecification.specification;
+        productsBean.productId = productSpecification.productId + "";
+        productsBean.price = mGoodsInfo.finalPrice * productSpecification.count;
         list.add(productsBean);
 
         List<OrderConfirmedRequest.AccountsBean> accountList = new ArrayList<>();
@@ -80,8 +83,10 @@ public class PayModel {
         request.payType = 1;
         request.userId = mBuProcessor.getUserId();
         request.payChannel = "";
-        request.longitude = String.valueOf(mLocationInfo.getLongitude());
-        request.latitude = String.valueOf(mLocationInfo.getLatitude());
+        if(mLocationInfo!=null){
+            request.longitude = String.valueOf(mLocationInfo.getLongitude());
+            request.latitude = String.valueOf(mLocationInfo.getLatitude());
+        }
         request.status = 1;
         request.shopId = partnerId + mBean.storeCode;
         request.accounts = accountList;
@@ -91,6 +96,13 @@ public class PayModel {
         request.companyId = mGoodsInfo.companyId;
 
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    }
+
+    public Observable<ResponseData> payRequest(long oid, String payCode) {
+        PayRequest request = new PayRequest();
+        request.orderId = oid;
+        request.pay_ebcode = payCode;
+        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 
 }

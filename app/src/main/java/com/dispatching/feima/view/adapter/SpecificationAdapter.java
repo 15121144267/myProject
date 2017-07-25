@@ -14,30 +14,18 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 
 public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse.ProductsBean.SpecificationListBean, BaseViewHolder> {
     private final Context mContext;
-    private Integer mPosition = Integer.MAX_VALUE;
     private SpecificationDialog mDialog;
     private List<SpecificationResponse.ProductsBean.SpecificationListBean> mSpecificationList;
     private SpecificationResponse.ProductsBean mProduct;
-    private Set<Integer> mPositionSet;
     private final List<String> mSizeList = new ArrayList<>();
     private final List<String> mColorList = new ArrayList<>();
     private final List<String> mZipperList = new ArrayList<>();
     private MyLinearLayout myLinearLayout;
     private HashMap<String, String> selectProMap;
-    private ArrayList<HashMap<String, TextView[]>> mViewList;
-
-    public HashMap<String, String> getSelectProMap() {
-        return selectProMap;
-    }
-
-    public void setSelectProMap(HashMap<String, String> selectProMap) {
-        this.selectProMap = selectProMap;
-    }
 
     public SpecificationAdapter(SpecificationResponse.ProductsBean productsBean, List<SpecificationResponse.ProductsBean.SpecificationListBean> specificationList, Context context, SpecificationDialog dialog, HashMap<String, String> hashMap) {
         super(R.layout.adapter_specifiaction, specificationList);
@@ -45,7 +33,6 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
         mContext = context;
         mDialog = dialog;
         mSpecificationList = specificationList;
-        mViewList = new ArrayList<>();
         if (hashMap == null) {
             selectProMap = new HashMap<>();
         } else {

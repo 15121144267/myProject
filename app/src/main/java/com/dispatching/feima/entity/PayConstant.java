@@ -5,6 +5,6 @@ package com.dispatching.feima.entity;
  */
 
 public class PayConstant {
-    public static  final String PAY_TYPE_ZFB = "alipay_app";//支付宝支付
-    public static  final String PAY_TYPE_WX ="wxpay_app";//微信支付
+    public static  final String PAY_TYPE_ZFB = "10001";//支付宝支付
+    public static  final String PAY_TYPE_WX ="10004";//微信支付
 }

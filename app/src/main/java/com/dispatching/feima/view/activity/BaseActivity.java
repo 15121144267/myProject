@@ -55,7 +55,6 @@ public class BaseActivity extends AppCompatActivity {
     protected AMapLocationClientOption mAMapLocationClientOption;
     @Inject
     protected ImageLoaderHelper mImageLoaderHelper;
-
     protected RxPermissions mRxPermissions;
 
     private Dialog mProgressDialog;

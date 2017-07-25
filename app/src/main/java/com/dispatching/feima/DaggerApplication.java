@@ -70,7 +70,6 @@ public class DaggerApplication extends Application {
         }
     }
 
-
     public AMapLocation getaMapLocation() {
         return aMapLocation;
     }

@@ -88,6 +88,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private SpecificationDialog mSpecificationDialog;
     private HashMap<String, String> mHashMap;
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,8 +146,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void buyButtonListener(HashMap<String, String> hashMap) {
-        checkProductId(hashMap);
+    public void buyButtonListener(HashMap<String, String> hashMap, Integer count) {
+        checkProductId(hashMap, count);
     }
 
     @Override
@@ -206,8 +207,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             showEmptyDialog();
         } else {
             if (mProduct.specificationList.size() == mHashMap.size()) {
-                checkProductId(mHashMap);
-                startActivity(PayActivity.getIntent(this));
+                checkProductId(mHashMap, 1);
             } else {
                 showToast("规格未选全");
             }
@@ -215,47 +215,70 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     }
 
-    private void checkProductId(HashMap<String, String> hashMap) {
+    private void checkProductId(HashMap<String, String> hashMap, Integer count) {
+
         //根据已选规格删选最终产品
         List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
         for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-            if(productSpecificationBean.size!=null){
-                if(productSpecificationBean.size.equals(hashMap.get("size"))){
-                    if(productSpecificationBean.color!=null){
-                        if(productSpecificationBean.color.equals(hashMap.get("color"))){
-                            if(productSpecificationBean.zipper!=null){
-                                if(productSpecificationBean.zipper.equals(hashMap.get("zipper"))){
+            if (productSpecificationBean.size != null) {
+                if (productSpecificationBean.size.equals(hashMap.get("size"))) {
+                    if (productSpecificationBean.color != null) {
+                        if (productSpecificationBean.color.equals(hashMap.get("color"))) {
+                            if (productSpecificationBean.zipper != null) {
+                                if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
                                     mProductSpecification = productSpecificationBean;
                                 }
-                            }else {
+                            } else {
                                 mProductSpecification = productSpecificationBean;
                             }
                         }
-                    }else {
+                    } else {
                         mProductSpecification = productSpecificationBean;
                     }
                 }
-            }else {
-                if(productSpecificationBean.color!=null){
-                    if(productSpecificationBean.color.equals(hashMap.get("color"))){
-                        if(productSpecificationBean.zipper!=null){
-                            if(productSpecificationBean.zipper.equals(hashMap.get("zipper"))){
+            } else {
+                if (productSpecificationBean.color != null) {
+                    if (productSpecificationBean.color.equals(hashMap.get("color"))) {
+                        if (productSpecificationBean.zipper != null) {
+                            if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
                                 mProductSpecification = productSpecificationBean;
                             }
-                        }else {
+                        } else {
                             mProductSpecification = productSpecificationBean;
                         }
                     }
-                }else {
-                    if(productSpecificationBean.zipper!=null){
-                        if(productSpecificationBean.zipper.equals(hashMap.get("zipper"))){
+                } else {
+                    if (productSpecificationBean.zipper != null) {
+                        if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
                             mProductSpecification = productSpecificationBean;
                         }
                     }
                 }
             }
         }
-        showToast(mProductSpecification.productId+"");
+        mProductSpecification.count = count;
+        String specification;
+        if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
+            mButter = new StringBuilder();
+            for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
+                switch (stringStringEntry.getKey()) {
+                    case "color":
+                        mButter.append("颜色:" + stringStringEntry.getValue() + " ");
+                        break;
+                    case "size":
+                        mButter.append("尺寸:" + stringStringEntry.getValue() + " ");
+                        break;
+                    case "zipper":
+                        mButter.append("有无拉链:" + stringStringEntry.getValue() + " ");
+                        break;
+                }
+            }
+            specification = mButter.toString();
+        } else {
+            specification = mGoodsSpecification.getText().toString();
+        }
+        mProductSpecification.specification = specification;
+        startActivity(PayActivity.getIntent(this, mProductSpecification));
     }
 
     private void showEmptyDialog() {

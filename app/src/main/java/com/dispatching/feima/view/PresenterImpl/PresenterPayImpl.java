@@ -5,6 +5,8 @@ import android.content.Context;
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
+import com.dispatching.feima.entity.PayResponse;
+import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.model.PayModel;
 import com.dispatching.feima.view.model.ResponseData;
@@ -30,9 +32,28 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void requestOrderConfirmed(OrderConfirmedRequest request) {
+    public void requestPayInfo(long oid, String payCode) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.orderConfirmedRequest(request).compose(mView.applySchedulers())
+        Disposable disposable = mModel.payRequest(oid,payCode).compose(mView.applySchedulers())
+                .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getPayInfoSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            responseData.parseData(PayResponse.class);
+            PayResponse response  = (PayResponse) responseData.parsedData;
+            mView.orderPayInfoSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+
+    @Override
+    public void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.orderConfirmedRequest(request,productSpecification).compose(mView.applySchedulers())
                 .subscribe(this::orderConfirmedSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

@@ -17,7 +17,7 @@ public class SpecificationResponse implements Serializable {
     public int count;
     public List<ProductsBean> products;
 
-    public static class ProductsBean {
+    public static class ProductsBean implements Serializable{
         /**
          * barcode :
          * category :
@@ -64,7 +64,7 @@ public class SpecificationResponse implements Serializable {
         public List<ProductSpecificationBean> productSpecification;
         public List<SpecificationListBean> specificationList;
 
-        public static class ProductSpecificationBean {
+        public static class ProductSpecificationBean implements Serializable{
             /**
              * color : 黑高帮
              * size : 39
@@ -75,9 +75,11 @@ public class SpecificationResponse implements Serializable {
             public String size;
             public int productId;
             public String zipper;
+            public Integer count;
+            public String specification="";
         }
 
-        public static class SpecificationListBean {
+        public static class SpecificationListBean implements Serializable{
             /**
              * partName : color
              * value : ["黑高帮","白高帮","黑纹高帮"]

@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -14,9 +15,13 @@ import com.dispatching.feima.dagger.component.DaggerMyOrderActivityComponent;
 import com.dispatching.feima.dagger.module.MyOrderActivityModule;
 import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
-import com.dispatching.feima.view.adapter.MyOrdersAdapter;
+import com.dispatching.feima.view.adapter.MyOrderFragmentAdapter;
+import com.dispatching.feima.view.fragment.OrderCompleteFragment;
+import com.dispatching.feima.view.fragment.PayCompleteOrderFragment;
+import com.dispatching.feima.view.fragment.WaitPayOrderFragment;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,20 +36,22 @@ import butterknife.ButterKnife;
 
 public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOrderView, BaseQuickAdapter.RequestLoadMoreListener {
 
+
+
     public static Intent getIntent(Context context) {
         return new Intent(context, MyOrderActivity.class);
     }
 
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+    @BindView(R.id.order_viewpager)
+    ViewPager mOrderViewpager;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.my_orders)
-    RecyclerView mMyOrders;
-    private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse.OrdersBean> mList;
-    private Integer mPagerSize = 10;
-    private Integer mPagerNo = 1;
+    private List<Fragment> mFragments;
+    private final String[] orderModules = {"待付款", "待收货", "已完成"};
     @Inject
     MyOrderControl.PresenterMyOrder mPresenter;
 
@@ -62,53 +69,40 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < mPagerSize) {
+       /* if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
             mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
-        }
+        }*/
     }
 
     @Override
     public void loadFail(Throwable throwable) {
-        showErrMessage(throwable);
-        mAdapter.loadMoreFail();
+       /* showErrMessage(throwable);
+        mAdapter.loadMoreFail();*/
     }
 
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
-        if (response == null) return;
+       /* if (response == null) return;
         mList = response.orders;
-        mAdapter.setNewData(mList);
+        mAdapter.setNewData(mList);*/
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize);
+
     }
 
     private void initView() {
-        mMyOrders.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new MyOrdersAdapter(null, this, mImageLoaderHelper);
-        mAdapter.setOnLoadMoreListener(this, mMyOrders);
-        mMyOrders.setAdapter(mAdapter);
+        mFragments = new ArrayList<>();
+        mFragments.add(WaitPayOrderFragment.newInstance());
+        mFragments.add(PayCompleteOrderFragment.newInstance());
+        mFragments.add(OrderCompleteFragment.newInstance());
+        MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, orderModules);
+        mOrderViewpager.setOffscreenPageLimit(mFragments.size()-1);
+        mOrderViewpager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mOrderViewpager);
 
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    MyOrdersResponse.OrdersBean response = (MyOrdersResponse.OrdersBean) adapter.getItem(position);
-                    startActivity(OrderDetailActivity.getOrderDetailIntent(this, response));
-                }
-
-        );
-        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-                    switch (view.getId()) {
-                        case R.id.order_pull_off:
-                            showToast("" + position);
-                            break;
-                        case R.id.order_pull_sure:
-                            showToast("" + position);
-                            break;
-                    }
-                }
-        );
     }
 
     @Override

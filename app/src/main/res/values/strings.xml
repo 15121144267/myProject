@@ -78,4 +78,8 @@
     <string name="tip_permission_camera">没有使用相机的权限，请在权限管理中开启</string>
     <string name="tip_permission_storage">没有使用SD卡的权限，请在权限管理中开启</string>
     <string name="tip_permission_camera_storage">没有使用相机和SD卡的权限，请在权限管理中开启</string>
+    <!--支付相关-->
+    <string name="pay_success">支付成功!</string>
+    <string name="pay_verifying">支付结果确认中</string>
+    <string name="pay_fail">支付失败</string>
 </resources>

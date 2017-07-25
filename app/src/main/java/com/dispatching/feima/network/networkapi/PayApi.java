@@ -13,4 +13,7 @@ public interface PayApi {
     @POST("Order/Create")
     Observable<String> orderConfirmedRequest(@Body String request);
 
+    @POST("/Order/Pay")
+    Observable<String> payRequest(@Body String request);
+
 }

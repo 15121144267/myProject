@@ -20,6 +20,7 @@ import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.help.AniCreator;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
+import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
 import com.dispatching.feima.view.adapter.SpecificationAdapter;
@@ -191,17 +192,21 @@ public class SpecificationDialog extends BaseDialogFragment {
                 break;
             case R.id.dialog_goods_reduce:
 //                dialogListener.reduceCountListener();
-                if (count == 0) return;
+                if (count == 1) return;
                 mDialogGoodsCount.setText(--count + "");
                 break;
             case R.id.dialog_goods_add:
 //                dialogListener.addCountListener();
+                if(count.equals(Integer.valueOf(mDialogGoodsCount.getText().toString()))){
+                    ToastUtils.showShortToast("数量超出范围");
+                    return;
+                }
                 mDialogGoodsCount.setText(++count + "");
                 break;
 
             case dialog_buy_goods:
 
-                dialogListener.buyButtonListener(mSelectProMap);
+                dialogListener.buyButtonListener(mSelectProMap,count);
                 break;
         }
     }
@@ -224,7 +229,7 @@ public class SpecificationDialog extends BaseDialogFragment {
 
         void addCountListener();
 
-        void buyButtonListener(HashMap<String,String> hashMap);
+        void buyButtonListener(HashMap<String,String> hashMap,Integer count);
 
     }
 
