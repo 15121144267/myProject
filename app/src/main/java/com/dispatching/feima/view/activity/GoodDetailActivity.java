@@ -122,13 +122,13 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
             switch (stringStringEntry.getKey()) {
                 case "color":
-                    mButter.append("颜色:" + stringStringEntry.getValue() + " ");
+                    mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
                     break;
                 case "size":
-                    mButter.append("尺寸:" + stringStringEntry.getValue() + " ");
+                    mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
                     break;
                 case "zipper":
-                    mButter.append("有无拉链:" + stringStringEntry.getValue() + " ");
+                    mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
                     break;
             }
         }
@@ -256,29 +256,34 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 }
             }
         }
-        mProductSpecification.count = count;
-        String specification;
-        if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
-            mButter = new StringBuilder();
-            for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
-                switch (stringStringEntry.getKey()) {
-                    case "color":
-                        mButter.append("颜色:" + stringStringEntry.getValue() + " ");
-                        break;
-                    case "size":
-                        mButter.append("尺寸:" + stringStringEntry.getValue() + " ");
-                        break;
-                    case "zipper":
-                        mButter.append("有无拉链:" + stringStringEntry.getValue() + " ");
-                        break;
+        if(mProductSpecification!=null){
+            mProductSpecification.count = count;
+            String specification;
+            if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
+                mButter = new StringBuilder();
+                for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
+                    switch (stringStringEntry.getKey()) {
+                        case "color":
+                            mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
+                            break;
+                        case "size":
+                            mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
+                            break;
+                        case "zipper":
+                            mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
+                            break;
+                    }
                 }
+                specification = mButter.toString();
+            } else {
+                specification = mGoodsSpecification.getText().toString();
             }
-            specification = mButter.toString();
-        } else {
-            specification = mGoodsSpecification.getText().toString();
+            mProductSpecification.specification = specification;
+            startActivity(PayActivity.getIntent(this, mProductSpecification));
+        }else {
+            showToast("请稍后重试");
         }
-        mProductSpecification.specification = specification;
-        startActivity(PayActivity.getIntent(this, mProductSpecification));
+
     }
 
     private void showEmptyDialog() {
@@ -287,23 +292,26 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void requestGoodsSpecification() {
-        mSpecificationDialog = new SpecificationDialog();
-        mSpecificationDialog.setInstance(mSpecificationDialog);
-        mSpecificationDialog.setGoodsView(this);
-        if (mHashMap != null) {
-            mSpecificationDialog.setSpecificationHashMap(mHashMap);
-            mSpecificationDialog.setTextContent(mButter.toString());
-        }
-        mSpecificationDialog.setImageLoadHelper(mImageLoaderHelper);
-        mSpecificationDialog.productSpecification(mProduct);
-        if (mBuProcessor.getShopInfo() != null) {
-            mSpecificationDialog.setStoreCode(mBuProcessor.getShopInfo().storeCode);
-        } else {
-            mSpecificationDialog.setStoreCode(mBuProcessor.getShopResponse().storeCode);
+        if (mProduct != null) {
+            mSpecificationDialog = new SpecificationDialog();
+            mSpecificationDialog.setInstance(mSpecificationDialog);
+            mSpecificationDialog.setGoodsView(this);
+            if (mHashMap != null) {
+                mSpecificationDialog.setSpecificationHashMap(mHashMap);
+                mSpecificationDialog.setTextContent(mButter.toString());
+            }
+            mSpecificationDialog.setImageLoadHelper(mImageLoaderHelper);
+            mSpecificationDialog.productSpecification(mProduct);
+            if (mBuProcessor.getShopInfo() != null) {
+                mSpecificationDialog.setStoreCode(mBuProcessor.getShopInfo().storeCode);
+            } else {
+                mSpecificationDialog.setStoreCode(mBuProcessor.getShopResponse().storeCode);
+            }
+
+            mSpecificationDialog.setListener(this);
+            DialogFactory.showDialogFragment(getSupportFragmentManager(), mSpecificationDialog, SpecificationDialog.TAG);
         }
 
-        mSpecificationDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), mSpecificationDialog, SpecificationDialog.TAG);
     }
 
     private void initializeInjector() {
