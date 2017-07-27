@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.help.AniCreator;
 import com.dispatching.feima.help.DialogFactory;
 
 import butterknife.BindView;
@@ -48,6 +49,7 @@ public class PhotoChoiceDialog extends BaseDialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_photo_choice_dialog, container, true);
         unbind = ButterKnife.bind(this, view);
+        AniCreator.getInstance().apply_animation_translate(mRechargeDialogLayout, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
         mDialogPhotoClose.setOnClickListener(this);
         mRechargeDialogLayout.setOnClickListener(this);
         mDialogPhotoDirect.setOnClickListener(this);
