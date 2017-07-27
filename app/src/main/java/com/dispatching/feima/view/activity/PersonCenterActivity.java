@@ -91,7 +91,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     private PersonInfoResponse mPersonInfoResponse;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
-
+    private  PhotoChoiceDialog mDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
@@ -175,9 +175,9 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     }
 
     private void requestChoicePic() {
-        PhotoChoiceDialog dialog = PhotoChoiceDialog.newInstance();
-        dialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, PhotoChoiceDialog.TAG);
+        mDialog = PhotoChoiceDialog.newInstance();
+        mDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
     }
 
     @Override
@@ -196,6 +196,8 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
 
     @Override
     public void takeSuccess(TResult result) {
+       /* Bitmap bitmap = BitmapFactory.decodeFile(result.getImage().getCompressPath());
+        mPersonInfoResponse.avatarUrl  =ValueUtil.convertIconToString(bitmap);*/
         mPersonInfoResponse.avatarUrl = result.getImage().getCompressPath();
         mImageLoaderHelper.displayCircularImage(this, result.getImage().getCompressPath(), mPersonIcon);
     }

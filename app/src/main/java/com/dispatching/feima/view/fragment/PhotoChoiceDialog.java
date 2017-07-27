@@ -66,9 +66,11 @@ public class PhotoChoiceDialog extends BaseDialogFragment {
         switch (v.getId()) {
             case R.id.dialog_photo_direct:
                 dialogListener.PhotoDirectListener();
+                closeRechargeDialog();
                 break;
             case R.id.dialog_photo_take:
                 dialogListener.photoTakeListener();
+                closeRechargeDialog();
                 break;
             default:
                 closeRechargeDialog();

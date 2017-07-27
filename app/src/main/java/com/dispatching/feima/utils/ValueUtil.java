@@ -12,7 +12,6 @@ import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
@@ -281,10 +280,6 @@ public class ValueUtil {
             String icon = Base64.encodeToString(imagedata, Base64.DEFAULT);
             return icon;
         }
-        return null;
-    }
-    public static Integer getNumber (TextView text){
-
         return null;
     }
 
