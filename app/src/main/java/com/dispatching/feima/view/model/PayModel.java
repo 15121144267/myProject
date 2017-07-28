@@ -54,12 +54,12 @@ public class PayModel {
         List<OrderConfirmedRequest.ProductsBean> list = new ArrayList<>();
         OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
         productsBean.productName = mGoodsInfo.name;
-        productsBean.number = String.valueOf(productSpecification.count);
         productsBean.sequence = "0";
-
+        productsBean.number = String.valueOf(productSpecification.count);
         productsBean.specification = productSpecification.specification;
         productsBean.productId = productSpecification.productId + "";
         productsBean.price = mGoodsInfo.finalPrice * productSpecification.count;
+
         list.add(productsBean);
 
         List<OrderConfirmedRequest.AccountsBean> accountList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class PayModel {
         request.payType = 1;
         request.userId = mBuProcessor.getUserId();
         request.payChannel = "";
-        if(mLocationInfo!=null){
+        if (mLocationInfo != null) {
             request.longitude = String.valueOf(mLocationInfo.getLongitude());
             request.latitude = String.valueOf(mLocationInfo.getLatitude());
         }
@@ -103,6 +103,11 @@ public class PayModel {
         request.orderId = oid;
         request.pay_ebcode = payCode;
         return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    }
+    public Observable<ResponseData> updateOrderStatusRequest(long oid) {
+        PayRequest request = new PayRequest();
+        request.orderId = oid;
+        return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 
 }

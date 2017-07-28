@@ -98,7 +98,6 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
-
         mList = response.orders;
         if (mList.size() > 0) {
             mAdapter.addData(mList);

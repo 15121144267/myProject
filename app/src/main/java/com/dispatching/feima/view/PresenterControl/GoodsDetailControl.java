@@ -14,7 +14,7 @@ public class GoodsDetailControl {
     public interface GoodsDetailView extends LoadDataView {
         void getGoodsInfoSuccess(GoodsInfoResponse data);
         void goodInfoSpecificationSuccess(SpecificationResponse data);
-        void closeSpecificationDialog(HashMap<String,String> hashMap);
+        void closeSpecificationDialog(HashMap<String,String> hashMap,String count);
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {

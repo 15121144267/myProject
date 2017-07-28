@@ -43,7 +43,7 @@ public class MyLinearLayout extends ViewGroup {
         }
         int wholeHeight;
 
-        wholeHeight  = stageHeight*stages + (stages+2)*VIEW_MARGIN+jiange;
+        wholeHeight  = stageHeight*stages + (stages+2)*VIEW_MARGIN+VIEW_MARGIN+VIEW_MARGIN;
         setMeasuredDimension(resolveSize(wholeWidth, widthMeasureSpec),
                 resolveSize(wholeHeight, heightMeasureSpec));
     }

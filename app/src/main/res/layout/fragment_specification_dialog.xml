@@ -55,7 +55,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginStart="142dp"
             android:layout_marginTop="11dp"
-            android:text="已选图片色"
+            android:text="已选规格"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_15"/>
 

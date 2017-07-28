@@ -24,6 +24,7 @@ import com.dispatching.feima.entity.PayResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
+import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.PayZFBHelper;
 import com.dispatching.feima.utils.ValueUtil;
@@ -78,6 +79,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private ShopDetailResponse.ProductsBean mGoodInfo;
     private OrderConfirmedResponse mResponse;
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
+    private long mOrderId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +95,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
         mResponse = response;
+        mOrderId = response.oid;
         PayOrderId.setText(String.valueOf(mResponse.oid));
     }
 
@@ -130,7 +133,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 break;
             case PayConstant.PAY_TYPE_ZFB:
                 if(mResponse!=null){
-                    mPresenter.requestPayInfo(mResponse.oid,PayConstant.PAY_TYPE_ZFB);
+                    mPresenter.requestPayInfo(mOrderId,PayConstant.PAY_TYPE_ZFB);
                 }
                 break;
         }
@@ -152,6 +155,12 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         this.finish();
+//       mPresenter.updateOrderStatus(mOrderId);
+    }
+
+    @Override
+    public void updateOrderStatusSuccess(UpdateOrderStatusResponse response) {
+
     }
 
     private void initData() {

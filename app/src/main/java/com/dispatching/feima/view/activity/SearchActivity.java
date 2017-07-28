@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerSearchActivityComponent;
 import com.dispatching.feima.dagger.module.SearchActivityModule;
 import com.dispatching.feima.view.PresenterControl.SearchControl;
+import com.dispatching.feima.view.customview.ClearEditText;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
 
@@ -22,14 +24,18 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class SearchActivity extends BaseActivity implements SearchControl.SearchView {
-    @BindView(R.id.middle_name)
-    TextView mMiddleName;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+public class SearchActivity extends BaseActivity implements SearchControl.SearchView,ClearEditText.setOnMyEditorActionListener {
 
-    public static Intent getIntent(Context context) {
+    @BindView(R.id.search_goods_list)
+    RecyclerView mSearchGoodsList;
+    @BindView(R.id.search_goods)
+    ClearEditText mSearchGoods;
+    @BindView(R.id.search_goods_cancel)
+    TextView mSearchGoodsCancel;
+
+    public static Intent getIntent(Context context,Integer type) {
         Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("searchType",type);
         return intent;
     }
 
@@ -43,7 +49,23 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
         initializeInjector();
+        initView();
         initData();
+    }
+
+    @Override
+    public void onMyEditorAction() {
+
+    }
+
+    @Override
+    public void onMyTouchAction() {
+
+    }
+
+    private void initView() {
+        mSearchGoods.setOnMyEditorActionListener(this);
+        RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());
     }
 
     private void initData() {

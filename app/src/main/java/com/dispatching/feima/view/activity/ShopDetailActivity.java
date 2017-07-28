@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/30.
  */
 
-public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener {
+public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener ,ClearEditText.setOnMyEditorActionListener{
 
 
     public static Intent getIntent(Context context, ShopListResponse.ListBean item) {
@@ -163,11 +163,20 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         mPresenter.onDestroy();
     }
 
+    @Override
+    public void onMyEditorAction() {
+
+
+    }
+
+    @Override
+    public void onMyTouchAction() {
+        hideSoftInput(mSearchGoods);
+        startActivity(SearchActivity.getIntent(this,2));
+    }
+
     private void initView() {
-        mSearchGoods.setOnMyEditorActionListener(() -> {
-            hideSoftInput(mSearchGoods);
-            showToast("123");
-        });
+        mSearchGoods.setOnMyEditorActionListener(this);
         mImageList = new ArrayList<>();
         mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
         mShopInfo2 = (ShopResponse) getIntent().getSerializableExtra("ShopResponse");

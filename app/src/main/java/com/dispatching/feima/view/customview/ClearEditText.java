@@ -7,14 +7,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.dispatching.feima.R;
 
@@ -74,17 +72,22 @@ public class ClearEditText extends LinearLayout {
             }
             editText.requestFocus();
         });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if(mListenerInterface!=null){
-                        mListenerInterface.onMyEditorAction();
-                    }
-                    return true;
-                }
-                return false;
+
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                mListenerInterface.onMyTouchAction();
+                editText.clearFocus();
             }
+        });
+
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (mListenerInterface != null) {
+                    mListenerInterface.onMyEditorAction();
+                }
+                return true;
+            }
+            return false;
         });
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -142,8 +145,8 @@ public class ClearEditText extends LinearLayout {
         editText.setInputType(InputType.TYPE_CLASS_PHONE);
     }
 
-    public void setLinearBackgroundResource(int backgound) {
-        linearFather.setBackgroundResource(backgound);
+    public void setLinearBackgroundResource(int background) {
+        linearFather.setBackgroundResource(background);
     }
 
     public void setEditHint(String text) {
@@ -260,5 +263,7 @@ public class ClearEditText extends LinearLayout {
 
     public interface setOnMyEditorActionListener {
         void onMyEditorAction();
+
+        void onMyTouchAction();
     }
 }

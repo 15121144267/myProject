@@ -4,6 +4,7 @@ import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
+import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 
 /**
  * Created by lei.he on 2017/6/28.
@@ -14,10 +15,12 @@ public class PayControl {
         void orderConfirmedSuccess(OrderConfirmedResponse response);
         void orderPayInfoSuccess(PayResponse response);
         void orderPaySuccess();
+        void updateOrderStatusSuccess(UpdateOrderStatusResponse response);
     }
 
     public interface PresenterPay extends Presenter<PayView> {
         void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification);
         void requestPayInfo(long oid,String payCode);
+        void updateOrderStatus(long oid);
     }
 }

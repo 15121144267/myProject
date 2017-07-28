@@ -75,6 +75,7 @@ public class SpecificationResponse implements Serializable {
             public String size;
             public int productId;
             public String zipper;
+
             public Integer count;
             public String specification="";
         }

@@ -51,7 +51,7 @@ import butterknife.Unbinder;
  * PendingOrderFragment
  */
 
-public class PendingOrderFragment extends BaseFragment implements PendingOrderControl.PendingOrderView {
+public class PendingOrderFragment extends BaseFragment implements PendingOrderControl.PendingOrderView,ClearEditText.setOnMyEditorActionListener {
 
 
     @BindView(R.id.search_shop)
@@ -98,11 +98,19 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         return view;
     }
 
+    @Override
+    public void onMyEditorAction() {
+
+    }
+
+    @Override
+    public void onMyTouchAction() {
+        hideSoftInput(mSearchShop);
+        startActivity(SearchActivity.getIntent(getActivity(),1));
+    }
+
     private void initView() {
-        mSearchShop.setOnMyEditorActionListener(() -> {
-            hideSoftInput(mSearchShop);
-            startActivity(SearchActivity.getIntent(getActivity()));
-        });
+        mSearchShop.setOnMyEditorActionListener(this);
         mSearchShop.setEditHint("搜索商户");
         mList = new ArrayList<>();
         mImageList = new ArrayList<>();

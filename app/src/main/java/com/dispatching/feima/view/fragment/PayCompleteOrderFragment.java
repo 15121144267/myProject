@@ -99,7 +99,12 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
         mList = response.orders;
-        mAdapter.setNewData(mList);
+        if (mList.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
     }
 
     private void initData() {

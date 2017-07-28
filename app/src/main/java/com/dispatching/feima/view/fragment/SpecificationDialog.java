@@ -172,6 +172,8 @@ public class SpecificationDialog extends BaseDialogFragment {
             } else {
                 mDialogBuyGoods.setEnabled(false);
             }
+        } else {
+            mDialogBuyGoods.setEnabled(true);
         }
 
         mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
@@ -185,9 +187,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_close:
-                if (mSelectProMap != null) {
-                    mView.closeSpecificationDialog(mSelectProMap);
-                }
+                mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString());
                 closeRechargeDialog();
                 break;
             case R.id.dialog_goods_reduce:
@@ -197,7 +197,7 @@ public class SpecificationDialog extends BaseDialogFragment {
                 break;
             case R.id.dialog_goods_add:
 //                dialogListener.addCountListener();
-                if(count.equals(Integer.valueOf(mDialogGoodsCount.getText().toString()))){
+                if (count.equals(Integer.valueOf(mDialogGoodsCount.getText().toString()))) {
                     ToastUtils.showShortToast("数量超出范围");
                     return;
                 }
@@ -206,15 +206,13 @@ public class SpecificationDialog extends BaseDialogFragment {
 
             case dialog_buy_goods:
 
-                dialogListener.buyButtonListener(mSelectProMap,count);
+                dialogListener.buyButtonListener(mSelectProMap, count);
                 break;
         }
     }
 
     private void onDismiss() {
-        if (mSelectProMap != null) {
-            mView.closeSpecificationDialog(mSelectProMap);
-        }
+        mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString());
         closeRechargeDialog();
     }
 
@@ -225,12 +223,8 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public interface specificationDialogListener {
-        void reduceCountListener();
 
-        void addCountListener();
-
-        void buyButtonListener(HashMap<String,String> hashMap,Integer count);
-
+        void buyButtonListener(HashMap<String, String> hashMap, Integer count);
     }
 
 

@@ -88,6 +88,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private SpecificationDialog mSpecificationDialog;
     private HashMap<String, String> mHashMap;
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
+    private String mCount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,33 +117,32 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<String, String> hashMap) {
-        mHashMap = hashMap;
-        mButter = new StringBuilder();
-        for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
-            switch (stringStringEntry.getKey()) {
-                case "color":
-                    mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
-                    break;
-                case "size":
-                    mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
-                    break;
-                case "zipper":
-                    mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
-                    break;
+    public void closeSpecificationDialog(HashMap<String, String> hashMap, String count) {
+        mCount = count;
+        if (mProduct.specificationList != null && mProduct.specificationList.size() > 0 ) {
+            if(hashMap!=null){
+                mButter = new StringBuilder();
+                mHashMap = hashMap;
+                for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
+                    switch (stringStringEntry.getKey()) {
+                        case "color":
+                            mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
+                            break;
+                        case "size":
+                            mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
+                            break;
+                        case "zipper":
+                            mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
+                            break;
+                    }
+                }
+                mGoodsSpecification.setText(mButter.toString()+" 数量：x"+count);
             }
+        } else {
+            mGoodsSpecification.setText("数量：x" + count);
         }
-        mGoodsSpecification.setText(mButter.toString());
-    }
 
-    @Override
-    public void reduceCountListener() {
-        showToast("減少");
-    }
 
-    @Override
-    public void addCountListener() {
-        showToast("增加");
     }
 
     @Override
@@ -191,7 +191,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
         RxView.clicks(mGoodsDetailButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugGoods());
-//        RxView.clicks(mExpandGoodDetail).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestShowDetail());
         RxView.clicks(mGoodsSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestGoodsSpecification());
         mCollapsingToolbarLayout.setTitle("商品详情");
         mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
@@ -203,25 +202,45 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void requestBugGoods() {
-        if (mHashMap == null || TextUtils.isEmpty(mGoodsSpecification.getText())) {
+        if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
             showEmptyDialog();
         } else {
-            if (mProduct.specificationList.size() == mHashMap.size()) {
-                checkProductId(mHashMap, 1);
+            if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
+                if (mProduct.specificationList.size() == mHashMap.size()) {
+                    checkProductId(mHashMap, Integer.valueOf(mCount));
+                } else {
+                    showToast("规格未选全");
+                }
             } else {
-                showToast("规格未选全");
+                checkProductId(mHashMap, Integer.valueOf(mCount));
             }
+
         }
 
     }
 
     private void checkProductId(HashMap<String, String> hashMap, Integer count) {
-
-        //根据已选规格删选最终产品
-        List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
-        for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-            if (productSpecificationBean.size != null) {
-                if (productSpecificationBean.size.equals(hashMap.get("size"))) {
+        if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
+            //根据已选规格删选最终产品
+            List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
+            for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
+                if (productSpecificationBean.size != null) {
+                    if (productSpecificationBean.size.equals(hashMap.get("size"))) {
+                        if (productSpecificationBean.color != null) {
+                            if (productSpecificationBean.color.equals(hashMap.get("color"))) {
+                                if (productSpecificationBean.zipper != null) {
+                                    if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
+                                        mProductSpecification = productSpecificationBean;
+                                    }
+                                } else {
+                                    mProductSpecification = productSpecificationBean;
+                                }
+                            }
+                        } else {
+                            mProductSpecification = productSpecificationBean;
+                        }
+                    }
+                } else {
                     if (productSpecificationBean.color != null) {
                         if (productSpecificationBean.color.equals(hashMap.get("color"))) {
                             if (productSpecificationBean.zipper != null) {
@@ -233,56 +252,49 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                             }
                         }
                     } else {
-                        mProductSpecification = productSpecificationBean;
-                    }
-                }
-            } else {
-                if (productSpecificationBean.color != null) {
-                    if (productSpecificationBean.color.equals(hashMap.get("color"))) {
                         if (productSpecificationBean.zipper != null) {
                             if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
                                 mProductSpecification = productSpecificationBean;
                             }
-                        } else {
-                            mProductSpecification = productSpecificationBean;
                         }
                     }
+                }
+            }
+            if (mProductSpecification != null) {
+                mProductSpecification.count = count;
+                String specification;
+                if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
+                    mButter = new StringBuilder();
+                    for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
+                        switch (stringStringEntry.getKey()) {
+                            case "color":
+                                mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
+                                break;
+                            case "size":
+                                mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
+                                break;
+                            case "zipper":
+                                mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
+                                break;
+                        }
+                    }
+                    specification = mButter.toString();
                 } else {
-                    if (productSpecificationBean.zipper != null) {
-                        if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
-                            mProductSpecification = productSpecificationBean;
-                        }
-                    }
+                    specification = mGoodsSpecification.getText().toString();
                 }
-            }
-        }
-        if(mProductSpecification!=null){
-            mProductSpecification.count = count;
-            String specification;
-            if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
-                mButter = new StringBuilder();
-                for (Map.Entry<String, String> stringStringEntry : hashMap.entrySet()) {
-                    switch (stringStringEntry.getKey()) {
-                        case "color":
-                            mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
-                            break;
-                        case "size":
-                            mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
-                            break;
-                        case "zipper":
-                            mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
-                            break;
-                    }
-                }
-                specification = mButter.toString();
+                mProductSpecification.specification = specification;
+                startActivity(PayActivity.getIntent(this, mProductSpecification));
             } else {
-                specification = mGoodsSpecification.getText().toString();
+                showToast("请稍后重试");
             }
-            mProductSpecification.specification = specification;
+        } else {
+            mProductSpecification = new SpecificationResponse.ProductsBean.ProductSpecificationBean();
+            mProductSpecification.count = count;
+            mProductSpecification.specification = mProduct.specification;
+            mProductSpecification.productId = Integer.valueOf(mProduct.pid);
             startActivity(PayActivity.getIntent(this, mProductSpecification));
-        }else {
-            showToast("请稍后重试");
         }
+
 
     }
 
