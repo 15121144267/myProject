@@ -42,6 +42,8 @@
 # 保留support下的所有类及其内部类
 -keep class android.support.** {*;}
 
+-ignorewarnings
+
 # 保留继承的
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.support.v7.**
@@ -150,7 +152,6 @@
 -keep class retrofit2.converter.** { *;
 }
 -keepattributes Exceptions
--ignorewarnings
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
     long producerIndex;
@@ -215,6 +216,7 @@
 -keep class * extends dagger.internal.Binding
 -keep class * extends dagger.internal.ModuleAdapter
 -keep class * extends dagger.internal.StaticInjection
+
 #rabbitMq
 -dontwarn com.rabbitmq.**
 -keep class com.rabbitmq.** { *;}

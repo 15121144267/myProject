@@ -203,6 +203,6 @@
         android:scaleType="fitXY"
         android:background="@drawable/shape_rectangle_icon2"
         android:layout_marginStart="16dp"
-        android:src="@mipmap/neo"
+        android:src="@mipmap/freemud_logo"
         />
 </RelativeLayout>

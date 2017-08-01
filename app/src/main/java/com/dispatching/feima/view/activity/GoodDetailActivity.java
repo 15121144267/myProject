@@ -48,7 +48,8 @@ import butterknife.ButterKnife;
  * GoodDetailActivity
  */
 
-public class GoodDetailActivity extends BaseActivity implements GoodsDetailControl.GoodsDetailView, SpecificationDialog.specificationDialogListener {
+public class GoodDetailActivity extends BaseActivity implements GoodsDetailControl.GoodsDetailView,
+        SpecificationDialog.specificationDialogListener {
 
     public static Intent getIntent(Context context, ShopDetailResponse.ProductsBean goodsInfo) {
         Intent intent = new Intent(context, GoodDetailActivity.class);
@@ -110,9 +111,11 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Override
     public void getGoodsInfoSuccess(GoodsInfoResponse data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, Html.FROM_HTML_MODE_LEGACY, new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
+            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, Html.FROM_HTML_MODE_LEGACY,
+                    new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
         } else {
-            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
+            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText,
+                    new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
         }
     }
 
@@ -136,12 +139,11 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                             break;
                     }
                 }
-                mGoodsSpecification.setText(mButter.toString()+" 数量：x"+count);
+                mGoodsSpecification.setText(mButter.toString()+" 数量 x"+count);
             }
         } else {
-            mGoodsSpecification.setText("数量：x" + count);
+            mGoodsSpecification.setText("数量 x" + count);
         }
-
 
     }
 
@@ -214,7 +216,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             } else {
                 checkProductId(mHashMap, Integer.valueOf(mCount));
             }
-
         }
 
     }
@@ -294,8 +295,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             mProductSpecification.productId = Integer.valueOf(mProduct.pid);
             startActivity(PayActivity.getIntent(this, mProductSpecification));
         }
-
-
     }
 
     private void showEmptyDialog() {
