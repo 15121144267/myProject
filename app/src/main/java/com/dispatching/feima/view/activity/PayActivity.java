@@ -21,7 +21,6 @@ import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayConstant;
 import com.dispatching.feima.entity.PayResponse;
-import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.entity.UpdateOrderStatusResponse;
@@ -49,9 +48,9 @@ import butterknife.ButterKnife;
 
 public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
 
-    public static Intent getIntent(Context context,SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification) {
+    public static Intent getIntent(Context context,SpecificationResponse.ProductsBean productsBean) {
         Intent intent =new Intent(context, PayActivity.class);
-        intent.putExtra("productSpecification",productSpecification);
+        intent.putExtra("productsBean",productsBean);
         return intent;
     }
 
@@ -76,9 +75,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private TextView PayOrderAddress;
     private TextView mDispatchPrice;
     private TextView mfinalPrice;
-    private ShopDetailResponse.ProductsBean mGoodInfo;
     private OrderConfirmedResponse mResponse;
-    private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
+    private SpecificationResponse.ProductsBean mProductSpecification;
     private long mOrderId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -169,15 +167,14 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initView() {
-        mProductSpecification = (SpecificationResponse.ProductsBean.ProductSpecificationBean) getIntent().getSerializableExtra("productSpecification");
-        mGoodInfo = mBuProcessor.getGoodsInfo();
+        mProductSpecification = (SpecificationResponse.ProductsBean) getIntent().getSerializableExtra("productsBean");
         mList = new ArrayList<>();
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);
         mPayOrderList.setAdapter(mAdapter);
-        List<ShopDetailResponse.ProductsBean> list = new ArrayList<>();
-        if (mGoodInfo != null) {
-            list.add(mGoodInfo);
+        List<SpecificationResponse.ProductsBean> list = new ArrayList<>();
+        if (mProductSpecification != null) {
+            list.add(mProductSpecification);
             addHeadView();
             addFootView();
             mAdapter.setNewData(list);
@@ -212,7 +209,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         mAdapter.addFooterView(mFootView);
         mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
         mfinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
-        mfinalPrice.setText(ValueUtil.formatAmount(mGoodInfo.finalPrice + 500));
+        mfinalPrice.setText(ValueUtil.formatAmount(mProductSpecification.finalPrice + 500));
     }
 
     private void initializeInjector() {

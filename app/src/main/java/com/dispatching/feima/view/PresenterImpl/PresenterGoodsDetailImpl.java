@@ -32,6 +32,25 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     @Override
+    public void requestUniqueGoodInfo(String productId) {
+        Disposable disposable = mModel.goodInfoSpecificationRequest(productId)
+                .compose(mView.applySchedulers())
+                .subscribe(this::getUniqueGoodInfoSuccess
+                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getUniqueGoodInfoSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            responseData.parseData(SpecificationResponse.class);
+            SpecificationResponse response = (SpecificationResponse) responseData.parsedData;
+            mView.getUniqueGoodInfoSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+
+    @Override
     public void requestGoodInfo(String productId) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.goodInfoRequest(productId)

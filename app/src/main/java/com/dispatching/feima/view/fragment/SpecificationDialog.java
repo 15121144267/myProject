@@ -74,10 +74,19 @@ public class SpecificationDialog extends BaseDialogFragment {
     private HashMap<String, String> mSelectProMap;
     private StringBuilder mButter = new StringBuilder();
     private GoodsDetailControl.GoodsDetailView mView;
-
+    private SpecificationResponse.ProductsBean mProductsBean;
     public void setInstance(SpecificationDialog dialog) {
         mDialog = dialog;
 
+    }
+
+    public void setData(SpecificationResponse.ProductsBean productsBean) {
+        if (!mDialogBuyGoods.isEnabled()) {
+            mDialogBuyGoods.setEnabled(true);
+        }
+        mImageLoaderHelper.displayRoundedCornerImage(getActivity(), productsBean.picture, mDialogPersonIcon, 6);
+        mDialogGoodsPrice.setText(ValueUtil.formatAmount(productsBean.finalPrice));
+        mDialogGoodsAllCount.setText("库存"+productsBean.stock+"件");
     }
 
     public void setGoodsView(GoodsDetailControl.GoodsDetailView view) {
@@ -86,6 +95,10 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     public void setSpecificationHashMap(HashMap<String, String> hashMap) {
         mSelectProMap = hashMap;
+    }
+
+    public void setProductBean(SpecificationResponse.ProductsBean productsBean) {
+        mProductsBean = productsBean;
     }
 
     public void setTextContent(String textContent) {
@@ -110,6 +123,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public void setSpecificationContent(HashMap<String, String> selectProMap) {
+        mDialogBuyGoods.setEnabled(false);
         mSelectProMap = selectProMap;
         for (Map.Entry<String, String> stringStringEntry : selectProMap.entrySet()) {
             switch (stringStringEntry.getKey()) {
@@ -124,13 +138,12 @@ public class SpecificationDialog extends BaseDialogFragment {
                     break;
             }
         }
-        if (mProduct.specificationList.size() == selectProMap.size()) {
-            mDialogBuyGoods.setEnabled(true);
-        } else {
-            mDialogBuyGoods.setEnabled(false);
-        }
         mDialogGoodsColorChecked.setText(mButter.toString());
         mButter.delete(0, mButter.toString().length());
+        if (mProduct.specificationList.size() == selectProMap.size()) {
+            //查询PID
+            mView.checkProductId(selectProMap);
+        }
     }
 
     @Override
@@ -158,16 +171,12 @@ public class SpecificationDialog extends BaseDialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mStoreCode.equals("107")) {
-            mDialogGoodsAllCount.setText("库存1件");
-        } else {
-            mDialogGoodsAllCount.setText("库存2件");
-        }
+
         if (!TextUtils.isEmpty(mTextContent)) {
             mDialogGoodsColorChecked.setText(mTextContent);
         }
-        if (mSelectProMap != null) {
-            if (mProduct.specificationList.size() == mSelectProMap.size()) {
+        if (mProduct.specificationList.size() > 0) {
+            if (mSelectProMap != null && mProduct.specificationList.size() == mSelectProMap.size()) {
                 mDialogBuyGoods.setEnabled(true);
             } else {
                 mDialogBuyGoods.setEnabled(false);
@@ -176,8 +185,17 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogBuyGoods.setEnabled(true);
         }
 
-        mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
-        mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
+        if(mProductsBean!=null){
+            mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProductsBean.finalPrice));
+            mDialogGoodsAllCount.setText("库存"+mProductsBean.stock+"件");
+            mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProductsBean.picture, mDialogPersonIcon, 6);
+        }else {
+            mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
+            mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
+            mDialogGoodsAllCount.setText("库存"+mProduct.stock+"件");
+        }
+
+
         mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap);
         mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSpecificationDiffRecycleView.setAdapter(mAdapter);
@@ -191,12 +209,10 @@ public class SpecificationDialog extends BaseDialogFragment {
                 closeRechargeDialog();
                 break;
             case R.id.dialog_goods_reduce:
-//                dialogListener.reduceCountListener();
                 if (count == 1) return;
                 mDialogGoodsCount.setText(--count + "");
                 break;
             case R.id.dialog_goods_add:
-//                dialogListener.addCountListener();
                 if (count.equals(Integer.valueOf(mDialogGoodsCount.getText().toString()))) {
                     ToastUtils.showShortToast("数量超出范围");
                     return;

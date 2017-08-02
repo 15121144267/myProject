@@ -27,7 +27,9 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
     private MyLinearLayout myLinearLayout;
     private HashMap<String, String> selectProMap;
 
-    public SpecificationAdapter(SpecificationResponse.ProductsBean productsBean, List<SpecificationResponse.ProductsBean.SpecificationListBean> specificationList, Context context, SpecificationDialog dialog, HashMap<String, String> hashMap) {
+    public SpecificationAdapter(SpecificationResponse.ProductsBean productsBean,
+                                List<SpecificationResponse.ProductsBean.SpecificationListBean> specificationList,
+                                Context context, SpecificationDialog dialog, HashMap<String, String> hashMap) {
         super(R.layout.adapter_specifiaction, specificationList);
         mProduct = productsBean;
         mContext = context;
@@ -43,7 +45,6 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
     @Override
     protected void convert(BaseViewHolder helper, SpecificationResponse.ProductsBean.SpecificationListBean item) {
         if (item == null || mSpecificationList == null) return;
-
         String type = item.partName;
         switch (type) {
             case "color":
@@ -71,12 +72,55 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
                 textViews[i].setTag(i);
                 myLinearLayout.addView(textViews[i]);
             }
-            for (int j = 0; j < textViews.length; j++) {
-                textViews[j].setTag(textViews);
-                textViews[j].setOnClickListener(new SpecificationClickListener(type));
+            for (TextView textView : textViews) {
+                textView.setTag(textViews);
+                textView.setOnClickListener(new SpecificationClickListener(type));
+            }
+        } else {
+            switch (type) {
+                case "color":
+                    if (mColorList.size() > 0) {
+                        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
+                            TextView v = (TextView) myLinearLayout.getChildAt(j);
+                            if (mColorList.contains(v.getText().toString())) {
+                                v.setEnabled(true);
+                            } else {
+                                v.setBackgroundResource(R.drawable.selector_enable);
+                                v.setEnabled(false);
+                            }
+                        }
+                    }
+                    break;
+                case "size":
+                    if (mSizeList.size() > 0) {
+                        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
+                            TextView v = (TextView) myLinearLayout.getChildAt(j);
+                            if (mSizeList.contains(v.getText().toString())) {
+                                v.setEnabled(true);
+                            } else {
+                                v.setBackgroundResource(R.drawable.selector_enable);
+                                v.setEnabled(false);
+                            }
+                        }
+                    }
+                    break;
+                case "zipper":
+                    if (mZipperList.size() > 0) {
+                        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
+                            TextView v = (TextView) myLinearLayout.getChildAt(j);
+                            if (mZipperList.contains(v.getText().toString())) {
+                                v.setEnabled(true);
+                            } else {
+                                v.setBackgroundResource(R.drawable.selector_enable);
+                                v.setEnabled(false);
+                            }
+                        }
+                    }
+                    break;
             }
         }
-        /**判断之前是否已选中标签*/
+
+//        判断之前是否已选中标签
         if (selectProMap.get(type) != null) {
             for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
                 TextView v = (TextView) myLinearLayout.getChildAt(j);
@@ -88,7 +132,7 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
         }
     }
 
-    class SpecificationClickListener implements View.OnClickListener {
+    private class SpecificationClickListener implements View.OnClickListener {
         private String type;
 
         public SpecificationClickListener(String type) {
@@ -111,47 +155,28 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
                     mColorList.clear();
                     break;
             }
-            myLinearLayout.removeAllViews();
             TextView[] textViews = (TextView[]) v.getTag();
             TextView tv = (TextView) v;
-            for (int i = 0; i < textViews.length; i++) {
-                if (tv.equals(textViews[i])) {
-                    String specificationContent = textViews[i].getText().toString();
+            for (TextView textView : textViews) {
+                if (tv.equals(textView)) {
+                    String specificationContent = textView.getText().toString();
                     List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecificationList = mProduct.productSpecification;
                     for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecificationList) {
                         if (productSpecificationBean.zipper != null && productSpecificationBean.zipper.equals(specificationContent)) {
-
                             mSizeList.add(productSpecificationBean.size);
                             mColorList.add(productSpecificationBean.color);
                         } else if (productSpecificationBean.size != null && productSpecificationBean.size.equals(specificationContent)) {
-
                             mZipperList.add(productSpecificationBean.zipper);
                             mColorList.add(productSpecificationBean.color);
                         } else if (productSpecificationBean.color != null && productSpecificationBean.color.equals(specificationContent)) {
-
                             mSizeList.add(productSpecificationBean.size);
                             mZipperList.add(productSpecificationBean.zipper);
                         }
                     }
-                    for (SpecificationResponse.ProductsBean.SpecificationListBean specificationListBean : mSpecificationList) {
-                        if (!specificationListBean.partName.equals(type)) {
-                            switch (specificationListBean.partName) {
-                                case "color":
-                                    specificationListBean.value = mColorList;
-                                    break;
-                                case "size":
-                                    specificationListBean.value = mSizeList;
-                                    break;
-                                case "zipper":
-                                    specificationListBean.value = mZipperList;
-                                    break;
-                            }
-                        }
-                    }
-                    textViews[i].setBackgroundResource(R.mipmap.specification_back);
+                    textView.setBackgroundResource(R.mipmap.specification_back);
                     selectProMap.put(type, specificationContent);
                 } else {
-                    textViews[i].setBackgroundResource(R.drawable.selector_enable);
+                    textView.setBackgroundResource(R.drawable.selector_enable);
                 }
             }
             mDialog.setSpecificationContent(selectProMap);

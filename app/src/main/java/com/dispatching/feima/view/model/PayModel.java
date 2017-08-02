@@ -47,18 +47,18 @@ public class PayModel {
     }
 
 
-    public Observable<ResponseData> orderConfirmedRequest(OrderConfirmedRequest request, SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification) {
+    public Observable<ResponseData> orderConfirmedRequest(OrderConfirmedRequest request, SpecificationResponse.ProductsBean productSpecification) {
         mBean = mBuProcessor.getShopInfo();
         mGoodsInfo = mBuProcessor.getGoodsInfo();
 
         List<OrderConfirmedRequest.ProductsBean> list = new ArrayList<>();
         OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
-        productsBean.productName = mGoodsInfo.name;
-        productsBean.sequence = "0";
-        productsBean.number = String.valueOf(productSpecification.count);
+        productsBean.productName = productSpecification.name;
+        productsBean.sequence = productSpecification.sequence+"";
+        productsBean.number = String.valueOf(productSpecification.saleCount);
         productsBean.specification = productSpecification.specification;
-        productsBean.productId = productSpecification.productId + "";
-        productsBean.price = mGoodsInfo.finalPrice * productSpecification.count;
+        productsBean.productId = productSpecification.pid;
+        productsBean.price = mGoodsInfo.finalPrice * productSpecification.saleCount;
 
         list.add(productsBean);
 

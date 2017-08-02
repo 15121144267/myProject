@@ -59,6 +59,7 @@ public class SpecificationResponse implements Serializable {
         public int status;
         public int stock;
         public int type;
+        public int sequence;
         public String unit;
         public List<?> labelNames;
         public List<ProductSpecificationBean> productSpecification;

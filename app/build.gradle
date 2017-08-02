@@ -50,9 +50,11 @@ android {
             buildConfigField "Integer", "SUPTER_PORT", DUBUG_SUPTER_PORT
             buildConfigField "String", "STORE_NAME", HTTPS_STORE_NAME
             buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
+            buildConfigField "String", "WX_APP_ID", "\"wx5e66e21e491494fb\""
 
         }
         release {
+            debuggable true
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
@@ -71,6 +73,7 @@ android {
             buildConfigField "Integer", "SUPTER_PORT", RELEASE_SUPTER_PORT
             buildConfigField "String", "STORE_NAME", HTTPS_STORE_NAME
             buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
+            buildConfigField "String", "WX_APP_ID", "\"wx5e66e21e491494fb\""
         }
     }
     greendao{
@@ -128,6 +131,7 @@ dependencies {
     compile rootProject.ext.myDependencies["myPartTwoPhoto"]
     compile rootProject.ext.myDependencies["myPartThreePhoto"]
     compile 'jp.wasabeef:glide-transformations:2.0.0'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile project(path: ':mylibrary')
     compile files('libs/alipaySdk-20170710.jar')
 }

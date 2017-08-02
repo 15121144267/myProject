@@ -70,7 +70,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecification) {
+    public void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse.ProductsBean productSpecification) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.orderConfirmedRequest(request,productSpecification).compose(mView.applySchedulers())
                 .subscribe(this::orderConfirmedSuccess, throwable -> mView.showErrMessage(throwable),
