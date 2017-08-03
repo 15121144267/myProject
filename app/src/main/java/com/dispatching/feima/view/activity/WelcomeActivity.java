@@ -19,7 +19,7 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.welcome_activity);
         String userId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if(TextUtils.isEmpty(userId)){
-            startActivity(LoginActivity.getLoginIntent(this));
+           baseSwitchToLoginActivity();
         }else {
             mBuProcessor.setUserId(userId);
             mBuProcessor.setUserToken(mSharePreferenceUtil.getStringValue(SpConstant.USER_TOKEN));

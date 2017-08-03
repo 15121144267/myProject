@@ -45,7 +45,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     public static Intent getLoginIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
 

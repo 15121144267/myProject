@@ -1,6 +1,7 @@
 package com.dispatching.feima.view.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -108,6 +109,15 @@ public class BaseActivity extends AppCompatActivity {
             toolbar.setNavigationIcon(R.drawable.vector_arrow_left);
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
         }
+    }
+
+    public void baseSwitchToLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        this.finish();
+
     }
 
     void showDialogLoading(String msg) {

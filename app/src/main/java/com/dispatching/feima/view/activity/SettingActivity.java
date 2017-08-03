@@ -50,6 +50,6 @@ public class SettingActivity extends BaseActivity {
 
     private void quiteLogin() {
         mSharePreferenceUtil.removeKey(SpConstant.USER_ID);
-        startActivity(LoginActivity.getLoginIntent(this));
+        baseSwitchToLoginActivity();
     }
 }
