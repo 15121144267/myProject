@@ -80,41 +80,17 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
             switch (type) {
                 case "color":
                     if (mColorList.size() > 0) {
-                        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
-                            TextView v = (TextView) myLinearLayout.getChildAt(j);
-                            if (mColorList.contains(v.getText().toString())) {
-                                v.setEnabled(true);
-                            } else {
-                                v.setBackgroundResource(R.drawable.selector_enable);
-                                v.setEnabled(false);
-                            }
-                        }
+                        checkEnable(mColorList);
                     }
                     break;
                 case "size":
                     if (mSizeList.size() > 0) {
-                        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
-                            TextView v = (TextView) myLinearLayout.getChildAt(j);
-                            if (mSizeList.contains(v.getText().toString())) {
-                                v.setEnabled(true);
-                            } else {
-                                v.setBackgroundResource(R.drawable.selector_enable);
-                                v.setEnabled(false);
-                            }
-                        }
+                        checkEnable(mSizeList);
                     }
                     break;
                 case "zipper":
                     if (mZipperList.size() > 0) {
-                        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
-                            TextView v = (TextView) myLinearLayout.getChildAt(j);
-                            if (mZipperList.contains(v.getText().toString())) {
-                                v.setEnabled(true);
-                            } else {
-                                v.setBackgroundResource(R.drawable.selector_enable);
-                                v.setEnabled(false);
-                            }
-                        }
+                        checkEnable(mZipperList);
                     }
                     break;
             }
@@ -128,6 +104,17 @@ public class SpecificationAdapter extends BaseQuickAdapter<SpecificationResponse
                     v.setBackgroundResource(R.mipmap.specification_back);
                     selectProMap.put(type, v.getText().toString());
                 }
+            }
+        }
+    }
+
+    private void checkEnable(List<String> list){
+        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
+            TextView v = (TextView) myLinearLayout.getChildAt(j);
+            if (list.contains(v.getText().toString())) {
+                v.setEnabled(true);
+            } else {
+                v.setEnabled(false);
             }
         }
     }

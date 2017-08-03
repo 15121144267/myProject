@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
+import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.GoodsDetailApi;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
@@ -43,13 +44,13 @@ public class GoodsDetailActivityModule {
 
     @Provides
     @PerActivity
-    GoodsDetailModel provideGoodsDetailModel(Gson gson, ModelTransform modelTransform ) {
+    GoodsDetailModel provideGoodsDetailModel(Gson gson, ModelTransform modelTransform,  BuProcessor buProcessor) {
         return new GoodsDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.GOODS_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(GoodsDetailApi.class), gson, modelTransform);
+                .create(GoodsDetailApi.class), gson, modelTransform,buProcessor);
     }
 
     @Provides
