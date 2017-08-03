@@ -26,6 +26,7 @@ import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
 import com.dispatching.feima.view.adapter.SpecificationAdapter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -75,6 +76,10 @@ public class SpecificationDialog extends BaseDialogFragment {
     private StringBuilder mButter = new StringBuilder();
     private GoodsDetailControl.GoodsDetailView mView;
     private SpecificationResponse.ProductsBean mProductsBean;
+    private  List<String> mSizeList;
+    private  List<String> mColorList ;
+    private  List<String> mZipperList;
+
     public void setInstance(SpecificationDialog dialog) {
         mDialog = dialog;
 
@@ -91,6 +96,12 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     public void setGoodsView(GoodsDetailControl.GoodsDetailView view) {
         mView = view;
+    }
+
+    public void setLists(List<String> colorList,List<String> zipperList,List<String> sizeList) {
+        mSizeList = sizeList;
+        mColorList = colorList;
+        mZipperList = zipperList;
     }
 
     public void setSpecificationHashMap(HashMap<String, String> hashMap) {
@@ -122,7 +133,10 @@ public class SpecificationDialog extends BaseDialogFragment {
         this.dialogListener = dialogListener;
     }
 
-    public void setSpecificationContent(HashMap<String, String> selectProMap) {
+    public void setSpecificationContent(HashMap<String, String> selectProMap,List<String> colorList,List<String> zipperList,List<String> sizeList) {
+        mSizeList = sizeList;
+        mZipperList = zipperList;
+        mColorList = colorList;
         mDialogBuyGoods.setEnabled(false);
         mSelectProMap = selectProMap;
         for (Map.Entry<String, String> stringStringEntry : selectProMap.entrySet()) {
@@ -196,7 +210,8 @@ public class SpecificationDialog extends BaseDialogFragment {
         }
 
 
-        mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap);
+        mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap, mSizeList,
+         mColorList ,mZipperList);
         mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSpecificationDiffRecycleView.setAdapter(mAdapter);
     }
@@ -205,7 +220,9 @@ public class SpecificationDialog extends BaseDialogFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_close:
-                mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString());
+                mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString(), mColorList,
+                mZipperList,
+                mSizeList);
                 closeRechargeDialog();
                 break;
             case R.id.dialog_goods_reduce:
@@ -228,7 +245,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     private void onDismiss() {
-        mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString());
+        mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString(),mColorList,mZipperList,mSizeList);
         closeRechargeDialog();
     }
 

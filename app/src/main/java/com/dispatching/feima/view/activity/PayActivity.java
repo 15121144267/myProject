@@ -26,6 +26,7 @@ import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.PayZFBHelper;
+import com.dispatching.feima.help.WXPayHelp.PayWXHelper;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.adapter.PayGoodsListAdapter;
@@ -48,9 +49,9 @@ import butterknife.ButterKnife;
 
 public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
 
-    public static Intent getIntent(Context context,SpecificationResponse.ProductsBean productsBean) {
-        Intent intent =new Intent(context, PayActivity.class);
-        intent.putExtra("productsBean",productsBean);
+    public static Intent getIntent(Context context, SpecificationResponse.ProductsBean productsBean) {
+        Intent intent = new Intent(context, PayActivity.class);
+        intent.putExtra("productsBean", productsBean);
         return intent;
     }
 
@@ -78,6 +79,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private OrderConfirmedResponse mResponse;
     private SpecificationResponse.ProductsBean mProductSpecification;
     private long mOrderId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,24 +127,24 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void clickRechargeBtn(String payType) {
-        switch (payType) {
-            case PayConstant.PAY_TYPE_WX:
-                showToast("微信");
-                break;
-            case PayConstant.PAY_TYPE_ZFB:
-                if(mResponse!=null){
-                    mPresenter.requestPayInfo(mOrderId,PayConstant.PAY_TYPE_ZFB);
-                }
-                break;
+        if (mResponse != null) {
+            switch (payType) {
+                case PayConstant.PAY_TYPE_WX:
+                    mPresenter.requestPayInfo(mOrderId, PayConstant.PAY_TYPE_WX);
+                    break;
+                case PayConstant.PAY_TYPE_ZFB:
+                    mPresenter.requestPayInfo(mOrderId, PayConstant.PAY_TYPE_ZFB);
+                    break;
+            }
         }
     }
 
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
-        if (PayConstant.PAY_TYPE_WX.equals(String.valueOf(response.pay_ebcode))){
-//            PayWXHelper.getInstance().pay(response.biz_content, view);
-        }else{
-            PayZFBHelper.getInstance().pay(response.biz_content,this);
+        if (PayConstant.PAY_TYPE_WX.equals(String.valueOf(response.pay_ebcode))) {
+            PayWXHelper.getInstance().pay(response.biz_content, this);
+        } else {
+            PayZFBHelper.getInstance().pay(response.biz_content, this);
         }
     }
 
@@ -163,7 +165,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     private void initData() {
         mShopInfo = mBuProcessor.getShopInfo();
-        mPresenter.requestOrderConfirmed(new OrderConfirmedRequest(),mProductSpecification);
+        mPresenter.requestOrderConfirmed(new OrderConfirmedRequest(), mProductSpecification);
     }
 
     private void initView() {

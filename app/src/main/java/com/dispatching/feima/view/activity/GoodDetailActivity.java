@@ -91,7 +91,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
     private String mCount;
     private SpecificationResponse.ProductsBean mProductsBean;
-
+    private  List<String> mSizeList;
+    private  List<String> mColorList ;
+    private  List<String> mZipperList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +123,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<String, String> hashMap, String count) {
+    public void closeSpecificationDialog(HashMap<String, String> hashMap, String count, List<String> colorList,List<String> zipperList,List<String> sizeList) {
+        mSizeList = sizeList;
+        mColorList=colorList;
+        mZipperList = zipperList;
         mCount = count;
         if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
             if (hashMap != null) {
@@ -296,6 +301,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             mSpecificationDialog = new SpecificationDialog();
             mSpecificationDialog.setInstance(mSpecificationDialog);
             mSpecificationDialog.setGoodsView(this);
+            mSpecificationDialog.setLists(mColorList,mZipperList,mSizeList);
             if (mHashMap != null) {
                 mSpecificationDialog.setSpecificationHashMap(mHashMap);
                 mSpecificationDialog.setTextContent(mButter.toString());

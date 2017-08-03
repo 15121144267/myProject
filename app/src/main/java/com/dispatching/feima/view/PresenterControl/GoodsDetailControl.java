@@ -4,6 +4,7 @@ import com.dispatching.feima.entity.GoodsInfoResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by helei on 2017/4/27.
@@ -16,7 +17,7 @@ public class GoodsDetailControl {
         void goodInfoSpecificationSuccess(SpecificationResponse data);
         void getUniqueGoodInfoSuccess(SpecificationResponse data);
         void checkProductId(HashMap<String, String> selectProMap);
-        void closeSpecificationDialog(HashMap<String,String> hashMap,String count);
+        void closeSpecificationDialog(HashMap<String,String> hashMap, String count, List<String> list1, List<String> list2, List<String> list3);
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {
