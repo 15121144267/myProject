@@ -1,4 +1,4 @@
-package com.dispatching.feima.view.activity;
+package com.dispatching.feima.wxapi;
 
 
 import android.app.Activity;
@@ -25,9 +25,15 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
-        
+
     	api = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APP_ID);
-        api.handleIntent(getIntent(), this);
+
+		try {
+			api.handleIntent(getIntent(), this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
     }
 
 	@Override

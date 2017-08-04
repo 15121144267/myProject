@@ -142,7 +142,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
         if (PayConstant.PAY_TYPE_WX.equals(String.valueOf(response.pay_ebcode))) {
-            PayWXHelper.getInstance().pay(response.biz_content, this);
+            PayWXHelper.getInstance().pay(response.pay_order, this);
         } else {
             PayZFBHelper.getInstance().pay(response.biz_content, this);
         }
