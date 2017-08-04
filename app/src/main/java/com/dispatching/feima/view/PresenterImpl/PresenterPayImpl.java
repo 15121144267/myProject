@@ -33,7 +33,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void updateOrderStatus(long oid) {
+    public void updateOrderStatus(String oid) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.updateOrderStatusRequest(oid).compose(mView.applySchedulers())
                 .subscribe(this::updateOrderStatusSuccess, throwable -> mView.showErrMessage(throwable),

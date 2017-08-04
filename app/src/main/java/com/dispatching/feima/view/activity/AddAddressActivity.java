@@ -204,7 +204,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     private void initData() {
         if (getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL) != null) {
             AddressResponse.DataBean bean = (AddressResponse.DataBean) getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL);
-            mAddAddressName.setText(bean.receiverName + "");
+            mAddAddressName.setText((String)bean.receiverName);
             mAddAddressTel.setText(bean.receiverPhone);
             mAddAddressLocationText.setText(bean.address);
             mAddAddressLocationDetail.setText(bean.area);

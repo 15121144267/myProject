@@ -6,6 +6,7 @@ import com.amap.api.location.AMapLocation;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
+import com.dispatching.feima.entity.PayAccessRequest;
 import com.dispatching.feima.entity.PayRequest;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
@@ -74,9 +75,7 @@ public class PayModel {
 
         request.shopName = mBean.storeName;
         request.source = "android";
-        request.address = mBean.address;
         request.customerOrder = "BSY_" + System.currentTimeMillis();
-        request.userName = mBuProcessor.getUserPhone();
         request.products = list;
         request.amount = 1000;
         request.type = 1;
@@ -104,8 +103,8 @@ public class PayModel {
         request.pay_ebcode = payCode;
         return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
-    public Observable<ResponseData> updateOrderStatusRequest(long oid) {
-        PayRequest request = new PayRequest();
+    public Observable<ResponseData> updateOrderStatusRequest(String oid) {
+        PayAccessRequest request = new PayAccessRequest();
         request.orderId = oid;
         return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }

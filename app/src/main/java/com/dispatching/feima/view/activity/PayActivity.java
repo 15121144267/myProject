@@ -7,21 +7,24 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerPayActivityComponent;
 import com.dispatching.feima.dagger.module.PayActivityModule;
+import com.dispatching.feima.entity.AddressResponse;
+import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyPayOrderRequest;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayConstant;
 import com.dispatching.feima.entity.PayResponse;
-import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 import com.dispatching.feima.help.DialogFactory;
@@ -69,16 +72,18 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private View mHeadView;
     private View mFootView;
     private List<MyPayOrderRequest> mList;
-    private ShopListResponse.ListBean mShopInfo;
-    private TextView PayOrderId;
-    private TextView PayOrderName;
-    private TextView PayOrderPhone;
-    private TextView PayOrderAddress;
+    private TextView mPayOrderId;
+    private TextView mPayOrderName;
+    private TextView mPayOrderPhone;
+    private TextView mPayOrderAddress;
     private TextView mDispatchPrice;
+    private LinearLayout mAddressLinearLayout;
+    private LinearLayout mPayOrderIdLayout;
     private TextView mfinalPrice;
     private OrderConfirmedResponse mResponse;
     private SpecificationResponse.ProductsBean mProductSpecification;
     private long mOrderId;
+    private AddressResponse.DataBean mDataBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,7 +101,11 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
         mResponse = response;
         mOrderId = response.oid;
-        PayOrderId.setText(String.valueOf(mResponse.oid));
+        mPayOrderIdLayout.setVisibility(View.VISIBLE);
+        mPayOrderId.setText(String.valueOf(mResponse.oid));
+        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
+        payMethodDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
     }
 
     @Override
@@ -150,22 +159,20 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderPaySuccess() {
+        mPresenter.updateOrderStatus(String.valueOf(mOrderId));
+    }
+
+    @Override
+    public void updateOrderStatusSuccess(UpdateOrderStatusResponse response) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         this.finish();
-//       mPresenter.updateOrderStatus(mOrderId);
-    }
-
-    @Override
-    public void updateOrderStatusSuccess(UpdateOrderStatusResponse response) {
-
     }
 
     private void initData() {
-        mShopInfo = mBuProcessor.getShopInfo();
-        mPresenter.requestOrderConfirmed(new OrderConfirmedRequest(), mProductSpecification);
+
     }
 
     private void initView() {
@@ -189,20 +196,43 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void requestPay() {
-        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
-        payMethodDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
+        if (TextUtils.isEmpty(mPayOrderName.getText()) && TextUtils.isEmpty(mPayOrderAddress.getText())) {
+            showToast("请选择收获地址");
+            return;
+        }
+        OrderConfirmedRequest request = new OrderConfirmedRequest();
+        request.address = mDataBean.address+mDataBean.area;
+        request.phone = mDataBean.receiverPhone;
+        request.userName = (String)mDataBean.receiverName;
+        mPresenter.requestOrderConfirmed(request, mProductSpecification);
     }
-
 
     private void addHeadView() {
         mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addHeaderView(mHeadView);
-        PayOrderId = (TextView) mHeadView.findViewById(R.id.pay_order_id);
-        PayOrderName = (TextView) mHeadView.findViewById(R.id.pay_order_name);
-        PayOrderPhone = (TextView) mHeadView.findViewById(R.id.pay_order_phone);
-        PayOrderAddress = (TextView) mHeadView.findViewById(R.id.pay_order_address);
+        mPayOrderId = (TextView) mHeadView.findViewById(R.id.pay_order_id);
+        mPayOrderName = (TextView) mHeadView.findViewById(R.id.pay_order_name);
+        mPayOrderPhone = (TextView) mHeadView.findViewById(R.id.pay_order_phone);
+        mPayOrderAddress = (TextView) mHeadView.findViewById(R.id.pay_order_address);
+        mAddressLinearLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_address_layout);
+        mPayOrderIdLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_conf_id);
+        mAddressLinearLayout.setOnClickListener(v -> startActivityForResult(AddressActivity.getIntent(this, "payActivity"), 1));
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentConstant.ORDER_POSITION_TWO && resultCode == RESULT_OK) {
+            if (data != null) {
+                mDataBean = (AddressResponse.DataBean) data.getSerializableExtra("addressDataBean");
+                if (mDataBean != null) {
+                    mPayOrderPhone.setVisibility(View.VISIBLE);
+                    mPayOrderPhone.setText(mDataBean.receiverPhone);
+                    mPayOrderName.setText((String) mDataBean.receiverName);
+                    mPayOrderAddress.setText(mDataBean.address + mDataBean.area);
+                }
+            }
+        }
 
     }
 

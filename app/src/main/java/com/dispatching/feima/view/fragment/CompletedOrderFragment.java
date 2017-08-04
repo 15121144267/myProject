@@ -116,7 +116,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void requestAddress() {
-        startActivity(AddressActivity.getIntent(getActivity()));
+        startActivity(AddressActivity.getIntent(getActivity(),"completedOrderFragment"));
     }
 
     private void requestOrder() {

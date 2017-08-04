@@ -40,8 +40,10 @@ import butterknife.ButterKnife;
 
 public class AddressActivity extends BaseActivity implements AddressControl.AddressView, CommonDialog.CommonDialogListener {
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, AddressActivity.class);
+    public static Intent getIntent(Context context, String fromFlag) {
+        Intent intent = new Intent(context, AddressActivity.class);
+        intent.putExtra("fromFlag", fromFlag);
+        return intent;
     }
 
 
@@ -58,6 +60,8 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     private AddressAdapter mAdapter;
     private String mUserPhone;
     private Integer mPosition;
+    private String mFromFlag;
+
     @Inject
     AddressControl.PresenterAddress mPresenter;
 
@@ -99,12 +103,25 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         return this;
     }
 
+
     private void initView() {
+        mFromFlag = getIntent().getStringExtra("fromFlag");
         mUserPhone = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
         mAdapter = new AddressAdapter(null, this);
         mAddressList.setLayoutManager(new LinearLayoutManager(this));
         mAddressList.setAdapter(mAdapter);
         RxView.clicks(mAddressAdd).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddAddress());
+        if (mFromFlag.equals("payActivity")) {
+            mAdapter.setOnItemClickListener((adapter, view, position) -> {
+                        mBean = (AddressResponse.DataBean) adapter.getItem(position);
+                        Intent intent = new Intent();
+                        intent.putExtra("addressDataBean", mBean);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+            );
+        }
+
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     mPosition = position;
                     mBean = (AddressResponse.DataBean) adapter.getItem(position);
