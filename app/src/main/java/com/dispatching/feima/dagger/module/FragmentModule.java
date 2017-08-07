@@ -10,6 +10,7 @@ import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.PresenterControl.LoadDataView;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
 import com.dispatching.feima.view.PresenterControl.SendingOrderControl;
+import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.dispatching.feima.view.model.ShopListModel;
 import com.google.gson.Gson;
@@ -28,6 +29,7 @@ public class FragmentModule {
     private PendingOrderControl.PendingOrderView pendingView;
     private SendingOrderControl.SendingOrderView sendingView;
     private CompletedOrderControl.CompletedOrderView completeView;
+    private ShoppingCardControl.ShoppingCardView shoppingCardView;
 
     public FragmentModule(LoadDataView view, AppCompatActivity activity) {
         this.activity = activity;
@@ -35,15 +37,11 @@ public class FragmentModule {
             pendingView = (PendingOrderControl.PendingOrderView) view;
         } else if (view instanceof SendingOrderControl.SendingOrderView) {
             sendingView = (SendingOrderControl.SendingOrderView) view;
+        } else if (view instanceof ShoppingCardControl.ShoppingCardView) {
+            shoppingCardView = (ShoppingCardControl.ShoppingCardView) view;
         } else {
             completeView = (CompletedOrderControl.CompletedOrderView) view;
         }
-    }
-
-    @Provides
-    @PerActivity
-    PendingOrderControl.PendingOrderView pendingView() {
-        return this.pendingView;
     }
 
     @Provides
@@ -59,6 +57,12 @@ public class FragmentModule {
 
     @Provides
     @PerActivity
+    PendingOrderControl.PendingOrderView pendingView() {
+        return this.pendingView;
+    }
+
+    @Provides
+    @PerActivity
     SendingOrderControl.SendingOrderView sendingView() {
         return this.sendingView;
     }
@@ -67,5 +71,11 @@ public class FragmentModule {
     @PerActivity
     CompletedOrderControl.CompletedOrderView completeView() {
         return this.completeView;
+    }
+
+    @Provides
+    @PerActivity
+    ShoppingCardControl.ShoppingCardView shoppingCardView() {
+        return this.shoppingCardView;
     }
 }

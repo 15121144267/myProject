@@ -79,7 +79,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private TextView mDispatchPrice;
     private LinearLayout mAddressLinearLayout;
     private LinearLayout mPayOrderIdLayout;
-    private TextView mfinalPrice;
+    private TextView mFinalPrice;
     private OrderConfirmedResponse mResponse;
     private SpecificationResponse.ProductsBean mProductSpecification;
     private long mOrderId;
@@ -240,8 +240,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addFooterView(mFootView);
         mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
-        mfinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
-        mfinalPrice.setText(ValueUtil.formatAmount(mProductSpecification.finalPrice + 500));
+        mFinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
+        mFinalPrice.setText(ValueUtil.formatAmount(mProductSpecification.finalPrice + 500));
     }
 
     private void initializeInjector() {

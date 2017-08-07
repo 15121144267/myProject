@@ -11,10 +11,12 @@ import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
 import com.dispatching.feima.view.PresenterControl.SendingOrderControl;
+import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterCompletedImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterMainImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterPendingImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterSendingImpl;
+import com.dispatching.feima.view.PresenterImpl.PresenterShoppingCardImpl;
 import com.dispatching.feima.view.model.MainModel;
 import com.dispatching.feima.view.model.ModelTransform;
 import com.google.gson.Gson;
@@ -87,6 +89,12 @@ public class MainActivityModule {
     @Provides
     @PerActivity
     SendingOrderControl.PresenterSendingOrder providePresenterSending(PresenterSendingImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ShoppingCardControl.PresenterShoppingCard providePresenterShoppingCard(PresenterShoppingCardImpl presenter) {
         return presenter;
     }
 }

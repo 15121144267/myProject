@@ -172,7 +172,8 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     private void update(PersonInfoResponse response) {
         if (response == null) return;
         mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
-        mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl == null ? R.mipmap.person_head_icon : response.avatarUrl, mPersonIcon);
+        mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl == null ?
+                R.mipmap.person_head_icon : response.avatarUrl, mPersonIcon);
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
         Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
         drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());

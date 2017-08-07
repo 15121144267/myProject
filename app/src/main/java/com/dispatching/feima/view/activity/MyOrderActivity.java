@@ -16,6 +16,7 @@ import com.dispatching.feima.dagger.module.MyOrderActivityModule;
 import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
 import com.dispatching.feima.view.adapter.MyOrderFragmentAdapter;
+import com.dispatching.feima.view.fragment.AllOrderFragment;
 import com.dispatching.feima.view.fragment.OrderCompleteFragment;
 import com.dispatching.feima.view.fragment.PayCompleteOrderFragment;
 import com.dispatching.feima.view.fragment.WaitPayOrderFragment;
@@ -37,7 +38,6 @@ import butterknife.ButterKnife;
 public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOrderView, BaseQuickAdapter.RequestLoadMoreListener {
 
 
-
     public static Intent getIntent(Context context) {
         return new Intent(context, MyOrderActivity.class);
     }
@@ -51,7 +51,7 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private List<Fragment> mFragments;
-    private final String[] orderModules = {"待付款", "待收货", "已完成"};
+    private final String[] orderModules = {"全部", "待付款", "配送中", "已完成"};
     @Inject
     MyOrderControl.PresenterMyOrder mPresenter;
 
@@ -95,11 +95,12 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
 
     private void initView() {
         mFragments = new ArrayList<>();
+        mFragments.add(AllOrderFragment.newInstance());
         mFragments.add(WaitPayOrderFragment.newInstance());
         mFragments.add(PayCompleteOrderFragment.newInstance());
         mFragments.add(OrderCompleteFragment.newInstance());
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, orderModules);
-        mOrderViewpager.setOffscreenPageLimit(mFragments.size()-1);
+        mOrderViewpager.setOffscreenPageLimit(mFragments.size() - 1);
         mOrderViewpager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mOrderViewpager);
 

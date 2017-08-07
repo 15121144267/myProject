@@ -4,6 +4,7 @@ package com.dispatching.feima.dagger.module;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dispatching.feima.dagger.PerActivity;
+import com.dispatching.feima.view.PresenterControl.AllOrderControl;
 import com.dispatching.feima.view.PresenterControl.LoadDataView;
 import com.dispatching.feima.view.PresenterControl.OrderCompleteControl;
 import com.dispatching.feima.view.PresenterControl.PayCompleteControl;
@@ -23,6 +24,7 @@ public class OrderFragmentModule {
     private WaitPayControl.WaitPayView mWaitPayView;
     private PayCompleteControl.PayCompleteView mPayCompleteView;
     private OrderCompleteControl.OrderCompleteView mOrderCompleteView;
+    private AllOrderControl.AllOrderView mAllOrderView;
 
     public OrderFragmentModule(LoadDataView view, AppCompatActivity activity) {
         this.activity = activity;
@@ -32,47 +34,33 @@ public class OrderFragmentModule {
             mPayCompleteView = (PayCompleteControl.PayCompleteView) view;
         } else if (view instanceof OrderCompleteControl.OrderCompleteView) {
             mOrderCompleteView = (OrderCompleteControl.OrderCompleteView) view;
+        } else if (view instanceof AllOrderControl.AllOrderView) {
+            mAllOrderView = (AllOrderControl.AllOrderView) view;
         }
     }
 
     @Provides
     @PerActivity
     WaitPayControl.WaitPayView waitPayView() {
-        return this.mWaitPayView;
+        return mWaitPayView;
     }
 
     @Provides
     @PerActivity
     PayCompleteControl.PayCompleteView payCompleteView() {
-        return this.mPayCompleteView;
+        return mPayCompleteView;
     }
 
     @Provides
     @PerActivity
     OrderCompleteControl.OrderCompleteView orderCompleteView() {
-        return this.mOrderCompleteView;
-    }
-
-    /*@Provides
-    @PerActivity
-    ShopListModel provideShopListModel(Gson gson, ModelTransform modelTransform) {
-        return new ShopListModel(new RetrofitUtil.Builder()
-                .context(activity)
-                .baseUrl("http://console.freemudvip.com/service/restful/")
-                .isToJson(false)
-                .builder()
-                .create(ShopListApi.class), gson, modelTransform);
-    }*/
-
-    /*@Provides
-    @PerActivity
-    SendingOrderControl.SendingOrderView sendingView() {
-        return this.sendingView;
+        return mOrderCompleteView;
     }
 
     @Provides
     @PerActivity
-    CompletedOrderControl.CompletedOrderView completeView() {
-        return this.completeView;
-    }*/
+    AllOrderControl.AllOrderView orderAllOrderView() {
+        return mAllOrderView;
+    }
+
 }

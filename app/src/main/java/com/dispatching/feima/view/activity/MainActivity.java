@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerMainActivityComponent;
 import com.dispatching.feima.dagger.module.MainActivityModule;
+import com.dispatching.feima.help.BottomNavigationViewHelper;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.view.PresenterControl.MainControl;
 import com.dispatching.feima.view.adapter.MyFragmentAdapter;
@@ -20,6 +21,7 @@ import com.dispatching.feima.view.fragment.CommonDialog;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
 import com.dispatching.feima.view.fragment.PendingOrderFragment;
 import com.dispatching.feima.view.fragment.SendingOrderFragment;
+import com.dispatching.feima.view.fragment.ShoppingCardFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,12 +91,16 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     }
 
     private void initView() {
+        //默认停用滑动效果
+        BottomNavigationViewHelper.disableShiftMode(mViewBottomNavigation);
         List<Fragment> fragments = new ArrayList<>();
         PendingOrderFragment pendingOrderFragment = PendingOrderFragment.newInstance();
         SendingOrderFragment sendingOrderFragment = SendingOrderFragment.newInstance();
         CompletedOrderFragment completedOrderFragment = CompletedOrderFragment.newInstance();
+        ShoppingCardFragment shoppingCardFragment = ShoppingCardFragment.newInstance();
         fragments.add(pendingOrderFragment);
         fragments.add(sendingOrderFragment);
+        fragments.add(shoppingCardFragment);
         fragments.add(completedOrderFragment);
         MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
         mViewSwapper.setOffscreenPageLimit(fragments.size());
@@ -113,6 +119,9 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                 break;
             case R.id.action_three:
                 mViewSwapper.setCurrentItem(2);
+                break;
+            case R.id.action_four:
+                mViewSwapper.setCurrentItem(3);
                 break;
         }
         return true;

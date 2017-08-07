@@ -7,10 +7,12 @@ import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.MyOrderApi;
+import com.dispatching.feima.view.PresenterControl.AllOrderControl;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
 import com.dispatching.feima.view.PresenterControl.OrderCompleteControl;
 import com.dispatching.feima.view.PresenterControl.PayCompleteControl;
 import com.dispatching.feima.view.PresenterControl.WaitPayControl;
+import com.dispatching.feima.view.PresenterImpl.PresenterAllOrderImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterMyOrderImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterOrderCompleteImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterPayCompleteImpl;
@@ -84,6 +86,12 @@ public class MyOrderActivityModule {
     @Provides
     @PerActivity
     OrderCompleteControl.PresenterOrderComplete providePresenterOrderComplete(PresenterOrderCompleteImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    AllOrderControl.PresenterAllOrderView providePresenterAllOrder(PresenterAllOrderImpl presenter) {
         return presenter;
     }
 }

@@ -8,6 +8,7 @@ import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.view.fragment.CompletedOrderFragment;
 import com.dispatching.feima.view.fragment.PendingOrderFragment;
 import com.dispatching.feima.view.fragment.SendingOrderFragment;
+import com.dispatching.feima.view.fragment.ShoppingCardFragment;
 
 import dagger.Component;
 
@@ -22,4 +23,5 @@ public interface FragmentComponent extends MainActivityComponent{
     void inject(PendingOrderFragment pendingOrderFragment);
     void inject(SendingOrderFragment sendingOrderFragment);
     void inject(CompletedOrderFragment completedOrderFragment);
+    void inject(ShoppingCardFragment shoppingCardFragment);
 }
