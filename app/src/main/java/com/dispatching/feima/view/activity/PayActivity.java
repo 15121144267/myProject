@@ -101,8 +101,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
         mResponse = response;
         mOrderId = response.oid;
-        mPayOrderIdLayout.setVisibility(View.VISIBLE);
-        mPayOrderId.setText(String.valueOf(mResponse.oid));
+      /*  mPayOrderIdLayout.setVisibility(View.VISIBLE);
+        mPayOrderId.setText(String.valueOf(mResponse.oid));*/
         PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
         payMethodDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
@@ -200,11 +200,18 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             showToast("请选择收获地址");
             return;
         }
-        OrderConfirmedRequest request = new OrderConfirmedRequest();
-        request.address = mDataBean.address+mDataBean.area;
-        request.phone = mDataBean.receiverPhone;
-        request.userName = (String)mDataBean.receiverName;
-        mPresenter.requestOrderConfirmed(request, mProductSpecification);
+        if(mOrderId==0){
+            OrderConfirmedRequest request = new OrderConfirmedRequest();
+            request.address = mDataBean.address+mDataBean.area;
+            request.phone = mDataBean.receiverPhone;
+            request.userName = (String)mDataBean.receiverName;
+            mPresenter.requestOrderConfirmed(request, mProductSpecification);
+        }else {
+            PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
+            payMethodDialog.setListener(this);
+            DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
+        }
+
     }
 
     private void addHeadView() {

@@ -110,7 +110,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     private void initView() {
-        mSearchShop.setOnMyEditorActionListener(this);
+        mSearchShop.setOnMyEditorActionListener(this,true);
         mSearchShop.setEditHint("搜索商户");
         mList = new ArrayList<>();
         mImageList = new ArrayList<>();

@@ -176,7 +176,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void initView() {
-        mSearchGoods.setOnMyEditorActionListener(this);
+        mSearchGoods.setOnMyEditorActionListener(this,true);
         mImageList = new ArrayList<>();
         mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
         mShopInfo2 = (ShopResponse) getIntent().getSerializableExtra("ShopResponse");

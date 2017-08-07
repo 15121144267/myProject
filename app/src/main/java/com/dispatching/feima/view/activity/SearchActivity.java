@@ -64,7 +64,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     }
 
     private void initView() {
-        mSearchGoods.setOnMyEditorActionListener(this);
+        mSearchGoods.setOnMyEditorActionListener(this,false);
         RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());
     }
 

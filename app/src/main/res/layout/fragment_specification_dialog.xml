@@ -18,24 +18,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="140dp"
-            android:paddingTop="14dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingTop="14dp">
 
             <TextView
                 android:id="@+id/dialog_goods_price"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="￥239"
                 android:textColor="@color/light_blue_dark"
                 android:textSize="@dimen/sp_20"/>
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/dialog_close"
-                android:layout_width="17dp"
+                android:layout_width="@dimen/dp_50"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="14dp"
-                android:src="@mipmap/dialog_close"/>
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/dialog_close"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <TextView
@@ -90,14 +96,15 @@
 
                 <TextView
                     android:id="@+id/dialog_goods_reduce"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:paddingStart="7dp"
                     android:text="—"
-                    android:gravity="center_vertical"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18"
-                    android:textStyle="bold"/>
+                    android:textSize="@dimen/sp_20"
+                    />
 
                 <TextView
                     android:id="@+id/dialog_goods_count"
@@ -112,14 +119,15 @@
 
                 <TextView
                     android:id="@+id/dialog_goods_add"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:paddingEnd="7dp"
                     android:text="+"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_20"
-                    android:textStyle="bold"/>
+                    />
             </LinearLayout>
         </LinearLayout>
 
@@ -145,9 +153,9 @@
         android:layout_height="110dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="340dp"
-        android:scaleType="fitXY"
-        android:background="@drawable/shape_rectangle_icon2"
         android:layout_marginStart="16dp"
+        android:background="@drawable/shape_rectangle_icon2"
+        android:scaleType="fitXY"
         android:src="@mipmap/freemud_logo"
         />
 </RelativeLayout>

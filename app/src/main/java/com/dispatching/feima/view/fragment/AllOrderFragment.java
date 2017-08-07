@@ -35,7 +35,9 @@ import butterknife.Unbinder;
  */
 
 public class AllOrderFragment extends BaseFragment implements AllOrderControl.AllOrderView, BaseQuickAdapter.RequestLoadMoreListener {
-
+    public static AllOrderFragment newInstance() {
+        return new AllOrderFragment();
+    }
 
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
@@ -43,15 +45,10 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     private List<MyOrdersResponse.OrdersBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
-
-    public static AllOrderFragment newInstance() {
-        return new AllOrderFragment();
-    }
+    private Unbinder unbind;
 
     @Inject
     AllOrderControl.PresenterAllOrderView mPresenter;
-
-    private Unbinder unbind;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

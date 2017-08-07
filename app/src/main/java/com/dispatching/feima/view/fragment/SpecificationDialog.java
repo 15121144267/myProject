@@ -41,7 +41,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     @BindView(R.id.dialog_goods_price)
     TextView mDialogGoodsPrice;
     @BindView(R.id.dialog_close)
-    ImageView mDialogClose;
+    LinearLayout mDialogClose;
     @BindView(R.id.dialog_goods_all_count)
     TextView mDialogGoodsAllCount;
     @BindView(R.id.dialog_goods_color_checked)

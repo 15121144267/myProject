@@ -29,9 +29,11 @@ public class ClearEditText extends LinearLayout {
     private boolean isAlwaysShowDeleteBtn = false;
     private Context mContext;
     public setOnMyEditorActionListener mListenerInterface;
+    public boolean mClearFocus;
 
-    public void setOnMyEditorActionListener(setOnMyEditorActionListener listenerInterface) {
+    public void setOnMyEditorActionListener(setOnMyEditorActionListener listenerInterface, boolean clearFocus) {
         mListenerInterface = listenerInterface;
+        mClearFocus = clearFocus;
     }
 
     public void setIsAlwaysShowDeleteBtn(boolean isAlwaysShowDeleteBtn) {
@@ -74,9 +76,11 @@ public class ClearEditText extends LinearLayout {
         });
 
         editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
+            if (hasFocus) {
                 mListenerInterface.onMyTouchAction();
-                editText.clearFocus();
+                if(mClearFocus){
+                    editText.clearFocus();
+                }
             }
         });
 
