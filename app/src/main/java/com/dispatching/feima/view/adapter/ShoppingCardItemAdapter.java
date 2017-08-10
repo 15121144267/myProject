@@ -28,6 +28,7 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
         if (item == null) return;
         helper.addOnClickListener(R.id.item_shopping_card_check).addOnClickListener(R.id.item_shopping_card_reduce).addOnClickListener(R.id.item_shopping_card_add);
         helper.setText(R.id.item_shopping_card_des,item.name);
+        helper.setText(R.id.item_shopping_card_count,String.valueOf(item.productNumber));
         helper.setChecked(R.id.item_shopping_card_check,item.childCheckFlag);
         helper.setText(R.id.item_shopping_card_specification,item.specification);
         helper.setText(R.id.item_shopping_card_price,"￥"+ ValueUtil.formatAmount(item.finalPrice));

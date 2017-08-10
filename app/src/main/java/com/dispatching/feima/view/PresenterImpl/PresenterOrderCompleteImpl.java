@@ -28,8 +28,8 @@ public class PresenterOrderCompleteImpl implements OrderCompleteControl.Presente
     }
 
     @Override
-    public void requestMyOrderList(Integer pageNo, Integer pageSize) {
-        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize).compose(mView.applySchedulers())
+    public void requestMyOrderList(Integer status,Integer pageNo, Integer pageSize) {
+        Disposable disposable = mModel.orderStatusListRequest(status,pageNo, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
                         throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());

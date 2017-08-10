@@ -13,14 +13,12 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerMyOrderActivityComponent;
 import com.dispatching.feima.dagger.module.MyOrderActivityModule;
-import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
 import com.dispatching.feima.view.adapter.MyOrderFragmentAdapter;
 import com.dispatching.feima.view.fragment.AllOrderFragment;
 import com.dispatching.feima.view.fragment.OrderCompleteFragment;
 import com.dispatching.feima.view.fragment.PayCompleteOrderFragment;
 import com.dispatching.feima.view.fragment.WaitPayOrderFragment;
-import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ import butterknife.ButterKnife;
  * MyOrderActivity
  */
 
-public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOrderView, BaseQuickAdapter.RequestLoadMoreListener {
+public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOrderView {
 
 
     public static Intent getIntent(Context context) {
@@ -51,7 +49,7 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private List<Fragment> mFragments;
-    private final String[] orderModules = {"全部", "待付款", "配送中", "已完成"};
+    private final String[] orderModules = {"全部", "待发货", "配送中", "已完成"};
     @Inject
     MyOrderControl.PresenterMyOrder mPresenter;
 
@@ -65,28 +63,6 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
         mMiddleName.setText("我的订单");
         initView();
         initData();
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-       /* if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(true);
-        } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
-        }*/
-    }
-
-    @Override
-    public void loadFail(Throwable throwable) {
-       /* showErrMessage(throwable);
-        mAdapter.loadMoreFail();*/
-    }
-
-    @Override
-    public void getMyOrderListSuccess(MyOrdersResponse response) {
-       /* if (response == null) return;
-        mList = response.orders;
-        mAdapter.setNewData(mList);*/
     }
 
     private void initData() {

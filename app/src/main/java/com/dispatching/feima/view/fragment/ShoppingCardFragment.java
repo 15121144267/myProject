@@ -2,10 +2,12 @@ package com.dispatching.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,9 @@ import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
+import com.dispatching.feima.utils.SpannableStringUtils;
 import com.dispatching.feima.utils.ToastUtils;
+import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.adapter.ShoppingCardAdapter;
@@ -69,6 +73,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     private Button mEmptyButton;
     private final String companyId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61";
     private List<ShoppingCardListResponse.DataBean> mProductList;
+    private Integer allPrice;
     @Inject
     ShoppingCardControl.PresenterShoppingCard mPresenter;
 
@@ -114,8 +119,9 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mActivitiesRecycleView.getParent(), false);
         mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
+        RxView.clicks(mFragmentShoppingCardCheck).subscribe(o -> checkForAll());
         mActivitiesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ShoppingCardAdapter(null,this, getActivity(), mImageLoaderHelper);
+        mAdapter = new ShoppingCardAdapter(null, this, getActivity(), mImageLoaderHelper);
         mActivitiesRecycleView.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -128,14 +134,17 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                         for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
                             productsBean.childCheckFlag = false;
                         }
+                        if(mFragmentShoppingCardCheck.isChecked()){
+                            mFragmentShoppingCardCheck.setChecked(false);
+                        }
                     } else {
                         product.checkFlag = true;
                         for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
                             productsBean.childCheckFlag = true;
                         }
                     }
-
-                    mAdapter.setNewData(mProductList);
+                    countPrice();
+                    mAdapter.setData(position, product);
                     break;
                 case R.id.adapter_shopping_card_edit:
                     ToastUtils.showShortToast("编辑" + position);
@@ -145,21 +154,79 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         });
     }
 
+
     @Override
-    public void setChildAdapter(Integer position1, ShoppingCardItemAdapter itemAdapter) {
+    public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
             switch (view.getId()) {
                 case R.id.item_shopping_card_check:
-                    ToastUtils.showShortToast("check"+position);
+                    ShoppingCardListResponse.DataBean product = mProductList.get(parentPosition);
+                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = product.products.get(position);
+                    if (!checkBox.isChecked()) {
+                        childProduct.childCheckFlag = false;
+                        if (product.checkFlag) {
+                            partnerCheckBox.setChecked(false);
+                            product.checkFlag = false;
+                            if(mFragmentShoppingCardCheck.isChecked()){
+                                mFragmentShoppingCardCheck.setChecked(false);
+                            }
+                        }
+                    } else {
+                        childProduct.childCheckFlag = true;
+                    }
+                    countPrice();
+                    itemAdapter.setData(position, childProduct);
                     break;
                 case R.id.item_shopping_card_reduce:
-                    ToastUtils.showShortToast("减少"+position);
+                    ToastUtils.showShortToast("减少" + position);
                     break;
                 case R.id.item_shopping_card_add:
-                    ToastUtils.showShortToast("增加"+position);
+                    ToastUtils.showShortToast("增加" + position);
                     break;
             }
         });
+    }
+
+    private void checkForAll() {
+        if (!mFragmentShoppingCardCheck.isChecked()) {
+            for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
+                dataBean.checkFlag = false;
+                for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
+                    product.childCheckFlag = false;
+                }
+            }
+        } else {
+            for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
+                dataBean.checkFlag = true;
+                for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
+                    product.childCheckFlag = true;
+                }
+            }
+        }
+        countPrice();
+        mAdapter.setNewData(mProductList);
+    }
+
+    private void countPrice() {
+        allPrice = 0;
+        for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
+            for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
+                if (product.childCheckFlag) {
+                    allPrice += product.finalPrice * product.productNumber;
+                }
+            }
+        }
+        String orderPricePartOne = "合计：";
+        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(allPrice);
+        SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
+                .setForegroundColor(ContextCompat.getColor(getActivity(), R.color.order_price_color))
+                .setSize(18, true)
+                .create();
+        SpannableStringBuilder stringBuilder2 = SpannableStringUtils.getBuilder(orderPricePartOne)
+                .setForegroundColor(ContextCompat.getColor(getActivity(), R.color.light_grey_dark))
+                .append(stringBuilder).create();
+        mFragmentShoppingCardPrice.setText(stringBuilder2);
     }
 
     private void goForShopping() {

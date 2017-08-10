@@ -43,6 +43,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private List<MyOrdersResponse.OrdersBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+    private final Integer mStatus = 3;
 
     public static WaitPayOrderFragment newInstance() {
         return new WaitPayOrderFragment();
@@ -85,7 +86,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
+            mPresenter.requestMyOrderList(mStatus,++mPagerNo, mPagerSize);
         }
     }
 
@@ -108,7 +109,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize);
+        mPresenter.requestMyOrderList(mStatus,mPagerNo, mPagerSize);
     }
 
     private void initView() {

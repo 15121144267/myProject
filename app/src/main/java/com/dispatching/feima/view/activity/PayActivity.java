@@ -200,13 +200,13 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             showToast("请选择收获地址");
             return;
         }
-        if(mOrderId==0){
+        if (mOrderId == 0) {
             OrderConfirmedRequest request = new OrderConfirmedRequest();
-            request.address = mDataBean.address+mDataBean.area;
+            request.address = mDataBean.address + mDataBean.area;
             request.phone = mDataBean.receiverPhone;
-            request.userName = (String)mDataBean.receiverName;
+            request.userName = (String) mDataBean.receiverName;
             mPresenter.requestOrderConfirmed(request, mProductSpecification);
-        }else {
+        } else {
             PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
             payMethodDialog.setListener(this);
             DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);

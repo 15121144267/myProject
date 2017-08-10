@@ -3,11 +3,11 @@ package com.dispatching.feima.view.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.CheckBox;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
 import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
-import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
@@ -30,15 +30,15 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
     @Override
     protected void convert(BaseViewHolder helper, ShoppingCardListResponse.DataBean item) {
         if (item == null) return;
+        CheckBox checkBox = helper.getView(R.id.adapter_shopping_card_check);
         helper.addOnClickListener(R.id.adapter_shopping_card_check).addOnClickListener(R.id.adapter_shopping_card_edit);
         helper.setText(R.id.adapter_shopping_card_shop_name, "  店名");
-        helper.setChecked(R.id.adapter_shopping_card_check,item.checkFlag);
+        helper.setChecked(R.id.adapter_shopping_card_check, item.checkFlag);
         RecyclerView recyclerView = helper.getView(R.id.adapter_shopping_card_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         ShoppingCardItemAdapter itemAdapter = new ShoppingCardItemAdapter(item.products, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
-        mView.setChildAdapter(helper.getAdapterPosition(),itemAdapter);
-
+        mView.setChildAdapter(helper.getAdapterPosition(), itemAdapter, checkBox);
     }
 
 }

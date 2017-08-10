@@ -43,6 +43,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     private List<MyOrdersResponse.OrdersBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+    private final Integer mStatus = 4;
 
     public static PayCompleteOrderFragment newInstance() {
         return new PayCompleteOrderFragment();
@@ -85,7 +86,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
+            mPresenter.requestMyOrderList(mStatus,++mPagerNo, mPagerSize);
         }
     }
 
@@ -108,7 +109,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize);
+        mPresenter.requestMyOrderList(mStatus,mPagerNo, mPagerSize);
     }
 
     private void initView() {

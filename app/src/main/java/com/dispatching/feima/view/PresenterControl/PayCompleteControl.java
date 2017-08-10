@@ -13,6 +13,6 @@ public class PayCompleteControl {
     }
 
     public interface PresenterPayComplete extends Presenter<PayCompleteView> {
-        void requestMyOrderList(Integer pageNo,Integer pageSize);
+        void requestMyOrderList(Integer status,Integer pageNo,Integer pageSize);
     }
 }

@@ -28,7 +28,7 @@ public class PresenterMyOrderImpl implements MyOrderControl.PresenterMyOrder {
         mModel = model;
     }
 
-    @Override
+  /*  @Override
     public void requestMyOrderList(Integer pageNo, Integer pageSize) {
         Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
@@ -45,7 +45,7 @@ public class PresenterMyOrderImpl implements MyOrderControl.PresenterMyOrder {
         }else {
             mView.showToast(responseData.errorDesc);
         }
-    }
+    }*/
 
     @Override
     public void onCreate() {

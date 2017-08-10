@@ -2,8 +2,9 @@ package com.dispatching.feima.view.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
-import android.widget.ImageView;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MyOrdersResponse;
@@ -30,19 +31,19 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.OrdersBea
     protected void convert(BaseViewHolder helper, MyOrdersResponse.OrdersBean item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.order_pull_off).addOnClickListener(R.id.order_pull_sure).addOnClickListener(R.id.order_for_pay);
-
-        MyOrdersResponse.OrdersBean.ProductsBean product = item.products.get(0);
-
-        ImageView iconView = helper.getView(R.id.adapter_person_icon);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext, product.picture, iconView, 6);
+        List<MyOrdersResponse.OrdersBean.ProductsBean> products = item.products;
+        RecyclerView recyclerView = helper.getView(R.id.adapter_product_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        OrdersItemAdapter itemAdapter = new OrdersItemAdapter(products, mContext, mImageLoaderHelper);
+        recyclerView.setAdapter(itemAdapter);
 
         helper.setText(R.id.shop_name, "  " + item.shopName);
         switch (item.status) {
             case 2:
                 helper.setText(R.id.adapter_order_status, "  待支付");
-                helper.setVisible(R.id.order_for_pay,true);
-                helper.setVisible(R.id.order_pull_sure,false);
-                helper.setVisible(R.id.order_pull_off,false);
+                helper.setVisible(R.id.order_for_pay, true);
+                helper.setVisible(R.id.order_pull_sure, false);
+                helper.setVisible(R.id.order_pull_off, false);
                 break;
             case 3:
                 helper.setText(R.id.adapter_order_status, "  代发货");
@@ -53,14 +54,15 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.OrdersBea
             default:
                 helper.setText(R.id.adapter_order_status, "  系统处理中");
         }
-
-        helper.setText(R.id.product_name, product.name);
-        helper.setText(R.id.product_info, "暂无描述");
-        helper.setText(R.id.product_price, "￥" + ValueUtil.formatAmount(product.finalPrice));
-        helper.setText(R.id.product_info2, "规格:" + product.specification);
-        helper.setText(R.id.product_count, "x" + product.productNumber);
+        Integer orderCount = 0;
+        Integer orderPrice = 0;
         String orderPricePartOne = "合计：";
-        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(product.finalPrice * product.productNumber);
+        for (MyOrdersResponse.OrdersBean.ProductsBean product : products) {
+            orderPrice += product.finalPrice * product.productNumber;
+            orderCount = +product.productNumber;
+        }
+
+        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(orderPrice);
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
                 .setForegroundColor(ContextCompat.getColor(mContext, R.color.order_price_color))
                 .setSize(18, true)
@@ -69,7 +71,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.OrdersBea
                 .setForegroundColor(ContextCompat.getColor(mContext, R.color.light_grey_dark))
                 .append(stringBuilder).create();
         helper.setText(R.id.order_price, stringBuilder2);
-        helper.setText(R.id.order_count, "共" + product.productNumber + "件商品");
+        helper.setText(R.id.order_count, "共" + orderCount + "件商品");
 
     }
 

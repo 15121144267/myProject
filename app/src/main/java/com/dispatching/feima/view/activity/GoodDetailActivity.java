@@ -248,20 +248,25 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void addToShoppingCard(Integer count) {
-        if(mProductsBean!=null){
-            AddShoppingCardRequest request = new AddShoppingCardRequest();
+        AddShoppingCardRequest request = new AddShoppingCardRequest();
+        request.number = String.valueOf(count);
+        request.userId = mBuProcessor.getUserId();
+        request.type = "1";
+        if (mProductsBean != null) {
             request.name = mProductsBean.name;
-            request.number = String.valueOf(count);
-            request.type = "1";
-            request.productId= mProductsBean.pid;
-            request.userId = mBuProcessor.getUserId();
-            mPresenter.requestAddShoppingCard(request);
+            request.productId = mProductsBean.pid;
+
+        } else {
+            mProductsBean = mProduct;
+            request.name = mProduct.name;
+            request.productId = mProduct.pid;
         }
+        mPresenter.requestAddShoppingCard(request);
     }
 
     @Override
     public void addShoppingCardSuccess() {
-       showToast("添加购物车成功");
+        showToast("添加购物车成功");
     }
 
     @Override

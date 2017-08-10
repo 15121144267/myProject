@@ -13,6 +13,6 @@ public class WaitPayControl {
     }
 
     public interface PresenterWaitPay extends Presenter<WaitPayView> {
-        void requestMyOrderList(Integer pageNo,Integer pageSize);
+        void requestMyOrderList(Integer status,Integer pageNo,Integer pageSize);
     }
 }

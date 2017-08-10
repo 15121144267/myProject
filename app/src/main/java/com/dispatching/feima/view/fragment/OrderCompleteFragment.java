@@ -43,6 +43,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     private List<MyOrdersResponse.OrdersBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+    private Integer mStatus = 5;
 
     public static OrderCompleteFragment newInstance() {
         return new OrderCompleteFragment();
@@ -85,7 +86,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
+            mPresenter.requestMyOrderList(mStatus,++mPagerNo, mPagerSize);
         }
     }
 
@@ -108,7 +109,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize);
+        mPresenter.requestMyOrderList(mStatus,mPagerNo, mPagerSize);
     }
 
     private void initView() {

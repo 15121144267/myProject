@@ -13,6 +13,6 @@ public class OrderCompleteControl {
     }
 
     public interface PresenterOrderComplete extends Presenter<OrderCompleteView> {
-        void requestMyOrderList(Integer pageNo,Integer pageSize);
+        void requestMyOrderList(Integer status,Integer pageNo,Integer pageSize);
     }
 }

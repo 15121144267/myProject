@@ -215,6 +215,12 @@ public class ValueUtil {
         return format.format(newAmount);
     }
 
+    public static String formatAmount2(double amount) {
+        double newAmount = amount / 100;
+        DecimalFormat format = new DecimalFormat("##0");
+        return format.format(newAmount);
+    }
+
     public static void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
         Class<?> tabLayout = tabs.getClass();
         Field tabStrip = null;

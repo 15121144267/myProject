@@ -1,5 +1,7 @@
 package com.dispatching.feima.view.PresenterControl;
 
+import android.widget.CheckBox;
+
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
 import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 
@@ -10,7 +12,7 @@ import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 public class ShoppingCardControl {
     public interface ShoppingCardView extends LoadDataView {
         void shoppingCardListSuccess(ShoppingCardListResponse response);
-        void setChildAdapter(Integer position,ShoppingCardItemAdapter itemAdapter);
+        void setChildAdapter(Integer position, ShoppingCardItemAdapter itemAdapter, CheckBox checkBox);
     }
 
     public interface PresenterShoppingCard extends Presenter<ShoppingCardView> {
