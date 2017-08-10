@@ -24,6 +24,7 @@ import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.adapter.ShoppingCardAdapter;
+import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
         mActivitiesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ShoppingCardAdapter(null, getActivity(), mImageLoaderHelper);
+        mAdapter = new ShoppingCardAdapter(null,this, getActivity(), mImageLoaderHelper);
         mActivitiesRecycleView.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -140,6 +141,23 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                     ToastUtils.showShortToast("编辑" + position);
                     break;
 
+            }
+        });
+    }
+
+    @Override
+    public void setChildAdapter(Integer position1, ShoppingCardItemAdapter itemAdapter) {
+        itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.item_shopping_card_check:
+                    ToastUtils.showShortToast("check"+position);
+                    break;
+                case R.id.item_shopping_card_reduce:
+                    ToastUtils.showShortToast("减少"+position);
+                    break;
+                case R.id.item_shopping_card_add:
+                    ToastUtils.showShortToast("增加"+position);
+                    break;
             }
         });
     }

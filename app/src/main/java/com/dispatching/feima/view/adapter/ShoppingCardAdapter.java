@@ -8,6 +8,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
 import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.utils.ToastUtils;
+import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -17,10 +18,12 @@ import java.util.List;
 public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListResponse.DataBean, BaseViewHolder> {
     private final Context mContext;
     private final ImageLoaderHelper mImageLoaderHelper;
+    private ShoppingCardControl.ShoppingCardView mView;
 
-    public ShoppingCardAdapter(List<ShoppingCardListResponse.DataBean> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
+    public ShoppingCardAdapter(List<ShoppingCardListResponse.DataBean> notices, ShoppingCardControl.ShoppingCardView view, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_shopping_card_list, notices);
         mContext = context;
+        mView = view;
         mImageLoaderHelper = imageLoaderHelper;
     }
 
@@ -34,20 +37,8 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         ShoppingCardItemAdapter itemAdapter = new ShoppingCardItemAdapter(item.products, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
+        mView.setChildAdapter(helper.getAdapterPosition(),itemAdapter);
 
-        itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()) {
-                case R.id.item_shopping_card_check:
-                    ToastUtils.showShortToast("check"+position);
-                    break;
-                case R.id.item_shopping_card_reduce:
-                    ToastUtils.showShortToast("减少"+position);
-                    break;
-                case R.id.item_shopping_card_add:
-                    ToastUtils.showShortToast("增加"+position);
-                    break;
-            }
-        });
     }
 
 }
