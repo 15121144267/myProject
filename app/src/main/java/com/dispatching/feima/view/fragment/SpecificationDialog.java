@@ -33,8 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.dispatching.feima.R.id.dialog_buy_goods;
-
 
 public class SpecificationDialog extends BaseDialogFragment {
     public static final String TAG = SpecificationDialog.class.getSimpleName();
@@ -54,14 +52,17 @@ public class SpecificationDialog extends BaseDialogFragment {
     TextView mDialogGoodsAdd;
     @BindView(R.id.main_linear)
     LinearLayout mMainLinear;
-    @BindView(dialog_buy_goods)
-    Button mDialogBuyGoods;
     @BindView(R.id.dialog_person_icon)
     ImageView mDialogPersonIcon;
     @BindView(R.id.recharge_dialog_layout)
     RelativeLayout mRechargeDialogLayout;
     @BindView(R.id.specification_diff_recycle_view)
     RecyclerView mSpecificationDiffRecycleView;
+
+    @BindView(R.id.dialog_buy_goods)
+    Button mDialogBuyGoods;
+    @BindView(R.id.dialog_add_goods)
+    Button mDialogAddGoods;
 
     private specificationDialogListener dialogListener;
     private Unbinder unbind;
@@ -76,29 +77,34 @@ public class SpecificationDialog extends BaseDialogFragment {
     private StringBuilder mButter = new StringBuilder();
     private GoodsDetailControl.GoodsDetailView mView;
     private SpecificationResponse.ProductsBean mProductsBean;
-    private  List<String> mSizeList;
-    private  List<String> mColorList ;
-    private  List<String> mZipperList;
+    private List<String> mSizeList;
+    private List<String> mColorList;
+    private List<String> mZipperList;
+    private Integer mAddOrBugFlag;
 
     public void setInstance(SpecificationDialog dialog) {
         mDialog = dialog;
+    }
 
+    public void setVisibilityFlag(Integer addOrBugFlag) {
+        mAddOrBugFlag = addOrBugFlag;
     }
 
     public void setData(SpecificationResponse.ProductsBean productsBean) {
         if (!mDialogBuyGoods.isEnabled()) {
             mDialogBuyGoods.setEnabled(true);
+            mDialogAddGoods.setEnabled(true);
         }
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), productsBean.picture, mDialogPersonIcon, 6);
         mDialogGoodsPrice.setText(ValueUtil.formatAmount(productsBean.finalPrice));
-        mDialogGoodsAllCount.setText("库存"+productsBean.stock+"件");
+        mDialogGoodsAllCount.setText("库存" + productsBean.stock + "件");
     }
 
     public void setGoodsView(GoodsDetailControl.GoodsDetailView view) {
         mView = view;
     }
 
-    public void setLists(List<String> colorList,List<String> zipperList,List<String> sizeList) {
+    public void setLists(List<String> colorList, List<String> zipperList, List<String> sizeList) {
         mSizeList = sizeList;
         mColorList = colorList;
         mZipperList = zipperList;
@@ -133,11 +139,12 @@ public class SpecificationDialog extends BaseDialogFragment {
         this.dialogListener = dialogListener;
     }
 
-    public void setSpecificationContent(HashMap<String, String> selectProMap,List<String> colorList,List<String> zipperList,List<String> sizeList) {
+    public void setSpecificationContent(HashMap<String, String> selectProMap, List<String> colorList, List<String> zipperList, List<String> sizeList) {
         mSizeList = sizeList;
         mZipperList = zipperList;
         mColorList = colorList;
         mDialogBuyGoods.setEnabled(false);
+        mDialogAddGoods.setEnabled(false);
         mSelectProMap = selectProMap;
         for (Map.Entry<String, String> stringStringEntry : selectProMap.entrySet()) {
             switch (stringStringEntry.getKey()) {
@@ -169,6 +176,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogGoodsReduce.setOnClickListener(this);
         mDialogGoodsAdd.setOnClickListener(this);
         mDialogBuyGoods.setOnClickListener(this);
+        mDialogAddGoods.setOnClickListener(this);
         mDialogClose.setOnClickListener(this);
         this.getDialog().setOnKeyListener((DialogInterface arg0, int keyCode, KeyEvent arg2) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -185,33 +193,41 @@ public class SpecificationDialog extends BaseDialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        if (mAddOrBugFlag == 1) {
+            mDialogAddGoods.setVisibility(View.VISIBLE);
+        } else {
+            mDialogAddGoods.setVisibility(View.GONE);
+            mDialogBuyGoods.setText("确定");
+        }
         if (!TextUtils.isEmpty(mTextContent)) {
             mDialogGoodsColorChecked.setText(mTextContent);
         }
         if (mProduct.specificationList.size() > 0) {
             if (mSelectProMap != null && mProduct.specificationList.size() == mSelectProMap.size()) {
                 mDialogBuyGoods.setEnabled(true);
+                mDialogAddGoods.setEnabled(true);
             } else {
                 mDialogBuyGoods.setEnabled(false);
+                mDialogAddGoods.setEnabled(false);
             }
         } else {
             mDialogBuyGoods.setEnabled(true);
+            mDialogAddGoods.setEnabled(true);
         }
 
-        if(mProductsBean!=null){
+        if (mProductsBean != null) {
             mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProductsBean.finalPrice));
-            mDialogGoodsAllCount.setText("库存"+mProductsBean.stock+"件");
+            mDialogGoodsAllCount.setText("库存" + mProductsBean.stock + "件");
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProductsBean.picture, mDialogPersonIcon, 6);
-        }else {
+        } else {
             mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
-            mDialogGoodsAllCount.setText("库存"+mProduct.stock+"件");
+            mDialogGoodsAllCount.setText("库存" + mProduct.stock + "件");
         }
 
 
         mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap, mSizeList,
-         mColorList ,mZipperList);
+                mColorList, mZipperList);
         mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSpecificationDiffRecycleView.setAdapter(mAdapter);
     }
@@ -221,9 +237,9 @@ public class SpecificationDialog extends BaseDialogFragment {
         switch (v.getId()) {
             case R.id.dialog_close:
                 mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString(), mColorList,
-                mZipperList,
-                mSizeList);
-                closeRechargeDialog();
+                        mZipperList,
+                        mSizeList);
+                closeDialog();
                 break;
             case R.id.dialog_goods_reduce:
                 if (count == 1) return;
@@ -237,16 +253,24 @@ public class SpecificationDialog extends BaseDialogFragment {
                 mDialogGoodsCount.setText(++count + "");
                 break;
 
-            case dialog_buy_goods:
+            case R.id.dialog_buy_goods:
+                if (mAddOrBugFlag == 3) {
+                    mView.addToShoppingCard(count);
+                } else {
+                    dialogListener.buyButtonListener(mSelectProMap, count);
+                }
 
-                dialogListener.buyButtonListener(mSelectProMap, count);
+                break;
+
+            case R.id.dialog_add_goods:
+                mView.addToShoppingCard(count);
                 break;
         }
     }
 
     private void onDismiss() {
-        mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString(),mColorList,mZipperList,mSizeList);
-        closeRechargeDialog();
+        mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString(), mColorList, mZipperList, mSizeList);
+        closeDialog();
     }
 
     @Override
@@ -261,7 +285,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
 
-    private void closeRechargeDialog() {
+    public void closeDialog() {
         try {
             this.dismiss();
         } catch (Exception e) {

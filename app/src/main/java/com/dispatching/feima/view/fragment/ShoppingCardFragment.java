@@ -19,13 +19,13 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
-import com.dispatching.feima.entity.ShoppingCardResponse;
+import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
+import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.adapter.ShoppingCardAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -66,8 +66,8 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     private ShoppingCardAdapter mAdapter;
     private View mEmptyView;
     private Button mEmptyButton;
-    private List<ShoppingCardResponse.ShoppingCardListBean> mProducts;
-
+    private final String companyId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61";
+    private List<ShoppingCardListResponse.DataBean> mProductList;
     @Inject
     ShoppingCardControl.PresenterShoppingCard mPresenter;
 
@@ -93,22 +93,20 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         initData();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    private void initData() {
+        mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
     }
 
-    private void initData() {
-        mProducts = new ArrayList<>();
-        if (mProducts.size() == 0) {
+    @Override
+    public void shoppingCardListSuccess(ShoppingCardListResponse response) {
+        mProductList = response.data;
+        if (mProductList != null && mProductList.size() > 0) {
+            mFragmentShoppingCardBottomView.setVisibility(View.VISIBLE);
+            mAdapter.setNewData(mProductList);
+        } else {
             mFragmentShoppingCardBottomView.setVisibility(View.GONE);
             mAdapter.setEmptyView(mEmptyView);
-        } else {
-            mFragmentShoppingCardBottomView.setVisibility(View.VISIBLE);
-            mAdapter.setNewData(mProducts);
         }
-
     }
 
     private void initView() {
@@ -118,30 +116,36 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         mActivitiesRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new ShoppingCardAdapter(null, getActivity(), mImageLoaderHelper);
         mActivitiesRecycleView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
+            switch (view.getId()) {
+                case R.id.adapter_shopping_card_check:
+                    ShoppingCardListResponse.DataBean product = mProductList.get(position);
+                    if (!checkBox.isChecked()) {
+                        product.checkFlag = false;
+                        for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
+                            productsBean.childCheckFlag = false;
+                        }
+                    } else {
+                        product.checkFlag = true;
+                        for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
+                            productsBean.childCheckFlag = true;
+                        }
+                    }
+
+                    mAdapter.setNewData(mProductList);
+                    break;
+                case R.id.adapter_shopping_card_edit:
+                    ToastUtils.showShortToast("编辑" + position);
+                    break;
+
+            }
+        });
     }
 
     private void goForShopping() {
-        for (int i = 1; i < 4; i++) {
-            List<ShoppingCardResponse.ShoppingCardListBean.ShoppingCardBean> mProdects = new ArrayList<>();
-            ShoppingCardResponse.ShoppingCardListBean bean = new ShoppingCardResponse.ShoppingCardListBean();
-            bean.shopName = "大创" + i;
-            for (int i1 = 0; i1 < i; i1++) {
-                ShoppingCardResponse.ShoppingCardListBean.ShoppingCardBean mXBean = new ShoppingCardResponse.ShoppingCardListBean.ShoppingCardBean();
-                mXBean.describe = "这是很好看的衣服哦，欢迎再次购买哦" + i1;
-                mXBean.price = "50" + i1;
-                mXBean.specification = "60码" + i1;
-                mProdects.add(mXBean);
-            }
-            bean.shoppingCardBeen = mProdects;
-            mProducts.add(bean);
-        }
-        if (mProducts.size() == 0) {
-            mFragmentShoppingCardBottomView.setVisibility(View.GONE);
-            mAdapter.setEmptyView(mEmptyView);
-        } else {
-            mFragmentShoppingCardBottomView.setVisibility(View.VISIBLE);
-            mAdapter.setNewData(mProducts);
-        }
+        showToast("去购物");
     }
 
     @Override

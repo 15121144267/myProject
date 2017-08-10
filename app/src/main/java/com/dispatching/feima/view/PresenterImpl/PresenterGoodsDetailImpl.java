@@ -3,6 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.entity.AddShoppingCardRequest;
 import com.dispatching.feima.entity.GoodsInfoResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
@@ -26,9 +27,26 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
 
     @Inject
     public PresenterGoodsDetailImpl(Context context, GoodsDetailModel model, GoodsDetailControl.GoodsDetailView view) {
-        mContext =context;
+        mContext = context;
         mModel = model;
         mView = view;
+    }
+
+    @Override
+    public void requestAddShoppingCard(AddShoppingCardRequest request) {
+        Disposable disposable = mModel.requestAddShoppingCard(request)
+                .compose(mView.applySchedulers())
+                .subscribe(this::addShoppingCardSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void addShoppingCardSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            mView.addShoppingCardSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override
@@ -36,7 +54,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
         Disposable disposable = mModel.goodInfoSpecificationRequest(productId)
                 .compose(mView.applySchedulers())
                 .subscribe(this::getUniqueGoodInfoSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -56,7 +74,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
         Disposable disposable = mModel.goodInfoRequest(productId)
                 .compose(mView.applySchedulers())
                 .subscribe(this::goodInfoSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -77,7 +95,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
         Disposable disposable = mModel.goodInfoSpecificationRequest(productId)
                 .compose(mView.applySchedulers())
                 .subscribe(this::goodInfoSpecificationSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -90,6 +108,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
             mView.showToast(responseData.errorDesc);
         }
     }
+
     @Override
     public void onCreate() {
 

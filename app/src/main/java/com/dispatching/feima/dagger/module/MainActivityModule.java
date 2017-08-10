@@ -6,6 +6,7 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.gen.DaoSession;
 import com.dispatching.feima.network.RetrofitUtil;
+import com.dispatching.feima.network.networkapi.AddShoppingCardApi;
 import com.dispatching.feima.network.networkapi.MainApi;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.PresenterControl.MainControl;
@@ -19,6 +20,7 @@ import com.dispatching.feima.view.PresenterImpl.PresenterSendingImpl;
 import com.dispatching.feima.view.PresenterImpl.PresenterShoppingCardImpl;
 import com.dispatching.feima.view.model.MainModel;
 import com.dispatching.feima.view.model.ModelTransform;
+import com.dispatching.feima.view.model.ShoppingCardModel;
 import com.google.gson.Gson;
 
 import dagger.Module;
@@ -66,6 +68,17 @@ public class MainActivityModule {
                 .isToJson(false)
                 .builder()
                 .create(MainApi.class), gson, modelTransform, daoSession.getOrderNoticeDao());
+    }
+
+    @Provides
+    @PerActivity
+    ShoppingCardModel provideShoppingCardModel(Gson gson, ModelTransform modelTransform) {
+        return new ShoppingCardModel(new RetrofitUtil.Builder()
+                .context(activity)
+                .baseUrl(BuildConfig.ORDER_SERVICE)
+                .isToJson(false)
+                .builder()
+                .create(AddShoppingCardApi.class), gson, modelTransform);
     }
 
     @Provides

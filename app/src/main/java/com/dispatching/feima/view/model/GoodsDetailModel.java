@@ -1,7 +1,9 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.entity.AddShoppingCardRequest;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.entity.ShopListResponse;
+import com.dispatching.feima.network.networkapi.AddShoppingCardApi;
 import com.dispatching.feima.network.networkapi.GoodsDetailApi;
 import com.google.gson.Gson;
 
@@ -17,14 +19,16 @@ import io.reactivex.Observable;
 
 public class GoodsDetailModel {
     private final GoodsDetailApi mApi;
+    private final AddShoppingCardApi mAddShoppingCardApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
     private BuProcessor mBuProcessor;
-    private ShopListResponse.ListBean mBean;
     private final String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61_";
+
     @Inject
-    public GoodsDetailModel(GoodsDetailApi api, Gson gson, ModelTransform transform, BuProcessor buProcessor) {
+    public GoodsDetailModel(GoodsDetailApi api, AddShoppingCardApi addShoppingCardApi, Gson gson, ModelTransform transform, BuProcessor buProcessor) {
         mApi = api;
+        mAddShoppingCardApi = addShoppingCardApi;
         mGson = gson;
         mTransform = transform;
         mBuProcessor = buProcessor;
@@ -36,8 +40,14 @@ public class GoodsDetailModel {
     }
 
     public Observable<ResponseData> goodInfoSpecificationRequest(String productId) {
-        mBean = mBuProcessor.getShopInfo();
-        return mApi.goodInfoSpecificationRequest(partnerId + mBean.storeCode,productId).map(mTransform::transformTypeTwo);
+        ShopListResponse.ListBean mBean = mBuProcessor.getShopInfo();
+        return mApi.goodInfoSpecificationRequest(partnerId + mBean.storeCode, productId).map(mTransform::transformTypeTwo);
+    }
+
+    public Observable<ResponseData> requestAddShoppingCard(AddShoppingCardRequest request) {
+        ShopListResponse.ListBean mBean = mBuProcessor.getShopInfo();
+        request.linkId = partnerId + mBean.storeCode;
+        return mAddShoppingCardApi.requestAddShoppingCard(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 
 }

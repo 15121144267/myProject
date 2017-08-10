@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
     <application
         android:name=".DaggerApplication"
         android:allowBackup="true"
@@ -74,8 +75,9 @@
             android:theme="@style/Transparent_Activity"
             />
 
-        <receiver android:name=".wxpay.AppRegister"
-                  android:permission="com.tencent.mm.plugin.permission.SEND" >
+        <receiver
+            android:name=".wxpay.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND">
             >
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP"/>
@@ -111,8 +113,17 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.activity.ShoppingCardActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".view.activity.ActivitiesActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.GoodsClassifyActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".view.activity.MusicActivity"
             android:screenOrientation="portrait"/>

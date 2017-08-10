@@ -43,4 +43,15 @@ public class ModelTransform {
         }
         return responseData;
     }
+
+    public ResponseData transformTypeFour(String response) {
+        ResponseData responseData;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            responseData = new ResponseData(jsonObject,response,1);
+        } catch (JSONException e) {
+            responseData = new ResponseData();
+        }
+        return responseData;
+    }
 }

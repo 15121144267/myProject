@@ -23,7 +23,7 @@ public class AddressAdapter extends BaseQuickAdapter<AddressResponse.DataBean, B
     protected void convert(BaseViewHolder helper, AddressResponse.DataBean item) {
 
         if (item == null) return;
-        //第一次进入
+
         helper.addOnClickListener(R.id.address_edit).addOnClickListener(R.id.address_delete).addOnClickListener(R.id.address_default);
         helper.setText(R.id.address_name, item.receiverName + "");
         helper.setText(R.id.address_phone, item.receiverPhone);

@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,11 @@ import butterknife.ButterKnife;
  * Created by lei.he on 2017/6/30.
  */
 
-public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener ,ClearEditText.setOnMyEditorActionListener{
+public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener, ClearEditText.setOnMyEditorActionListener {
 
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     public static Intent getIntent(Context context, ShopListResponse.ListBean item) {
         Intent intent = new Intent(context, ShopDetailActivity.class);
@@ -55,8 +59,6 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
     @BindView(R.id.search_goods)
     ClearEditText mSearchGoods;
-    @BindView(R.id.shop_detail_tool_left)
-    ImageView mShopDetailToolLeft;
     @BindView(R.id.shop_detail_tool_right)
     ImageView mShopDetailToolRight;
     @BindView(R.id.shop_detail_shop_icon)
@@ -93,6 +95,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_detail);
         ButterKnife.bind(this);
+        supportActionBar(mToolbar, true);
         initializeInjector();
         initView();
         initData();
@@ -172,11 +175,11 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @Override
     public void onMyTouchAction() {
         hideSoftInput(mSearchGoods);
-        startActivity(SearchActivity.getIntent(this,2));
+        startActivity(SearchActivity.getIntent(this, "goods"));
     }
 
     private void initView() {
-        mSearchGoods.setOnMyEditorActionListener(this,true);
+        mSearchGoods.setOnMyEditorActionListener(this, true);
         mImageList = new ArrayList<>();
         mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
         mShopInfo2 = (ShopResponse) getIntent().getSerializableExtra("ShopResponse");
@@ -223,8 +226,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         mSearchGoods.setLinearBackgroundResource(R.drawable.shape_line_grey);
         mSearchGoods.setEditHint("搜索商品");
 
-        RxView.clicks(mShopDetailToolLeft).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
-        RxView.clicks(mShopDetailToolRight).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> showToast("点我啊"));
+        RxView.clicks(mShopDetailToolRight).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> startActivity(GoodsClassifyActivity.getIntent(this)));
 
         mTabLayout.addTab(mTabLayout.newTab().setText(modules[0]));
         mTabLayout.addTab(addOtherView());

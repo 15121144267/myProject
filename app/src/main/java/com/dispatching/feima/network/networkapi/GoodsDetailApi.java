@@ -14,5 +14,6 @@ public interface GoodsDetailApi {
     Observable<String> goodInfoRequest(@Query("productId") String request);
 
     @GET("Query/Product/ListBaseInfos")
-    Observable<String> goodInfoSpecificationRequest(@Query("shopId") String shopId,@Query("productId") String request);
+    Observable<String> goodInfoSpecificationRequest(@Query("shopId") String shopId, @Query("productId") String request);
+
 }

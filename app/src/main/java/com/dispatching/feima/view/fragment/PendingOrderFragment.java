@@ -106,7 +106,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @Override
     public void onMyTouchAction() {
         hideSoftInput(mSearchShop);
-        startActivity(SearchActivity.getIntent(getActivity(),1));
+        startActivity(SearchActivity.getIntent(getActivity(),"shop"));
     }
 
     private void initView() {

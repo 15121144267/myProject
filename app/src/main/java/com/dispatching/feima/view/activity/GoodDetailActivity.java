@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.dispatching.feima.dagger.module.GoodsDetailActivityModule;
+import com.dispatching.feima.entity.AddShoppingCardRequest;
 import com.dispatching.feima.entity.GoodsInfoResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
@@ -77,6 +78,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     TextView mGoodsDetailLinear;
     @BindView(R.id.banner)
     Banner mBanner;
+    @BindView(R.id.goods_detail_check_shopping_card)
+    ImageView mGoodsDetailCheckShoppingCard;
+    @BindView(R.id.goods_detail_add)
+    Button mGoodsDetailAdd;
 
     @Inject
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
@@ -91,9 +96,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
     private String mCount;
     private SpecificationResponse.ProductsBean mProductsBean;
-    private  List<String> mSizeList;
-    private  List<String> mColorList ;
-    private  List<String> mZipperList;
+    private List<String> mSizeList;
+    private List<String> mColorList;
+    private List<String> mZipperList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,9 +129,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<String, String> hashMap, String count, List<String> colorList,List<String> zipperList,List<String> sizeList) {
+    public void closeSpecificationDialog(HashMap<String, String> hashMap, String count, List<String> colorList, List<String> zipperList, List<String> sizeList) {
         mSizeList = sizeList;
-        mColorList=colorList;
+        mColorList = colorList;
         mZipperList = zipperList;
         mCount = count;
         if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
@@ -198,8 +204,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
-        RxView.clicks(mGoodsDetailButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugGoods());
-        RxView.clicks(mGoodsSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestGoodsSpecification());
+        RxView.clicks(mGoodsDetailButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugOrAddGoods(2));
+        RxView.clicks(mGoodsSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestGoodsSpecification(1));
+        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugOrAddGoods(3));
+        RxView.clicks(mGoodsDetailCheckShoppingCard).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> switchToShoppingCard());
         mCollapsingToolbarLayout.setTitle("商品详情");
         mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
     }
@@ -209,21 +217,51 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         mPresenter.requestGoodsSpecification(mGoodsInfo.pid);
     }
 
-    private void requestBugGoods() {
+    private void requestBugOrAddGoods(Integer flag) {
         if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
-            showEmptyDialog();
+            requestGoodsSpecification(flag);
         } else {
             if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
                 if (mProduct.specificationList.size() == mHashMap.size()) {
-                    checkProductId(Integer.valueOf(mCount));
+                    bugOrAdd(flag);
                 } else {
-                    showToast("规格未选全");
+                    requestGoodsSpecification(flag);
                 }
             } else {
-                checkProductId(Integer.valueOf(mCount));
+                bugOrAdd(flag);
             }
         }
+    }
 
+    private void bugOrAdd(Integer flag) {
+        if (flag == 2) {
+            checkProductId(Integer.valueOf(mCount));
+        } else if (flag == 3) {
+            //添加购物车
+            requestGoodsSpecification(flag);
+        }
+    }
+
+    private void switchToShoppingCard() {
+        startActivity(ShoppingCardActivity.getIntent(this));
+    }
+
+    @Override
+    public void addToShoppingCard(Integer count) {
+        if(mProductsBean!=null){
+            AddShoppingCardRequest request = new AddShoppingCardRequest();
+            request.name = mProductsBean.name;
+            request.number = String.valueOf(count);
+            request.type = "1";
+            request.productId= mProductsBean.pid;
+            request.userId = mBuProcessor.getUserId();
+            mPresenter.requestAddShoppingCard(request);
+        }
+    }
+
+    @Override
+    public void addShoppingCardSuccess() {
+       showToast("添加购物车成功");
     }
 
     @Override
@@ -296,12 +334,13 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationEmptyDialog.TAG);
     }
 
-    private void requestGoodsSpecification() {
+    private void requestGoodsSpecification(Integer addOrBugFlag) {
         if (mProduct != null) {
             mSpecificationDialog = new SpecificationDialog();
             mSpecificationDialog.setInstance(mSpecificationDialog);
             mSpecificationDialog.setGoodsView(this);
-            mSpecificationDialog.setLists(mColorList,mZipperList,mSizeList);
+            mSpecificationDialog.setLists(mColorList, mZipperList, mSizeList);
+            mSpecificationDialog.setVisibilityFlag(addOrBugFlag);
             if (mHashMap != null) {
                 mSpecificationDialog.setSpecificationHashMap(mHashMap);
                 mSpecificationDialog.setTextContent(mButter.toString());

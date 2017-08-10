@@ -32,7 +32,7 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
 
     @Override
     public void requestPersonInfo(String phone) {
-        Disposable disposable = mModel.personInfoRequest(phone).retryWhen(new RetryWithDelay(3,3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.personInfoRequest(phone).retryWhen(new RetryWithDelay(10,3000)).compose(mView.applySchedulers())
                 .subscribe(this::getPersonInfoSuccess
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);

@@ -39,6 +39,12 @@ public class ResponseData {
         result = response;
     }
 
+    public ResponseData(JSONObject jsonObject, String response,Integer flag) throws JSONException {
+        resultCode = jsonObject.optInt("errcode");
+        errorDesc = jsonObject.optString("errmsg");
+        result = response;
+    }
+
     public <T> T parseData(Class<T> objectClass) {
         T t = null;
         try {

@@ -77,8 +77,8 @@ public class ClearEditText extends LinearLayout {
 
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mListenerInterface.onMyTouchAction();
-                if(mClearFocus){
+                if (mClearFocus) {
+                    mListenerInterface.onMyTouchAction();
                     editText.clearFocus();
                 }
             }
@@ -187,6 +187,10 @@ public class ClearEditText extends LinearLayout {
      */
     public void setEditTextSize(int textSize) {
         editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
+    }
+
+    public void setEditFocus(boolean focus) {
+        editText.setFocusable(focus);
     }
 
     /**
