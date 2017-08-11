@@ -114,8 +114,58 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         return this;
     }
 
+    @Override
+    public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
+        ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
+        itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
+            switch (view.getId()) {
+                case R.id.item_shopping_card_check:
+                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
+                    if (!checkBox.isChecked()) {
+                        childProduct.childCheckFlag = false;
+                        if (mProduct.checkFlag) {
+                            partnerCheckBox.setChecked(false);
+                            mProduct.checkFlag = false;
+                            if (mActivityShoppingCardCheck.isChecked()) {
+                                mActivityShoppingCardCheck.setChecked(false);
+                            }
+                        }
+                    } else {
+                        childProduct.childCheckFlag = true;
+                    }
+
+                    countPrice2(partnerCheckBox, mProduct);
+                    itemAdapter.setData(position, childProduct);
+                    break;
+                case R.id.item_shopping_card_reduce:
+                    ToastUtils.showShortToast("减少" + position);
+                    break;
+                case R.id.item_shopping_card_add:
+                    ToastUtils.showShortToast("增加" + position);
+                    break;
+            }
+        });
+    }
+
+    @Override
+    public void shoppingCardListSuccess(ShoppingCardListResponse response) {
+        mProductList = response.data;
+        if (mProductList != null && mProductList.size() > 0) {
+            mActivityShoppingCardBottomView.setVisibility(View.VISIBLE);
+            mAdapter.setNewData(mProductList);
+        } else {
+            mActivityShoppingCardBottomView.setVisibility(View.GONE);
+            mAdapter.setEmptyView(mEmptyView);
+        }
+    }
+
+    private void initData() {
+        mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
+    }
 
     private void initView() {
+        setAllPriceText(0);
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
@@ -184,43 +234,12 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 }
             }
         }
-        response.products = list;
-        startActivity(PayActivity.getIntent(this, response));
-    }
-
-
-    @Override
-    public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
-        ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
-        itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
-            switch (view.getId()) {
-                case R.id.item_shopping_card_check:
-                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
-                    if (!checkBox.isChecked()) {
-                        childProduct.childCheckFlag = false;
-                        if (mProduct.checkFlag) {
-                            partnerCheckBox.setChecked(false);
-                            mProduct.checkFlag = false;
-                            if (mActivityShoppingCardCheck.isChecked()) {
-                                mActivityShoppingCardCheck.setChecked(false);
-                            }
-                        }
-                    } else {
-                        childProduct.childCheckFlag = true;
-                    }
-
-                    countPrice2(partnerCheckBox, mProduct);
-                    itemAdapter.setData(position, childProduct);
-                    break;
-                case R.id.item_shopping_card_reduce:
-                    ToastUtils.showShortToast("减少" + position);
-                    break;
-                case R.id.item_shopping_card_add:
-                    ToastUtils.showShortToast("增加" + position);
-                    break;
-            }
-        });
+        if (list.size() > 0) {
+            response.products = list;
+            startActivity(PayActivity.getIntent(this, response));
+        } else {
+            showToast("您还没有选择宝贝哦");
+        }
     }
 
     private void countPrice2(CheckBox partnerCheckBox, ShoppingCardListResponse.DataBean mProduct) {
@@ -243,8 +262,12 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 }
             }
         }
+        setAllPriceText(allPrice);
+    }
+
+    private void setAllPriceText(Integer price) {
         String orderPricePartOne = "合计：";
-        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(allPrice);
+        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(price);
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
                 .setForegroundColor(ContextCompat.getColor(this, R.color.order_price_color))
                 .setSize(18, true)
@@ -273,22 +296,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         }
         countPrice();
         mAdapter.setNewData(mProductList);
-    }
-
-    private void initData() {
-        mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
-    }
-
-    @Override
-    public void shoppingCardListSuccess(ShoppingCardListResponse response) {
-        mProductList = response.data;
-        if (mProductList != null && mProductList.size() > 0) {
-            mActivityShoppingCardBottomView.setVisibility(View.VISIBLE);
-            mAdapter.setNewData(mProductList);
-        } else {
-            mActivityShoppingCardBottomView.setVisibility(View.GONE);
-            mAdapter.setEmptyView(mEmptyView);
-        }
     }
 
     private void goForShopping() {

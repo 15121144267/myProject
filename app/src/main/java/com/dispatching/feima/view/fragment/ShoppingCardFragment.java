@@ -1,5 +1,7 @@
 package com.dispatching.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +24,7 @@ import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
+import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.utils.SpannableStringUtils;
 import com.dispatching.feima.utils.ToastUtils;
@@ -102,9 +105,6 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         initData();
     }
 
-    private void initData() {
-        mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
-    }
 
     @Override
     public void shoppingCardListSuccess(ShoppingCardListResponse response) {
@@ -118,7 +118,84 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         }
     }
 
+    @Override
+    public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
+        ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
+        itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
+            switch (view.getId()) {
+                case R.id.item_shopping_card_check:
+                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
+                    if (!checkBox.isChecked()) {
+                        childProduct.childCheckFlag = false;
+                        if (mProduct.checkFlag) {
+                            partnerCheckBox.setChecked(false);
+                            mProduct.checkFlag = false;
+                            if (mFragmentShoppingCardCheck.isChecked()) {
+                                mFragmentShoppingCardCheck.setChecked(false);
+                            }
+                        }
+                    } else {
+                        childProduct.childCheckFlag = true;
+                    }
+                    countPrice2(partnerCheckBox, mProduct);
+                    itemAdapter.setData(position, childProduct);
+                    break;
+                case R.id.item_shopping_card_reduce:
+                    ToastUtils.showShortToast("减少" + position);
+                    break;
+                case R.id.item_shopping_card_add:
+                    ToastUtils.showShortToast("增加" + position);
+                    break;
+            }
+        });
+    }
+
+    @Override
+    void addFilter() {
+        mFilter.addAction(BroConstant.UPDATE_SHOPPING_CARD_INFO);
+    }
+
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.UPDATE_SHOPPING_CARD_INFO)) {
+            initData();
+        }
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        showDialogLoading(msg);
+    }
+
+    @Override
+    public void dismissLoading() {
+        dismissDialogLoading();
+    }
+
+    @Override
+    public void showToast(String message) {
+        showBaseToast(message);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbind.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    private void initData() {
+        mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
+    }
+
     private void initView() {
+        setAllPriceText(0);
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mActivitiesRecycleView.getParent(), false);
         mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
@@ -158,39 +235,17 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         });
     }
 
-
-    @Override
-    public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
-        ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
-        itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
-            switch (view.getId()) {
-                case R.id.item_shopping_card_check:
-
-                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
-                    if (!checkBox.isChecked()) {
-                        childProduct.childCheckFlag = false;
-                        if (mProduct.checkFlag) {
-                            partnerCheckBox.setChecked(false);
-                            mProduct.checkFlag = false;
-                            if (mFragmentShoppingCardCheck.isChecked()) {
-                                mFragmentShoppingCardCheck.setChecked(false);
-                            }
-                        }
-                    } else {
-                        childProduct.childCheckFlag = true;
-                    }
-                    countPrice2(partnerCheckBox, mProduct);
-                    itemAdapter.setData(position, childProduct);
-                    break;
-                case R.id.item_shopping_card_reduce:
-                    ToastUtils.showShortToast("减少" + position);
-                    break;
-                case R.id.item_shopping_card_add:
-                    ToastUtils.showShortToast("增加" + position);
-                    break;
-            }
-        });
+    private void setAllPriceText(Integer price) {
+        String orderPricePartOne = "合计：";
+        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(price);
+        SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
+                .setForegroundColor(ContextCompat.getColor(getActivity(), R.color.order_price_color))
+                .setSize(18, true)
+                .create();
+        SpannableStringBuilder stringBuilder2 = SpannableStringUtils.getBuilder(orderPricePartOne)
+                .setForegroundColor(ContextCompat.getColor(getActivity(), R.color.light_grey_dark))
+                .append(stringBuilder).create();
+        mFragmentShoppingCardPrice.setText(stringBuilder2);
     }
 
     private void goForPayShoppingCard() {
@@ -223,8 +278,13 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                 }
             }
         }
-        response.products = list;
-        startActivity(PayActivity.getIntent(getActivity(), response));
+        if(list.size()>0){
+            response.products = list;
+            startActivity(PayActivity.getIntent(getActivity(), response));
+        }else {
+            showToast("您还没有选择宝贝哦");
+        }
+
     }
 
     private void checkForAll() {
@@ -267,47 +327,11 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                 }
             }
         }
-        String orderPricePartOne = "合计：";
-        String orderPricePartTwo = "￥" + ValueUtil.formatAmount(allPrice);
-        SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
-                .setForegroundColor(ContextCompat.getColor(getActivity(), R.color.order_price_color))
-                .setSize(18, true)
-                .create();
-        SpannableStringBuilder stringBuilder2 = SpannableStringUtils.getBuilder(orderPricePartOne)
-                .setForegroundColor(ContextCompat.getColor(getActivity(), R.color.light_grey_dark))
-                .append(stringBuilder).create();
-        mFragmentShoppingCardPrice.setText(stringBuilder2);
+        setAllPriceText(allPrice);
     }
 
     private void goForShopping() {
         showToast("去购物");
-    }
-
-    @Override
-    public void showLoading(String msg) {
-        showDialogLoading(msg);
-    }
-
-    @Override
-    public void dismissLoading() {
-        dismissDialogLoading();
-    }
-
-    @Override
-    public void showToast(String message) {
-        showBaseToast(message);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbind.unbind();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.onDestroy();
     }
 
     private void initialize() {

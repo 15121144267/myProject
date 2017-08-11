@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.dispatching.feima.dagger.module.GoodsDetailActivityModule;
 import com.dispatching.feima.entity.AddShoppingCardRequest;
+import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.GoodsInfoResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
@@ -267,6 +269,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Override
     public void addShoppingCardSuccess() {
         showToast("添加购物车成功");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_SHOPPING_CARD_INFO));
     }
 
     @Override
