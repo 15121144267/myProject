@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
@@ -60,7 +61,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @BindView(R.id.search_goods)
     ClearEditText mSearchGoods;
     @BindView(R.id.shop_detail_tool_right)
-    ImageView mShopDetailToolRight;
+    LinearLayout mShopDetailToolRight;
     @BindView(R.id.shop_detail_shop_icon)
     ImageView mShopDetailShopIcon;
     @BindView(R.id.shop_detail_shop_name)

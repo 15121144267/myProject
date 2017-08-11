@@ -89,6 +89,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private List<String> mImageList;
     private ShopDetailResponse.ProductsBean mGoodsInfo;
     private SpecificationResponse mSpecificationResponse;
+    private SpecificationResponse mResponse;
     private StringBuilder mButter;
     private SpecificationResponse.ProductsBean mProduct;
     private SpecificationDialog mSpecificationDialog;
@@ -99,7 +100,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private List<String> mSizeList;
     private List<String> mColorList;
     private List<String> mZipperList;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -316,7 +316,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void getUniqueGoodInfoSuccess(SpecificationResponse data) {
-        mProductsBean = data.products.get(0);
+        mResponse = data;
+        mProductsBean = mResponse.products.get(0);
         mSpecificationDialog.setData(mProductsBean);
     }
 
@@ -324,13 +325,13 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
             if (mProductsBean != null) {
                 mProductsBean.saleCount = count;
-                startActivity(PayActivity.getIntent(this, mProductsBean));
+                startActivity(PayActivity.getIntent(this, mResponse));
             } else {
                 showToast("请稍后重试");
             }
         } else {
             mProductsBean = mProduct;
-            startActivity(PayActivity.getIntent(this, mProductsBean));
+            startActivity(PayActivity.getIntent(this, mResponse));
         }
     }
 

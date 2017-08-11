@@ -32,7 +32,7 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<SpecificationResponse.
         helper.setText(R.id.adapter_pay_goods_des, "暂无描述");
         helper.setText(R.id.adapter_pay_goods_price, ValueUtil.formatAmount(item.finalPrice));
         helper.setText(R.id.adapter_pay_goods_spe, "规格:" + item.specification);
-//        helper.setText(R.id.adapter_pay_goods_count, "x" + item.saleCount == 0);
+        helper.setText(R.id.adapter_pay_goods_count, "x" + item.saleCount);
 
     }
 

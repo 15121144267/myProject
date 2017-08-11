@@ -97,6 +97,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         }
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), productsBean.picture, mDialogPersonIcon, 6);
         mDialogGoodsPrice.setText(ValueUtil.formatAmount(productsBean.finalPrice));
+        mDialogGoodsAllCount.setVisibility(View.VISIBLE);
         mDialogGoodsAllCount.setText("库存" + productsBean.stock + "件");
     }
 
@@ -217,12 +218,10 @@ public class SpecificationDialog extends BaseDialogFragment {
 
         if (mProductsBean != null) {
             mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProductsBean.finalPrice));
-            mDialogGoodsAllCount.setText("库存" + mProductsBean.stock + "件");
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProductsBean.picture, mDialogPersonIcon, 6);
         } else {
             mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
-            mDialogGoodsAllCount.setText("库存" + mProduct.stock + "件");
         }
 
 

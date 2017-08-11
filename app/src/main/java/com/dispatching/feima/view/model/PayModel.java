@@ -8,7 +8,6 @@ import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.PayAccessRequest;
 import com.dispatching.feima.entity.PayRequest;
-import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.network.networkapi.PayApi;
@@ -35,7 +34,6 @@ public class PayModel {
     private AMapLocation mLocationInfo;
     private final String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61_";
     private ShopListResponse.ListBean mBean;
-    private ShopDetailResponse.ProductsBean mGoodsInfo;
 
     @Inject
     public PayModel(PayApi api, Gson gson, ModelTransform transform, BuProcessor buProcessor, Context context) {
@@ -48,20 +46,21 @@ public class PayModel {
     }
 
 
-    public Observable<ResponseData> orderConfirmedRequest(OrderConfirmedRequest request, SpecificationResponse.ProductsBean productSpecification) {
+    public Observable<ResponseData> orderConfirmedRequest(OrderConfirmedRequest request, SpecificationResponse productSpecification) {
         mBean = mBuProcessor.getShopInfo();
-        mGoodsInfo = mBuProcessor.getGoodsInfo();
 
         List<OrderConfirmedRequest.ProductsBean> list = new ArrayList<>();
-        OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
-        productsBean.productName = productSpecification.name;
-        productsBean.sequence = productSpecification.sequence+"";
-        productsBean.number = String.valueOf(productSpecification.saleCount);
-        productsBean.specification = productSpecification.specification;
-        productsBean.productId = productSpecification.pid;
-        productsBean.price = mGoodsInfo.finalPrice * productSpecification.saleCount;
+        for (SpecificationResponse.ProductsBean product : productSpecification.products) {
+            OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
+            productsBean.productName = product.name;
+            productsBean.sequence = product.sequence + "";
+            productsBean.number = String.valueOf(product.saleCount);
+            productsBean.specification = product.specification;
+            productsBean.productId = product.pid;
+            productsBean.price = product.finalPrice;
+            list.add(productsBean);
+        }
 
-        list.add(productsBean);
 
         List<OrderConfirmedRequest.AccountsBean> accountList = new ArrayList<>();
         OrderConfirmedRequest.AccountsBean accountsBean = new OrderConfirmedRequest.AccountsBean();
@@ -92,7 +91,7 @@ public class PayModel {
         request.partition = "";
         request.remark = "";
         request.payChannelName = "";
-        request.companyId = mGoodsInfo.companyId;
+        request.companyId = productSpecification.products.get(0).companyId;
 
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
@@ -103,6 +102,7 @@ public class PayModel {
         request.pay_ebcode = payCode;
         return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
+
     public Observable<ResponseData> updateOrderStatusRequest(String oid) {
         PayAccessRequest request = new PayAccessRequest();
         request.orderId = oid;

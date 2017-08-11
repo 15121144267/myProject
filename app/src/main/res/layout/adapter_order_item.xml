@@ -2,84 +2,95 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="83dp"
+    android:layout_height="wrap_content"
     android:background="@color/line_grey_bg3"
-    android:gravity="center_vertical">
-
-    <ImageView
-        android:id="@+id/adapter_item_person_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="19dp"
-        android:background="@drawable/shape_rectangle_icon2"
-        android:scaleType="fitXY"
-        android:src="@mipmap/freemud_logo"
-        />
+    android:orientation="vertical"
+    >
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="19dp"
-        android:layout_marginStart="21dp"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/adapter_item_product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="连衣裙"
-            android:textColor="@color/darkblack"/>
+        <ImageView
+            android:id="@+id/adapter_item_person_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="19dp"
+            android:background="@drawable/shape_rectangle_icon2"
+            android:scaleType="fitXY"
+            android:src="@mipmap/freemud_logo"
+            />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="19dp"
+            android:layout_marginStart="21dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/adapter_item_product_info"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="价代发看来发送到价代发看来发送到"
-                android:textColor="@color/light_grey_dark"
-                />
-
-            <TextView
-                android:id="@+id/adapter_item_product_price"
+                android:id="@+id/adapter_item_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥50"
-                android:textColor="@color/darkblack"
-                />
+                android:text="连衣裙"
+                android:textColor="@color/darkblack"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/adapter_item_product_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="价代发看来发送到价代发看来发送到"
+                    android:textColor="@color/light_grey_dark"
+                    />
+
+                <TextView
+                    android:id="@+id/adapter_item_product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥50"
+                    android:textColor="@color/darkblack"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/adapter_item_product_info2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="价代发看来发送到"
+                    android:textColor="@color/light_grey_dark"
+                    />
+
+                <TextView
+                    android:id="@+id/adapter_item_product_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="x50"
+                    android:textColor="@color/darkblack"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/adapter_item_product_info2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="价代发看来发送到"
-                android:textColor="@color/light_grey_dark"
-                />
-
-            <TextView
-                android:id="@+id/adapter_item_product_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="x50"
-                android:textColor="@color/darkblack"
-                />
-        </LinearLayout>
     </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
 </LinearLayout>

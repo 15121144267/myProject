@@ -21,6 +21,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShoppingCardActivityComponent;
 import com.dispatching.feima.dagger.module.ShoppingCardActivityModule;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
+import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.utils.SpannableStringUtils;
 import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
@@ -29,6 +30,7 @@ import com.dispatching.feima.view.adapter.ShoppingCardAdapter;
 import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -117,6 +119,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
+        RxView.clicks(mActivityShoppingCardBalance).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForPayShoppingCard());
         mActivityShoppingCardList.setLayoutManager(new LinearLayoutManager(this));
         RxView.clicks(mActivityShoppingCardCheck).subscribe(o -> checkForAll());
         mAdapter = new ShoppingCardAdapter(null, this, ShoppingCardActivity.this, mImageLoaderHelper);
@@ -149,6 +152,40 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
             }
         });
+    }
+
+    private void goForPayShoppingCard() {
+        SpecificationResponse response = new SpecificationResponse();
+        List<SpecificationResponse.ProductsBean> list = new ArrayList<>();
+        for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
+            for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
+                if (product.childCheckFlag) {
+                    SpecificationResponse.ProductsBean productsBean = new SpecificationResponse.ProductsBean();
+                    productsBean.barcode = product.barcode;
+                    productsBean.category = product.category;
+                    productsBean.categoryName = product.categoryName;
+                    productsBean.companyId = product.companyId;
+                    productsBean.customerCode = product.customerCode;
+                    productsBean.finalPrice = product.finalPrice;
+                    productsBean.name = product.name;
+                    productsBean.originalPrice = product.originalPrice;
+                    productsBean.picture = product.picture;
+                    productsBean.pid = product.pid;
+                    productsBean.remark = product.remark;
+                    productsBean.saleCount = product.productNumber;
+                    productsBean.status = Integer.valueOf(product.status);
+                    productsBean.sellTimeName = product.sellTimeName;
+                    productsBean.specification = product.specification;
+                    productsBean.type = product.type;
+                    productsBean.sequence = product.sequence;
+                    productsBean.unit = product.unit;
+                    productsBean.labelNames = product.labelNames;
+                    list.add(productsBean);
+                }
+            }
+        }
+        response.products = list;
+        startActivity(PayActivity.getIntent(this, response));
     }
 
 

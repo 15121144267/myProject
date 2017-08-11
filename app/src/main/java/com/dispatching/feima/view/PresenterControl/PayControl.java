@@ -19,7 +19,7 @@ public class PayControl {
     }
 
     public interface PresenterPay extends Presenter<PayView> {
-        void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse.ProductsBean productSpecification);
+        void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse productSpecification);
         void requestPayInfo(long oid,String payCode);
         void updateOrderStatus(String oid);
     }
