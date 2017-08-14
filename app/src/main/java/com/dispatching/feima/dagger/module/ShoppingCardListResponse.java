@@ -26,6 +26,7 @@ public class ShoppingCardListResponse implements Serializable {
          * type : 1
          * userId : e18cc6af-60c7-4f31-b339-2d5426eca9df
          */
+        public boolean childEditFlag = false;
         public boolean checkFlag = false;
         public int count;
         public String linkId;
@@ -58,6 +59,7 @@ public class ShoppingCardListResponse implements Serializable {
              * unit : 克
              */
             public boolean childCheckFlag = false;
+            public boolean childEditFlag = false;
             public String barcode;
             public String category;
             public String categoryName;

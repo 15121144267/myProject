@@ -147,6 +147,9 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                 case R.id.item_shopping_card_add:
                     ToastUtils.showShortToast("增加" + position);
                     break;
+                case R.id.item_shopping_card_delete:
+                    ToastUtils.showShortToast("删除" + position);
+                    break;
             }
         });
     }
@@ -207,9 +210,10 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
+            ShoppingCardListResponse.DataBean product = mProductList.get(position);
             switch (view.getId()) {
                 case R.id.adapter_shopping_card_check:
-                    ShoppingCardListResponse.DataBean product = mProductList.get(position);
+
                     if (!checkBox.isChecked()) {
                         product.checkFlag = false;
                         for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
@@ -228,7 +232,21 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                     mAdapter.setData(position, product);
                     break;
                 case R.id.adapter_shopping_card_edit:
-                    ToastUtils.showShortToast("编辑" + position);
+                    TextView editTextView = (TextView) view.findViewById(R.id.adapter_shopping_card_edit);
+                    if (editTextView.getText().toString().trim().equals("编辑")) {
+                        product.childEditFlag = true;
+                        for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
+                            productsBean.childEditFlag = true;
+
+                        }
+                    } else {
+                        product.childEditFlag = false;
+                        for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
+                            productsBean.childEditFlag = false;
+                        }
+                    }
+
+                    mAdapter.setData(position, product);
                     break;
 
             }
@@ -278,10 +296,10 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                 }
             }
         }
-        if(list.size()>0){
+        if (list.size() > 0) {
             response.products = list;
             startActivity(PayActivity.getIntent(getActivity(), response));
-        }else {
+        } else {
             showToast("您还没有选择宝贝哦");
         }
 

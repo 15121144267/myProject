@@ -33,6 +33,11 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         CheckBox checkBox = helper.getView(R.id.adapter_shopping_card_check);
         helper.addOnClickListener(R.id.adapter_shopping_card_check).addOnClickListener(R.id.adapter_shopping_card_edit);
         helper.setText(R.id.adapter_shopping_card_shop_name, "  店名");
+        if(item.childEditFlag){
+            helper.setText(R.id.adapter_shopping_card_edit, "保存");
+        }else {
+            helper.setText(R.id.adapter_shopping_card_edit, "编辑");
+        }
         helper.setChecked(R.id.adapter_shopping_card_check, item.checkFlag);
         RecyclerView recyclerView = helper.getView(R.id.adapter_shopping_card_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));

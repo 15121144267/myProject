@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
     >
 
@@ -10,10 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_15"
-        android:paddingStart="@dimen/dp_15"
-        android:paddingTop="@dimen/dp_20">
+
+      >
 
         <CheckBox
             android:id="@+id/item_shopping_card_check"
@@ -21,9 +20,12 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_check"
             android:button="@null"
+            android:layout_marginStart="@dimen/dp_15"
             />
 
         <ImageView
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:id="@+id/item_shopping_card_icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -39,6 +41,8 @@
             android:layout_marginEnd="@dimen/dp_10"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_15"
             android:orientation="vertical">
 
             <TextView
@@ -56,8 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="规格"
                 android:maxLines="1"
+                android:text="规格"
                 android:textColor="@color/gray"
                 />
 
@@ -78,21 +82,35 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/item_shopping_card_count_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_30"
+            android:text="x1"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/dp_15"
+            />
+
         <LinearLayout
+            android:id="@+id/item_shopping_card_count_layout"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_marginTop="@dimen/dp_25"
             android:background="@drawable/shape_line_blod"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:id="@+id/item_shopping_card_reduce"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:paddingStart="7dp"
                 android:text="—"
-                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_20"
                 />
@@ -120,6 +138,15 @@
                 android:textSize="@dimen/sp_20"
                 />
         </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/item_shopping_card_delete"
+        android:layout_width="50dp"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:background="@color/red"
+        android:layout_height="match_parent"/>
     </LinearLayout>
 
     <View style="@style/LineH_Fill_Width0_5_ForView"/>

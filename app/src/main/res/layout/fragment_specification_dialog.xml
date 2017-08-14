@@ -72,6 +72,8 @@
             />
 
         <LinearLayout
+            android:id="@+id/dialog_goods_pay_count_layout"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:gravity="center_vertical">

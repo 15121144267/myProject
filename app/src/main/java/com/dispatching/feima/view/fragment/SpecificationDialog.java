@@ -52,6 +52,8 @@ public class SpecificationDialog extends BaseDialogFragment {
     TextView mDialogGoodsAdd;
     @BindView(R.id.main_linear)
     LinearLayout mMainLinear;
+    @BindView(R.id.dialog_goods_pay_count_layout)
+    LinearLayout mCountLinear;
     @BindView(R.id.dialog_person_icon)
     ImageView mDialogPersonIcon;
     @BindView(R.id.recharge_dialog_layout)
@@ -77,6 +79,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     private StringBuilder mButter = new StringBuilder();
     private GoodsDetailControl.GoodsDetailView mView;
     private SpecificationResponse.ProductsBean mProductsBean;
+    private SpecificationResponse.ProductsBean mProductsBean2;
     private List<String> mSizeList;
     private List<String> mColorList;
     private List<String> mZipperList;
@@ -91,6 +94,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public void setData(SpecificationResponse.ProductsBean productsBean) {
+        mProductsBean2 = productsBean;
         if (!mDialogBuyGoods.isEnabled()) {
             mDialogBuyGoods.setEnabled(true);
             mDialogAddGoods.setEnabled(true);
@@ -98,6 +102,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), productsBean.picture, mDialogPersonIcon, 6);
         mDialogGoodsPrice.setText(ValueUtil.formatAmount(productsBean.finalPrice));
         mDialogGoodsAllCount.setVisibility(View.VISIBLE);
+        mCountLinear.setVisibility(View.VISIBLE);
         mDialogGoodsAllCount.setText("库存" + productsBean.stock + "件");
     }
 
@@ -242,14 +247,14 @@ public class SpecificationDialog extends BaseDialogFragment {
                 break;
             case R.id.dialog_goods_reduce:
                 if (count == 1) return;
-                mDialogGoodsCount.setText(--count + "");
+                mDialogGoodsCount.setText(String.valueOf(--count));
                 break;
             case R.id.dialog_goods_add:
-                if (count.equals(Integer.valueOf(mDialogGoodsCount.getText().toString()))) {
+                if (count.equals(mProductsBean2.stock)) {
                     ToastUtils.showShortToast("数量超出范围");
                     return;
                 }
-                mDialogGoodsCount.setText(++count + "");
+                mDialogGoodsCount.setText(String.valueOf(++count));
                 break;
 
             case R.id.dialog_buy_goods:

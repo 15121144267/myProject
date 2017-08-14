@@ -144,6 +144,9 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 case R.id.item_shopping_card_add:
                     ToastUtils.showShortToast("增加" + position);
                     break;
+                case R.id.item_shopping_card_delete:
+                    ToastUtils.showShortToast("删除" + position);
+                    break;
             }
         });
     }
@@ -175,10 +178,10 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mAdapter = new ShoppingCardAdapter(null, this, ShoppingCardActivity.this, mImageLoaderHelper);
         mActivityShoppingCardList.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            ShoppingCardListResponse.DataBean product = mProductList.get(position);
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
             switch (view.getId()) {
                 case R.id.adapter_shopping_card_check:
-                    ShoppingCardListResponse.DataBean product = mProductList.get(position);
                     if (!checkBox.isChecked()) {
                         product.checkFlag = false;
                         for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
@@ -197,7 +200,21 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     mAdapter.setData(position, product);
                     break;
                 case R.id.adapter_shopping_card_edit:
-                    ToastUtils.showShortToast("编辑" + position);
+                    TextView editTextView = (TextView) view.findViewById(R.id.adapter_shopping_card_edit);
+                    if (editTextView.getText().toString().trim().equals("编辑")) {
+                        product.childEditFlag = true;
+                        for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
+                            productsBean.childEditFlag = true;
+
+                        }
+                    } else {
+                        product.childEditFlag = false;
+                        for (ShoppingCardListResponse.DataBean.ProductsBean productsBean : product.products) {
+                            productsBean.childEditFlag = false;
+                        }
+                    }
+
+                    mAdapter.setData(position, product);
                     break;
 
             }
