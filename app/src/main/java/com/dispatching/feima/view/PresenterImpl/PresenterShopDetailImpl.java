@@ -31,9 +31,9 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
     }
 
     @Override
-    public void requestShopGoodsList(String storeCode,Integer pagerNumber, Integer pagerSize) {
+    public void requestShopGoodsList(String sortName,Integer sortOrder,String storeCode,Integer pagerNumber, Integer pagerSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.shopGoodsListRequest(storeCode,pagerNumber, pagerSize).compose(mView.applySchedulers())
+        Disposable disposable = mModel.shopGoodsListRequest(sortName,sortOrder,storeCode,pagerNumber, pagerSize).compose(mView.applySchedulers())
                 .subscribe(this::getShopGoodsListSuccess
                         , throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);

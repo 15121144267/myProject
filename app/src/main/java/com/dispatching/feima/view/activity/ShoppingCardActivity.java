@@ -74,7 +74,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     private Button mEmptyButton;
     private final String companyId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61";
     private List<ShoppingCardListResponse.DataBean> mProductList;
-    private Integer allPrice;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,6 +148,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     ToastUtils.showShortToast("删除" + position);
                     break;
             }
+
         });
     }
 
@@ -271,15 +272,15 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     private void countPrice() {
-        allPrice = 0;
+        Integer mAllPrice = 0;
         for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
             for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
                 if (product.childCheckFlag) {
-                    allPrice += product.finalPrice * product.productNumber;
+                    mAllPrice += product.finalPrice * product.productNumber;
                 }
             }
         }
-        setAllPriceText(allPrice);
+        setAllPriceText(mAllPrice);
     }
 
     private void setAllPriceText(Integer price) {

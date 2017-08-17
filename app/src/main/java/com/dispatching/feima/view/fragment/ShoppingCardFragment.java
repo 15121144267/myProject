@@ -79,7 +79,6 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     private Button mEmptyButton;
     private final String companyId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61";
     private List<ShoppingCardListResponse.DataBean> mProductList;
-    private Integer allPrice;
     @Inject
     ShoppingCardControl.PresenterShoppingCard mPresenter;
 
@@ -123,9 +122,9 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
+            ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
             switch (view.getId()) {
                 case R.id.item_shopping_card_check:
-                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
                     if (!checkBox.isChecked()) {
                         childProduct.childCheckFlag = false;
                         if (mProduct.checkFlag) {
@@ -139,18 +138,25 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
                         childProduct.childCheckFlag = true;
                     }
                     countPrice2(partnerCheckBox, mProduct);
-                    itemAdapter.setData(position, childProduct);
+
                     break;
                 case R.id.item_shopping_card_reduce:
-                    ToastUtils.showShortToast("减少" + position);
+                    Integer count =childProduct.productNumber;
+                    if(count -1 == 0){
+                        showToast("宝贝不能再减少了哦");
+                    }else {
+                        childProduct.productNumber = count -1;
+                    }
                     break;
                 case R.id.item_shopping_card_add:
-                    ToastUtils.showShortToast("增加" + position);
+                    Integer count2 =childProduct.productNumber;
+                    childProduct.productNumber = count2 +1;
                     break;
                 case R.id.item_shopping_card_delete:
                     ToastUtils.showShortToast("删除" + position);
                     break;
             }
+            itemAdapter.setData(position, childProduct);
         });
     }
 
@@ -192,6 +198,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         super.onDestroy();
         mPresenter.onDestroy();
     }
+
 
     private void initData() {
         mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
@@ -337,7 +344,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     }
 
     private void countPrice() {
-        allPrice = 0;
+        Integer allPrice = 0;
         for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
             for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
                 if (product.childCheckFlag) {

@@ -14,6 +14,7 @@
     <string name="app_password">&#160;&#160;请输入密码</string>
     <string name="app_sure_password">&#160;&#160;确认新密码</string>
     <string name="app_put_password">&#160;&#160;请输入新密码</string>
+    <string name="app_put_password1">&#160;&#160;请输入密码</string>
     <string name="app_verity">&#160;&#160;验证码</string>
     <string name="order_status">&#160;&#160;&#160;&#160;订单已完成</string>
     <string name="app_setting_less">未设置&#160;&#160;</string>
@@ -82,4 +83,6 @@
     <string name="pay_success">支付成功!</string>
     <string name="pay_verifying">支付结果确认中</string>
     <string name="pay_fail">支付失败</string>
+
+    <!--懒得写了-->
 </resources>

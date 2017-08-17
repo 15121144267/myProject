@@ -27,9 +27,9 @@ public class ShopDetailModel {
     }
 
 
-    public Observable<ResponseData> shopGoodsListRequest(String storeCode, Integer pagerNumber, Integer pagerSize) {
+    public Observable<ResponseData> shopGoodsListRequest(String sortName,Integer sortOrder,String storeCode, Integer pagerNumber, Integer pagerSize) {
         shopId = partnerId +storeCode;
-        return mApi.shopGoodsListRequest(pagerNumber, pagerSize, shopId).map(mTransform::transformTypeTwo);
+        return mApi.shopGoodsListRequest(sortName, sortOrder,pagerNumber, pagerSize, shopId).map(mTransform::transformTypeTwo);
     }
 
 }

@@ -33,7 +33,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -82,13 +81,19 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private TextView mTabItemPriceGoods;
     private ShopDetailAdapter mAdapter;
     private List<Integer> mImageList;
-    private Integer mPagerNo = 1;
+    private Integer mSaleCountPagerNo = 1;
+    private Integer mPricePagerDownNo = 1;
+    private Integer mPricePagerUpNo = 1;
+    private Integer mNewProductPagerNo = 1;
     private final Integer mPagerSize = 10;
     private ShopListResponse.ListBean mShopInfo;
     private ShopResponse mShopInfo2;
     private List<ShopDetailResponse.ProductsBean> mList;
     private final String[] modules = {"销量", "价格", "新品"};
-    private List<ShopDetailResponse.ProductsBean> mAllGoodsList;
+    private List<ShopDetailResponse.ProductsBean> mSaleCountGoodsList;
+    private List<ShopDetailResponse.ProductsBean> mPriceUpGoodsList;
+    private List<ShopDetailResponse.ProductsBean> mPriceDownGoodsList;
+    private List<ShopDetailResponse.ProductsBean> mNewProductGoodsList;
     private String mStoreCode;
 
     @Override
@@ -104,19 +109,81 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
     @Override
     public void onLoadMoreRequested() {
+
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestShopGoodsList(mStoreCode, ++mPagerNo, mPagerSize);
+            switch (mTabLayout.getSelectedTabPosition()) {
+                case 0:
+                    //销量
+                    mPresenter.requestShopGoodsList("saleCount", 2, mStoreCode, ++mSaleCountPagerNo, mPagerSize);
+                    break;
+                case 1:
+                    //价格
+                    TabLayout.Tab tab = mTabLayout.getTabAt(1);
+                    if (tab != null) {
+                        if (tab.getTag() == null) return;
+                        if ((Integer) tab.getTag() == 1) {
+                            mPresenter.requestShopGoodsList("finalPrice", 1, mStoreCode, ++mPricePagerDownNo, mPagerSize);
+                        } else {
+                            mPresenter.requestShopGoodsList("finalPrice", 2, mStoreCode, ++mPricePagerUpNo, mPagerSize);
+                        }
+                    }
+                    break;
+                case 2:
+                    //新品
+                    mPresenter.requestShopGoodsList("pid", 2, mStoreCode, ++mNewProductPagerNo, mPagerSize);
+                    break;
+            }
+
         }
     }
 
     @Override
     public void transformShopGoodsListSuccess(List<ShopDetailResponse.ProductsBean> products) {
         mList = products;
-        mAllGoodsList.addAll(products);
+
+        switch (mTabLayout.getSelectedTabPosition()) {
+            case 0:
+                if (mSaleCountGoodsList.size() == 0) {
+                    mAdapter.setNewData(mList);
+                } else {
+                    mAdapter.addData(mList);
+                }
+                mSaleCountGoodsList.addAll(products);
+                break;
+            case 1:
+                //价格
+                TabLayout.Tab tab = mTabLayout.getTabAt(1);
+                if (tab != null) {
+                    if (tab.getTag() == null) return;
+                    if ((Integer) tab.getTag() == 1) {
+                        if (mPriceUpGoodsList.size() == 0) {
+                            mAdapter.setNewData(mList);
+                        } else {
+                            mAdapter.addData(mList);
+                        }
+                        mPriceUpGoodsList.addAll(products);
+                    } else {
+                        if (mPriceDownGoodsList.size() == 0) {
+                            mAdapter.setNewData(mList);
+                        } else {
+                            mAdapter.addData(mList);
+                        }
+                        mPriceDownGoodsList.addAll(products);
+                    }
+                }
+                break;
+            case 2:
+                if (mNewProductGoodsList.size() == 0) {
+                    mAdapter.setNewData(mList);
+                } else {
+                    mAdapter.addData(mList);
+                }
+                mNewProductGoodsList.addAll(products);
+                break;
+        }
         if (products.size() > 0) {
-            mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
         } else {
             mAdapter.loadMoreEnd();
@@ -215,7 +282,10 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
         mList = new ArrayList<>();
-        mAllGoodsList = new ArrayList<>();
+        mSaleCountGoodsList = new ArrayList<>();
+        mPriceUpGoodsList = new ArrayList<>();
+        mPriceDownGoodsList = new ArrayList<>();
+        mNewProductGoodsList = new ArrayList<>();
         mShopDetailRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new ShopDetailAdapter(null, this);
         mShopDetailRecyclerView.setAdapter(mAdapter);
@@ -246,13 +316,14 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 switch (tab.getPosition()) {
                     case 0:
                         mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                        sortGoodsBySaleCount(mAllGoodsList);
+                        sortGoodsBySaleCount();
                         break;
                     case 1:
                         mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue_dark));
                         break;
                     case 2:
                         mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                        sortGoodsByNewProduct();
                         break;
                 }
             }
@@ -260,37 +331,26 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
     }
 
-    private void sortGoodsBySaleCount(List<ShopDetailResponse.ProductsBean> list) {
-        Collections.sort(list, (o1, o2) -> {
-            if (o1.saleCount >= o2.saleCount) {
-                return 1;
-            } else {
-                return -1;
-            }
-        });
-        mAdapter.setNewData(list);
+    private void sortGoodsBySaleCount() {
+        mSaleCountPagerNo = 1;
+        mSaleCountGoodsList.clear();
+        mPresenter.requestShopGoodsList("saleCount", 2, mStoreCode, mSaleCountPagerNo, mPagerSize);
+
     }
 
-    private void sortGoodsByPriceUp(List<ShopDetailResponse.ProductsBean> list) {
-        Collections.sort(list, (o1, o2) -> {
-            if (o1.finalPrice > o2.finalPrice) {
-                return 1;
-            } else {
-                return -1;
-            }
-        });
-        mAdapter.setNewData(list);
+    private void sortGoodsByNewProduct() {
+        mNewProductPagerNo = 1;
+        mNewProductGoodsList.clear();
+        mPresenter.requestShopGoodsList("pid", 2, mStoreCode, mNewProductPagerNo, mPagerSize);
     }
 
-    private void sortGoodsByPriceDown(List<ShopDetailResponse.ProductsBean> list) {
-        Collections.sort(list, (o1, o2) -> {
-            if (o1.finalPrice > o2.finalPrice) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
-        mAdapter.setNewData(list);
+    private void sortGoodsByPrice(Integer flag) {
+        mPricePagerDownNo = 1;
+        mPricePagerUpNo = 1;
+        mPriceDownGoodsList.clear();
+        mPriceUpGoodsList.clear();
+        mPresenter.requestShopGoodsList("finalPrice", flag, mStoreCode, 1, mPagerSize);
+
     }
 
     private void switchToGoodsDetail(ShopDetailResponse.ProductsBean goodsInfo) {
@@ -305,13 +365,13 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
                 tab.setTag(2);
-                sortGoodsByPriceDown(mAllGoodsList);
+                sortGoodsByPrice(1);
 
             } else {
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
                 tab.setTag(1);
-                sortGoodsByPriceUp(mAllGoodsList);
+                sortGoodsByPrice(2);
             }
         } else {
             //不改变状态
@@ -319,11 +379,12 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
                 tab.setTag(1);
-                sortGoodsByPriceUp(mAllGoodsList);
+                sortGoodsByPrice(2);
             } else {
                 mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
                 mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
                 tab.setTag(2);
+                sortGoodsByPrice(1);
             }
         }
     }
@@ -340,7 +401,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void initData() {
-        mPresenter.requestShopGoodsList(mStoreCode, mPagerNo, mPagerSize);
+        mPresenter.requestShopGoodsList("saleCount", 2, mStoreCode, 1, mPagerSize);
     }
 
     private void initializeInjector() {

@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/sign_password"
-            android:hint="@string/app_put_password"
+            android:hint="@string/app_put_password1"
             android:inputType="textPassword"
             android:theme="@style/MyEditText2"
             />
@@ -90,7 +90,7 @@
         android:layout_marginTop="81dp"
         android:background="@drawable/button_style_blue2"
         android:enabled="false"
-        android:text="注册"
+        android:text="@string/app_sign"
         android:textColor="@color/white"
         />
 

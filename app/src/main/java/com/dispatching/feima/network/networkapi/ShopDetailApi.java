@@ -10,6 +10,6 @@ import retrofit2.http.Query;
  */
 
 public interface ShopDetailApi {
-    @GET("Query/Shop/ListAllProducts")
-    Observable<String> shopGoodsListRequest(@Query("pagenumber") Integer number,@Query("pagesize") Integer pagesize,@Query("shopId") String shopId);
+    @GET("Query/Shop/ListAllProductsSort")
+    Observable<String> shopGoodsListRequest(@Query("sortName") String sortName, @Query("sortOrder") Integer sortOrder, @Query("pagenumber") Integer number, @Query("pagesize") Integer pagesize, @Query("shopId") String shopId);
 }

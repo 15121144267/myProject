@@ -190,6 +190,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         mAdapter.setOnItemClickListener((adapter, view, position) ->
                 showToast(position + "")
         );
+
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
     }
 
