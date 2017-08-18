@@ -83,7 +83,7 @@
             />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/shop_detail_recyclerView"
+            android:id="@+id/search_product_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"

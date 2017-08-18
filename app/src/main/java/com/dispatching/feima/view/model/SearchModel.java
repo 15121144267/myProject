@@ -1,10 +1,11 @@
 package com.dispatching.feima.view.model;
 
-import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.network.networkapi.SearchApi;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * Created by helei on 2017/4/28.
@@ -15,7 +16,6 @@ public class SearchModel {
     private final SearchApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = BuildConfig.PARTNER_ID;
 
     @Inject
     public SearchModel(SearchApi api, Gson gson, ModelTransform transform) {
@@ -24,8 +24,8 @@ public class SearchModel {
         mTransform = transform;
     }
 
-    /*public Observable<ResponseData> personInfoRequest(String phone) {
-        return mApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
+        return mApi.requestProductList(searchName,partnerId,sortName,sortNO,pagerSize,pagerNo).map(mTransform::transformTypeTwo);
+    }
 
 }

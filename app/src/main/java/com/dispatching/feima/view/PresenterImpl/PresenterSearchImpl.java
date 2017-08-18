@@ -2,10 +2,14 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.view.PresenterControl.SearchControl;
+import com.dispatching.feima.view.model.ResponseData;
 import com.dispatching.feima.view.model.SearchModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/4/27.
@@ -25,23 +29,24 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         mView = view;
     }
 
-    /*@Override
-    public void requestPersonInfo(String phone) {
-        Disposable disposable = mModel.personInfoRequest(phone).retryWhen(new RetryWithDelay(3,3000)).compose(mView.applySchedulers())
-                .subscribe(this::getPersonInfoSuccess
+    @Override
+    public void requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
+        Disposable disposable = mModel.requestProductList(searchName,partnerId,sortName,sortNO,pagerSize,pagerNo).compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
     }
 
-    private void getPersonInfoSuccess(ResponseData responseData) {
+
+    private void getProductListSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
-            responseData.parseData(PersonInfoResponse.class);
-            PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
-            mView.getPersonInfoSuccess(response);
+            responseData.parseData(ShopDetailResponse.class);
+            ShopDetailResponse response = (ShopDetailResponse) responseData.parsedData;
+            mView.getProductListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }*/
+    }
 
     @Override
     public void onCreate() {

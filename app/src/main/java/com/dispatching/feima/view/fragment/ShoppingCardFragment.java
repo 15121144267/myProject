@@ -141,16 +141,16 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
 
                     break;
                 case R.id.item_shopping_card_reduce:
-                    Integer count =childProduct.productNumber;
-                    if(count -1 == 0){
+                    Integer count = childProduct.productNumber;
+                    if (count - 1 == 0) {
                         showToast("宝贝不能再减少了哦");
-                    }else {
-                        childProduct.productNumber = count -1;
+                    } else {
+                        childProduct.productNumber = count - 1;
                     }
                     break;
                 case R.id.item_shopping_card_add:
-                    Integer count2 =childProduct.productNumber;
-                    childProduct.productNumber = count2 +1;
+                    Integer count2 = childProduct.productNumber;
+                    childProduct.productNumber = count2 + 1;
                     break;
                 case R.id.item_shopping_card_delete:
                     ToastUtils.showShortToast("删除" + position);

@@ -46,7 +46,7 @@ public class SearchActivityModule {
     SearchModel provideSearchModel(Gson gson, ModelTransform modelTransform ) {
         return new SearchModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                .baseUrl(BuildConfig.GOODS_SERVICE)
                 .isHttps(!BuildConfig.DEBUG)
                 .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)

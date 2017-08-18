@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.entity.AddShoppingCardRequest;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.entity.ShopListResponse;
@@ -23,7 +24,7 @@ public class GoodsDetailModel {
     private final Gson mGson;
     private final ModelTransform mTransform;
     private BuProcessor mBuProcessor;
-    private final String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61_";
+    private final String partnerId = BuildConfig.PARTNER_ID+"_";
 
     @Inject
     public GoodsDetailModel(GoodsDetailApi api, AddShoppingCardApi addShoppingCardApi, Gson gson, ModelTransform transform, BuProcessor buProcessor) {

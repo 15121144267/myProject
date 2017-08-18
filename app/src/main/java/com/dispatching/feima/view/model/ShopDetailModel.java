@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.network.networkapi.ShopDetailApi;
 import com.google.gson.Gson;
 
@@ -16,7 +17,7 @@ public class ShopDetailModel {
     private final ShopDetailApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61_";
+    private String partnerId = BuildConfig.PARTNER_ID+"_";
     private String shopId;
 
     @Inject

@@ -10,7 +10,8 @@ import retrofit2.http.Query;
  */
 
 public interface SearchApi {
-    @GET("member/info")
-    Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
+    @GET("Query/Shop/ListProductByNameSort")
+    Observable<String> requestProductList(@Query("productName") String searchName, @Query("shopId")String partnerId,
+                                          @Query("sortName")String sortName, @Query("sortOrder")Integer sortNO, @Query("pagesize")Integer pagerSize, @Query("pagenumber")Integer pagerNo);
 
 }

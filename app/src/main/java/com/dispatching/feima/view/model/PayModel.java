@@ -3,6 +3,7 @@ package com.dispatching.feima.view.model;
 import android.content.Context;
 
 import com.amap.api.location.AMapLocation;
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.entity.BuProcessor;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
@@ -32,7 +33,7 @@ public class PayModel {
     private final BuProcessor mBuProcessor;
     private final Context mContext;
     private AMapLocation mLocationInfo;
-    private final String partnerId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61_";
+    private final String partnerId = BuildConfig.PARTNER_ID+"_";
     private ShopListResponse.ListBean mBean;
 
     @Inject

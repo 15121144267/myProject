@@ -243,7 +243,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @Override
     public void onMyTouchAction() {
         hideSoftInput(mSearchGoods);
-        startActivity(SearchActivity.getIntent(this, "goods"));
+        startActivity(SearchActivity.getIntent(this, "goods",mStoreCode));
     }
 
     private void initView() {
