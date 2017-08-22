@@ -18,6 +18,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
@@ -25,7 +27,8 @@ import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
 import com.dispatching.feima.entity.BroConstant;
-import com.dispatching.feima.entity.SpecificationResponse;
+import com.dispatching.feima.entity.OrderConfirmedRequest;
+import com.dispatching.feima.entity.PayCreateRequest;
 import com.dispatching.feima.utils.SpannableStringUtils;
 import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
@@ -81,6 +84,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     private List<ShoppingCardListResponse.DataBean> mProductList;
     @Inject
     ShoppingCardControl.PresenterShoppingCard mPresenter;
+    private AMapLocation mLocationInfo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -206,6 +210,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
 
     private void initView() {
         setAllPriceText(0);
+        mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getaMapLocation();
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mActivitiesRecycleView.getParent(), false);
         mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
@@ -274,38 +279,67 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     }
 
     private void goForPayShoppingCard() {
-        SpecificationResponse response = new SpecificationResponse();
-        List<SpecificationResponse.ProductsBean> list = new ArrayList<>();
+        PayCreateRequest request = new PayCreateRequest();
+        List<OrderConfirmedRequest> payCreate = new ArrayList<>();
+
         for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
+            OrderConfirmedRequest orderCreateRequest = new OrderConfirmedRequest();
+
+            List<OrderConfirmedRequest.ProductsBean> list = new ArrayList<>();
             for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
                 if (product.childCheckFlag) {
-                    SpecificationResponse.ProductsBean productsBean = new SpecificationResponse.ProductsBean();
-                    productsBean.barcode = product.barcode;
-                    productsBean.category = product.category;
-                    productsBean.categoryName = product.categoryName;
-                    productsBean.companyId = product.companyId;
-                    productsBean.customerCode = product.customerCode;
-                    productsBean.finalPrice = product.finalPrice;
-                    productsBean.name = product.name;
-                    productsBean.originalPrice = product.originalPrice;
-                    productsBean.picture = product.picture;
-                    productsBean.pid = product.pid;
-                    productsBean.remark = product.remark;
-                    productsBean.saleCount = product.productNumber;
-                    productsBean.status = Integer.valueOf(product.status);
-                    productsBean.sellTimeName = product.sellTimeName;
+                    OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
+                    productsBean.productName = product.name;
+                    productsBean.sequence = product.sequence + "";
+                    productsBean.number = String.valueOf(product.productNumber);
                     productsBean.specification = product.specification;
-                    productsBean.type = product.type;
-                    productsBean.sequence = product.sequence;
-                    productsBean.unit = product.unit;
-                    productsBean.labelNames = product.labelNames;
+                    productsBean.productId = product.pid;
+                    productsBean.price = product.finalPrice;
+                    productsBean.picture = product.picture;
                     list.add(productsBean);
                 }
             }
+
+            if (list.size() > 0) {
+                orderCreateRequest.products = list;
+
+                List<OrderConfirmedRequest.AccountsBean> accountList = new ArrayList<>();
+                OrderConfirmedRequest.AccountsBean accountsBean = new OrderConfirmedRequest.AccountsBean();
+                accountsBean.sequence = 0;
+                accountsBean.accountId = "123456";
+                accountsBean.number = "1";
+                accountsBean.name = "运费";
+                accountsBean.type = "1";
+                accountsBean.price = "500";
+                accountList.add(accountsBean);
+                orderCreateRequest.accounts = accountList;
+
+                orderCreateRequest.shopName = "";
+                orderCreateRequest.source = "android";
+                orderCreateRequest.customerOrder = "BSY_" + System.currentTimeMillis();
+                orderCreateRequest.amount = 1000;
+                orderCreateRequest.type = 1;
+                orderCreateRequest.payType = 1;
+                orderCreateRequest.userId = mBuProcessor.getUserId();
+                orderCreateRequest.payChannel = "";
+                if (mLocationInfo != null) {
+                    orderCreateRequest.longitude = String.valueOf(mLocationInfo.getLongitude());
+                    orderCreateRequest.latitude = String.valueOf(mLocationInfo.getLatitude());
+                }
+                orderCreateRequest.status = 1;
+                orderCreateRequest.shopId = dataBean.linkId;
+                orderCreateRequest.partition = "";
+                orderCreateRequest.remark = "";
+                orderCreateRequest.payChannelName = "";
+                orderCreateRequest.companyId = BuildConfig.PARTNER_ID;
+                payCreate.add(orderCreateRequest);
+            }
+
         }
-        if (list.size() > 0) {
-            response.products = list;
-            startActivity(PayActivity.getIntent(getActivity(), response));
+
+        if (payCreate.size() > 0) {
+            request.orders = payCreate;
+            startActivity(PayActivity.getIntent(getActivity(), request));
         } else {
             showToast("您还没有选择宝贝哦");
         }

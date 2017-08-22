@@ -3,10 +3,10 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
-import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
+import com.dispatching.feima.entity.PayAccessRequest;
+import com.dispatching.feima.entity.PayCreateRequest;
 import com.dispatching.feima.entity.PayResponse;
-import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.model.PayModel;
@@ -33,27 +33,26 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void updateOrderStatus(String oid) {
+    public void updateOrderStatus(PayAccessRequest request) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.updateOrderStatusRequest(oid).compose(mView.applySchedulers())
+        Disposable disposable = mModel.updateOrderStatusRequest(request).compose(mView.applySchedulers())
                 .subscribe(this::updateOrderStatusSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
+
     private void updateOrderStatusSuccess(ResponseData responseData){
         if (responseData.resultCode == 100) {
-            responseData.parseData(UpdateOrderStatusResponse.class);
-            UpdateOrderStatusResponse response  = (UpdateOrderStatusResponse) responseData.parsedData;
-            mView.updateOrderStatusSuccess(response);
+            mView.updateOrderStatusSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
         }
     }
 
     @Override
-    public void requestPayInfo(long oid, String payCode) {
+    public void requestPayInfo(OrderConfirmedResponse response, String payCode) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.payRequest(oid,payCode).compose(mView.applySchedulers())
+        Disposable disposable = mModel.payRequest(response,payCode).compose(mView.applySchedulers())
                 .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -70,9 +69,9 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void requestOrderConfirmed(OrderConfirmedRequest request,SpecificationResponse productSpecification) {
+    public void requestOrderConfirmed(PayCreateRequest request) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.orderConfirmedRequest(request,productSpecification).compose(mView.applySchedulers())
+        Disposable disposable = mModel.orderConfirmedRequest(request).compose(mView.applySchedulers())
                 .subscribe(this::orderConfirmedSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

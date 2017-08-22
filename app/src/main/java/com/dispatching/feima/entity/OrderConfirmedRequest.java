@@ -1,12 +1,13 @@
 package com.dispatching.feima.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lei.he on 2017/7/13.
  */
 
-public class OrderConfirmedRequest {
+public class OrderConfirmedRequest implements Serializable{
 
     /**
      * shopName : 大创生活馆
@@ -54,7 +55,7 @@ public class OrderConfirmedRequest {
     public List<ProductsBean> products;
     public List<AccountsBean> accounts;
 
-    public static class ProductsBean {
+    public static class ProductsBean implements Serializable{
         /**
          * productName : 芳香消臭剂
          * number : 1
@@ -69,10 +70,11 @@ public class OrderConfirmedRequest {
         public String sequence;
         public String specification;
         public String productId;
+        public String picture;
         public int price;
     }
 
-    public static class AccountsBean {
+    public static class AccountsBean implements Serializable{
         /**
          * sequence : 0
          * accountId : account-1

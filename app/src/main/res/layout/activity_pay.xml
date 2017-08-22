@@ -10,13 +10,15 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/pay_order_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/line_grey_bg2"
-            />
+    <View style="@style/LineH_Fill_Width_5_ForView"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pay_order_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/line_grey_bg2"
+        />
 
 
     <Button

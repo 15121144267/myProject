@@ -1,9 +1,21 @@
 package com.dispatching.feima.entity;
 
+import java.util.List;
+
 /**
  * Created by lei.he on 2017/8/4.
  */
 
 public class PayAccessRequest {
-    public String orderId;
+
+    public List<OrdersBean> orders;
+
+    public static class OrdersBean {
+        /**
+         * orderId : 84527112050966785
+         * pay_ebcode : 10001
+         */
+
+        public String orderId;
+    }
 }

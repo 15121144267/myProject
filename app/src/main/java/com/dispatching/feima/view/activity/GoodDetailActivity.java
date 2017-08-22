@@ -16,12 +16,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.dispatching.feima.DaggerApplication;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.dispatching.feima.dagger.module.GoodsDetailActivityModule;
 import com.dispatching.feima.entity.AddShoppingCardRequest;
 import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.GoodsInfoResponse;
+import com.dispatching.feima.entity.OrderConfirmedRequest;
+import com.dispatching.feima.entity.PayCreateRequest;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.help.DialogFactory;
@@ -31,7 +35,6 @@ import com.dispatching.feima.help.HtmlHelp.URLImageParser;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.GoodsDetailControl;
 import com.dispatching.feima.view.fragment.SpecificationDialog;
-import com.dispatching.feima.view.fragment.SpecificationEmptyDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
@@ -102,6 +105,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private List<String> mSizeList;
     private List<String> mColorList;
     private List<String> mZipperList;
+    private AMapLocation mLocationInfo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,6 +199,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private void initView() {
         mGoodsInfo = (ShopDetailResponse.ProductsBean) getIntent().getSerializableExtra("goodsInfo");
+        mLocationInfo = ((DaggerApplication) getApplicationContext()).getaMapLocation();
         if (mGoodsInfo != null) {
             mBuProcessor.setGoodsInfo(mGoodsInfo);
             mGoodsName.setText(mGoodsInfo.name);
@@ -328,20 +334,73 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
             if (mProductsBean != null) {
                 mProductsBean.saleCount = count;
-                startActivity(PayActivity.getIntent(this, mResponse));
+                payOrderCreate(mProductsBean);
             } else {
                 showToast("请稍后重试");
             }
         } else {
             mProductsBean = mProduct;
-            startActivity(PayActivity.getIntent(this, mResponse));
+            payOrderCreate(mProductsBean);
         }
     }
 
-    private void showEmptyDialog() {
+    private void payOrderCreate(SpecificationResponse.ProductsBean mProductsBean) {
+        PayCreateRequest request = new PayCreateRequest();
+        List<OrderConfirmedRequest> payCreate = new ArrayList<>();
+
+        OrderConfirmedRequest orderCreateRequest = new OrderConfirmedRequest();
+        List<OrderConfirmedRequest.ProductsBean> list = new ArrayList<>();
+
+        OrderConfirmedRequest.ProductsBean productsBean = new OrderConfirmedRequest.ProductsBean();
+        productsBean.productName = mProductsBean.name;
+        productsBean.sequence = mProductsBean.sequence + "";
+        productsBean.number = String.valueOf(mProductsBean.saleCount);
+        productsBean.specification = mProductsBean.specification;
+        productsBean.productId = mProductsBean.pid;
+        productsBean.price = mProductsBean.finalPrice;
+        productsBean.picture = mProductsBean.picture;
+        list.add(productsBean);
+
+        orderCreateRequest.products = list;
+
+        List<OrderConfirmedRequest.AccountsBean> accountList = new ArrayList<>();
+        OrderConfirmedRequest.AccountsBean accountsBean = new OrderConfirmedRequest.AccountsBean();
+        accountsBean.sequence = 0;
+        accountsBean.accountId = "123456";
+        accountsBean.number = "1";
+        accountsBean.name = "运费";
+        accountsBean.type = "1";
+        accountsBean.price = "500";
+        accountList.add(accountsBean);
+        orderCreateRequest.accounts = accountList;
+
+        orderCreateRequest.shopName = mBuProcessor.getShopInfo().storeName;
+        orderCreateRequest.source = "android";
+        orderCreateRequest.customerOrder = "BSY_" + System.currentTimeMillis();
+        orderCreateRequest.amount = 1000;
+        orderCreateRequest.type = 1;
+        orderCreateRequest.payType = 1;
+        orderCreateRequest.userId = mBuProcessor.getUserId();
+        orderCreateRequest.payChannel = "";
+        if (mLocationInfo != null) {
+            orderCreateRequest.longitude = String.valueOf(mLocationInfo.getLongitude());
+            orderCreateRequest.latitude = String.valueOf(mLocationInfo.getLatitude());
+        }
+        orderCreateRequest.status = 1;
+        orderCreateRequest.shopId = mProductsBean.companyId + mBuProcessor.getShopInfo().storeCode;
+        orderCreateRequest.partition = "";
+        orderCreateRequest.remark = "";
+        orderCreateRequest.payChannelName = "";
+        orderCreateRequest.companyId = mProductsBean.companyId;
+        payCreate.add(orderCreateRequest);
+        request.orders = payCreate;
+        startActivity(PayActivity.getIntent(this, request));
+    }
+
+   /* private void showEmptyDialog() {
         SpecificationEmptyDialog dialog = SpecificationEmptyDialog.newInstance();
         DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationEmptyDialog.TAG);
-    }
+    }*/
 
     private void requestGoodsSpecification(Integer addOrBugFlag) {
         if (mProduct != null) {

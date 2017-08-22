@@ -23,10 +23,10 @@ import com.dispatching.feima.entity.IntentConstant;
 import com.dispatching.feima.entity.MyPayOrderRequest;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
+import com.dispatching.feima.entity.PayAccessRequest;
 import com.dispatching.feima.entity.PayConstant;
+import com.dispatching.feima.entity.PayCreateRequest;
 import com.dispatching.feima.entity.PayResponse;
-import com.dispatching.feima.entity.SpecificationResponse;
-import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 import com.dispatching.feima.help.DialogFactory;
 import com.dispatching.feima.help.PayZFBHelper;
 import com.dispatching.feima.help.WXPayHelp.PayWXHelper;
@@ -52,9 +52,9 @@ import butterknife.ButterKnife;
 
 public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
 
-    public static Intent getIntent(Context context, SpecificationResponse specificationResponse) {
+    public static Intent getIntent(Context context, PayCreateRequest request) {
         Intent intent = new Intent(context, PayActivity.class);
-        intent.putExtra("specificationResponse", specificationResponse);
+        intent.putExtra("PayCreateRequest", request);
         return intent;
     }
 
@@ -81,8 +81,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private LinearLayout mPayOrderIdLayout;
     private TextView mFinalPrice;
     private OrderConfirmedResponse mResponse;
-    private SpecificationResponse mProductSpecification;
-    private long mOrderId;
+    private PayCreateRequest mProductSpecification;
     private AddressResponse.DataBean mDataBean;
 
     @Override
@@ -100,9 +99,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
         mResponse = response;
-        mOrderId = response.oid;
-      /*  mPayOrderIdLayout.setVisibility(View.VISIBLE);
-        mPayOrderId.setText(String.valueOf(mResponse.oid));*/
         PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
         payMethodDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
@@ -139,10 +135,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         if (mResponse != null) {
             switch (payType) {
                 case PayConstant.PAY_TYPE_WX:
-                    mPresenter.requestPayInfo(mOrderId, PayConstant.PAY_TYPE_WX);
+                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_WX);
                     break;
                 case PayConstant.PAY_TYPE_ZFB:
-                    mPresenter.requestPayInfo(mOrderId, PayConstant.PAY_TYPE_ZFB);
+                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_ZFB);
                     break;
             }
         }
@@ -159,11 +155,19 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderPaySuccess() {
-        mPresenter.updateOrderStatus(String.valueOf(mOrderId));
+        PayAccessRequest request = new PayAccessRequest();
+        List<PayAccessRequest.OrdersBean> list = new ArrayList<>();
+        for (String s : mResponse.data) {
+            PayAccessRequest.OrdersBean order = new PayAccessRequest.OrdersBean();
+            order.orderId = s;
+            list.add(order);
+        }
+        request.orders = list;
+        mPresenter.updateOrderStatus(request);
     }
 
     @Override
-    public void updateOrderStatusSuccess(UpdateOrderStatusResponse response) {
+    public void updateOrderStatusSuccess() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -176,7 +180,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initView() {
-        mProductSpecification = (SpecificationResponse) getIntent().getSerializableExtra("specificationResponse");
+        mProductSpecification = (PayCreateRequest) getIntent().getSerializableExtra("PayCreateRequest");
         mList = new ArrayList<>();
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);
@@ -184,7 +188,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         if (mProductSpecification != null) {
             addHeadView();
             addFootView();
-            mAdapter.setNewData(mProductSpecification.products);
+            mAdapter.setNewData(mProductSpecification.orders);
         }
 
         mAdapter.setOnItemClickListener((adapter, view, position) ->
@@ -199,12 +203,14 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             showToast("请选择收获地址");
             return;
         }
-        if (mOrderId == 0) {
-            OrderConfirmedRequest request = new OrderConfirmedRequest();
-            request.address = mDataBean.address + mDataBean.area;
-            request.phone = mDataBean.receiverPhone;
-            request.userName = (String) mDataBean.receiverName;
-            mPresenter.requestOrderConfirmed(request, mProductSpecification);
+        if (mResponse == null) {
+            for (OrderConfirmedRequest request : mProductSpecification.orders) {
+                request.address = mDataBean.address + mDataBean.area;
+                request.phone = mDataBean.receiverPhone;
+                request.userName = (String) mDataBean.receiverName;
+            }
+
+            mPresenter.requestOrderConfirmed(mProductSpecification);
         } else {
             PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
             payMethodDialog.setListener(this);
@@ -248,10 +254,18 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
         mFinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
         Integer allPrice = 0;
-        for (SpecificationResponse.ProductsBean product : mProductSpecification.products) {
-            allPrice += product.finalPrice*product.saleCount;
+        Integer dispatchingPrice = 0;
+        for (OrderConfirmedRequest request : mProductSpecification.orders) {
+            for (OrderConfirmedRequest.ProductsBean product : request.products) {
+                allPrice += product.price * Integer.valueOf(product.number);
+            }
+            for (OrderConfirmedRequest.AccountsBean account : request.accounts) {
+                dispatchingPrice += Integer.valueOf(account.price);
+            }
         }
-        mFinalPrice.setText(ValueUtil.formatAmount(allPrice + 500));
+
+        mDispatchPrice.setText(ValueUtil.formatAmount(dispatchingPrice));
+        mFinalPrice.setText(ValueUtil.formatAmount(allPrice + dispatchingPrice));
     }
 
     private void initializeInjector() {

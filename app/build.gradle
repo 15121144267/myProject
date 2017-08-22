@@ -7,6 +7,7 @@ android {
     compileSdkVersion rootProject.ext.myCompileSdkVersion
     buildToolsVersion rootProject.ext.myBuildToolsVersion
     defaultConfig {
+        multiDexEnabled true
         applicationId rootProject.ext.myApplicationId
         minSdkVersion rootProject.ext.myMinSdkVersion
         targetSdkVersion rootProject.ext.myTargetSdkVersion
