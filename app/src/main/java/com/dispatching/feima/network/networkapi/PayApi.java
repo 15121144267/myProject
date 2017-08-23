@@ -13,10 +13,10 @@ public interface PayApi {
     @POST("Order/CreateOrders")
     Observable<String> orderConfirmedRequest(@Body String request);
 
-    @POST("/Order/PayOrders")
+    @POST("Order/PayOrders")
     Observable<String> payRequest(@Body String request);
 
-    @POST("/Order/PayAccessOrders")
+    @POST("Order/PayAccessOrders")
     Observable<String> updateOrderStatusRequest(@Body String request);
 
 }

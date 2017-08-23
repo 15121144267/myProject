@@ -11,4 +11,5 @@ public class AddShoppingCardRequest {
     public String productId;
     public String number;
     public String name;
+    public String linkName;
 }

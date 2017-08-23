@@ -3,6 +3,7 @@ package com.dispatching.feima.view.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.dispatching.feima.R;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
@@ -41,8 +42,9 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<OrderConfirmedRequest,
             dispatchingPrice += Integer.valueOf(account.price);
         }
         helper.setText(R.id.adapter_shopping_card_dispatching_price, "￥" + ValueUtil.formatAmount2(dispatchingPrice));
-        helper.setText(R.id.adapter_shopping_card_product_count, "共计" + item.products.size()+"件商品");
-        helper.setText(R.id.adapter_shopping_card_price_all, "小计:" + ValueUtil.formatAmount(dispatchingPrice+productPrice));
+        helper.setText(R.id.adapter_shopping_card_product_count, "共计" + item.products.size() + "件商品");
+        helper.setText(R.id.adapter_shopping_card_shop_name, TextUtils.isEmpty(item.shopName)?"  未知店铺":"  "+item.shopName);
+        helper.setText(R.id.adapter_shopping_card_price_all, "小计:" + ValueUtil.formatAmount2(dispatchingPrice + productPrice));
 
     }
 

@@ -18,4 +18,10 @@ public interface AddShoppingCardApi {
 
     @GET("Query/ShoppingCart/ListUserAllShoppingCarts")
     Observable<String> shoppingCardListRequest(@Query("userId") String userId,@Query("companyId") String companyId);
+
+    @POST("ShoppingCart/DelProduct")
+    Observable<String> deleteProductRequest(@Body String request);
+
+    @POST("ShoppingCart/SetNumber")
+    Observable<String> changeProductNumberRequest(@Body String request);
 }

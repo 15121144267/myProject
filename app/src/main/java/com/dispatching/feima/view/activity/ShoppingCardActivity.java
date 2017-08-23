@@ -27,7 +27,6 @@ import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.PayCreateRequest;
 import com.dispatching.feima.utils.SpannableStringUtils;
-import com.dispatching.feima.utils.ToastUtils;
 import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.adapter.ShoppingCardAdapter;
@@ -76,9 +75,11 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     private ShoppingCardAdapter mAdapter;
     private View mEmptyView;
     private Button mEmptyButton;
-    private final String companyId = "53c69e54-c788-495c-bed3-2dbfc6fd5c61";
+    private final String companyId = BuildConfig.PARTNER_ID;
     private List<ShoppingCardListResponse.DataBean> mProductList;
     private AMapLocation mLocationInfo;
+    private ShoppingCardItemAdapter mShoppingCardItemAdapter;
+    private Integer mChildPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,12 +121,14 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     @Override
     public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
+        mShoppingCardItemAdapter = itemAdapter;
         ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            mChildPosition = position;
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
+            ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
             switch (view.getId()) {
                 case R.id.item_shopping_card_check:
-                    ShoppingCardListResponse.DataBean.ProductsBean childProduct = mProduct.products.get(position);
                     if (!checkBox.isChecked()) {
                         childProduct.childCheckFlag = false;
                         if (mProduct.checkFlag) {
@@ -140,20 +143,42 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     }
 
                     countPrice2(partnerCheckBox, mProduct);
-                    itemAdapter.setData(position, childProduct);
                     break;
                 case R.id.item_shopping_card_reduce:
-                    ToastUtils.showShortToast("减少" + position);
+                    Integer count = childProduct.productNumber;
+                    if (count - 1 == 0) {
+                        showToast("宝贝不能再减少了哦");
+                    } else {
+                        childProduct.productNumber = count - 1;
+                    }
+                    requestProductNumber(mProduct, childProduct);
                     break;
                 case R.id.item_shopping_card_add:
-                    ToastUtils.showShortToast("增加" + position);
+                    Integer count2 = childProduct.productNumber;
+                    childProduct.productNumber = count2 + 1;
+                    requestProductNumber(mProduct, childProduct);
                     break;
                 case R.id.item_shopping_card_delete:
-                    ToastUtils.showShortToast("删除" + position);
+                    mPresenter.requestDeleteProduct(String.valueOf(mProduct.scid), childProduct.pid, String.valueOf(childProduct.productNumber));
                     break;
             }
-
+            itemAdapter.setData(position, childProduct);
         });
+    }
+
+    private void requestProductNumber(ShoppingCardListResponse.DataBean product, ShoppingCardListResponse.DataBean.ProductsBean childProduct) {
+        mPresenter.requestChangeProductNumber(String.valueOf(product.scid), childProduct.pid, String.valueOf(childProduct.productNumber));
+    }
+
+    @Override
+    public void changeProductNumberSuccess() {
+
+    }
+
+    @Override
+    public void deleteProductSuccess() {
+        showToast("刪除购物车成功");
+        mShoppingCardItemAdapter.remove(mChildPosition);
     }
 
     @Override
@@ -262,7 +287,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 accountList.add(accountsBean);
                 orderCreateRequest.accounts = accountList;
 
-                orderCreateRequest.shopName = "";
+                orderCreateRequest.shopName = dataBean.linkName;
                 orderCreateRequest.source = "android";
                 orderCreateRequest.customerOrder = "BSY_" + System.currentTimeMillis();
                 orderCreateRequest.amount = 1000;

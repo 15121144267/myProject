@@ -3,6 +3,7 @@ package com.dispatching.feima.view.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.CheckBox;
 
 import com.dispatching.feima.R;
@@ -32,7 +33,7 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         if (item == null) return;
         CheckBox checkBox = helper.getView(R.id.adapter_shopping_card_check);
         helper.addOnClickListener(R.id.adapter_shopping_card_check).addOnClickListener(R.id.adapter_shopping_card_edit);
-        helper.setText(R.id.adapter_shopping_card_shop_name, "  店名");
+        helper.setText(R.id.adapter_shopping_card_shop_name, TextUtils.isEmpty(item.linkName)?"  未知店铺":"  "+item.linkName);
         if(item.childEditFlag){
             helper.setText(R.id.adapter_shopping_card_edit, "保存");
         }else {

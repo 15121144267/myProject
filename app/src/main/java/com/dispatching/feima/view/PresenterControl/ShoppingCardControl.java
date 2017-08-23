@@ -12,10 +12,14 @@ import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 public class ShoppingCardControl {
     public interface ShoppingCardView extends LoadDataView {
         void shoppingCardListSuccess(ShoppingCardListResponse response);
+        void deleteProductSuccess();
+        void changeProductNumberSuccess();
         void setChildAdapter(Integer position, ShoppingCardItemAdapter itemAdapter, CheckBox checkBox);
     }
 
     public interface PresenterShoppingCard extends Presenter<ShoppingCardView> {
         void requestShoppingCardList(String companyId, String userId);
+        void requestDeleteProduct(String shoppingCardId, String productId,String productCount);
+        void requestChangeProductNumber(String shoppingCardId, String productId,String productCount);
     }
 }

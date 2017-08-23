@@ -259,6 +259,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         AddShoppingCardRequest request = new AddShoppingCardRequest();
         request.number = String.valueOf(count);
         request.userId = mBuProcessor.getUserId();
+        request.linkName = mBuProcessor.getShopInfo().storeName;
         request.type = "1";
         if (mProductsBean != null) {
             request.name = mProductsBean.name;

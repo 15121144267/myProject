@@ -33,6 +33,7 @@ public class ShoppingCardListResponse implements Serializable {
         public long scid;
         public int type;
         public String userId;
+        public String linkName;
         public List<ProductsBean> products;
 
         public static class ProductsBean {

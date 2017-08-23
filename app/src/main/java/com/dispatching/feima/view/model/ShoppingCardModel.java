@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.model;
 
+import com.dispatching.feima.entity.ShoppingCardDeleteRequest;
 import com.dispatching.feima.network.networkapi.AddShoppingCardApi;
 import com.google.gson.Gson;
 
@@ -26,7 +27,23 @@ public class ShoppingCardModel {
 
 
     public Observable<ResponseData> shoppingCardListRequest(String companyId, String userId) {
-        return mApi.shoppingCardListRequest(userId,companyId).map(mTransform::transformTypeFour);
+        return mApi.shoppingCardListRequest(userId, companyId).map(mTransform::transformTypeFour);
+    }
+
+    public Observable<ResponseData> deleteProductRequest(String shoppingCardId, String productId, String productCount) {
+        ShoppingCardDeleteRequest request = new ShoppingCardDeleteRequest();
+        request.shoppingcartId = shoppingCardId;
+        request.productid = productId;
+        request.number = productCount;
+        return mApi.deleteProductRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    }
+
+    public Observable<ResponseData> changeProductNumberRequest(String shoppingCardId, String productId, String productCount) {
+        ShoppingCardDeleteRequest request = new ShoppingCardDeleteRequest();
+        request.shoppingcartId = shoppingCardId;
+        request.productid = productId;
+        request.number = productCount;
+        return mApi.changeProductNumberRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 
 }

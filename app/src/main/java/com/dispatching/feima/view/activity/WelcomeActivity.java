@@ -28,7 +28,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeInjector();
-        initData();
     }
 
     private void initData() {
@@ -56,6 +55,12 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
         mBuProcessor.setPersonInfo(response);
         startActivity(MainActivity.getMainIntent(this));
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     @Override

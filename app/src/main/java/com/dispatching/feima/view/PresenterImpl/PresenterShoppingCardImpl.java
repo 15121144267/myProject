@@ -30,6 +30,42 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     @Override
+    public void requestChangeProductNumber(String shoppingCardId, String productId, String productCount) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mShoppingCardModel.changeProductNumberRequest(shoppingCardId, productId, productCount).compose(mView.applySchedulers())
+                .subscribe(this::changeProductNumberSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void changeProductNumberSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            mView.changeProductNumberSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+
+    }
+
+    @Override
+    public void requestDeleteProduct(String shoppingCardId, String productId, String productCount) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mShoppingCardModel.deleteProductRequest(shoppingCardId, productId, productCount).compose(mView.applySchedulers())
+                .subscribe(this::deleteProductSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void deleteProductSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            mView.deleteProductSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+
+    }
+
+    @Override
     public void requestShoppingCardList(String companyId, String userId) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mShoppingCardModel.shoppingCardListRequest(companyId, userId).compose(mView.applySchedulers())
