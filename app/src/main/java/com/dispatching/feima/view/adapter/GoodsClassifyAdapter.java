@@ -36,7 +36,7 @@ public class GoodsClassifyAdapter extends BaseQuickAdapter<SortListResponse.Data
         GoodsClassifyItemAdapter itemAdapter = new GoodsClassifyItemAdapter(item.children);
         recyclerView.setAdapter(itemAdapter);
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
-                mView.showToast("" + position)
+                mView.onItemClick(adapter,view,position)
         );
     }
 }

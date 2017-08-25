@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.dispatching.feima.R;
@@ -15,6 +16,7 @@ import com.dispatching.feima.dagger.module.GoodsClassifyActivityModule;
 import com.dispatching.feima.entity.SortListResponse;
 import com.dispatching.feima.view.PresenterControl.GoodsClassifyControl;
 import com.dispatching.feima.view.adapter.GoodsClassifyAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -87,6 +89,10 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         mPresenter.onDestroy();
     }
 
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        showToast(""+position);
+    }
 
     @Override
     public void sortListSuccess(SortListResponse response) {

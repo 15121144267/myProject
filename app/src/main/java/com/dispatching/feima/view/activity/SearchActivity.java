@@ -100,6 +100,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     private Integer mNewProductPagerNo = 1;
     private List<ShopDetailResponse.ProductsBean> mList;
     private String mSearchName;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,42 +340,48 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         if (tab.isSelected()) {
             //改变状态
             if ((Integer) tab.getTag() == 1) {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
+                arrowUiUp();
                 tab.setTag(2);
                 sortGoodsByPrice(1);
 
             } else {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
+                arrowUiDown();
                 tab.setTag(1);
                 sortGoodsByPrice(2);
             }
         } else {
             //不改变状态
             if ((Integer) tab.getTag() == 1) {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
+                arrowUiDown();
                 tab.setTag(1);
                 sortGoodsByPrice(2);
             } else {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
+                arrowUiUp();
                 sortGoodsByPrice(1);
             }
         }
     }
 
+    private void arrowUiUp() {
+        mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
+        mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
+    }
+
+    private void arrowUiDown() {
+        mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
+        mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
+    }
+
     private void sortGoodsBySaleCount() {
         mSaleCountPagerNo = 1;
         mSaleCountGoodsList.clear();
-        mPresenter.requestProductList(mSearchName, mPartnerId, "saleCount",2, mPagerSize, mSaleCountPagerNo);
+        mPresenter.requestProductList(mSearchName, mPartnerId, "saleCount", 2, mPagerSize, mSaleCountPagerNo);
     }
 
     private void sortGoodsByNewProduct() {
         mNewProductPagerNo = 1;
         mNewProductGoodsList.clear();
-        mPresenter.requestProductList(mSearchName, mPartnerId, "pid",2, mPagerSize, mNewProductPagerNo);
+        mPresenter.requestProductList(mSearchName, mPartnerId, "pid", 2, mPagerSize, mNewProductPagerNo);
     }
 
     private void sortGoodsByPrice(Integer flag) {
@@ -382,7 +389,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         mPricePagerUpNo = 1;
         mPriceDownGoodsList.clear();
         mPriceUpGoodsList.clear();
-        mPresenter.requestProductList(mSearchName, mPartnerId, "finalPrice",flag, mPagerSize, 1);
+        mPresenter.requestProductList(mSearchName, mPartnerId, "finalPrice", flag, mPagerSize, 1);
     }
 
     private TabLayout.Tab addOtherView() {
