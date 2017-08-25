@@ -8,12 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_15">
+        >
 
         <CheckBox
             android:id="@+id/adapter_shopping_card_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="@dimen/dp_15"
             android:background="@drawable/selector_check"
             android:button="@null"
             />
@@ -61,7 +62,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/adapter_shopping_card_list"
+        android:id="@+id/adapter_shopping_card_list1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

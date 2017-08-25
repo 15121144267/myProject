@@ -152,9 +152,4 @@ public class CustomerService extends Service {
         mOrderNoticeDao.insertOrReplace(notice);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
 }

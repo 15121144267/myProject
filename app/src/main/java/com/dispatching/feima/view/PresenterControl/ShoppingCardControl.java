@@ -14,6 +14,7 @@ public class ShoppingCardControl {
         void shoppingCardListSuccess(ShoppingCardListResponse response);
         void deleteProductSuccess();
         void changeProductNumberSuccess();
+        void deleteProduct(ShoppingCardListResponse.DataBean product, ShoppingCardListResponse.DataBean.ProductsBean childProduct,Integer position);
         void setChildAdapter(Integer position, ShoppingCardItemAdapter itemAdapter, CheckBox checkBox);
     }
 

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopDetailActivityComponent;
 import com.dispatching.feima.dagger.module.ShopDetailActivityModule;
@@ -297,7 +298,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         mSearchGoods.setLinearBackgroundResource(R.drawable.shape_line_grey);
         mSearchGoods.setEditHint("搜索商品");
 
-        RxView.clicks(mShopDetailToolRight).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> startActivity(GoodsClassifyActivity.getIntent(this)));
+        RxView.clicks(mShopDetailToolRight).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> startActivity(GoodsClassifyActivity.getIntent(this, BuildConfig.PARTNER_ID+"_"+mStoreCode)));
 
         mTabLayout.addTab(mTabLayout.newTab().setText(modules[0]));
         mTabLayout.addTab(addOtherView());

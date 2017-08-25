@@ -46,9 +46,7 @@ public class GoodsClassifyActivityModule {
     GoodsClassifyModel provideGoodsClassifyModel(Gson gson, ModelTransform modelTransform) {
         return new GoodsClassifyModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.DISPATCH_SERVICE)
-                .isHttps(!BuildConfig.DEBUG)
-                .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
+                .baseUrl(BuildConfig.GOODS_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(GoodsClassifyApi.class), gson, modelTransform);

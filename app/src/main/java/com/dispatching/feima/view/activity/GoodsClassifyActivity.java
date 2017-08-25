@@ -12,14 +12,11 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerGoodsClassifyActivityComponent;
 import com.dispatching.feima.dagger.module.GoodsClassifyActivityModule;
-import com.dispatching.feima.entity.SpecificationResponse;
+import com.dispatching.feima.entity.SortListResponse;
 import com.dispatching.feima.view.PresenterControl.GoodsClassifyControl;
 import com.dispatching.feima.view.adapter.GoodsClassifyAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -42,14 +39,16 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     @BindView(R.id.goods_classify_list)
     RecyclerView mGoodsClassifyList;
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, GoodsClassifyActivity.class);
+    public static Intent getIntent(Context context, String shopId) {
+        Intent intent = new Intent(context, GoodsClassifyActivity.class);
+        intent.putExtra("shopId", shopId);
+        return intent;
     }
 
     @Inject
     GoodsClassifyControl.PresenterGoodsClassify mPresenter;
     private GoodsClassifyAdapter mAdapter;
-
+    private String mShopId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +87,16 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         mPresenter.onDestroy();
     }
 
+
+    @Override
+    public void sortListSuccess(SortListResponse response) {
+        if(response.data.size()>0){
+            mAdapter.setNewData(response.data);
+        }
+    }
+
     private void initView() {
+        mShopId = getIntent().getStringExtra("shopId");
         RxView.clicks(mGoodsClassifyAll).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
         mGoodsClassifyList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new GoodsClassifyAdapter(null, GoodsClassifyActivity.this, this);
@@ -106,7 +114,8 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     }
 
     private void initData() {
-        List<SpecificationResponse.ProductsBean.SpecificationListBean> searchHistory = new ArrayList<>();
+        mPresenter.requestSortList(mShopId, "01", 2, "saleCount", 1);
+       /* List<SpecificationResponse.ProductsBean.SpecificationListBean> searchHistory = new ArrayList<>();
         String[] strings = {"女士", "男士", "男婴(3个月-2岁)", "男婴(3个月-2岁)", "男婴(3个月-2岁)"};
         String[] strings2 = {"夏天的衣服", "春天的衣服", "秋天的裤子", "冬天的棉袄", "老司机"};
         List<String> mList = new ArrayList<>();
@@ -121,7 +130,7 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         bean2.partName = "秋季新品";
         bean2.value = mList2;
         searchHistory.add(bean2);
-        mAdapter.setNewData(searchHistory);
+        mAdapter.setNewData(searchHistory);*/
     }
 
     private void initializeInjector() {
