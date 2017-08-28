@@ -22,7 +22,9 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerSearchActivityComponent;
 import com.dispatching.feima.dagger.module.SearchActivityModule;
+import com.dispatching.feima.entity.SearchShopListResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
+import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.entity.SpecificationResponse;
 import com.dispatching.feima.listener.TabCheckListener;
 import com.dispatching.feima.utils.ValueUtil;
@@ -154,8 +156,42 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                 mPresenter.requestProductList(mSearchName, mPartnerId, "saleCount", 1, mPagerSize, mPagerNo);
             } else {
                 //搜索门店
+                mPresenter.requestShopList("82133fac-4825-418b-be84-0d6a0310ae73", mSearchName);
             }
 
+        }
+    }
+
+    @Override
+    public void getShopListSuccess(SearchShopListResponse response) {
+        mSearchHistoryLayout.setVisibility(View.GONE);
+        mSearchShopsListLayout.setVisibility(View.VISIBLE);
+        if (response.data != null && response.data.size() > 0) {
+            List<ShopListResponse.ListBean> listBeen = new ArrayList<>();
+            for (SearchShopListResponse.DataBean dataBean : response.data) {
+                ShopListResponse.ListBean bean = new ShopListResponse.ListBean();
+                bean.storeCode = dataBean.storeId;
+                bean.address = dataBean.address;
+                bean.fullName = dataBean.storeName;
+                bean.phone = dataBean.phone;
+                bean.remark = (String) dataBean.remark;
+                bean.latitude = dataBean.latitude;
+                bean.longitude = dataBean.longitude;
+                if(dataBean.businessImages!=null&&dataBean.businessImages.size()>0){
+                    List<ShopListResponse.ListBean.BusinessImagesBean> list2 = new ArrayList<>();
+                    for (SearchShopListResponse.DataBean.BusinessImagesBean businessImage : dataBean.businessImages) {
+                        ShopListResponse.ListBean.BusinessImagesBean imageBean = new ShopListResponse.ListBean.BusinessImagesBean();
+                        imageBean.imageUrl = businessImage.imageUrl;
+                        imageBean.imageTitle = businessImage.imageTitle;
+                        imageBean.sortIndex = businessImage.sortIndex;
+                        list2.add(imageBean);
+                    }
+                    bean.businessImages = list2;
+                }
+                listBeen.add(bean);
+
+            }
+            mShopListAdapter.setNewData(listBeen);
         }
     }
 
@@ -277,11 +313,11 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                     }
                 });
             } else {
-                //  mSearchShopsListLayout.setVisibility(View.VISIBLE);
+//                mSearchShopsListLayout.setVisibility(View.VISIBLE);
                 mSearchGoods.setEditHint("搜索商户");
                 mSearchShopsListLayout.setLayoutManager(new LinearLayoutManager(this));
                 mShopListAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
-                mSearchShopsListLayout.setAdapter(mAdapter);
+                mSearchShopsListLayout.setAdapter(mShopListAdapter);
             }
         }
 

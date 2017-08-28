@@ -20,6 +20,7 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopDetailActivityComponent;
 import com.dispatching.feima.dagger.module.ShopDetailActivityModule;
+import com.dispatching.feima.entity.ShopDetailBannerResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.entity.ShopResponse;
@@ -81,7 +82,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
     private ShopDetailAdapter mAdapter;
-    private List<Integer> mImageList;
+    private List<String> mImageList;
     private Integer mSaleCountPagerNo = 1;
     private Integer mPricePagerDownNo = 1;
     private Integer mPricePagerUpNo = 1;
@@ -198,6 +199,14 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     @Override
+    public void getShopBannerSuccess(ShopDetailBannerResponse response) {
+        for (ShopDetailBannerResponse.DataBean dataBean : response.data) {
+            mImageList.add(dataBean.imageUrl);
+        }
+        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }
@@ -257,11 +266,6 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
             mImageLoaderHelper.displayRoundedCornerImage(this, mShopInfo2.businessImages.get(0).imageUrl, mShopDetailShopIcon, 6);
             mStoreCode = mShopInfo2.storeCode;
             mShopDetailShopName.setText(mShopInfo2.fullName);
-            if (mShopInfo2.storeCode.equals("107")) {
-                mImageList.add(R.mipmap.main_right_second);
-            } else {
-                mImageList.add(R.mipmap.activities_second);
-            }
         }
 
         if (mShopInfo != null) {
@@ -274,14 +278,9 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.freemud_logo, mShopDetailShopIcon, 6);
             }
             mShopDetailShopName.setText(mShopInfo.fullName == null ? "未知" : mShopInfo.fullName);
-            if (mShopInfo.storeCode.equals("107")) {
-                mImageList.add(R.mipmap.main_right_second);
-            } else {
-                mImageList.add(R.mipmap.activities_second);
-            }
         }
 
-        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
+
         mList = new ArrayList<>();
         mSaleCountGoodsList = new ArrayList<>();
         mPriceUpGoodsList = new ArrayList<>();
@@ -403,6 +402,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
 
     private void initData() {
         mPresenter.requestShopGoodsList("saleCount", 2, mStoreCode, 1, mPagerSize);
+        mPresenter.requestShopBanner("82133fac-4825-418b-be84-0d6a0310ae73","99999");
     }
 
     private void initializeInjector() {

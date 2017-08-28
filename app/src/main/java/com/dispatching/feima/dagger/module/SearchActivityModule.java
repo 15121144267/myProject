@@ -6,6 +6,7 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.SearchApi;
+import com.dispatching.feima.network.networkapi.SearchOtherApi;
 import com.dispatching.feima.view.PresenterControl.SearchControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterSearchImpl;
 import com.dispatching.feima.view.model.ModelTransform;
@@ -51,7 +52,14 @@ public class SearchActivityModule {
                 .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
-                .create(SearchApi.class), gson, modelTransform);
+                .create(SearchApi.class),
+                new RetrofitUtil.Builder()
+                        .context(activity)
+                        .baseUrl("http://member-api-tst.sandload.cn:8735/")
+                        .isToJson(false)
+                        .builder()
+                        .create(SearchOtherApi.class),
+                gson, modelTransform);
     }
 
     @Provides

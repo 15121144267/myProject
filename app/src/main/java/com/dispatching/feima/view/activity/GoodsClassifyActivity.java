@@ -51,6 +51,7 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     GoodsClassifyControl.PresenterGoodsClassify mPresenter;
     private GoodsClassifyAdapter mAdapter;
     private String mShopId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,12 +92,13 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        showToast(""+position);
+        SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
+        startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid));
     }
 
     @Override
     public void sortListSuccess(SortListResponse response) {
-        if(response.data.size()>0){
+        if (response.data.size() > 0) {
             mAdapter.setNewData(response.data);
         }
     }
@@ -121,22 +123,6 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
 
     private void initData() {
         mPresenter.requestSortList(mShopId, "01", 2, "saleCount", 1);
-       /* List<SpecificationResponse.ProductsBean.SpecificationListBean> searchHistory = new ArrayList<>();
-        String[] strings = {"女士", "男士", "男婴(3个月-2岁)", "男婴(3个月-2岁)", "男婴(3个月-2岁)"};
-        String[] strings2 = {"夏天的衣服", "春天的衣服", "秋天的裤子", "冬天的棉袄", "老司机"};
-        List<String> mList = new ArrayList<>();
-        List<String> mList2 = new ArrayList<>();
-        Collections.addAll(mList, strings);
-        Collections.addAll(mList2, strings2);
-        SpecificationResponse.ProductsBean.SpecificationListBean bean = new SpecificationResponse.ProductsBean.SpecificationListBean();
-        bean.partName = "本周新品";
-        bean.value = mList;
-        searchHistory.add(bean);
-        SpecificationResponse.ProductsBean.SpecificationListBean bean2 = new SpecificationResponse.ProductsBean.SpecificationListBean();
-        bean2.partName = "秋季新品";
-        bean2.value = mList2;
-        searchHistory.add(bean2);
-        mAdapter.setNewData(searchHistory);*/
     }
 
     private void initializeInjector() {

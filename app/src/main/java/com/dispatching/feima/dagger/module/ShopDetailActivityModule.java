@@ -6,6 +6,7 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.ShopDetailApi;
+import com.dispatching.feima.network.networkapi.ShopDetailOtherApi;
 import com.dispatching.feima.view.PresenterControl.ShopDetailControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterShopDetailImpl;
 import com.dispatching.feima.view.model.ModelTransform;
@@ -43,13 +44,20 @@ public class ShopDetailActivityModule {
 
     @Provides
     @PerActivity
-    ShopDetailModel provideShopDetailModel(Gson gson, ModelTransform modelTransform ) {
+    ShopDetailModel provideShopDetailModel(Gson gson, ModelTransform modelTransform) {
         return new ShopDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.GOODS_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(ShopDetailApi.class), gson, modelTransform);
+                .create(ShopDetailApi.class),
+                new RetrofitUtil.Builder()
+                        .context(activity)
+                        .baseUrl("http://member-api-tst.sandload.cn:8735/")
+                        .isToJson(false)
+                        .builder()
+                        .create(ShopDetailOtherApi.class),
+                gson, modelTransform);
     }
 
     @Provides

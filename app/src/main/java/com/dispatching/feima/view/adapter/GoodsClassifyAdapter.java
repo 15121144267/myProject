@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/8/8.
+ * GoodsClassifyAdapter
  */
 
 public class GoodsClassifyAdapter extends BaseQuickAdapter<SortListResponse.DataBean, BaseViewHolder> {
@@ -35,8 +36,6 @@ public class GoodsClassifyAdapter extends BaseQuickAdapter<SortListResponse.Data
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         GoodsClassifyItemAdapter itemAdapter = new GoodsClassifyItemAdapter(item.children);
         recyclerView.setAdapter(itemAdapter);
-        itemAdapter.setOnItemClickListener((adapter, view, position) ->
-                mView.onItemClick(adapter,view,position)
-        );
+        itemAdapter.setOnItemClickListener(mView::onItemClick);
     }
 }

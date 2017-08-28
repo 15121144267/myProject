@@ -3,9 +3,11 @@ package com.dispatching.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.ShopListApi;
+import com.dispatching.feima.network.networkapi.ShopOtherListApi;
 import com.dispatching.feima.view.PresenterControl.CompletedOrderControl;
 import com.dispatching.feima.view.PresenterControl.LoadDataView;
 import com.dispatching.feima.view.PresenterControl.PendingOrderControl;
@@ -52,7 +54,14 @@ public class FragmentModule {
                 .baseUrl("http://console.freemudvip.com/service/restful/")
                 .isToJson(false)
                 .builder()
-                .create(ShopListApi.class), gson, modelTransform);
+                .create(ShopListApi.class),
+                new RetrofitUtil.Builder()
+                        .context(activity)
+                        .baseUrl(BuildConfig.DISPATCH_SERVICE)
+                        .isToJson(false)
+                        .builder()
+                        .create(ShopOtherListApi.class),
+                gson, modelTransform);
     }
 
     @Provides

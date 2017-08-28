@@ -4,6 +4,7 @@ import com.dispatching.feima.BuildConfig;
 import com.dispatching.feima.entity.ShopListRequest;
 import com.dispatching.feima.entity.ShopRequest;
 import com.dispatching.feima.network.networkapi.ShopListApi;
+import com.dispatching.feima.network.networkapi.ShopOtherListApi;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -17,13 +18,15 @@ import io.reactivex.Observable;
 
 public class ShopListModel {
     private final ShopListApi mApi;
+    private final ShopOtherListApi mShopOtherListApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
     private final String partnerId = BuildConfig.PARTNER_ID;
 
     @Inject
-    public ShopListModel(ShopListApi api, Gson gson, ModelTransform transform) {
+    public ShopListModel(ShopListApi api,ShopOtherListApi shopOtherListApi, Gson gson, ModelTransform transform) {
         mApi = api;
+        mShopOtherListApi = shopOtherListApi;
         mGson = gson;
         mTransform = transform;
     }
@@ -43,4 +46,10 @@ public class ShopListModel {
         request.typeFlag = type;
         return mApi.shopIdRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
+
+    public Observable<ResponseData> shopListBannerRequest(String partnerId ) {
+        return mShopOtherListApi.shopListBannerRequest(partnerId).map(mTransform::transformTypeThree);
+    }
+
+
 }

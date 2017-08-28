@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.dispatching.feima.dagger.PerActivity;
 import com.dispatching.feima.network.RetrofitUtil;
 import com.dispatching.feima.network.networkapi.ShopListApi;
+import com.dispatching.feima.network.networkapi.ShopOtherListApi;
 import com.dispatching.feima.view.PresenterControl.ShopListControl;
 import com.dispatching.feima.view.PresenterImpl.PresenterShopListImpl;
 import com.dispatching.feima.view.model.ModelTransform;
@@ -48,7 +49,14 @@ public class ShopListActivityModule {
                 .baseUrl("http://console.freemudvip.com/service/restful/")
                 .isToJson(false)
                 .builder()
-                .create(ShopListApi.class), gson, modelTransform);
+                .create(ShopListApi.class),
+                new RetrofitUtil.Builder()
+                        .context(activity)
+                        .baseUrl("http://member-api-tst.sandload.cn:8735/")
+                        .isToJson(false)
+                        .builder()
+                        .create(ShopOtherListApi.class)
+                , gson, modelTransform);
     }
 
     @Provides

@@ -99,6 +99,11 @@
         <activity
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.ClassifySearchActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".view.activity.BaseActivity"
             android:screenOrientation="portrait"/>

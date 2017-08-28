@@ -1,5 +1,6 @@
 package com.dispatching.feima.view.PresenterControl;
 
+import com.dispatching.feima.entity.SearchShopListResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 
 /**
@@ -10,10 +11,13 @@ import com.dispatching.feima.entity.ShopDetailResponse;
 public class SearchControl {
     public interface SearchView extends LoadDataView {
         void getProductListSuccess(ShopDetailResponse response);
+        void getShopListSuccess(SearchShopListResponse response);
     }
 
     public interface PresenterSearch extends Presenter<SearchView> {
         void requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo);
+
+        void requestShopList(String partnerId, String searchName);
     }
 
 }

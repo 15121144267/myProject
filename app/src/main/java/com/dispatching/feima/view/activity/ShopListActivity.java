@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerShopListActivityComponent;
 import com.dispatching.feima.dagger.module.ShopListActivityModule;
+import com.dispatching.feima.entity.ShopDetailBannerResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.help.GlideLoader;
 import com.dispatching.feima.view.PresenterControl.ShopListControl;
@@ -49,7 +50,7 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     @Inject
     ShopListControl.PresenterShopList mPresenter;
     private ShopListAdapter mAdapter;
-    private List<Integer> mImageList;
+    private List<String> mImageList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private List<ShopListResponse.ListBean> mList;
@@ -93,6 +94,16 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
     }
 
     @Override
+    public void getShopListBannerSuccess(ShopDetailBannerResponse response) {
+        if (response.data != null && response.data.size() > 0) {
+            for (ShopDetailBannerResponse.DataBean dataBean : response.data) {
+                mImageList.add(dataBean.imageUrl);
+            }
+        }
+        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }
@@ -132,23 +143,19 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
 
     private void initView() {
         mImageList = new ArrayList<>();
-        mImageList.add(R.mipmap.main_banner_first);
-        mImageList.add(R.mipmap.main_banner_second);
-        mImageList.add(R.mipmap.main_banner_third);
-        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
 
         mShopList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ShopListAdapter(null, this,mImageLoaderHelper);
+        mAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
         mShopList.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this, mShopList);
         mAdapter.setOnItemClickListener((adapter, view, position) ->
-                startActivity(ShopDetailActivity.getIntent(this,(ShopListResponse.ListBean)adapter.getItem(position)))
+                startActivity(ShopDetailActivity.getIntent(this, (ShopListResponse.ListBean) adapter.getItem(position)))
         );
     }
 
     private void initData() {
         mPresenter.requestShopList(mPagerNo, mPagerSize);
-
+        mPresenter.requestShopListBanner("82133fac-4825-418b-be84-0d6a0310ae73");
     }
 
     private void initializeInjector() {

@@ -2,6 +2,8 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.dispatching.feima.R;
+import com.dispatching.feima.entity.SearchShopListResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.view.PresenterControl.SearchControl;
 import com.dispatching.feima.view.model.ResponseData;
@@ -30,10 +32,30 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
     }
 
     @Override
+    public void requestShopList(String partnerId, String searchName) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.requestShopList(partnerId, searchName).compose(mView.applySchedulers())
+                .subscribe(this::getShopListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getShopListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            responseData.parseData(SearchShopListResponse.class);
+            SearchShopListResponse response = (SearchShopListResponse) responseData.parsedData;
+            mView.getShopListSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+
+    @Override
     public void requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
-        Disposable disposable = mModel.requestProductList(searchName,partnerId,sortName,sortNO,pagerSize,pagerNo).compose(mView.applySchedulers())
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.requestProductList(searchName, partnerId, sortName, sortNO, pagerSize, pagerNo).compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable));
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 

@@ -3,6 +3,7 @@ package com.dispatching.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.dispatching.feima.R;
+import com.dispatching.feima.entity.ShopDetailBannerResponse;
 import com.dispatching.feima.entity.ShopListResponse;
 import com.dispatching.feima.view.PresenterControl.ShopListControl;
 import com.dispatching.feima.view.model.ResponseData;
@@ -26,6 +27,25 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
         mContext = context;
         mView = view;
         mModel = model;
+    }
+
+    @Override
+    public void requestShopListBanner(String partnerId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.shopListBannerRequest(partnerId).compose(mView.applySchedulers())
+                .subscribe(this::shopListBannerRequestSuccess, throwable -> mView.loadFail(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void shopListBannerRequestSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            responseData.parseData(ShopDetailBannerResponse.class);
+            ShopDetailBannerResponse response = (ShopDetailBannerResponse) responseData.parsedData;
+            mView.getShopListBannerSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override
