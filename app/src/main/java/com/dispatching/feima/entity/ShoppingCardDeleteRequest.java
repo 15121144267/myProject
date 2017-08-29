@@ -6,6 +6,6 @@ package com.dispatching.feima.entity;
 
 public class ShoppingCardDeleteRequest {
     public String shoppingcartId;
-    public String productid;
+    public String productId;
     public String number;
 }

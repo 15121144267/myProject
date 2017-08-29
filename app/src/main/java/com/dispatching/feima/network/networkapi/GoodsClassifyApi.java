@@ -12,5 +12,4 @@ import retrofit2.http.Query;
 public interface GoodsClassifyApi {
     @GET("Query/Menu/ListNextLevelByNodeId")
     Observable<String> sortListRequest(@Query("shopId") String shopId, @Query("nodeId") String nodeId, @Query("deep") Integer deep, @Query("sortName") String sortName, @Query("sortOrder") Integer sortOrder);
-
 }

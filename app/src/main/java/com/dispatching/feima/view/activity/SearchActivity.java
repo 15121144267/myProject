@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/5.
- * WelcomeActivity
+ * SearchActivity
  */
 
 public class SearchActivity extends BaseActivity implements SearchControl.SearchView, ClearEditText.setOnMyEditorActionListener, BaseQuickAdapter.RequestLoadMoreListener {
@@ -189,7 +189,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                     bean.businessImages = list2;
                 }
                 listBeen.add(bean);
-
             }
             mShopListAdapter.setNewData(listBeen);
         }
@@ -313,7 +312,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                     }
                 });
             } else {
-//                mSearchShopsListLayout.setVisibility(View.VISIBLE);
                 mSearchGoods.setEditHint("搜索商户");
                 mSearchShopsListLayout.setLayoutManager(new LinearLayoutManager(this));
                 mShopListAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);

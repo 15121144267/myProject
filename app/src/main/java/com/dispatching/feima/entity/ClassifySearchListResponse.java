@@ -24,35 +24,7 @@ public class ClassifySearchListResponse implements Serializable {
          * resultModel : {"barcode":"","category":"","categoryName":"生活用品","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":1,"labelNames":[],"name":"白鞋高帮规格商品","originalPrice":1320000,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1501580958.jpg","pid":"1415","productSpecification":[{"color":"黑高帮","size":"41","productId":1265},{"color":"黑高帮","size":"40","productId":1264},{"color":"黑纹高帮","size":"41","productId":1281},{"color":"黑纹高帮","size":"40","productId":1280},{"color":"黑纹高帮","size":"39","productId":1279},{"color":"黑高帮","size":"39","productId":1263},{"color":"白高帮","size":"41","productId":1267},{"color":"白高帮","size":"40","productId":1266},{"color":"白高帮","size":"42","productId":1268}],"remark":"白鞋高帮","saleCount":0,"sellTimeName":"可售时间","sequence":0,"specification":"码","specificationList":[{"partName":"color","value":["黑高帮","白高帮","黑纹高帮"]},{"partName":"size","value":["39","40","41","42"]}],"status":2,"stock":0,"stockLimit":1,"type":6,"unit":"双"}
          */
 
-        public NodeModelBean nodeModel;
         public ResultModelBean resultModel;
-        public List<?> children;
-
-        public static class NodeModelBean {
-            /**
-             * hasChild : 0
-             * level : 3
-             * menuId : 666
-             * name : 莫名其妙的菜品节点
-             * nid : 01010101
-             * productId : 1415
-             * remark :
-             * sequence : 10199
-             * status : 2
-             * type : 菜品
-             */
-
-            public int hasChild;
-            public int level;
-            public int menuId;
-            public String name;
-            public String nid;
-            public int productId;
-            public String remark;
-            public int sequence;
-            public int status;
-            public String type;
-        }
 
         public static class ResultModelBean {
             /**

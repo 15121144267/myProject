@@ -86,6 +86,7 @@
                 <com.youth.banner.Banner
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
+                    android:background="@mipmap/freemud_logo"
                     android:layout_height="205dp"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"

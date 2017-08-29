@@ -378,7 +378,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         orderCreateRequest.shopName = mBuProcessor.getShopInfo().storeName;
         orderCreateRequest.source = "android";
         orderCreateRequest.customerOrder = "BSY_" + System.currentTimeMillis();
-        orderCreateRequest.amount = 1000;
+        orderCreateRequest.amount =  productsBean.price* mProductsBean.saleCount+500;
         orderCreateRequest.type = 1;
         orderCreateRequest.payType = 1;
         orderCreateRequest.userId = mBuProcessor.getUserId();

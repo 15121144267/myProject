@@ -33,7 +33,7 @@ public class ShoppingCardModel {
     public Observable<ResponseData> deleteProductRequest(String shoppingCardId, String productId, String productCount) {
         ShoppingCardDeleteRequest request = new ShoppingCardDeleteRequest();
         request.shoppingcartId = shoppingCardId;
-        request.productid = productId;
+        request.productId = productId;
         request.number = productCount;
         return mApi.deleteProductRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
@@ -41,7 +41,7 @@ public class ShoppingCardModel {
     public Observable<ResponseData> changeProductNumberRequest(String shoppingCardId, String productId, String productCount) {
         ShoppingCardDeleteRequest request = new ShoppingCardDeleteRequest();
         request.shoppingcartId = shoppingCardId;
-        request.productid = productId;
+        request.productId = productId;
         request.number = productCount;
         return mApi.changeProductNumberRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }

@@ -381,12 +381,21 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
                 tab.setTag(1);
                 sortGoodsByPrice(2);
             } else {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
+                arrowUiUp();
                 tab.setTag(2);
                 sortGoodsByPrice(1);
             }
         }
+    }
+
+    private void arrowUiUp() {
+        mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
+        mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
+    }
+
+    private void arrowUiDown() {
+        mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
+        mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
     }
 
     private TabLayout.Tab addOtherView() {

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerClassifySearchActivityComponent;
 import com.dispatching.feima.dagger.module.ClassifySearchActivityModule;
+import com.dispatching.feima.entity.ClassifySearchAllListResponse;
 import com.dispatching.feima.entity.ClassifySearchListResponse;
 import com.dispatching.feima.entity.ShopDetailResponse;
 import com.dispatching.feima.listener.TabCheckListener;
@@ -59,10 +60,11 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     @BindView(R.id.search_history_layout)
     RecyclerView mSearchHistoryLayout;
 
-    public static Intent getIntent(Context context, String shopId, String nodeId) {
+    public static Intent getIntent(Context context, String shopId, String nodeId, Integer type) {
         Intent intent = new Intent(context, ClassifySearchActivity.class);
         intent.putExtra("shopId", shopId);
         intent.putExtra("nodeId", nodeId);
+        intent.putExtra("searchType", type);
         return intent;
     }
 
@@ -75,6 +77,7 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
     private ClassifySearchListAdapter mAdapter;
+    private Integer mSearchType;
     private String mShopId;
     private String mNodeId;
     private String mSearchName;
@@ -111,6 +114,7 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
         mSearchGoodsLayout.setVisibility(View.VISIBLE);
         mShopId = getIntent().getStringExtra("shopId");
         mNodeId = getIntent().getStringExtra("nodeId");
+        mSearchType = getIntent().getIntExtra("searchType", 0);
         mSearchGoods.setEditHint("搜索");
 
         mSearchProductList.setLayoutManager(new GridLayoutManager(this, 2));
@@ -196,7 +200,60 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     }
 
     private void initData() {
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 1);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 1, mSearchType);
+    }
+
+    @Override
+    public void getAllProductListSuccess(ClassifySearchAllListResponse response) {
+        if (response.data != null && response.data.size() > 0) {
+            List<ClassifySearchListResponse.DataBean> mList = new ArrayList<>();
+            for (ClassifySearchAllListResponse.DataBean dataBean : response.data) {
+                for (ClassifySearchAllListResponse.DataBean.ChildrenBean child : dataBean.children) {
+                    ClassifySearchListResponse.DataBean bean = new ClassifySearchListResponse.DataBean();
+                    ClassifySearchListResponse.DataBean.ResultModelBean resultBean = new ClassifySearchListResponse.DataBean.ResultModelBean();
+                    resultBean.categoryName = TextUtils.isEmpty(child.resultModel.categoryName) ? "" : child.resultModel.categoryName;
+                    resultBean.companyId = child.resultModel.companyId;
+                    resultBean.customerCode = child.resultModel.customerCode;
+                    resultBean.finalPrice = child.resultModel.finalPrice;
+                    resultBean.name = child.resultModel.name;
+                    resultBean.originalPrice = child.resultModel.originalPrice;
+                    resultBean.picture = child.resultModel.picture;
+                    resultBean.pid = child.resultModel.pid;
+                    resultBean.remark = child.resultModel.remark;
+                    resultBean.status = child.resultModel.status;
+                    resultBean.saleCount = child.resultModel.saleCount;
+                    resultBean.sellTimeName = child.resultModel.sellTimeName;
+                    resultBean.specification = child.resultModel.specification;
+                    resultBean.stock = child.resultModel.stock;
+                    resultBean.unit = child.resultModel.unit;
+                    resultBean.type = child.resultModel.type;
+                    List<ClassifySearchListResponse.DataBean.ResultModelBean.ProductSpecificationBean> bean2 = new ArrayList<>();
+                    for (ClassifySearchAllListResponse.DataBean.ChildrenBean.ResultModelBeanX.ProductSpecificationBean productSpecificationBean : child.resultModel.productSpecification) {
+                        ClassifySearchListResponse.DataBean.ResultModelBean.ProductSpecificationBean bean3 = new ClassifySearchListResponse.DataBean.ResultModelBean.ProductSpecificationBean();
+                        bean3.color = TextUtils.isEmpty(productSpecificationBean.color) ? "" : productSpecificationBean.color;
+                        bean3.size = TextUtils.isEmpty(productSpecificationBean.size) ? "" : productSpecificationBean.size;
+                        bean3.zipper = TextUtils.isEmpty(productSpecificationBean.zipper) ? "" : productSpecificationBean.zipper;
+                        bean3.productId = productSpecificationBean.productId;
+                        bean2.add(bean3);
+                    }
+                    resultBean.productSpecification = bean2;
+                    List<ClassifySearchListResponse.DataBean.ResultModelBean.SpecificationListBean> bean4 = new ArrayList<>();
+                    for (ClassifySearchAllListResponse.DataBean.ChildrenBean.ResultModelBeanX.SpecificationListBean specificationListBean : child.resultModel.specificationList) {
+                        ClassifySearchListResponse.DataBean.ResultModelBean.SpecificationListBean bean5 = new ClassifySearchListResponse.DataBean.ResultModelBean.SpecificationListBean();
+                        bean5.value = specificationListBean.value;
+                        bean5.partName = specificationListBean.partName;
+                        bean4.add(bean5);
+                    }
+                    resultBean.specificationList = bean4;
+                    bean.resultModel = resultBean;
+                    mList.add(bean);
+                }
+            }
+            if (mList.size() > 0) {
+                mAdapter.setNewData(mList);
+            }
+        }
+
     }
 
     @Override
@@ -270,15 +327,15 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     }
 
     private void sortGoodsBySaleCount() {
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 2);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 2, mSearchType);
     }
 
     private void sortGoodsByNewProduct() {
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "pid", 2);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "pid", 2, mSearchType);
     }
 
     private void sortGoodsByPrice(Integer flag) {
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", flag);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", flag, mSearchType);
     }
 
     private TabLayout.Tab addOtherView() {

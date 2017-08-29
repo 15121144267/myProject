@@ -93,7 +93,7 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
-        startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid));
+        startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
     }
 
     @Override
@@ -113,7 +113,8 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     switch (view.getId()) {
                         case R.id.adapter_goods_classify_all:
-                            showToast("查看全部");
+                            SortListResponse.DataBean item = (SortListResponse.DataBean) adapter.getItem(position);
+                            startActivity(ClassifySearchActivity.getIntent(this, mShopId, item.resultModel.nid, 1));
                             break;
                     }
                 }

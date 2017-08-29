@@ -322,7 +322,11 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 orderCreateRequest.shopName = dataBean.linkName;
                 orderCreateRequest.source = "android";
                 orderCreateRequest.customerOrder = "BSY_" + System.currentTimeMillis();
-                orderCreateRequest.amount = 1000;
+                Integer mAmount = 0;
+                for (OrderConfirmedRequest.ProductsBean productsBean : list) {
+                    mAmount += productsBean.price * Integer.valueOf(productsBean.number);
+                }
+                orderCreateRequest.amount = mAmount + 500;
                 orderCreateRequest.type = 1;
                 orderCreateRequest.payType = 1;
                 orderCreateRequest.userId = mBuProcessor.getUserId();
