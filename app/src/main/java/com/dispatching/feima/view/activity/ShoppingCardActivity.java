@@ -368,15 +368,19 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     private void countPrice() {
-        Integer mAllPrice = 0;
-        for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
-            for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
-                if (product.childCheckFlag) {
-                    mAllPrice += product.finalPrice * product.productNumber;
+        Integer allPrice = 0;
+        List<ShoppingCardListResponse.DataBean> list = mAdapter.getData();
+        if (list.size() > 0) {
+            for (ShoppingCardListResponse.DataBean dataBean : list) {
+                for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
+                    if (product.childCheckFlag) {
+                        allPrice += product.finalPrice * product.productNumber;
+                    }
+
                 }
             }
         }
-        setAllPriceText(mAllPrice);
+        setAllPriceText(allPrice);
     }
 
     private void setAllPriceText(Integer price) {

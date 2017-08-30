@@ -362,22 +362,19 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         if (tab.isSelected()) {
             //改变状态
             if ((Integer) tab.getTag() == 1) {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
+                arrowUiUp();
                 tab.setTag(2);
                 sortGoodsByPrice(1);
 
             } else {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
+                arrowUiDown();
                 tab.setTag(1);
                 sortGoodsByPrice(2);
             }
         } else {
             //不改变状态
             if ((Integer) tab.getTag() == 1) {
-                mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
-                mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
+                arrowUiDown();
                 tab.setTag(1);
                 sortGoodsByPrice(2);
             } else {

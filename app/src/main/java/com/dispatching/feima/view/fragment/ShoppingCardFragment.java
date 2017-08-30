@@ -207,6 +207,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
             mFragmentShoppingCardBottomView.setVisibility(View.GONE);
             mAdapter.setEmptyView(mEmptyView);
         }
+        countPrice();
     }
 
     @Override
@@ -428,10 +429,14 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
 
     private void countPrice() {
         Integer allPrice = 0;
-        for (ShoppingCardListResponse.DataBean dataBean : mProductList) {
-            for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
-                if (product.childCheckFlag) {
-                    allPrice += product.finalPrice * product.productNumber;
+        List<ShoppingCardListResponse.DataBean> list = mAdapter.getData();
+        if (list.size() > 0) {
+            for (ShoppingCardListResponse.DataBean dataBean : list) {
+                for (ShoppingCardListResponse.DataBean.ProductsBean product : dataBean.products) {
+                    if (product.childCheckFlag) {
+                        allPrice += product.finalPrice * product.productNumber;
+                    }
+
                 }
             }
         }

@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * GoodsClassifyActivity
  */
 
 public class GoodsClassifyActivity extends BaseActivity implements GoodsClassifyControl.GoodsClassifyView {
@@ -93,7 +94,10 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
-        startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
+        if(dataBean!=null){
+            startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
+        }
+
     }
 
     @Override
@@ -114,12 +118,12 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
                     switch (view.getId()) {
                         case R.id.adapter_goods_classify_all:
                             SortListResponse.DataBean item = (SortListResponse.DataBean) adapter.getItem(position);
+                            if (item == null) return;
                             startActivity(ClassifySearchActivity.getIntent(this, mShopId, item.resultModel.nid, 1));
                             break;
                     }
                 }
         );
-
     }
 
     private void initData() {
