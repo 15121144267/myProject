@@ -26,11 +26,13 @@ public class GoodsClassifyItemAdapter extends BaseQuickAdapter<SortListResponse.
     protected void convert(BaseViewHolder helper, SortListResponse.DataBean.ChildrenBean item) {
         if (item == null) return;
         LinearLayout linearLayout = helper.getView(R.id.adapter_item_goods_classify_layout);
-        if(helper.getAdapterPosition()%2==0){
-            LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0,0,8,8);
-            linearLayout.setLayoutParams(layoutParams);
+        LinearLayoutCompat.LayoutParams layoutParams = new LinearLayoutCompat.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (helper.getAdapterPosition() % 2 == 0) {
+            layoutParams.setMargins(0, 0, 8, 8);
+        } else {
+            layoutParams.setMargins(0, 0, 0, 8);
         }
+        linearLayout.setLayoutParams(layoutParams);
         helper.setText(R.id.adapter_item_goods_classify, item.resultModel.name);
     }
 }
