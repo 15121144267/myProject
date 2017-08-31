@@ -127,7 +127,7 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     }
 
     private void initData() {
-        mPresenter.requestSortList(mShopId, "01", 2, "saleCount", 1);
+        mPresenter.requestSortList(mShopId, "01", 2, "saleCount", 1,10,1);
     }
 
     private void initializeInjector() {

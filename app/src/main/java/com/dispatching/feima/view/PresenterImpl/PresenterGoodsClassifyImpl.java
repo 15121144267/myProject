@@ -29,9 +29,9 @@ public class PresenterGoodsClassifyImpl implements GoodsClassifyControl.Presente
     }
 
     @Override
-    public void requestSortList(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder) {
+    public void requestSortList(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder,Integer pageSize,Integer pageNumber) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder).compose(mView.applySchedulers())
+        Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder,pageSize,pageNumber).compose(mView.applySchedulers())
                 .subscribe(this::sortListSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

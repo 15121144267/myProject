@@ -49,16 +49,14 @@ import butterknife.ButterKnife;
 
 public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener, ClearEditText.setOnMyEditorActionListener {
 
-
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
     public static Intent getIntent(Context context, ShopListResponse.ListBean item) {
         Intent intent = new Intent(context, ShopDetailActivity.class);
         intent.putExtra("shopInfo", item);
         return intent;
     }
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.search_goods)
     ClearEditText mSearchGoods;
     @BindView(R.id.shop_detail_tool_right)
@@ -67,13 +65,13 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     ImageView mShopDetailShopIcon;
     @BindView(R.id.shop_detail_shop_name)
     TextView mShopDetailShopName;
-
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.shop_detail_recyclerView)
     RecyclerView mShopDetailRecyclerView;
     @BindView(R.id.banner)
     Banner mBanner;
+
     @Inject
     ShopDetailControl.PresenterShopDetail mPresenter;
 
@@ -144,50 +142,49 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @Override
     public void transformShopGoodsListSuccess(List<ShopDetailResponse.ProductsBean> products) {
         mList = products;
-
-        switch (mTabLayout.getSelectedTabPosition()) {
-            case 0:
-                if (mSaleCountGoodsList.size() == 0) {
-                    mAdapter.setNewData(mList);
-                } else {
-                    mAdapter.addData(mList);
-                }
-                mSaleCountGoodsList.addAll(products);
-                break;
-            case 1:
-                //价格
-                TabLayout.Tab tab = mTabLayout.getTabAt(1);
-                if (tab != null) {
-                    if (tab.getTag() == null) return;
-                    if ((Integer) tab.getTag() == 1) {
-                        if (mPriceUpGoodsList.size() == 0) {
-                            mAdapter.setNewData(mList);
-                        } else {
-                            mAdapter.addData(mList);
-                        }
-                        mPriceUpGoodsList.addAll(products);
+        if(products.size()>0){
+            switch (mTabLayout.getSelectedTabPosition()) {
+                case 0:
+                    if (mSaleCountGoodsList.size() == 0) {
+                        mAdapter.setNewData(mList);
                     } else {
-                        if (mPriceDownGoodsList.size() == 0) {
-                            mAdapter.setNewData(mList);
-                        } else {
-                            mAdapter.addData(mList);
-                        }
-                        mPriceDownGoodsList.addAll(products);
+                        mAdapter.addData(mList);
                     }
-                }
-                break;
-            case 2:
-                if (mNewProductGoodsList.size() == 0) {
-                    mAdapter.setNewData(mList);
-                } else {
-                    mAdapter.addData(mList);
-                }
-                mNewProductGoodsList.addAll(products);
-                break;
-        }
-        if (products.size() > 0) {
+                    mSaleCountGoodsList.addAll(products);
+                    break;
+                case 1:
+                    //价格
+                    TabLayout.Tab tab = mTabLayout.getTabAt(1);
+                    if (tab != null) {
+                        if (tab.getTag() == null) return;
+                        if ((Integer) tab.getTag() == 1) {
+                            if (mPriceUpGoodsList.size() == 0) {
+                                mAdapter.setNewData(mList);
+                            } else {
+                                mAdapter.addData(mList);
+                            }
+                            mPriceUpGoodsList.addAll(products);
+                        } else {
+                            if (mPriceDownGoodsList.size() == 0) {
+                                mAdapter.setNewData(mList);
+                            } else {
+                                mAdapter.addData(mList);
+                            }
+                            mPriceDownGoodsList.addAll(products);
+                        }
+                    }
+                    break;
+                case 2:
+                    if (mNewProductGoodsList.size() == 0) {
+                        mAdapter.setNewData(mList);
+                    } else {
+                        mAdapter.addData(mList);
+                    }
+                    mNewProductGoodsList.addAll(products);
+                    break;
+            }
             mAdapter.loadMoreComplete();
-        } else {
+        }else {
             mAdapter.loadMoreEnd();
         }
     }

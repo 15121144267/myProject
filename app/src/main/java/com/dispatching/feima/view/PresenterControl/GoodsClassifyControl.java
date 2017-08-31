@@ -16,6 +16,6 @@ public class GoodsClassifyControl {
     }
 
     public interface PresenterGoodsClassify extends Presenter<GoodsClassifyView> {
-        void requestSortList(String shopId, String nodeId,Integer deep, String sortName, Integer sortOrder);
+        void requestSortList(String shopId, String nodeId,Integer deep, String sortName, Integer sortOrder,Integer pageSize,Integer pageNumber);
     }
 }

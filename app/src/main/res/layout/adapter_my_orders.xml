@@ -4,6 +4,8 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
+    <View style="@style/LineH_Fill_Width_5_ForView"/>
+
     <TextView
         android:id="@+id/shop_name"
         android:layout_width="match_parent"
@@ -38,33 +40,37 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="43dp"
+        android:gravity="center_vertical"
         android:paddingEnd="19dp">
 
-        <TextView
-            android:id="@+id/order_price"
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="8dp"
-            android:text="合计：500"
-            android:textSize="12sp"
-            />
+            android:layout_weight="1"/>
+
 
         <TextView
             android:id="@+id/order_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/order_price"
             android:text="数量：500"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/light_grey_dark"
             android:textSize="12sp"/>
-    </RelativeLayout>
+
+        <TextView
+            android:id="@+id/order_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合计：500"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
@@ -115,5 +121,5 @@
             />
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width_5_ForView"/>
+
 </LinearLayout>

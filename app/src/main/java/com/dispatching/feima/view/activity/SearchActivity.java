@@ -177,7 +177,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                 bean.remark = (String) dataBean.remark;
                 bean.latitude = dataBean.latitude;
                 bean.longitude = dataBean.longitude;
-                if(dataBean.businessImages!=null&&dataBean.businessImages.size()>0){
+                if (dataBean.businessImages != null && dataBean.businessImages.size() > 0) {
                     List<ShopListResponse.ListBean.BusinessImagesBean> list2 = new ArrayList<>();
                     for (SearchShopListResponse.DataBean.BusinessImagesBean businessImage : dataBean.businessImages) {
                         ShopListResponse.ListBean.BusinessImagesBean imageBean = new ShopListResponse.ListBean.BusinessImagesBean();
@@ -197,7 +197,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     @Override
     public void getProductListSuccess(ShopDetailResponse response) {
         hideSoftInput(mSearchGoods);
-        if (response != null && response.count > 0) {
+        if (response != null && response.products.size() > 0) {
             mList = response.products;
             mSearchHistoryLayout.setVisibility(View.GONE);
             mSearchGoodsLayout.setVisibility(View.VISIBLE);
@@ -241,12 +241,9 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                     mNewProductGoodsList.addAll(mList);
                     break;
             }
-            if (mList.size() > 0) {
-                mAdapter.loadMoreComplete();
-            } else {
-                mAdapter.loadMoreEnd();
-            }
+            mAdapter.loadMoreComplete();
         } else {
+            mAdapter.loadMoreEnd();
             showToast("搜索结果为空,请重新搜索");
         }
     }
