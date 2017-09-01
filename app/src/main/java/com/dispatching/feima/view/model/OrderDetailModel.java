@@ -11,15 +11,9 @@ import javax.inject.Inject;
  */
 
 public class OrderDetailModel {
-    private final OrderDetailApi mApi;
-    private final Gson mGson;
-    private final ModelTransform mTransform;
 
     @Inject
     public OrderDetailModel(OrderDetailApi api, Gson gson, ModelTransform transform) {
-        mApi = api;
-        mGson = gson;
-        mTransform = transform;
     }
 
 

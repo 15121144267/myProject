@@ -78,7 +78,6 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     private Unbinder unbind;
     private ShoppingCardAdapter mAdapter;
     private View mEmptyView;
-    private Button mEmptyButton;
     private List<ShoppingCardListResponse.DataBean> mProductList;
     private ShoppingCardItemAdapter mShoppingCardItemAdapter;
     private Integer mChildPosition;
@@ -258,7 +257,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
         setAllPriceText(0);
         mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getaMapLocation();
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mActivitiesRecycleView.getParent(), false);
-        mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
+        Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
         RxView.clicks(mFragmentShoppingCardBalance).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForPayShoppingCard());
         RxView.clicks(mFragmentShoppingCardCheck).subscribe(o -> checkForAll());

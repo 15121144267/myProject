@@ -16,6 +16,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * PresenterForgetImpl
  */
 
 public class PresenterForgetImpl implements ForgetControl.PresenterForget {

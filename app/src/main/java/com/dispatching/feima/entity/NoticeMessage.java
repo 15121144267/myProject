@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by lei.he on 2017/6/14.
+ * NoticeMessage
  */
 
 public class NoticeMessage implements Serializable {

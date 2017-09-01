@@ -13,7 +13,6 @@ import java.util.List;
 public class AddressAdapter extends BaseQuickAdapter<AddressResponse.DataBean, BaseViewHolder> {
     private final Context mContext;
 
-
     public AddressAdapter(List<AddressResponse.DataBean> mList, Context context) {
         super(R.layout.adapter_address, mList);
         mContext = context;

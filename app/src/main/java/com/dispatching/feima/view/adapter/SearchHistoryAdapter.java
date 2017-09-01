@@ -15,7 +15,6 @@ import java.util.List;
 
 public class SearchHistoryAdapter extends BaseQuickAdapter<SpecificationResponse.ProductsBean.SpecificationListBean, BaseViewHolder> {
     private final Context mContext;
-    private MyLinearLayout myLinearLayout;
     public SearchHistoryAdapter(List<SpecificationResponse.ProductsBean.SpecificationListBean> notices, Context context) {
         super(R.layout.adapter_search_history, notices);
         mContext = context;
@@ -25,7 +24,7 @@ public class SearchHistoryAdapter extends BaseQuickAdapter<SpecificationResponse
     protected void convert(BaseViewHolder helper, SpecificationResponse.ProductsBean.SpecificationListBean item) {
         if (item == null) return;
         String type = item.partName;
-        myLinearLayout = helper.getView(R.id.adapter_search_tag);
+        MyLinearLayout myLinearLayout = helper.getView(R.id.adapter_search_tag);
         if(helper.getAdapterPosition()==0){
             helper.setVisible(R.id.adapter_search_close,true);
         }

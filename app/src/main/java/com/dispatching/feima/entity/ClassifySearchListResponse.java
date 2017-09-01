@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/8/28.
+ * ClassifySearchListResponse
  */
 
 public class ClassifySearchListResponse implements Serializable {

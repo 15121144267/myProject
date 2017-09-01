@@ -21,7 +21,6 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
     private ClassifySearchControl.ClassifySearchView mView;
     private final GoodsClassifyModel mModel;
     private final Context mContext;
-    private Integer mSearchType;
 
     @Inject
     public PresenterClassifySearchImpl(Context context, GoodsClassifyModel model, ClassifySearchControl.ClassifySearchView view) {
@@ -32,7 +31,6 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
 
     @Override
     public void requestClassifySearchRequest(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder, Integer searchType, Integer pageSize, Integer pageNumber) {
-        mSearchType = searchType;
         Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder, pageSize, pageNumber).compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
                         , throwable -> mView.showErrMessage(throwable));

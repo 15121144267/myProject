@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by luoxw on 2016/7/13.
+ * BaseItemDraggableAdapter
  */
 public abstract class BaseItemDraggableAdapter<T, K extends BaseViewHolder> extends BaseQuickAdapter<T, K> {
 

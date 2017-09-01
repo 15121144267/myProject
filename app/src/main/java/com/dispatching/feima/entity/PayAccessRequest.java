@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/8/4.
+ * PayAccessRequest
  */
 
 public class PayAccessRequest {

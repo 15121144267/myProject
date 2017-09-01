@@ -60,7 +60,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     private AddressAdapter mAdapter;
     private String mUserPhone;
     private Integer mPosition;
-    private String mFromFlag;
 
     @Inject
     AddressControl.PresenterAddress mPresenter;
@@ -105,13 +104,13 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
 
     private void initView() {
-        mFromFlag = getIntent().getStringExtra("fromFlag");
+        String fromFlag = getIntent().getStringExtra("fromFlag");
         mUserPhone = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
         mAdapter = new AddressAdapter(null, this);
         mAddressList.setLayoutManager(new LinearLayoutManager(this));
         mAddressList.setAdapter(mAdapter);
         RxView.clicks(mAddressAdd).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddAddress());
-        if (mFromFlag.equals("payActivity")) {
+        if (fromFlag.equals("payActivity")) {
             mAdapter.setOnItemClickListener((adapter, view, position) -> {
                         mBean = (AddressResponse.DataBean) adapter.getItem(position);
                         Intent intent = new Intent();

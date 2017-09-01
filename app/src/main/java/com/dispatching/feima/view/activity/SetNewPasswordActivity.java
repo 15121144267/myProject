@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * SetNewPasswordActivity
  */
 
 public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswordControl.SetNewPasswordView {

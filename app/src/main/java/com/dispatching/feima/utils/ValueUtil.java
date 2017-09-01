@@ -283,8 +283,7 @@ public class ValueUtil {
             // 将字节数组输出流转化为字节数组byte[]
             byte[] imagedata = baos.toByteArray();
 
-            String icon = Base64.encodeToString(imagedata, Base64.DEFAULT);
-            return icon;
+            return Base64.encodeToString(imagedata, Base64.DEFAULT);
         }
         return null;
     }

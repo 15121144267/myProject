@@ -70,19 +70,16 @@ public class PayZFBHelper {
             mLoadDataView.showToast("支付失败，请重试");
             return;
         }
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // 构造PayTask 对象
-                PayTask alipay = new PayTask((BaseActivity) mLoadDataView.getContext());
-                // 调用支付接口，获取支付结果
-                String payResult = alipay.pay(payUrl,true);
-                //如果没有安装支付宝客户端，只有选择“完成”，才会回调支付结果
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = payResult;
-                mHandler.sendMessage(msg);
-            }
+        Runnable payRunnable = () -> {
+            // 构造PayTask 对象
+            PayTask alipay = new PayTask((BaseActivity) mLoadDataView.getContext());
+            // 调用支付接口，获取支付结果
+            String payResult = alipay.pay(payUrl,true);
+            //如果没有安装支付宝客户端，只有选择“完成”，才会回调支付结果
+            Message msg = new Message();
+            msg.what = SDK_PAY_FLAG;
+            msg.obj = payResult;
+            mHandler.sendMessage(msg);
         };
         // 必须异步调用
         Thread payThread = new Thread(payRunnable);

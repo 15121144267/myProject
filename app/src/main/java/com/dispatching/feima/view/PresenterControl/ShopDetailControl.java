@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/6/28.
+ * ShopDetailControl
  */
 
 public class ShopDetailControl {

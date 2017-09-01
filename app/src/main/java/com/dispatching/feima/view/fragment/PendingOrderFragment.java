@@ -78,7 +78,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     private Unbinder unbinder;
     private MainProductsAdapter mAdapter;
     private List<MainProducts> mList;
-    private List<Integer> mImageList;
     private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
 
     @Override
@@ -113,7 +112,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mSearchShop.setOnMyEditorActionListener(this,true);
         mSearchShop.setEditHint("搜索商户");
         mList = new ArrayList<>();
-        mImageList = new ArrayList<>();
+        List<Integer> mImageList = new ArrayList<>();
         mImageList.add(R.mipmap.main_banner_first);
         mImageList.add(R.mipmap.main_banner_second);
         mImageList.add(R.mipmap.main_banner_third);

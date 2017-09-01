@@ -22,8 +22,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Inject
     WelcomeControl.PresenterWelcome mPresenter;
 
-    private boolean mFirstOpen = false;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +29,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     }
 
     private void initData() {
-        mFirstOpen = mSharePreferenceUtil.getBooleanValue("isFirstOpen", true);
+        boolean mFirstOpen = mSharePreferenceUtil.getBooleanValue("isFirstOpen", true);
         if (mFirstOpen) {
             startActivity(GuideActivity.getIntent(this));
             finish();
@@ -39,7 +37,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
         }
 
         String userPhone = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
-        if (TextUtils.isEmpty(userPhone) && !mFirstOpen) {
+        if (TextUtils.isEmpty(userPhone)) {
             startActivity(LoginActivity.getLoginIntent(this));
             finish();
         } else {

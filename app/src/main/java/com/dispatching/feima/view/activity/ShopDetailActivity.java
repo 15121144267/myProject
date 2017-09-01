@@ -45,6 +45,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/30.
+ * ShopDetailActivity
  */
 
 public class ShopDetailActivity extends BaseActivity implements ShopDetailControl.ShopDetailView, BaseQuickAdapter.RequestLoadMoreListener, ClearEditText.setOnMyEditorActionListener {
@@ -75,7 +76,6 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     @Inject
     ShopDetailControl.PresenterShopDetail mPresenter;
 
-    private View mView;
     private ImageView mTabItemPriceLow;
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
@@ -86,8 +86,6 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private Integer mPricePagerUpNo = 1;
     private Integer mNewProductPagerNo = 1;
     private final Integer mPagerSize = 10;
-    private ShopListResponse.ListBean mShopInfo;
-    private ShopResponse mShopInfo2;
     private List<ShopDetailResponse.ProductsBean> mList;
     private final String[] modules = {"销量", "价格", "新品"};
     private List<ShopDetailResponse.ProductsBean> mSaleCountGoodsList;
@@ -256,8 +254,8 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     private void initView() {
         mSearchGoods.setOnMyEditorActionListener(this, true);
         mImageList = new ArrayList<>();
-        mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
-        mShopInfo2 = (ShopResponse) getIntent().getSerializableExtra("ShopResponse");
+        ShopListResponse.ListBean mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
+        ShopResponse mShopInfo2 = (ShopResponse) getIntent().getSerializableExtra("ShopResponse");
         if (mShopInfo2 != null) {
             mBuProcessor.setShopResponse(mShopInfo2);
             mImageLoaderHelper.displayRoundedCornerImage(this, mShopInfo2.businessImages.get(0).imageUrl, mShopDetailShopIcon, 6);
@@ -393,7 +391,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private TabLayout.Tab addOtherView() {
-        mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
+        View mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
         mTabItemPriceGoods = (TextView) mView.findViewById(R.id.good_price);
         mTabItemPriceLow = (ImageView) mView.findViewById(R.id.price_low);
         mTabItemPriceUp = (ImageView) mView.findViewById(R.id.price_up);

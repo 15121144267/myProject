@@ -91,10 +91,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Inject
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
 
-    private List<String> mImageList;
     private ShopDetailResponse.ProductsBean mGoodsInfo;
-    private SpecificationResponse mSpecificationResponse;
-    private SpecificationResponse mResponse;
     private StringBuilder mButter;
     private SpecificationResponse.ProductsBean mProduct;
     private SpecificationDialog mSpecificationDialog;
@@ -120,8 +117,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void goodInfoSpecificationSuccess(SpecificationResponse data) {
-        mSpecificationResponse = data;
-        mProduct = mSpecificationResponse.products.get(0);
+        mProduct = data.products.get(0);
     }
 
     @Override
@@ -203,9 +199,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         if (mGoodsInfo != null) {
             mBuProcessor.setGoodsInfo(mGoodsInfo);
             mGoodsName.setText(mGoodsInfo.name);
-            mGoodsPrice.setText("￥" + ValueUtil.formatAmount(mGoodsInfo.finalPrice));
+            String priceString = "￥" + ValueUtil.formatAmount(mGoodsInfo.finalPrice);
+            mGoodsPrice.setText(priceString);
         }
-        mImageList = new ArrayList<>();
+        List<String> mImageList = new ArrayList<>();
         mImageList.add(mGoodsInfo.picture);
         mBanner.isAutoPlay(false);
         mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
@@ -326,8 +323,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void getUniqueGoodInfoSuccess(SpecificationResponse data) {
-        mResponse = data;
-        mProductsBean = mResponse.products.get(0);
+        mProductsBean = data.products.get(0);
         mSpecificationDialog.setData(mProductsBean);
     }
 
@@ -421,12 +417,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
             mSpecificationDialog.setImageLoadHelper(mImageLoaderHelper);
             mSpecificationDialog.productSpecification(mProduct);
-            if (mBuProcessor.getShopInfo() != null) {
-                mSpecificationDialog.setStoreCode(mBuProcessor.getShopInfo().storeCode);
-            } else {
-                mSpecificationDialog.setStoreCode(mBuProcessor.getShopResponse().storeCode);
-            }
-
             mSpecificationDialog.setListener(this);
             DialogFactory.showDialogFragment(getSupportFragmentManager(), mSpecificationDialog, SpecificationDialog.TAG);
         }

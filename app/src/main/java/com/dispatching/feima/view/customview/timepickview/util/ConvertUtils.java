@@ -37,8 +37,7 @@ public class ConvertUtils {
      */
     public static int toPx(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        int pxValue = (int) (dpValue * scale + 0.5f);
-        return pxValue;
+        return (int) (dpValue * scale + 0.5f);
     }
 
 

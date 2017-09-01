@@ -8,6 +8,7 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 
 /**
  * Created by BlingBling on 2016/11/11.
+ * LoadMoreView
  */
 
 public abstract class LoadMoreView {

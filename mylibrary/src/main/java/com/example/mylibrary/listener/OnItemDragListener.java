@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by luoxw on 2016/6/20.
+ * OnItemDragListener
  */
 public interface OnItemDragListener {
     void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos);

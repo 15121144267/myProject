@@ -91,7 +91,6 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     private PersonInfoResponse mPersonInfoResponse;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
-    private  PhotoChoiceDialog mDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
@@ -175,7 +174,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     }
 
     private void requestChoicePic() {
-        mDialog = PhotoChoiceDialog.newInstance();
+        PhotoChoiceDialog mDialog = PhotoChoiceDialog.newInstance();
         mDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
     }

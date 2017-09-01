@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * SignActivity
  */
 
 public class SignActivity extends BaseActivity implements SignControl.SignView {
@@ -49,7 +50,6 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
     TextInputLayout mSignVerityCode;
     private EditText mEditTextPassword;
     private EditText mEditTextVerityCode;
-    private EditText mPhoneEditText;
 
     public static Intent getSignIntent(Context context) {
 //        Intent intent = new Intent(context, SignActivity.class);
@@ -102,7 +102,7 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
     private void initView() {
         RxView.clicks(mSignIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestVerityCode());
         RxView.clicks(mSign).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestSign());
-        mPhoneEditText = mSignPhone.getEditText();
+        EditText mPhoneEditText = mSignPhone.getEditText();
         mEditTextPassword = mSignPassword.getEditText();
         mEditTextVerityCode = mSignVerityCode.getEditText();
 

@@ -5,12 +5,12 @@ import android.widget.ImageView;
 
 /**
  * Created by lei.he on 2017/7/10.
+ * GlideLoader
  */
 
 public abstract class GlideLoader implements GlideInterface<ImageView> {
     @Override
     public ImageView createImageView(Context context) {
-        ImageView imageView = new ImageView(context);
-        return imageView;
+        return new ImageView(context);
     }
 }

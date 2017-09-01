@@ -12,6 +12,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * PresenterSetNewPasswordImpl
  */
 
 public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.PresenterSetNewPassword {

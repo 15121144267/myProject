@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/29.
+ * ShopListActivity
  */
 
 public class ShopListActivity extends BaseActivity implements ShopListControl.ShopListView, BaseQuickAdapter.RequestLoadMoreListener {

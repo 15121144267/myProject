@@ -19,7 +19,6 @@ import dagger.Provides;
  */
 @Module
 public class OrderFragmentModule {
-    private final AppCompatActivity activity;
 
     private WaitPayControl.WaitPayView mWaitPayView;
     private PayCompleteControl.PayCompleteView mPayCompleteView;
@@ -27,7 +26,6 @@ public class OrderFragmentModule {
     private AllOrderControl.AllOrderView mAllOrderView;
 
     public OrderFragmentModule(LoadDataView view, AppCompatActivity activity) {
-        this.activity = activity;
         if (view instanceof WaitPayControl.WaitPayView) {
             mWaitPayView = (WaitPayControl.WaitPayView) view;
         } else if (view instanceof PayCompleteControl.PayCompleteView) {

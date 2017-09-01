@@ -2,6 +2,7 @@ package com.dispatching.feima.entity;
 
 /**
  * Created by lei.he on 2017/6/29.
+ * SignRequest
  */
 
 public class SignRequest {

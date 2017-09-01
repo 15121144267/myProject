@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/6/29.
+ * ShopListResponse
  */
 
 public class ShopListResponse implements Serializable {

@@ -18,20 +18,16 @@ public class MainModel {
     private final MainApi mMainApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String version;
-    private final OrderNoticeDao mOrderNoticeDao;
-    private final String partnerId = BuildConfig.PARTNER_ID;
+
     @Inject
-    public MainModel(MainApi api, Gson gson, ModelTransform transform,OrderNoticeDao orderNoticeDao) {
+    public MainModel(MainApi api, Gson gson, ModelTransform transform, OrderNoticeDao orderNoticeDao) {
         mMainApi = api;
         mGson = gson;
         mTransform = transform;
-        version = BuildConfig.VERSION_NAME;
-        mOrderNoticeDao = orderNoticeDao;
     }
 
     public Observable<ResponseData> personInfoRequest(String phone) {
-        return mMainApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
+        return mMainApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
     }
 
     /*public Observable<Integer> queryNoticeDb(QueryParam param){

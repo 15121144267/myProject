@@ -7,6 +7,7 @@ import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 
 /**
  * Created by lei.he on 2017/6/28.
+ * ShoppingCardControl
  */
 
 public class ShoppingCardControl {

@@ -48,7 +48,6 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    private List<Fragment> mFragments;
     private final String[] orderModules = {"全部", "待发货", "配送中", "已完成"};
     @Inject
     MyOrderControl.PresenterMyOrder mPresenter;
@@ -70,7 +69,7 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     }
 
     private void initView() {
-        mFragments = new ArrayList<>();
+        List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(AllOrderFragment.newInstance());
         mFragments.add(WaitPayOrderFragment.newInstance());
         mFragments.add(PayCompleteOrderFragment.newInstance());

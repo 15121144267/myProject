@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/28.
+ * AddAddressActivity
  */
 
 public class AddAddressActivity extends BaseActivity implements AddAddressControl.AddAddressView {
@@ -70,7 +71,6 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     CheckBox mAddAddressDefault;
     @BindView(R.id.address_save)
     Button mAddressSave;
-    private AMapLocation mAMapLocation;
     private String mProvince;
     private String mCity;
     private String mDistrict;
@@ -117,10 +117,10 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     }
 
     private void initView() {
-        mAMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
-        mProvince = mAMapLocation.getProvince();
-        mCity = mAMapLocation.getCity();
-        mDistrict = mAMapLocation.getDistrict();
+        AMapLocation aMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
+        mProvince = aMapLocation.getProvince();
+        mCity = aMapLocation.getCity();
+        mDistrict = aMapLocation.getDistrict();
         RxView.clicks(mAddAddressLocation).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> showAddressDialog());
         RxView.clicks(mAddressSave).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> AddNewAddress());
     }

@@ -23,11 +23,10 @@ public class GuideActivity extends BaseActivity {
     ViewPager mGuidePager;
     @BindView(R.id.guide_indicator)
     CirclePageIndicator mGuideIndicator;
-    private GuideAdapter mAdapter;
+
     public static Intent getIntent(Context context) {
         return new Intent(context, GuideActivity.class);
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class GuideActivity extends BaseActivity {
         setContentView(R.layout.activity_guide);
         ButterKnife.bind(this);
 
-        mAdapter = new GuideAdapter(getSupportFragmentManager());
+        GuideAdapter mAdapter = new GuideAdapter(getSupportFragmentManager());
         mGuidePager.setAdapter(mAdapter);
         mGuideIndicator.setViewPager(mGuidePager);
     }

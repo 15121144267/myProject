@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/8/8.
+ * GoodsClassifyItemAdapter
  */
 
 public class GoodsClassifyItemAdapter extends BaseQuickAdapter<SortListResponse.DataBean.ChildrenBean, BaseViewHolder> {

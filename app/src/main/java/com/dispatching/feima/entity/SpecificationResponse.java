@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/7/14.
+ * SpecificationResponse
  */
 
 public class SpecificationResponse implements Serializable {

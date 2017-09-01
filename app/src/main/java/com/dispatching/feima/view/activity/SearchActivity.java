@@ -80,15 +80,12 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     SearchControl.PresenterSearch mPresenter;
 
     private final String[] modules = {"销量", "价格", "新品"};
-    private View mView;
     private ImageView mTabItemPriceLow;
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
     private ShopDetailAdapter mAdapter;
     private ShopListAdapter mShopListAdapter;
     private SearchHistoryAdapter mSearchHistoryAdapter;
-    private String mStoreCode;
-    private Integer mPagerNo = 1;
     private final Integer mPagerSize = 10;
     private String mPartnerId;
     private String mType;
@@ -153,7 +150,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
             showToast("搜索栏不能为空");
         } else {
             if ("goods".equals(mType)) {
-                mPresenter.requestProductList(mSearchName, mPartnerId, "saleCount", 1, mPagerSize, mPagerNo);
+                mPresenter.requestProductList(mSearchName, mPartnerId, "saleCount", 1, mPagerSize, mSaleCountPagerNo);
             } else {
                 //搜索门店
                 mPresenter.requestShopList("82133fac-4825-418b-be84-0d6a0310ae73", mSearchName);
@@ -267,7 +264,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                 mPriceUpGoodsList = new ArrayList<>();
                 mPriceDownGoodsList = new ArrayList<>();
                 mNewProductGoodsList = new ArrayList<>();
-                mStoreCode = getIntent().getStringExtra("storeCode");
+                String mStoreCode = getIntent().getStringExtra("storeCode");
                 mPartnerId = BuildConfig.PARTNER_ID + "_" + mStoreCode;
                 mSearchGoods.setEditHint("搜索商品");
                 mSearchProductList.setLayoutManager(new GridLayoutManager(this, 2));
@@ -424,7 +421,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     }
 
     private TabLayout.Tab addOtherView() {
-        mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
+        View mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
         mTabItemPriceGoods = (TextView) mView.findViewById(R.id.good_price);
         mTabItemPriceLow = (ImageView) mView.findViewById(R.id.price_low);
         mTabItemPriceUp = (ImageView) mView.findViewById(R.id.price_up);

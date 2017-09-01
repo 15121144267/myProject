@@ -18,7 +18,6 @@ public class NewPasswordModel {
     private final NewPasswordApi mForgetApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = BuildConfig.PARTNER_ID;
 
     @Inject
     public NewPasswordModel(NewPasswordApi api, Gson gson, ModelTransform transform) {
@@ -30,7 +29,7 @@ public class NewPasswordModel {
 
     public Observable<ResponseData> setPasswordRequest(String phone, String smsCode, String password) {
         SetPasswordRequest request = new SetPasswordRequest();
-        request.partnerId = partnerId;
+        request.partnerId = BuildConfig.PARTNER_ID;
         request.phone = phone;
         request.smsCode = smsCode;
         request.password = password;

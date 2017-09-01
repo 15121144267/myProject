@@ -17,17 +17,14 @@ import com.dispatching.feima.help.DialogFactory;
 public class PayMethodDialog extends BaseDialogFragment {
     public static final String TAG = PayMethodDialog.class.getSimpleName();
     private RelativeLayout mLayout;
-    private LinearLayout mAnimLayout;
     private LinearLayout mBtnZFBPay;
     private LinearLayout mBtnWXPay;
     private TextView mCancelBrn;
-    private View mWxPayLine;
     private PayMethodClickListener mListener;
 //    private String payFlag = "0";//支付开关 0 支付关闭 1 支付宝支付开启 2 支付宝和微信支付开启
 
     public static PayMethodDialog newInstance() {
-        PayMethodDialog f = new PayMethodDialog();
-        return f;
+        return new PayMethodDialog();
     }
 
     /*public void setPayFlag(String payFlag) {
@@ -46,10 +43,9 @@ public class PayMethodDialog extends BaseDialogFragment {
 
         mLayout = (RelativeLayout) view.findViewById(R.id.payMethod_dialog_layout);
         mCancelBrn = (TextView) view.findViewById(R.id.payMethod_dialog_cancel);
-        mAnimLayout = (LinearLayout) view.findViewById(R.id.payMethod_dialog_animLayout);
+        LinearLayout mAnimLayout = (LinearLayout) view.findViewById(R.id.payMethod_dialog_animLayout);
         mBtnZFBPay = (LinearLayout) view.findViewById(R.id.payMethod_ZFBLayout);
         mBtnWXPay = (LinearLayout) view.findViewById(R.id.payMethod_WXLayout);
-        mWxPayLine = view.findViewById(R.id.payMethod_WXLine);
         AniCreator.getInstance().apply_animation_translate(mAnimLayout, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
         return view;
     }

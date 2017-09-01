@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/8/25.
+ * SortListResponse
  */
 
 public class SortListResponse implements Serializable {

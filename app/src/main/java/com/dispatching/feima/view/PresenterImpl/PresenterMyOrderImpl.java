@@ -2,14 +2,10 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.MyOrderControl;
 import com.dispatching.feima.view.model.MyOrderModel;
-import com.dispatching.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/5/3.

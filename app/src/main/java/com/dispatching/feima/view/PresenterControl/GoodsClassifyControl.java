@@ -7,6 +7,7 @@ import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 /**
  * Created by lei.he on 2017/6/28.
+ * GoodsClassifyControl
  */
 
 public class GoodsClassifyControl {

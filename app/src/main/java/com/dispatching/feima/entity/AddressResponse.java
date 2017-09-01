@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by lei.he on 2017/6/28.
+ * AddressResponse
  */
 
 public class AddressResponse implements Serializable {

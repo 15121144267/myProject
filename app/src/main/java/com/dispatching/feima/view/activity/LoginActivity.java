@@ -51,8 +51,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     Button mLoginForgetPassword;
 
     public static Intent getLoginIntent(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        return intent;
+        return new Intent(context, LoginActivity.class);
     }
 
 
@@ -60,7 +59,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     private LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
     private String mPassword;
-    private String mUserId;
     private boolean flag = false;
 
     @Override
@@ -143,7 +141,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 }
             });
         String mUserName = mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME);
-        mUserId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if (editText != null && !TextUtils.isEmpty(mUserName)) {
             editText.setText(mUserName);
             editText.setSelection(mUserName.length());

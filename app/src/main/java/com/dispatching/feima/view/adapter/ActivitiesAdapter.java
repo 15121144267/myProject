@@ -13,7 +13,6 @@ import java.util.List;
 public class ActivitiesAdapter extends BaseQuickAdapter<Drawable, BaseViewHolder> {
     private final Context mContext;
 
-
     public ActivitiesAdapter(List<Drawable> mList, Context context) {
         super(R.layout.adapter_activities, mList);
         mContext = context;

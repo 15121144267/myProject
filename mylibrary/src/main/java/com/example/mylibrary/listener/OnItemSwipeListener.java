@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by luoxw on 2016/6/23.
+ * OnItemSwipeListener
  */
 public interface OnItemSwipeListener {
 

@@ -71,9 +71,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     private ImageLoaderHelper mImageLoaderHelper;
     private SpecificationResponse.ProductsBean mProduct;
     private Integer count = 1;
-    private String mStoreCode;
     private String mTextContent;
-    private SpecificationAdapter mAdapter;
     private SpecificationDialog mDialog;
     private HashMap<String, String> mSelectProMap;
     private StringBuilder mButter = new StringBuilder();
@@ -136,11 +134,6 @@ public class SpecificationDialog extends BaseDialogFragment {
         mProduct = product;
     }
 
-    public void setStoreCode(String storeCode) {
-        mStoreCode = storeCode;
-    }
-
-
     public void setListener(specificationDialogListener dialogListener) {
         this.dialogListener = dialogListener;
     }
@@ -155,13 +148,13 @@ public class SpecificationDialog extends BaseDialogFragment {
         for (Map.Entry<String, String> stringStringEntry : selectProMap.entrySet()) {
             switch (stringStringEntry.getKey()) {
                 case "color":
-                    mButter.append("颜色:" + stringStringEntry.getValue() + " ");
+                    mButter.append("颜色:").append(stringStringEntry.getValue()).append(" ");
                     break;
                 case "size":
-                    mButter.append("尺寸:" + stringStringEntry.getValue() + " ");
+                    mButter.append("尺寸:").append(stringStringEntry.getValue()).append(" ");
                     break;
                 case "zipper":
-                    mButter.append("有无拉链:" + stringStringEntry.getValue() + " ");
+                    mButter.append("有无拉链:").append(stringStringEntry.getValue()).append(" ");
                     break;
             }
         }
@@ -230,7 +223,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         }
 
 
-        mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap, mSizeList,
+        SpecificationAdapter mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap, mSizeList,
                 mColorList, mZipperList);
         mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSpecificationDiffRecycleView.setAdapter(mAdapter);

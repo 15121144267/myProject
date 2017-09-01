@@ -7,7 +7,6 @@ import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayAccessRequest;
 import com.dispatching.feima.entity.PayCreateRequest;
 import com.dispatching.feima.entity.PayResponse;
-import com.dispatching.feima.entity.UpdateOrderStatusResponse;
 import com.dispatching.feima.view.PresenterControl.PayControl;
 import com.dispatching.feima.view.model.PayModel;
 import com.dispatching.feima.view.model.ResponseData;
@@ -18,6 +17,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * PresenterPayImpl
  */
 
 public class PresenterPayImpl implements PayControl.PresenterPay {

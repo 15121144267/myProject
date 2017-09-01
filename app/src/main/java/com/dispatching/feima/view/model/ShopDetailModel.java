@@ -19,8 +19,6 @@ public class ShopDetailModel {
     private final ShopDetailOtherApi mShopDetailOtherApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private String partnerId = BuildConfig.PARTNER_ID + "_";
-    private String shopId;
 
     @Inject
     public ShopDetailModel(ShopDetailApi api, ShopDetailOtherApi shopDetailOtherApi, Gson gson, ModelTransform transform) {
@@ -32,7 +30,7 @@ public class ShopDetailModel {
 
 
     public Observable<ResponseData> shopGoodsListRequest(String sortName, Integer sortOrder, String storeCode, Integer pagerNumber, Integer pagerSize) {
-        shopId = partnerId + storeCode;
+        String shopId = BuildConfig.PARTNER_ID + "_" + storeCode;
         return mApi.shopGoodsListRequest(sortName, sortOrder, pagerNumber, pagerSize, shopId).map(mTransform::transformTypeTwo);
     }
 

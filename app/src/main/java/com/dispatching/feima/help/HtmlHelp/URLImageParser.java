@@ -12,6 +12,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 /**
  * Created by lei.he on 2017/7/17.
+ * URLImageParser
  */
 
 public class URLImageParser implements Html.ImageGetter {

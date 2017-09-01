@@ -24,14 +24,12 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     private LoginControl.LoginView mLoginView;
     private final LoginModel mLoginModel;
     private final Context mContext;
-    private SharePreferenceUtil mSharePreferenceUtil;
 
     @Inject
     public PresenterLoginImpl(Context context, LoginModel model, LoginControl.LoginView loginView, SharePreferenceUtil sharePreferenceUtil) {
         mContext = context;
         mLoginModel = model;
         mLoginView = loginView;
-        mSharePreferenceUtil = sharePreferenceUtil;
     }
 
 

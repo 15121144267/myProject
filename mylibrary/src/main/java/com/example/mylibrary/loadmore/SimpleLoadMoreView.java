@@ -5,6 +5,7 @@ import com.example.mylibrary.R;
 
 /**
  * Created by BlingBling on 2016/10/11.
+ * SimpleLoadMoreView
  */
 
 public final class SimpleLoadMoreView extends LoadMoreView {

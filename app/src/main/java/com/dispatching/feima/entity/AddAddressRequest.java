@@ -2,6 +2,7 @@ package com.dispatching.feima.entity;
 
 /**
  * Created by lei.he on 2017/7/5.
+ * AddAddressRequest
  */
 
 public class AddAddressRequest {

@@ -17,7 +17,6 @@ public class WelcomeModel {
     private final WelcomeApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private final String partnerId = BuildConfig.PARTNER_ID;
 
     @Inject
     public WelcomeModel(WelcomeApi api, Gson gson, ModelTransform transform) {
@@ -27,7 +26,7 @@ public class WelcomeModel {
     }
 
     public Observable<ResponseData> personInfoRequest(String phone) {
-        return mApi.personInfoRequest(partnerId,phone).map(mTransform::transformCommon);
+        return mApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
     }
 
 }

@@ -16,6 +16,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * PresenterSignImpl
  */
 
 public class PresenterSignImpl implements SignControl.PresenterSign {

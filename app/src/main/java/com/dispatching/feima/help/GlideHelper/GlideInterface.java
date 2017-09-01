@@ -5,6 +5,7 @@ import android.view.View;
 
 /**
  * Created by lei.he on 2017/7/10.
+ * GlideInterface
  */
 
 public interface GlideInterface<T extends View> {

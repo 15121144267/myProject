@@ -621,8 +621,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         }
 
         public CityPicker build() {
-            CityPicker cityPicker = new CityPicker(this);
-            return cityPicker;
+            return new CityPicker(this);
         }
 
     }

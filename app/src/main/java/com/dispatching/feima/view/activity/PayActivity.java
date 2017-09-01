@@ -20,7 +20,6 @@ import com.dispatching.feima.dagger.component.DaggerPayActivityComponent;
 import com.dispatching.feima.dagger.module.PayActivityModule;
 import com.dispatching.feima.entity.AddressResponse;
 import com.dispatching.feima.entity.IntentConstant;
-import com.dispatching.feima.entity.MyPayOrderRequest;
 import com.dispatching.feima.entity.OrderConfirmedRequest;
 import com.dispatching.feima.entity.OrderConfirmedResponse;
 import com.dispatching.feima.entity.PayAccessRequest;
@@ -69,17 +68,9 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     @Inject
     PayControl.PresenterPay mPresenter;
     private PayGoodsListAdapter mAdapter;
-    private View mHeadView;
-    private View mFootView;
-    private List<MyPayOrderRequest> mList;
-    private TextView mPayOrderId;
     private TextView mPayOrderName;
     private TextView mPayOrderPhone;
     private TextView mPayOrderAddress;
-    private TextView mDispatchPrice;
-    private LinearLayout mAddressLinearLayout;
-    private LinearLayout mPayOrderIdLayout;
-    private TextView mFinalPrice;
     private OrderConfirmedResponse mResponse;
     private PayCreateRequest mProductSpecification;
     private AddressResponse.DataBean mDataBean;
@@ -181,7 +172,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     private void initView() {
         mProductSpecification = (PayCreateRequest) getIntent().getSerializableExtra("PayCreateRequest");
-        mList = new ArrayList<>();
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);
         mPayOrderList.setAdapter(mAdapter);
@@ -220,14 +210,12 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void addHeadView() {
-        mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
+        View mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addHeaderView(mHeadView);
-        mPayOrderId = (TextView) mHeadView.findViewById(R.id.pay_order_id);
         mPayOrderName = (TextView) mHeadView.findViewById(R.id.pay_order_name);
         mPayOrderPhone = (TextView) mHeadView.findViewById(R.id.pay_order_phone);
         mPayOrderAddress = (TextView) mHeadView.findViewById(R.id.pay_order_address);
-        mAddressLinearLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_address_layout);
-        mPayOrderIdLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_conf_id);
+        LinearLayout mAddressLinearLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_address_layout);
         mAddressLinearLayout.setOnClickListener(v -> startActivityForResult(AddressActivity.getIntent(this, "payActivity"), 1));
     }
 
@@ -249,10 +237,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void addFootView() {
-        mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
+        View mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addFooterView(mFootView);
-        mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
-        mFinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
+        TextView mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
+        TextView mFinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
         Integer allPrice = 0;
         Integer dispatchingPrice = 0;
         for (OrderConfirmedRequest request : mProductSpecification.orders) {

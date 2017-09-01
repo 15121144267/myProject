@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class ClassifySearchActivity extends BaseActivity implements ClassifySearchControl.ClassifySearchView,BaseQuickAdapter.RequestLoadMoreListener , ClearEditText.setOnMyEditorActionListener {
+public class ClassifySearchActivity extends BaseActivity implements ClassifySearchControl.ClassifySearchView, BaseQuickAdapter.RequestLoadMoreListener, ClearEditText.setOnMyEditorActionListener {
 
     @BindView(R.id.search_goods)
     ClearEditText mSearchGoods;
@@ -72,7 +72,6 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     ClassifySearchControl.PresenterClassifySearch mPresenter;
 
     private final String[] modules = {"销量", "价格", "新品"};
-    private View mView;
     private ImageView mTabItemPriceLow;
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
@@ -80,7 +79,6 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     private Integer mSearchType;
     private String mShopId;
     private String mNodeId;
-    private String mSearchName;
     private final Integer mPagerSize = 10;
     private Integer mSaleCountPagerNo = 1;
     private Integer mPricePagerDownNo = 1;
@@ -91,6 +89,7 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     private List<ClassifySearchListResponse.DataBean> mPriceDownGoodsList;
     private List<ClassifySearchListResponse.DataBean> mNewProductGoodsList;
     private List<ClassifySearchListResponse.DataBean> mList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,9 +134,8 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
 
     @Override
     public void onMyEditorAction() {
-        mSearchName = mSearchGoods.getEditText().trim();
-
-        if (TextUtils.isEmpty(mSearchName)) {
+        String searchName = mSearchGoods.getEditText().trim();
+        if (TextUtils.isEmpty(searchName)) {
             showToast("搜索栏不能为空");
         } else {
 
@@ -164,10 +162,11 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
         mSearchProductList.setLayoutManager(new GridLayoutManager(this, 2));
         mAdapter = new ClassifySearchListAdapter(null, this);
         mSearchProductList.setAdapter(mAdapter);
-        mAdapter.setOnLoadMoreListener(this,mSearchProductList);
+        mAdapter.setOnLoadMoreListener(this, mSearchProductList);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
                     ClassifySearchListResponse.DataBean bean = (ClassifySearchListResponse.DataBean) adapter.getItem(position);
                     ShopDetailResponse.ProductsBean productsBean = new ShopDetailResponse.ProductsBean();
+                    assert bean != null;
                     productsBean.saleCount = bean.saleCount;
                     productsBean.finalPrice = bean.finalPrice;
                     productsBean.barcode = bean.barcode;
@@ -362,13 +361,13 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     private void sortGoodsBySaleCount() {
         mSaleCountGoodsList.clear();
         mSaleCountPagerNo = 1;
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 2, mSearchType,mPagerSize,mSaleCountPagerNo);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 2, mSearchType, mPagerSize, mSaleCountPagerNo);
     }
 
     private void sortGoodsByNewProduct() {
         mNewProductPagerNo = 1;
         mNewProductGoodsList.clear();
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "pid", 2, mSearchType,mPagerSize,mNewProductPagerNo);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "pid", 2, mSearchType, mPagerSize, mNewProductPagerNo);
     }
 
     private void sortGoodsByPrice(Integer flag) {
@@ -376,11 +375,11 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
         mPriceUpGoodsList.clear();
         mPricePagerDownNo = 1;
         mPricePagerUpNo = 1;
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", flag, mSearchType,mPagerSize,1);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", flag, mSearchType, mPagerSize, 1);
     }
 
     private TabLayout.Tab addOtherView() {
-        mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
+        View mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
         mTabItemPriceGoods = (TextView) mView.findViewById(R.id.good_price);
         mTabItemPriceLow = (ImageView) mView.findViewById(R.id.price_low);
         mTabItemPriceUp = (ImageView) mView.findViewById(R.id.price_up);

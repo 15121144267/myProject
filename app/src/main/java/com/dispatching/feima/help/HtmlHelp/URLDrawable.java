@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 
 /**
  * Created by lei.he on 2017/7/17.
+ * URLDrawable
  */
 
 public class URLDrawable  extends BitmapDrawable {

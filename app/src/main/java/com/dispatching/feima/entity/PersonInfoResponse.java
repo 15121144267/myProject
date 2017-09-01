@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by lei.he on 2017/7/10.
+ * PersonInfoResponse
  */
 
 public class PersonInfoResponse implements Serializable {

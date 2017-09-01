@@ -67,8 +67,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     LinearLayout mActivityShoppingCardBottomView;
 
     public static Intent getIntent(Context context) {
-        Intent intent = new Intent(context, ShoppingCardActivity.class);
-        return intent;
+        return new Intent(context, ShoppingCardActivity.class);
     }
 
     @Inject
@@ -76,8 +75,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private ShoppingCardAdapter mAdapter;
     private View mEmptyView;
-    private Button mEmptyButton;
-    private final String companyId = BuildConfig.PARTNER_ID;
     private List<ShoppingCardListResponse.DataBean> mProductList;
     private AMapLocation mLocationInfo;
     private ShoppingCardItemAdapter mShoppingCardItemAdapter;
@@ -225,14 +222,14 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     private void initData() {
-        mPresenter.requestShoppingCardList(companyId, mBuProcessor.getUserId());
+        mPresenter.requestShoppingCardList(BuildConfig.PARTNER_ID, mBuProcessor.getUserId());
     }
 
     private void initView() {
         setAllPriceText(0);
         mLocationInfo = ((DaggerApplication) getApplicationContext()).getaMapLocation();
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
-        mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
+        Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
         RxView.clicks(mActivityShoppingCardBalance).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForPayShoppingCard());
         mActivityShoppingCardList.setLayoutManager(new LinearLayoutManager(this));

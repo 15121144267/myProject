@@ -9,6 +9,7 @@ import com.youth.banner.loader.ImageLoader;
 
 /**
  * Created by lei.he on 2017/7/3.
+ * GlideLoader
  */
 
 public class GlideLoader extends ImageLoader {

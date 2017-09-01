@@ -13,6 +13,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * PresenterWaitPayImpl
  */
 
 public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {

@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/7/3.
+ * MusicActivity
  */
 
 public class MusicActivity extends BaseActivity {

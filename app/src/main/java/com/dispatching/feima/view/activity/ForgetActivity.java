@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lei.he on 2017/6/26.
+ * ForgetActivity
  */
 
 public class ForgetActivity extends BaseActivity implements ForgetControl.ForgetView {

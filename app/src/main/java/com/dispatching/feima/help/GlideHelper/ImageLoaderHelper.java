@@ -11,13 +11,10 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by lei.he on 2017/7/10.
+ * ImageLoaderHelper
  */
 
 public class ImageLoaderHelper extends GlideLoader {
-
-    public ImageLoaderHelper(){
-
-    }
 
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {

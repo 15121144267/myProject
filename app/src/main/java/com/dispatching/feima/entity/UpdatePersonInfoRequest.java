@@ -2,6 +2,7 @@ package com.dispatching.feima.entity;
 
 /**
  * Created by lei.he on 2017/7/11.
+ * UpdatePersonInfoRequest
  */
 
 public class UpdatePersonInfoRequest {
