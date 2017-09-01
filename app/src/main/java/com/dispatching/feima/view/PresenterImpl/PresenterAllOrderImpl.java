@@ -2,7 +2,6 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.AllOrderControl;
 import com.dispatching.feima.view.model.MyOrderModel;
@@ -30,11 +29,9 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
 
     @Override
     public void requestMyOrderList(Integer pageNo, Integer pageSize) {
-        mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
-                        throwable -> mView.loadFail(throwable),
-                        () -> mView.dismissLoading());
+                        throwable -> mView.loadFail(throwable));
         mView.addSubscription(disposable);
     }
 

@@ -31,8 +31,7 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
     public void requestMyOrderList(Integer status,Integer pageNo, Integer pageSize) {
         Disposable disposable = mModel.orderStatusListRequest(status,pageNo, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
-                        throwable -> mView.loadFail(throwable),
-                        () -> mView.dismissLoading());
+                        throwable -> mView.loadFail(throwable));
         mView.addSubscription(disposable);
     }
 

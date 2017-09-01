@@ -37,8 +37,7 @@ public class PresenterNoticeCenterImpl implements NoticeCenterControl.PresenterN
                             if(flag == 1){
                                 mView.updateSuccess();
                             }}
-                        , throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
     }
 

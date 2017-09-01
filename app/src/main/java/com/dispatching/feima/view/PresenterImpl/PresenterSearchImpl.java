@@ -52,10 +52,9 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
 
     @Override
     public void requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
-        mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.requestProductList(searchName, partnerId, sortName, sortNO, pagerSize, pagerNo).compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
     }
 
