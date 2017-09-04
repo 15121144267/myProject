@@ -13,10 +13,9 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListResponse.DataBean.ProductsBean, BaseViewHolder> {
+public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListResponse.DataBean.ProductsBean, BaseViewHolder>{
     private final Context mContext;
     private final ImageLoaderHelper mImageLoaderHelper;
-
     public ShoppingCardItemAdapter(List<ShoppingCardListResponse.DataBean.ProductsBean> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.item_shopping_card_detal, notices);
         mContext = context;
@@ -27,16 +26,20 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
     protected void convert(BaseViewHolder helper, ShoppingCardListResponse.DataBean.ProductsBean item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.item_shopping_card_check).addOnClickListener(R.id.item_shopping_card_reduce)
-                .addOnClickListener(R.id.item_shopping_card_add).addOnClickListener(R.id.item_shopping_card_delete);
+                .addOnClickListener(R.id.item_shopping_card_add).addOnClickListener(R.id.item_shopping_card_delete)
+                .addOnClickListener(R.id.item_shopping_card__slip_delete);
+
         helper.setText(R.id.item_shopping_card_des,item.name);
         if(item.childEditFlag){
             helper.setVisible(R.id.item_shopping_card_count_layout,true);
             helper.setVisible(R.id.item_shopping_card_delete,true);
+            helper.setVisible(R.id.item_shopping_card__slip_delete,false);
             helper.setVisible(R.id.item_shopping_card_count_text,false);
             helper.setText(R.id.item_shopping_card_count,String.valueOf(item.productNumber));
         }else {
             helper.setVisible(R.id.item_shopping_card_count_layout,false);
             helper.setVisible(R.id.item_shopping_card_delete,false);
+            helper.setVisible(R.id.item_shopping_card__slip_delete,true);
             helper.setVisible(R.id.item_shopping_card_count_text,true);
             helper.setText(R.id.item_shopping_card_count_text,"x "+item.productNumber);
         }

@@ -170,6 +170,9 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 case R.id.item_shopping_card_delete:
                     requestDeleteProduct(mProduct, mChildProduct);
                     break;
+                case R.id.item_shopping_card__slip_delete:
+                    requestDeleteProduct(mProduct, mChildProduct);
+                    break;
             }
 
         });

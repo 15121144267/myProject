@@ -120,6 +120,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                 }
 
         );
+
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     switch (view.getId()) {
                         case R.id.order_pull_off:
@@ -165,7 +166,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         DaggerOrderFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .myOrderActivityModule(new MyOrderActivityModule((AppCompatActivity) getActivity()))
-                .orderFragmentModule(new OrderFragmentModule(this, (MyOrderActivity) getActivity())).build()
+                .orderFragmentModule(new OrderFragmentModule(this, (MyOrderActivity) getActivity()))
+                .build()
                 .inject(this);
     }
 }

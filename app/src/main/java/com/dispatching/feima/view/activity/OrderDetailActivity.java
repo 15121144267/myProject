@@ -128,7 +128,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderDetailProductList.setLayoutManager(new LinearLayoutManager(this));
         OrdersDetailAdapter adapter = new OrdersDetailAdapter(mOrder.products, this, mImageLoaderHelper);
         mOrderDetailProductList.setAdapter(adapter);
-
         MyOrdersResponse.OrdersBean.AccountsBean accounts = mOrder.accounts.get(0);
 
         switch (mOrder.status) {
@@ -145,6 +144,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             default:
                 mOrderDetailStatus.setText("  系统处理中");
         }
+
         mOrderDetailCompleteTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate), TimeUtil.TIME_MMDD_HHMMSS1));
         mOrderDetailShopName.setText(mOrder.shopName);
         Integer totalPrice = 0;

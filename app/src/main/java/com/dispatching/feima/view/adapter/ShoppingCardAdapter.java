@@ -10,6 +10,7 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.module.ShoppingCardListResponse;
 import com.dispatching.feima.help.GlideHelper.ImageLoaderHelper;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
+import com.example.mylibrary.DividerDecoration.DividerDecoration;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -45,23 +46,11 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         ShoppingCardItemAdapter itemAdapter = new ShoppingCardItemAdapter(item.products, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
-       /* recyclerView.setItemViewSwipeEnabled(false);
-        recyclerView.setSwipeMenuCreator((swipeLeftMenu, swipeRightMenu, viewType) -> {
-            int width = mContext.getResources().getDimensionPixelSize(R.dimen.dp_80);
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
-                    .setBackground(R.drawable.selector_red)
-                    .setImage(R.mipmap.ic_action_delete)
-                    .setText("删除")
-                    .setTextColor(Color.WHITE)
-                    .setWidth(width)
-                    .setHeight(height);
-            swipeRightMenu.addMenuItem(deleteItem);
-        });
 
-        recyclerView.setSwipeMenuItemClickListener(menuBridge ->
-                mView.deleteProduct(item, item.products.get(menuBridge.getAdapterPosition()), menuBridge.getAdapterPosition()));*/
-
+        DividerDecoration divider = new DividerDecoration.Builder(mContext)
+                .setColorResource(R.color.divider)
+                .build();
+        recyclerView.addItemDecoration(divider);
 
         mView.setChildAdapter(helper.getAdapterPosition(), itemAdapter, checkBox);
     }
