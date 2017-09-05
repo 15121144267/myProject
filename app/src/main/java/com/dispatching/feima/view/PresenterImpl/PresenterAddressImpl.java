@@ -57,6 +57,7 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
             mView.showToast(responseData.errorDesc);
         }
     }
+
     private void addressDefaultSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
             mView.addressDefaultSuccess();
@@ -81,11 +82,11 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
             mView.showToast(responseData.errorDesc);
         }
     }
+
     @Override
     public void onCreate() {
 
     }
-
 
     @Override
     public void onDestroy() {

@@ -182,7 +182,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mPresenter.requestDeleteProduct(String.valueOf(product.scid), childProduct.pid, String.valueOf(childProduct.productNumber));
     }
 
-
     private void requestProductNumber(ShoppingCardListResponse.DataBean product, ShoppingCardListResponse.DataBean.ProductsBean childProduct) {
         mPresenter.requestChangeProductNumber(String.valueOf(product.scid), childProduct.pid, String.valueOf(childProduct.productNumber));
     }
@@ -417,7 +416,8 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     private void goForShopping() {
-        showToast("去购物");
+        startActivity(ShopListActivity.getIntent(this));
+        finish();
     }
 
     private void initializeInjector() {

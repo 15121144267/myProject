@@ -34,6 +34,7 @@ import com.dispatching.feima.utils.ValueUtil;
 import com.dispatching.feima.view.PresenterControl.ShoppingCardControl;
 import com.dispatching.feima.view.activity.MainActivity;
 import com.dispatching.feima.view.activity.PayActivity;
+import com.dispatching.feima.view.activity.ShopListActivity;
 import com.dispatching.feima.view.adapter.ShoppingCardAdapter;
 import com.dispatching.feima.view.adapter.ShoppingCardItemAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -447,8 +448,8 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
     }
 
     private void goForShopping() {
-        showToast("去购物");
-    }
+        startActivity(ShopListActivity.getIntent(getActivity()));
+}
 
     private void initialize() {
         DaggerFragmentComponent.builder()
