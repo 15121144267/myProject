@@ -35,7 +35,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--7.0文件适配-->
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -45,6 +45,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+        <!--7.0文件适配-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="dc1e9a4a7116cc67feb0e7535d41b693"/>

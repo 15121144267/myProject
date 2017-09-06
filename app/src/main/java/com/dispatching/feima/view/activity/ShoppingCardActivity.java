@@ -232,7 +232,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mLocationInfo = ((DaggerApplication) getApplicationContext()).getaMapLocation();
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
-        RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());
+        RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> onBackPressed());
         RxView.clicks(mActivityShoppingCardBalance).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForPayShoppingCard());
         mActivityShoppingCardList.setLayoutManager(new LinearLayoutManager(this));
         RxView.clicks(mActivityShoppingCardCheck).subscribe(o -> checkForAll());
@@ -302,8 +302,8 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     productsBean.picture = product.picture;
                     list.add(productsBean);
                 }
-
             }
+
             if (list.size() > 0) {
                 orderCreateRequest.products = list;
 
@@ -391,7 +391,8 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 .create();
         SpannableStringBuilder stringBuilder2 = SpannableStringUtils.getBuilder(orderPricePartOne)
                 .setForegroundColor(ContextCompat.getColor(this, R.color.light_grey_dark))
-                .append(stringBuilder).create();
+                .append(stringBuilder)
+                .create();
         mActivityShoppingCardPrice.setText(stringBuilder2);
     }
 
@@ -413,11 +414,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         }
         countPrice();
         mAdapter.setNewData(mProductList);
-    }
-
-    private void goForShopping() {
-        startActivity(ShopListActivity.getIntent(this));
-        finish();
     }
 
     private void initializeInjector() {

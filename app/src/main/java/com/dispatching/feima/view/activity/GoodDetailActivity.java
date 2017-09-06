@@ -369,8 +369,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         accountsBean.type = "1";
         accountsBean.price = "500";
         accountList.add(accountsBean);
-        orderCreateRequest.accounts = accountList;
 
+        orderCreateRequest.accounts = accountList;
         orderCreateRequest.shopName = mBuProcessor.getShopInfo().storeName;
         orderCreateRequest.source = "android";
         orderCreateRequest.customerOrder = "BSY_" + System.currentTimeMillis();

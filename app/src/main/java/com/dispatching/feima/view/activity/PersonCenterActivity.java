@@ -91,6 +91,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     private PersonInfoResponse mPersonInfoResponse;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
@@ -140,29 +141,30 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
         File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
         imageUri = Uri.fromFile(file);
+        if (mPersonInfoResponse != null) {
+            if (mPersonInfoResponse.sex == 0) {
+                mPersonSex.setText(getString(R.string.app_choice));
+            } else {
+                mPersonSex.setText(mPersonInfoResponse.sex == 1 ? "男  " : "女  ");
+            }
 
-        if (mPersonInfoResponse.sex == 0) {
-            mPersonSex.setText(getString(R.string.app_choice));
-        } else {
-            mPersonSex.setText(mPersonInfoResponse.sex == 1 ? "男  " : "女  ");
-        }
+            if (TextUtils.isEmpty(mPersonInfoResponse.birthday)) {
+                mPersonBirthdayDate.setText(getString(R.string.app_choice));
+            } else {
+                mPersonBirthdayDate.setText(mPersonInfoResponse.birthday + "  ");
+            }
+            if (TextUtils.isEmpty(mPersonInfoResponse.nickName)) {
+                mPersonName.setText(getString(R.string.app_setting_less));
+            } else {
+                mPersonName.setText(mPersonInfoResponse.nickName + "  ");
+                mPersonName.setTextColor(Color.parseColor("#333333"));
+            }
 
-        if (TextUtils.isEmpty(mPersonInfoResponse.birthday)) {
-            mPersonBirthdayDate.setText(getString(R.string.app_choice));
-        } else {
-            mPersonBirthdayDate.setText(mPersonInfoResponse.birthday + "  ");
-        }
-        if (TextUtils.isEmpty(mPersonInfoResponse.nickName)) {
-            mPersonName.setText(getString(R.string.app_setting_less));
-        } else {
-            mPersonName.setText(mPersonInfoResponse.nickName + "  ");
-            mPersonName.setTextColor(Color.parseColor("#333333"));
-        }
-
-        if (TextUtils.isEmpty(mPersonInfoResponse.avatarUrl)) {
-            mImageLoaderHelper.displayCircularImage(this, R.mipmap.person_fake_icon, mPersonIcon);
-        } else {
-            mImageLoaderHelper.displayCircularImage(this, mPersonInfoResponse.avatarUrl, mPersonIcon);
+            if (TextUtils.isEmpty(mPersonInfoResponse.avatarUrl)) {
+                mImageLoaderHelper.displayCircularImage(this, R.mipmap.person_fake_icon, mPersonIcon);
+            } else {
+                mImageLoaderHelper.displayCircularImage(this, mPersonInfoResponse.avatarUrl, mPersonIcon);
+            }
         }
 
 
