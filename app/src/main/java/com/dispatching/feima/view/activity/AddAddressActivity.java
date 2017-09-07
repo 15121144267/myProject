@@ -118,9 +118,12 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
 
     private void initView() {
         AMapLocation aMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
-        mProvince = aMapLocation.getProvince();
-        mCity = aMapLocation.getCity();
-        mDistrict = aMapLocation.getDistrict();
+        if(aMapLocation!=null){
+            mProvince = aMapLocation.getProvince();
+            mCity = aMapLocation.getCity();
+            mDistrict = aMapLocation.getDistrict();
+        }
+
         RxView.clicks(mAddAddressLocation).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> showAddressDialog());
         RxView.clicks(mAddressSave).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> AddNewAddress());
     }
@@ -173,9 +176,9 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
                 .cancelTextColor("#35BBc6")
                 .confirTextColor("#35BBc6")
                 .backgroundPop(0xa0000000)
-                .province(mProvince == null ? "北京市" : mProvince)
-                .city(mCity == null ? "北京市" : mCity)
-                .district(mDistrict == null ? "朝阳区" : mDistrict)
+                .province(TextUtils.isEmpty(mProvince) ? "北京市" : mProvince)
+                .city(TextUtils.isEmpty(mCity)? "北京市" : mCity)
+                .district(TextUtils.isEmpty(mDistrict) ? "朝阳区" : mDistrict)
                 .textColor(Color.parseColor("#35BBc6"))
                 .provinceCyclic(true)
                 .cityCyclic(false)
@@ -212,8 +215,6 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
             request.id = bean.id;
         }
     }
-
-
 
     private void initializeInjector() {
         DaggerAddAddressActivityComponent.builder()
