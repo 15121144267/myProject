@@ -2,6 +2,7 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.dispatching.feima.R;
 import com.dispatching.feima.entity.ClassifySearchListResponse;
 import com.dispatching.feima.view.PresenterControl.ClassifySearchControl;
 import com.dispatching.feima.view.model.GoodsClassifyModel;
@@ -21,6 +22,7 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
     private ClassifySearchControl.ClassifySearchView mView;
     private final GoodsClassifyModel mModel;
     private final Context mContext;
+    private boolean isShow = true;
 
     @Inject
     public PresenterClassifySearchImpl(Context context, GoodsClassifyModel model, ClassifySearchControl.ClassifySearchView view) {
@@ -31,9 +33,13 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
 
     @Override
     public void requestClassifySearchRequest(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder, Integer searchType, Integer pageSize, Integer pageNumber) {
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder, pageSize, pageNumber).compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable));
+                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 

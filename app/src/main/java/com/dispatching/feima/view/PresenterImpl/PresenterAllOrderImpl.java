@@ -2,6 +2,7 @@ package com.dispatching.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.dispatching.feima.R;
 import com.dispatching.feima.entity.MyOrdersResponse;
 import com.dispatching.feima.view.PresenterControl.AllOrderControl;
 import com.dispatching.feima.view.model.MyOrderModel;
@@ -20,6 +21,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     private AllOrderControl.AllOrderView mView;
     private Context mContext;
     private MyOrderModel mModel;
+    private boolean isShow = true;
 
     @Inject
     public PresenterAllOrderImpl(Context context, AllOrderControl.AllOrderView view, MyOrderModel model) {
@@ -30,18 +32,22 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
 
     @Override
     public void requestMyOrderList(Integer pageNo, Integer pageSize) {
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
-                        throwable -> mView.loadFail(throwable));
+                        throwable -> mView.loadFail(throwable),() -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 100){
+        if (responseData.resultCode == 100) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
             mView.getMyOrderListSuccess(response);
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }

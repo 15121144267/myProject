@@ -23,6 +23,7 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
     private ShopDetailControl.ShopDetailView mView;
     private Context mContext;
     private ShopDetailModel mModel;
+    private boolean isShow = true;
 
     @Inject
     public PresenterShopDetailImpl(Context context, ShopDetailControl.ShopDetailView view, ShopDetailModel model) {
@@ -52,9 +53,13 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
 
     @Override
     public void requestShopGoodsList(String sortName, Integer sortOrder, String storeCode, Integer pagerNumber, Integer pagerSize) {
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.shopGoodsListRequest(sortName, sortOrder, storeCode, pagerNumber, pagerSize).compose(mView.applySchedulers())
                 .subscribe(this::getShopGoodsListSuccess
-                        , throwable -> mView.loadFail(throwable));
+                        , throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 

@@ -198,9 +198,11 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogAddGoods.setVisibility(View.GONE);
             mDialogBuyGoods.setText("确定");
         }
+
         if (!TextUtils.isEmpty(mTextContent)) {
             mDialogGoodsColorChecked.setText(mTextContent);
         }
+
         if (mProduct.specificationList.size() > 0) {
             if (mSelectProMap != null && mProduct.specificationList.size() == mSelectProMap.size()) {
                 mDialogBuyGoods.setEnabled(true);
@@ -221,7 +223,6 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogGoodsPrice.setText(ValueUtil.formatAmount(mProduct.finalPrice));
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mProduct.picture, mDialogPersonIcon, 6);
         }
-
 
         SpecificationAdapter mAdapter = new SpecificationAdapter(mProduct, mProduct.specificationList, getActivity(), mDialog, mSelectProMap, mSizeList,
                 mColorList, mZipperList);
@@ -277,7 +278,6 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public interface specificationDialogListener {
-
         void buyButtonListener(HashMap<String, String> hashMap, Integer count);
     }
 

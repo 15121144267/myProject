@@ -23,6 +23,7 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
     private SearchControl.SearchView mView;
     private final SearchModel mModel;
     private final Context mContext;
+    private boolean isShow = true;
 
     @Inject
     public PresenterSearchImpl(Context context, SearchModel model, SearchControl.SearchView view) {
@@ -52,9 +53,13 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
 
     @Override
     public void requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.requestProductList(searchName, partnerId, sortName, sortNO, pagerSize, pagerNo).compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable));
+                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
