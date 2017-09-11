@@ -51,6 +51,5 @@ public class MyLocationListener implements AMapLocationListener {
         amapLocation.getFloor();//获取当前室内定位的楼层
         amapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
         TimeUtil.longToTime(amapLocation.getTime(), TimeUtil.TIME_YYMMDD_HHMMSS);
-
     }
 }

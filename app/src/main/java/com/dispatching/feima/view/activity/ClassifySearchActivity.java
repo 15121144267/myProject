@@ -128,7 +128,6 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
                     mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "pid", 2, mSearchType, mPagerSize, ++mNewProductPagerNo);
                     break;
             }
-
         }
     }
 
@@ -137,8 +136,6 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
         String searchName = mSearchGoods.getEditText().trim();
         if (TextUtils.isEmpty(searchName)) {
             showToast("搜索栏不能为空");
-        } else {
-
         }
     }
 
