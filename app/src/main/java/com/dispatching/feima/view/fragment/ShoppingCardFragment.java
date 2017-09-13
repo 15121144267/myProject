@@ -260,7 +260,7 @@ public class ShoppingCardFragment extends BaseFragment implements ShoppingCardCo
 
     private void initView() {
         setAllPriceText(0);
-        mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getaMapLocation();
+        mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getMapLocation();
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mActivitiesRecycleView.getParent(), false);
         Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForShopping());

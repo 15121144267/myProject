@@ -229,7 +229,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private void initView() {
         setAllPriceText(0);
-        mLocationInfo = ((DaggerApplication) getApplicationContext()).getaMapLocation();
+        mLocationInfo = ((DaggerApplication) getApplicationContext()).getMapLocation();
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> onBackPressed());

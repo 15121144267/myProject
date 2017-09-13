@@ -117,7 +117,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     }
 
     private void initView() {
-        AMapLocation aMapLocation = ((DaggerApplication) getApplicationContext()).getaMapLocation();
+        AMapLocation aMapLocation = ((DaggerApplication) getApplicationContext()).getMapLocation();
         if(aMapLocation!=null){
             mProvince = aMapLocation.getProvince();
             mCity = aMapLocation.getCity();

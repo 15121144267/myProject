@@ -10,7 +10,7 @@ import io.reactivex.functions.Function;
  * RetryWithDelay
  */
 
-public class RetryWithDelay implements Function<Observable<? extends Throwable>, Observable<?>> {
+public class RetryWithDelay implements Function<Observable<? extends Throwable>, Observable<?>>{
     private final int maxRetries;
     private final int retryDelayMillis;
     private int retryCount;

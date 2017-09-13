@@ -43,7 +43,6 @@ public class DaggerApplication extends Application {
         if (!TextUtils.isEmpty(mUId)) {
             startService(CustomerService.newIntent(getApplicationContext()));
         }*/
-
         mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
         mAMapLocationClient.startLocation();
     }
@@ -65,7 +64,7 @@ public class DaggerApplication extends Application {
         }*/
     }
 
-    public AMapLocation getaMapLocation() {
+    public AMapLocation getMapLocation() {
         return aMapLocation;
     }
 }

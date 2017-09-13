@@ -1,6 +1,5 @@
 package com.dispatching.feima.view.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
-import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.MainProducts;
 import com.dispatching.feima.entity.ShopResponse;
 import com.dispatching.feima.help.GlideLoader;
@@ -120,7 +118,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mBanner.setOnBannerListener(this::requestShopId);
         mRightDownDrawable.setOnClickListener(this::imageClick);
         mLeftDrawable.setOnClickListener(this::imageClick1);
-        mRightDrawable.setOnClickListener(this::imageClick2);
+        mRightDrawable.setOnClickListener(this::imageClick1);
     }
 
 
@@ -129,10 +127,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     private void imageClick1(View v) {
-        mPresenter.requestShopId("107", 3);
-    }
-
-    private void imageClick2(View v) {
         mPresenter.requestShopId("107", 3);
     }
 
@@ -166,7 +160,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     }
 
     private void initData() {
-
         Drawable[] productDrawable = {
                 ContextCompat.getDrawable(getActivity(), R.mipmap.product_brand),
                 ContextCompat.getDrawable(getActivity(), R.mipmap.product_activity),
@@ -177,7 +170,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
                 ContextCompat.getDrawable(getActivity(), R.mipmap.product_score),
                 ContextCompat.getDrawable(getActivity(), R.mipmap.product_more)
         };
-
 
         for (int i = 0; i < productNames.length; i++) {
             MainProducts product = new MainProducts();
@@ -220,26 +212,9 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
                         case 7:
                             break;
 
-
                     }
                 }
         );
-    }
-
-
-    @Override
-    protected void addFilter() {
-        mFilter.addAction(BroConstant.PENDING_DELIVERY);
-    }
-
-    @Override
-    protected void onReceivePro(Context context, Intent intent) {
-        String action = intent.getAction();
-        switch (action) {
-            case BroConstant.PENDING_DELIVERY:
-
-                break;
-        }
     }
 
     @Override

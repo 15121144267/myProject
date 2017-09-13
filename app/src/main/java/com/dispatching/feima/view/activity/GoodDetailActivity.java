@@ -195,7 +195,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private void initView() {
         mGoodsInfo = (ShopDetailResponse.ProductsBean) getIntent().getSerializableExtra("goodsInfo");
-        mLocationInfo = ((DaggerApplication) getApplicationContext()).getaMapLocation();
+        mLocationInfo = ((DaggerApplication) getApplicationContext()).getMapLocation();
         if (mGoodsInfo != null) {
             mBuProcessor.setGoodsInfo(mGoodsInfo);
             mGoodsName.setText(mGoodsInfo.name);

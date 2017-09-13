@@ -1,7 +1,5 @@
 package com.dispatching.feima.view.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +16,6 @@ import com.dispatching.feima.R;
 import com.dispatching.feima.dagger.component.DaggerFragmentComponent;
 import com.dispatching.feima.dagger.module.FragmentModule;
 import com.dispatching.feima.dagger.module.MainActivityModule;
-import com.dispatching.feima.entity.BroConstant;
 import com.dispatching.feima.entity.OrderDeliveryResponse;
 import com.dispatching.feima.view.PresenterControl.SendingOrderControl;
 import com.dispatching.feima.view.activity.ActivityDetailActivity;
@@ -47,7 +44,6 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     RecyclerView mActivitiesRecycleView;
 
     public static SendingOrderFragment newInstance() {
-//        PendingOrderFragment pendingOrderFragment = new PendingOrderFragment();
         return new SendingOrderFragment();
     }
 
@@ -121,11 +117,6 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
 
     }
 
-    private void initAdapter() {
-
-    }
-
-
     @Override
     public void updateOrderStatusSuccess() {
 
@@ -140,18 +131,6 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     public void getOrderError(Throwable throwable) {
 
     }
-
-
-    @Override
-    protected void addFilter() {
-        mFilter.addAction(BroConstant.TAKE_DELIVERY);
-    }
-
-    @Override
-    protected void onReceivePro(Context context, Intent intent) {
-
-    }
-
 
     @Override
     public void showLoading(String msg) {
