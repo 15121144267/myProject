@@ -51,7 +51,6 @@ public class CompressImageUtil {
 			return;
 		}
 		new Thread(() -> {
-            // TODO Auto-generated method stub
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int options = 100;
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//质量压缩方法，把压缩后的数据存放到baos中 (100表示不压缩，0表示压缩到最小)
