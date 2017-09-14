@@ -8,7 +8,7 @@ android {
     buildToolsVersion rootProject.ext.myBuildToolsVersion
     defaultConfig {
         multiDexEnabled true
-        applicationId rootProject.ext.myApplicationId
+        applicationId "com.banshengyuan.feima"
         minSdkVersion rootProject.ext.myMinSdkVersion
         targetSdkVersion rootProject.ext.myTargetSdkVersion
         versionCode rootProject.ext.myVersionCode

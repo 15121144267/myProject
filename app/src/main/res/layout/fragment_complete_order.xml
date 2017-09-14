@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.dispatching.feima.view.customview.MoveScrollView
+<com.banshengyuan.feima.view.customview.MoveScrollView
     android:id="@+id/scroll_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -121,4 +121,4 @@
         <View style="@style/LineH_Fill_Width1_5_ForView"/>
     </LinearLayout>
 
-</com.dispatching.feima.view.customview.MoveScrollView>
+</com.banshengyuan.feima.view.customview.MoveScrollView>

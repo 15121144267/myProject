@@ -29,7 +29,7 @@
                 android:iconifiedByDefault="false"/>
 
 
-            <com.dispatching.feima.view.customview.ClearEditText
+            <com.banshengyuan.feima.view.customview.ClearEditText
                 android:id="@+id/search_shop"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

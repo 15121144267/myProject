@@ -8,7 +8,7 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.dispatching.feima.database.OrderNotice;
+import com.banshengyuan.feima.database.OrderNotice;
 
 import com.dispatching.feima.gen.OrderNoticeDao;
 

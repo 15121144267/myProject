@@ -24,7 +24,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.dispatching.feima.view.customview.ClearEditText
+            <com.banshengyuan.feima.view.customview.ClearEditText
                 android:id="@+id/search_goods"
                 android:layout_width="0dp"
                 android:layout_height="35dp"

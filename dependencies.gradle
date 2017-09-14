@@ -5,7 +5,7 @@ ext{
 
     myCompileSdkVersion = 25
     myBuildToolsVersion = "25.0.3"
-    myApplicationId = "com.dispatching.feima"
+    myApplicationId = "com.banshengyuan.feima"
     myReleaseSignFile = 'releasekeystore.jks'
     mySignStorePassword = '64569845'
     mySignAlias = 'feimareleasekey'

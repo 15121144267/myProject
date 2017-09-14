@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.dispatching.feima">
+          package="com.banshengyuan.feima">
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!--用于访问GPS定位-->
@@ -48,7 +48,7 @@
         <!--7.0文件适配-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="dc1e9a4a7116cc67feb0e7535d41b693"/>
+            android:value="d31f53ae200a8202fd5d437678d0d656"/>
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         <!--支付宝相关-->

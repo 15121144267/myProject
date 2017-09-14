@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.dispatching.feima.view.customview.CirclePageIndicator
+    <com.banshengyuan.feima.view.customview.CirclePageIndicator
         android:id="@+id/guide_indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
