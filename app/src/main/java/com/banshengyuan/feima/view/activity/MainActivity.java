@@ -32,11 +32,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainControl.MainView, BottomNavigationView.OnNavigationItemSelectedListener, CommonDialog.CommonDialogListener {
+
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
 
     public static final Integer DIALOG_TYPE_EXIT_OK = 1;
+
     @BindView(R.id.view_swapper)
     ViewPager mViewSwapper;
     @BindView(R.id.view_bottom_navigation)
@@ -52,11 +54,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         ButterKnife.bind(this);
         initializeInjector();
         initView();
-        initData();
-    }
-
-    private void initData() {
-
     }
 
     @Override
@@ -94,14 +91,10 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         //默认停用滑动效果
         BottomNavigationViewHelper.disableShiftMode(mViewBottomNavigation);
         List<Fragment> fragments = new ArrayList<>();
-        PendingOrderFragment pendingOrderFragment = PendingOrderFragment.newInstance();
-        SendingOrderFragment sendingOrderFragment = SendingOrderFragment.newInstance();
-        CompletedOrderFragment completedOrderFragment = CompletedOrderFragment.newInstance();
-        ShoppingCardFragment shoppingCardFragment = ShoppingCardFragment.newInstance();
-        fragments.add(pendingOrderFragment);
-        fragments.add(sendingOrderFragment);
-        fragments.add(shoppingCardFragment);
-        fragments.add(completedOrderFragment);
+        fragments.add(PendingOrderFragment.newInstance());
+        fragments.add(SendingOrderFragment.newInstance());
+        fragments.add(CompletedOrderFragment.newInstance());
+        fragments.add(ShoppingCardFragment.newInstance());
         MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
         mViewSwapper.setOffscreenPageLimit(fragments.size());
         mViewSwapper.setAdapter(adapter);
