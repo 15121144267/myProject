@@ -3,46 +3,46 @@ package com.banshengyuan.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
+import android.view.View;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainActivityComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.help.BottomNavigationViewHelper;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.view.PresenterControl.MainControl;
-import com.banshengyuan.feima.view.adapter.MyFragmentAdapter;
+import com.banshengyuan.feima.view.customview.MainNavigateTabBar;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.CompletedOrderFragment;
 import com.banshengyuan.feima.view.fragment.PendingOrderFragment;
 import com.banshengyuan.feima.view.fragment.SendingOrderFragment;
 import com.banshengyuan.feima.view.fragment.ShoppingCardFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements MainControl.MainView, BottomNavigationView.OnNavigationItemSelectedListener, CommonDialog.CommonDialogListener {
+public class MainActivity extends BaseActivity implements MainControl.MainView, CommonDialog.CommonDialogListener, MainNavigateTabBar.OnTabSelectedListener {
+
 
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
 
     public static final Integer DIALOG_TYPE_EXIT_OK = 1;
-
-    @BindView(R.id.view_swapper)
-    ViewPager mViewSwapper;
-    @BindView(R.id.view_bottom_navigation)
-    BottomNavigationView mViewBottomNavigation;
+    private final String first_tag = "发现";
+    private final String second_tag = "精选";
+    private final String third_tag = " ";
+    private final String fourth_tag = "TA";
+    private final String fifth_tag = "我的";
+    private int mFromIndex;
+    private int mTargetIndex;
+    private AtomicBoolean isSwitchTab = new AtomicBoolean(false);
+    @BindView(R.id.mainTabBar)
+    MainNavigateTabBar mNavigateTabBar;
 
     @Inject
     MainControl.PresenterMain mPresenter;
@@ -53,7 +53,14 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initializeInjector();
+        mNavigateTabBar.onRestoreInstanceState(savedInstanceState);
         initView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mNavigateTabBar.onSaveInstanceState(outState);
     }
 
     @Override
@@ -88,7 +95,15 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     }
 
     private void initView() {
-        //默认停用滑动效果
+
+        mNavigateTabBar.addTab(PendingOrderFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.tab_bar_main, R.mipmap.tab_bar_main_selected, first_tag));
+        mNavigateTabBar.addTab(SendingOrderFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.tab_bar_msg, R.mipmap.tab_bar_msg_selected, second_tag));
+        mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, third_tag));
+        mNavigateTabBar.addTab(ShoppingCardFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.tab_bar_quick_consult, R.mipmap.tab_bar_quick_consult_selected, fourth_tag));
+        mNavigateTabBar.addTab(CompletedOrderFragment.class, new MainNavigateTabBar.TabParam(R.mipmap.tab_bar_personal, R.mipmap.tab_bar_personal_selected, fifth_tag));
+        mNavigateTabBar.setSelectedTabTextColor(getResources().getColor(R.color.text_color_blue));
+        mNavigateTabBar.setTabSelectListener(this);
+       /* //默认停用滑动效果
         BottomNavigationViewHelper.disableShiftMode(mViewBottomNavigation);
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(PendingOrderFragment.newInstance());
@@ -99,10 +114,10 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
         mViewSwapper.setOffscreenPageLimit(fragments.size());
         mViewSwapper.setAdapter(adapter);
-        mViewBottomNavigation.setOnNavigationItemSelectedListener(this);
+        mViewBottomNavigation.setOnNavigationItemSelectedListener(this);*/
     }
 
-    @Override
+    /*@Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_one:
@@ -119,6 +134,17 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                 break;
         }
         return true;
+    }*/
+    @Override
+    public void onTabSelected(int fromIndex, MainNavigateTabBar.ViewHolder holder) {
+
+        isSwitchTab.set(true);
+        mFromIndex = fromIndex;
+        mTargetIndex = holder.tabIndex;
+        synchronized (this) {
+            mNavigateTabBar.setCurrentSelectedTab(mTargetIndex);
+        }
+        isSwitchTab.set(false);
     }
 
     @Override
@@ -129,6 +155,10 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                 System.exit(0);
                 break;
         }
+    }
+
+    public void onClickPublish(View v) {
+       showToast("添加集市");
     }
 
     private void showDialog() {

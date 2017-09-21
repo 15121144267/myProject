@@ -81,7 +81,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         return intent;
     }
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

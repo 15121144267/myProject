@@ -52,7 +52,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.OrdersBea
                 helper.setText(R.id.adapter_order_status, "  配送中");
                 break;
             default:
-                helper.setText(R.id.adapter_order_status, "  系统处理中");
+                 helper.setText(R.id.adapter_order_status, "  系统处理中");
         }
         Integer orderCount = 0;
         Integer orderPrice = 0;
@@ -63,7 +63,6 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.OrdersBea
                 orderCount = +product.productNumber;
             }
         }
-
 
         String orderPricePartTwo = "￥" + ValueUtil.formatAmount(orderPrice);
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)

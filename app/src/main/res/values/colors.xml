@@ -390,4 +390,8 @@
     <color name="gray_color">#888888</color>
 
     <color name="orange_color">#e3a51e</color>
+
+    <!--navigate_tab_bar-->
+    <color name="tab_text_normal">#212121</color>
+    <color name="comui_tab_text_color">#ff333333</color>
 </resources>
