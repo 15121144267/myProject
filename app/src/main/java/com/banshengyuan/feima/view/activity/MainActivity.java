@@ -93,8 +93,9 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(PendingOrderFragment.newInstance());
         fragments.add(SendingOrderFragment.newInstance());
-        fragments.add(CompletedOrderFragment.newInstance());
         fragments.add(ShoppingCardFragment.newInstance());
+        fragments.add(CompletedOrderFragment.newInstance());
+
         MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
         mViewSwapper.setOffscreenPageLimit(fragments.size());
         mViewSwapper.setAdapter(adapter);

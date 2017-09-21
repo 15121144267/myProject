@@ -48,9 +48,11 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    private final String[] orderModules = {"全部", "待发货", "配送中", "已完成"};
+
     @Inject
     MyOrderControl.PresenterMyOrder mPresenter;
+
+    private final String[] orderModules = {"全部", "待发货", "配送中", "已完成"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

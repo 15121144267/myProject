@@ -57,10 +57,13 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.OrdersBea
         Integer orderCount = 0;
         Integer orderPrice = 0;
         String orderPricePartOne = "合计：";
-        for (MyOrdersResponse.OrdersBean.ProductsBean product : products) {
-            orderPrice += product.finalPrice * product.productNumber;
-            orderCount = +product.productNumber;
+        if(products!=null){
+            for (MyOrdersResponse.OrdersBean.ProductsBean product : products) {
+                orderPrice += product.finalPrice * product.productNumber;
+                orderCount = +product.productNumber;
+            }
         }
+
 
         String orderPricePartTwo = "￥" + ValueUtil.formatAmount(orderPrice);
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)

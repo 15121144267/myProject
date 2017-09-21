@@ -128,8 +128,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderDetailProductList.setLayoutManager(new LinearLayoutManager(this));
         OrdersDetailAdapter adapter = new OrdersDetailAdapter(mOrder.products, this, mImageLoaderHelper);
         mOrderDetailProductList.setAdapter(adapter);
-        MyOrdersResponse.OrdersBean.AccountsBean accounts = mOrder.accounts.get(0);
-
         switch (mOrder.status) {
             case 2:
                 mOrderDetailStatus.setText("  待支付");
@@ -149,21 +147,28 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         mOrderDetailShopName.setText(mOrder.shopName);
         Integer totalPrice = 0;
         Integer shouldPayPrice = 0;
-        for (MyOrdersResponse.OrdersBean.ProductsBean productsBean : mOrder.products) {
-            totalPrice += productsBean.finalPrice * productsBean.productNumber;
-            shouldPayPrice += productsBean.originalPrice * productsBean.productNumber;
+        if(mOrder.products!=null){
+            for (MyOrdersResponse.OrdersBean.ProductsBean productsBean : mOrder.products) {
+                totalPrice += productsBean.finalPrice * productsBean.productNumber;
+                shouldPayPrice += productsBean.originalPrice * productsBean.productNumber;
+            }
+            String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
+            mOrderDetailPrice.setText(priceTotal);
         }
-        String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
-        String dispatchPrice = "￥" + ValueUtil.formatAmount(accounts.price);
-        String finalPrice = "实付:￥" + ValueUtil.formatAmount(totalPrice + accounts.price);
-        String shouldPayFinalPrice = "应付:￥" + ValueUtil.formatAmount(shouldPayPrice + accounts.price);
 
-        mOrderDetailPrice.setText(priceTotal);
-        mOrderDetailDispatchPrice.setText(dispatchPrice);
-        mOrderDetailPayPrice.setText(finalPrice);
+        if (mOrder.accounts != null) {
+            MyOrdersResponse.OrdersBean.AccountsBean accounts = mOrder.accounts.get(0);
+            String dispatchPrice = "￥" + ValueUtil.formatAmount(accounts.price);
+            String finalPrice = "实付:￥" + ValueUtil.formatAmount(totalPrice + accounts.price);
+            String shouldPayFinalPrice = "应付:￥" + ValueUtil.formatAmount(shouldPayPrice + accounts.price);
+            mOrderDetailDispatchPrice.setText(dispatchPrice);
+            mOrderDetailPayPrice.setText(finalPrice);
+            mOrderDetailShouldPay.setText(shouldPayFinalPrice);
+        }
+
         mOrderDetailOrderId.setText(String.valueOf(mOrder.oid));
         mOrderDetailBeginTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate), TimeUtil.TIME_YYMMDD_HHMMSS));
-        mOrderDetailShouldPay.setText(shouldPayFinalPrice);
+
     }
 
     private void initializeInjector() {

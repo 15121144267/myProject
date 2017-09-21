@@ -55,15 +55,15 @@ public class BaseActivity extends AppCompatActivity {
     protected AMapLocationClientOption mAMapLocationClientOption;
     @Inject
     protected ImageLoaderHelper mImageLoaderHelper;
-    protected RxPermissions mRxPermissions;
 
+    protected RxPermissions mRxPermissions;
     private Dialog mProgressDialog;
     private CompositeDisposable mDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BaseActivityComponent component =DaggerBaseActivityComponent.builder()
+        BaseActivityComponent component = DaggerBaseActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .baseActivityModule(new BaseActivityModule(BaseActivity.this))
                 .build();
@@ -77,11 +77,6 @@ public class BaseActivity extends AppCompatActivity {
         if (mDisposable != null) {
             mDisposable.clear();
         }
-    }
-
-    public <T> ObservableTransformer<T, T> applySchedulers() {
-        //noinspection unchecked
-        return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 
     void showBaseToast(String message) {
@@ -135,6 +130,11 @@ public class BaseActivity extends AppCompatActivity {
             mProgressDialog.dismiss();
         }
         mProgressDialog = null;
+    }
+
+    public <T> ObservableTransformer<T, T> applySchedulers() {
+        //noinspection unchecked
+        return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 
     private final ObservableTransformer schedulersTransformer = (observable) -> (

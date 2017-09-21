@@ -79,7 +79,7 @@ android {
     }
     greendao{
         schemaVersion 1
-        daoPackage 'com.dispatching.feima.gen'
+        daoPackage 'com.banshengyuan.feima.gen'
         targetGenDir 'src/main/java'
     }
     compileOptions {
