@@ -44,6 +44,12 @@
         <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
+    <style name="LineH_Fill_Width0_5_black">
+        <item name="android:layout_width">110dp</item>
+        <item name="android:layout_height">0.5dip</item>
+        <item name="android:background">@color/tab_text_normal</item>
+    </style>
+
     <style name="LineH_Fill_Width_5_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">5dip</item>
@@ -125,6 +131,21 @@
     <style name="TextColor_Grey_15">
         <item name="android:textColor">@color/light_grey_dark</item>
         <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="TextColor_Black_15">
+        <item name="android:textColor">@color/light_grey_dark1</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="TextColor_Black_30">
+        <item name="android:textColor">@color/light_grey_dark1</item>
+        <item name="android:textSize">@dimen/sp_30</item>
+    </style>
+
+    <style name="TextColor_Black_18">
+        <item name="android:textColor">@color/light_grey_dark1</item>
+        <item name="android:textSize">@dimen/sp_18</item>
     </style>
 
     <style name="TextColor_dark_black_15">

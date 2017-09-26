@@ -1,39 +1,24 @@
 package com.banshengyuan.feima.view.fragment;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.ShopResponse;
-import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
-import com.banshengyuan.feima.view.activity.ActivitiesActivity;
-import com.banshengyuan.feima.view.activity.BrandActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
-import com.banshengyuan.feima.view.activity.MusicActivity;
-import com.banshengyuan.feima.view.activity.PartCarActivity;
-import com.banshengyuan.feima.view.activity.SearchActivity;
-import com.banshengyuan.feima.view.activity.ShopDetailActivity;
-import com.banshengyuan.feima.view.activity.ShopListActivity;
-import com.banshengyuan.feima.view.activity.SkyFlowerActivity;
-import com.banshengyuan.feima.view.adapter.MainProductsAdapter;
-import com.banshengyuan.feima.view.customview.ClearEditText;
-import com.youth.banner.Banner;
+import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,34 +34,23 @@ import butterknife.Unbinder;
  * PendingOrderFragment
  */
 
-public class PendingOrderFragment extends BaseFragment implements PendingOrderControl.PendingOrderView,ClearEditText.setOnMyEditorActionListener {
+public class PendingOrderFragment extends BaseFragment implements PendingOrderControl.PendingOrderView {
 
-
-    @BindView(R.id.search_shop)
-    ClearEditText mSearchShop;
-    @BindView(R.id.products_item)
-    RecyclerView mProductsItem;
-    @BindView(R.id.banner)
-    Banner mBanner;
-    @BindView(R.id.right_down_drawable)
-    ImageView mRightDownDrawable;
-    @BindView(R.id.left_drawable)
-    ImageView mLeftDrawable;
-    @BindView(R.id.right_drawable)
-    ImageView mRightDrawable;
+    @BindView(R.id.main_tab_layout)
+    TabLayout mMainTabLayout;
+    @BindView(R.id.main_view_pager)
+    ViewPager mMainViewPager;
 
     public static PendingOrderFragment newInstance() {
         return new PendingOrderFragment();
     }
 
-
     @Inject
     PendingOrderControl.PresenterPendingOrder mPresenter;
 
     private Unbinder unbinder;
-    private MainProductsAdapter mAdapter;
-    private List<MainProducts> mList;
-    private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
+
+    private final String[] modules = {"推荐", "市集", "热闹","街景","魔门"};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,126 +68,37 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         return view;
     }
 
-    @Override
-    public void onMyEditorAction() {
-
-    }
-
-    @Override
-    public void onMyTouchAction() {
-        hideSoftInput(mSearchShop);
-        startActivity(SearchActivity.getIntent(getActivity(),"shop",""));
-    }
-
     private void initView() {
-        mSearchShop.setOnMyEditorActionListener(this,true);
-        mSearchShop.setEditHint("搜索商户");
-        mList = new ArrayList<>();
-        List<Integer> mImageList = new ArrayList<>();
-        mImageList.add(R.mipmap.main_banner_first);
-        mImageList.add(R.mipmap.main_banner_second);
-        mImageList.add(R.mipmap.main_banner_third);
-        mBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
-        mBanner.setOnBannerListener(this::requestShopId);
-        mRightDownDrawable.setOnClickListener(this::imageClick);
-        mLeftDrawable.setOnClickListener(this::imageClick1);
-        mRightDrawable.setOnClickListener(this::imageClick1);
+        List<Fragment> mFragments = new ArrayList<>();
+        mFragments.add(RecommendFragment.newInstance());
+        mFragments.add(MainFairFragment.newInstance());
+        mFragments.add(MainHotFragment.newInstance());
+        mFragments.add(MainVistaFragment.newInstance());
+        mFragments.add(MagicMusicFragment.newInstance());
+        MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getChildFragmentManager(), mFragments, modules);
+        mMainViewPager.setOffscreenPageLimit(mFragments.size() - 1);
+        mMainViewPager.setAdapter(adapter);
+        mMainTabLayout.setupWithViewPager(mMainViewPager);
     }
 
+    private void initData() {
 
-    private void imageClick(View v) {
-        startActivity(MusicActivity.getIntent(getActivity()));
+
     }
 
-    private void imageClick1(View v) {
-        mPresenter.requestShopId("107", 3);
-    }
-
-    private void requestShopId(int position) {
-        switch (position) {
-            case 0:
-                startActivity(MusicActivity.getIntent(getActivity()));
-                break;
-            case 1:
-                mPresenter.requestShopId("107", 3);
-                break;
-            case 2:
-                mPresenter.requestShopId("107", 3);
-                break;
-
-        }
+    private void initAdapter() {
 
     }
 
     @Override
     public void getShopSuccess(ShopResponse response) {
-        Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
-        intent.putExtra("ShopResponse",response);
-        startActivity(intent);
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initData();
-    }
-
-    private void initData() {
-        Drawable[] productDrawable = {
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_brand),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_activity),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_shop),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_part),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_music),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_flower),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_score),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_more)
-        };
-
-        for (int i = 0; i < productNames.length; i++) {
-            MainProducts product = new MainProducts();
-            product.productName = productNames[i];
-            product.productDrawable = productDrawable[i];
-            mList.add(product);
-        }
-        mAdapter.setNewData(mList);
-
-    }
-
-    private void initAdapter() {
-
-        mProductsItem.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        mAdapter = new MainProductsAdapter(mList, getActivity());
-        mProductsItem.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    switch (position) {
-                        case 0:
-                            startActivity(BrandActivity.getBrandIntent(getActivity()));
-                            break;
-                        case 1:
-                            startActivity(ActivitiesActivity.getActivitiesIntent(getActivity()));
-                            break;
-                        case 2:
-                            startActivity(ShopListActivity.getIntent(getActivity()));
-                            break;
-                        case 3:
-                            startActivity(PartCarActivity.getIntent(getActivity()));
-                            break;
-                        case 4:
-                            startActivity(MusicActivity.getIntent(getActivity()));
-                            break;
-                        case 5:
-                            startActivity(SkyFlowerActivity.getIntent(getActivity()));
-                            break;
-                        case 6:
-                            break;
-                        case 7:
-                            break;
-
-                    }
-                }
-        );
     }
 
     @Override
@@ -229,18 +114,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @Override
     public void showToast(String message) {
         showBaseToast(message);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mBanner.startAutoPlay();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mBanner.stopAutoPlay();
     }
 
     @Override

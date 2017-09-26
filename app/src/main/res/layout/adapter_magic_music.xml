@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="30dp"
+             android:background="@mipmap/header"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_30"
+        android:background="@drawable/shape_line_translucent"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@color/translucent3"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <View
+                style="@style/LineH_Fill_Width0_5_black"
+                android:layout_marginTop="@dimen/dp_20"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="魔门音乐市集"
+                android:textColor="@color/tab_text_normal"
+                android:textSize="@dimen/sp_18"/>
+
+            <View
+                style="@style/LineH_Fill_Width0_5_black"
+                android:layout_marginBottom="21dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="有爱大胆说出来"
+                android:textColor="@color/tab_text_normal"
+                android:textSize="@dimen/sp_25"/>
+
+
+            <TextView
+                android:id="@+id/adapter_magic_music_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="有爱大胆说出来"
+                android:textColor="@color/tab_text_normal"
+                android:textSize="@dimen/sp_15"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="16dp"
+              android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="122dp"
+        android:layout_height="122dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/shape_gray"
+        />
+
+    <TextView
+        android:id="@+id/adapter_recommend_text"
+        style="@style/TextColor_Black_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="浮屠市集"
+        />
+</LinearLayout>

@@ -8,16 +8,38 @@ import com.banshengyuan.feima.gen.DaoSession;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.banshengyuan.feima.network.networkapi.MainApi;
+import com.banshengyuan.feima.view.PresenterControl.CelebrityControl;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
+import com.banshengyuan.feima.view.PresenterControl.FairControl;
+import com.banshengyuan.feima.view.PresenterControl.FollowControl;
+import com.banshengyuan.feima.view.PresenterControl.HotControl;
+import com.banshengyuan.feima.view.PresenterControl.MagicMusicControl;
 import com.banshengyuan.feima.view.PresenterControl.MainControl;
+import com.banshengyuan.feima.view.PresenterControl.MainFairControl;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
+import com.banshengyuan.feima.view.PresenterControl.ProductControl;
+import com.banshengyuan.feima.view.PresenterControl.RecommendControl;
+import com.banshengyuan.feima.view.PresenterControl.SellerControl;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
+import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
+import com.banshengyuan.feima.view.PresenterControl.VistaControl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterCelebrityImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterCompletedImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterFairImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterFollowImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterHotImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterMagicMusicImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterMainFairImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterMainImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterPendingImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterProductImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterRecommendImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterSellerImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterSendingImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterShoppingCardImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterTrendsImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterVistaImpl;
 import com.banshengyuan.feima.view.model.MainModel;
 import com.banshengyuan.feima.view.model.ModelTransform;
 import com.banshengyuan.feima.view.model.ShoppingCardModel;
@@ -110,4 +132,72 @@ public class MainActivityModule {
     ShoppingCardControl.PresenterShoppingCard providePresenterShoppingCard(PresenterShoppingCardImpl presenter) {
         return presenter;
     }
+
+    @Provides
+    @PerActivity
+    FairControl.PresenterFair providePresenterFair(PresenterFairImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    ProductControl.PresenterProduct providePresenterProduct(PresenterProductImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SellerControl.PresenterSeller providePresenterSeller(PresenterSellerImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    RecommendControl.PresenterRecommend providePresenterRecommend(PresenterRecommendImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MainFairControl.PresenterFair providePresenterMainFair(PresenterMainFairImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MagicMusicControl.PresenterMagicMusic providePresenterMagicMusic(PresenterMagicMusicImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    HotControl.PresenterHot providePresenterHot(PresenterHotImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    VistaControl.PresenterVista providePresenterVista(PresenterVistaImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    TrendsControl.PresenterTrends providePresenterTrends(PresenterTrendsImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    FollowControl.PresenterFollow providePresenterFollow(PresenterFollowImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CelebrityControl.PresenterCelebrity providePresenterCelebrity(PresenterCelebrityImpl presenter) {
+        return presenter;
+    }
+
+
 }

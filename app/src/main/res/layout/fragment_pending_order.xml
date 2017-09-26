@@ -1,92 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical"
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp"
-            >
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:background="@mipmap/person_sex_man"
+            />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:background="@mipmap/toolbar_icon"
-                android:iconifiedByDefault="false"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/main_tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            app:tabIndicatorColor="@color/yellow_color"/>
 
-
-            <com.banshengyuan.feima.view.customview.ClearEditText
-                android:id="@+id/search_shop"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="35dp"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <com.youth.banner.Banner
-            android:id="@+id/banner"
-            android:layout_width="match_parent"
-            android:layout_height="205dp"
-            app:indicator_height="8dp"
-            app:indicator_width="8dp"/>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/products_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"/>
-
-        <View style="@style/LineH_Fill_Width1_5_ForView"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/left_drawable"
-                android:layout_width="175dp"
-                android:layout_height="170dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="16dp"
-                android:background="@mipmap/main_right_first"/>
-
-            <ImageView
-                android:id="@+id/right_drawable"
-                android:layout_width="170dp"
-                android:layout_height="80dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_toEndOf="@id/left_drawable"
-                android:background="@mipmap/main_right_second"
-                />
-
-            <ImageView
-                android:id="@+id/right_down_drawable"
-                android:layout_width="170dp"
-                android:layout_height="80dp"
-                android:layout_below="@id/right_drawable"
-                android:layout_margin="10dp"
-                android:layout_toEndOf="@id/left_drawable"
-                android:background="@mipmap/main_left_first"
-                />
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="15dp"
+            android:background="@mipmap/main_magnifie"
+            />
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>
