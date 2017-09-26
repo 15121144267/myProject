@@ -15,7 +15,7 @@ public class MagicMusicAdapter extends BaseQuickAdapter<MagicMusicResponse, Base
 
     public MagicMusicAdapter(List<MagicMusicResponse> mList, Context context) {
         super(R.layout.adapter_magic_music, mList);
-        mContext = context;
+        mContext =  context;
     }
 
     @Override
