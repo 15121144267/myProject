@@ -22,7 +22,7 @@ import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
- * SendingOrderFragment
+ * TrendsFragment
  */
 
 public class TrendsFragment extends BaseFragment implements TrendsControl.TrendsView {
@@ -64,7 +64,6 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
 
     }
 
-
     @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
@@ -89,7 +88,7 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     @Override
     public void onDestroy() {
         super.onDestroy();
-         mPresenter.onDestroy();
+        mPresenter.onDestroy();
     }
 
     private void initialize() {

@@ -139,7 +139,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
                 .mainFragmentModule(new MainFragmentModule(this, (MainActivity) getActivity()))
-                .build()
-                .inject(this);
+                .build().inject(this);
     }
 }

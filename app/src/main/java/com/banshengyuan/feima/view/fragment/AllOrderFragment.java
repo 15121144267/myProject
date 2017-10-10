@@ -59,7 +59,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sending_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_order, container, false);
         unbind = ButterKnife.bind(this, view);
         initView();
         return view;
