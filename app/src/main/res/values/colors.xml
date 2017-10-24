@@ -397,4 +397,7 @@
     <!--navigate_tab_bar-->
     <color name="tab_text_normal">#212121</color>
     <color name="comui_tab_text_color">#ff333333</color>
+
+    <color name="dark_gray">#aaaaaa</color>
+    <color name="light_red">#ff0036</color>
 </resources>

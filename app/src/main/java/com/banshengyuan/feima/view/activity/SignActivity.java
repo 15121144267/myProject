@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
     Toolbar mToolbar;
     @BindView(R.id.sign_verityCode)
     TextInputLayout mSignVerityCode;
+    @BindView(R.id.sign_check_content)
+    CheckBox mSignCheckContent;
     private EditText mEditTextPassword;
     private EditText mEditTextVerityCode;
 

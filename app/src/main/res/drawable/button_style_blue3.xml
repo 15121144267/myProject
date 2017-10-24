@@ -4,14 +4,17 @@
     <item android:state_enabled="false">
         <shape>
             <solid android:color="#cfcdcd" />
-            <corners android:radius="4.0dip" />
+            <corners android:radius="22.0dip" />
         </shape>
     </item>
 
     <item android:state_enabled="true">
         <shape>
-            <solid android:color="#35bbc6" />
-            <corners android:radius="4.0dip"/>
+            <gradient
+            android:startColor="#fffc00"
+            android:endColor="#fbbc00"
+            android:angle="0" />
+            <corners android:radius="22.0dip"/>
         </shape>
     </item>
 </selector>

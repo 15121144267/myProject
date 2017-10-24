@@ -33,7 +33,6 @@ import butterknife.ButterKnife;
 
 public class ForgetActivity extends BaseActivity implements ForgetControl.ForgetView {
 
-
     public static Intent getForgetIntent(Context context) {
         return new Intent(context, ForgetActivity.class);
     }
@@ -46,13 +45,16 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     TextInputLayout mForgetPhone;
     @BindView(R.id.forget_identifying_code)
     TextView mForgetIdentifyingCode;
-    @BindView(R.id.forget_next_step)
-    Button mForgetNextStep;
     @BindView(R.id.forget_verity_code)
     TextInputLayout mForgetVerityCode;
+    @BindView(R.id.forget_password)
+    TextInputLayout mForgetPassword;
+    @BindView(R.id.forget_commit)
+    Button mForgetCommit;
     private EditText mForgetVerity;
+    private EditText mForgetNewPassword;
     private String mPhone;
-    private String mVirefyCode;
+    private String mVerityCode;
     @Inject
     ForgetControl.PresenterForget mPresenter;
 
@@ -68,21 +70,22 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
     }
 
     private void initView() {
-        RxView.clicks(mForgetNextStep).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetPasswordActivity());
+        RxView.clicks(mForgetCommit).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetPasswordActivity());
         RxView.clicks(mForgetIdentifyingCode).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> getVerifyCode());
         EditText editText = mForgetPhone.getEditText();
         mForgetVerity = mForgetVerityCode.getEditText();
+        mForgetNewPassword = mForgetPassword.getEditText();
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
                 public void onMyTextChanged(CharSequence s) {
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
-                        mForgetNextStep.setEnabled(false);
+                        mForgetCommit.setEnabled(false);
                         mForgetIdentifyingCode.setEnabled(false);
                     } else {
                         mPhone = phone;
-                        mForgetNextStep.setEnabled(true);
+                        mForgetCommit.setEnabled(true);
                         mForgetIdentifyingCode.setEnabled(true);
                     }
                 }
@@ -131,19 +134,19 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
 
     private void switchSetPasswordActivity() {
         if (mForgetVerity != null) {
-            mVirefyCode = mForgetVerity.getText().toString();
-            if (TextUtils.isEmpty(mVirefyCode)) {
+            mVerityCode = mForgetVerity.getText().toString();
+            if (TextUtils.isEmpty(mVerityCode)) {
                 showToast("验证码不能为空");
                 return;
             }
         }
-        mPresenter.requestCheckCode(mPhone, mVirefyCode);
+//        mPresenter.requestCheckCode(mPhone, mVirefyCode);
 
     }
 
     @Override
     public void checkCodeSuccess() {
-        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this, mPhone, mVirefyCode));
+        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this, mPhone, mVerityCode));
     }
 
     private void initializeInjector() {

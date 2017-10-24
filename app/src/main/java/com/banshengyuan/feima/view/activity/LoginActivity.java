@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
@@ -46,9 +48,11 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     @BindView(R.id.login_submit)
     Button mLoginSubmit;
     @BindView(R.id.login_sign)
-    Button mLoginSign;
+    TextView mLoginSign;
     @BindView(R.id.login_forget_password)
-    Button mLoginForgetPassword;
+    TextView mLoginForgetPassword;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     public static Intent getLoginIntent(Context context) {
         return new Intent(context, LoginActivity.class);
@@ -135,7 +139,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                     } else {
                         myPhone = phone;
                         mLoginSubmit.setEnabled(true);
-                        mLoginSubmit.setAlpha(0.8f);
+//                        mLoginSubmit.setAlpha(0.8f);
                     }
 
                 }

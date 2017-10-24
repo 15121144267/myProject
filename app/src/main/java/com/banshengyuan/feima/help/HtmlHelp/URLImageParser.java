@@ -33,7 +33,7 @@ public class URLImageParser implements Html.ImageGetter {
                 urlDrawable.setHeight(resource.getHeight());
                 urlDrawable.setBounds(0,0,mContext.getResources().getDisplayMetrics().widthPixels ,resource.getHeight());
                 mTextView.invalidate();
-                mTextView.setText(mTextView.getText());//解决图片重叠
+                mTextView.setText(mTextView.getText());
             }
         });
         return urlDrawable;

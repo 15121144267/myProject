@@ -54,7 +54,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private Unbinder unbind;
     private RecommendBrandAdapter mAdapter;
     private RecommendDiscoverBrandAdapter mDiscoverBrandAdapter;
-
+    private List<RecommendBrandResponse> mList;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,13 +77,13 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     }
 
     private void initData() {
-        List<RecommendBrandResponse> list = new ArrayList<>();
+        mList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             RecommendBrandResponse response = new RecommendBrandResponse();
             response.name = "魔兽世界" + i;
-            list.add(response);
+            mList.add(response);
         }
-        mAdapter.setNewData(list);
+        mAdapter.setNewData(mList);
 
         List<RecommendDiscoverResponse> list2 = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -104,6 +104,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
 
         mRecommendBrandRecycleView.setAdapter(mAdapter);
         mRecommendDiscoverRecycleView.setAdapter(mDiscoverBrandAdapter);
+
     }
 
 

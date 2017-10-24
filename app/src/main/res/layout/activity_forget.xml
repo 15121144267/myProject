@@ -8,16 +8,33 @@
     <include layout="@layout/toolbar_common"/>
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/forget_phone"
+        android:layout_width="275dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:textColorHint="#999999"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/app_user"
+            android:inputType="number"
+            android:paddingBottom="25dp"
+            android:theme="@style/MyEditText2"
+            />
+
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/forget_phone"
+            android:id="@+id/forget_verity_code"
             android:layout_width="175dp"
             android:layout_height="53dp"
             android:textColorHint="#999999"
@@ -26,32 +43,29 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@mipmap/forget_phone"
-                android:hint="@string/app_user"
+                android:hint="@string/app_verity"
                 android:inputType="number"
-                android:textColor="#999999"
+                android:paddingBottom="25dp"
                 android:theme="@style/MyEditText2"
                 />
-
         </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/forget_identifying_code"
-            style="@style/TextColor_green_12_click"
+            style="@style/TextColor_white_14_click"
             android:layout_width="92dp"
             android:layout_height="32dp"
-            android:textColor="@color/white"
-            android:background="@drawable/button_style_blue2"
-            android:gravity="center"
             android:enabled="false"
+            android:gravity="center"
             android:maxLines="1"
             android:text="@string/text_verify_code"
+            android:textColor="@color/light_red"
             />
     </LinearLayout>
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/forget_verity_code"
+        android:id="@+id/forget_password"
         android:layout_width="275dp"
         android:layout_height="53dp"
         android:textColorHint="#999999"
@@ -60,24 +74,23 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/forget_verity"
-            android:hint="@string/app_verity"
-            android:textColor="#999999"
-            android:inputType="number"
+            android:hint="@string/app_put_password1"
+            android:inputType="textPassword"
+            android:paddingBottom="25dp"
             android:theme="@style/MyEditText2"
             />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/forget_next_step"
-        style="@style/Login_Button_Style"
-        android:layout_width="275dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="81dp"
+        android:id="@+id/forget_commit"
+        style="@style/Login_Button_Style2"
+        android:layout_marginTop="25dp"
+        android:alpha="0.52"
+        android:background="@drawable/button_style_blue3"
         android:enabled="false"
-        android:background="@drawable/button_style_blue2"
-        android:text="下一步"
-        android:textColor="@color/white"
+        android:text="@string/app_forget_commit"
+        android:textColor="@color/tab_text_normal"
+        android:textSize="@dimen/sp_15"
         />
 
 </LinearLayout>

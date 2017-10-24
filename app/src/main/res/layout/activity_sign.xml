@@ -9,15 +9,33 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/sign_phone"
+        android:layout_width="275dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:textColorHint="#999999"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/app_user"
+            android:inputType="number"
+            android:paddingBottom="25dp"
+            android:theme="@style/MyEditText2"
+            />
+
+    </android.support.design.widget.TextInputLayout>
+
     <LinearLayout
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/sign_phone"
+            android:id="@+id/sign_verityCode"
             android:layout_width="175dp"
             android:layout_height="53dp"
             android:textColorHint="#999999"
@@ -26,12 +44,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@mipmap/sign_phone"
-                android:hint="@string/app_user"
+                android:hint="@string/app_verity"
                 android:inputType="number"
+                android:paddingBottom="25dp"
                 android:theme="@style/MyEditText2"
                 />
-
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -39,31 +56,14 @@
             style="@style/TextColor_white_14_click"
             android:layout_width="92dp"
             android:layout_height="32dp"
-            android:background="@drawable/item_main_white2"
             android:enabled="false"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/text_verify_code"
+            android:textColor="@color/light_red"
             />
     </LinearLayout>
 
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/sign_verityCode"
-        android:layout_width="275dp"
-        android:layout_height="53dp"
-        android:textColorHint="#999999"
-        >
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/sign_verity"
-            android:hint="@string/app_verity"
-            android:inputType="number"
-            android:theme="@style/MyEditText2"
-            />
-    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/sign_password"
@@ -75,23 +75,43 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/sign_password"
             android:hint="@string/app_put_password1"
             android:inputType="textPassword"
+            android:paddingBottom="25dp"
             android:theme="@style/MyEditText2"
             />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/sign"
-        style="@style/Login_Button_Style"
-        android:layout_width="275dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="81dp"
-        android:background="@drawable/button_style_blue2"
+        style="@style/Login_Button_Style2"
+        android:layout_marginTop="25dp"
+        android:alpha="0.52"
+        android:background="@drawable/button_style_blue3"
         android:enabled="false"
         android:text="@string/app_sign"
-        android:textColor="@color/white"
+        android:textColor="@color/tab_text_normal"
+        android:textSize="@dimen/sp_15"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/sign_check_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_check"
+            android:button="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_sign_content"
+            />
+    </LinearLayout>
 </LinearLayout>

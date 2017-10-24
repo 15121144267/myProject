@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_20"
         android:orientation="vertical"
         >
 
@@ -42,12 +42,12 @@
 
         <TextView
             android:id="@+id/textView"
+            style="@style/TextColor_Black_30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:layout_marginTop="25dp"
             android:text="为你推荐"
-            style="@style/TextColor_Black_30"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -83,11 +83,11 @@
         </LinearLayout>
 
         <TextView
+            style="@style/TextColor_Black_18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:text="品牌市集"
-            style="@style/TextColor_Black_18"
             android:textStyle="bold"
             />
 
@@ -97,23 +97,25 @@
             android:layout_height="wrap_content"
             />
 
-        <View style="@style/LineH_Fill_Width1_ForView"
-              android:layout_marginTop="@dimen/dp_25"
-              android:layout_marginBottom="@dimen/dp_25"/>
+        <View
+            style="@style/LineH_Fill_Width1_ForView"
+            android:layout_marginBottom="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_25"/>
 
         <TextView
+            style="@style/TextColor_Black_18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:text="发现精彩"
-            style="@style/TextColor_Black_18"
             android:textStyle="bold"
             />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recommend_discover_recycle_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
     </LinearLayout>
 
 
