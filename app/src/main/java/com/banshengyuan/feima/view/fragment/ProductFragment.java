@@ -1,8 +1,11 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +15,23 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
+import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.customview.banner.CBViewHolderCreator;
+import com.banshengyuan.feima.view.customview.banner.ConvenientBanner;
+import com.banshengyuan.feima.view.customview.banner.NetworkImageHolderView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.banshengyuan.feima.R.id.convenientBanner;
 
 /**
  * Created by helei on 2017/5/3.
@@ -26,6 +39,13 @@ import butterknife.Unbinder;
  */
 
 public class ProductFragment extends BaseFragment implements ProductControl.ProductView {
+
+
+    @BindView(convenientBanner)
+    ConvenientBanner mConvenientBanner;
+    @BindView(R.id.product_products)
+    RecyclerView mProductProducts;
+
     public static ProductFragment newInstance() {
         return new ProductFragment();
     }
@@ -34,6 +54,9 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     ProductControl.PresenterProduct mPresenter;
 
     private Unbinder unbind;
+    private List<MainProducts> mList;
+    private List<List> mList1;
+    private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +87,34 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
 
 
     private void initData() {
+        mList = new ArrayList<>();
+        mList1 = new ArrayList<>();
 
+        Drawable[] productDrawable = {
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_brand),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_activity),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_shop),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_part),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_music),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_flower),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_score),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_more)
+        };
+        for (int i = 0; i < productNames.length; i++) {
+            MainProducts product = new MainProducts();
+            product.productName = productNames[i];
+            product.productDrawable = productDrawable[i];
+            mList.add(product);
+        }
+        mList1.add(mList);
+        mList1.add(mList);
+        mConvenientBanner.setCanLoop(false);
+        mConvenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+            @Override
+            public NetworkImageHolderView createHolder() {
+                return new NetworkImageHolderView();
+            }
+        }, mList1).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
     }
 
     private void initView() {

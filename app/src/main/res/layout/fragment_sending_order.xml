@@ -16,7 +16,6 @@
         <ImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginEnd="51dp"
             android:layout_marginStart="22dp"
             android:background="@mipmap/person_sex_man"
             />
@@ -25,8 +24,9 @@
             android:id="@+id/discover_tab_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="51dp"
             android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:tabIndicatorColor="@color/yellow_color"/>
 
         <ImageView
