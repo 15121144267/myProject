@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.adapter.CollectionProductAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,6 +43,7 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
 
     private Unbinder unbind;
     private List<Integer> mList;
+    private CollectionProductAdapter mAdapter;
     @Inject
     CollectionProductControl.PresenterCollectionProduct mPresenter;
 
@@ -65,14 +69,17 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     }
 
     private void initData() {
-       /* mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_third);*/
+        mList = new ArrayList<>();
+        mList.add(R.mipmap.main_banner_third);
+        mList.add(R.mipmap.main_banner_third);
+        mList.add(R.mipmap.main_banner_third);
+        mAdapter.setNewData(mList);
     }
 
     private void initView() {
-       /* mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CouponAdapter(null, getActivity());
-        mCouponCommonList.setAdapter(mAdapter);*/
+        mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new CollectionProductAdapter(null, getActivity());
+        mCouponCommonList.setAdapter(mAdapter);
     }
 
 

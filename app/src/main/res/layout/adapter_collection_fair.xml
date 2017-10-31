@@ -5,6 +5,7 @@
              android:background="@drawable/shape_white_solid"
               android:layout_height="222dp">
         <ImageView
+            android:id="@+id/adapter_collection_fair"
             android:background="@mipmap/main_banner_second"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
