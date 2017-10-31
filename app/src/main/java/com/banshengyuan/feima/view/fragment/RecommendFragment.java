@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.module.MainFragmentModule;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.entity.RecommendDiscoverResponse;
 import com.banshengyuan.feima.view.PresenterControl.RecommendControl;
+import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendDiscoverBrandAdapter;
@@ -105,6 +106,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         mRecommendBrandRecycleView.setAdapter(mAdapter);
         mRecommendDiscoverRecycleView.setAdapter(mDiscoverBrandAdapter);
 
+        mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(BrandFairActivity.getIntent(getActivity())));
     }
 
 

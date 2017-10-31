@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimaryDark">@color/translucentDark</item>
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/text_color_yellow_dark2</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorAccent">@color/arrived_destination_color</item>
         <item name="android:windowBackground">@color/white</item>
@@ -53,6 +53,12 @@
     <style name="LineH_Fill_Width_5_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">5dip</item>
+        <item name="android:background">@color/line_grey_bg2</item>
+    </style>
+
+    <style name="LineH_Fill_Width_10_ForView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">10dip</item>
         <item name="android:background">@color/line_grey_bg2</item>
     </style>
 

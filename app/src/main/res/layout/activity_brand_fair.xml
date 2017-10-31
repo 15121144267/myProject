@@ -8,10 +8,11 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:background="@mipmap/activity_part_car"
-        android:layout_margin="10dp"
-        android:layout_height="0dp"/>
+  <com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView
+      android:id="@+id/brand_fair_gallery"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="30dp"
+      android:layout_marginBottom="50dp"
+      />
 </LinearLayout>

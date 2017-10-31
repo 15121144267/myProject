@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -20,6 +19,7 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
@@ -27,10 +27,10 @@ import com.banshengyuan.feima.view.activity.AddressActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.PersonCenterActivity;
-import com.banshengyuan.feima.view.customview.MoveScrollView;
-import com.jakewharton.rxbinding2.view.RxView;
+import com.banshengyuan.feima.view.adapter.MainProductsAdapter;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,8 +45,10 @@ import butterknife.Unbinder;
  */
 
 public class CompletedOrderFragment extends BaseFragment implements CompletedOrderControl.CompletedOrderView {
+    @BindView(R.id.person_list_enter)
+    RecyclerView mPersonListEnter;
 
-    @BindView(R.id.person_order)
+   /* @BindView(R.id.person_order)
     TextView mPersonOrder;
     @BindView(R.id.person_address)
     TextView mPersonAddress;
@@ -63,7 +65,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @BindView(R.id.move_image)
     ImageView mMoveImage;
     @BindView(R.id.scroll_layout)
-    MoveScrollView mScrollLayout;
+    MoveScrollView mScrollLayout;*/
 
     public static CompletedOrderFragment newInstance() {
         return new CompletedOrderFragment();
@@ -75,7 +77,9 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
 
     private Unbinder unbind;
     private PersonInfoResponse mResponse;
-
+    private String[] productNames = {"购物车", "我的订单", "我的卡券", "我的收藏"};
+    private List<MainProducts> mList;
+    private MainProductsAdapter mAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,17 +102,33 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initView() {
-        mResponse = mBuProcessor.getPersonInfo();
+        mPersonListEnter.setLayoutManager(new GridLayoutManager(getActivity(),4));
+        mAdapter = new MainProductsAdapter(null,getActivity());
+        mPersonListEnter.setAdapter(mAdapter);
+        /*mResponse = mBuProcessor.getPersonInfo();
         update(mResponse);
         mScrollLayout.setMoveImageView(mMoveImage);
         RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
         RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
-        RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());
+        RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());*/
 
     }
 
     private void initData() {
-
+        mList= new ArrayList<>();
+        Drawable[] productDrawable = {
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_brand),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_activity),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_shop),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.product_part),
+        };
+        for (int i = 0; i < productNames.length; i++) {
+            MainProducts product = new MainProducts();
+            product.productName = productNames[i];
+            product.productDrawable = productDrawable[i];
+            mList.add(product);
+        }
+        mAdapter.setNewData(mList);
     }
 
     private void requestInfo() {
@@ -116,7 +136,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void requestAddress() {
-        startActivity(AddressActivity.getIntent(getActivity(),"completedOrderFragment"));
+        startActivity(AddressActivity.getIntent(getActivity(), "completedOrderFragment"));
     }
 
     private void requestOrder() {
@@ -170,7 +190,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void update(PersonInfoResponse response) {
-        if (response == null) return;
+        /*if (response == null) return;
         mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
         mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl == null ?
                 R.mipmap.person_head_icon : response.avatarUrl, mPersonIcon);
@@ -182,7 +202,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
             mPersonName.setCompoundDrawables(null, null, drawable, null);
         } else {
             mPersonName.setCompoundDrawables(null, null, drawable2, null);
-        }
+        }*/
 
     }
 
@@ -190,7 +210,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         DaggerFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
-                .fragmentModule(new FragmentModule(this,(MainActivity)getActivity())).build()
+                .fragmentModule(new FragmentModule(this, (MainActivity) getActivity())).build()
                 .inject(this);
     }
 }

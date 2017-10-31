@@ -1,13 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.banshengyuan.feima.view.customview.MoveScrollView
-    android:id="@+id/scroll_layout"
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="64dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/yellow_style"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="20dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/person_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/person_head_icon"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/person_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="鹿晗"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_25"
+                            android:textStyle="bold"
+                            />
+
+                        <TextView
+                            android:id="@+id/person_detail"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="没有个性签名"
+                            android:textColor="#615e5e"
+                            />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/person_tips"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@mipmap/tab_bar_msg"/>
+                </RelativeLayout>
+
+            </FrameLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/person_list_enter"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"/>
+
+            <View style="@style/LineH_Fill_Width_10_ForView"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="个人设置"/>
+
+            <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="收货地址"/>
+
+            <View style="@style/LineH_Fill_Width_10_ForView"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="清除缓存"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="0.0M"/>
+            </LinearLayout>
+
+            <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="分享场景"/>
+
+            <View style="@style/LineH_Yellow_Fill_Width1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="意见反馈"/>
+
+            <View style="@style/LineH_Yellow_Fill_Width1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="关于场景"/>
+
+            <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+            <Button
+                android:id="@+id/login_submit"
+                style="@style/Login_Button_Style2"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:alpha="0.52"
+                android:background="@drawable/button_style_blue3"
+                android:enabled="true"
+                android:text="@string/app_quite_login"
+                android:textColor="@color/tab_text_normal"
+                android:textSize="@dimen/sp_15"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -119,6 +315,4 @@
             android:textSize="15sp"/>
 
         <View style="@style/LineH_Fill_Width1_5_ForView"/>
-    </LinearLayout>
-
-</com.banshengyuan.feima.view.customview.MoveScrollView>
+    </LinearLayout>-->

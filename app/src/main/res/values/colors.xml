@@ -30,6 +30,7 @@
     <color name="text_color_blue">#6796e4</color>
     <color name="vip_duration_color">#1D81FB</color>
     <color name="text_color_yellow_dark">#ffb929</color>
+    <color name="text_color_yellow_dark2">#fffc00</color>
     <color name="vip_duration_color2">#000000</color>
 
     <color name="confirm_select_coupon_color">#7abd59</color>

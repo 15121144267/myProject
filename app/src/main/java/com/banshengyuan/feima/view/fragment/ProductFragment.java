@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.adapter.ProductAdapter;
 import com.banshengyuan.feima.view.customview.banner.CBViewHolderCreator;
 import com.banshengyuan.feima.view.customview.banner.ConvenientBanner;
 import com.banshengyuan.feima.view.customview.banner.NetworkImageHolderView;
@@ -118,7 +120,8 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     }
 
     private void initView() {
-
+        mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mProductProducts.setAdapter(new ProductAdapter(null,getActivity()));
     }
 
 

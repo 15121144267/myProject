@@ -153,7 +153,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activity.PartCarActivity"
+            android:name=".view.activity.BrandFairActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.PersonNameActivity"
