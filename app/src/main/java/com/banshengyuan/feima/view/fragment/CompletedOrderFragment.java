@@ -24,7 +24,9 @@ import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
 import com.banshengyuan.feima.view.activity.AddressActivity;
+import com.banshengyuan.feima.view.activity.CoupleActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.PersonCenterActivity;
 import com.banshengyuan.feima.view.adapter.MainProductsAdapter;
@@ -105,12 +107,27 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         mPersonListEnter.setLayoutManager(new GridLayoutManager(getActivity(),4));
         mAdapter = new MainProductsAdapter(null,getActivity());
         mPersonListEnter.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (position){
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    startActivity(CoupleActivity.getIntent(getActivity()));
+                    break;
+                case 3:
+                    startActivity(MyCollectionActivity.getIntent(getActivity()));
+                    break;
+            }
+        });
         /*mResponse = mBuProcessor.getPersonInfo();
         update(mResponse);
         mScrollLayout.setMoveImageView(mMoveImage);
         RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
         RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
         RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());*/
+
 
     }
 

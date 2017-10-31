@@ -5,13 +5,14 @@
 
     <ImageView
         android:id="@+id/item_shop_pic"
-        android:layout_width="97dp"
+        android:layout_width="110dp"
         android:layout_height="96dp"
         android:layout_centerVertical="true"
         android:scaleType="fitXY"
         android:background="@mipmap/main_right_first"/>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="9dp"
-        android:layout_marginStart="49dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/item_shop_pic"
         android:orientation="vertical">
@@ -52,10 +53,10 @@
             android:id="@+id/item_shop_content1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="20dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="合肥大创生活馆是日本大创在安徽的首家门店，大创为您提供从厨房用品、洗漱用品等一系列生活用品。"
+            android:text="生活用品。"
             android:textColor="@color/gray_color"
             />
 
@@ -84,10 +85,9 @@
     <TextView
         android:id="@+id/item_shop_name"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_above="@id/item_shop_des"
-        android:layout_marginStart="5dp"
-        android:gravity="center"
+        android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/item_shop_pic"
         android:text="店名"
         android:textSize="@dimen/sp_15"

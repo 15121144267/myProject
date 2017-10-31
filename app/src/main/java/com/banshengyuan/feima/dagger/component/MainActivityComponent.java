@@ -19,6 +19,4 @@ public interface MainActivityComponent {
     AppCompatActivity activity();
     MainControl.MainView view();
     void inject(MainActivity activity);
-//    void inject(SendingOrderFragment sendingOrderFragment);
-//    void inject(CompletedOrderFragment completedOrderFragment);
 }
