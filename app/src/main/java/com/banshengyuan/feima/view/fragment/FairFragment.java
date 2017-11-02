@@ -17,7 +17,7 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
-import com.banshengyuan.feima.view.adapter.ProductAdapter;
+import com.banshengyuan.feima.view.adapter.FairProductAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     FairControl.PresenterFair mPresenter;
 
     private Unbinder unbind;
-    private ProductAdapter mAdapter;
+    private FairProductAdapter mAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +87,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
 
     private void initView() {
         mSendFragmentFair.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ProductAdapter(null, getActivity(),true);
+        mAdapter = new FairProductAdapter(null, getActivity(),true);
         mSendFragmentFair.setAdapter(mAdapter);
     }
 

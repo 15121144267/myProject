@@ -1,6 +1,11 @@
 package com.banshengyuan.feima.view.PresenterImpl;
 
+import android.content.Context;
+
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
+import com.banshengyuan.feima.view.model.FairDetailModel;
+
+import javax.inject.Inject;
 
 /**
  * Created by helei on 2017/5/3.
@@ -8,18 +13,18 @@ import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
  */
 
 public class PresenterTrendsImpl implements TrendsControl.PresenterTrends {
-    /*private final MainModel mMainModel;
+    private final FairDetailModel mModel;
     private TrendsControl.TrendsView mView;
     private final Context mContext;
 
     @Inject
-    public PresenterTrendsImpl(Context context, MainModel model, TrendsControl.TrendsView view) {
+    public PresenterTrendsImpl(Context context, FairDetailModel model, TrendsControl.TrendsView view) {
         mContext = context;
-        mMainModel = model;
+        mModel = model;
         mView = view;
-    }*/
+    }
 
-   /* @Override
+    /*@Override
     public void requestShopId(String scoreCode, Integer type) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
@@ -36,8 +41,7 @@ public class PresenterTrendsImpl implements TrendsControl.PresenterTrends {
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
-*/
+    }*/
     @Override
     public void onCreate() {
 
@@ -45,6 +49,6 @@ public class PresenterTrendsImpl implements TrendsControl.PresenterTrends {
 
     @Override
     public void onDestroy() {
-//        mView = null;
+        mView = null;
     }
 }

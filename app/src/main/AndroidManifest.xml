@@ -107,6 +107,7 @@
         <activity
             android:name=".view.activity.ClassifySearchActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".view.activity.BlockDetailActivity"
             android:screenOrientation="portrait"/>
@@ -147,7 +148,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activity.BrandActivity"
+            android:name=".view.activity.FairDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.SexChoiceActivity"
@@ -180,6 +181,7 @@
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/YellowAppTheme"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity

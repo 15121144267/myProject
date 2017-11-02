@@ -175,23 +175,5 @@ public class MainActivityModule {
         return presenter;
     }
 
-    /*@Provides
-    @PerActivity
-    TrendsControl.PresenterTrends providePresenterTrends(PresenterTrendsImpl presenter) {
-        return presenter;
-    }
-
-    @Provides
-    @PerActivity
-    FollowControl.PresenterFollow providePresenterFollow(PresenterFollowImpl presenter) {
-        return presenter;
-    }
-
-    @Provides
-    @PerActivity
-    CelebrityControl.PresenterCelebrity providePresenterCelebrity(PresenterCelebrityImpl presenter) {
-        return presenter;
-    }*/
-
 
 }
