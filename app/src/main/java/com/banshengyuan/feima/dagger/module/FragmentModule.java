@@ -9,10 +9,10 @@ import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.ShopListApi;
 import com.banshengyuan.feima.network.networkapi.ShopOtherListApi;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
+import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
 import com.banshengyuan.feima.view.PresenterControl.LoadDataView;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
-import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
 import com.banshengyuan.feima.view.model.ModelTransform;
 import com.banshengyuan.feima.view.model.ShopListModel;
 import com.google.gson.Gson;
@@ -31,7 +31,7 @@ public class FragmentModule {
     private PendingOrderControl.PendingOrderView pendingView;
     private SendingOrderControl.SendingOrderView sendingView;
     private CompletedOrderControl.CompletedOrderView completeView;
-    private ShoppingCardControl.ShoppingCardView shoppingCardView;
+    private ExChangeControl.ExChangeView exChangeView;
 
     public FragmentModule(LoadDataView view, AppCompatActivity activity) {
         this.activity = activity;
@@ -39,8 +39,8 @@ public class FragmentModule {
             pendingView = (PendingOrderControl.PendingOrderView) view;
         } else if (view instanceof SendingOrderControl.SendingOrderView) {
             sendingView = (SendingOrderControl.SendingOrderView) view;
-        } else if (view instanceof ShoppingCardControl.ShoppingCardView) {
-            shoppingCardView = (ShoppingCardControl.ShoppingCardView) view;
+        } else if (view instanceof ExChangeControl.ExChangeView) {
+            exChangeView = (ExChangeControl.ExChangeView) view;
         } else {
             completeView = (CompletedOrderControl.CompletedOrderView) view;
         }
@@ -84,7 +84,7 @@ public class FragmentModule {
 
     @Provides
     @PerActivity
-    ShoppingCardControl.ShoppingCardView shoppingCardView() {
-        return this.shoppingCardView;
+    ExChangeControl.ExChangeView shoppingCardView() {
+        return this.exChangeView;
     }
 }

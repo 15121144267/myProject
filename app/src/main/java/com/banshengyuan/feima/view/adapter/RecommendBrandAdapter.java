@@ -14,7 +14,7 @@ public class RecommendBrandAdapter extends BaseQuickAdapter<RecommendBrandRespon
     private final Context mContext;
 
     public RecommendBrandAdapter(List<RecommendBrandResponse> mList, Context context) {
-        super(R.layout.adapter_recommend_brand, mList);
+        super(R.layout.adapter_fragment_pending_common, mList);
         mContext = context;
     }
 

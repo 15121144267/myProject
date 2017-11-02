@@ -63,7 +63,7 @@
 
             <View
                 android:id="@+id/common_dialog_btnLine"
-                style="@style/LineV_Fill_Width0_5_ForView" />
+                style="@style/LineV_Fill_Height0_5_ForView" />
 
             <Button
                 android:id="@+id/common_dialog_ok"

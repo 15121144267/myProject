@@ -1,24 +1,29 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.ShopResponse;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,8 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     TabLayout mMainTabLayout;
     @BindView(R.id.main_view_pager)
     ViewPager mMainViewPager;
+    @BindView(R.id.pending_show_search)
+    ImageView mPendingShowSearch;
 
     public static PendingOrderFragment newInstance() {
         return new PendingOrderFragment();
@@ -49,8 +56,8 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     PendingOrderControl.PresenterPendingOrder mPresenter;
 
     private Unbinder unbinder;
-
-    private final String[] modules = {"推荐", "市集", "热闹","街景","魔门"};
+    private boolean showSearchLayout = false;
+    private final String[] modules = {"推荐", "市集", "街景", "魔门"};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,13 +79,21 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(RecommendFragment.newInstance());
         mFragments.add(MainFairFragment.newInstance());
-        mFragments.add(MainHotFragment.newInstance());
+//        mFragments.add(MainHotFragment.newInstance());
         mFragments.add(MainVistaFragment.newInstance());
         mFragments.add(MagicMusicFragment.newInstance());
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getChildFragmentManager(), mFragments, modules);
         mMainViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mMainViewPager.setAdapter(adapter);
         mMainTabLayout.setupWithViewPager(mMainViewPager);
+        RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout());
+    }
+
+    public void showSearchLayout() {
+        showSearchLayout = !showSearchLayout;
+        Intent intent = new Intent(BroConstant.SHOW_SEARECH_LAYOUT);
+        intent.putExtra("searchLayout",showSearchLayout);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
 
     private void initData() {

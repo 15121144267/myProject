@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,11 +21,14 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class SkyFlowerActivity extends BaseActivity {
+public class SafeSettingActivity extends BaseActivity {
 
+
+    @BindView(R.id.safe_change_password)
+    TextView mSafeChangePassword;
 
     public static Intent getIntent(Context context) {
-        return new Intent(context, SkyFlowerActivity.class);
+        return new Intent(context, SafeSettingActivity.class);
     }
 
     @BindView(R.id.middle_name)
@@ -36,11 +41,10 @@ public class SkyFlowerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sky_flower);
+        setContentView(R.layout.activity_safe_setting);
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
-        mToolbarRightIcon.setVisibility(View.VISIBLE);
-        mMiddleName.setText("空中花园");
+        mMiddleName.setText("安全设置");
         initView();
         initData();
     }
@@ -50,6 +54,7 @@ public class SkyFlowerActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        RxView.clicks(mSafeChangePassword).throttleFirst(1, TimeUnit.SECONDS).subscribe(o ->
+                startActivity(SetNewPasswordActivity.getNewPasswordIntent(this)));
     }
 }

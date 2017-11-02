@@ -98,6 +98,8 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
         mBrandFairGallery.setAdapter(new GalleryCardAdapter(mList));
         mCardScaleHelper = new CardScaleHelper();
         mCardScaleHelper.setCurrentItemPos(0);
+        mCardScaleHelper.setPagePadding(5);
+        mCardScaleHelper.setShowLeftCardWidth(25);
         mCardScaleHelper.attachToRecyclerView(mBrandFairGallery);
     }
 

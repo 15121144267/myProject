@@ -56,6 +56,7 @@
     <string name="photo_check_permission">相关权限未开启，请重新开启</string>
     <string name="dialog_tip">请与门店营业员确认取餐单号是否正确</string>
     <string name="main_exit">是否确定退出？</string>
+    <string name="clean_cache">是否清楚缓存？</string>
     <string name="delete_address">确定要删除该地址吗</string>
     <string name="work_summary">总计</string>
     <string name="person_order">&#160;&#160;我的订单</string>

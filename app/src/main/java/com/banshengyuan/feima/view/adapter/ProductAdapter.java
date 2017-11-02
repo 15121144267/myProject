@@ -5,27 +5,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.AddressResponse;
+import com.banshengyuan.feima.entity.ProductResponse;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 
 
-public class ProductAdapter extends BaseQuickAdapter<AddressResponse.DataBean, BaseViewHolder> {
+public class ProductAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
     private final Context mContext;
-
-    public ProductAdapter(List<AddressResponse.DataBean> mList, Context context) {
+    private boolean mChangeFlag;
+    public ProductAdapter(List<ProductResponse> mList, Context context,boolean changeFlag) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
+        mChangeFlag = changeFlag;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AddressResponse.DataBean item) {
+    protected void convert(BaseViewHolder helper, ProductResponse item) {
         if (item == null) return;
+        boolean flag;
+        flag = helper.getAdapterPosition()!=0;
         helper.addOnClickListener(R.id.adapter_fair_more);
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        ProductItemAdapter itemAdapter = new ProductItemAdapter(item.mList, mContext, mChangeFlag,flag);
+        recyclerView.setAdapter(itemAdapter);
     }
 
 }

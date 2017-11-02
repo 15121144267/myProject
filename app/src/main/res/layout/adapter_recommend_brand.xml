@@ -6,17 +6,39 @@
               android:orientation="vertical">
 
     <ImageView
-        android:layout_width="122dp"
+        android:id="@+id/adapter_common_icon"
+        android:layout_width="180dp"
         android:layout_height="122dp"
-        android:layout_marginBottom="12dp"
         android:background="@drawable/shape_gray"
         />
 
     <TextView
         android:id="@+id/adapter_recommend_text"
         style="@style/TextColor_Black_15"
+       android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="浮屠市集"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集"
+        />
+
+    <TextView
+        android:id="@+id/adapter_common_text"
+        style="@style/TextColor_Grey_12"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集"
+        />
+    <TextView
+        android:id="@+id/adapter_common_price"
+        style="@style/TextColor_red_14"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥44.0"
         />
 </LinearLayout>

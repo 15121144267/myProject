@@ -110,7 +110,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder getPaint(@IdRes int viewId) {
         TextView view = getView(viewId);
-        view.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG );
+        view.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         return this;
     }
 
@@ -125,6 +125,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         view.addView(view1);
         return this;
     }
+
     /**
      * Will set the image of an ImageView from a resource id.
      *
@@ -227,6 +228,14 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder setVisible(@IdRes int viewId, boolean visible) {
         View view = getView(viewId);
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        return this;
+    }
+
+    public BaseViewHolder setMargin(@IdRes int viewId, Integer number) {
+        View view = getView(viewId);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 8, 0, number);
+        view.setLayoutParams(params);
         return this;
     }
 

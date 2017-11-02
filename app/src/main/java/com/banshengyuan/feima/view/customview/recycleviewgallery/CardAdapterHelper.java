@@ -9,8 +9,8 @@ import android.view.ViewGroup;
  * Created by jameson on 9/1/16.
  */
 public class CardAdapterHelper {
-    private int mPagePadding = 5;
-    private int mShowLeftCardWidth = 25;
+    private int mPagePadding = 15;
+    private int mShowLeftCardWidth = 15;
 
     public void onCreateViewHolder(ViewGroup parent,  View itemView) {
         RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) itemView.getLayoutParams();

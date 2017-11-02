@@ -8,7 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,9 +16,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerSetNewPasswordActivityComponent;
 import com.banshengyuan.feima.dagger.module.SetNewPasswordActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.SetNewPasswordControl;
-import com.jakewharton.rxbinding2.view.RxView;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -31,13 +28,14 @@ import butterknife.ButterKnife;
  */
 
 public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswordControl.SetNewPasswordView {
-    public static Intent getNewPasswordIntent(Context context, String phone, String code) {
+
+
+    public static Intent getNewPasswordIntent(Context context) {
         Intent intent = new Intent(context, SetNewPasswordActivity.class);
-        intent.putExtra("phone", phone);
-        intent.putExtra("verityCode", code);
         return intent;
     }
-
+    @BindView(R.id.toolbar_right_text)
+    TextView mToolbarRightText;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
@@ -46,8 +44,8 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     TextInputLayout mSettingPassword;
     @BindView(R.id.setting_password_again)
     TextInputLayout mSettingPasswordAgain;
-    @BindView(R.id.setting_for_sure)
-    Button mSettingForSure;
+   /* @BindView(R.id.setting_for_sure)
+    Button mSettingForSure;*/
     private EditText mPasswordEdit;
     private EditText mPasswordAgainEdit;
     private String mPhone;
@@ -62,7 +60,7 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
         ButterKnife.bind(this);
         initializeInjector();
         supportActionBar(mToolbar, true);
-        mMiddleName.setText("新密码");
+        mMiddleName.setText("修改密码");
         initView();
     }
 
@@ -100,14 +98,16 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     }
 
     private void initView() {
-        mPhone = getIntent().getStringExtra("phone");
+        mToolbarRightText.setVisibility(View.VISIBLE);
+        mToolbarRightText.setText("完成");
+        /*mPhone = getIntent().getStringExtra("phone");
         mVerityCode = getIntent().getStringExtra("verityCode");
         mPasswordEdit = mSettingPassword.getEditText();
         mPasswordAgainEdit = mSettingPasswordAgain.getEditText();
         TextChange textChange = new TextChange();
         mPasswordEdit.addTextChangedListener(textChange);
         mPasswordAgainEdit.addTextChangedListener(textChange);
-        RxView.clicks(mSettingForSure).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetForSure());
+        RxView.clicks(mToolbarRightText).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetForSure());*/
     }
 
     private void switchSetForSure() {
@@ -141,11 +141,11 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (mPasswordEdit.length() > 0 && mPasswordAgainEdit.length() > 0) {
+           /* if (mPasswordEdit.length() > 0 && mPasswordAgainEdit.length() > 0) {
                 mSettingForSure.setEnabled(true);
             } else {
                 mSettingForSure.setEnabled(false);
-            }
+            }*/
         }
     }
 }

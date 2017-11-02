@@ -13,7 +13,7 @@
     <!-- old -->
     <color name="province_line_border">#C7C7C7</color>
     <color name="line_grey_bg">#e4e4e4</color>
-    <color name="line_grey_bg2">#ebebeb</color>
+    <color name="line_grey_bg2">#f1f1f1</color>
     <color name="line_grey_bg3">#E8ECEE</color>
     <!-- titlebar begin -->
     <color name="common_titlebar_bg_color">#294a84</color>

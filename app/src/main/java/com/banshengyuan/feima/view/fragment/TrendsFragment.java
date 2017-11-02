@@ -2,20 +2,12 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.dagger.component.DaggerExchangeFragmentComponent;
-import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
-import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
-import com.banshengyuan.feima.view.activity.MainActivity;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -30,8 +22,8 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
         return new TrendsFragment();
     }
 
-    @Inject
-    TrendsControl.PresenterTrends mPresenter;
+  /*  @Inject
+    TrendsControl.PresenterTrends mPresenter;*/
 
     private Unbinder unbind;
 
@@ -88,15 +80,15 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.onDestroy();
+//        mPresenter.onDestroy();
     }
 
     private void initialize() {
-        DaggerExchangeFragmentComponent.builder()
+        /*DaggerExchangeFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
                 .exchangeFragmentModule(new ExchangeFragmentModule(this, (MainActivity) getActivity()))
                 .build()
-                .inject(this);
+                .inject(this);*/
     }
 }

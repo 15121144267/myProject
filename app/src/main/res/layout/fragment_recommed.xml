@@ -16,6 +16,8 @@
         >
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/recommend_search_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:focusable="true"
@@ -51,6 +53,7 @@
             android:textStyle="bold"/>
 
         <LinearLayout
+            android:id="@+id/recommend_block_detail_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"

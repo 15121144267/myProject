@@ -78,7 +78,7 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CollectionFairAdapter(null, getActivity());
+        mAdapter = new CollectionFairAdapter(null, getActivity(),mImageLoaderHelper);
         mCouponCommonList.setAdapter(mAdapter);
     }
 

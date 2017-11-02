@@ -1,11 +1,6 @@
 package com.banshengyuan.feima.view.PresenterImpl;
 
-import android.content.Context;
-
 import com.banshengyuan.feima.view.PresenterControl.CelebrityControl;
-import com.banshengyuan.feima.view.model.MainModel;
-
-import javax.inject.Inject;
 
 /**
  * Created by helei on 2017/5/3.
@@ -13,7 +8,7 @@ import javax.inject.Inject;
  */
 
 public class PresenterCelebrityImpl implements CelebrityControl.PresenterCelebrity {
-    private final MainModel mMainModel;
+    /*private final MainModel mMainModel;
     private CelebrityControl.CelebrityView mView;
     private final Context mContext;
 
@@ -22,7 +17,7 @@ public class PresenterCelebrityImpl implements CelebrityControl.PresenterCelebri
         mContext = context;
         mMainModel = model;
         mView = view;
-    }
+    }*/
 
    /* @Override
     public void requestShopId(String scoreCode, Integer type) {
@@ -50,6 +45,6 @@ public class PresenterCelebrityImpl implements CelebrityControl.PresenterCelebri
 
     @Override
     public void onDestroy() {
-        mView = null;
+//        mView = null;
     }
 }

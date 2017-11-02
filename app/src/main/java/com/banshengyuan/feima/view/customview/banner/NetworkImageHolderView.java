@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.view.adapter.MainProductsAdapter;
+import com.banshengyuan.feima.view.adapter.MainProductsSecondAdapter;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ import java.util.List;
  */
 public class NetworkImageHolderView implements Holder<List> {
     private RecyclerView mRecyclerView;
-    private MainProductsAdapter mAdapter;
+    private MainProductsSecondAdapter mAdapter;
     @Override
     public View createView(final Context context) {
         View view  = LayoutInflater.from(context).inflate(R.layout.banner_recycleview,null);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.demo_recycle);
         mRecyclerView.setLayoutManager(new GridLayoutManager(context,4));
-        mAdapter = new MainProductsAdapter(null, context);
+        mAdapter = new MainProductsSecondAdapter(null, context);
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, view1, position) ->

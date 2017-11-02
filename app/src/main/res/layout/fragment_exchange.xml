@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/exchange_tab_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginEnd="90dp"
-        android:layout_marginStart="90dp"
-        app:tabIndicatorColor="@color/yellow_color"/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:orientation="vertical"
+        >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/exchange_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-</LinearLayout>
+        <TextView
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
+            android:id="@+id/textView"
+            style="@style/TextColor_Black_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="25dp"
+            android:text="热闹"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
+            style="@style/TextColor_dark_black2_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:text="精彩活动合集"/>
+
+        <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
+            android:id="@+id/hot_fragment_activities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            />
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
+
+

@@ -8,10 +8,9 @@ import com.banshengyuan.feima.gen.DaoSession;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.banshengyuan.feima.network.networkapi.MainApi;
-import com.banshengyuan.feima.view.PresenterControl.CelebrityControl;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
+import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
-import com.banshengyuan.feima.view.PresenterControl.FollowControl;
 import com.banshengyuan.feima.view.PresenterControl.HotControl;
 import com.banshengyuan.feima.view.PresenterControl.MagicMusicControl;
 import com.banshengyuan.feima.view.PresenterControl.MainControl;
@@ -21,13 +20,10 @@ import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.PresenterControl.RecommendControl;
 import com.banshengyuan.feima.view.PresenterControl.SellerControl;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
-import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
-import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
 import com.banshengyuan.feima.view.PresenterControl.VistaControl;
-import com.banshengyuan.feima.view.PresenterImpl.PresenterCelebrityImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterCompletedImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterExChangeImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterFairImpl;
-import com.banshengyuan.feima.view.PresenterImpl.PresenterFollowImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterHotImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterMagicMusicImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterMainFairImpl;
@@ -37,8 +33,6 @@ import com.banshengyuan.feima.view.PresenterImpl.PresenterProductImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterRecommendImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterSellerImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterSendingImpl;
-import com.banshengyuan.feima.view.PresenterImpl.PresenterShoppingCardImpl;
-import com.banshengyuan.feima.view.PresenterImpl.PresenterTrendsImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterVistaImpl;
 import com.banshengyuan.feima.view.model.MainModel;
 import com.banshengyuan.feima.view.model.ModelTransform;
@@ -111,6 +105,12 @@ public class MainActivityModule {
 
     @Provides
     @PerActivity
+    ExChangeControl.PresenterExChange providePresenterExChange(PresenterExChangeImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
     CompletedOrderControl.PresenterCompletedOrder providePresenterCompleted(PresenterCompletedImpl presenter) {
         return presenter;
     }
@@ -124,12 +124,6 @@ public class MainActivityModule {
     @Provides
     @PerActivity
     SendingOrderControl.PresenterSendingOrder providePresenterSending(PresenterSendingImpl presenter) {
-        return presenter;
-    }
-
-    @Provides
-    @PerActivity
-    ShoppingCardControl.PresenterShoppingCard providePresenterShoppingCard(PresenterShoppingCardImpl presenter) {
         return presenter;
     }
 
@@ -181,7 +175,7 @@ public class MainActivityModule {
         return presenter;
     }
 
-    @Provides
+    /*@Provides
     @PerActivity
     TrendsControl.PresenterTrends providePresenterTrends(PresenterTrendsImpl presenter) {
         return presenter;
@@ -197,7 +191,7 @@ public class MainActivityModule {
     @PerActivity
     CelebrityControl.PresenterCelebrity providePresenterCelebrity(PresenterCelebrityImpl presenter) {
         return presenter;
-    }
+    }*/
 
 
 }

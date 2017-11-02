@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_common"/>
+
+    <View style="@style/LineH_Fill_Width_12_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        >
+
+        <TextView
+            style="@style/TextColor_dark_black_14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="修改手机号"
+            />
+
+        <TextView
+            style="@style/TextColor_dark_black_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/arrow_right"
+            android:text="151****4267  "
+            />
+    </LinearLayout>
+
+    <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+    <TextView
+        android:id="@+id/safe_change_password"
+        style="@style/TextColor_dark_black_14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:drawableEnd="@mipmap/arrow_right"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:text="修改登入密码"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/line_grey_bg"
+        />
+</LinearLayout>

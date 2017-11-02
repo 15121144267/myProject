@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
+import com.banshengyuan.feima.entity.HotFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +43,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     RecyclerView mCouponCommonList;
 
     private Unbinder unbind;
-    private List<Integer> mList;
+    private HotFairAdapter mAdapter;
 
     @Inject
     CollectionBlockControl.PresenterCollectionBlock mPresenter;
@@ -66,14 +70,19 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     }
 
     private void initData() {
-       /* mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_third);*/
+        List<HotFairResponse> list2 = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            HotFairResponse response = new HotFairResponse();
+            response.name = "魔兽世界" + i;
+            list2.add(response);
+        }
+        mAdapter.setNewData(list2);
     }
 
     private void initView() {
-       /* mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CouponAdapter(null, getActivity());
-        mCouponCommonList.setAdapter(mAdapter);*/
+        mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new HotFairAdapter(null, getActivity());
+        mCouponCommonList.setAdapter(mAdapter);
     }
 
 

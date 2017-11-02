@@ -62,13 +62,19 @@
         <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
+    <style name="LineH_Fill_Width_12_ForView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">12dip</item>
+        <item name="android:background">@color/line_grey_bg2</item>
+    </style>
+
     <style name="LineH_Yellow_Fill_Width1">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1.0dip</item>
         <item name="android:background">@color/line_grey_bg2</item>
     </style>
 
-    <style name="LineV_Fill_Width0_5_ForView">
+    <style name="LineV_Fill_Height0_5_ForView">
         <item name="android:layout_width">0.5dip</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/line_grey_bg2</item>
@@ -139,6 +145,16 @@
         <item name="android:textSize">@dimen/sp_15</item>
     </style>
 
+    <style name="TextColor_Grey_12">
+        <item name="android:textColor">@color/light_grey_dark</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
+
+    <style name="TextColor_red_14">
+        <item name="android:textColor">#ff0036</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
     <style name="TextColor_Black_15">
         <item name="android:textColor">@color/light_grey_dark1</item>
         <item name="android:textSize">@dimen/sp_15</item>
@@ -158,6 +174,13 @@
         <item name="android:textColor">@color/darkblack</item>
         <item name="android:textSize">@dimen/sp_15</item>
         <item name="android:layout_marginStart">15dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextColor_dark_black_14">
+        <item name="android:textColor">@color/tab_text_normal</item>
+        <item name="android:textSize">@dimen/sp_15</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -274,8 +297,8 @@
     </style>
 
     <style name="MyEditText2" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">#ededed</item>
-        <item name="colorControlActivated">#ededed</item>
+        <item name="colorControlNormal">@color/transparent</item>
+        <item name="colorControlActivated">@color/transparent</item>
     </style>
 
     <style name="MyEditText3" parent="Theme.AppCompat.Light">

@@ -85,9 +85,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -110,6 +113,7 @@
             <View style="@style/LineH_Fill_Width_10_ForView"/>
 
             <TextView
+                android:id="@+id/person_enter_safe_page"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:drawableEnd="@mipmap/arrow_right"
@@ -121,6 +125,7 @@
             <View style="@style/LineH_Yellow_Fill_Width1"/>
 
             <TextView
+                android:id="@+id/person_address_page"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:drawableEnd="@mipmap/arrow_right"
@@ -132,6 +137,7 @@
             <View style="@style/LineH_Fill_Width_10_ForView"/>
 
             <LinearLayout
+                android:id="@+id/person_clean_cache"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -147,6 +153,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/person_cache"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -165,6 +172,7 @@
                 android:text="分享场景"/>
 
             <View style="@style/LineH_Yellow_Fill_Width1"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -175,6 +183,7 @@
                 android:text="意见反馈"/>
 
             <View style="@style/LineH_Yellow_Fill_Width1"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -189,9 +198,9 @@
             <Button
                 android:id="@+id/login_submit"
                 style="@style/Login_Button_Style2"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
                 android:alpha="0.52"
                 android:background="@drawable/button_style_blue3"
                 android:enabled="true"

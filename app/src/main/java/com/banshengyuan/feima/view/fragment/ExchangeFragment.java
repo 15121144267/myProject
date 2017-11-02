@@ -1,19 +1,23 @@
 package com.banshengyuan.feima.view.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.BroConstant;
-import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
+import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
+import com.banshengyuan.feima.dagger.module.FragmentModule;
+import com.banshengyuan.feima.dagger.module.MainActivityModule;
+import com.banshengyuan.feima.entity.HotFairResponse;
+import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
+import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +31,21 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class ExchangeFragment extends BaseFragment {
-
+public class ExchangeFragment extends BaseFragment implements ExChangeControl.ExChangeView {
+    @BindView(R.id.hot_fragment_activities)
+    RecyclerView mHotFragmentActivities;
+/*
     @BindView(R.id.exchange_tab_layout)
     TabLayout mExchangeTabLayout;
     @BindView(R.id.exchange_view_pager)
-    ViewPager mExchangeViewPager;
+    ViewPager mExchangeViewPager;*/
 
     public static ExchangeFragment newInstance() {
         return new ExchangeFragment();
     }
 
     private Unbinder unbind;
-    private final String[] modules = {"动态", "关注", "红人"};
+    private HotFairAdapter mHotFairAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +68,7 @@ public class ExchangeFragment extends BaseFragment {
     }
 
 
-    @Override
+    /*@Override
     void addFilter() {
         mFilter.addAction(BroConstant.UPDATE_SHOPPING_CARD_INFO);
     }
@@ -72,9 +78,9 @@ public class ExchangeFragment extends BaseFragment {
         if (intent.getAction().equals(BroConstant.UPDATE_SHOPPING_CARD_INFO)) {
             initData();
         }
-    }
+    }*/
 
-   /* @Override
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }
@@ -87,7 +93,7 @@ public class ExchangeFragment extends BaseFragment {
     @Override
     public void showToast(String message) {
         showBaseToast(message);
-    }*/
+    }
 
     @Override
     public void onDestroyView() {
@@ -103,25 +109,34 @@ public class ExchangeFragment extends BaseFragment {
 
 
     private void initData() {
-
+        List<HotFairResponse> list2 = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            HotFairResponse response = new HotFairResponse();
+            response.name = "魔兽世界" + i;
+            list2.add(response);
+        }
+        mHotFairAdapter.setNewData(list2);
     }
 
     private void initView() {
-        List<Fragment> mFragments = new ArrayList<>();
+        mHotFragmentActivities.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mHotFairAdapter = new HotFairAdapter(null,getActivity());
+        mHotFragmentActivities.setAdapter(mHotFairAdapter);
+       /* List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(TrendsFragment.newInstance());
         mFragments.add(FollowFragment.newInstance());
         mFragments.add(CelebrityFragment.newInstance());
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getChildFragmentManager(), mFragments, modules);
         mExchangeViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mExchangeViewPager.setAdapter(adapter);
-        mExchangeTabLayout.setupWithViewPager(mExchangeViewPager);
+        mExchangeTabLayout.setupWithViewPager(mExchangeViewPager);*/
     }
 
     private void initialize() {
-       /* DaggerFragmentComponent.builder()
+        DaggerFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
                 .fragmentModule(new FragmentModule(this, (MainActivity) getActivity())).build()
-                .inject(this);*/
+                .inject(this);
     }
 }

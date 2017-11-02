@@ -146,7 +146,7 @@ public class ForgetActivity extends BaseActivity implements ForgetControl.Forget
 
     @Override
     public void checkCodeSuccess() {
-        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this, mPhone, mVerityCode));
+        startActivity(SetNewPasswordActivity.getNewPasswordIntent(this));
     }
 
     private void initializeInjector() {

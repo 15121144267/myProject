@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.MainProducts;
+import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.ProductAdapter;
@@ -59,7 +60,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     private List<MainProducts> mList;
     private List<List> mList1;
     private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
-
+    private ProductAdapter mAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,11 +118,30 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
                 return new NetworkImageHolderView();
             }
         }, mList1).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
+
+
+
+        List<ProductResponse> mList2 = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            List<ProductResponse.ProductItemBean> mList3 = new ArrayList<>();
+            ProductResponse product = new ProductResponse();
+            product.name = "户外运动" + i;
+            for (int j = 0; j < 5; j++) {
+                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
+                itemBean.content = "魔兽世界" + j;
+                itemBean.tip = "少年三国志" + j;
+                mList3.add(itemBean);
+            }
+            product.mList = mList3;
+            mList2.add(product);
+        }
+        mAdapter.setNewData(mList2);
     }
 
     private void initView() {
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProductProducts.setAdapter(new ProductAdapter(null,getActivity()));
+        mAdapter = new ProductAdapter(null,getActivity(),false);
+        mProductProducts.setAdapter(mAdapter);
     }
 
 

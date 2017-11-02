@@ -19,6 +19,8 @@ public class GalleryCardAdapter extends  RecyclerView.Adapter<GalleryCardAdapter
 
     public GalleryCardAdapter(List<Integer> mList) {
         this.mList = mList;
+        mCardAdapterHelper.setPagePadding(5);
+        mCardAdapterHelper.setShowLeftCardWidth(25);
     }
 
     @Override

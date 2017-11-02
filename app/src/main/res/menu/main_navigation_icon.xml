@@ -5,19 +5,19 @@
         android:id="@+id/action_one"
         android:enabled="true"
         android:icon="@mipmap/navgration_icon1"
-        android:title="首页"
+        android:title="发现"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_two"
         android:enabled="true"
         android:icon="@mipmap/navgration_icon2"
-        android:title="精彩活动"
+        android:title="精选"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_three"
         android:enabled="true"
         android:icon="@mipmap/shoppingcard_icon"
-        android:title="购物车"
+        android:title="热闹"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_four"

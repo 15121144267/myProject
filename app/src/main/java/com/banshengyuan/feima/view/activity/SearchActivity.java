@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,7 +78,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     @Inject
     SearchControl.PresenterSearch mPresenter;
 
-    private final String[] modules = {"销量", "价格", "新品"};
+    private final String[] modules = {"市集", "产品", "商家","街区"};
     private ImageView mTabItemPriceLow;
     private ImageView mTabItemPriceUp;
     private TextView mTabItemPriceGoods;
@@ -276,31 +275,30 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                 );
 
                 mTabLayout.addTab(mTabLayout.newTab().setText(modules[0]));
-                mTabLayout.addTab(addOtherView());
+                mTabLayout.addTab(mTabLayout.newTab().setText(modules[1]));
                 mTabLayout.addTab(mTabLayout.newTab().setText(modules[2]));
+//                mTabLayout.addTab(addOtherView());
+                mTabLayout.addTab(mTabLayout.newTab().setText(modules[3]));
                 ValueUtil.setIndicator(mTabLayout, 40, 40);
-                TabLayout.Tab tab = mTabLayout.getTabAt(1);
+                /*TabLayout.Tab tab = mTabLayout.getTabAt(1);
                 if (tab != null) {
                     if (tab.getCustomView() != null) {
                         View view = (View) tab.getCustomView().getParent();
                         view.setOnClickListener(v -> changeStatus(tab));
                     }
-                }
+                }*/
 
                 mTabLayout.addOnTabSelectedListener(new TabCheckListener() {
                     @Override
                     public void onMyTabSelected(TabLayout.Tab tab) {
                         switch (tab.getPosition()) {
                             case 0:
-                                mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                                sortGoodsBySaleCount();
                                 break;
                             case 1:
-                                mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue_dark));
                                 break;
                             case 2:
-                                mTabItemPriceGoods.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-                                sortGoodsByNewProduct();
+                                break;
+                            case 3:
                                 break;
                         }
                     }
@@ -363,7 +361,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         mPresenter.onDestroy();
     }
 
-    private void changeStatus(TabLayout.Tab tab) {
+   /* private void changeStatus(TabLayout.Tab tab) {
         if (tab.getTag() == null) return;
         if (tab.isSelected()) {
             //改变状态
@@ -388,9 +386,9 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
                 sortGoodsByPrice(1);
             }
         }
-    }
+    }*/
 
-    private void arrowUiUp() {
+    /*private void arrowUiUp() {
         mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
         mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
     }
@@ -418,7 +416,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         mPriceDownGoodsList.clear();
         mPriceUpGoodsList.clear();
         mPresenter.requestProductList(mSearchName, mPartnerId, "finalPrice", flag, mPagerSize, 1);
-    }
+    }*/
 
     private TabLayout.Tab addOtherView() {
         View mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);

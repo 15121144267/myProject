@@ -11,4 +11,5 @@ public class BroConstant {
     public static final String PENDING_DELIVERY ="pending_delivery";
     public static final String UPDATE_PERSON_INFO ="update_person_info";
     public static final String UPDATE_SHOPPING_CARD_INFO ="update_shopping_card_info";
+    public static final String SHOW_SEARECH_LAYOUT ="show_search_layout";
 }
