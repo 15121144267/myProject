@@ -3,17 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f9f9f9"
     >
 
-   <!-- <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_trends_list_middle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />-->
-    <TextView
-        android:layout_width="match_parent"
-        android:text="3"
-        android:gravity="center"
-        android:layout_height="match_parent"/>
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_20"
+        />
 
 </LinearLayout>
 

@@ -1,11 +1,9 @@
 package com.banshengyuan.feima.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -18,15 +16,16 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.ShopResponse;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
+import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -47,6 +46,8 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     ViewPager mMainViewPager;
     @BindView(R.id.pending_show_search)
     ImageView mPendingShowSearch;
+    @BindView(R.id.pending_enter_classify)
+    ImageView mPendingEnterClassify;
 
     public static PendingOrderFragment newInstance() {
         return new PendingOrderFragment();
@@ -86,14 +87,29 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mMainViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mMainViewPager.setAdapter(adapter);
         mMainTabLayout.setupWithViewPager(mMainViewPager);
+//        mMainTabLayout.post(() ->   ValueUtil.setIndicator(mMainTabLayout, 35, 35));
         RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout());
-    }
+        RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
 
+
+    }
     public void showSearchLayout() {
         showSearchLayout = !showSearchLayout;
-        Intent intent = new Intent(BroConstant.SHOW_SEARECH_LAYOUT);
-        intent.putExtra("searchLayout",showSearchLayout);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        switch (mMainTabLayout.getSelectedTabPosition()){
+            case 0:
+                ((RecommendFragment)getChildFragmentManager().getFragments().get(0)).showSearchLayout(showSearchLayout);
+                break;
+            case 1:
+                ((MainFairFragment)getChildFragmentManager().getFragments().get(1)).showSearchLayout(showSearchLayout);
+                break;
+            case 2:
+                ((MainVistaFragment)getChildFragmentManager().getFragments().get(2)).showSearchLayout(showSearchLayout);
+                break;
+            case 3:
+                ((MagicMusicFragment)getChildFragmentManager().getFragments().get(3)).showSearchLayout(showSearchLayout);
+                break;
+        }
     }
 
     private void initData() {

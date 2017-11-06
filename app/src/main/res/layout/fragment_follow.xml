@@ -6,16 +6,13 @@
     android:background="#f9f9f9"
     >
 
-   <!-- <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_trends_list_first"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />-->
-    <TextView
-        android:layout_width="match_parent"
-        android:text="2"
-        android:gravity="center"
-        android:layout_height="match_parent"/>
-
+        />
 </LinearLayout>
 
 

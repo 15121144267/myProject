@@ -13,13 +13,14 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsClassifyActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsClassifyActivityModule;
+import com.banshengyuan.feima.entity.GoodsClassifyResponse;
 import com.banshengyuan.feima.entity.SortListResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsClassifyControl;
 import com.banshengyuan.feima.view.adapter.GoodsClassifyAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
-import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,21 +38,17 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.goods_classify_all)
-    TextView mGoodsClassifyAll;
     @BindView(R.id.goods_classify_list)
     RecyclerView mGoodsClassifyList;
 
-    public static Intent getIntent(Context context, String shopId) {
+    public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, GoodsClassifyActivity.class);
-        intent.putExtra("shopId", shopId);
         return intent;
     }
 
     @Inject
     GoodsClassifyControl.PresenterGoodsClassify mPresenter;
     private GoodsClassifyAdapter mAdapter;
-    private String mShopId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +57,7 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         ButterKnife.bind(this);
         initializeInjector();
         supportActionBar(mToolbar, true);
-        mMiddleName.setText("商品分类");
+        mMiddleName.setText("市集分类");
         initView();
         initData();
     }
@@ -93,41 +90,38 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
+       /* SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
         if(dataBean!=null){
             startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
-        }
+        }*/
 
     }
 
     @Override
     public void sortListSuccess(SortListResponse response) {
-        if (response.data.size() > 0) {
-            mAdapter.setNewData(response.data);
-        }
+
     }
 
     private void initView() {
-        mShopId = getIntent().getStringExtra("shopId");
-        RxView.clicks(mGoodsClassifyAll).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> onBackPressed());
         mGoodsClassifyList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new GoodsClassifyAdapter(null, GoodsClassifyActivity.this, this);
+        mAdapter = new GoodsClassifyAdapter(null,GoodsClassifyActivity.this,this);
         mGoodsClassifyList.setAdapter(mAdapter);
 
-        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-                    switch (view.getId()) {
-                        case R.id.adapter_goods_classify_all:
-                            SortListResponse.DataBean item = (SortListResponse.DataBean) adapter.getItem(position);
-                            if (item == null) return;
-                            startActivity(ClassifySearchActivity.getIntent(this, mShopId, item.resultModel.nid, 1));
-                            break;
-                    }
-                }
-        );
     }
 
     private void initData() {
-        mPresenter.requestSortList(mShopId, "01", 2, "saleCount", 1,10,1);
+        List<String> list1 = new ArrayList<>();
+        for (int i = 0; i <5 ; i++) {
+            list1.add("花市"+i);
+        }
+        List<GoodsClassifyResponse>  list2 =new ArrayList<>();
+        for (int i = 0; i <4 ; i++) {
+            GoodsClassifyResponse response = new GoodsClassifyResponse();
+            response.name = "线上街区"+i;
+            response.mList = list1;
+            list2.add(response);
+        }
+        mAdapter.setNewData(list2);
     }
 
     private void initializeInjector() {

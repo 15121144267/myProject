@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -36,7 +37,8 @@ import butterknife.Unbinder;
 public class MagicMusicFragment extends BaseFragment implements MagicMusicControl.MagicMusicView {
     @BindView(R.id.magic_music_recycle_view)
     RecyclerView mMagicMusicRecycleView;
-
+    @BindView(R.id.recommend_search_layout)
+    LinearLayout mRecommendSearchLayout;
     public static MagicMusicFragment newInstance() {
         return new MagicMusicFragment();
     }
@@ -80,10 +82,17 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
 
     private void initView() {
         mMagicMusicRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMagicMusicAdapter = new MagicMusicAdapter(null,getActivity());
+        mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity());
         mMagicMusicRecycleView.setAdapter(mMagicMusicAdapter);
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mRecommendSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mRecommendSearchLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void showLoading(String msg) {

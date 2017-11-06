@@ -100,9 +100,9 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
 
     private void initView() {
         List<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(TrendsFragment.newInstance());
         mFragments.add(FollowFragment.newInstance());
         mFragments.add(CelebrityFragment.newInstance());
+        mFragments.add(TrendsFragment.newInstance());
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
         mFairDetailViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mFairDetailViewPager.setAdapter(adapter);

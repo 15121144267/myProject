@@ -6,21 +6,12 @@
 
     <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width_5_ForView"/>
-
-    <TextView
-        android:id="@+id/goods_classify_all"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:drawableEnd="@mipmap/order_arrow_right"
-        android:gravity="center_vertical"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:text="全部分类"/>
-
-    <View style="@style/LineH_Fill_Width_5_ForView"/>
+    <View style="@style/LineH_Fill_Width1_5_ForView"
+          android:layout_marginBottom="@dimen/dp_25"
+        />
 
     <android.support.v7.widget.RecyclerView
+
         android:id="@+id/goods_classify_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"

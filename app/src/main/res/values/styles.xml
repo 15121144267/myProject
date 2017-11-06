@@ -104,7 +104,7 @@
 
     <style name="LineH_Fill_Width1_5_ForView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1.5dip</item>
+        <item name="android:layout_height">1dip</item>
         <item name="android:background">@color/line_grey_bg</item>
     </style>
 
@@ -343,5 +343,10 @@
         <item name="android:paddingLeft">14.0dip</item>
         <item name="android:paddingRight">14.0dip</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/tab_text_normal</item>
     </style>
 </resources>

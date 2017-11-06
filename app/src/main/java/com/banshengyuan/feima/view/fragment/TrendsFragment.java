@@ -3,6 +3,8 @@ package com.banshengyuan.feima.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,14 @@ import com.banshengyuan.feima.dagger.component.DaggerExchangeFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
+import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -25,6 +32,9 @@ import butterknife.Unbinder;
  */
 
 public class TrendsFragment extends BaseFragment implements TrendsControl.TrendsView {
+    @BindView(R.id.fragment_trends_list_last)
+    RecyclerView mFragmentTrendsListLast;
+
     public static TrendsFragment newInstance() {
         return new TrendsFragment();
     }
@@ -33,6 +43,7 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     TrendsControl.PresenterTrends mPresenter;
 
     private Unbinder unbind;
+    private FairDetailNewAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,11 +67,20 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     }
 
     private void initData() {
-
+        List<Integer> list = new ArrayList<>();
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        mAdapter.setNewData(list);
     }
 
     private void initView() {
-
+        mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mAdapter = new FairDetailNewAdapter(null, getActivity());
+        mFragmentTrendsListLast.setAdapter(mAdapter);
     }
 
     @Override

@@ -67,7 +67,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private RecommendBrandAdapter mAdapter;
     private RecommendDiscoverBrandAdapter mDiscoverBrandAdapter;
     private List<RecommendBrandResponse> mList;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +122,14 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(BrandFairActivity.getIntent(getActivity())));
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mRecommendSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mRecommendSearchLayout.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     void addFilter() {
         mFilter.addAction(BroConstant.SHOW_SEARECH_LAYOUT);
@@ -132,11 +139,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     void onReceivePro(Context context, Intent intent) {
         if (intent.getAction().equals(BroConstant.SHOW_SEARECH_LAYOUT)) {
             boolean flag = intent.getBooleanExtra("searchLayout", false);
-            if (flag) {
-                mRecommendSearchLayout.setVisibility(View.VISIBLE);
-            } else {
-                mRecommendSearchLayout.setVisibility(View.GONE);
-            }
 
 
         }

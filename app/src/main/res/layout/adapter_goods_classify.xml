@@ -2,31 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:paddingStart="@dimen/dp_20"
+              android:paddingEnd="@dimen/dp_10"
               android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/dp_12"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/adapter_goods_classify_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:layout_weight="1"
             android:text="规格"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_16"
+            android:gravity="center_vertical"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_15"
             />
 
         <TextView
-            android:id="@+id/adapter_goods_classify_all"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看全部"
-            android:layout_marginEnd="10dp"
             />
     </LinearLayout>
 

@@ -3,6 +3,8 @@ package com.banshengyuan.feima.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,14 @@ import com.banshengyuan.feima.dagger.component.DaggerExchangeFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.FollowControl;
+import com.banshengyuan.feima.view.adapter.CollectionFairAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -25,6 +32,9 @@ import butterknife.Unbinder;
  */
 
 public class FollowFragment extends BaseFragment implements FollowControl.FollowView {
+    @BindView(R.id.fragment_trends_list_first)
+    RecyclerView mFragmentTrendsListFirst;
+
     public static FollowFragment newInstance() {
         return new FollowFragment();
     }
@@ -33,6 +43,7 @@ public class FollowFragment extends BaseFragment implements FollowControl.Follow
     FollowControl.PresenterFollow mPresenter;
 
     private Unbinder unbind;
+    private CollectionFairAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,11 +67,17 @@ public class FollowFragment extends BaseFragment implements FollowControl.Follow
     }
 
     private void initData() {
-
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(R.mipmap.main_banner_third);
+        list2.add(R.mipmap.main_banner_third);
+        list2.add(R.mipmap.main_banner_third);
+        mAdapter.setNewData(list2);
     }
 
     private void initView() {
-
+        mFragmentTrendsListFirst.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new CollectionFairAdapter(null, getActivity(),mImageLoaderHelper);
+        mFragmentTrendsListFirst.setAdapter(mAdapter);
     }
 
 
@@ -88,11 +105,11 @@ public class FollowFragment extends BaseFragment implements FollowControl.Follow
     @Override
     public void onDestroy() {
         super.onDestroy();
-         mPresenter.onDestroy();
+        mPresenter.onDestroy();
     }
 
     private void initialize() {
-       DaggerExchangeFragmentComponent.builder()
+        DaggerExchangeFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .fairDetailActivityModule(new FairDetailActivityModule((AppCompatActivity) getActivity()))
                 .exchangeFragmentModule(new ExchangeFragmentModule(this, (AppCompatActivity) getActivity()))

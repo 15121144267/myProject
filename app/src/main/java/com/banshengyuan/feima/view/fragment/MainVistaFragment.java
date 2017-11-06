@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -36,7 +37,8 @@ import butterknife.Unbinder;
 public class MainVistaFragment extends BaseFragment implements VistaControl.VistaView {
     @BindView(R.id.main_fair_recycle_view)
     RecyclerView mMainFairRecycleView;
-
+    @BindView(R.id.recommend_search_layout)
+    LinearLayout mRecommendSearchLayout;
     public static MainVistaFragment newInstance() {
         return new MainVistaFragment();
     }
@@ -46,6 +48,7 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
 
     private Unbinder unbind;
     private HotFairAdapter mHotFairAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +82,17 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
 
     private void initView() {
         mMainFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mHotFairAdapter = new HotFairAdapter(null,getActivity());
+        mHotFairAdapter = new HotFairAdapter(null, getActivity());
         mMainFairRecycleView.setAdapter(mHotFairAdapter);
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mRecommendSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mRecommendSearchLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void showLoading(String msg) {

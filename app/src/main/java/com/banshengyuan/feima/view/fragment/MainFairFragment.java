@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -42,7 +43,8 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     RecyclerView mFairBrandRecycleView;
     @BindView(R.id.fair_hot_recycle_view)
     RecyclerView mFairHotRecycleView;
-
+    @BindView(R.id.recommend_search_layout)
+    LinearLayout mRecommendSearchLayout;
     public static MainFairFragment newInstance() {
         return new MainFairFragment();
     }
@@ -53,6 +55,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     private Unbinder unbind;
     private RecommendBrandAdapter mAdapter;
     private HotFairAdapter mHotFairAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,16 +96,23 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     }
 
     private void initView() {
-        mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-        mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new RecommendBrandAdapter(null, getActivity());
-        mHotFairAdapter = new HotFairAdapter(null,getActivity());
+        mHotFairAdapter = new HotFairAdapter(null, getActivity());
         mFairOfflineHotRecycleView.setAdapter(mAdapter);
         mFairBrandRecycleView.setAdapter(mAdapter);
         mFairHotRecycleView.setAdapter(mHotFairAdapter);
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mRecommendSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mRecommendSearchLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void showLoading(String msg) {
