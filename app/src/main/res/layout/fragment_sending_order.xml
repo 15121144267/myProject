@@ -28,7 +28,7 @@
             app:tabIndicatorHeight="2dp"
             app:paddingStart="@dimen/dp_20"
             app:paddingEnd="@dimen/dp_20"
-            app:tabMaxWidth="70dp"
+            app:tabMaxWidth="80dp"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
             app:tabIndicatorColor="@color/yellow_color"/>
 

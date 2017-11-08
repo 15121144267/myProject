@@ -64,75 +64,14 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v4.view.ViewPager
+            android:id="@+id/block_detail_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingEnd="@dimen/dp_20"
-                    android:paddingStart="@dimen/dp_20"
-                    android:paddingTop="@dimen/dp_25"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_12"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/block_detail_name"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="半生缘潮流音乐节"
-                            android:textColor="@color/tab_text_normal"
-                            android:textSize="@dimen/sp_24"
-                            android:textStyle="bold"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerInside"
-                            android:src="@mipmap/arrow_right"/>
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_15"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="半生缘潮流音乐节地理位置"
-                        android:textColor="@color/tab_text_normal"
-                        android:textSize="@dimen/sp_13"/>
-                </LinearLayout>
-
-                <View style="@style/LineH_Yellow_Fill_Width1"
-                    android:layout_marginBottom="@dimen/dp_25"
-                    />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/block_detail_product"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"/>
-
-            </LinearLayout>
-
-        </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

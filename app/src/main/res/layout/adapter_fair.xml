@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@mipmap/arrow_right"
             android:text="更多 "
+            android:layout_marginEnd="@dimen/dp_20"
             />
     </LinearLayout>
 

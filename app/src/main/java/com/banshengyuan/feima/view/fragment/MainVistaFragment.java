@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
 import com.banshengyuan.feima.entity.HotFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.VistaControl;
+import com.banshengyuan.feima.view.activity.BlockDetailActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 
@@ -84,6 +85,7 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
         mMainFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHotFairAdapter = new HotFairAdapter(null, getActivity());
         mMainFairRecycleView.setAdapter(mHotFairAdapter);
+        mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(BlockDetailActivity.getIntent(getActivity())));
     }
 
     public void showSearchLayout(boolean flag) {

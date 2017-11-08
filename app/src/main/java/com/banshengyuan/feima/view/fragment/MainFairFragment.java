@@ -16,11 +16,13 @@ import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
 import com.banshengyuan.feima.entity.HotFairResponse;
-import com.banshengyuan.feima.entity.RecommendBrandResponse;
+import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.MainFairControl;
+import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
+import com.banshengyuan.feima.view.adapter.UnderLineBrandAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     RecyclerView mFairHotRecycleView;
     @BindView(R.id.recommend_search_layout)
     LinearLayout mRecommendSearchLayout;
+
     public static MainFairFragment newInstance() {
         return new MainFairFragment();
     }
@@ -53,8 +56,10 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     MainFairControl.PresenterFair mPresenter;
 
     private Unbinder unbind;
+    private UnderLineBrandAdapter mUnderLineAdapter;
     private RecommendBrandAdapter mAdapter;
     private HotFairAdapter mHotFairAdapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,13 +83,23 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     }
 
     private void initData() {
-        List<RecommendBrandResponse> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            RecommendBrandResponse response = new RecommendBrandResponse();
-            response.name = "魔兽世界" + i;
-            list.add(response);
+        List<ProductResponse> mList = new ArrayList<>();
+        for (int i = 0; i < 1; i++) {
+            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
+            ProductResponse product = new ProductResponse();
+            product.name = "户外运动" + i;
+            for (int j = 0; j < 5; j++) {
+                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
+                itemBean.content = "魔兽世界" + j;
+                itemBean.tip = "少年三国志" + j;
+                mList1.add(itemBean);
+            }
+            product.mList = mList1;
+            mList.add(product);
         }
-        mAdapter.setNewData(list);
+
+        mAdapter.setNewData(mList);
+        mUnderLineAdapter.setNewData(mList);
 
         List<HotFairResponse> list2 = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -96,14 +111,30 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     }
 
     private void initView() {
-        mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new RecommendBrandAdapter(null, getActivity());
+        mAdapter = new RecommendBrandAdapter(null, getActivity(), true);
+        mUnderLineAdapter = new UnderLineBrandAdapter(null, getActivity(), true);
         mHotFairAdapter = new HotFairAdapter(null, getActivity());
-        mFairOfflineHotRecycleView.setAdapter(mAdapter);
+        mFairOfflineHotRecycleView.setAdapter(mUnderLineAdapter);
         mFairBrandRecycleView.setAdapter(mAdapter);
         mFairHotRecycleView.setAdapter(mHotFairAdapter);
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    startActivity(BrandFairActivity.getIntent(getActivity()));
+                    break;
+            }
+        });
+        mUnderLineAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    showToast("线下市集更多页面");
+                    break;
+            }
+        });
     }
 
     public void showSearchLayout(boolean flag) {

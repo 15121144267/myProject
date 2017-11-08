@@ -13,9 +13,9 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class FairProductAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
+public class BlockDetailFairAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
     private final Context mContext;
-    public FairProductAdapter(List<ProductResponse> mList, Context context) {
+    public BlockDetailFairAdapter(List<ProductResponse> mList, Context context) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
     }
@@ -26,10 +26,9 @@ public class FairProductAdapter extends BaseQuickAdapter<ProductResponse, BaseVi
         helper.addOnClickListener(R.id.adapter_fair_more);
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        FairProductItemAdapter itemAdapter = new FairProductItemAdapter(item.mList, mContext);
+        BlockDetailItemAdapter itemAdapter = new BlockDetailItemAdapter(item.mList, mContext);
         recyclerView.setAdapter(itemAdapter);
         itemAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showLongToast("市集详情"));
-
     }
 
 }

@@ -8,8 +8,12 @@ import com.banshengyuan.feima.entity.PersonInfoResponse;
  */
 
 public class WelcomeControl {
-    public interface WelcomeView extends LoadDataView{
+    public interface WelcomeView extends LoadDataView {
         void getPersonInfoSuccess(PersonInfoResponse response);
+
+        void switchToGuide();
+
+        void showGuideFinish(boolean isFinish);
     }
 
     public interface PresenterWelcome extends Presenter<WelcomeView> {

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBlockDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.BlockDetailActivityModule;
-import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
-import com.banshengyuan.feima.view.adapter.ProductAdapter;
+import com.banshengyuan.feima.view.adapter.MyFragmentAdapter;
+import com.banshengyuan.feima.view.fragment.BlockDetailFragment;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -40,8 +40,9 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     ImageView mToolbarRightIcon;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.block_detail_product)
-    RecyclerView mBlockDetailProduct;
+    @BindView(R.id.block_detail_view_pager)
+    ViewPager mBlockDetailViewPager;
+
 
     public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, BlockDetailActivity.class);
@@ -50,7 +51,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
 
     @Inject
     BlockDetailControl.PresenterBlockDetail mPresenter;
-    private ProductAdapter mAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,11 +90,14 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     }
 
     private void initView() {
+
+        List<Fragment> fragments = new ArrayList<>();
+        BlockDetailFragment fragment = BlockDetailFragment.newInstance();
+        fragments.add(fragment);
+        MyFragmentAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), fragments);
+        mBlockDetailViewPager.setAdapter(adapter);
+
         mToolbarRightIcon.setVisibility(View.VISIBLE);
-        mBlockDetailProduct.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter =  new ProductAdapter(null,this,false);
-        mBlockDetailProduct.setAdapter(mAdapter);
-        mBlockDetailProduct.setNestedScrollingEnabled(false);
     }
 
     private void initData() {
@@ -103,22 +107,6 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mImageList.add(R.mipmap.header);
         mBlockDetailBanner.isAutoPlay(false);
         mBlockDetailBanner.setImages(mImageList).setImageLoader(new GlideLoader()).start();
-
-        List<ProductResponse> mList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList1.add(itemBean);
-            }
-            product.mList = mList1;
-            mList.add(product);
-        }
-        mAdapter.setNewData(mList);
     }
 
     private void initializeInjector() {

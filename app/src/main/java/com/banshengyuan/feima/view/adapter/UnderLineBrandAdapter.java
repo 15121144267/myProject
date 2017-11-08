@@ -13,23 +13,30 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class FairProductAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
+public class UnderLineBrandAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
     private final Context mContext;
-    public FairProductAdapter(List<ProductResponse> mList, Context context) {
+    private boolean mChangeFlag;
+
+    public UnderLineBrandAdapter(List<ProductResponse> mList, Context context, boolean changeFlag) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
+        mChangeFlag = changeFlag;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, ProductResponse item) {
         if (item == null) return;
+        boolean flag;
+        flag = helper.getAdapterPosition() != 0;
         helper.addOnClickListener(R.id.adapter_fair_more);
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        FairProductItemAdapter itemAdapter = new FairProductItemAdapter(item.mList, mContext);
+        ProductItemAdapter itemAdapter = new ProductItemAdapter(item.mList, mContext, mChangeFlag, flag);
         recyclerView.setAdapter(itemAdapter);
-        itemAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showLongToast("市集详情"));
 
+        itemAdapter.setOnItemClickListener((adapter, view, position) ->
+                ToastUtils.showLongToast("线下市集详情")
+        );
     }
 
 }

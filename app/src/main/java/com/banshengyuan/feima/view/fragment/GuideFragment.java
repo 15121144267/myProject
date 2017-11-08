@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.view.activity.LoginActivity;
+import com.banshengyuan.feima.entity.SpConstant;
 
 
 public final class GuideFragment extends BaseFragment {
@@ -53,8 +53,8 @@ public final class GuideFragment extends BaseFragment {
                 imageView.setImageResource(R.mipmap.guide_third);
                 btn.setVisibility(View.VISIBLE);
                 btn.setOnClickListener(v1->{
-                    mSharePreferenceUtil.setBooleanValue("isFirstOpen", false);
-                    startActivity(LoginActivity.getLoginIntent(getActivity()));
+                    mSharePreferenceUtil.setBooleanValue(SpConstant.FIRST_OPEN_KEY, false);
+                    getActivity().setResult(100);
                     getActivity().finish();
                 });
                 break;

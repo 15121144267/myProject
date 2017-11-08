@@ -50,31 +50,11 @@
             android:text="市集"
             android:textStyle="bold"/>
 
-
-        <TextView
-            style="@style/TextColor_Black_18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_25"
-            android:text="线下市集热卖中"
-            android:textStyle="bold"
-            />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fair_offline_hot_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
-
-
-        <TextView
-            style="@style/TextColor_Black_18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_25"
-            android:layout_marginTop="@dimen/dp_25"
-            android:text="品牌市集"
-            android:textStyle="bold"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fair_brand_recycle_view"

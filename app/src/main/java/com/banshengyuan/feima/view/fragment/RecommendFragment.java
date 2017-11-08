@@ -18,6 +18,7 @@ import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.entity.RecommendDiscoverResponse;
 import com.banshengyuan.feima.view.PresenterControl.RecommendControl;
@@ -89,12 +90,22 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            RecommendBrandResponse response = new RecommendBrandResponse();
-            response.name = "魔兽世界" + i;
-            mList.add(response);
+
+        List<ProductResponse> mList = new ArrayList<>();
+        for (int i = 0; i < 1; i++) {
+            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
+            ProductResponse product = new ProductResponse();
+            product.name = "户外运动" + i;
+            for (int j = 0; j < 5; j++) {
+                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
+                itemBean.content = "魔兽世界" + j;
+                itemBean.tip = "少年三国志" + j;
+                mList1.add(itemBean);
+            }
+            product.mList = mList1;
+            mList.add(product);
         }
+
         mAdapter.setNewData(mList);
 
         List<RecommendDiscoverResponse> list2 = new ArrayList<>();
@@ -110,16 +121,22 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         RxView.clicks(mRecommendBlockDetailEnter).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(BlockDetailActivity.getIntent(getActivity())));
         mRecommendSearch.setEditHint("请输入商品名、商家、分类");
-        mRecommendBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mRecommendBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecommendDiscoverRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new RecommendBrandAdapter(null, getActivity());
+        mAdapter = new RecommendBrandAdapter(null, getActivity(),true);
         mDiscoverBrandAdapter = new RecommendDiscoverBrandAdapter(null, getActivity());
 
         mRecommendBrandRecycleView.setAdapter(mAdapter);
         mRecommendDiscoverRecycleView.setAdapter(mDiscoverBrandAdapter);
 
-        mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(BrandFairActivity.getIntent(getActivity())));
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    startActivity(BrandFairActivity.getIntent(getActivity()));
+                    break;
+            }
+        });
     }
 
     public void showSearchLayout(boolean flag) {

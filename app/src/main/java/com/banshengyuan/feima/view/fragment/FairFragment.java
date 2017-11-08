@@ -16,8 +16,10 @@ import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
+import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.FairProductAdapter;
+import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,8 @@ import butterknife.Unbinder;
 public class FairFragment extends BaseFragment implements FairControl.FairView {
     @BindView(R.id.send_fragment_fair)
     RecyclerView mSendFragmentFair;
+    @BindView(R.id.send_fragment_product)
+    RecyclerView mSendFragmentProduct;
 
     public static FairFragment newInstance() {
         return new FairFragment();
@@ -45,7 +49,9 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     FairControl.PresenterFair mPresenter;
 
     private Unbinder unbind;
-    private FairProductAdapter mAdapter;
+    private RecommendBrandAdapter mAdapter;
+    private FairProductAdapter mFairProductAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +75,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
 
     private void initData() {
         List<ProductResponse> mList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 1; i++) {
             List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
             ProductResponse product = new ProductResponse();
             product.name = "户外运动" + i;
@@ -82,13 +88,51 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
             product.mList = mList1;
             mList.add(product);
         }
+
         mAdapter.setNewData(mList);
+
+        List<ProductResponse> list = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
+            ProductResponse product = new ProductResponse();
+            product.name = "户外运动" + i;
+            for (int j = 0; j < 5; j++) {
+                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
+                itemBean.content = "魔兽世界" + j;
+                itemBean.tip = "少年三国志" + j;
+                mList1.add(itemBean);
+            }
+            product.mList = mList1;
+            list.add(product);
+        }
+        mFairProductAdapter.setNewData(list);
     }
 
     private void initView() {
         mSendFragmentFair.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new FairProductAdapter(null, getActivity(),true);
+        mSendFragmentProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new RecommendBrandAdapter(null, getActivity(), true);
+        mFairProductAdapter = new FairProductAdapter(null, getActivity());
         mSendFragmentFair.setAdapter(mAdapter);
+        mSendFragmentProduct.setAdapter(mFairProductAdapter);
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    startActivity(BrandFairActivity.getIntent(getActivity()));
+                    break;
+            }
+        });
+
+        mFairProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    showToast("市集更多");
+                    break;
+            }
+        });
+
+
+
     }
 
 

@@ -63,7 +63,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         initializeInjector();
-        supportActionBar(mToolbar, true);
         initView();
         initData();
     }
