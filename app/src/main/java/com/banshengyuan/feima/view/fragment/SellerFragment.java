@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.SellerControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.ShopBlockActivity;
 import com.banshengyuan.feima.view.adapter.GallerySellerAdapter;
 import com.banshengyuan.feima.view.adapter.ProductAdapter;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardScaleHelper;
@@ -36,7 +37,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class SellerFragment extends BaseFragment implements SellerControl.SellerView {
+public class SellerFragment extends BaseFragment implements SellerControl.SellerView, GallerySellerAdapter.SellerClickListener {
 
 
     public static SellerFragment newInstance() {
@@ -52,6 +53,8 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     private Unbinder unbind;
     private ProductAdapter mProductAdapter;
     private CardScaleHelper mCardScaleHelper;
+    private GallerySellerAdapter mGallerySellerAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +90,8 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         mList0.add(R.mipmap.header);
         mList0.add(R.mipmap.header);
         mList0.add(R.mipmap.header);
-        mShopTopGallery.setAdapter(new GallerySellerAdapter(getActivity(),mList0,mImageLoaderHelper));
+        mGallerySellerAdapter = new GallerySellerAdapter(getActivity(), mList0, mImageLoaderHelper);
+        mShopTopGallery.setAdapter(mGallerySellerAdapter);
 
         List<ProductResponse> mList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -104,6 +108,14 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
             mList.add(product);
         }
         mProductAdapter.setNewData(mList);
+
+        mGallerySellerAdapter.setOnItemListener(this);
+
+    }
+
+    @Override
+    public void sellerClickItemListener(int position) {
+        startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity()));
     }
 
     private void initView() {
@@ -119,8 +131,9 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         mShopTopProducts.setAdapter(mSellerAdapter);*/
 
         mShopBottomProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProductAdapter = new ProductAdapter(null, getActivity(),true);
+        mProductAdapter = new ProductAdapter(null, getActivity(), true);
         mShopBottomProducts.setAdapter(mProductAdapter);
+
     }
 
 

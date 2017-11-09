@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
+import com.banshengyuan.feima.view.activity.FairDetailActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.FairProductAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
@@ -126,8 +127,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         mFairProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    showToast("市集更多");
-                    break;
+                    startActivity(FairDetailActivity.getIntent(getActivity(),2));
             }
         });
 

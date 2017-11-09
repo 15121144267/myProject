@@ -7,10 +7,12 @@ import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.FairDetailApi;
 import com.banshengyuan.feima.view.PresenterControl.CelebrityControl;
+import com.banshengyuan.feima.view.PresenterControl.CommentControl;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
 import com.banshengyuan.feima.view.PresenterControl.FollowControl;
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterCelebrityImpl;
+import com.banshengyuan.feima.view.PresenterImpl.PresenterCommentImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterFairDetailImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterFollowImpl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterTrendsImpl;
@@ -85,6 +87,12 @@ public class FairDetailActivityModule {
     @Provides
     @PerActivity
     CelebrityControl.PresenterCelebrity providePresenterCelebrity(PresenterCelebrityImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    CommentControl.PresenterComment providePresenterComment(PresenterCommentImpl presenter) {
         return presenter;
     }
 }

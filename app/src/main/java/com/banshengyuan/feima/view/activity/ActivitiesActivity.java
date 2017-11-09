@@ -45,7 +45,7 @@ public class ActivitiesActivity extends BaseActivity {
         setContentView(R.layout.activity_activities);
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
-        mMiddleName.setText("精彩活动");
+        mMiddleName.setText("商家");
         initView();
         initData();
     }
@@ -66,19 +66,5 @@ public class ActivitiesActivity extends BaseActivity {
         mAdapter = new ActivitiesAdapter(null,this);
         mActivityRecycleView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(( adapter,  view,  position)-> {
-                    switch (position){
-                        case 0:
-                            startActivity(ActivityDetailActivity.getActivityDetailIntent(this,1));
-                            break;
-                        case 1:
-                            startActivity(ActivityDetailActivity.getActivityDetailIntent(this,2));
-                            break;
-                        case 2:
-                            startActivity(ActivityDetailActivity.getActivityDetailIntent(this,3));
-                            break;
-                    }
-                }
-        );
     }
 }

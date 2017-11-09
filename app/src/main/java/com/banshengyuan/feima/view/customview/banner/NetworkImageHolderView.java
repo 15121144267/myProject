@@ -5,9 +5,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.view.activity.ProductListActivity;
 import com.banshengyuan.feima.view.adapter.MainProductsSecondAdapter;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class NetworkImageHolderView implements Holder<List> {
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, view1, position) ->
-                Toast.makeText(context,""+position,Toast.LENGTH_SHORT).show());
+               context.startActivity(ProductListActivity.getIntent(context)));
         return view;
     }
 

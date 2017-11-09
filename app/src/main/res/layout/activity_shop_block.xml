@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_common"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <LinearLayout
+            android:id="@+id/shop_block_blocks_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/shop_block_blocks_text"
+                style="@style/TextColor_dark_black_14"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableEnd="@mipmap/price_low"
+                android:gravity="center"
+                android:text="全部街区 "/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/shop_block_shops_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/shop_block_shops_text"
+                style="@style/TextColor_dark_black_14"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableEnd="@mipmap/price_low"
+                android:gravity="center"
+                android:text="全部商家 "/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/shop_block_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+</LinearLayout>

@@ -117,6 +117,12 @@
         <item name="android:background">@color/line_grey_bg</item>
     </style>
 
+    <style name="LineH_Fill_Width_white_1_ForView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="LineH_Fill_Width1_5_ForView2">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dip</item>
@@ -218,6 +224,12 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="TextColor_dark_black">
+        <item name="android:textColor">@color/tab_text_normal</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
     <style name="TextColor_dark_black2_15">
         <item name="android:textColor">@color/darkblack</item>
         <item name="android:textSize">@dimen/sp_15</item>

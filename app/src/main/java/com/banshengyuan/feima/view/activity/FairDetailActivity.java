@@ -18,6 +18,7 @@ import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.fragment.CelebrityFragment;
+import com.banshengyuan.feima.view.fragment.CommentFragment;
 import com.banshengyuan.feima.view.fragment.FollowFragment;
 import com.banshengyuan.feima.view.fragment.TrendsFragment;
 
@@ -37,8 +38,10 @@ import butterknife.ButterKnife;
 public class FairDetailActivity extends BaseActivity implements FairDetailControl.FairDetailView {
 
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, FairDetailActivity.class);
+    public static Intent getIntent(Context context, Integer flag) {
+        Intent intent = new Intent(context, FairDetailActivity.class);
+        intent.putExtra("layout_flag", flag);
+        return intent;
     }
 
     @BindView(R.id.toolbar_right_icon)
@@ -54,7 +57,7 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
 
     @Inject
     FairDetailControl.PresenterFairDetail mPresenter;
-    private final String[] modules = {"最新", "商家", "产品"};
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,10 +101,31 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
     }
 
     private void initView() {
+        Integer layoutFlag = getIntent().getIntExtra("layout_flag", 0);
+        String[] modules={};
+        List<String> list = new ArrayList<>();
         List<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(FollowFragment.newInstance());
-        mFragments.add(CelebrityFragment.newInstance());
-        mFragments.add(TrendsFragment.newInstance());
+        if (layoutFlag == 1) {
+
+            list.add("最新");
+            list.add("商家");
+            list.add("产品");
+            modules = new String[list.size()];
+            list.toArray(modules);
+            mFragments.add(FollowFragment.newInstance());
+            mFragments.add(CelebrityFragment.newInstance());
+            mFragments.add(TrendsFragment.newInstance());
+        } else if (layoutFlag == 2) {
+            list.add("市集");
+            list.add("产品");
+            list.add("点评");
+            modules = new String[list.size()];
+            list.toArray(modules);
+            mFragments.add(FollowFragment.newInstance());
+            mFragments.add(TrendsFragment.newInstance());
+            mFragments.add(CommentFragment.newInstance());
+        }
+
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
         mFairDetailViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mFairDetailViewPager.setAdapter(adapter);

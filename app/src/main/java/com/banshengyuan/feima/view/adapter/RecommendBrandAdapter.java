@@ -35,7 +35,7 @@ public class RecommendBrandAdapter extends BaseQuickAdapter<ProductResponse, Bas
         recyclerView.setAdapter(itemAdapter);
 
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
-            mContext.startActivity(FairDetailActivity.getIntent(mContext))
+            mContext.startActivity(FairDetailActivity.getIntent(mContext,1))
         );
     }
 

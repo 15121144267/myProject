@@ -15,12 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GallerySellerAdapter extends  RecyclerView.Adapter<GallerySellerAdapter.ViewHolder> {
+public class GallerySellerAdapter extends RecyclerView.Adapter<GallerySellerAdapter.ViewHolder> {
     private List<Integer> mList = new ArrayList<>();
-    private CardAdapterHelper mCardAdapterHelper ;
+    private CardAdapterHelper mCardAdapterHelper;
     private ImageLoaderHelper mImageLoaderHelper;
     private Context mContext;
-    public GallerySellerAdapter(Context context,List<Integer> mList, ImageLoaderHelper imageLoaderHelper) {
+    private SellerClickListener mSellerClickListener;
+
+    public void setOnItemListener(SellerClickListener sellerClickListener) {
+        mSellerClickListener = sellerClickListener;
+    }
+
+    public GallerySellerAdapter(Context context, List<Integer> mList, ImageLoaderHelper imageLoaderHelper) {
         this.mList = mList;
         mImageLoaderHelper = imageLoaderHelper;
         mContext = context;
@@ -40,6 +46,12 @@ public class GallerySellerAdapter extends  RecyclerView.Adapter<GallerySellerAda
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
         holder.mImageView.setImageResource(mList.get(position));
+
+        holder.mImageView.setOnClickListener(v -> {
+            if (mSellerClickListener != null) {
+                mSellerClickListener.sellerClickItemListener(position);
+            }
+        });
     }
 
     @Override
@@ -57,4 +69,7 @@ public class GallerySellerAdapter extends  RecyclerView.Adapter<GallerySellerAda
 
     }
 
+    public interface SellerClickListener {
+        void sellerClickItemListener(int position);
+    }
 }

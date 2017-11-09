@@ -16,6 +16,7 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.OrderDeliveryResponse;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -85,6 +86,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
         mDiscoverViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mDiscoverViewPager.setAdapter(adapter);
         mDiscoverTabLayout.setupWithViewPager(mDiscoverViewPager);
+        ValueUtil.setIndicator(mDiscoverTabLayout,20,20);
     }
 
     @Override

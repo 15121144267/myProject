@@ -20,6 +20,7 @@ import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.ProductListActivity;
 import com.banshengyuan.feima.view.adapter.ProductAdapter;
 import com.banshengyuan.feima.view.customview.banner.CBViewHolderCreator;
 import com.banshengyuan.feima.view.customview.banner.ConvenientBanner;
@@ -119,8 +120,6 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
             }
         }, mList1).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
 
-
-
         List<ProductResponse> mList2 = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             List<ProductResponse.ProductItemBean> mList3 = new ArrayList<>();
@@ -142,6 +141,14 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new ProductAdapter(null,getActivity(),false);
         mProductProducts.setAdapter(mAdapter);
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    startActivity(ProductListActivity.getIntent(getActivity()));
+                    break;
+            }
+        });
     }
 
 

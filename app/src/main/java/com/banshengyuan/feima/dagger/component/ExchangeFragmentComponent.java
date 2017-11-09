@@ -6,6 +6,7 @@ import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.view.fragment.CelebrityFragment;
+import com.banshengyuan.feima.view.fragment.CommentFragment;
 import com.banshengyuan.feima.view.fragment.FollowFragment;
 import com.banshengyuan.feima.view.fragment.TrendsFragment;
 
@@ -22,4 +23,5 @@ public interface ExchangeFragmentComponent extends FairDetailActivityComponent{
     void inject(TrendsFragment trendsFragment);
     void inject(FollowFragment followFragment);
     void inject(CelebrityFragment celebrityFragment);
+    void inject(CommentFragment commentFragment);
 }

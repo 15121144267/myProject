@@ -26,9 +26,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:tabIndicatorHeight="2dp"
-            app:paddingStart="@dimen/dp_20"
-            app:paddingEnd="@dimen/dp_20"
-            app:tabMaxWidth="80dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
             app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
             app:tabIndicatorColor="@color/yellow_color"/>
 

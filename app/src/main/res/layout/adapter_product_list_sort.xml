@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+        <TextView
+            android:id="@+id/adapter_product_sort_name"
+            android:gravity="center"
+            android:text="全部分类"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            style="@style/TextColor_dark_black_14"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+</LinearLayout>

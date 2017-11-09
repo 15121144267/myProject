@@ -109,6 +109,10 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".view.activity.ProductListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".view.activity.ClassifySearchActivity"
             android:screenOrientation="portrait"/>
 
@@ -158,7 +162,7 @@
             android:name=".view.activity.SexChoiceActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".view.activity.ActivityDetailActivity"
+            android:name=".view.activity.ShopBlockActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.SafeSettingActivity"
