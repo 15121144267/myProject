@@ -7,18 +7,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopBlockActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopBlockActivityModule;
+import com.banshengyuan.feima.utils.AppDeviceUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShopBlockControl;
+import com.banshengyuan.feima.view.adapter.CollectionShopAdapter;
 import com.banshengyuan.feima.view.adapter.ShopMenuAdapter;
 import com.banshengyuan.feima.view.customview.CustomPopWindow;
 
@@ -61,6 +61,8 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     @Inject
     ShopBlockControl.PresenterShopBlock mPresenter;
     private int mWith;
+    private CollectionShopAdapter mAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +77,22 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void initData() {
-
+        List<Integer> mList = new ArrayList<>();
+        mList.add(R.mipmap.main_banner_first);
+        mList.add(R.mipmap.main_banner_second);
+        mList.add(R.mipmap.main_banner_third);
+        mList.add(R.mipmap.main_banner_first);
+        mList.add(R.mipmap.main_banner_second);
+        mList.add(R.mipmap.main_banner_third);
+        mAdapter.setNewData(mList);
     }
 
     private void initView() {
+        mShopBlockList.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new CollectionShopAdapter(null, this);
+        mShopBlockList.setAdapter(mAdapter);
+
+
         mShopBlockShopsLayout.setOnClickListener(v -> {
                     List<String> list = new ArrayList<>();
                     for (int i = 0; i < 4; i++) {
@@ -96,15 +110,13 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                 }
         );
 
-        WindowManager manager = this.getWindowManager();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(outMetrics);
-        mWith= outMetrics.widthPixels;
+
+        mWith = AppDeviceUtil.getDisplayMetrics(this).widthPixels;
     }
 
     private void showPopMenu(View view, List<String> list) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, null);
-        //处理popWindow 显示内容
+
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         ShopMenuAdapter adapter = new ShopMenuAdapter(list, ShopBlockActivity.this);
@@ -112,10 +124,9 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
         adapter.setOnItemClickListener((adapter1, view1, position) ->
                 showToast("" + position)
         );
-        //创建并显示popWindow
         CustomPopWindow mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
                 .setView(contentView)
-                .size(mWith/2, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .size(mWith / 2, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create()
                 .showAsDropDown(view, 0, 0);
 

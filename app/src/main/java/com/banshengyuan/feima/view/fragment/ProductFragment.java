@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -22,6 +23,7 @@ import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.ProductListActivity;
 import com.banshengyuan.feima.view.adapter.ProductAdapter;
+import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.banshengyuan.feima.view.customview.banner.CBViewHolderCreator;
 import com.banshengyuan.feima.view.customview.banner.ConvenientBanner;
 import com.banshengyuan.feima.view.customview.banner.NetworkImageHolderView;
@@ -49,6 +51,10 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     ConvenientBanner mConvenientBanner;
     @BindView(R.id.product_products)
     RecyclerView mProductProducts;
+    @BindView(R.id.recommend_search)
+    ClearEditText mRecommendSearch;
+    @BindView(R.id.search_layout)
+    LinearLayout mSearchLayout;
 
     public static ProductFragment newInstance() {
         return new ProductFragment();
@@ -62,6 +68,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     private List<List> mList1;
     private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
     private ProductAdapter mAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +146,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
 
     private void initView() {
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ProductAdapter(null,getActivity(),false);
+        mAdapter = new ProductAdapter(null, getActivity(), false);
         mProductProducts.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -151,6 +158,13 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
         });
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mSearchLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void showLoading(String msg) {

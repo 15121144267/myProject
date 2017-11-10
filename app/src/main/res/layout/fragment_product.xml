@@ -12,14 +12,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <TextView
+
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/dp_20"
             android:layout_marginStart="@dimen/dp_20"
+            >
+
+            <com.banshengyuan.feima.view.customview.ClearEditText
+                android:id="@+id/recommend_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:textColor="#212121"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <TextView
             android:id="@+id/textView"
             style="@style/TextColor_Black_30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="25dp"
             android:text="推荐分类"
             android:textStyle="bold"/>
@@ -35,14 +65,14 @@
         <View style="@style/LineH_Yellow_Fill_Width1"/>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
             android:id="@+id/product_products"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/dp_25"
             android:layout_height="0dp"
-            android:nestedScrollingEnabled="false"
-            android:layout_weight="1"/>
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_25"
+            android:layout_weight="1"
+            android:nestedScrollingEnabled="false"/>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

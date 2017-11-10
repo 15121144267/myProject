@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -31,6 +32,9 @@ public class ProductAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHo
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         ProductItemAdapter itemAdapter = new ProductItemAdapter(item.mList, mContext, mChangeFlag,flag);
         recyclerView.setAdapter(itemAdapter);
+        itemAdapter.setOnItemClickListener((adapter, view, position) ->
+            mContext.startActivity(ShopProductDetailActivity. getActivityDetailIntent(mContext))
+        );
     }
 
 }

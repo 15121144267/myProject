@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -21,6 +22,7 @@ import com.banshengyuan.feima.view.activity.FairDetailActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.FairProductAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
+import com.banshengyuan.feima.view.customview.ClearEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,10 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     RecyclerView mSendFragmentFair;
     @BindView(R.id.send_fragment_product)
     RecyclerView mSendFragmentProduct;
+    @BindView(R.id.recommend_search)
+    ClearEditText mRecommendSearch;
+    @BindView(R.id.search_layout)
+    LinearLayout mSearchLayout;
 
     public static FairFragment newInstance() {
         return new FairFragment();
@@ -127,14 +133,20 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         mFairProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(FairDetailActivity.getIntent(getActivity(),2));
+                    startActivity(FairDetailActivity.getIntent(getActivity(), 2));
             }
         });
 
 
-
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mSearchLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void showLoading(String msg) {

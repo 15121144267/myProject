@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -20,6 +21,7 @@ import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.ShopBlockActivity;
 import com.banshengyuan.feima.view.adapter.GallerySellerAdapter;
 import com.banshengyuan.feima.view.adapter.ProductAdapter;
+import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardScaleHelper;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView;
 
@@ -39,6 +41,11 @@ import butterknife.Unbinder;
 
 public class SellerFragment extends BaseFragment implements SellerControl.SellerView, GallerySellerAdapter.SellerClickListener {
 
+
+    @BindView(R.id.recommend_search)
+    ClearEditText mRecommendSearch;
+    @BindView(R.id.search_layout)
+    LinearLayout mSearchLayout;
 
     public static SellerFragment newInstance() {
         return new SellerFragment();
@@ -113,6 +120,14 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     }
 
+    public void showSearchLayout(boolean flag) {
+        if (!flag) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+        } else {
+            mSearchLayout.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void sellerClickItemListener(int position) {
         startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity()));
@@ -133,7 +148,13 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         mShopBottomProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProductAdapter = new ProductAdapter(null, getActivity(), true);
         mShopBottomProducts.setAdapter(mProductAdapter);
-
+        mProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_fair_more:
+                    startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity()));
+                    break;
+            }
+        });
     }
 
 

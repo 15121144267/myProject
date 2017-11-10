@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9f9"
+    >
+    <TextView
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:text="打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂打风格啊昂"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -18,11 +19,14 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.OrderDeliveryResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
+import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -42,10 +46,15 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     TabLayout mDiscoverTabLayout;
     @BindView(R.id.discover_view_pager)
     ViewPager mDiscoverViewPager;
+    @BindView(R.id.sending_enter_classify)
+    ImageView mSendingEnterClassify;
+    @BindView(R.id.sending_show_search)
+    ImageView mSendingShowSearch;
 
     public static SendingOrderFragment newInstance() {
         return new SendingOrderFragment();
     }
+    private boolean showSearchLayout = false;
     private final String[] modules = {"市集", "产品", "商家"};
     @Inject
     SendingOrderControl.PresenterSendingOrder mPresenter;
@@ -86,7 +95,26 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
         mDiscoverViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mDiscoverViewPager.setAdapter(adapter);
         mDiscoverTabLayout.setupWithViewPager(mDiscoverViewPager);
-        ValueUtil.setIndicator(mDiscoverTabLayout,20,20);
+        ValueUtil.setIndicator(mDiscoverTabLayout, 20, 20);
+        RxView.clicks(mSendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
+        RxView.clicks(mSendingShowSearch).subscribe(o -> showSearchLayout());
+    }
+
+    public void showSearchLayout() {
+        showSearchLayout = !showSearchLayout;
+        switch (mDiscoverTabLayout.getSelectedTabPosition()) {
+            case 0:
+                ((FairFragment) getChildFragmentManager().getFragments().get(0)).showSearchLayout(showSearchLayout);
+                break;
+            case 1:
+                ((ProductFragment) getChildFragmentManager().getFragments().get(1)).showSearchLayout(showSearchLayout);
+                break;
+            case 2:
+                ((SellerFragment) getChildFragmentManager().getFragments().get(2)).showSearchLayout(showSearchLayout);
+                break;
+
+        }
     }
 
     @Override

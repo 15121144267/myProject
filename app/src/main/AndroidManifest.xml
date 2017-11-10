@@ -123,6 +123,9 @@
         <activity
             android:name=".view.activity.BaseActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.ShopProductDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activity.SignActivity"

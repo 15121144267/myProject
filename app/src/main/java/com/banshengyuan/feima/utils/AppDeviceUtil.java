@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -25,10 +27,12 @@ public class AppDeviceUtil {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
-    public static String getIMEI(Context context){
+
+    public static String getIMEI(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm.getDeviceId();
     }
+
     /**
      * 获取应用程序名称
      */
@@ -118,7 +122,9 @@ public class AppDeviceUtil {
         String pkgName;
         try {
             field = ActivityManager.RunningAppProcessInfo.class.getDeclaredField("processState");
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> appList = am.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo app : appList) {
@@ -126,7 +132,9 @@ public class AppDeviceUtil {
                 Integer state = null;
                 try {
                     state = field != null ? field.getInt(app) : 0;
-                } catch (Exception e) { e.printStackTrace(); }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (state != null && state == START_TASK_TO_FRONT) {
                     currentInfo = app;
                     break;
@@ -135,18 +143,18 @@ public class AppDeviceUtil {
         }
         if (currentInfo != null) {
             pkgName = currentInfo.processName;
-            if(pkgName.equals(context.getPackageName())){
+            if (pkgName.equals(context.getPackageName())) {
                 return true;
             }
         }
         return false;
     }
 
-    
-    public static boolean lastResult(Context context){
-        if(Build.VERSION.SDK_INT <= 20){
+
+    public static boolean lastResult(Context context) {
+        if (Build.VERSION.SDK_INT <= 20) {
             return isRunningForeground(context);
-        }else {
+        } else {
             return isRunningForeground2(context);
         }
     }
@@ -193,7 +201,6 @@ public class AppDeviceUtil {
     }
 
 
-
     public static boolean isRunningApp(Context context) {
         boolean isAppRunning = false;
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -207,4 +214,10 @@ public class AppDeviceUtil {
         return isAppRunning;
     }
 
+    public static DisplayMetrics getDisplayMetrics(Context context) {
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics;
+    }
 }

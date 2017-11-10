@@ -93,6 +93,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
 
     }
+
     public void showSearchLayout() {
         showSearchLayout = !showSearchLayout;
         switch (mMainTabLayout.getSelectedTabPosition()){
