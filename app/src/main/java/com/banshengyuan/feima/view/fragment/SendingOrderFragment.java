@@ -41,7 +41,6 @@ import butterknife.Unbinder;
 
 public class SendingOrderFragment extends BaseFragment implements SendingOrderControl.SendingOrderView {
 
-
     @BindView(R.id.discover_tab_layout)
     TabLayout mDiscoverTabLayout;
     @BindView(R.id.discover_view_pager)

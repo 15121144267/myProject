@@ -93,7 +93,6 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         return new CompletedOrderFragment();
     }
 
-
     @Inject
     CompletedOrderControl.PresenterCompletedOrder mPresenter;
 
@@ -126,7 +125,13 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
 
     @Override
     public void commonDialogBtnOkListener(int type, int position) {
+        showToast("清除成功");
         DataCleanManager.clearAllCache(getActivity());
+        try {
+            mPersonCache.setText(DataCleanManager.getTotalCacheSize(getActivity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initView() {

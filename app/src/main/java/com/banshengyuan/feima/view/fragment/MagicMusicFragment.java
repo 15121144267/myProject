@@ -39,6 +39,7 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
     RecyclerView mMagicMusicRecycleView;
     @BindView(R.id.recommend_search_layout)
     LinearLayout mRecommendSearchLayout;
+
     public static MagicMusicFragment newInstance() {
         return new MagicMusicFragment();
     }
