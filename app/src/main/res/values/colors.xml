@@ -85,6 +85,7 @@
     <color name="translucent3">#50C0C0C0</color>
     <!-- 半透明 -->
     <color name="translucentDark">#C0000000</color>
+    <color name="banshengyuan_grey">#f9f9f9</color>
 
     <color name="white">#FFFFFF</color>
     <!-- 白色 -->

@@ -9,6 +9,8 @@
    <android.support.v7.widget.RecyclerView
        android:id="@+id/fragment_block_common"
        android:layout_width="match_parent"
+       android:paddingStart="@dimen/dp_20"
+       android:paddingEnd="@dimen/dp_20"
        android:layout_height="match_parent"/>
 </LinearLayout>
 

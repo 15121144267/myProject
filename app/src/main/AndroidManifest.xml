@@ -150,6 +150,9 @@
         <activity
             android:name=".view.activity.GoodsClassifyActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.UnderLineFairActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activity.MusicActivity"

@@ -2,16 +2,10 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.SearchShopListResponse;
-import com.banshengyuan.feima.entity.ShopDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
-import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.SearchModel;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/4/27.
@@ -32,7 +26,7 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         mView = view;
     }
 
-    @Override
+    /*@Override
     public void requestShopList(String partnerId, String searchName) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.requestShopList(partnerId, searchName).compose(mView.applySchedulers())
@@ -72,7 +66,7 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
+    }*/
 
     @Override
     public void onCreate() {

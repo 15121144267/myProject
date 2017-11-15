@@ -10,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         app:layout_collapseMode="pin"
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -22,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
             <com.banshengyuan.feima.view.customview.ClearEditText
@@ -48,46 +48,19 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_history_layout"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/search_tab_layout"
+        app:tabIndicatorColor="@color/text_color_yellow_dark2"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/gray"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_shops_list_layout"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/search_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone"
-        />
-
-    <LinearLayout
-        android:id="@+id/search_goods_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:visibility="gone"
-        >
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:tabIndicatorColor="@color/light_blue_dark"
-            app:tabSelectedTextColor="@color/light_blue_dark"
-            app:tabTextColor="@color/black"
-            />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_product_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp"/>
-    </LinearLayout>
-
+        android:layout_weight="1"/>
 </LinearLayout>

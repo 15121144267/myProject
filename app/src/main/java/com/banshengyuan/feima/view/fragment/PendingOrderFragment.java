@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -17,10 +18,13 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ShopResponse;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
 import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
+import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -38,7 +42,7 @@ import butterknife.Unbinder;
  * PendingOrderFragment
  */
 
-public class PendingOrderFragment extends BaseFragment implements PendingOrderControl.PendingOrderView {
+public class PendingOrderFragment extends BaseFragment implements PendingOrderControl.PendingOrderView, ClearEditText.setOnMyEditorActionListener {
 
     @BindView(R.id.main_tab_layout)
     TabLayout mMainTabLayout;
@@ -48,6 +52,10 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     ImageView mPendingShowSearch;
     @BindView(R.id.pending_enter_classify)
     ImageView mPendingEnterClassify;
+    @BindView(R.id.search_edit)
+    ClearEditText mSearchEdit;
+    @BindView(R.id.search_layout)
+    LinearLayout mSearchLayout;
 
     public static PendingOrderFragment newInstance() {
         return new PendingOrderFragment();
@@ -57,7 +65,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     PendingOrderControl.PresenterPendingOrder mPresenter;
 
     private Unbinder unbinder;
-    private boolean showSearchLayout = false;
+    private boolean showSearchLayout = true;
     private final String[] modules = {"推荐", "市集", "街景", "魔门"};
 
     @Override
@@ -76,44 +84,46 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         return view;
     }
 
+    @Override
+    public void onMyEditorAction() {
+
+    }
+
+    @Override
+    public void onMyTouchAction() {
+        hideSoftInput(mSearchEdit);
+        startActivity(SearchActivity.getIntent(getActivity()));
+    }
+
     private void initView() {
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(RecommendFragment.newInstance());
         mFragments.add(MainFairFragment.newInstance());
-//        mFragments.add(MainHotFragment.newInstance());
         mFragments.add(MainVistaFragment.newInstance());
         mFragments.add(MagicMusicFragment.newInstance());
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getChildFragmentManager(), mFragments, modules);
         mMainViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mMainViewPager.setAdapter(adapter);
         mMainTabLayout.setupWithViewPager(mMainViewPager);
-//        mMainTabLayout.post(() ->   ValueUtil.setIndicator(mMainTabLayout, 35, 35));
-        RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout());
+        ValueUtil.setIndicator(mMainTabLayout, 10, 10);
+        RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
         RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
-
+        mSearchEdit.setOnMyEditorActionListener(this,true);
     }
 
-    public void showSearchLayout() {
-        showSearchLayout = !showSearchLayout;
-        switch (mMainTabLayout.getSelectedTabPosition()){
-            case 0:
-                ((RecommendFragment)getChildFragmentManager().getFragments().get(0)).showSearchLayout(showSearchLayout);
-                break;
-            case 1:
-                ((MainFairFragment)getChildFragmentManager().getFragments().get(1)).showSearchLayout(showSearchLayout);
-                break;
-            case 2:
-                ((MainVistaFragment)getChildFragmentManager().getFragments().get(2)).showSearchLayout(showSearchLayout);
-                break;
-            case 3:
-                ((MagicMusicFragment)getChildFragmentManager().getFragments().get(3)).showSearchLayout(showSearchLayout);
-                break;
-        }
+    public void showSearchLayout(boolean flag) {
+       /* if(flag){
+            AniCreator.getInstance().apply_animation_translate(mSearchLayout, AniCreator.ANIMATION_MODE_DROPDOWN, View.VISIBLE, false, null);
+        }else {
+            AniCreator.getInstance().apply_animation_translate(mSearchLayout, AniCreator.ANIMATION_MODE_DROPDOWN_RESEVERD, View.GONE, false, null);
+        }*/
+
+        mSearchLayout.setVisibility(flag ? View.VISIBLE : View.GONE);
+        showSearchLayout = !flag;
     }
 
     private void initData() {
-
 
     }
 

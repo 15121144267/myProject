@@ -6,6 +6,7 @@
     >
 
     <LinearLayout
+        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/dp_20"
@@ -36,8 +37,6 @@
         <View style="@style/LineH_Yellow_Fill_Width1"/>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
             android:id="@+id/hot_fragment_activities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

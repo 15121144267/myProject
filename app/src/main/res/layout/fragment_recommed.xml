@@ -15,33 +15,6 @@
         android:orientation="vertical"
         >
 
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/recommend_search_layout"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            >
-
-            <com.banshengyuan.feima.view.customview.ClearEditText
-                android:id="@+id/recommend_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="取消"
-                android:textColor="#212121"
-                android:textSize="15dp"/>
-        </LinearLayout>
-
         <TextView
             android:id="@+id/textView"
             style="@style/TextColor_Black_30"
@@ -88,6 +61,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recommend_brand_recycle_view"
             android:layout_width="match_parent"
+            android:nestedScrollingEnabled="false"
             android:layout_height="wrap_content"
             />
 

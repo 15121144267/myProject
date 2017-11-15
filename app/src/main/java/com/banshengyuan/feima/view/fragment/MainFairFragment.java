@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -20,6 +19,7 @@ import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.MainFairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
 import com.banshengyuan.feima.view.adapter.UnderLineBrandAdapter;
@@ -45,8 +45,6 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     RecyclerView mFairBrandRecycleView;
     @BindView(R.id.fair_hot_recycle_view)
     RecyclerView mFairHotRecycleView;
-    @BindView(R.id.recommend_search_layout)
-    LinearLayout mRecommendSearchLayout;
 
     public static MainFairFragment newInstance() {
         return new MainFairFragment();
@@ -131,18 +129,10 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         mUnderLineAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    showToast("线下市集更多页面");
+                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity()));
                     break;
             }
         });
-    }
-
-    public void showSearchLayout(boolean flag) {
-        if (!flag) {
-            mRecommendSearchLayout.setVisibility(View.VISIBLE);
-        } else {
-            mRecommendSearchLayout.setVisibility(View.GONE);
-        }
     }
 
     @Override

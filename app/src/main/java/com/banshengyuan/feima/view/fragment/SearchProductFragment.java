@@ -11,13 +11,12 @@ import android.view.ViewGroup;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
-import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.dagger.module.MainFragmentModule;
-import com.banshengyuan.feima.entity.MagicMusicResponse;
-import com.banshengyuan.feima.view.PresenterControl.MagicMusicControl;
-import com.banshengyuan.feima.view.activity.MainActivity;
-import com.banshengyuan.feima.view.adapter.MagicMusicAdapter;
+import com.banshengyuan.feima.dagger.component.DaggerSearchFragmentComponent;
+import com.banshengyuan.feima.dagger.module.SearchActivityModule;
+import com.banshengyuan.feima.dagger.module.SearchFragmentModule;
+import com.banshengyuan.feima.view.PresenterControl.SearchControl;
+import com.banshengyuan.feima.view.activity.SearchActivity;
+import com.banshengyuan.feima.view.adapter.CollectionProductAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,22 +29,22 @@ import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
- * SendingOrderFragment
+ * TrendsFragment
  */
 
-public class MagicMusicFragment extends BaseFragment implements MagicMusicControl.MagicMusicView {
-    @BindView(R.id.magic_music_recycle_view)
-    RecyclerView mMagicMusicRecycleView;
+public class SearchProductFragment extends BaseFragment implements SearchControl.SearchView {
+    @BindView(R.id.fragment_search_product)
+    RecyclerView mFragmentSearchProduct;
 
-    public static MagicMusicFragment newInstance() {
-        return new MagicMusicFragment();
+    public static SearchProductFragment newInstance() {
+        return new SearchProductFragment();
     }
 
     @Inject
-    MagicMusicControl.PresenterMagicMusic mPresenter;
+    SearchControl.PresenterSearch mPresenter;
 
     private Unbinder unbind;
-    private MagicMusicAdapter mMagicMusicAdapter;
+    private CollectionProductAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_magic_music, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_product, container, false);
         unbind = ButterKnife.bind(this, view);
         initView();
         return view;
@@ -69,19 +68,20 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
     }
 
     private void initData() {
-        List<MagicMusicResponse> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            MagicMusicResponse response = new MagicMusicResponse();
-            response.name = "魔兽世界" + i;
-            list.add(response);
-        }
-        mMagicMusicAdapter.setNewData(list);
+        List<Integer> list = new ArrayList<>();
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        list.add(R.mipmap.header);
+        mAdapter.setNewData(list);
     }
 
     private void initView() {
-        mMagicMusicRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity());
-        mMagicMusicRecycleView.setAdapter(mMagicMusicAdapter);
+        mFragmentSearchProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new CollectionProductAdapter(null,getActivity());
+        mFragmentSearchProduct.setAdapter(mAdapter);
     }
 
     @Override
@@ -112,11 +112,10 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
     }
 
     private void initialize() {
-        DaggerMainFragmentComponent.builder()
+        DaggerSearchFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
-                .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
-                .mainFragmentModule(new MainFragmentModule(this, (MainActivity) getActivity()))
-                .build()
-                .inject(this);
+                .searchActivityModule(new SearchActivityModule((AppCompatActivity) getActivity(), this))
+                .searchFragmentModule(new SearchFragmentModule((SearchActivity) getActivity())).build()
+               .inject(this);
     }
 }

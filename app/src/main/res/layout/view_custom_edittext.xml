@@ -6,6 +6,8 @@
               android:background="@drawable/shape_line_blod"
               android:gravity="center_vertical"
               android:paddingStart="10dp"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
               android:orientation="horizontal">
 
     <EditText

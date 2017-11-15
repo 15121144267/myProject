@@ -6,36 +6,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerClassifySearchActivityComponent;
 import com.banshengyuan.feima.dagger.module.ClassifySearchActivityModule;
 import com.banshengyuan.feima.entity.ClassifySearchListResponse;
-import com.banshengyuan.feima.entity.ShopDetailResponse;
-import com.banshengyuan.feima.listener.TabCheckListener;
-import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ClassifySearchControl;
 import com.banshengyuan.feima.view.adapter.ClassifySearchListAdapter;
 import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
-import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -45,26 +31,9 @@ import butterknife.ButterKnife;
 
 public class ClassifySearchActivity extends BaseActivity implements ClassifySearchControl.ClassifySearchView, BaseQuickAdapter.RequestLoadMoreListener, ClearEditText.setOnMyEditorActionListener {
 
-    @BindView(R.id.search_goods)
-    ClearEditText mSearchGoods;
-    @BindView(R.id.search_goods_cancel)
-    TextView mSearchGoodsCancel;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
-    @BindView(R.id.search_product_recyclerView)
-    RecyclerView mSearchProductList;
-    @BindView(R.id.search_goods_layout)
-    LinearLayout mSearchGoodsLayout;
-    @BindView(R.id.search_history_layout)
-    RecyclerView mSearchHistoryLayout;
 
-    public static Intent getIntent(Context context, String shopId, String nodeId, Integer type) {
+    public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, ClassifySearchActivity.class);
-        intent.putExtra("shopId", shopId);
-        intent.putExtra("nodeId", nodeId);
-        intent.putExtra("searchType", type);
         return intent;
     }
 
@@ -95,48 +64,23 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
-        supportActionBar(mToolbar, true);
         initializeInjector();
+       /* supportActionBar(mToolbar, true);
         initView();
-        initData();
+        initData();*/
     }
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(true);
-        } else {
-            switch (mTabLayout.getSelectedTabPosition()) {
-                case 0:
-                    //销量
-                    mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 1, mSearchType, mPagerSize, ++mSaleCountPagerNo);
-                    break;
-                case 1:
-                    //价格
-                    TabLayout.Tab tab = mTabLayout.getTabAt(1);
-                    if (tab != null) {
-                        if (tab.getTag() == null) return;
-                        if ((Integer) tab.getTag() == 1) {
-                            mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", 1, mSearchType, mPagerSize, ++mPricePagerDownNo);
-                        } else {
-                            mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", 2, mSearchType, mPagerSize, ++mPricePagerUpNo);
-                        }
-                    }
-                    break;
-                case 2:
-                    //新品
-                    mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "pid", 2, mSearchType, mPagerSize, ++mNewProductPagerNo);
-                    break;
-            }
-        }
+
     }
 
     @Override
     public void onMyEditorAction() {
-        String searchName = mSearchGoods.getEditText().trim();
+        /*String searchName = mSearchGoods.getEditText().trim();
         if (TextUtils.isEmpty(searchName)) {
             showToast("搜索栏不能为空");
-        }
+        }*/
     }
 
     @Override
@@ -145,7 +89,7 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     }
 
     private void initView() {
-        mSaleCountGoodsList = new ArrayList<>();
+        /*mSaleCountGoodsList = new ArrayList<>();
         mPriceUpGoodsList = new ArrayList<>();
         mPriceDownGoodsList = new ArrayList<>();
         mNewProductGoodsList = new ArrayList<>();
@@ -237,16 +181,16 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
 
         mSearchGoods.setLinearBackgroundResource(R.drawable.shape_line_grey);
         mSearchGoods.setOnMyEditorActionListener(this, false);
-        RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());
+        RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());*/
     }
 
     private void initData() {
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 1, mSearchType, mPagerSize, mSaleCountPagerNo);
+//        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "saleCount", 1, mSearchType, mPagerSize, mSaleCountPagerNo);
     }
 
     @Override
     public void getProductListSuccess(ClassifySearchListResponse response) {
-        mList = response.data;
+        /*mList = response.data;
         if (response.data != null && response.data.size() > 0) {
             switch (mTabLayout.getSelectedTabPosition()) {
                 case 0:
@@ -289,7 +233,7 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
                     break;
             }
             mAdapter.setNewData(response.data);
-        }
+        }*/
     }
 
     @Override
@@ -368,14 +312,14 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
     }
 
     private void sortGoodsByPrice(Integer flag) {
-        mPriceDownGoodsList.clear();
+       /* mPriceDownGoodsList.clear();
         mPriceUpGoodsList.clear();
         mPricePagerDownNo = 1;
         mPricePagerUpNo = 1;
-        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", flag, mSearchType, mPagerSize, 1);
+        mPresenter.requestClassifySearchRequest(mShopId, mNodeId, 2, "finalPrice", flag, mSearchType, mPagerSize, 1);*/
     }
 
-    private TabLayout.Tab addOtherView() {
+    /*private TabLayout.Tab addOtherView() {
         View mView = LayoutInflater.from(this).inflate(R.layout.tab_view, (ViewGroup) mTabLayout.getParent(), false);
         mTabItemPriceGoods = (TextView) mView.findViewById(R.id.good_price);
         mTabItemPriceLow = (ImageView) mView.findViewById(R.id.price_low);
@@ -384,7 +328,7 @@ public class ClassifySearchActivity extends BaseActivity implements ClassifySear
         tab.setCustomView(mView);
         tab.setTag(1);
         return tab;
-    }
+    }*/
 
     private void initializeInjector() {
         DaggerClassifySearchActivityComponent.builder()
