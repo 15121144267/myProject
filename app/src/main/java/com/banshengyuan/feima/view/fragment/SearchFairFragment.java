@@ -16,7 +16,7 @@ import com.banshengyuan.feima.dagger.module.SearchActivityModule;
 import com.banshengyuan.feima.dagger.module.SearchFragmentModule;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
 import com.banshengyuan.feima.view.activity.SearchActivity;
-import com.banshengyuan.feima.view.adapter.CollectionFairAdapter;
+import com.banshengyuan.feima.view.adapter.SearchFairAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
     SearchControl.PresenterSearch mPresenter;
 
     private Unbinder unbinder;
-    private CollectionFairAdapter mAdapter;
+    private SearchFairAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
 
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CollectionFairAdapter(null, getActivity(), mImageLoaderHelper);
+        mAdapter = new SearchFairAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
     }
 
@@ -84,7 +84,6 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
         mList.add(R.mipmap.main_banner_third);
         mAdapter.setNewData(mList);
     }
-
 
     @Override
     public void showLoading(String msg) {

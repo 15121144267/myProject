@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/header"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/dp_12"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:text="大床生活馆大床生活馆大床生活馆"
+                android:textColor="@color/tab_text_normal"
+                android:textSize="@dimen/sp_15"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="半生缘街区啦啦啦半生缘街区啦啦啦半生缘街区啦啦啦半生缘街区啦啦啦"
+                android:textColor="@color/darkgrey1"
+                android:textSize="@dimen/sp_13"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/LineH_Yellow_Fill_Width1"
+        android:layout_marginBottom="@dimen/dp_12"
+        />
+</LinearLayout>
+
