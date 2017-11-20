@@ -21,7 +21,7 @@
         android:background="@color/white"
         app:itemBackground="@color/white"
         app:itemIconTint="@drawable/selector_menu"
-        app:itemTextColor="@drawable/selector_menu"
+        app:itemTextColor="@color/tab_text_normal"
         app:menu="@menu/main_navigation_icon"/>
 
 </RelativeLayout>

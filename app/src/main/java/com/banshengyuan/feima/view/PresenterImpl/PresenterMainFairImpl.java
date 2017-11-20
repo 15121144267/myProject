@@ -2,10 +2,17 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairBottomResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.MainFairControl;
 import com.banshengyuan.feima.view.model.MainModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/5/3.
@@ -24,25 +31,63 @@ public class PresenterMainFairImpl implements MainFairControl.PresenterFair {
         mView = view;
     }
 
-   /* @Override
-    public void requestShopId(String scoreCode, Integer type) {
+    @Override
+    public void requestFairBottom() {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
-                .subscribe(this::getShopSuccess
+        Disposable disposable = mMainModel.requestFairBottom().compose(mView.applySchedulers())
+                .subscribe(this::getFairBottomSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getShopSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 0) {
-            responseData.parseData(ShopResponse.class);
-            ShopResponse response = (ShopResponse) responseData.parsedData;
-            mView.getShopSuccess(response);
+    private void getFairBottomSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairBottomResponse.class);
+            FairBottomResponse response = (FairBottomResponse) responseData.parsedData;
+            mView.getFairBottomSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getFairBottomFail();
         }
     }
-*/
+
+    @Override
+    public void requestFairUnderLine() {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.requestFairUnderLine().compose(mView.applySchedulers())
+                .subscribe(this::getFairUnderLineSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getFairUnderLineSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairUnderLineResponse.class);
+            FairUnderLineResponse response = (FairUnderLineResponse) responseData.parsedData;
+            mView.getFairUnderLineSuccess(response);
+        } else {
+            mView.getFairUnderLineFail();
+        }
+    }
+
+    @Override
+    public void requestRecommendBrand() {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.requestRecommendBrand().compose(mView.applySchedulers())
+                .subscribe(this::getRecommendBrandSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getRecommendBrandSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(RecommendBrandResponse.class);
+            RecommendBrandResponse response = (RecommendBrandResponse) responseData.parsedData;
+            mView.getRecommendBrandSuccess(response);
+        } else {
+            mView.getRecommendBrandFail();
+        }
+    }
+
     @Override
     public void onCreate() {
 

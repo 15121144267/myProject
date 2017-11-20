@@ -16,13 +16,13 @@
     <item
         android:id="@+id/action_three"
         android:enabled="true"
-        android:icon="@mipmap/shoppingcard_icon"
+        android:icon="@mipmap/navgration_icon3"
         android:title="热闹"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_four"
         android:enabled="true"
-        android:icon="@mipmap/navgration_icon3"
+        android:icon="@mipmap/navgration_icon4"
         android:title="我的"
         app:showAsAction="ifRoom"/>
 </menu>

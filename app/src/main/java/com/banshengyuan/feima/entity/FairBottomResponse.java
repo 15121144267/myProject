@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by lei.he on 2017/6/28.
- * AddressResponse
+ * Created by lei.he on 2017/11/20.
  */
 
-public class RecommendBrandResponse implements Serializable {
-
+public class FairBottomResponse implements Serializable {
 
     /**
      * list : [{"id":1,"name":"市集分类名字","summary":"简介","cover_img":"http://example.com/1.png","open_time":"周五 19:00-21:00"},{"id":2,"name":"市集分类名字","summary":"简介","cover_img":"http://example.com/1.png","open_time":"周五 19:00-21:00"},{"id":3,"name":"市集分类名字","summary":"简介","cover_img":"http://example.com/1.png","open_time":"周五 19:00-21:00"}]

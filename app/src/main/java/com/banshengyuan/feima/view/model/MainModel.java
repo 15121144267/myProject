@@ -30,6 +30,26 @@ public class MainModel {
         return mMainApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> recommendTopRequest(double longitude, double latitude) {
+        return mMainApi.recommendTopRequest(longitude + "", latitude + "", true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> requestRecommendBrand() {
+        return mMainApi.recommendTopRequest("brand", 1, 5, true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> requestRecommendBottom() {
+        return mMainApi.recommendBottomRequest(2, 1, 10, true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> requestFairUnderLine() {
+        return mMainApi.requestFairUnderLine(1, 10, true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> requestFairBottom() {
+        return mMainApi.requestFairBottom("read_count",1, 10, true).map(mTransform::transformCommon);
+    }
+
     /*public Observable<Integer> queryNoticeDb(QueryParam param){
         return Observable.create(e->{
             try {

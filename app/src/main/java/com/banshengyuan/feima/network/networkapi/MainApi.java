@@ -11,7 +11,21 @@ import retrofit2.http.Query;
 
 public interface MainApi {
 
-
     @GET("member/info")
     Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
+
+    @GET("api/nearest-street-one")
+    Observable<String> recommendTopRequest(@Query("longitude") String partnerId, @Query("latitude") String phone,@Query("flag") boolean flag);
+
+    @GET("api/fair-category")
+    Observable<String> recommendTopRequest(@Query("type") String type, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @GET("api/fair")
+    Observable<String> recommendBottomRequest(@Query("is_recommend") Integer is_recommend , @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @GET("api/street")
+    Observable<String> requestFairUnderLine(@Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @GET("api/fair-category")
+    Observable<String> requestFairBottom(@Query("order_by") String orderBy,@Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
 }

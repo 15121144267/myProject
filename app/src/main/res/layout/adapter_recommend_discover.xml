@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="390dp"
-              android:layout_marginBottom="@dimen/dp_25"
-              android:background="@drawable/shape_gray"
+              android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:paddingBottom="25dp"
-              android:paddingEnd="@dimen/dp_30"
-              android:paddingStart="@dimen/dp_25"
-              android:paddingTop="16dp">
 
-    <TextView
+             >
+        <ImageView
+            android:id="@+id/adapter_recommend_bottom_pic"
+            android:layout_marginBottom="@dimen/dp_25"
+            android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:layout_height="390dp"/>
+  <!--  <TextView
         android:id="@+id/adapter_recommend_discover_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,5 +42,5 @@
         android:text="夏日小清新愉悦度夏夏日小清新愉悦度夏~"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_18"
-        />
+        />-->
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.amap.api.location.AMapLocation;
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.HasComponent;
@@ -49,6 +50,9 @@ public class BaseFragment extends Fragment {
     SharePreferenceUtil mSharePreferenceUtil;
     @Inject
     ImageLoaderHelper mImageLoaderHelper;
+
+    public AMapLocation mLocationInfo;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,7 @@ public class BaseFragment extends Fragment {
         setRetainInstance(true);
         addFilter();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, mFilter);
+        mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getMapLocation();
     }
 
     @Override

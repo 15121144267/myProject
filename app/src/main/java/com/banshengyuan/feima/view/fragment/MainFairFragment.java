@@ -14,13 +14,14 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
-import com.banshengyuan.feima.entity.HotFairResponse;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.FairBottomResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.MainFairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
-import com.banshengyuan.feima.view.adapter.HotFairAdapter;
+import com.banshengyuan.feima.view.adapter.MainHotFairAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
 import com.banshengyuan.feima.view.adapter.UnderLineBrandAdapter;
 
@@ -56,8 +57,9 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     private Unbinder unbind;
     private UnderLineBrandAdapter mUnderLineAdapter;
     private RecommendBrandAdapter mAdapter;
-    private HotFairAdapter mHotFairAdapter;
-
+    private MainHotFairAdapter mHotFairAdapter;
+    private List<RecommendBrandResponse> mList;
+    private List<FairUnderLineResponse> mList2;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,41 +82,59 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         initData();
     }
 
-    private void initData() {
-        List<ProductResponse> mList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList1.add(itemBean);
-            }
-            product.mList = mList1;
-            mList.add(product);
-        }
-
+    @Override
+    public void getRecommendBrandSuccess(RecommendBrandResponse recommendBrandResponse) {
+        mList = new ArrayList<>();
+        mList.add(recommendBrandResponse);
         mAdapter.setNewData(mList);
-        mUnderLineAdapter.setNewData(mList);
+    }
 
-        List<HotFairResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HotFairResponse response = new HotFairResponse();
-            response.name = "魔兽世界" + i;
-            list2.add(response);
+    @Override
+    public void getRecommendBrandFail() {
+        mFairBrandRecycleView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
+        mList2 = new ArrayList<>();
+        mList2.add(fairUnderLineResponse);
+        mUnderLineAdapter.setNewData(mList2);
+    }
+
+    @Override
+    public void getFairUnderLineFail() {
+        mFairOfflineHotRecycleView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getFairBottomSuccess(FairBottomResponse fairBottomResponse) {
+        List<FairBottomResponse.ListBean> listBean = fairBottomResponse.list;
+        if (listBean != null && listBean.size() > 0) {
+            mHotFairAdapter.setNewData(listBean);
         }
-        mHotFairAdapter.setNewData(list2);
+    }
+
+    @Override
+    public void getFairBottomFail() {
+        mFairHotRecycleView.setVisibility(View.GONE);
+    }
+
+    private void initData() {
+        //请求线下街区
+        mPresenter.requestFairUnderLine();
+        //请求品牌布局
+        mPresenter.requestRecommendBrand();
+        //请求市集列表、
+        mPresenter.requestFairBottom();
     }
 
     private void initView() {
         mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new RecommendBrandAdapter(null, getActivity(), true);
-        mUnderLineAdapter = new UnderLineBrandAdapter(null, getActivity(), true);
-        mHotFairAdapter = new HotFairAdapter(null, getActivity());
+        mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
+        mUnderLineAdapter = new UnderLineBrandAdapter(null, getActivity(), mImageLoaderHelper);
+        mHotFairAdapter = new MainHotFairAdapter(null, getActivity());
         mFairOfflineHotRecycleView.setAdapter(mUnderLineAdapter);
         mFairBrandRecycleView.setAdapter(mAdapter);
         mFairHotRecycleView.setAdapter(mHotFairAdapter);

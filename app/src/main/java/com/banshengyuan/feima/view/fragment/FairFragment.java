@@ -81,7 +81,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     }
 
     private void initData() {
-        List<ProductResponse> mList = new ArrayList<>();
+      /*  List<ProductResponse> mList = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
             List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
             ProductResponse product = new ProductResponse();
@@ -96,7 +96,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
             mList.add(product);
         }
 
-        mAdapter.setNewData(mList);
+        mAdapter.setNewData(mList);*/
 
         List<ProductResponse> list = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -118,7 +118,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     private void initView() {
         mSendFragmentFair.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSendFragmentProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new RecommendBrandAdapter(null, getActivity(), true);
+        mAdapter = new RecommendBrandAdapter(null, getActivity(),mImageLoaderHelper);
         mFairProductAdapter = new FairProductAdapter(null, getActivity());
         mSendFragmentFair.setAdapter(mAdapter);
         mSendFragmentProduct.setAdapter(mFairProductAdapter);

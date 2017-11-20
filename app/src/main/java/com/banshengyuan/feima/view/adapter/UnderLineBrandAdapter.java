@@ -5,7 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.ToastUtils;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
@@ -13,25 +14,24 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class UnderLineBrandAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
+public class UnderLineBrandAdapter extends BaseQuickAdapter<FairUnderLineResponse, BaseViewHolder> {
     private final Context mContext;
-    private boolean mChangeFlag;
+    private ImageLoaderHelper mImageLoaderHelper;
 
-    public UnderLineBrandAdapter(List<ProductResponse> mList, Context context, boolean changeFlag) {
+    public UnderLineBrandAdapter(List<FairUnderLineResponse> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
-        mChangeFlag = changeFlag;
+        mImageLoaderHelper = imageLoaderHelper;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProductResponse item) {
+    protected void convert(BaseViewHolder helper, FairUnderLineResponse item) {
         if (item == null) return;
-        boolean flag;
-        flag = helper.getAdapterPosition() != 0;
         helper.addOnClickListener(R.id.adapter_fair_more);
+        helper.setText(R.id.adapter_fair_sign, "线下街区热卖中");
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        ProductItemAdapter itemAdapter = new ProductItemAdapter(item.mList, mContext, mChangeFlag, flag);
+        FairUnderLineItemAdapter itemAdapter = new FairUnderLineItemAdapter(item.list, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
 
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
