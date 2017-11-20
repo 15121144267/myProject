@@ -6,7 +6,6 @@
     <ImageView
         android:id="@+id/welcome_back"
         android:layout_width="match_parent"
-        android:background="@mipmap/welcome_bg"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 </RelativeLayout>

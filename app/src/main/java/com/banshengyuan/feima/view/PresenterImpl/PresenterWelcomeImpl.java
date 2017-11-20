@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.entity.AdResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.RetryWithDelay;
@@ -33,6 +34,23 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
         mModel = model;
         mView = view;
         mSharePreferenceUtil = sharePreferenceUtil;
+    }
+
+    @Override
+    public void requestPic() {
+        Disposable disposable = mModel.requestPic()
+                .subscribe(this::getPicSuccess
+                        , throwable -> mView.showErrMessage(throwable));
+        mView.addSubscription(disposable);
+    }
+    private void getPicSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(AdResponse.class);
+            AdResponse response = (AdResponse) responseData.parsedData;
+            mView.getAdSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override

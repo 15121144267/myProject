@@ -13,4 +13,7 @@ public interface WelcomeApi {
     @GET("member/info")
     Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
 
+    @GET("api/banner")
+    Observable<String> requestPic();
+
 }

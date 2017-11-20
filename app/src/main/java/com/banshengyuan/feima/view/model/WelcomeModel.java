@@ -29,4 +29,8 @@ public class WelcomeModel {
         return mApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> requestPic( ) {
+        return mApi.requestPic().map(mTransform::transformCommon);
+    }
+
 }

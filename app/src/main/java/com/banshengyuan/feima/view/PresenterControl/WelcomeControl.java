@@ -1,5 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.AdResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 
 /**
@@ -13,11 +14,15 @@ public class WelcomeControl {
 
         void switchToGuide();
 
+        void getAdSuccess(AdResponse response);
+
         void showGuideFinish(boolean isFinish);
     }
 
     public interface PresenterWelcome extends Presenter<WelcomeView> {
         void requestPersonInfo(String phone);
+
+        void requestPic();
     }
 
 }

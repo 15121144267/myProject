@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerWelcomeActivityComponent;
 import com.banshengyuan.feima.dagger.module.WelcomeActivityModule;
+import com.banshengyuan.feima.entity.AdResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.view.PresenterControl.WelcomeControl;
 import com.bumptech.glide.Glide;
@@ -53,7 +54,12 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     @Override
     public boolean handleMessage(Message msg) {
-        if(msg.what == 1 ){
+        if (msg.what == 1) {
+            Glide.with(WelcomeActivity.this).load(R.mipmap.welcome_bg)
+                    .into(mWelcomeBack);
+            mHandler.sendEmptyMessageDelayed(2, 3000);
+
+        } else if (msg.what == 2) {
             if (mShowGuideFinish) {
                 startActivity(MainActivity.getMainIntent(WelcomeActivity.this));
                 finish();
@@ -92,11 +98,23 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     }
 
     public void switchToMain() {
-        Glide.with(WelcomeActivity.this).load( R.mipmap.welcome_bg)
-                .into(mWelcomeBack);
-        mHandler.sendEmptyMessageDelayed(1,3000);
+        new Thread(getPic).start();
+//        mPresenter.requestPic();
     }
 
+
+    Runnable getPic = new Runnable() {
+        @Override
+        public void run() {
+            mPresenter.requestPic();
+        }
+    };
+
+    @Override
+    public void getAdSuccess(AdResponse response) {
+
+        mHandler.sendEmptyMessage(1);
+    }
 
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
@@ -111,7 +129,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override

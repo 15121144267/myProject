@@ -21,26 +21,26 @@ public class ResponseData {
     }
 
     public ResponseData(JSONObject jsonObject) throws JSONException {
-        resultCode = jsonObject.optInt("statusCode");
+        resultCode = jsonObject.optInt("ret");
         errorDesc = jsonObject.optString("msg");
         result = jsonObject.optString("data");
     }
 
     public ResponseData(JSONObject jsonObject, Integer flag) throws JSONException {
-        resultCode = jsonObject.optInt("errcode");
+        resultCode = jsonObject.optInt("ret");
         errorDesc = jsonObject.optString("errmsg");
         result = jsonObject.optString("data");
 
     }
 
     public ResponseData(JSONObject jsonObject, String response) throws JSONException {
-        resultCode = jsonObject.optInt("statusCode");
+        resultCode = jsonObject.optInt("ret");
         errorDesc = jsonObject.optString("msg");
         result = response;
     }
 
     public ResponseData(JSONObject jsonObject, String response,Integer flag) throws JSONException {
-        resultCode = jsonObject.optInt("errcode");
+        resultCode = jsonObject.optInt("ret");
         errorDesc = jsonObject.optString("errmsg");
         result = response;
     }
