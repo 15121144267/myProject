@@ -47,19 +47,15 @@ public class MainModel {
     }
 
     public Observable<ResponseData> requestFairBottom() {
-        return mMainApi.requestFairBottom("read_count",1, 10, true).map(mTransform::transformCommon);
+        return mMainApi.requestFairBottom("read_count", 1, 10, true).map(mTransform::transformCommon);
     }
 
-    /*public Observable<Integer> queryNoticeDb(QueryParam param){
-        return Observable.create(e->{
-            try {
-                QueryBuilder qb = mOrderNoticeDao.queryBuilder();
-                qb.where(qb.and(OrderNoticeDao.Properties.OrderFlag.eq(0),OrderNoticeDao.Properties.OrderTime.between(param.today,param.tomorrow)));
-                e.onNext(qb.build().list().size());
-            } catch (Exception e1) {
-                e.onError(e1);
-            }
+    public Observable<ResponseData> vistaListRequest(double longitude, double latitude) {
+        return mMainApi.vistaListRequest(longitude + "", latitude + "", 1, 10, true).map(mTransform::transformCommon);
+    }
 
-        });
-    }*/
+    public Observable<ResponseData> musicListRequest() {
+        return mMainApi.musicListRequest(true).map(mTransform::transformCommon);
+    }
+
 }

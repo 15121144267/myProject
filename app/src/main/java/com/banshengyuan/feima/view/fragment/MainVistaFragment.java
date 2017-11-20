@@ -14,13 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
-import com.banshengyuan.feima.entity.HotFairResponse;
+import com.banshengyuan.feima.entity.VistaListResponse;
 import com.banshengyuan.feima.view.PresenterControl.VistaControl;
 import com.banshengyuan.feima.view.activity.BlockDetailActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
-import com.banshengyuan.feima.view.adapter.HotFairAdapter;
+import com.banshengyuan.feima.view.adapter.VistaFairAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,7 +45,7 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
     VistaControl.PresenterVista mPresenter;
 
     private Unbinder unbind;
-    private HotFairAdapter mHotFairAdapter;
+    private VistaFairAdapter mHotFairAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,19 +68,31 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
         initData();
     }
 
-    private void initData() {
-        List<HotFairResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HotFairResponse response = new HotFairResponse();
-            response.name = "魔兽世界" + i;
-            list2.add(response);
+    @Override
+    public void getVistaListSuccess(VistaListResponse vistaListResponse) {
+        List<VistaListResponse.ListBean> list = vistaListResponse.list;
+        if(list!=null&&list.size()>0){
+            mHotFairAdapter.setNewData(list);
         }
-        mHotFairAdapter.setNewData(list2);
+    }
+
+    @Override
+    public void getVistaListFail() {
+        mMainFairRecycleView.setVisibility(View.GONE);
+    }
+
+    private void initData() {
+        if (mLocationInfo != null) {
+            mPresenter.requestVistaList(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
+        } else {
+            mPresenter.requestVistaList(0, 0);
+        }
+
     }
 
     private void initView() {
         mMainFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mHotFairAdapter = new HotFairAdapter(null, getActivity());
+        mHotFairAdapter = new VistaFairAdapter(null, getActivity(),mImageLoaderHelper);
         mMainFairRecycleView.setAdapter(mHotFairAdapter);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(BlockDetailActivity.getIntent(getActivity())));
     }

@@ -14,12 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
-import com.banshengyuan.feima.entity.MagicMusicResponse;
+import com.banshengyuan.feima.entity.MusicListResponse;
 import com.banshengyuan.feima.view.PresenterControl.MagicMusicControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MagicMusicAdapter;
+import com.banshengyuan.feima.view.adapter.MagicMusicHotAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,8 +34,11 @@ import butterknife.Unbinder;
  */
 
 public class MagicMusicFragment extends BaseFragment implements MagicMusicControl.MagicMusicView {
-    @BindView(R.id.magic_music_recycle_view)
-    RecyclerView mMagicMusicRecycleView;
+
+    @BindView(R.id.magic_fair_recycle_view)
+    RecyclerView mMagicFairRecycleView;
+    @BindView(R.id.magic_hot_recycle_view)
+    RecyclerView mMagicHotRecycleView;
 
     public static MagicMusicFragment newInstance() {
         return new MagicMusicFragment();
@@ -46,6 +49,7 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
 
     private Unbinder unbind;
     private MagicMusicAdapter mMagicMusicAdapter;
+    private MagicMusicHotAdapter mMusicHotAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,20 +72,36 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
         initData();
     }
 
-    private void initData() {
-        List<MagicMusicResponse> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            MagicMusicResponse response = new MagicMusicResponse();
-            response.name = "魔兽世界" + i;
-            list.add(response);
+    @Override
+    public void getMusicListSuccess(MusicListResponse musicListResponse) {
+        List<MusicListResponse.FairBean> fairList = musicListResponse.fair;
+        List<MusicListResponse.HotBean> hotList = musicListResponse.hot;
+        if (fairList != null && fairList.size() > 0) {
+            mMagicMusicAdapter.setNewData(fairList);
         }
-        mMagicMusicAdapter.setNewData(list);
+        if (hotList != null && hotList.size() > 0) {
+            mMusicHotAdapter.setNewData(hotList);
+        }
+    }
+
+    @Override
+    public void getMusicListFail() {
+        mMagicFairRecycleView.setVisibility(View.GONE);
+        mMagicHotRecycleView.setVisibility(View.GONE);
+    }
+
+    private void initData() {
+        mPresenter.requestMusicList();
     }
 
     private void initView() {
-        mMagicMusicRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mMagicFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity());
-        mMagicMusicRecycleView.setAdapter(mMagicMusicAdapter);
+        mMagicFairRecycleView.setAdapter(mMagicMusicAdapter);
+
+        mMagicHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mMusicHotAdapter = new MagicMusicHotAdapter(null, getActivity());
+        mMagicHotRecycleView.setAdapter(mMusicHotAdapter);
     }
 
     @Override
