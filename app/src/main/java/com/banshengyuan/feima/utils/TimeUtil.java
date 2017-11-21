@@ -305,4 +305,13 @@ public class TimeUtil {
         cal.set(Calendar.HOUR_OF_DAY, 24);
         return cal.getTimeInMillis();
     }
+
+    /**
+     * 毫秒转换为 月日
+     */
+    public static String getMMDD(long timestamp){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日");//初始化Formatter的转换格式。
+        String hms = formatter.format(timestamp);
+        return hms;
+    }
 }

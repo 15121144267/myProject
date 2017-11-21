@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -21,7 +23,6 @@ public class ExChangeModel {
         mGson = gson;
         mTransform = transform;
     }
-
 
    /* public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
         request.partnerId = BuildConfig.PARTNER_ID;

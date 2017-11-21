@@ -70,4 +70,7 @@ public class MainModel {
         return mMainApi.storeListRequest(true).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> hotFairRequest(int page, int pageSize, boolean flag) {
+        return mMainApi.hotFairRequest(page, pageSize, flag).map(mTransform::transformCommon);
+    }
 }

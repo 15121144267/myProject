@@ -2,10 +2,18 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.entity.ExChangeResponse;
+import com.banshengyuan.feima.entity.PersonInfoResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
+import com.banshengyuan.feima.view.model.ExChangeModel;
 import com.banshengyuan.feima.view.model.MainModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
@@ -51,5 +59,23 @@ public class PresenterExChangeImpl implements ExChangeControl.PresenterExChange 
     @Override
     public void onDestroy() {
         mView = null;
+    }
+
+    @Override
+    public void requestHotFairInfo() {
+        Disposable disposable = mModel.hotFairRequest(1, 10,true).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::getHotFairInfoSuccess
+                        , throwable -> mView.showErrMessage(throwable));
+        mView.addSubscription(disposable);
+    }
+
+    private void getHotFairInfoSuccess(ResponseData responseData){
+        if (responseData.resultCode == 200) {
+            responseData.parseData(ExChangeResponse.class);
+            ExChangeResponse response = (ExChangeResponse) responseData.parsedData;
+            mView.getHotFairInfoSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 }

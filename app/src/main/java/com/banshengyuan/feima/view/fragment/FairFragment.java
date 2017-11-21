@@ -16,6 +16,7 @@ import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.FairListResponse;
+import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;

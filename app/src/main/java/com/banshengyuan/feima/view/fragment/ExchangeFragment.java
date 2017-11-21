@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +16,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.entity.HotFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.adapter.ExChangeAdapter;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 
 import java.util.ArrayList;
@@ -31,25 +36,21 @@ import butterknife.Unbinder;
 /**
  * Created by helei on 2017/5/3.
  * SendingOrderFragment
+ * 热闹
  */
 
 public class ExchangeFragment extends BaseFragment implements ExChangeControl.ExChangeView {
+
     @BindView(R.id.hot_fragment_activities)
     RecyclerView mHotFragmentActivities;
-    /*
-        @BindView(R.id.exchange_tab_layout)
-        TabLayout mExchangeTabLayout;
-        @BindView(R.id.exchange_view_pager)
-        ViewPager mExchangeViewPager;*/
     @Inject
     ExChangeControl.PresenterExChange mPresenter;
+    private Unbinder unbind;
+    private ExChangeAdapter mHotFairAdapter;
 
     public static ExchangeFragment newInstance() {
         return new ExchangeFragment();
     }
-
-    private Unbinder unbind;
-    private HotFairAdapter mHotFairAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
     }
 
 
-    /*@Override
+    @Override
     void addFilter() {
         mFilter.addAction(BroConstant.UPDATE_SHOPPING_CARD_INFO);
     }
@@ -83,7 +84,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         if (intent.getAction().equals(BroConstant.UPDATE_SHOPPING_CARD_INFO)) {
             initData();
         }
-    }*/
+    }
 
     @Override
     public void showLoading(String msg) {
@@ -114,27 +115,16 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
 
 
     private void initData() {
-        List<HotFairResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HotFairResponse response = new HotFairResponse();
-            response.name = "魔兽世界" + i;
-            list2.add(response);
-        }
-        mHotFairAdapter.setNewData(list2);
+        mPresenter.requestHotFairInfo();
     }
 
     private void initView() {
         mHotFragmentActivities.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mHotFairAdapter = new HotFairAdapter(null, getActivity());
+        mHotFairAdapter = new ExChangeAdapter(null, getActivity(), mImageLoaderHelper);
         mHotFragmentActivities.setAdapter(mHotFairAdapter);
-       /* List<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(TrendsFragment.newInstance());
-        mFragments.add(FollowFragment.newInstance());
-        mFragments.add(CelebrityFragment.newInstance());
-        MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getChildFragmentManager(), mFragments, modules);
-        mExchangeViewPager.setOffscreenPageLimit(mFragments.size() - 1);
-        mExchangeViewPager.setAdapter(adapter);
-        mExchangeTabLayout.setupWithViewPager(mExchangeViewPager);*/
+        mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
+            showToast("点击"+position);
+        });
     }
 
     private void initialize() {
@@ -143,5 +133,10 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
                 .mainActivityModule(new MainActivityModule((AppCompatActivity) getActivity()))
                 .fragmentModule(new FragmentModule(this, (MainActivity) getActivity())).build()
                 .inject(this);
+    }
+
+    @Override
+    public void getHotFairInfoSuccess(ExChangeResponse response) {
+        mHotFairAdapter.setNewData(response.getList());
     }
 }
