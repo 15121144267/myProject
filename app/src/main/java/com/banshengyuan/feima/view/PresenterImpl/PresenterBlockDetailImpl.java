@@ -2,10 +2,15 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
 import com.banshengyuan.feima.view.model.BlockDetailModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
@@ -24,24 +29,25 @@ public class PresenterBlockDetailImpl implements BlockDetailControl.PresenterBlo
         mModel = model;
     }
 
-   /* @Override
-    public void requestAddressList(String phone) {
+    @Override
+    public void requestBlockDetail(Integer blockId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addressListRequest(phone).compose(mView.applySchedulers())
-                .subscribe(this::addressListRequestSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.blockDetailRequest(blockId).compose(mView.applySchedulers())
+                .subscribe(this::getBlockDetailSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void addressListRequestSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 100){
-            responseData.parseData(AddressResponse.class);
-            AddressResponse response  = (AddressResponse) responseData.parsedData;
-            mView.addressListSuccess(response.data);
+    private void getBlockDetailSuccess(ResponseData responseData) {
+        if(responseData.resultCode == 200){
+            responseData.parseData(BlockDetailResponse.class);
+            BlockDetailResponse response  = (BlockDetailResponse) responseData.parsedData;
+            mView.getBlockDetailSuccess(response);
         }else {
-            mView.showToast(responseData.errorDesc);
+            mView.getBlockDetailFail();
         }
-    }*/
+    }
+
 
     @Override
     public void onCreate() {

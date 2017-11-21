@@ -25,46 +25,56 @@
             android:text="为你推荐"
             android:textStyle="bold"/>
 
-        <LinearLayout
-            android:id="@+id/recommend_block_detail_enter"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
-            android:background="@drawable/shape_gray"
-            android:orientation="vertical"
-            android:paddingEnd="25dp"
-            android:paddingStart="35dp">
+            android:layout_height="140dp">
 
-            <TextView
-                android:id="@+id/recommend_block_detail_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="58dp"
-                android:drawableStart="@mipmap/address_location"
-                android:text=" 距您1.4km"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_15"
-                />
+            <ImageView
+                android:id="@+id/recommend_block_detail_top_icon"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:layout_height="match_parent"/>
 
-            <TextView
-                android:id="@+id/recommend_block_detail_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="半生缘潮流音乐会街区"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_30"
-                />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:paddingEnd="25dp"
+                android:paddingStart="35dp">
+
+                <TextView
+                    android:id="@+id/recommend_block_detail_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="58dp"
+                    android:drawableStart="@mipmap/address_location"
+                    android:text=" 距您1.4km"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_15"
+                    />
+
+                <TextView
+                    android:id="@+id/recommend_block_detail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="半生缘潮流音乐会街区"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_30"
+                    />
+            </LinearLayout>
+        </FrameLayout>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recommend_brand_recycle_view"
             android:layout_width="match_parent"
-            android:nestedScrollingEnabled="false"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             />
 
         <TextView

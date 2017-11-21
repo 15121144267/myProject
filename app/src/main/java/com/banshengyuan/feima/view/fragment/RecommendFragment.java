@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
@@ -48,12 +48,13 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     RecyclerView mRecommendBrandRecycleView;
     @BindView(R.id.recommend_discover_recycle_view)
     RecyclerView mRecommendDiscoverRecycleView;
-    @BindView(R.id.recommend_block_detail_enter)
-    LinearLayout mRecommendBlockDetailEnter;
+
     @BindView(R.id.recommend_block_detail_distance)
     TextView mRecommendBlockDetailDistance;
     @BindView(R.id.recommend_block_detail_name)
     TextView mRecommendBlockDetailName;
+    @BindView(R.id.recommend_block_detail_top_icon)
+    ImageView mRecommendBlockDetailTopIcon;
 
     public static RecommendFragment newInstance() {
         return new RecommendFragment();
@@ -66,7 +67,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private RecommendBrandAdapter mAdapter;
     private RecommendDiscoverBrandAdapter mDiscoverBrandAdapter;
     private List<RecommendBrandResponse> mList;
-
+    private RecommendTopResponse.InfoBean mInfoBean;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,21 +91,15 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
 
     @Override
     public void getRecommendTopSuccess(RecommendTopResponse recommendTopResponse) {
-        RecommendTopResponse.InfoBean infoBean = recommendTopResponse.info;
-        if (infoBean != null) {
-            /*Glide.with(getActivity()).load(infoBean.cover_img).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    Drawable drawable = new BitmapDrawable(getResources(), resource);
-                    mRecommendBlockDetailEnter.setBackground(drawable);
-                }
-            });*/
-            if (infoBean.distance.equals("0")) {
+        mInfoBean = recommendTopResponse.info;
+        if (mInfoBean != null) {
+            mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.cover_img, mRecommendBlockDetailTopIcon, 4);
+            if (mInfoBean.distance.equals("0")) {
                 mRecommendBlockDetailDistance.setText("  距离未知,请开启权限");
             } else {
-                mRecommendBlockDetailDistance.setText("  距您" + ValueUtil.formatDistance(Float.parseFloat(infoBean.distance)));
+                mRecommendBlockDetailDistance.setText("  距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance)));
             }
-            mRecommendBlockDetailName.setText(infoBean.name);
+            mRecommendBlockDetailName.setText(mInfoBean.name);
         }
 
     }
@@ -146,25 +141,18 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
 
         //请求推荐页发现精彩
         mPresenter.requestRecommendBottom();
-       /* List<RecommendDiscoverResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            RecommendDiscoverResponse response2 = new RecommendDiscoverResponse();
-            response2.name = "魔兽世界" + i;
-            list2.add(response2);
-        }
-        mDiscoverBrandAdapter.setNewData(list2);*/
     }
 
     private void initView() {
 
-        RxView.clicks(mRecommendBlockDetailEnter).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> startActivity(BlockDetailActivity.getIntent(getActivity())));
+        RxView.clicks(mRecommendBlockDetailTopIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(BlockDetailActivity.getIntent(getActivity(),mInfoBean.id)));
 
         mRecommendBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecommendDiscoverRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
-        mDiscoverBrandAdapter = new RecommendDiscoverBrandAdapter(null, getActivity(),mImageLoaderHelper);
+        mDiscoverBrandAdapter = new RecommendDiscoverBrandAdapter(null, getActivity(), mImageLoaderHelper);
 
         mRecommendBrandRecycleView.setAdapter(mAdapter);
         mRecommendDiscoverRecycleView.setAdapter(mDiscoverBrandAdapter);
