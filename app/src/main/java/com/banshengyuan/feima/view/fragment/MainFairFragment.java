@@ -134,7 +134,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
         mUnderLineAdapter = new UnderLineBrandAdapter(null, getActivity(), mImageLoaderHelper);
-        mHotFairAdapter = new MainHotFairAdapter(null, getActivity());
+        mHotFairAdapter = new MainHotFairAdapter(null, getActivity(),mImageLoaderHelper);
         mFairOfflineHotRecycleView.setAdapter(mUnderLineAdapter);
         mFairBrandRecycleView.setAdapter(mAdapter);
         mFairHotRecycleView.setAdapter(mHotFairAdapter);

@@ -17,6 +17,9 @@ public interface MainApi {
     @GET("api/magic-door")
     Observable<String> musicListRequest(@Query("flag") boolean flag);
 
+    @GET("api/goods-category")
+    Observable<String> allProductSortRequest(@Query("flag") boolean flag);
+
     @GET("api/nearest-street-one")
     Observable<String> recommendTopRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude, @Query("flag") boolean flag);
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.view.activity.ProductListActivity;
 import com.banshengyuan.feima.view.adapter.MainProductsSecondAdapter;
 
@@ -19,21 +20,27 @@ import java.util.List;
 public class NetworkImageHolderView implements Holder<List> {
     private RecyclerView mRecyclerView;
     private MainProductsSecondAdapter mAdapter;
+    private ImageLoaderHelper mImageLoaderHelper;
+
+    public NetworkImageHolderView(ImageLoaderHelper imageLoaderHelper) {
+        mImageLoaderHelper = imageLoaderHelper;
+    }
+
     @Override
     public View createView(final Context context) {
-        View view  = LayoutInflater.from(context).inflate(R.layout.banner_recycleview,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.banner_recycleview, null);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.demo_recycle);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(context,4));
-        mAdapter = new MainProductsSecondAdapter(null, context);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
+        mAdapter = new MainProductsSecondAdapter(null, context,mImageLoaderHelper);
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, view1, position) ->
-               context.startActivity(ProductListActivity.getIntent(context)));
+                context.startActivity(ProductListActivity.getIntent(context)));
         return view;
     }
 
     @Override
-    public void UpdateUI(Context context,int position, List data) {
+    public void UpdateUI(Context context, int position, List data) {
         mAdapter.setNewData(data);
     }
 }

@@ -1,9 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +15,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.MainProducts;
+import com.banshengyuan.feima.entity.AllProductSortResponse;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
@@ -64,9 +62,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     ProductControl.PresenterProduct mPresenter;
 
     private Unbinder unbind;
-    private List<MainProducts> mList;
-    private List<List> mList1;
-    private String[] productNames = {"品牌", "活动", "商户", "停车", "魔门音乐", "空中花市", "会员积分", "更多"};
+    private List<List> mListAll;
     private ProductAdapter mAdapter;
 
     @Override
@@ -96,36 +92,37 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
 
     }
 
+    @Override
+    public void getAllProductSortSuccess(AllProductSortResponse allProductSortResponse) {
+        List<AllProductSortResponse.ListBean> list = allProductSortResponse.list;
+        if (list != null && list.size() > 0) {
+            mListAll = new ArrayList<>();
+            if(list.size()>8){
+                mListAll.add(list.subList(0,8));
+                mListAll.add(list.subList(8,list.size()));
+            }else {
+                mListAll.add(list);
+            }
+            mConvenientBanner.setCanLoop(false);
+            mConvenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+                @Override
+                public NetworkImageHolderView createHolder() {
+                    return new NetworkImageHolderView(mImageLoaderHelper);
+                }
+            }, mListAll).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
+        }else {
+            mConvenientBanner.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getAllProductSortFail() {
+        mConvenientBanner.setVisibility(View.GONE);
+    }
 
     private void initData() {
-        mList = new ArrayList<>();
-        mList1 = new ArrayList<>();
+        mPresenter.requestAllProductSort();
 
-        Drawable[] productDrawable = {
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_brand),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_activity),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_shop),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_part),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_music),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_flower),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_score),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_more)
-        };
-        for (int i = 0; i < productNames.length; i++) {
-            MainProducts product = new MainProducts();
-            product.productName = productNames[i];
-            product.productDrawable = productDrawable[i];
-            mList.add(product);
-        }
-        mList1.add(mList);
-        mList1.add(mList);
-        mConvenientBanner.setCanLoop(false);
-        mConvenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
-            @Override
-            public NetworkImageHolderView createHolder() {
-                return new NetworkImageHolderView();
-            }
-        }, mList1).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
 
         List<ProductResponse> mList2 = new ArrayList<>();
         for (int i = 0; i < 7; i++) {

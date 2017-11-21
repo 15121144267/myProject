@@ -16,6 +16,7 @@ import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.FairDetailActivity;
@@ -58,7 +59,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     private Unbinder unbind;
     private RecommendBrandAdapter mAdapter;
     private FairProductAdapter mFairProductAdapter;
-
+    private List<RecommendBrandResponse> mList;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,23 +81,21 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         initData();
     }
 
-    private void initData() {
-      /*  List<ProductResponse> mList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList1.add(itemBean);
-            }
-            product.mList = mList1;
-            mList.add(product);
-        }
+    @Override
+    public void getFairBrandSuccess(RecommendBrandResponse response) {
+        mList = new ArrayList<>();
+        mList.add(response);
+        mAdapter.setNewData(mList);
+    }
 
-        mAdapter.setNewData(mList);*/
+    @Override
+    public void getFairBrandFail() {
+        mSendFragmentFair.setVisibility(View.GONE);
+    }
+
+    private void initData() {
+        //请求品牌布局
+        mPresenter.requestFairBrand();
 
         List<ProductResponse> list = new ArrayList<>();
         for (int i = 0; i < 4; i++) {

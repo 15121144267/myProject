@@ -12,6 +12,7 @@
         android:id="@+id/hot_fair_pic"
         android:layout_width="match_parent"
         android:layout_height="222dp"
+        android:scaleType="fitXY"
         android:layout_marginBottom="@dimen/dp_20"
         />
 

@@ -58,4 +58,8 @@ public class MainModel {
         return mMainApi.musicListRequest(true).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> allProductSortRequest() {
+        return mMainApi.allProductSortRequest(true).map(mTransform::transformCommon);
+    }
+
 }
