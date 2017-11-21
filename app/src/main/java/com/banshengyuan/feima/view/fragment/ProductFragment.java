@@ -16,7 +16,7 @@ import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.AllProductSortResponse;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.ProductListResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.ProductListActivity;
@@ -120,30 +120,32 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
         mConvenientBanner.setVisibility(View.GONE);
     }
 
-    private void initData() {
-        mPresenter.requestAllProductSort();
-
-
-        List<ProductResponse> mList2 = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            List<ProductResponse.ProductItemBean> mList3 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList3.add(itemBean);
-            }
-            product.mList = mList3;
-            mList2.add(product);
+    @Override
+    public void getProductListSuccess(ProductListResponse response) {
+        List<ProductListResponse.CategoryBean> list = response.category;
+        if(list!=null&&list.size()>0){
+            mAdapter.setNewData(list);
+        }else {
+            mProductProducts.setVisibility(View.GONE);
         }
-        mAdapter.setNewData(mList2);
+    }
+
+    @Override
+    public void getProductListFail() {
+        mProductProducts.setVisibility(View.GONE);
+    }
+
+    private void initData() {
+        //请求全部分类
+        mPresenter.requestAllProductSort();
+        //请求一级产品列表
+        mPresenter.requestProductList();
+
     }
 
     private void initView() {
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ProductAdapter(null, getActivity(), false);
+        mAdapter = new ProductAdapter(null, getActivity(),mImageLoaderHelper);
         mProductProducts.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {

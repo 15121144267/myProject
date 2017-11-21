@@ -30,6 +30,14 @@ public class MainModel {
         return mMainApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> fairListRequest() {
+        return mMainApi.fairListRequest(true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> productListRequest() {
+        return mMainApi.productListRequest(true).map(mTransform::transformCommon);
+    }
+
     public Observable<ResponseData> recommendTopRequest(double longitude, double latitude) {
         return mMainApi.recommendTopRequest(longitude + "", latitude + "", true).map(mTransform::transformCommon);
     }
@@ -40,10 +48,6 @@ public class MainModel {
 
     public Observable<ResponseData> requestRecommendBottom() {
         return mMainApi.recommendBottomRequest(2, 1, 10, true).map(mTransform::transformCommon);
-    }
-
-    public Observable<ResponseData> requestFairUnderLine() {
-        return mMainApi.requestFairUnderLine(1, 10, true).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestFairBottom() {
@@ -60,6 +64,10 @@ public class MainModel {
 
     public Observable<ResponseData> allProductSortRequest() {
         return mMainApi.allProductSortRequest(true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> storeListRequest() {
+        return mMainApi.storeListRequest(true).map(mTransform::transformCommon);
     }
 
 }

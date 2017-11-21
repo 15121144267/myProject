@@ -5,7 +5,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.ProductListResponse;
+import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
@@ -13,24 +14,24 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class ProductAdapter extends BaseQuickAdapter<ProductResponse, BaseViewHolder> {
+public class ProductAdapter extends BaseQuickAdapter<ProductListResponse.CategoryBean, BaseViewHolder> {
     private final Context mContext;
-    private boolean mChangeFlag;
-    public ProductAdapter(List<ProductResponse> mList, Context context,boolean changeFlag) {
+    private final ImageLoaderHelper mImageLoaderHelper;
+
+    public ProductAdapter(List<ProductListResponse.CategoryBean> mList, Context context , ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
-        mChangeFlag = changeFlag;
+        mImageLoaderHelper = imageLoaderHelper;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProductResponse item) {
+    protected void convert(BaseViewHolder helper, ProductListResponse.CategoryBean item) {
         if (item == null) return;
-        boolean flag;
-        flag = helper.getAdapterPosition()!=0;
         helper.addOnClickListener(R.id.adapter_fair_more);
+        helper.setText(R.id.adapter_fair_sign,item.name);
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        ProductItemAdapter itemAdapter = new ProductItemAdapter(item.mList, mContext, mChangeFlag,flag);
+        ProductItemAdapter itemAdapter = new ProductItemAdapter(item.goods, mContext,mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
             mContext.startActivity(ShopProductDetailActivity. getActivityDetailIntent(mContext))

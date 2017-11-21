@@ -15,17 +15,17 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.entity.StoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.SellerControl;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.ShopBlockActivity;
 import com.banshengyuan.feima.view.adapter.GallerySellerAdapter;
-import com.banshengyuan.feima.view.adapter.ProductAdapter;
+import com.banshengyuan.feima.view.adapter.SellerStoreAdapter;
 import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardScaleHelper;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,7 +58,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     @Inject
     SellerControl.PresenterSeller mPresenter;
     private Unbinder unbind;
-    private ProductAdapter mProductAdapter;
+    private SellerStoreAdapter mProductAdapter;
     private CardScaleHelper mCardScaleHelper;
     private GallerySellerAdapter mGallerySellerAdapter;
 
@@ -89,34 +89,46 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     }
 
+    @Override
+    public void getBlockListSuccess(FairUnderLineResponse response) {
+        List<FairUnderLineResponse.ListBean> listBeen = response.list;
+        if (listBeen != null && listBeen.size() > 0) {
+            mGallerySellerAdapter.setNewData(listBeen);
+        } else {
+            mShopTopGallery.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void getBlockListFail() {
+        mShopTopGallery.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getStoreListSuccess(StoreListResponse response) {
+        List<StoreListResponse.CategoryBean> list = response.category;
+        if (list != null && list.size() > 0) {
+            mProductAdapter.setNewData(list);
+        }else {
+            mShopBottomProducts.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getStoreListFail() {
+        mShopBottomProducts.setVisibility(View.GONE);
+    }
 
     private void initData() {
-        List<Integer> mList0 = new ArrayList<>();
-        mList0.add(R.mipmap.header);
-        mList0.add(R.mipmap.header);
-        mList0.add(R.mipmap.header);
-        mList0.add(R.mipmap.header);
-        mList0.add(R.mipmap.header);
-        mGallerySellerAdapter = new GallerySellerAdapter(getActivity(), mList0, mImageLoaderHelper);
-        mShopTopGallery.setAdapter(mGallerySellerAdapter);
-
-        List<ProductResponse> mList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList1.add(itemBean);
-            }
-            product.mList = mList1;
-            mList.add(product);
+        //请求街区
+        if (mLocationInfo != null) {
+            mPresenter.requestBlockList(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
+        } else {
+            mPresenter.requestBlockList(0, 0);
         }
-        mProductAdapter.setNewData(mList);
-
-        mGallerySellerAdapter.setOnItemListener(this);
+        //请求店铺列表
+        mPresenter.requestStoreList();
 
     }
 
@@ -135,6 +147,9 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     private void initView() {
         mShopTopGallery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mGallerySellerAdapter = new GallerySellerAdapter(getActivity(), null, mImageLoaderHelper);
+        mShopTopGallery.setAdapter(mGallerySellerAdapter);
+        mGallerySellerAdapter.setOnItemListener(this);
         mCardScaleHelper = new CardScaleHelper();
         mCardScaleHelper.setCurrentItemPos(0);
         mCardScaleHelper.setScale(1f);
@@ -142,11 +157,8 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         mCardScaleHelper.setPagePadding(3);
         mCardScaleHelper.attachToRecyclerView(mShopTopGallery);
 
-       /* mSellerAdapter =  new SellerAdapter(null,getActivity());
-        mShopTopProducts.setAdapter(mSellerAdapter);*/
-
         mShopBottomProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mProductAdapter = new ProductAdapter(null, getActivity(), true);
+        mProductAdapter = new SellerStoreAdapter(null, getActivity(), mImageLoaderHelper);
         mShopBottomProducts.setAdapter(mProductAdapter);
         mProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {

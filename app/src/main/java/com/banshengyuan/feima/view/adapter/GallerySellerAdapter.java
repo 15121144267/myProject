@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardAdapterHelper;
 
@@ -16,7 +18,7 @@ import java.util.List;
 
 
 public class GallerySellerAdapter extends RecyclerView.Adapter<GallerySellerAdapter.ViewHolder> {
-    private List<Integer> mList = new ArrayList<>();
+    private List<FairUnderLineResponse.ListBean> mList;
     private CardAdapterHelper mCardAdapterHelper;
     private ImageLoaderHelper mImageLoaderHelper;
     private Context mContext;
@@ -26,13 +28,22 @@ public class GallerySellerAdapter extends RecyclerView.Adapter<GallerySellerAdap
         mSellerClickListener = sellerClickListener;
     }
 
-    public GallerySellerAdapter(Context context, List<Integer> mList, ImageLoaderHelper imageLoaderHelper) {
-        this.mList = mList;
+    public GallerySellerAdapter(Context context, List<FairUnderLineResponse.ListBean> list, ImageLoaderHelper imageLoaderHelper) {
+        if (list == null) {
+            mList = new ArrayList<>();
+        } else {
+            mList = list;
+        }
         mImageLoaderHelper = imageLoaderHelper;
         mContext = context;
         mCardAdapterHelper = new CardAdapterHelper();
         mCardAdapterHelper.setShowLeftCardWidth(15);
         mCardAdapterHelper.setPagePadding(3);
+    }
+
+    public void setNewData(List<FairUnderLineResponse.ListBean> list) {
+        mList = list;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,8 +56,8 @@ public class GallerySellerAdapter extends RecyclerView.Adapter<GallerySellerAdap
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
-        holder.mImageView.setImageResource(mList.get(position));
-
+        holder.mTextView.setText(mList.get(position).name);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, mList.get(position).cover_img, holder.mImageView, 6);
         holder.mImageView.setOnClickListener(v -> {
             if (mSellerClickListener != null) {
                 mSellerClickListener.sellerClickItemListener(position);
@@ -61,10 +72,12 @@ public class GallerySellerAdapter extends RecyclerView.Adapter<GallerySellerAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final ImageView mImageView;
+        public final TextView mTextView;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.adapter_seller_icon);
+            mTextView = (TextView) itemView.findViewById(R.id.adapter_seller_name);
         }
 
     }

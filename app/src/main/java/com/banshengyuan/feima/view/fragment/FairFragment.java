@@ -15,7 +15,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.FairListResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
@@ -93,32 +93,33 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         mSendFragmentFair.setVisibility(View.GONE);
     }
 
+    @Override
+    public void getFairListSuccess(FairListResponse response) {
+        List<FairListResponse.CategoryBean> list = response.category;
+        if(list!=null&&list.size()>0){
+            mFairProductAdapter.setNewData(list);
+        }else {
+            mSendFragmentProduct.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getFairListFail() {
+        mSendFragmentProduct.setVisibility(View.GONE);
+    }
+
     private void initData() {
         //请求品牌布局
         mPresenter.requestFairBrand();
-
-        List<ProductResponse> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList1.add(itemBean);
-            }
-            product.mList = mList1;
-            list.add(product);
-        }
-        mFairProductAdapter.setNewData(list);
+        //请求一级市集列表
+        mPresenter.requestFairList();
     }
 
     private void initView() {
         mSendFragmentFair.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSendFragmentProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new RecommendBrandAdapter(null, getActivity(),mImageLoaderHelper);
-        mFairProductAdapter = new FairProductAdapter(null, getActivity());
+        mFairProductAdapter = new FairProductAdapter(null, getActivity(),mImageLoaderHelper);
         mSendFragmentFair.setAdapter(mAdapter);
         mSendFragmentProduct.setAdapter(mFairProductAdapter);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {

@@ -2,10 +2,16 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.entity.StoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.SellerControl;
 import com.banshengyuan.feima.view.model.MainModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/5/3.
@@ -24,25 +30,44 @@ public class PresenterSellerImpl implements SellerControl.PresenterSeller {
         mView = view;
     }
 
-   /* @Override
-    public void requestShopId(String scoreCode, Integer type) {
+    @Override
+    public void requestStoreList() {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
-                .subscribe(this::getShopSuccess
+        Disposable disposable = mMainModel.storeListRequest().compose(mView.applySchedulers())
+                .subscribe(this::getStoreListSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getShopSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 0) {
-            responseData.parseData(ShopResponse.class);
-            ShopResponse response = (ShopResponse) responseData.parsedData;
-            mView.getShopSuccess(response);
+    private void getStoreListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(StoreListResponse.class);
+            StoreListResponse response = (StoreListResponse) responseData.parsedData;
+            mView.getStoreListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getStoreListFail();
         }
     }
-*/
+
+    @Override
+    public void requestBlockList(double longitude, double latitude) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.vistaListRequest(longitude, latitude).compose(mView.applySchedulers())
+                .subscribe(this::getBlockListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getBlockListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairUnderLineResponse.class);
+            FairUnderLineResponse response = (FairUnderLineResponse) responseData.parsedData;
+            mView.getBlockListSuccess(response);
+        } else {
+            mView.getBlockListFail();
+        }
+    }
+
     @Override
     public void onCreate() {
 

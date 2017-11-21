@@ -23,6 +23,7 @@
     </android.support.v7.widget.CardView>
 
     <TextView
+        android:id="@+id/adapter_seller_name"
         style="@style/TextColor_Black_15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

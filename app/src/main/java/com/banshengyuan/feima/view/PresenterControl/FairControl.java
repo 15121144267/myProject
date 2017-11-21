@@ -1,5 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.FairListResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 
 /**
@@ -11,10 +12,12 @@ public class FairControl {
     public interface FairView extends LoadDataView{
         void getFairBrandSuccess(RecommendBrandResponse response);
         void getFairBrandFail();
-
+        void getFairListSuccess(FairListResponse response);
+        void getFairListFail();
     }
 
     public interface PresenterFair extends Presenter<FairView> {
         void requestFairBrand();
+        void requestFairList();
     }
 }

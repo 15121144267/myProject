@@ -51,9 +51,9 @@ public class PresenterMainFairImpl implements MainFairControl.PresenterFair {
     }
 
     @Override
-    public void requestFairUnderLine() {
+    public void requestFairUnderLine(double longitude,double latitude) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mMainModel.requestFairUnderLine().compose(mView.applySchedulers())
+        Disposable disposable = mMainModel.vistaListRequest(longitude,latitude).compose(mView.applySchedulers())
                 .subscribe(this::getFairUnderLineSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);

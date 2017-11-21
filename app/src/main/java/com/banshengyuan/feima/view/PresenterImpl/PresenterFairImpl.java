@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairListResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.model.MainModel;
@@ -27,6 +28,25 @@ public class PresenterFairImpl implements FairControl.PresenterFair {
         mContext = context;
         mMainModel = model;
         mView = view;
+    }
+
+    @Override
+    public void requestFairList() {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.fairListRequest().compose(mView.applySchedulers())
+                .subscribe(this::getFairListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getFairListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairListResponse.class);
+            FairListResponse response = (FairListResponse) responseData.parsedData;
+            mView.getFairListSuccess(response);
+        } else {
+            mView.getFairListFail();
+        }
     }
 
     @Override

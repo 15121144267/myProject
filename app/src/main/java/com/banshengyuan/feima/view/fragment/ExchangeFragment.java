@@ -22,6 +22,8 @@ import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,11 +36,13 @@ import butterknife.Unbinder;
 public class ExchangeFragment extends BaseFragment implements ExChangeControl.ExChangeView {
     @BindView(R.id.hot_fragment_activities)
     RecyclerView mHotFragmentActivities;
-/*
-    @BindView(R.id.exchange_tab_layout)
-    TabLayout mExchangeTabLayout;
-    @BindView(R.id.exchange_view_pager)
-    ViewPager mExchangeViewPager;*/
+    /*
+        @BindView(R.id.exchange_tab_layout)
+        TabLayout mExchangeTabLayout;
+        @BindView(R.id.exchange_view_pager)
+        ViewPager mExchangeViewPager;*/
+    @Inject
+    ExChangeControl.PresenterExChange mPresenter;
 
     public static ExchangeFragment newInstance() {
         return new ExchangeFragment();
@@ -46,6 +50,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
 
     private Unbinder unbind;
     private HotFairAdapter mHotFairAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +109,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        mPresenter.onDestroy();
+        mPresenter.onDestroy();
     }
 
 
@@ -120,7 +125,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
 
     private void initView() {
         mHotFragmentActivities.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mHotFairAdapter = new HotFairAdapter(null,getActivity());
+        mHotFairAdapter = new HotFairAdapter(null, getActivity());
         mHotFragmentActivities.setAdapter(mHotFairAdapter);
        /* List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(TrendsFragment.newInstance());

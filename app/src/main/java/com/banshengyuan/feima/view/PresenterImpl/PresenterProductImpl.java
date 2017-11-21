@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AllProductSortResponse;
+import com.banshengyuan.feima.entity.ProductListResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductControl;
 import com.banshengyuan.feima.view.model.MainModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -27,6 +28,25 @@ public class PresenterProductImpl implements ProductControl.PresenterProduct {
         mContext = context;
         mMainModel = model;
         mView = view;
+    }
+
+    @Override
+    public void requestProductList() {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mMainModel.productListRequest().compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getProductListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(ProductListResponse.class);
+            ProductListResponse response = (ProductListResponse) responseData.parsedData;
+            mView.getProductListSuccess(response);
+        } else {
+            mView.getProductListFail();
+        }
     }
 
     @Override

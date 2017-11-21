@@ -27,7 +27,7 @@ public class MainFairControl {
     public interface PresenterFair extends Presenter<MainFairView> {
         void requestRecommendBrand();
 
-        void requestFairUnderLine();
+        void requestFairUnderLine(double longitude, double latitude);
 
         void requestFairBottom();
     }

@@ -121,7 +121,11 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
 
     private void initData() {
         //请求线下街区
-        mPresenter.requestFairUnderLine();
+        if (mLocationInfo != null) {
+            mPresenter.requestFairUnderLine(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
+        } else {
+            mPresenter.requestFairUnderLine(0, 0);
+        }
         //请求品牌布局
         mPresenter.requestRecommendBrand();
         //请求市集列表、

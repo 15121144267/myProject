@@ -17,6 +17,15 @@ public interface MainApi {
     @GET("api/magic-door")
     Observable<String> musicListRequest(@Query("flag") boolean flag);
 
+    @GET("api/fair/other-choice")
+    Observable<String> fairListRequest(@Query("flag") boolean flag);
+
+    @GET("api/goods/choice")
+    Observable<String> productListRequest(@Query("flag") boolean flag);
+
+    @GET("api/store/choice")
+    Observable<String> storeListRequest(@Query("flag") boolean flag);
+
     @GET("api/goods-category")
     Observable<String> allProductSortRequest(@Query("flag") boolean flag);
 
@@ -28,9 +37,6 @@ public interface MainApi {
 
     @GET("api/fair")
     Observable<String> recommendBottomRequest(@Query("is_recommend") Integer is_recommend, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
-
-    @GET("api/street")
-    Observable<String> requestFairUnderLine(@Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 
     @GET("api/fair-category")
     Observable<String> requestFairBottom(@Query("order_by") String orderBy, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
