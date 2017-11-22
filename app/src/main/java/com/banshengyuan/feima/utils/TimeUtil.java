@@ -16,6 +16,7 @@ public class TimeUtil {
     public static final String TIME_HHMMSS = "HH:mm:ss";
     public static final String TIME_HHMM = "HH:mm";
     public static final String TIME_YYMMDD = "yyyy-MM-dd";
+    public static final String TIMEYYMMDD = "yyyyMMdd期";
     public static final String TIME_MMDD = "MM-dd";
     public static final String TIME_MMDD_CH = "MM月dd日";
     public static final String TIME_YYMMDD_HHMMSS = "yyyy-MM-dd HH:mm:ss";
@@ -41,9 +42,11 @@ public class TimeUtil {
      *
      */
     public static String transferLongToDate(String dateFormat, Long millSec) {
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-        Date date = new Date(millSec);
-        return sdf.format(date);
+        String result = null;
+        Date date = new Date(millSec*1000);
+        SimpleDateFormat sd = new SimpleDateFormat(dateFormat);
+        result = sd.format(date);
+        return result;
     }
 
     /**

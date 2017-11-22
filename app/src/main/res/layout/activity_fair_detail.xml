@@ -39,6 +39,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/fair_detail_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dp_25"
@@ -58,6 +59,7 @@
                         <View style="@style/LineH_Fill_Width_50_ForView"/>
 
                         <TextView
+                            android:id="@+id/fair_detail_summary"
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:gravity="center"

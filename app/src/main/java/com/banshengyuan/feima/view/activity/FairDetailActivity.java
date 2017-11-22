@@ -10,10 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
+import com.banshengyuan.feima.entity.FairListResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -37,13 +40,24 @@ import butterknife.ButterKnife;
 
 public class FairDetailActivity extends BaseActivity implements FairDetailControl.FairDetailView {
 
-
-    public static Intent getIntent(Context context, Integer flag) {
+    public static Intent getIntent(Context context, Integer flag, RecommendBrandResponse.ListBean listBean) {
         Intent intent = new Intent(context, FairDetailActivity.class);
         intent.putExtra("layout_flag", flag);
+        intent.putExtra("brandBean", listBean);
         return intent;
     }
 
+    public static Intent getIntent(Context context, Integer flag, FairListResponse.CategoryBean bean) {
+        Intent intent = new Intent(context, FairDetailActivity.class);
+        intent.putExtra("layout_flag", flag);
+        intent.putExtra("categoryBean", bean);
+        return intent;
+    }
+
+    @BindView(R.id.fair_detail_name)
+    TextView mFairDetailName;
+    @BindView(R.id.fair_detail_summary)
+    TextView mFairDetailSummary;
     @BindView(R.id.toolbar_right_icon)
     ImageView mToolbarRightIcon;
     @BindView(R.id.toolbar)
@@ -58,6 +72,9 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
     @Inject
     FairDetailControl.PresenterFairDetail mPresenter;
 
+    private Integer mFairId;
+    private RecommendBrandResponse.ListBean mListBean;
+    private FairListResponse.CategoryBean mCategoryBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,11 +119,15 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
 
     private void initView() {
         Integer layoutFlag = getIntent().getIntExtra("layout_flag", 0);
-        String[] modules={};
+
+        String[] modules = {};
         List<String> list = new ArrayList<>();
         List<Fragment> mFragments = new ArrayList<>();
         if (layoutFlag == 1) {
-
+            mListBean = (RecommendBrandResponse.ListBean) getIntent().getSerializableExtra("brandBean");
+            mFairId = mListBean.id;
+            mFairDetailName.setText(mListBean.name);
+            mFairDetailSummary.setText(mListBean.summary);
             list.add("最新");
             list.add("商家");
             list.add("产品");
@@ -116,6 +137,10 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mFragments.add(CelebrityFragment.newInstance());
             mFragments.add(TrendsFragment.newInstance());
         } else if (layoutFlag == 2) {
+            mCategoryBean = (FairListResponse.CategoryBean) getIntent().getSerializableExtra("categoryBean");
+            mFairId = mCategoryBean.id;
+            mFairDetailName.setText(mCategoryBean.name);
+            mFairDetailSummary.setText(mCategoryBean.summary);
             list.add("市集");
             list.add("产品");
             list.add("点评");
@@ -131,6 +156,10 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         mFairDetailViewPager.setAdapter(adapter);
         mFairDetailTabLayout.setupWithViewPager(mFairDetailViewPager);
         ValueUtil.setIndicator(mFairDetailTabLayout, 40, 40);
+    }
+
+    public Integer getFairId() {
+        return mFairId;
     }
 
     private void initializeInjector() {

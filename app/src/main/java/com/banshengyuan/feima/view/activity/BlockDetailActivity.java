@@ -17,8 +17,9 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBlockDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.BlockDetailActivityModule;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
+import com.banshengyuan.feima.entity.BlockFairListResponse;
 import com.banshengyuan.feima.entity.BlockHotListResponse;
-import com.banshengyuan.feima.entity.ProductResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
 import com.banshengyuan.feima.view.adapter.BlockDetailFairAdapter;
@@ -115,9 +116,9 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mBlockDetailFair.setLayoutManager(new LinearLayoutManager(this));
         mBlockDetailShop.setLayoutManager(new LinearLayoutManager(this));
 
-        mCommonItemAdapter = new CommonItemAdapter(null, this);
-        mBlockDetailFairAdapter = new BlockDetailFairAdapter(null, this);
-        mBlockDetailShopAdapter = new BlockDetailShopAdapter(null, this);
+        mCommonItemAdapter = new CommonItemAdapter(null, this,mImageLoaderHelper);
+        mBlockDetailFairAdapter = new BlockDetailFairAdapter(null, this,mImageLoaderHelper);
+        mBlockDetailShopAdapter = new BlockDetailShopAdapter(null, this,mImageLoaderHelper);
         mBlockDetailHot.setAdapter(mCommonItemAdapter);
         mBlockDetailFair.setAdapter(mBlockDetailFairAdapter);
         mBlockDetailShop.setAdapter(mBlockDetailShopAdapter);
@@ -175,7 +176,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
             List<BlockHotListResponse> listResponses = new ArrayList<>();
             listResponses.add(response);
             mCommonItemAdapter.setNewData(listResponses);
-        }else {
+        } else {
             mBlockDetailHot.setVisibility(View.GONE);
         }
     }
@@ -185,29 +186,50 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mBlockDetailHot.setVisibility(View.GONE);
     }
 
+    @Override
+    public void getFairListSuccess(BlockFairListResponse response) {
+        List<BlockFairListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            List<BlockFairListResponse> listResponses = new ArrayList<>();
+            listResponses.add(response);
+            mBlockDetailFairAdapter.setNewData(listResponses);
+        } else {
+            mBlockDetailFair.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getFairListFail() {
+        mBlockDetailFair.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+        List<BlockStoreListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            List<BlockStoreListResponse> listResponses = new ArrayList<>();
+            listResponses.add(response);
+            mBlockDetailShopAdapter.setNewData(listResponses);
+        } else {
+            mBlockDetailShop.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getStoreListFail() {
+        mBlockDetailShop.setVisibility(View.GONE);
+    }
+
     private void initData() {
 
         //请求街区详情
         mPresenter.requestBlockDetail(mBlockId);
         //请求热闹列表
         mPresenter.requestHotList(mBlockId);
-
-        List<ProductResponse> mList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            List<ProductResponse.ProductItemBean> mList1 = new ArrayList<>();
-            ProductResponse product = new ProductResponse();
-            product.name = "户外运动" + i;
-            for (int j = 0; j < 5; j++) {
-                ProductResponse.ProductItemBean itemBean = new ProductResponse.ProductItemBean();
-                itemBean.content = "魔兽世界" + j;
-                itemBean.tip = "少年三国志" + j;
-                mList1.add(itemBean);
-            }
-            product.mList = mList1;
-            mList.add(product);
-        }
-        mBlockDetailFairAdapter.setNewData(mList);
-        mBlockDetailShopAdapter.setNewData(mList);
+        //请求市集列表
+        mPresenter.requestFairList(mBlockId);
+        //请求店铺列表
+        mPresenter.requestStoreList(mBlockId);
 
     }
 

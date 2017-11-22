@@ -9,7 +9,7 @@
         android:id="@+id/adapter_common_icon"
         android:layout_width="310dp"
         android:layout_height="166dp"
-        android:background="@drawable/shape_gray"
+        android:scaleType="fitXY"
         />
 
     <LinearLayout

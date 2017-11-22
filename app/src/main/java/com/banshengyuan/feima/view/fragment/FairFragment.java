@@ -134,7 +134,8 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         mFairProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(FairDetailActivity.getIntent(getActivity(), 2));
+                    FairListResponse.CategoryBean bean = mFairProductAdapter.getItem(position);
+                    startActivity(FairDetailActivity.getIntent(getActivity(), 2,bean));
             }
         });
 

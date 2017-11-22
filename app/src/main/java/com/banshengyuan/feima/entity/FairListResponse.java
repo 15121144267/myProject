@@ -11,7 +11,7 @@ public class FairListResponse implements Serializable {
 
     public List<CategoryBean> category;
 
-    public static class CategoryBean {
+    public static class CategoryBean implements Serializable{
         /**
          * id : 1
          * name : 市集分类名称
@@ -26,7 +26,7 @@ public class FairListResponse implements Serializable {
         public String cover_img;
         public List<FairBean> fair;
 
-        public static class FairBean {
+        public static class FairBean implements Serializable{
             /**
              * id : 11
              * name : 市集名称

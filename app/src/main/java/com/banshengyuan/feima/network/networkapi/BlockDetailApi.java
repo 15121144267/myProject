@@ -17,4 +17,10 @@ public interface BlockDetailApi {
     @GET("api/hot")
     Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
 
+    @GET("api/fair-category")
+    Observable<String> fairListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @GET("api/store")
+    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
 }

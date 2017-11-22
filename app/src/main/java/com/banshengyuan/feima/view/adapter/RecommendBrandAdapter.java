@@ -17,6 +17,7 @@ import java.util.List;
 public class RecommendBrandAdapter extends BaseQuickAdapter<RecommendBrandResponse, BaseViewHolder> {
     private final Context mContext;
     private ImageLoaderHelper mImageLoaderHelper;
+
     public RecommendBrandAdapter(List<RecommendBrandResponse> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
@@ -29,11 +30,14 @@ public class RecommendBrandAdapter extends BaseQuickAdapter<RecommendBrandRespon
         helper.addOnClickListener(R.id.adapter_fair_more);
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        BrandItemAdapter itemAdapter = new BrandItemAdapter(item.list, mContext,mImageLoaderHelper);
+        BrandItemAdapter itemAdapter = new BrandItemAdapter(item.list, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
 
-        itemAdapter.setOnItemClickListener((adapter, view, position) ->
-            mContext.startActivity(FairDetailActivity.getIntent(mContext,1))
+        itemAdapter.setOnItemClickListener((adapter, view, position) -> {
+                    RecommendBrandResponse.ListBean bean = (RecommendBrandResponse.ListBean) adapter.getItem(position);
+                    mContext.startActivity(FairDetailActivity.getIntent(mContext,1, bean));
+                }
+
         );
     }
 

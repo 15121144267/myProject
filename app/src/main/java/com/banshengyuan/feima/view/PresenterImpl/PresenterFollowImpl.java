@@ -2,10 +2,16 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairDetailListResponse;
+import com.banshengyuan.feima.entity.ShopResponse;
 import com.banshengyuan.feima.view.PresenterControl.FollowControl;
 import com.banshengyuan.feima.view.model.FairDetailModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/5/3.
@@ -24,25 +30,44 @@ public class PresenterFollowImpl implements FollowControl.PresenterFollow {
         mView = view;
     }
 
-    /* @Override
-     public void requestShopId(String scoreCode, Integer type) {
-         mView.showLoading(mContext.getString(R.string.loading));
-         Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
-                 .subscribe(this::getShopSuccess
-                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
-         mView.addSubscription(disposable);
-     }
+    @Override
+    public void requestFairList(Integer fairId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.fairListRequest(fairId).compose(mView.applySchedulers())
+                .subscribe(this::getFairListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
 
-     private void getShopSuccess(ResponseData responseData) {
-         if (responseData.resultCode == 0) {
-             responseData.parseData(ShopResponse.class);
-             ShopResponse response = (ShopResponse) responseData.parsedData;
-             mView.getShopSuccess(response);
-         } else {
-             mView.showToast(responseData.errorDesc);
+    private void getFairListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairDetailListResponse.class);
+            FairDetailListResponse response = (FairDetailListResponse) responseData.parsedData;
+            mView.getFairListSuccess(response);
+        } else {
+            mView.getFairListFail();
+        }
+    }
+
+    /* @Override
+         public void requestShopId(String scoreCode, Integer type) {
+             mView.showLoading(mContext.getString(R.string.loading));
+             Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
+                     .subscribe(this::getShopSuccess
+                             , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+             mView.addSubscription(disposable);
          }
-     }
- */
+
+         private void getShopSuccess(ResponseData responseData) {
+             if (responseData.resultCode == 0) {
+                 responseData.parseData(ShopResponse.class);
+                 ShopResponse response = (ShopResponse) responseData.parsedData;
+                 mView.getShopSuccess(response);
+             } else {
+                 mView.showToast(responseData.errorDesc);
+             }
+         }
+     */
     @Override
     public void onCreate() {
 
