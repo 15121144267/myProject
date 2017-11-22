@@ -28,4 +28,12 @@ public class FairDetailModel {
         return mApi.fairListRequest(fairId,1,5,true).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> storeListRequest(Integer fairId) {
+        return mApi.stroeListRequest(fairId,1,5,true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> productListRequest(Integer fairId) {
+        return mApi.productListRequest(fairId,1,8,true).map(mTransform::transformCommon);
+    }
+
 }

@@ -12,4 +12,10 @@ import retrofit2.http.Query;
 public interface FairDetailApi {
     @GET("api/fair")
     Observable<String> fairListRequest(@Query("category_2_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+
+    @GET("api/store")
+    Observable<String> stroeListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+
+    @GET("api/goods")
+    Observable<String> productListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 }

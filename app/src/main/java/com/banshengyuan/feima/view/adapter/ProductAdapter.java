@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.ProductListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
+import com.banshengyuan.feima.utils.ToastUtils;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -34,7 +34,7 @@ public class ProductAdapter extends BaseQuickAdapter<ProductListResponse.Categor
         ProductItemAdapter itemAdapter = new ProductItemAdapter(item.goods, mContext,mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
-            mContext.startActivity(ShopProductDetailActivity. getActivityDetailIntent(mContext))
+                ToastUtils.showLongToast("产品详情页面")
         );
     }
 

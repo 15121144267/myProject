@@ -14,10 +14,11 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerExchangeFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
+import com.banshengyuan.feima.entity.FairDetailStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.CelebrityControl;
-import com.banshengyuan.feima.view.adapter.FairDetailSellersAdapter;
+import com.banshengyuan.feima.view.activity.FairDetailActivity;
+import com.banshengyuan.feima.view.adapter.FairDetailStoreListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,11 +44,13 @@ public class CelebrityFragment extends BaseFragment implements CelebrityControl.
     CelebrityControl.PresenterCelebrity mPresenter;
 
     private Unbinder unbind;
-    private FairDetailSellersAdapter mAdapter;
+    private FairDetailStoreListAdapter mAdapter;
+    private Integer mFairId;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mFairId = ((FairDetailActivity) getActivity()).getFairId();
     }
 
     @Nullable
@@ -65,17 +68,29 @@ public class CelebrityFragment extends BaseFragment implements CelebrityControl.
         initData();
     }
 
+    @Override
+    public void getStoreListSuccess(FairDetailStoreListResponse response) {
+        List<FairDetailStoreListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            mAdapter.setNewData(list);
+        } else {
+            mFragmentTrendsListMiddle.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getStoreListFail() {
+        mFragmentTrendsListMiddle.setVisibility(View.GONE);
+    }
+
     private void initData() {
-        List<Integer> list2 = new ArrayList<>();
-        list2.add(R.mipmap.main_banner_third);
-        list2.add(R.mipmap.main_banner_third);
-        list2.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(list2);
+        //请求店铺列表
+        mPresenter.requestStoreList(mFairId);
     }
 
     private void initView() {
         mFragmentTrendsListMiddle.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new FairDetailSellersAdapter(null,getActivity());
+        mAdapter = new FairDetailStoreListAdapter(null,getActivity(),mImageLoaderHelper);
         mFragmentTrendsListMiddle.setAdapter(mAdapter);
     }
 

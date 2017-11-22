@@ -14,10 +14,11 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerExchangeFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
+import com.banshengyuan.feima.entity.FairDetailProductListResponse;
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
-import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
+import com.banshengyuan.feima.view.activity.FairDetailActivity;
+import com.banshengyuan.feima.view.adapter.FairDetailProductListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,12 +44,14 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     TrendsControl.PresenterTrends mPresenter;
 
     private Unbinder unbind;
-    private FairDetailNewAdapter mAdapter;
+    private FairDetailProductListAdapter mAdapter;
+    private Integer mFairId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mFairId = ((FairDetailActivity) getActivity()).getFairId();
     }
 
     @Nullable
@@ -66,20 +69,27 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
         initData();
     }
 
+    @Override
+    public void getProductListSuccess(FairDetailProductListResponse response) {
+        List<FairDetailProductListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            mAdapter.setNewData(list);
+        }
+    }
+
+    @Override
+    public void getProductListFail() {
+
+    }
+
     private void initData() {
-        List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        mAdapter.setNewData(list);
+        //请求市集列表
+        mPresenter.requestProductList(mFairId);
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailNewAdapter(null, getActivity());
+        mAdapter = new FairDetailProductListAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
     }
 

@@ -2,44 +2,50 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp"
-    android:layout_marginStart="@dimen/dp_15"
-    android:layout_marginBottom="@dimen/dp_15"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_15"
+    android:layout_marginStart="@dimen/dp_15"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="0dp"
+    app:cardMaxElevation="0dp">
 
     <LinearLayout
         android:layout_width="160dp"
         android:layout_height="220dp"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
+
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/adapter_product_icon"
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/header"/>
+
         <TextView
-            android:layout_marginTop="@dimen/dp_10"
-            android:paddingStart="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_10"
-            android:text="西班牙牛油果西班牙牛油果"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textSize="@dimen/sp_13"
-            android:textColor="@color/tab_text_normal"
+            android:id="@+id/adapter_product_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:text="价格10元"
-            android:textColor="#ff0036"
-            android:paddingStart="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:paddingEnd="@dimen/dp_10"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_10"
+            android:text="西班牙牛油果西班牙牛油果"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_13"/>
+
+        <TextView
+            android:id="@+id/adapter_product_price"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:drawableEnd="@mipmap/shoppingcard_icon"
-            android:layout_height="0dp"/>
+            android:gravity="center_vertical"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
+            android:text="价格10元"
+            android:textColor="#ff0036"/>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

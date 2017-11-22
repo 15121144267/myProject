@@ -2,10 +2,15 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairDetailProductListResponse;
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
 import com.banshengyuan.feima.view.model.FairDetailModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/5/3.
@@ -24,24 +29,43 @@ public class PresenterTrendsImpl implements TrendsControl.PresenterTrends {
         mView = view;
     }
 
-    /*@Override
-    public void requestShopId(String scoreCode, Integer type) {
+    @Override
+    public void requestProductList(Integer fairId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
-                .subscribe(this::getShopSuccess
+        Disposable disposable = mModel.productListRequest(fairId).compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getShopSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 0) {
-            responseData.parseData(ShopResponse.class);
-            ShopResponse response = (ShopResponse) responseData.parsedData;
-            mView.getShopSuccess(response);
+    private void getProductListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairDetailProductListResponse.class);
+            FairDetailProductListResponse response = (FairDetailProductListResponse) responseData.parsedData;
+            mView.getProductListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getProductListFail();
         }
-    }*/
+    }
+
+    /*@Override
+        public void requestShopId(String scoreCode, Integer type) {
+            mView.showLoading(mContext.getString(R.string.loading));
+            Disposable disposable = mShopListModel.shopIdRequest(scoreCode, type).compose(mView.applySchedulers())
+                    .subscribe(this::getShopSuccess
+                            , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+            mView.addSubscription(disposable);
+        }
+
+        private void getShopSuccess(ResponseData responseData) {
+            if (responseData.resultCode == 0) {
+                responseData.parseData(ShopResponse.class);
+                ShopResponse response = (ShopResponse) responseData.parsedData;
+                mView.getShopSuccess(response);
+            } else {
+                mView.showToast(responseData.errorDesc);
+            }
+        }*/
     @Override
     public void onCreate() {
 
