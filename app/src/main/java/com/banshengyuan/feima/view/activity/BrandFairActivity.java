@@ -6,17 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBrandFairActivityComponent;
 import com.banshengyuan.feima.dagger.module.BrandFairActivityModule;
+import com.banshengyuan.feima.entity.BrandAllFairListResponse;
 import com.banshengyuan.feima.view.PresenterControl.BrandFairControl;
 import com.banshengyuan.feima.view.adapter.GalleryCardAdapter;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardScaleHelper;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,8 +46,8 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
     @Inject
     BrandFairControl.PresenterBrandFair mPresenter;
 
-    private List<Integer> mList;
     private CardScaleHelper mCardScaleHelper;
+    private GalleryCardAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +58,21 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
         supportActionBar(mToolbar, true);
         initView();
         initData();
+    }
+
+    @Override
+    public void getFairListSuccess(BrandAllFairListResponse response) {
+        List<BrandAllFairListResponse.ListBean> list = response.list;
+        if(list!=null&&list.size()>0){
+            mAdapter.setNewData(list);
+        }else {
+            mBrandFairGallery.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getFairListFail() {
+        mBrandFairGallery.setVisibility(View.GONE);
     }
 
     @Override
@@ -86,16 +102,14 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
     }
 
     private void initData() {
-
+        //请求市集列表
+        mPresenter.requestFairList();
     }
 
     private void initView() {
-        mList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            mList.add(R.mipmap.header);
-        }
         mBrandFairGallery.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mBrandFairGallery.setAdapter(new GalleryCardAdapter(mList));
+        mAdapter = new GalleryCardAdapter(null,this,mImageLoaderHelper);
+        mBrandFairGallery.setAdapter(mAdapter);
         mCardScaleHelper = new CardScaleHelper();
         mCardScaleHelper.setCurrentItemPos(0);
         mCardScaleHelper.setPagePadding(5);

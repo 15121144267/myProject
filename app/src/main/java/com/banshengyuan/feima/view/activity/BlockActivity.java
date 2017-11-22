@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBlockActivityComponent;
 import com.banshengyuan.feima.dagger.module.BlockActivityModule;
+import com.banshengyuan.feima.entity.BlockFairListResponse;
+import com.banshengyuan.feima.entity.BlockHotListResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.BlockControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -45,16 +48,18 @@ public class BlockActivity extends BaseActivity implements BlockControl.BlockVie
     @BindView(R.id.block_view_pager)
     ViewPager mBlockViewPager;
 
-    public static Intent getIntent(Context context, Integer position) {
+    public static Intent getIntent(Context context, Integer position, Integer blockId) {
         Intent intent = new Intent(context, BlockActivity.class);
         intent.putExtra("tabPosition", position);
+        intent.putExtra("blockId", blockId);
         return intent;
     }
 
 
     @Inject
     BlockControl.PresenterBlock mPresenter;
-    private final String[] modules = {"热门", "市集", "商家"};
+    private final String[] modules = {"热闹", "市集", "商家"};
+    private Integer mBlockId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +70,36 @@ public class BlockActivity extends BaseActivity implements BlockControl.BlockVie
         supportActionBar(mToolbar, true);
         initView();
         initData();
+    }
+
+    @Override
+    public void getHotListSuccess(BlockHotListResponse response) {
+
+    }
+
+    @Override
+    public void getHotListFail() {
+
+    }
+
+    @Override
+    public void getFairListSuccess(BlockFairListResponse response) {
+
+    }
+
+    @Override
+    public void getFairListFail() {
+
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreListFail() {
+
     }
 
     @Override
@@ -97,8 +132,13 @@ public class BlockActivity extends BaseActivity implements BlockControl.BlockVie
 
     }
 
+    public Integer getBlockId() {
+        return mBlockId;
+    }
+
     private void initView() {
         Integer position = getIntent().getIntExtra("tabPosition", 3);
+        mBlockId = getIntent().getIntExtra("blockId", 0);
         mMiddleName.setText("半生缘街区");
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(BlockHotFragment.newInstance());

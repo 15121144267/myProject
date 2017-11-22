@@ -14,10 +14,11 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerExchangeFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ExchangeFragmentModule;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
+import com.banshengyuan.feima.entity.CommentListResponse;
 import com.banshengyuan.feima.view.PresenterControl.CommentControl;
+import com.banshengyuan.feima.view.activity.FairDetailActivity;
 import com.banshengyuan.feima.view.adapter.CommentAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ import butterknife.Unbinder;
  * TrendsFragment
  */
 
-public class CommentFragment extends BaseFragment implements CommentControl.CommentView{
+public class CommentFragment extends BaseFragment implements CommentControl.CommentView {
     @BindView(R.id.fragment_trends_list_last)
     RecyclerView mFragmentTrendsListLast;
 
@@ -44,11 +45,13 @@ public class CommentFragment extends BaseFragment implements CommentControl.Comm
 
     private Unbinder unbind;
     private CommentAdapter mAdapter;
+    private Integer mFairId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mFairId = ((FairDetailActivity) getActivity()).getFairId();
     }
 
     @Nullable
@@ -66,18 +69,28 @@ public class CommentFragment extends BaseFragment implements CommentControl.Comm
         initData();
     }
 
+    @Override
+    public void getCommentListSuccess(CommentListResponse response) {
+        List<CommentListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            mAdapter.setNewData(list);
+        } else {
+            mFragmentTrendsListLast.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getCommentListFail() {
+        mFragmentTrendsListLast.setVisibility(View.GONE);
+    }
+
     private void initData() {
-        List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        mAdapter.setNewData(list);
+        mPresenter.requestCommentList(mFairId);
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CommentAdapter(null, getActivity());
+        mAdapter = new CommentAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
     }
 
@@ -112,7 +125,7 @@ public class CommentFragment extends BaseFragment implements CommentControl.Comm
         DaggerExchangeFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .fairDetailActivityModule(new FairDetailActivityModule((AppCompatActivity) getActivity()))
-                .exchangeFragmentModule(new ExchangeFragmentModule(this,(AppCompatActivity) getActivity()))
+                .exchangeFragmentModule(new ExchangeFragmentModule(this, (AppCompatActivity) getActivity()))
                 .build()
                 .inject(this);
     }

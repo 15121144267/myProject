@@ -1,10 +1,7 @@
 package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -13,12 +10,12 @@ import retrofit2.http.Query;
  */
 
 public interface BlockApi {
-    @GET("member/deliveraddress/list")
-    Observable<String> addressListRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
+    @GET("api/hot")
+    Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 
-    @HTTP(method = "DELETE", path = "member/deliveraddress", hasBody = true)
-    Observable<String> deleteAddressRequest(@Body String request);
+    @GET("api/fair-category")
+    Observable<String> fairListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 
-    @POST("member/deliveraddress")
-    Observable<String> addressDefaultRequest(@Body String request);
+    @GET("api/store")
+    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 }

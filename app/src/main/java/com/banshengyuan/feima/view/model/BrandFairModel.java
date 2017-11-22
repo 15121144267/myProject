@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -22,10 +24,8 @@ public class BrandFairModel {
         mTransform = transform;
     }
 
-
-   /* public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> fairListRequest( ) {
+        return mApi.fairListRequest("2",1,20,true).map(mTransform::transformCommon);
+    }
 
 }

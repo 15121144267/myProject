@@ -14,11 +14,13 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBlockFragmentComponent;
 import com.banshengyuan.feima.dagger.module.BlockActivityModule;
 import com.banshengyuan.feima.dagger.module.BlockFragmentModule;
+import com.banshengyuan.feima.entity.BlockFairListResponse;
+import com.banshengyuan.feima.entity.BlockHotListResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockControl;
 import com.banshengyuan.feima.view.activity.BlockActivity;
-import com.banshengyuan.feima.view.adapter.FairDetailSellersAdapter;
+import com.banshengyuan.feima.view.adapter.BlockDetailStoreListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,12 +49,14 @@ public class BlockShopFragment extends BaseFragment implements BlockControl.Bloc
     BlockControl.PresenterBlock mPresenter;
 
     private Unbinder unbinder;
-    private FairDetailSellersAdapter mAdapter;
+    private BlockDetailStoreListAdapter mAdapter;
+    private Integer mBlockId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mBlockId = ((BlockActivity) getActivity()).getBlockId();
     }
 
     @Nullable
@@ -70,21 +74,52 @@ public class BlockShopFragment extends BaseFragment implements BlockControl.Bloc
         initData();
     }
 
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+        List<BlockStoreListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            mAdapter.setNewData(list);
+        } else {
+            mFragmentBlockCommon.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getStoreListFail() {
+        mFragmentBlockCommon.setVisibility(View.GONE);
+    }
+
+
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new FairDetailSellersAdapter(null, getActivity());
+        mAdapter = new BlockDetailStoreListAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
     }
 
 
     private void initData() {
-        List<Integer> mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_first);
-        mList.add(R.mipmap.main_banner_second);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+        mPresenter.requestStoreList(mBlockId);
     }
 
+    @Override
+    public void getFairListSuccess(BlockFairListResponse response) {
+
+    }
+
+    @Override
+    public void getFairListFail() {
+
+    }
+
+    @Override
+    public void getHotListSuccess(BlockHotListResponse response) {
+
+    }
+
+    @Override
+    public void getHotListFail() {
+
+    }
 
     @Override
     public void showLoading(String msg) {

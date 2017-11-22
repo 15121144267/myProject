@@ -7,20 +7,15 @@
     android:orientation="vertical"
     >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="超市市集"
-        android:textStyle="bold"/>
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="425dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="6dp"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginEnd="15dp"
         app:cardMaxElevation="12dp"
-        app:cardUseCompatPadding="true">
+       >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,11 +30,24 @@
                 android:src="@mipmap/header"/>
 
             <TextView
+                android:id="@+id/adapter_brand_fair_name"
+                style="@style/TextColor_dark_black_18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
                 android:gravity="center"
                 android:text="超市市集"
                 android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/adapter_brand_fair_summary"
+                style="@style/TextColor_dark_black_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:gravity="center"
+                android:text="超市市集"
+                />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

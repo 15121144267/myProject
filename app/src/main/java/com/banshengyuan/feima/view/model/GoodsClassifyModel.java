@@ -25,8 +25,8 @@ public class GoodsClassifyModel {
     }
 
 
-    public Observable<ResponseData> sortListRequest(String shopId, String nodeId,Integer deep, String sortName, Integer sortOrder,Integer pageSize,Integer pageNumber) {
-        return mApi.sortListRequest(shopId,nodeId,deep,sortName,sortOrder,pageSize,pageNumber).map(mTransform::transformTypeFour);
+    public Observable<ResponseData> allFairListRequest() {
+        return mApi.allFairListRequest(true).map(mTransform::transformTypeFour);
     }
 
 }

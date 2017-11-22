@@ -78,6 +78,7 @@
                         android:textSize="@dimen/sp_13"
                         android:textColor="@color/tab_text_normal"
                         android:text="收藏"
+                        android:visibility="gone"
                         android:layout_width="90dp"
                         android:layout_height="42dp"
                         android:background="@drawable/button_style_yellow"

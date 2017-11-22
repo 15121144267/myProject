@@ -14,11 +14,13 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBlockFragmentComponent;
 import com.banshengyuan.feima.dagger.module.BlockActivityModule;
 import com.banshengyuan.feima.dagger.module.BlockFragmentModule;
+import com.banshengyuan.feima.entity.BlockFairListResponse;
+import com.banshengyuan.feima.entity.BlockHotListResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockControl;
 import com.banshengyuan.feima.view.activity.BlockActivity;
 import com.banshengyuan.feima.view.adapter.BlockHotAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,10 +50,13 @@ public class BlockHotFragment extends BaseFragment implements BlockControl.Block
 
     private Unbinder unbinder;
     private BlockHotAdapter mAdapter;
+    private Integer mBlockId;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mBlockId = ((BlockActivity) getActivity()).getBlockId();
     }
 
     @Nullable
@@ -69,19 +74,51 @@ public class BlockHotFragment extends BaseFragment implements BlockControl.Block
         initData();
     }
 
-    private void initView() {
-        mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BlockHotAdapter(null,getActivity());
-        mFragmentBlockCommon.setAdapter(mAdapter);
+    @Override
+    public void getHotListSuccess(BlockHotListResponse response) {
+        List<BlockHotListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            mAdapter.setNewData(list);
+        } else {
+            mFragmentBlockCommon.setVisibility(View.GONE);
+        }
     }
 
+    @Override
+    public void getHotListFail() {
+        mFragmentBlockCommon.setVisibility(View.GONE);
+    }
 
     private void initData() {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        mAdapter.setNewData(list);
+        //请求热闹列表
+        mPresenter.requestHotList(mBlockId);
+
+    }
+
+    @Override
+    public void getFairListSuccess(BlockFairListResponse response) {
+
+    }
+
+    @Override
+    public void getFairListFail() {
+
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreListFail() {
+
+    }
+
+    private void initView() {
+        mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new BlockHotAdapter(null, getActivity(),mImageLoaderHelper);
+        mFragmentBlockCommon.setAdapter(mAdapter);
     }
 
 

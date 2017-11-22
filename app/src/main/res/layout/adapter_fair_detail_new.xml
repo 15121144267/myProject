@@ -40,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:drawableEnd="@mipmap/shoppingcard_icon"
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"

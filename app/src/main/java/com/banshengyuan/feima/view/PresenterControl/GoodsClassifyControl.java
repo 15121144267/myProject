@@ -2,7 +2,7 @@ package com.banshengyuan.feima.view.PresenterControl;
 
 import android.view.View;
 
-import com.banshengyuan.feima.entity.SortListResponse;
+import com.banshengyuan.feima.entity.AllFairListResponse;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 /**
@@ -12,11 +12,12 @@ import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 public class GoodsClassifyControl {
     public interface GoodsClassifyView extends LoadDataView {
-        void sortListSuccess(SortListResponse response);
+        void getAllFairListSuccess(AllFairListResponse response);
+        void getAllFairListFail();
         void onItemClick(BaseQuickAdapter adapter, View view, int position);
     }
 
     public interface PresenterGoodsClassify extends Presenter<GoodsClassifyView> {
-        void requestSortList(String shopId, String nodeId,Integer deep, String sortName, Integer sortOrder,Integer pageSize,Integer pageNumber);
+        void requestAllFairList();
     }
 }

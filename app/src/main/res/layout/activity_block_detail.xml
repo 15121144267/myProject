@@ -16,6 +16,7 @@
         >
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -24,10 +25,10 @@
                 android:id="@+id/collapsingToolbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleGravity="center_horizontal"
+                app:expandedTitleMarginBottom="@dimen/dp_120"
+                app:titleEnabled="false"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <com.youth.banner.Banner
@@ -47,17 +48,24 @@
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:title=" ">
-
+                    app:title=" "
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                    <TextView
+                        android:id="@+id/middle_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        />
                     <ImageView
                         android:id="@+id/toolbar_right_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginEnd="15dp"
                         android:background="@mipmap/toobar_more"
                         android:visibility="gone"
+                        android:layout_marginEnd="@dimen/dp_15"
                         />
 
                 </android.support.v7.widget.Toolbar>

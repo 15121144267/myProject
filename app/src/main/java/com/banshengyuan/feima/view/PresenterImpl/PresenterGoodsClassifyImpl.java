@@ -3,7 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.SortListResponse;
+import com.banshengyuan.feima.entity.AllFairListResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsClassifyControl;
 import com.banshengyuan.feima.view.model.GoodsClassifyModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -30,21 +30,21 @@ public class PresenterGoodsClassifyImpl implements GoodsClassifyControl.Presente
     }
 
     @Override
-    public void requestSortList(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder,Integer pageSize,Integer pageNumber) {
+    public void requestAllFairList() {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder,pageSize,pageNumber).compose(mView.applySchedulers())
-                .subscribe(this::sortListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.allFairListRequest().compose(mView.applySchedulers())
+                .subscribe(this::getAllFairListSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void sortListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(SortListResponse.class);
-            SortListResponse response = (SortListResponse) responseData.parsedData;
-            mView.sortListSuccess(response);
+    private void getAllFairListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(AllFairListResponse.class);
+            AllFairListResponse response = (AllFairListResponse) responseData.parsedData;
+            mView.getAllFairListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getAllFairListFail();
         }
     }
 

@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsClassifyActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsClassifyActivityModule;
+import com.banshengyuan.feima.entity.AllFairListResponse;
 import com.banshengyuan.feima.entity.GoodsClassifyResponse;
-import com.banshengyuan.feima.entity.SortListResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsClassifyControl;
 import com.banshengyuan.feima.view.adapter.GoodsClassifyAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
@@ -63,6 +63,25 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     }
 
     @Override
+    public void getAllFairListSuccess(AllFairListResponse response) {
+        AllFairListResponse.ListBean listBean  = response.list;
+    }
+
+    @Override
+    public void getAllFairListFail() {
+        mGoodsClassifyList.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+       /* SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
+        if(dataBean!=null){
+            startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
+        }*/
+
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }
@@ -88,36 +107,23 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         mPresenter.onDestroy();
     }
 
-    @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-       /* SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
-        if(dataBean!=null){
-            startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
-        }*/
-
-    }
-
-    @Override
-    public void sortListSuccess(SortListResponse response) {
-
-    }
-
     private void initView() {
         mGoodsClassifyList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new GoodsClassifyAdapter(null,GoodsClassifyActivity.this,this);
+        mAdapter = new GoodsClassifyAdapter(null, GoodsClassifyActivity.this, this);
         mGoodsClassifyList.setAdapter(mAdapter);
 
     }
 
     private void initData() {
+        mPresenter.requestAllFairList();
         List<String> list1 = new ArrayList<>();
-        for (int i = 0; i <5 ; i++) {
-            list1.add("花市"+i);
+        for (int i = 0; i < 5; i++) {
+            list1.add("花市" + i);
         }
-        List<GoodsClassifyResponse>  list2 =new ArrayList<>();
-        for (int i = 0; i <4 ; i++) {
+        List<GoodsClassifyResponse> list2 = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
             GoodsClassifyResponse response = new GoodsClassifyResponse();
-            response.name = "线上街区"+i;
+            response.name = "线上街区" + i;
             response.mList = list1;
             list2.add(response);
         }

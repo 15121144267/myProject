@@ -2,6 +2,7 @@ package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -18,4 +19,7 @@ public interface FairDetailApi {
 
     @GET("api/goods")
     Observable<String> productListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+
+    @GET("api/fair/{id}/comment")
+    Observable<String> commentListRequest(@Path("id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 }

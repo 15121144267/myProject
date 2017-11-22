@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,7 @@ import com.banshengyuan.feima.entity.BlockFairListResponse;
 import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.help.GlideLoader;
+import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
 import com.banshengyuan.feima.view.adapter.BlockDetailFairAdapter;
 import com.banshengyuan.feima.view.adapter.BlockDetailShopAdapter;
@@ -58,6 +61,12 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     TextView mBlockDetailName;
     @BindView(R.id.block_detail_summary)
     TextView mBlockDetailSummary;
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
 
 
     public static Intent getIntent(Context context, Integer id) {
@@ -72,7 +81,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     private BlockDetailFairAdapter mBlockDetailFairAdapter;
     private BlockDetailShopAdapter mBlockDetailShopAdapter;
     private Integer mBlockId;
-
+    private BlockDetailResponse.InfoBean mInfoBean;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,10 +124,9 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mBlockDetailHot.setLayoutManager(new LinearLayoutManager(this));
         mBlockDetailFair.setLayoutManager(new LinearLayoutManager(this));
         mBlockDetailShop.setLayoutManager(new LinearLayoutManager(this));
-
-        mCommonItemAdapter = new CommonItemAdapter(null, this,mImageLoaderHelper);
-        mBlockDetailFairAdapter = new BlockDetailFairAdapter(null, this,mImageLoaderHelper);
-        mBlockDetailShopAdapter = new BlockDetailShopAdapter(null, this,mImageLoaderHelper);
+        mCommonItemAdapter = new CommonItemAdapter(null, this, mImageLoaderHelper);
+        mBlockDetailFairAdapter = new BlockDetailFairAdapter(null, this, mImageLoaderHelper);
+        mBlockDetailShopAdapter = new BlockDetailShopAdapter(null, this, mImageLoaderHelper);
         mBlockDetailHot.setAdapter(mCommonItemAdapter);
         mBlockDetailFair.setAdapter(mBlockDetailFairAdapter);
         mBlockDetailShop.setAdapter(mBlockDetailShopAdapter);
@@ -126,36 +134,52 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mCommonItemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(BlockActivity.getIntent(this, 0));
+                    startActivity(BlockActivity.getIntent(this, 0,mBlockId));
                     break;
             }
         });
         mBlockDetailFairAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(BlockActivity.getIntent(this, 1));
+                    startActivity(BlockActivity.getIntent(this, 1,mBlockId));
                     break;
             }
         });
         mBlockDetailShopAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(BlockActivity.getIntent(this, 2));
+                    startActivity(BlockActivity.getIntent(this, 2,mBlockId));
                     break;
             }
         });
 
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mBlockDetailBanner.isAutoPlay(false);
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mMiddleName.setVisibility(View.GONE);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mMiddleName.setVisibility(View.VISIBLE);
+                    mMiddleName.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
+                } else {
+                    //中间状态
+                    mMiddleName.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
     public void getBlockDetailSuccess(BlockDetailResponse response) {
-        BlockDetailResponse.InfoBean bean = response.info;
-        if (bean != null) {
-            mBlockDetailName.setText(TextUtils.isEmpty(bean.name) ? "未知" : bean.name);
-            mBlockDetailSummary.setText(TextUtils.isEmpty(bean.summary) ? "未知" : bean.summary);
-            List<String> list = bean.top_img;
+        mInfoBean = response.info;
+        if (mInfoBean != null) {
+            mBlockDetailName.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
+            mBlockDetailSummary.setText(TextUtils.isEmpty(mInfoBean.summary) ? "未知" : mInfoBean.summary);
+            List<String> list = mInfoBean.top_img;
             if (list != null && list.size() > 0) {
                 mBlockDetailBanner.setImages(list).setImageLoader(new GlideLoader()).start();
             } else {

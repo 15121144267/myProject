@@ -2,15 +2,12 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.ClassifySearchListResponse;
 import com.banshengyuan.feima.view.PresenterControl.ClassifySearchControl;
 import com.banshengyuan.feima.view.model.GoodsClassifyModel;
 import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/4/27.
@@ -33,14 +30,14 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
 
     @Override
     public void requestClassifySearchRequest(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder, Integer searchType, Integer pageSize, Integer pageNumber) {
-        if (isShow) {
+        /*if (isShow) {
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder, pageSize, pageNumber).compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
                         , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
-        mView.addSubscription(disposable);
+        mView.addSubscription(disposable);*/
     }
 
 

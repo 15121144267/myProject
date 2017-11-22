@@ -6,13 +6,22 @@
 
     <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+    <TextView
+        android:id="@+id/adapter_gallery_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="品牌市集"
+        android:textColor="@color/light_grey_dark1"
+        android:textSize="@dimen/sp_24"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"/>
 
-  <com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView
-      android:id="@+id/brand_fair_gallery"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_marginTop="30dp"
-      android:layout_marginBottom="50dp"
-      />
+    <com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView
+        android:id="@+id/brand_fair_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_15"
+        />
 </LinearLayout>
