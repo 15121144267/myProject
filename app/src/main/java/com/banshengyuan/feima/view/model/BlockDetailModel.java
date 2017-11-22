@@ -29,4 +29,8 @@ public class BlockDetailModel {
         return mApi.blockDetailRequest(blockId,true).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> hotListRequest(Integer blockId ) {
+        return mApi.hotListRequest(blockId,1,3,true).map(mTransform::transformCommon);
+    }
+
 }

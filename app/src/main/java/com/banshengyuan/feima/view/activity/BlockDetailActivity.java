@@ -17,6 +17,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBlockDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.BlockDetailActivityModule;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
+import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
@@ -144,6 +145,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         });
 
         mToolbarRightIcon.setVisibility(View.VISIBLE);
+        mBlockDetailBanner.isAutoPlay(false);
     }
 
     @Override
@@ -155,23 +157,40 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
             List<String> list = bean.top_img;
             if (list != null && list.size() > 0) {
                 mBlockDetailBanner.setImages(list).setImageLoader(new GlideLoader()).start();
-            }else {
-                mBlockDetailBanner.setBackground(ContextCompat.getDrawable(this,R.color.white));
+            } else {
+                mBlockDetailBanner.setBackground(ContextCompat.getDrawable(this, R.color.white));
             }
         }
     }
 
     @Override
     public void getBlockDetailFail() {
-        mBlockDetailBanner.setBackground(ContextCompat.getDrawable(this,R.color.white));
+        mBlockDetailBanner.setBackground(ContextCompat.getDrawable(this, R.color.white));
+    }
+
+    @Override
+    public void getHotListSuccess(BlockHotListResponse response) {
+        List<BlockHotListResponse.ListBean> list = response.list;
+        if (list != null && list.size() > 0) {
+            List<BlockHotListResponse> listResponses = new ArrayList<>();
+            listResponses.add(response);
+            mCommonItemAdapter.setNewData(listResponses);
+        }else {
+            mBlockDetailHot.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getHotListFail() {
+        mBlockDetailHot.setVisibility(View.GONE);
     }
 
     private void initData() {
+
         //请求街区详情
         mPresenter.requestBlockDetail(mBlockId);
-
-        mBlockDetailBanner.isAutoPlay(false);
-
+        //请求热闹列表
+        mPresenter.requestHotList(mBlockId);
 
         List<ProductResponse> mList = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
@@ -189,7 +208,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         }
         mBlockDetailFairAdapter.setNewData(mList);
         mBlockDetailShopAdapter.setNewData(mList);
-        mCommonItemAdapter.setNewData(mList);
+
     }
 
     private void initializeInjector() {

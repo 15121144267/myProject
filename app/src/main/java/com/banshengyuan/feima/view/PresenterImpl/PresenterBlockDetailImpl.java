@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
+import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
 import com.banshengyuan.feima.view.model.BlockDetailModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -30,6 +31,25 @@ public class PresenterBlockDetailImpl implements BlockDetailControl.PresenterBlo
     }
 
     @Override
+    public void requestHotList(Integer blockId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.hotListRequest(blockId).compose(mView.applySchedulers())
+                .subscribe(this::getHotListSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getHotListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(BlockHotListResponse.class);
+            BlockHotListResponse response = (BlockHotListResponse) responseData.parsedData;
+            mView.getHotListSuccess(response);
+        } else {
+            mView.getHotListFail();
+        }
+    }
+
+    @Override
     public void requestBlockDetail(Integer blockId) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.blockDetailRequest(blockId).compose(mView.applySchedulers())
@@ -39,11 +59,11 @@ public class PresenterBlockDetailImpl implements BlockDetailControl.PresenterBlo
     }
 
     private void getBlockDetailSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 200){
+        if (responseData.resultCode == 200) {
             responseData.parseData(BlockDetailResponse.class);
-            BlockDetailResponse response  = (BlockDetailResponse) responseData.parsedData;
+            BlockDetailResponse response = (BlockDetailResponse) responseData.parsedData;
             mView.getBlockDetailSuccess(response);
-        }else {
+        } else {
             mView.getBlockDetailFail();
         }
     }

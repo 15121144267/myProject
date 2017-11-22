@@ -14,6 +14,7 @@ public interface BlockDetailApi {
     @GET("api/street/{id}")
     Observable<String> blockDetailRequest(@Path("id") Integer blockId, @Query("flag") boolean flag);
 
-
+    @GET("api/hot")
+    Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
 
 }
