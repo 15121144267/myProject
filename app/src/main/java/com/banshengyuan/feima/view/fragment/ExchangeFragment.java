@@ -20,6 +20,7 @@ import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.entity.HotFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
+import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.ExChangeAdapter;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
@@ -124,6 +125,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         mHotFragmentActivities.setAdapter(mHotFairAdapter);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
             showToast("点击"+position);
+            startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(mHotFairAdapter.getItem(position).getId())));
         });
     }
 

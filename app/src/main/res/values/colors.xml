@@ -402,4 +402,7 @@
 
     <color name="dark_gray">#aaaaaa</color>
     <color name="light_red">#ff0036</color>
+
+    <color name="color333">#333333</color>
+    <color name="color666">#666666</color>
 </resources>
