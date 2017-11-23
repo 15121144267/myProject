@@ -137,14 +137,16 @@
                     android:id="@+id/block_detail_hot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
+                    android:paddingEnd="@dimen/dp_20"
+                    android:paddingStart="@dimen/dp_20"
                     android:nestedScrollingEnabled="false"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/block_detail_fair"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
+                    android:paddingEnd="@dimen/dp_20"
+                    android:paddingStart="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_25"
                     android:nestedScrollingEnabled="false"
                     />
@@ -153,7 +155,8 @@
                     android:id="@+id/block_detail_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_20"
+                    android:paddingEnd="@dimen/dp_20"
+                    android:paddingStart="@dimen/dp_20"
                     android:nestedScrollingEnabled="false"/>
             </LinearLayout>
 

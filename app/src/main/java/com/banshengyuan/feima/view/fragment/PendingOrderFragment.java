@@ -128,7 +128,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
         mSearchEdit.setOnMyEditorActionListener(this, false);
-        mSearchEdit.setEditHint("请输入市集、街区、产品、商家、活动");
+        mSearchEdit.setEditHint("请输入市集、街区、产品、商家");
 
         for (int i = 0; i < modules.length; i++) {
             mHashMap.put(i, 0);

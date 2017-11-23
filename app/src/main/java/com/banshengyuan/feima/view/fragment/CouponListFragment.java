@@ -14,11 +14,13 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopProductDetailFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailActivityModule;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailFragmentModule;
+import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
+import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
+import com.banshengyuan.feima.entity.StoreDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.CouponListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,11 +49,13 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
 
     private Unbinder unbind;
     private CouponListAdapter mAdapter;
+    private Integer mShopId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mShopId = ((ShopProductDetailActivity) getActivity()).getShopId();
     }
 
     @Nullable
@@ -69,21 +73,50 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
         initData();
     }
 
+
+    @Override
+    public void getStoreCouponListSuccess(ShopDetailCouponListResponse response) {
+        List<ShopDetailCouponListResponse.ListBean> listBeen = response.list;
+        if (listBeen != null && listBeen.size() > 0) {
+            mAdapter.setNewData(listBeen);
+        }else {
+            mFragmentCouponList.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getStoreCouponListFail() {
+        mFragmentCouponList.setVisibility(View.GONE);
+    }
+
     private void initData() {
-        List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        mAdapter.setNewData(list);
+        mPresenter.requestStoreCouponList(mShopId);
     }
 
     private void initView() {
         mFragmentCouponList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CouponListAdapter(null, getActivity());
+        mAdapter = new CouponListAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentCouponList.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void getStoreDetailSuccess(StoreDetailResponse response) {
+
+    }
+
+    @Override
+    public void getStoreDetailFail() {
+
+    }
+
+    @Override
+    public void getStoreProductListSuccess(ShopDetailProductListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreProductListFail() {
+
     }
 
     @Override

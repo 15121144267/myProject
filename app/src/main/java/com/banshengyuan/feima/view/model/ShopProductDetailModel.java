@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -23,9 +25,15 @@ public class ShopProductDetailModel {
     }
 
 
-    /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> shopDetailRequest(Integer shopId) {
+        return mApi.shopDetailRequest(shopId,true).map(mTransform::transformCommon);
+    }
 
+    public Observable<ResponseData> storeProductListRequest(Integer shopId) {
+        return mApi.storeProductListRequest(shopId,true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> storeCouponListRequest(Integer shopId) {
+        return mApi.storeCouponListRequest(shopId,true).map(mTransform::transformCommon);
+    }
 }

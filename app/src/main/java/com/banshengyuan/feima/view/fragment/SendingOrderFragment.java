@@ -126,7 +126,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
         for (int i = 0; i < modules.length; i++) {
             mHashMap.put(i, 0);
         }
-        mSearchEdit.setEditHint("请输入市集、街区、产品、商家、活动");
+        mSearchEdit.setEditHint("请输入市集、街区、产品、商家");
         mSearchEdit.setOnMyEditorActionListener(this, false);
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(FairFragment.newInstance());

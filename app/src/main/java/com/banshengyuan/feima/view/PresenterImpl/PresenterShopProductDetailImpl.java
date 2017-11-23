@@ -2,10 +2,17 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
+import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
+import com.banshengyuan.feima.entity.StoreDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
+import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShopProductDetailModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
@@ -24,22 +31,62 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
         mModel = model;
     }
 
-  /*  @Override
-    public void requestAddAddress(AddAddressRequest request) {
+    @Override
+    public void requestStoreCouponList(Integer shopId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addAddressRequest(request).compose(mView.applySchedulers())
-                .subscribe(this::addAddressSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.storeCouponListRequest(shopId).compose(mView.applySchedulers())
+                .subscribe(this::getStoreCouponListSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void addAddressSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mView.addAddressSuccess();
+    private void getStoreCouponListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(ShopDetailCouponListResponse.class);
+            ShopDetailCouponListResponse response = (ShopDetailCouponListResponse) responseData.parsedData;
+            mView.getStoreCouponListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getStoreCouponListFail();
         }
-    }*/
+    }
+
+    @Override
+    public void requestStoreProductList(Integer shopId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.storeProductListRequest(shopId).compose(mView.applySchedulers())
+                .subscribe(this::getStoreProductListSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getStoreProductListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(ShopDetailProductListResponse.class);
+            ShopDetailProductListResponse response = (ShopDetailProductListResponse) responseData.parsedData;
+            mView.getStoreProductListSuccess(response);
+        } else {
+            mView.getStoreProductListFail();
+        }
+    }
+
+    @Override
+    public void requestStoreDetail(Integer shopId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.shopDetailRequest(shopId).compose(mView.applySchedulers())
+                .subscribe(this::getStoreDetailSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getStoreDetailSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(StoreDetailResponse.class);
+            StoreDetailResponse response = (StoreDetailResponse) responseData.parsedData;
+            mView.getStoreDetailSuccess(response);
+        } else {
+            mView.getStoreDetailFail();
+        }
+    }
 
     @Override
     public void onCreate() {

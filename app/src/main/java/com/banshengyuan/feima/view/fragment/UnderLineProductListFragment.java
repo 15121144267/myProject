@@ -18,9 +18,6 @@ import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -68,19 +65,19 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
     }
 
     private void initData() {
-        List<Integer> list = new ArrayList<>();
+       /* List<Integer> list = new ArrayList<>();
         list.add(R.mipmap.header);
         list.add(R.mipmap.header);
         list.add(R.mipmap.header);
         list.add(R.mipmap.header);
         list.add(R.mipmap.header);
         list.add(R.mipmap.header);
-        mAdapter.setNewData(list);
+        mAdapter.setNewData(list);*/
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailNewAdapter(null, getActivity());
+        mAdapter = new FairDetailNewAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
     }
 

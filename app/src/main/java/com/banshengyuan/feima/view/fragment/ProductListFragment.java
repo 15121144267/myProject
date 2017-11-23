@@ -14,11 +14,13 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopProductDetailFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailActivityModule;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailFragmentModule;
+import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
+import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
+import com.banshengyuan.feima.entity.StoreDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,11 +47,13 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
 
     private Unbinder unbind;
     private FairDetailNewAdapter mAdapter;
+    private Integer mShopId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mShopId = ((ShopProductDetailActivity) getActivity()).getShopId();
     }
 
     @Nullable
@@ -67,21 +71,51 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         initData();
     }
 
+
+    @Override
+    public void getStoreProductListSuccess(ShopDetailProductListResponse response) {
+        List<ShopDetailProductListResponse.ListBean> listBeen = response.list;
+        if (listBeen != null && listBeen.size() > 0) {
+            mAdapter.setNewData(listBeen);
+        }else {
+            mFragmentTrendsListLast.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getStoreProductListFail() {
+        mFragmentTrendsListLast.setVisibility(View.GONE);
+    }
+
+
     private void initData() {
-        List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        mAdapter.setNewData(list);
+        mPresenter.requestStoreProductList(mShopId);
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailNewAdapter(null, getActivity());
+        mAdapter = new FairDetailNewAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void getStoreCouponListSuccess(ShopDetailCouponListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreCouponListFail() {
+
+    }
+
+    @Override
+    public void getStoreDetailSuccess(StoreDetailResponse response) {
+
+    }
+
+    @Override
+    public void getStoreDetailFail() {
+
     }
 
     @Override
@@ -116,6 +150,6 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
                 .shopProductDetailActivityModule(new ShopProductDetailActivityModule((AppCompatActivity) getActivity(), this))
                 .shopProductDetailFragmentModule(new ShopProductDetailFragmentModule((ShopProductDetailActivity) getActivity())).build()
-               .inject(this);
+                .inject(this);
     }
 }

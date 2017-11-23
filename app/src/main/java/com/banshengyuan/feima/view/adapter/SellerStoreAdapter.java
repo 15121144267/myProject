@@ -18,7 +18,7 @@ public class SellerStoreAdapter extends BaseQuickAdapter<StoreListResponse.Categ
     private final Context mContext;
     private final ImageLoaderHelper mImageLoaderHelper;
 
-    public SellerStoreAdapter(List<StoreListResponse.CategoryBean> mList, Context context , ImageLoaderHelper imageLoaderHelper) {
+    public SellerStoreAdapter(List<StoreListResponse.CategoryBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_fair, mList);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
@@ -28,14 +28,16 @@ public class SellerStoreAdapter extends BaseQuickAdapter<StoreListResponse.Categ
     protected void convert(BaseViewHolder helper, StoreListResponse.CategoryBean item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.adapter_fair_more);
-        helper.setText(R.id.adapter_fair_sign,item.name);
+        helper.setText(R.id.adapter_fair_sign, item.name);
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        StoreItemAdapter itemAdapter = new StoreItemAdapter(item.goods, mContext,mImageLoaderHelper);
+        StoreItemAdapter itemAdapter = new StoreItemAdapter(item.goods, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
-        itemAdapter.setOnItemClickListener((adapter, view, position) ->
-            mContext.startActivity(ShopProductDetailActivity. getActivityDetailIntent(mContext))
-        );
+        itemAdapter.setOnItemClickListener((adapter, view, position) -> {
+                    StoreListResponse.CategoryBean.GoodsBean bean = (StoreListResponse.CategoryBean.GoodsBean) adapter.getItem(position);
+                    if (bean != null) {
+                        mContext.startActivity(ShopProductDetailActivity.getActivityDetailIntent(mContext, bean.id));
+                    }});
     }
 
 }

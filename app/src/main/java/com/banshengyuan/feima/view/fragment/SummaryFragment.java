@@ -6,17 +6,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopProductDetailFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailActivityModule;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailFragmentModule;
+import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
+import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
+import com.banshengyuan.feima.entity.StoreDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -26,6 +31,9 @@ import butterknife.Unbinder;
  */
 
 public class SummaryFragment extends BaseFragment implements ShopProductDetailControl.ShopProductDetailView {
+
+    @BindView(R.id.fragment_summary_text)
+    TextView mFragmentSummaryText;
 
     public static SummaryFragment newInstance() {
         return new SummaryFragment();
@@ -62,6 +70,40 @@ public class SummaryFragment extends BaseFragment implements ShopProductDetailCo
     }
 
     private void initView() {
+
+    }
+
+    public void setSummaryText(String summary) {
+        mFragmentSummaryText.setText(summary);
+    }
+
+    @Override
+    public void getStoreDetailSuccess(StoreDetailResponse response) {
+
+    }
+
+    @Override
+    public void getStoreDetailFail() {
+
+    }
+
+    @Override
+    public void getStoreProductListSuccess(ShopDetailProductListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreProductListFail() {
+
+    }
+
+    @Override
+    public void getStoreCouponListSuccess(ShopDetailCouponListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreCouponListFail() {
 
     }
 

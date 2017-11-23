@@ -83,7 +83,7 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     }
 
     private void initData() {
-        //请求市集列表
+        //请求产品列表
         mPresenter.requestProductList(mFairId);
     }
 

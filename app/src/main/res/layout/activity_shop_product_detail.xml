@@ -56,13 +56,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginEnd="15dp"
-                        android:background="@mipmap/toobar_more"
+                        android:background="@mipmap/common_share"
                         android:visibility="gone"
                         />
 
                 </android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -92,7 +93,7 @@
                         android:gravity="center_vertical">
 
                         <TextView
-                            android:id="@+id/block_detail_name"
+                            android:id="@+id/shop_detail_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -100,19 +101,24 @@
                             android:textColor="@color/tab_text_normal"
                             android:textSize="@dimen/sp_24"
                             android:textStyle="bold"/>
+
                         <ImageView
+                            android:id="@+id/shop_detail_phone"
                             android:layout_width="30dp"
                             android:layout_height="match_parent"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/arrow_right"/>
+                            android:src="@mipmap/shop_detail_phone"/>
+
                         <ImageView
+                            android:id="@+id/shop_detail_collection"
                             android:layout_width="30dp"
                             android:layout_height="match_parent"
                             android:scaleType="centerInside"
-                            android:src="@mipmap/arrow_right"/>
+                            android:src="@mipmap/shop_detail_uncollection"/>
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/shop_detail_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dp_15"
@@ -125,13 +131,14 @@
 
                 <View style="@style/LineH_Yellow_Fill_Width1"
                     />
+
                 <android.support.design.widget.TabLayout
                     android:id="@+id/shop_detail_tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
+                    app:tabIndicatorColor="@color/yellow_color"
                     app:tabIndicatorHeight="2dp"
-                    app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-                    app:tabIndicatorColor="@color/yellow_color"/>
+                    app:tabTextAppearance="@style/MyTabLayoutTextAppearance"/>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/shop_detail_view_pager"
