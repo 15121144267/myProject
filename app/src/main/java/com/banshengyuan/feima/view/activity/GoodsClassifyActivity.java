@@ -14,12 +14,10 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsClassifyActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsClassifyActivityModule;
 import com.banshengyuan.feima.entity.AllFairListResponse;
-import com.banshengyuan.feima.entity.GoodsClassifyResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsClassifyControl;
 import com.banshengyuan.feima.view.adapter.GoodsClassifyAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,7 +62,12 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
 
     @Override
     public void getAllFairListSuccess(AllFairListResponse response) {
-        AllFairListResponse.ListBean listBean  = response.list;
+        List<AllFairListResponse.ListBean> listBean = response.list;
+        if(listBean!=null&&listBean.size()>0){
+            mAdapter.setNewData(listBean);
+        }else {
+            mGoodsClassifyList.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -74,11 +77,18 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-       /* SortListResponse.DataBean.ChildrenBean dataBean = (SortListResponse.DataBean.ChildrenBean) adapter.getItem(position);
-        if(dataBean!=null){
-            startActivity(ClassifySearchActivity.getIntent(this, mShopId, dataBean.resultModel.nid, 2));
-        }*/
-
+        AllFairListResponse.ListBean.List1Bean dataBean = (AllFairListResponse.ListBean.List1Bean) adapter.getItem(position);
+        switch (dataBean.flag){
+            case "品牌市集":
+                showToast("品牌市集");
+                break;
+            case "线下市集":
+                showToast("线下市集");
+                break;
+            case "其他市集":
+                showToast("其他市集");
+                break;
+        }
     }
 
     @Override
@@ -116,18 +126,6 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
 
     private void initData() {
         mPresenter.requestAllFairList();
-        List<String> list1 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list1.add("花市" + i);
-        }
-        List<GoodsClassifyResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            GoodsClassifyResponse response = new GoodsClassifyResponse();
-            response.name = "线上街区" + i;
-            response.mList = list1;
-            list2.add(response);
-        }
-        mAdapter.setNewData(list2);
     }
 
     private void initializeInjector() {

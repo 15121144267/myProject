@@ -10,6 +10,6 @@ import retrofit2.http.Query;
  */
 
 public interface GoodsClassifyApi {
-    @GET("all-fail-category")
+    @GET("api/all-fail-category")
     Observable<String> allFairListRequest(@Query("flag") boolean flag);
 }

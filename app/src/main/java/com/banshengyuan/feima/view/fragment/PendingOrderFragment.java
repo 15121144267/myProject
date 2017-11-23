@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,17 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.ShopResponse;
+import com.banshengyuan.feima.listener.TabCheckListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
 import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
-import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -67,6 +69,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     private Unbinder unbinder;
     private boolean showSearchLayout = true;
     private final String[] modules = {"推荐", "市集", "街景", "魔门"};
+    private HashMap<Integer, Integer> mHashMap;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,22 +83,37 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         View view = inflater.inflate(R.layout.fragment_pending_order, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
-        initAdapter();
         return view;
     }
 
     @Override
     public void onMyEditorAction() {
-
+        String searchName = mSearchEdit.getEditText().trim();
+        String searchType = "";
+        if (TextUtils.isEmpty(searchName)) {
+            showToast("搜索栏不能为空");
+        } else {
+            switch (mMainTabLayout.getSelectedTabPosition()) {
+                case 0:
+                    searchType = "";
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
     }
 
     @Override
     public void onMyTouchAction() {
-        hideSoftInput(mSearchEdit);
-        startActivity(SearchActivity.getIntent(getActivity()));
+
     }
 
     private void initView() {
+        mHashMap = new HashMap<>();
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(RecommendFragment.newInstance());
         mFragments.add(MainFairFragment.newInstance());
@@ -109,25 +127,37 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
         RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
-        mSearchEdit.setOnMyEditorActionListener(this,true);
+        mSearchEdit.setOnMyEditorActionListener(this, false);
+        mSearchEdit.setEditHint("请输入市集、街区、产品、商家、活动");
+
+        for (int i = 0; i < modules.length; i++) {
+            mHashMap.put(i, 0);
+        }
+        mMainTabLayout.addOnTabSelectedListener(new TabCheckListener() {
+            @Override
+            public void onMyTabSelected(TabLayout.Tab tab) {
+                showOrCloseSearchLayout(tab.getPosition());
+            }
+        });
+    }
+
+    private void showOrCloseSearchLayout(Integer position) {
+        Integer flag = mHashMap.get(position);
+        mSearchLayout.setVisibility(flag == 1 ? View.VISIBLE : View.GONE);
     }
 
     public void showSearchLayout(boolean flag) {
-       /* if(flag){
-            AniCreator.getInstance().apply_animation_translate(mSearchLayout, AniCreator.ANIMATION_MODE_DROPDOWN, View.VISIBLE, false, null);
-        }else {
-            AniCreator.getInstance().apply_animation_translate(mSearchLayout, AniCreator.ANIMATION_MODE_DROPDOWN_RESEVERD, View.GONE, false, null);
-        }*/
-
-        mSearchLayout.setVisibility(flag ? View.VISIBLE : View.GONE);
+        if (flag) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+            mHashMap.put(mMainTabLayout.getSelectedTabPosition(), 1);
+        } else {
+            mSearchLayout.setVisibility(View.GONE);
+            mHashMap.put(mMainTabLayout.getSelectedTabPosition(), 0);
+        }
         showSearchLayout = !flag;
     }
 
     private void initData() {
-
-    }
-
-    private void initAdapter() {
 
     }
 

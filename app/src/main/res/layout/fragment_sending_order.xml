@@ -12,11 +12,12 @@
         android:layout_height="?attr/actionBarSize"
         android:gravity="center_vertical"
         >
+
         <ImageView
             android:id="@+id/sending_enter_classify"
-            android:scaleType="centerInside"
             android:layout_width="60dp"
             android:layout_height="match_parent"
+            android:scaleType="centerInside"
             android:src="@mipmap/main_magnifie"
             />
 
@@ -25,21 +26,53 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/yellow_color"
             app:tabIndicatorHeight="2dp"
             app:tabMode="fixed"
-            app:tabGravity="fill"
-            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-            app:tabIndicatorColor="@color/yellow_color"/>
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"/>
 
         <ImageView
             android:id="@+id/sending_show_search"
-            android:scaleType="centerInside"
             android:layout_width="60dp"
             android:layout_height="match_parent"
+            android:scaleType="centerInside"
             android:src="@mipmap/main_magnifie"/>
 
     </LinearLayout>
+
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/banshengyuan_grey"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingTop="8dp"
+        android:visibility="gone"
+        >
+
+        <com.banshengyuan.feima.view.customview.ClearEditText
+            android:id="@+id/search_edit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textColor="#212121"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/discover_view_pager"
         android:layout_width="match_parent"

@@ -53,6 +53,7 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
         BrandAllFairListResponse.ListBean bean = mList.get(position);
         mImageLoaderHelper.displayImage(mContext,bean.cover_img,holder.mImageView);
         holder.mNameTextView.setText(bean.name);
+        holder.mSummaryTextView.setText(bean.summary);
     }
 
     @Override

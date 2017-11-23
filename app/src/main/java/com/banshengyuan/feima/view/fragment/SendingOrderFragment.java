@@ -6,10 +6,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -17,14 +19,17 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.OrderDeliveryResponse;
+import com.banshengyuan.feima.listener.TabCheckListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
 import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
+import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +44,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class SendingOrderFragment extends BaseFragment implements SendingOrderControl.SendingOrderView {
+public class SendingOrderFragment extends BaseFragment implements SendingOrderControl.SendingOrderView,ClearEditText.setOnMyEditorActionListener {
 
     @BindView(R.id.discover_tab_layout)
     TabLayout mDiscoverTabLayout;
@@ -49,15 +54,20 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     ImageView mSendingEnterClassify;
     @BindView(R.id.sending_show_search)
     ImageView mSendingShowSearch;
+    @BindView(R.id.search_edit)
+    ClearEditText mSearchEdit;
+    @BindView(R.id.search_layout)
+    LinearLayout mSearchLayout;
 
     public static SendingOrderFragment newInstance() {
         return new SendingOrderFragment();
     }
-    private boolean showSearchLayout = false;
+
+    private boolean showSearchLayout = true;
     private final String[] modules = {"市集", "产品", "商家"};
+    private HashMap<Integer, Integer> mHashMap;
     @Inject
     SendingOrderControl.PresenterSendingOrder mPresenter;
-    //private ActivitiesAdapter mAdapter;
     private Unbinder unbind;
 
     @Override
@@ -81,11 +91,43 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
         initData();
     }
 
+    @Override
+    public void onMyEditorAction() {
+        String searchName = mSearchEdit.getEditText().trim();
+        String searchType = "";
+        if (TextUtils.isEmpty(searchName)) {
+            showToast("搜索栏不能为空");
+        } else {
+            switch (mDiscoverTabLayout.getSelectedTabPosition()) {
+                case 0:
+                    searchType = "";
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onMyTouchAction() {
+
+    }
+
     private void initData() {
 
     }
 
     private void initView() {
+        mHashMap = new HashMap<>();
+        for (int i = 0; i < modules.length; i++) {
+            mHashMap.put(i, 0);
+        }
+        mSearchEdit.setEditHint("请输入市集、街区、产品、商家、活动");
+        mSearchEdit.setOnMyEditorActionListener(this, false);
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(FairFragment.newInstance());
         mFragments.add(ProductFragment.newInstance());
@@ -97,23 +139,29 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
         ValueUtil.setIndicator(mDiscoverTabLayout, 20, 20);
         RxView.clicks(mSendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
-        RxView.clicks(mSendingShowSearch).subscribe(o -> showSearchLayout());
+        RxView.clicks(mSendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
+        mDiscoverTabLayout.addOnTabSelectedListener(new TabCheckListener() {
+            @Override
+            public void onMyTabSelected(TabLayout.Tab tab) {
+                showOrCloseSearchLayout(tab.getPosition());
+            }
+        });
     }
 
-    public void showSearchLayout() {
-        showSearchLayout = !showSearchLayout;
-        switch (mDiscoverTabLayout.getSelectedTabPosition()) {
-            case 0:
-                ((FairFragment) getChildFragmentManager().getFragments().get(0)).showSearchLayout(showSearchLayout);
-                break;
-            case 1:
-                ((ProductFragment) getChildFragmentManager().getFragments().get(1)).showSearchLayout(showSearchLayout);
-                break;
-            case 2:
-                ((SellerFragment) getChildFragmentManager().getFragments().get(2)).showSearchLayout(showSearchLayout);
-                break;
+    private void showOrCloseSearchLayout(Integer position) {
+        Integer flag = mHashMap.get(position);
+        mSearchLayout.setVisibility(flag == 1 ? View.VISIBLE : View.GONE);
+    }
 
+    public void showSearchLayout(boolean flag) {
+        if (flag) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+            mHashMap.put(mDiscoverTabLayout.getSelectedTabPosition(), 1);
+        } else {
+            mSearchLayout.setVisibility(View.GONE);
+            mHashMap.put(mDiscoverTabLayout.getSelectedTabPosition(), 0);
         }
+        showSearchLayout = !flag;
     }
 
     @Override
