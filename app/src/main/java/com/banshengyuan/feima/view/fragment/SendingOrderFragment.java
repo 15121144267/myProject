@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.customview.ClearEditText;
+import com.banshengyuan.feima.view.customview.MyNoScrollViewPager;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     @BindView(R.id.discover_tab_layout)
     TabLayout mDiscoverTabLayout;
     @BindView(R.id.discover_view_pager)
-    ViewPager mDiscoverViewPager;
+    MyNoScrollViewPager mDiscoverViewPager;
     @BindView(R.id.sending_enter_classify)
     ImageView mSendingEnterClassify;
     @BindView(R.id.sending_show_search)

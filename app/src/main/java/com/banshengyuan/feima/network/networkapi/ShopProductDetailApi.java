@@ -20,4 +20,7 @@ public interface ShopProductDetailApi {
     @GET("api/store/{id}/ticket")
     Observable<String> storeCouponListRequest(@Path("id") Integer shopId, @Query("flag") boolean flag);
 
+    @GET("api/store/ticket/receive")
+    Observable<String> couponInfoRequest(@Query("id") Integer couponId, @Query("flag") boolean flag);
+
 }

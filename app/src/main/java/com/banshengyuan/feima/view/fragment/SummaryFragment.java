@@ -98,6 +98,11 @@ public class SummaryFragment extends BaseFragment implements ShopProductDetailCo
     }
 
     @Override
+    public void getCouponInfoSuccess() {
+
+    }
+
+    @Override
     public void getStoreCouponListSuccess(ShopDetailCouponListResponse response) {
 
     }

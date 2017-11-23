@@ -32,6 +32,23 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
     }
 
     @Override
+    public void requestCouponInfo(Integer couponId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.couponInfoRequest(couponId).compose(mView.applySchedulers())
+                .subscribe(this::getCouponInfoSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getCouponInfoSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.getCouponInfoSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+
+    @Override
     public void requestStoreCouponList(Integer shopId) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.storeCouponListRequest(shopId).compose(mView.applySchedulers())

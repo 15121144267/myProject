@@ -99,6 +99,11 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
     }
 
     @Override
+    public void getCouponInfoSuccess() {
+
+    }
+
+    @Override
     public void getStoreCouponListSuccess(ShopDetailCouponListResponse response) {
 
     }

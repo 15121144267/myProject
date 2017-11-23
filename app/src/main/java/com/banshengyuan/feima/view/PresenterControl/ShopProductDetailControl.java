@@ -22,6 +22,9 @@ public class ShopProductDetailControl {
         void getStoreCouponListSuccess(ShopDetailCouponListResponse response);
 
         void getStoreCouponListFail();
+
+        void getCouponInfoSuccess();
+
     }
 
     public interface PresenterShopProductDetail extends Presenter<ShopProductDetailView> {
@@ -30,5 +33,7 @@ public class ShopProductDetailControl {
         void requestStoreProductList(Integer shopId);
 
         void requestStoreCouponList(Integer shopId);
+
+        void requestCouponInfo(Integer couponId);
     }
 }

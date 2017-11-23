@@ -73,13 +73,17 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
         initData();
     }
 
+    @Override
+    public void getCouponInfoSuccess() {
+        showToast("领取成功");
+    }
 
     @Override
     public void getStoreCouponListSuccess(ShopDetailCouponListResponse response) {
         List<ShopDetailCouponListResponse.ListBean> listBeen = response.list;
         if (listBeen != null && listBeen.size() > 0) {
             mAdapter.setNewData(listBeen);
-        }else {
+        } else {
             mFragmentCouponList.setVisibility(View.GONE);
         }
     }
@@ -95,8 +99,12 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
 
     private void initView() {
         mFragmentCouponList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CouponListAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new CouponListAdapter(null, getActivity());
         mFragmentCouponList.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ShopDetailCouponListResponse.ListBean bean = (ShopDetailCouponListResponse.ListBean) adapter.getItem(position);
+            mPresenter.requestCouponInfo(bean.id);
+        });
     }
 
     @Override

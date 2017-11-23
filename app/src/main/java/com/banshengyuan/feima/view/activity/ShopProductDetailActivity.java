@@ -167,6 +167,11 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
     }
 
     @Override
+    public void getCouponInfoSuccess() {
+
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }
