@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.networkapi.MyOrderApi;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -28,8 +29,8 @@ public class MyOrderModel {
     }
 
 
-    public Observable<ResponseData> myOrderListRequest(Integer pageNo, Integer pageSize) {
-        return mApi.orderListRequest(pageNo, pageSize, mBuProcessor.getUserId()).map(mTransform::transformTypeTwo);
+    public Observable<ResponseData> myOrderListRequest(int pageNo, int pageSize,String search_status,boolean flag,String token) {
+        return mApi.orderListRequest(pageNo, pageSize, search_status,flag,token).map(mTransform::transformTypeTwo);
     }
 
     public Observable<ResponseData> orderStatusListRequest(Integer status, Integer pageNo, Integer pageSize) {

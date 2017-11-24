@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.model.MyOrderModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -31,19 +33,19 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     @Override
-    public void requestMyOrderList(Integer pageNo, Integer pageSize) {
+    public void requestMyOrderList(Integer pageNo, Integer pageSize,String search_status,boolean flag,String token) {
         if (isShow) {
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
-        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize).compose(mView.applySchedulers())
+        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize,search_status,flag,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
                         throwable -> mView.loadFail(throwable),() -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
             mView.getMyOrderListSuccess(response);

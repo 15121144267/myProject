@@ -1,5 +1,8 @@
 package com.banshengyuan.feima.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,134 +11,316 @@ import java.util.List;
  * MyOrdersResponse
  */
 
-public class MyOrdersResponse implements Serializable {
+public class MyOrdersResponse implements Parcelable {
+
 
     /**
-     * count : 3
-     * orders : [{"accounts":[{"accountId":"account-1","name":"运费","number":1,"orderId":80915232962117922,"price":500,"sequence":0,"type":1}],"address":"南二环与宿松路交口绿地中心半生缘街区","amount":20400,"cancelReason":"","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerOrder":"BSY_1499931066406","evaluateStatus":1,"gmtCreate":1499931067000,"latitude":121.377685,"longitude":121.377685,"oid":80915232962117922,"partition":"","payChannel":"","payChannelName":"","payStatus":1,"payType":1,"phone":"","products":[{"barcode":"","category":"","categoryName":"帽子","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":19900,"labelNames":[],"name":"blackhead王冠帽子","originalPrice":19900,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1499773655.jpg","pid":"1322","productNumber":1,"saleCount":0,"sellTimeName":"a","specification":"黑色","status":"2","type":1,"unit":"个"}],"remark":"","shopId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61_107","shopName":"LET  ME  SEE","source":"","status":2,"type":1,"userId":"004f55aa-eb49-4b0a-b5ed-ca42b21ac5c2","userName":"15121144267"},{"accounts":[{"accountId":"account-1","name":"运费","number":1,"orderId":80917374650286378,"price":500,"sequence":0,"type":1}],"address":"南二环与宿松路交口绿地中心半生缘街区","amount":20400,"cancelReason":"","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerOrder":"BSY_1499933111058","evaluateStatus":1,"gmtCreate":1499933110000,"latitude":121.377686,"longitude":121.377686,"oid":80917374650286378,"partition":"","payChannel":"","payChannelName":"","payStatus":1,"payType":1,"phone":"","products":[{"barcode":"","category":"","categoryName":"帽子","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":19900,"labelNames":[],"name":"blackhead王冠帽子","originalPrice":19900,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1499773655.jpg","pid":"1322","productNumber":1,"saleCount":0,"sellTimeName":"a","specification":"黑色","status":"2","type":1,"unit":"个"}],"remark":"","shopId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61_107","shopName":"LET  ME  SEE","source":"","status":2,"type":1,"userId":"004f55aa-eb49-4b0a-b5ed-ca42b21ac5c2","userName":"15121144267"},{"accounts":[{"accountId":"account-1","name":"运费","number":1,"orderId":80918480647356721,"price":500,"sequence":0,"type":1}],"address":"南二环与宿松路交口绿地中心半生缘街区","amount":20400,"cancelReason":"","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerOrder":"BSY_1499934161325","evaluateStatus":1,"gmtCreate":1499934164000,"latitude":121.377673,"longitude":121.377673,"oid":80918480647356721,"partition":"","payChannel":"","payChannelName":"","payStatus":1,"payType":1,"phone":"","products":[{"barcode":"","category":"","categoryName":"帽子","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":19900,"labelNames":[],"name":"blackhead王冠帽子","originalPrice":19900,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1499773655.jpg","pid":"1322","productNumber":1,"saleCount":0,"sellTimeName":"a","specification":"黑色","status":"2","type":1,"unit":"个"}],"remark":"","shopId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61_107","shopName":"LET  ME  SEE","source":"","status":2,"type":1,"userId":"004f55aa-eb49-4b0a-b5ed-ca42b21ac5c2","userName":"15121144267"}]
+     * list : [{"order_sn":201711052203112,"order_item":[{"store_name":"潮流衣铺","store_id":1,"product":[{"id":11,"name":"产品名字11","cover_img":"http=>//example.com/a2.png","price":"120","number":1},{"id":11,"name":"产品名字12","cover_img":"http=>//example.com/a2.png","price":"130","number":1}]},{"store_name":"潮流衣铺2","store_id":2,"product":[{"id":21,"name":"产品名字21","cover_img":"http=>//example.com/a2.png","price":"120","number":1}]}],"pay_status":1,"total_fee":"570","freight":"200"}]
+     * current_page : 1
+     * has_next_page : true
      */
 
-    public int count;
-    public List<OrdersBean> orders;
+    private int current_page;
+    private boolean has_next_page;
+    private List<ListBean> list;
 
-    public static class OrdersBean implements Serializable{
-        /**
-         * accounts : [{"accountId":"account-1","name":"运费","number":1,"orderId":80915232962117922,"price":500,"sequence":0,"type":1}]
-         * address : 南二环与宿松路交口绿地中心半生缘街区
-         * amount : 20400
-         * cancelReason :
-         * companyId : 53c69e54-c788-495c-bed3-2dbfc6fd5c61
-         * customerOrder : BSY_1499931066406
-         * evaluateStatus : 1
-         * gmtCreate : 1499931067000
-         * latitude : 121.377685
-         * longitude : 121.377685
-         * oid : 80915232962117922
-         * partition :
-         * payChannel :
-         * payChannelName :
-         * payStatus : 1
-         * payType : 1
-         * phone :
-         * products : [{"barcode":"","category":"","categoryName":"帽子","companyId":"53c69e54-c788-495c-bed3-2dbfc6fd5c61","customerCode":"","finalPrice":19900,"labelNames":[],"name":"blackhead王冠帽子","originalPrice":19900,"picture":"http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1499773655.jpg","pid":"1322","productNumber":1,"saleCount":0,"sellTimeName":"a","specification":"黑色","status":"2","type":1,"unit":"个"}]
-         * remark :
-         * shopId : 53c69e54-c788-495c-bed3-2dbfc6fd5c61_107
-         * shopName : LET  ME  SEE
-         * source :
-         * status : 2
-         * type : 1
-         * userId : 004f55aa-eb49-4b0a-b5ed-ca42b21ac5c2
-         * userName : 15121144267
-         */
-
-        public String address;
-        public int amount;
-        public String cancelReason;
-        public String companyId;
-        public String customerOrder;
-        public int evaluateStatus;
-        public long gmtCreate;
-        public double latitude;
-        public double longitude;
-        public long oid;
-        public String partition;
-        public String payChannel;
-        public String payChannelName;
-        public int payStatus;
-        public int payType;
-        public String phone;
-        public String remark;
-        public String shopId;
-        public String shopName;
-        public String source;
-        public int status;
-        public int type;
-        public String userId;
-        public String userName;
-        public List<AccountsBean> accounts;
-        public List<ProductsBean> products;
-
-        public static class AccountsBean implements Serializable{
-            /**
-             * accountId : account-1
-             * name : 运费
-             * number : 1
-             * orderId : 80915232962117922
-             * price : 500
-             * sequence : 0
-             * type : 1
-             */
-
-            public String accountId;
-            public String name;
-            public int number;
-            public long orderId;
-            public int price;
-            public int sequence;
-            public int type;
-        }
-
-        public static class ProductsBean implements Serializable{
-            /**
-             * barcode :
-             * category :
-             * categoryName : 帽子
-             * companyId : 53c69e54-c788-495c-bed3-2dbfc6fd5c61
-             * customerCode :
-             * finalPrice : 19900
-             * labelNames : []
-             * name : blackhead王冠帽子
-             * originalPrice : 19900
-             * picture : http://ojcpa0rpt.bkt.clouddn.com/xianfengfruit_DishPool_default_17ef7396-4c56-4e08-9f3f-5cba520234d6_1499773655.jpg
-             * pid : 1322
-             * productNumber : 1
-             * saleCount : 0
-             * sellTimeName : a
-             * specification : 黑色
-             * status : 2
-             * type : 1
-             * unit : 个
-             */
-
-            public String barcode;
-            public String category;
-            public String categoryName;
-            public String companyId;
-            public String customerCode;
-            public int finalPrice;
-            public String name;
-            public int originalPrice;
-            public String picture;
-            public String pid;
-            public int productNumber;
-            public int saleCount;
-            public String sellTimeName;
-            public String specification;
-            public String status;
-            public int type;
-            public String unit;
-            public List<?> labelNames;
-        }
+    protected MyOrdersResponse(Parcel in) {
+        current_page = in.readInt();
+        has_next_page = in.readByte() != 0;
+        list = in.createTypedArrayList(ListBean.CREATOR);
     }
 
+    public static final Creator<MyOrdersResponse> CREATOR = new Creator<MyOrdersResponse>() {
+        @Override
+        public MyOrdersResponse createFromParcel(Parcel in) {
+            return new MyOrdersResponse(in);
+        }
+
+        @Override
+        public MyOrdersResponse[] newArray(int size) {
+            return new MyOrdersResponse[size];
+        }
+    };
+
+    public int getCurrent_page() {
+        return current_page;
+    }
+
+    public void setCurrent_page(int current_page) {
+        this.current_page = current_page;
+    }
+
+    public boolean isHas_next_page() {
+        return has_next_page;
+    }
+
+    public void setHas_next_page(boolean has_next_page) {
+        this.has_next_page = has_next_page;
+    }
+
+    public List<ListBean> getList() {
+        return list;
+    }
+
+    public void setList(List<ListBean> list) {
+        this.list = list;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(current_page);
+        dest.writeByte((byte) (has_next_page ? 1 : 0));
+        dest.writeTypedList(list);
+    }
+
+    public static class ListBean implements Parcelable{
+        /**
+         * order_sn : 201711052203112
+         * order_item : [{"store_name":"潮流衣铺","store_id":1,"product":[{"id":11,"name":"产品名字11","cover_img":"http=>//example.com/a2.png","price":"120","number":1},{"id":11,"name":"产品名字12","cover_img":"http=>//example.com/a2.png","price":"130","number":1}]},{"store_name":"潮流衣铺2","store_id":2,"product":[{"id":21,"name":"产品名字21","cover_img":"http=>//example.com/a2.png","price":"120","number":1}]}]
+         * pay_status : 1
+         * total_fee : 570
+         * freight : 200
+         */
+
+        private long order_sn;
+        private int pay_status;
+        private String total_fee;
+        private String freight;
+        private List<OrderItemBean> order_item;
+
+        protected ListBean(Parcel in) {
+            order_sn = in.readLong();
+            pay_status = in.readInt();
+            total_fee = in.readString();
+            freight = in.readString();
+            order_item = in.createTypedArrayList(OrderItemBean.CREATOR);
+        }
+
+        public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
+            @Override
+            public ListBean createFromParcel(Parcel in) {
+                return new ListBean(in);
+            }
+
+            @Override
+            public ListBean[] newArray(int size) {
+                return new ListBean[size];
+            }
+        };
+
+        public long getOrder_sn() {
+            return order_sn;
+        }
+
+        public void setOrder_sn(long order_sn) {
+            this.order_sn = order_sn;
+        }
+
+        public int getPay_status() {
+            return pay_status;
+        }
+
+        public void setPay_status(int pay_status) {
+            this.pay_status = pay_status;
+        }
+
+        public String getTotal_fee() {
+            return total_fee;
+        }
+
+        public void setTotal_fee(String total_fee) {
+            this.total_fee = total_fee;
+        }
+
+        public String getFreight() {
+            return freight;
+        }
+
+        public void setFreight(String freight) {
+            this.freight = freight;
+        }
+
+        public List<OrderItemBean> getOrder_item() {
+            return order_item;
+        }
+
+        public void setOrder_item(List<OrderItemBean> order_item) {
+            this.order_item = order_item;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeLong(order_sn);
+            dest.writeInt(pay_status);
+            dest.writeString(total_fee);
+            dest.writeString(freight);
+            dest.writeTypedList(order_item);
+        }
+
+        public static class OrderItemBean implements Parcelable{
+            /**
+             * store_name : 潮流衣铺
+             * store_id : 1
+             * product : [{"id":11,"name":"产品名字11","cover_img":"http=>//example.com/a2.png","price":"120","number":1},{"id":11,"name":"产品名字12","cover_img":"http=>//example.com/a2.png","price":"130","number":1}]
+             */
+
+            private String store_name;
+            private int store_id;
+            private List<ProductBean> product;
+
+            protected OrderItemBean(Parcel in) {
+                store_name = in.readString();
+                store_id = in.readInt();
+                product = in.createTypedArrayList(ProductBean.CREATOR);
+            }
+
+            public static final Creator<OrderItemBean> CREATOR = new Creator<OrderItemBean>() {
+                @Override
+                public OrderItemBean createFromParcel(Parcel in) {
+                    return new OrderItemBean(in);
+                }
+
+                @Override
+                public OrderItemBean[] newArray(int size) {
+                    return new OrderItemBean[size];
+                }
+            };
+
+            public String getStore_name() {
+                return store_name;
+            }
+
+            public void setStore_name(String store_name) {
+                this.store_name = store_name;
+            }
+
+            public int getStore_id() {
+                return store_id;
+            }
+
+            public void setStore_id(int store_id) {
+                this.store_id = store_id;
+            }
+
+            public List<ProductBean> getProduct() {
+                return product;
+            }
+
+            public void setProduct(List<ProductBean> product) {
+                this.product = product;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(store_name);
+                dest.writeInt(store_id);
+                dest.writeTypedList(product);
+            }
+
+            public static class ProductBean implements Parcelable{
+                /**
+                 * id : 11
+                 * name : 产品名字11
+                 * cover_img : http=>//example.com/a2.png
+                 * price : 120
+                 * number : 1
+                 */
+
+                private int id;
+                private String name;
+                private String cover_img;
+                private String price;
+                private int number;
+
+                protected ProductBean(Parcel in) {
+                    id = in.readInt();
+                    name = in.readString();
+                    cover_img = in.readString();
+                    price = in.readString();
+                    number = in.readInt();
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                    dest.writeInt(id);
+                    dest.writeString(name);
+                    dest.writeString(cover_img);
+                    dest.writeString(price);
+                    dest.writeInt(number);
+                }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                public static final Creator<ProductBean> CREATOR = new Creator<ProductBean>() {
+                    @Override
+                    public ProductBean createFromParcel(Parcel in) {
+                        return new ProductBean(in);
+                    }
+
+                    @Override
+                    public ProductBean[] newArray(int size) {
+                        return new ProductBean[size];
+                    }
+                };
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getCover_img() {
+                    return cover_img;
+                }
+
+                public void setCover_img(String cover_img) {
+                    this.cover_img = cover_img;
+                }
+
+                public String getPrice() {
+                    return price;
+                }
+
+                public void setPrice(String price) {
+                    this.price = price;
+                }
+
+                public int getNumber() {
+                    return number;
+                }
+
+                public void setNumber(int number) {
+                    this.number = number;
+                }
+            }
+        }
+    }
 }

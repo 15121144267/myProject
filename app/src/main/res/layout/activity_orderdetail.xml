@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_common" />
+
+    <View style="@style/LineH_Fill_Width1_5_ForView" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
-            <include layout="@layout/toolbar_common"/>
-
-            <View style="@style/LineH_Fill_Width1_5_ForView"/>
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="79dp"
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
-                android:paddingStart="15dp"
-                >
+                android:paddingStart="15dp">
 
                 <TextView
                     android:id="@+id/order_detail_status"
@@ -38,18 +33,17 @@
                     android:layout_weight="1"
                     android:drawableStart="@mipmap/order_detail_icon"
                     android:gravity="center_vertical"
-                    android:text="@string/order_status"
-                    />
+                    android:text="@string/order_status" />
 
                 <TextView
                     android:id="@+id/order_detail_complete_time"
                     style="@style/TextColor_Grey_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="04-26 14:33"/>
+                    android:text="04-26 14:33" />
             </LinearLayout>
 
-            <View style="@style/LineH_Fill_Width_5_ForView"/>
+            <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <TextView
                 android:id="@+id/order_detail_shop_name"
@@ -61,11 +55,16 @@
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp"
                 android:text="店铺名称"
-                android:textColor="@color/darkblack"/>
+                android:textColor="@color/darkblack" />
+
+            <View style="@style/LineH_Yellow_Fill_Width1" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/order_detail_product_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
+            <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,15 +77,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="商品金额"/>
+                    android:text="商品总价" />
 
                 <TextView
                     android:id="@+id/order_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥100"
-                    android:textColor="@color/darkblack"
-                    />
+                    android:textColor="@color/darkblack" />
             </LinearLayout>
 
             <LinearLayout
@@ -100,204 +98,78 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="商品运费"/>
+                    android:text="运费" />
 
                 <TextView
                     android:id="@+id/order_detail_dispatch_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥15"
-                    android:textColor="@color/darkblack"
-                    />
+                    android:textColor="@color/darkblack" />
             </LinearLayout>
-
-            <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="35dp"
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp">
 
                 <TextView
-                    android:id="@+id/order_detail_should_pay"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="应付 ￥500"/>
+                    android:text="应付金额" />
 
                 <TextView
-                    android:id="@+id/order_detail_pay_price"
+                    android:id="@+id/order_detail_should_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="实付￥150"
-                    android:textColor="@color/darkblack"
-                    />
+                    android:text="￥15"
+                    android:textColor="@color/darkblack" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/line_grey_bg3"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="配送信息"
-                />
+            <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="35dp"
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="送达时间:"
-                    />
-
-                <TextView
-                    android:id="@+id/order_detail_arrive_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:text="2017-04-03 14:33"
-                    />
-            </LinearLayout>
-
-            <View style="@style/LineH_Fill_Width1_5_ForView2"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:gravity="center_vertical"
-                android:paddingEnd="15dp"
-                android:paddingStart="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="收货地址:"
-                    />
-
-                <TextView
-                    android:id="@+id/order_detail_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:text="王先生 15121144267 测试测试测试测试测试测试测试测试测试测试测试测试"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    />
-            </LinearLayout>
-
-            <View style="@style/LineH_Fill_Width1_5_ForView2"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="配送方式:"
-                    />
-
-                <TextView
-                    android:id="@+id/order_detail_dispatch_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:text="蜂鸟配送"
-                    android:padding="8dp"
-                    android:background="@drawable/shape_line_bold_blue"
-                    android:maxLines="1"
-                    android:textColor="@color/light_blue_dark"
-                    android:ellipsize="end"
-                    />
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/line_grey_bg3"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="订单信息"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:paddingEnd="15dp"
-                android:paddingStart="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="订单号码:"
-                    />
 
                 <TextView
                     android:id="@+id/order_detail_order_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:text="2017-04-03 14:33"
-                    />
+                    android:text="订单编号:122221466466446" />
+
+                <TextView
+                    android:id="@+id/order_detail_copy_orderid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="复制"
+                    android:textColor="@color/darkblack" />
             </LinearLayout>
-            <View style="@style/LineH_Fill_Width1_5_ForView2"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
-                android:paddingStart="15dp">
+                android:paddingStart="15dp"
+                android:text="创建时间:2017-11-24 18：00：00" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="下单时间:"
-                    />
-
-                <TextView
-                    android:id="@+id/order_detail_begin_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:text="2017-04-03 14:33"
-                    />
-            </LinearLayout>
-            <View style="@style/LineH_Fill_Width1_5_ForView2"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
-                android:paddingStart="15dp">
+                android:paddingStart="15dp"
+                android:text="成交时间:2017-11-24 18：00：00" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="支付方式:"
-                    />
-
-                <TextView
-                    android:id="@+id/order_detail_pay_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="23dp"
-                    android:text="支付宝"
-                    />
-            </LinearLayout>
-            <View style="@style/LineH_Fill_Width1_5_ForView2"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <Button
-        android:id="@+id/order_detail_buy_again"
-        style="@style/order_detail_Button_Style"
-        android:text="再次购买"/>
+
 </LinearLayout>
 

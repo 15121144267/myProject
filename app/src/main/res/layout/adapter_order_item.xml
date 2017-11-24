@@ -77,6 +77,7 @@
                     android:layout_weight="1"
                     android:text="价代发看来发送到"
                     android:textColor="@color/light_grey_dark"
+                    android:visibility="invisible"
                     />
 
                 <TextView

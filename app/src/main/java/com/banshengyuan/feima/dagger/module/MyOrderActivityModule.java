@@ -7,6 +7,7 @@ import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.MyOrderApi;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.PresenterControl.MyOrderControl;
 import com.banshengyuan.feima.view.PresenterControl.OrderCompleteControl;
@@ -59,7 +60,7 @@ public class MyOrderActivityModule {
     MyOrderModel provideMyOrderModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new MyOrderModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.ORDER_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(MyOrderApi.class), gson, modelTransform, buProcessor);

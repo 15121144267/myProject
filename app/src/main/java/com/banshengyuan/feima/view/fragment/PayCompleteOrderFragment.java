@@ -40,7 +40,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse.OrdersBean> mList;
+    private List<MyOrdersResponse.ListBean.OrderItemBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private final Integer mStatus = 4;
@@ -51,7 +51,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
     @Inject
     PayCompleteControl.PresenterPayComplete mPresenter;
-
+    private MyOrdersResponse.ListBean listBean = null;
     private Unbinder unbind;
 
     @Override
@@ -99,7 +99,8 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
-        mList = response.orders;
+        mAdapter.setlistBeanData(response.getList().get(0));
+        mList = response.getList().get(0).getOrder_item();
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -119,17 +120,17 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         mMyOrders.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    MyOrdersResponse.OrdersBean response = (MyOrdersResponse.OrdersBean) adapter.getItem(position);
-                    startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response));
+//                    MyOrdersResponse.OrdersBean response = (MyOrdersResponse.OrdersBean) adapter.getItem(position);
+//                    startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response));
                 }
 
         );
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     switch (view.getId()) {
-                        case R.id.order_pull_off:
+                        case R.id.order_left_btn:
                             showToast("" + position);
                             break;
-                        case R.id.order_pull_sure:
+                        case R.id.order_right_btn:
                             showToast("" + position);
                             break;
                     }

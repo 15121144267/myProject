@@ -10,8 +10,9 @@ import retrofit2.http.Query;
  */
 
 public interface MyOrderApi {
-    @GET("Query/Order/ListPageByUser")
-    Observable<String> orderListRequest(@Query("pagenumber") Integer pageNumber, @Query("pagesize") Integer pageSize, @Query("userId") String userId);
+    @GET("api/user/order/list")
+    Observable<String> orderListRequest(@Query("page") Integer pageNumber, @Query("pageSize") Integer pageSize, @Query("search_status") String search_status, @Query("flag") boolean flag,@Query("token") String token);
+
 
     @GET("Query/Order/ListByUserStatus")
     Observable<String> orderStatusListRequest(@Query("userId") String userId, @Query("status") Integer status, @Query("pagenumber") Integer pagenumber, @Query("pagesize") Integer pagesize);

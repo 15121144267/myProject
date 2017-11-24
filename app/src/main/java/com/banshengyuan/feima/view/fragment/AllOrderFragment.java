@@ -14,7 +14,9 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
@@ -42,13 +44,16 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse.OrdersBean> mList;
+    private List<MyOrdersResponse.ListBean.OrderItemBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
 
     @Inject
     AllOrderControl.PresenterAllOrderView mPresenter;
+    private MyOrdersResponse.ListBean listBean = null;
+    private MyOrdersResponse ordersResponse = null;//服务器返回数据
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +87,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize);
+            //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, "", true, Constant.TOKEN);
         }
     }
 
@@ -95,7 +101,10 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
-        mList = response.orders;
+        mAdapter.setlistBeanData(response.getList().get(0));
+        ordersResponse = response;
+        listBean = response.getList().get(0);
+        mList = response.getList().get(0).getOrder_item();
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -105,7 +114,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize);
+        //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, "1", true, Constant.TOKEN);
     }
 
     private void initView() {
@@ -114,19 +124,23 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    MyOrdersResponse.OrdersBean response = (MyOrdersResponse.OrdersBean) adapter.getItem(position);
-                    startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response));
-                }
-
-        );
+//        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+//                    showToast("position=" + position);
+////                    MyOrdersResponse.ListBean response = (MyOrdersResponse.ListBean) adapter.getItem(position);
+////                    startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response));
+//                }
+//        );
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     switch (view.getId()) {
-                        case R.id.order_pull_off:
+                        case R.id.mime_order_lv:
+                            MyOrdersResponse.ListBean.OrderItemBean response = (MyOrdersResponse.ListBean.OrderItemBean) adapter.getItem(position);
+                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response,ordersResponse.getList().get(0)));
+                            break;
+                        case R.id.order_left_btn:
                             showToast("" + position);
                             break;
-                        case R.id.order_pull_sure:
+                        case R.id.order_right_btn:
                             showToast("" + position);
                             break;
                     }
