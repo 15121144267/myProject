@@ -348,7 +348,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
     }
 
     private void switchToGoodsDetail(ShopDetailResponse.ProductsBean goodsInfo) {
-        startActivity(GoodDetailActivity.getIntent(this, goodsInfo));
+//        startActivity(GoodDetailActivity.getIntent(this, goodsInfo));
     }
 
     private void changeStatus(TabLayout.Tab tab) {

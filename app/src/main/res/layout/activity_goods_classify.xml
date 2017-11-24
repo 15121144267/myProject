@@ -7,8 +7,7 @@
     <include layout="@layout/toolbar_common"/>
 
     <View style="@style/LineH_Fill_Width1_5_ForView"
-          android:layout_marginBottom="@dimen/dp_25"
-        />
+          android:layout_marginBottom="@dimen/dp_25"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/goods_classify_list"

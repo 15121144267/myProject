@@ -11,6 +11,10 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
+    <style name="transparentAppTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/transparent</item>
+    </style>
+
     <style name="YellowAppTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/text_color_yellow_dark2</item>
@@ -76,6 +80,7 @@
         <item name="android:layout_height">2dip</item>
         <item name="android:background">@color/white</item>
     </style>
+
     <style name="LineH_Fill_Width_10_ForView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">10dip</item>
@@ -108,7 +113,7 @@
 
     <style name="LineH_Fill_Width1_5_ForView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_height">0.5dip</item>
         <item name="android:background">@color/line_grey_bg</item>
     </style>
 
@@ -232,6 +237,7 @@
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
+
     <style name="TextColor_dark_black2_15">
         <item name="android:textColor">@color/darkblack</item>
         <item name="android:textSize">@dimen/sp_15</item>

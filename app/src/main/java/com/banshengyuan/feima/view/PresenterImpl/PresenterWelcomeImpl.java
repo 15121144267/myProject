@@ -39,6 +39,7 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
     @Override
     public void requestPic() {
         Disposable disposable = mModel.requestPic()
+                .compose(mView.applySchedulers())
                 .subscribe(this::getPicSuccess
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);

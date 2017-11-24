@@ -18,6 +18,7 @@ import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
 import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
 import com.banshengyuan.feima.entity.StoreDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
+import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
 
@@ -96,6 +97,10 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mAdapter = new FairDetailNewAdapter(null, getActivity(),mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ShopDetailProductListResponse.ListBean bean = (ShopDetailProductListResponse.ListBean) adapter.getItem(position);
+            startActivity(GoodDetailActivity.getIntent(getActivity(), bean.id));
+        });
     }
 
     @Override

@@ -35,7 +35,7 @@ ext{
             mySearch :"com.amap.api:search:latest.integration",
             myLocation :"com.amap.api:location:latest.integration",
             myRxPermission :"com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar",
-            myBanner :"com.youth.banner:banner:1.4.9",
+            myBanner :"com.youth.banner:banner:1.4.10",
             myPartOnePhoto :"com.soundcloud.android:android-crop:1.0.1@aar",
             myPartTwoPhoto :"com.darsh.multipleimageselect:multipleimageselect:1.0.4",
             myPartThreePhoto :"me.shaohui.advancedluban:library:1.3.5",

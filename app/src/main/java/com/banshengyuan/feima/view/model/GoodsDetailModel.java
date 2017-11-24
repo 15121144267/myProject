@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.model;
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.BuProcessor;
+import com.banshengyuan.feima.entity.CollectionRequest;
 import com.banshengyuan.feima.entity.ShopListResponse;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.banshengyuan.feima.network.networkapi.GoodsDetailApi;
@@ -36,8 +37,16 @@ public class GoodsDetailModel {
     }
 
 
-    public Observable<ResponseData> goodInfoRequest(String productId) {
-        return mApi.goodInfoRequest(productId).map(mTransform::transformTypeTwo);
+    public Observable<ResponseData> goodInfoRequest(Integer productId) {
+        return mApi.goodInfoRequest(productId,true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> goodsCollectionRequest(String shopId,String type) {
+        CollectionRequest request = new CollectionRequest();
+        request.id = shopId;
+        request.type = type;
+        request.flag = true;
+        return mApi.goodsCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> goodInfoSpecificationRequest(String productId) {

@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.view.activity.BaseActivity;
@@ -155,8 +154,6 @@ public class DialogFactory {
     public static Dialog showLoadingDialog(Context context, String msg) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.view_loading, (ViewGroup) ((BaseActivity)context).getWindow().getDecorView(),false);// 得到加载view
-        TextView loadingText = (TextView) v.findViewById(R.id.loading_text);
-        loadingText.setText(msg);
         final Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// 创建自定义样式dialog
         loadingDialog.setCancelable(false);
         loadingDialog.setContentView(v);

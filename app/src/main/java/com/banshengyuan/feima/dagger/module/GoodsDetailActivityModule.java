@@ -48,12 +48,12 @@ public class GoodsDetailActivityModule {
     GoodsDetailModel provideGoodsDetailModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new GoodsDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.GOODS_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(GoodsDetailApi.class), new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.ORDER_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(AddShoppingCardApi.class), gson, modelTransform, buProcessor);

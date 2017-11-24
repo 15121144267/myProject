@@ -98,17 +98,8 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     }
 
     public void switchToMain() {
-        new Thread(getPic).start();
-//        mPresenter.requestPic();
+        mPresenter.requestPic();
     }
-
-
-    Runnable getPic = new Runnable() {
-        @Override
-        public void run() {
-            mPresenter.requestPic();
-        }
-    };
 
     @Override
     public void getAdSuccess(AdResponse response) {

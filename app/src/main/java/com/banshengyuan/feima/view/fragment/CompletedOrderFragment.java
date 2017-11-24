@@ -125,7 +125,6 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_complete_order, container, false);
         unbind = ButterKnife.bind(this, view);
-
         initView();
         return view;
     }
@@ -178,12 +177,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
                     break;
             }
         });
-        /*mResponse = mBuProcessor.getPersonInfo();
-        update(mResponse);
-        mScrollLayout.setMoveImageView(mMoveImage);
-        RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
-        RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
-        RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());*/
+
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {

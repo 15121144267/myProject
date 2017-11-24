@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
@@ -30,6 +31,25 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
         mContext = context;
         mModel = model;
         mView = view;
+    }
+
+    @Override
+    public void requestGoodsCollection(String productId,String type) {
+        Disposable disposable = mModel.goodsCollectionRequest(productId,type)
+                .compose(mView.applySchedulers())
+                .subscribe(this::getGoodsCollectionSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getGoodsCollectionSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(CollectionResponse.class);
+            CollectionResponse response = (CollectionResponse) responseData.parsedData;
+            mView.getGoodsCollectionSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override
@@ -69,23 +89,23 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     @Override
-    public void requestGoodInfo(String productId) {
+    public void requestGoodInfo(Integer productId) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.goodInfoRequest(productId)
                 .compose(mView.applySchedulers())
-                .subscribe(this::goodInfoSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                .subscribe(this::goodInfoSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
 
     private void goodInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             responseData.parseData(GoodsInfoResponse.class);
             GoodsInfoResponse response = (GoodsInfoResponse) responseData.parsedData;
             mView.getGoodsInfoSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getGoodsInfoFail(responseData.errorDesc);
         }
     }
 

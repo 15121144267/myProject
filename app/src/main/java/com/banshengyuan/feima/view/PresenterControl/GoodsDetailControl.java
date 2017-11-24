@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 
@@ -16,6 +17,10 @@ public class GoodsDetailControl {
     public interface GoodsDetailView extends LoadDataView {
         void getGoodsInfoSuccess(GoodsInfoResponse data);
 
+        void getGoodsInfoFail(String data);
+
+        void getGoodsCollectionSuccess(CollectionResponse response);
+
         void goodInfoSpecificationSuccess(SpecificationResponse data);
 
         void getUniqueGoodInfoSuccess(SpecificationResponse data);
@@ -30,7 +35,9 @@ public class GoodsDetailControl {
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {
-        void requestGoodInfo(String productId);
+        void requestGoodInfo(Integer productId);
+
+        void requestGoodsCollection(String productId, String type);
 
         void requestUniqueGoodInfo(String productId);
 
