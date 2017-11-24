@@ -1,167 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    app:contentScrim="?attr/colorPrimary"
+    >
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/cl_main"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:fitsSystemWindows="true"
-        app:contentScrim="?attr/colorPrimary"
-        >
+        android:layout_height="250dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBarLayout"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="center_horizontal"
+            app:expandedTitleMarginBottom="@dimen/dp_120"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsingToolbarLayout"
+            <com.youth.banner.Banner
+                android:id="@+id/block_detail_banner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleGravity="center_horizontal"
-                app:expandedTitleMarginBottom="@dimen/dp_120"
-                app:titleEnabled="false"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:background="@color/white"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"/>
 
-                <com.youth.banner.Banner
-                    android:id="@+id/block_detail_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"/>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title=" ">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:title=" "
-                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-                    <TextView
-                        android:id="@+id/middle_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        />
-                    <ImageView
-                        android:id="@+id/toolbar_right_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:background="@mipmap/toobar_more"
-                        android:visibility="gone"
-                        android:layout_marginEnd="@dimen/dp_15"
-                        />
+                <TextView
+                    android:id="@+id/middle_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    />
 
-                </android.support.v7.widget.Toolbar>
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+                <ImageView
+                    android:id="@+id/toolbar_right_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:background="@mipmap/toobar_more"
+                    android:visibility="gone"
+                    />
 
-        <android.support.v4.widget.NestedScrollView
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/dp_20"
+                android:paddingStart="@dimen/dp_20"
+                android:paddingTop="@dimen/dp_25"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingEnd="@dimen/dp_20"
-                    android:paddingStart="@dimen/dp_20"
-                    android:paddingTop="@dimen/dp_25"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_12"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/block_detail_name"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="半生缘潮流音乐节"
-                            android:textColor="@color/tab_text_normal"
-                            android:textSize="@dimen/sp_24"
-                            android:textStyle="bold"/>
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerInside"
-                            android:src="@mipmap/arrow_right"/>
-                    </LinearLayout>
+                    android:layout_marginBottom="@dimen/dp_12"
+                    android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/block_detail_summary"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/block_detail_name"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_15"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="半生缘潮流音乐节地理位置"
+                        android:layout_weight="1"
+                        android:text="半生缘潮流音乐节"
                         android:textColor="@color/tab_text_normal"
-                        android:textSize="@dimen/sp_13"/>
+                        android:textSize="@dimen/sp_24"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/arrow_right"/>
                 </LinearLayout>
 
-                <View
-                    style="@style/LineH_Yellow_Fill_Width1"
-                    android:layout_marginBottom="@dimen/dp_25"
-                    />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/block_detail_hot"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/block_detail_summary"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/dp_20"
-                    android:paddingStart="@dimen/dp_20"
-                    android:nestedScrollingEnabled="false"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/block_detail_fair"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/dp_20"
-                    android:paddingStart="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_25"
-                    android:nestedScrollingEnabled="false"
-                    />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/block_detail_shop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/dp_20"
-                    android:paddingStart="@dimen/dp_20"
-                    android:nestedScrollingEnabled="false"/>
+                    android:layout_marginBottom="@dimen/dp_15"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="半生缘潮流音乐节地理位置"
+                    android:textColor="@color/tab_text_normal"
+                    android:textSize="@dimen/sp_13"/>
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+            <View
+                style="@style/LineH_Yellow_Fill_Width1"
+                android:layout_marginBottom="@dimen/dp_25"
+                />
 
-    </android.support.design.widget.CoordinatorLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/block_detail_hot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingEnd="@dimen/dp_20"
+                android:paddingStart="@dimen/dp_20"/>
 
-</LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/block_detail_fair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:nestedScrollingEnabled="false"
+                android:paddingEnd="@dimen/dp_20"
+                android:paddingStart="@dimen/dp_20"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/block_detail_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingEnd="@dimen/dp_20"
+                android:paddingStart="@dimen/dp_20"/>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

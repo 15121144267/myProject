@@ -5,15 +5,17 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.DataCleanManager;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
 import com.banshengyuan.feima.view.activity.AddressActivity;
@@ -34,6 +37,7 @@ import com.banshengyuan.feima.view.activity.CoupleActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
+import com.banshengyuan.feima.view.activity.NoticeCenterActivity;
 import com.banshengyuan.feima.view.activity.PersonCenterActivity;
 import com.banshengyuan.feima.view.activity.SafeSettingActivity;
 import com.banshengyuan.feima.view.activity.ShoppingCardActivity;
@@ -71,6 +75,14 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     LinearLayout mPersonCleanCache;
     @BindView(R.id.collapsingToolbarLayout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.person_tips)
+    ImageView mPersonTips;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
    /*
     @BindView(R.id.person_address)
     TextView mPersonAddress;
@@ -82,8 +94,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     TextView mPersonName;
     @BindView(R.id.person_detail)
     TextView mPersonDetail;
-    @BindView(R.id.person_tips)
-    ImageButton mPersonTips;
+
     @BindView(R.id.move_image)
     ImageView mMoveImage;
     @BindView(R.id.scroll_layout)
@@ -135,12 +146,11 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initView() {
-        mCollapsingToolbarLayout.setTitle("个人中心");
-        mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getActivity(),R.color.transparent));
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(getActivity(),R.color.black));
-        mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
         RxView.clicks(mPersonEnterSafePage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(SafeSettingActivity.getIntent(getActivity())));
+
+        RxView.clicks(mPersonTips).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(NoticeCenterActivity.getIntent(getActivity())));
 
         RxView.clicks(mPersonAddressPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(AddressActivity.getIntent(getActivity(), "CompletedOrderFragment")));
@@ -172,7 +182,24 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         RxView.clicks(mPersonOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestOrder());
         RxView.clicks(mPersonAddress).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddress());
         RxView.clicks(mPersonInfo).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestInfo());*/
-
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mPersonTips.setVisibility(View.VISIBLE);
+                    mMiddleName.setVisibility(View.GONE);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mPersonTips.setVisibility(View.GONE);
+                    mMiddleName.setVisibility(View.VISIBLE);
+                } else {
+                    //中间状态
+                    mPersonTips.setVisibility(View.VISIBLE);
+                    mMiddleName.setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 

@@ -47,7 +47,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @Inject
     NoticeCenterControl.PresenterNoticeCenter mPresenter;
 
-    public static Intent getNoticeIntent(Context context) {
+    public static Intent getIntent(Context context) {
         return new Intent(context, NoticeCenterActivity.class);
     }
 
