@@ -103,7 +103,9 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
         mFragmentCouponList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ShopDetailCouponListResponse.ListBean bean = (ShopDetailCouponListResponse.ListBean) adapter.getItem(position);
-            mPresenter.requestCouponInfo(bean.id);
+            if(bean!=null){
+                mPresenter.requestCouponInfo(bean.id);
+            }
         });
     }
 

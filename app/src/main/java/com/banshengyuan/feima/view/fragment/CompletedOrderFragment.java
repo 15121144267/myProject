@@ -116,6 +116,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        initStatus();
         initialize();
     }
 
@@ -124,6 +125,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_complete_order, container, false);
         unbind = ButterKnife.bind(this, view);
+
         initView();
         return view;
     }

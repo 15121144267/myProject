@@ -1,5 +1,6 @@
 package com.banshengyuan.feima.view.model;
 
+import com.banshengyuan.feima.entity.CouponInfoRequest;
 import com.banshengyuan.feima.network.networkapi.ShopProductDetailApi;
 import com.google.gson.Gson;
 
@@ -37,6 +38,10 @@ public class ShopProductDetailModel {
         return mApi.storeCouponListRequest(shopId,true).map(mTransform::transformCommon);
     }
     public Observable<ResponseData> couponInfoRequest(Integer couponId) {
-        return mApi.couponInfoRequest(couponId,true).map(mTransform::transformCommon);
+        CouponInfoRequest request = new CouponInfoRequest();
+        request.flag = true;
+        request.id = couponId+"";
+        request.token = "MSwxNTEwMjEzNjYyLDRkMDdlNTVjZTdjYjc1Y2EwMjBkZjJjNmIxNTZhNWQ3NTllODIxNWU=";
+        return mApi.couponInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }

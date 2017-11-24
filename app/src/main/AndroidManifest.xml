@@ -28,7 +28,6 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    package="com.banshengyuan.feima">
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -228,6 +227,7 @@
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/YellowAppTheme"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
 import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
 import com.banshengyuan.feima.entity.StoreDetailResponse;
 import com.banshengyuan.feima.help.GlideLoader;
+import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -67,6 +69,10 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
     ImageView mShopDetailCollection;
     @BindView(R.id.shop_detail_address)
     TextView mShopDetailAddress;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
 
     public static Intent getActivityDetailIntent(Context context, Integer shopId) {
         Intent intent = new Intent(context, ShopProductDetailActivity.class);
@@ -101,6 +107,7 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
                 mShopDetailDetailBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
             }
             mShopDetailName.setText(mInfoBean.name);
+            mMiddleName.setText(mInfoBean.name);
             mShopDetailAddress.setText(mInfoBean.address);
             ((SummaryFragment) getSupportFragmentManager().getFragments().get(2)).setSummaryText(mInfoBean.summary);
         } else {
@@ -139,7 +146,21 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
                 showToast("该设备无打电话功能");
             }
         });
-
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mMiddleName.setVisibility(View.GONE);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mMiddleName.setVisibility(View.VISIBLE);
+                } else {
+                    //中间状态
+                    mMiddleName.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public Integer getShopId() {
