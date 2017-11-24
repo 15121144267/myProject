@@ -184,10 +184,10 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
             e.printStackTrace();
         }
         Drawable[] productDrawable = {
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_brand),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_activity),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_shop),
-                ContextCompat.getDrawable(getActivity(), R.mipmap.product_part),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.my_shopping_card),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.my_order),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.my_coupon),
+                ContextCompat.getDrawable(getActivity(), R.mipmap.my_collection),
         };
         for (int i = 0; i < productNames.length; i++) {
             MainProducts product = new MainProducts();
