@@ -77,7 +77,7 @@
 
     <style name="LineH_Fill_Width_50_ForView">
         <item name="android:layout_width">70dp</item>
-        <item name="android:layout_height">2dip</item>
+        <item name="android:layout_height">1dip</item>
         <item name="android:background">@color/white</item>
     </style>
 

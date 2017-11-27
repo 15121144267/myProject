@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -23,9 +25,15 @@ public class UnderLineFairModel {
     }
 
 
-    /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> blockDetailRequest(Integer blockId) {
+        return mApi.blockDetailRequest(blockId,true).map(mTransform::transformCommon);
+    }
 
+    public Observable<ResponseData> blockFairListRequest(Integer blockId) {
+        return mApi.blockFairListRequest(blockId+"",1,10,true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> storeListRequest(Integer blockId ) {
+        return mApi.storeListRequest(blockId,1,10,true).map(mTransform::transformCommon);
+    }
 }

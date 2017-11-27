@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +22,7 @@ import com.banshengyuan.feima.dagger.component.DaggerFairDetailActivityComponent
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.entity.FairListResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
+import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -40,6 +46,8 @@ import butterknife.ButterKnife;
 
 public class FairDetailActivity extends BaseActivity implements FairDetailControl.FairDetailView {
 
+
+
     public static Intent getIntent(Context context, Integer flag, RecommendBrandResponse.ListBean listBean) {
         Intent intent = new Intent(context, FairDetailActivity.class);
         intent.putExtra("layout_flag", flag);
@@ -53,7 +61,10 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         intent.putExtra("categoryBean", bean);
         return intent;
     }
-
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
     @BindView(R.id.fair_detail_name)
     TextView mFairDetailName;
     @BindView(R.id.fair_detail_summary)
@@ -119,6 +130,9 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
 
     private void initView() {
         Integer layoutFlag = getIntent().getIntExtra("layout_flag", 0);
+        mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.white));
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.tab_text_normal));
+        mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
 
         String[] modules = {};
         List<String> list = new ArrayList<>();
@@ -126,6 +140,7 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         if (layoutFlag == 1) {
             mListBean = (RecommendBrandResponse.ListBean) getIntent().getSerializableExtra("brandBean");
             mFairId = mListBean.id;
+            mMiddleName.setText(mListBean.name);
             mFairDetailName.setText(mListBean.name);
             mFairDetailSummary.setText(mListBean.summary);
             list.add("最新");
@@ -139,7 +154,8 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         } else if (layoutFlag == 2) {
             mCategoryBean = (FairListResponse.CategoryBean) getIntent().getSerializableExtra("categoryBean");
             mFairId = mCategoryBean.id;
-            mFairDetailName.setText(mCategoryBean.name);
+            mMiddleName.setText(mListBean.name);
+            mFairDetailName.setText(mListBean.name);
             mFairDetailSummary.setText(mCategoryBean.summary);
             list.add("市集");
             list.add("产品");
@@ -156,6 +172,30 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         mFairDetailViewPager.setAdapter(adapter);
         mFairDetailTabLayout.setupWithViewPager(mFairDetailViewPager);
         ValueUtil.setIndicator(mFairDetailTabLayout, 40, 40);
+
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mMiddleName.setVisibility(View.GONE);
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                    mToolbarRightIcon.setVisibility(View.VISIBLE);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mMiddleName.setVisibility(View.VISIBLE);
+                    mMiddleName.setText(TextUtils.isEmpty(mListBean.name) ? "未知" : mListBean.name);
+                    mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
+                    mToolbarRightIcon.setVisibility(View.GONE);
+                } else {
+                    //中间状态
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                    mToolbarRightIcon.setVisibility(View.VISIBLE);
+                    mMiddleName.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public Integer getFairId() {

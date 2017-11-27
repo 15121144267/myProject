@@ -14,11 +14,13 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerUnderLineFairFragmentComponent;
 import com.banshengyuan.feima.dagger.module.UnderLineFairActivityModule;
 import com.banshengyuan.feima.dagger.module.UnderLineFairFragmentModule;
+import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
-import com.banshengyuan.feima.view.adapter.CollectionFairAdapter;
+import com.banshengyuan.feima.view.adapter.BlockFairListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,11 +49,14 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
     UnderLineFairControl.PresenterUnderLineFair mPresenter;
 
     private Unbinder unbinder;
-    private CollectionFairAdapter mAdapter;
+    private BlockFairListAdapter mAdapter;
+    private Integer mBlockId;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mBlockId = ((UnderLineFairActivity) getActivity()).getBlockId();
     }
 
     @Nullable
@@ -69,21 +74,53 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
         initData();
     }
 
+    @Override
+    public void getBlockFairListSuccess(BlockDetailFairListResponse response) {
+        List<BlockDetailFairListResponse.ListBean> listBean = response.list;
+        if (listBean != null && listBean.size() > 0) {
+            mAdapter.setNewData(listBean);
+        }else {
+            mFragmentBlockCommon.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getBlockFairListFail(String des) {
+        showToast(des);
+        mFragmentBlockCommon.setVisibility(View.GONE);
+    }
+
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CollectionFairAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new BlockFairListAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
     }
 
 
     private void initData() {
-        List<Integer> mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_first);
-        mList.add(R.mipmap.main_banner_second);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+        //请求街区下市集
+        mPresenter.requestBlockFairList(mBlockId);
     }
 
+    @Override
+    public void getBlockDetailSuccess(BlockDetailResponse response) {
+
+    }
+
+    @Override
+    public void getBlockDetailFail(String des) {
+
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreListFail() {
+
+    }
 
     @Override
     public void showLoading(String msg) {

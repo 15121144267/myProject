@@ -19,7 +19,7 @@ public class FairUnderLineResponse implements Serializable {
     public boolean has_next_page;
     public List<ListBean> list;
 
-    public static class ListBean {
+    public static class ListBean implements Serializable {
         /**
          * id : 1
          * name : 街区1
@@ -33,5 +33,6 @@ public class FairUnderLineResponse implements Serializable {
         public String summary;
         public String cover_img;
         public int create_time;
+        public boolean select_position;
     }
 }

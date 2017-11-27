@@ -60,7 +60,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     private MainHotFairAdapter mHotFairAdapter;
     private List<RecommendBrandResponse> mList;
     private List<FairUnderLineResponse> mList2;
-
+    private FairUnderLineResponse mFairUnderLineResponse;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,9 +96,15 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
 
     @Override
     public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
-        mList2 = new ArrayList<>();
-        mList2.add(fairUnderLineResponse);
-        mUnderLineAdapter.setNewData(mList2);
+        if(fairUnderLineResponse.list!=null&&fairUnderLineResponse.list.size()>0){
+            mFairUnderLineResponse = fairUnderLineResponse;
+            mList2 = new ArrayList<>();
+            mList2.add(fairUnderLineResponse);
+            mUnderLineAdapter.setNewData(mList2);
+        }else {
+            mFairBrandRecycleView.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -153,7 +159,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         mUnderLineAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity()));
+                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity(),mFairUnderLineResponse, 0));
                     break;
             }
         });

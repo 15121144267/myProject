@@ -14,6 +14,9 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerUnderLineFairFragmentComponent;
 import com.banshengyuan.feima.dagger.module.UnderLineFairActivityModule;
 import com.banshengyuan.feima.dagger.module.UnderLineFairFragmentModule;
+import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
@@ -42,11 +45,13 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
 
     private Unbinder unbind;
     private FairDetailNewAdapter mAdapter;
+    private Integer mBlcokId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mBlcokId = ((UnderLineFairActivity) getActivity()).getBlockId();
     }
 
     @Nullable
@@ -77,8 +82,38 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailNewAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new FairDetailNewAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void getBlockFairListSuccess(BlockDetailFairListResponse response) {
+
+    }
+
+    @Override
+    public void getBlockFairListFail(String des) {
+
+    }
+
+    @Override
+    public void getBlockDetailSuccess(BlockDetailResponse response) {
+
+    }
+
+    @Override
+    public void getBlockDetailFail(String des) {
+
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreListFail() {
+
     }
 
     @Override

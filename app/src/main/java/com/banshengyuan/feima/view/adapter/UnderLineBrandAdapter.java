@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.utils.ToastUtils;
+import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -35,7 +35,7 @@ public class UnderLineBrandAdapter extends BaseQuickAdapter<FairUnderLineRespons
         recyclerView.setAdapter(itemAdapter);
 
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
-                ToastUtils.showLongToast("线下市集详情")
+                mContext.startActivity(UnderLineFairActivity.getActivityDetailIntent(mContext,item, position))
         );
     }
 

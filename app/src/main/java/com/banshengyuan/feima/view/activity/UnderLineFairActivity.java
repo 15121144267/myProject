@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerUnderLineFairActivityComponent;
 import com.banshengyuan.feima.dagger.module.UnderLineFairActivityModule;
+import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailResponse;
+import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.adapter.ActivityUnderLineFairAdapter;
@@ -51,9 +59,15 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
     ViewPager mFairUnderLineViewPager;
     @BindView(R.id.fair_under_line_recyclerView)
     RecyclerView mFairUnderLineRecyclerView;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.fair_under_line_background)
+    ImageView mFairUnderLineBackground;
 
-    public static Intent getActivityDetailIntent(Context context) {
+    public static Intent getActivityDetailIntent(Context context, FairUnderLineResponse fairUnderLineResponse, Integer position) {
         Intent intent = new Intent(context, UnderLineFairActivity.class);
+        intent.putExtra("fairUnderLineResponse", fairUnderLineResponse);
+        intent.putExtra("position", position);
         return intent;
     }
 
@@ -62,6 +76,10 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
 
     private final String[] modules = {"市集", "商家", "产品"};
     private ActivityUnderLineFairAdapter mAdapter;
+    private FairUnderLineResponse mFairUnderLineResponse;
+    private Integer mPosition;
+    private FairUnderLineResponse.ListBean mListBean;
+    private Integer mBlockId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,22 +93,41 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
 
     }
 
+    @Override
+    public void getBlockDetailSuccess(BlockDetailResponse response) {
+        BlockDetailResponse.InfoBean infoBean = response.info;
+        if (infoBean != null) {
+            mImageLoaderHelper.displayImage(this, response.info.cover_img, mFairUnderLineBackground);
+            mCollapsingToolbarLayout.setTitle(TextUtils.isEmpty(infoBean.name) ? "街区详情" : infoBean.name);
+        }
+    }
+
+    @Override
+    public void getBlockDetailFail(String des) {
+        showToast(des);
+
+    }
+
     private void initData() {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        mAdapter.setNewData(list);
+        mAdapter.setNewData(mFairUnderLineResponse.list);
+        mFairUnderLineRecyclerView.getLayoutManager().smoothScrollToPosition(mFairUnderLineRecyclerView, null, mPosition);
+        //请求街区详情
+        mPresenter.requestBlockDetail(mListBean.id);
     }
 
     private void initView() {
-        mCollapsingToolbarLayout.setTitle("线下市集");
+        mFairUnderLineResponse = (FairUnderLineResponse) getIntent().getSerializableExtra("fairUnderLineResponse");
+        mPosition = getIntent().getIntExtra("position", 0);
+        //选中的街区
+        mListBean = mFairUnderLineResponse.list.get(mPosition);
+        mListBean.select_position = true;
+        mBlockId = mListBean.id;
         mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.white));
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.black));
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.tab_text_normal));
         mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
 
-        mFairUnderLineRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        mAdapter = new ActivityUnderLineFairAdapter(null,this);
+        mFairUnderLineRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mAdapter = new ActivityUnderLineFairAdapter(null, this, mImageLoaderHelper);
         mFairUnderLineRecyclerView.setAdapter(mAdapter);
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(UnderLineFairFragment.newInstance());
@@ -101,6 +138,56 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
         mFairUnderLineViewPager.setAdapter(adapter);
         mFairUnderLineTabLayout.setupWithViewPager(mFairUnderLineViewPager);
         ValueUtil.setIndicator(mFairUnderLineTabLayout, 40, 40);
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
+                } else {
+                    //中间状态
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                }
+            }
+        });
+
+        mAdapter.setOnItemClickListener((adapter1, view, position) -> {
+            mPosition = position;
+            mListBean = mFairUnderLineResponse.list.get(mPosition);
+            mBlockId = mListBean.id;
+            for (int i = 0; i < mFairUnderLineResponse.list.size(); i++) {
+                mFairUnderLineResponse.list.get(i).select_position = i == position;
+            }
+            initData();
+        });
+    }
+
+    public Integer getBlockId() {
+        return mBlockId;
+    }
+
+    @Override
+    public void getBlockFairListSuccess(BlockDetailFairListResponse response) {
+
+    }
+
+    @Override
+    public void getBlockFairListFail(String des) {
+
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+
+    }
+
+    @Override
+    public void getStoreListFail() {
+
     }
 
     @Override

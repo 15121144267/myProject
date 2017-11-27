@@ -12,6 +12,7 @@
 
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -30,10 +31,11 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/fair_under_line_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/dp_40"
-                    android:background="@mipmap/header"
+                    android:scaleType="centerCrop"
                     />
 
                 <RelativeLayout
