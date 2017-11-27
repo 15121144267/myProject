@@ -14,6 +14,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -32,6 +33,7 @@ import butterknife.Unbinder;
 /**
  * Created by helei on 2017/5/3.
  * SendingOrderFragment
+ * 待付款
  */
 
 public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl.WaitPayView, BaseQuickAdapter.RequestLoadMoreListener {
@@ -43,7 +45,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private List<MyOrdersResponse.ListBean.OrderItemBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
-    private final Integer mStatus = 3;
+    private final String mStatus = "1";//1待付款 2待收货 3待评价   全部传""
     private MyOrdersResponse.ListBean listBean = null;
 
     public static WaitPayOrderFragment newInstance() {
@@ -87,7 +89,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(mStatus,++mPagerNo, mPagerSize);
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
         }
     }
 
@@ -111,7 +113,8 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mStatus,mPagerNo, mPagerSize);
+        //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize,mStatus, true, Constant.TOKEN);
     }
 
     private void initView() {

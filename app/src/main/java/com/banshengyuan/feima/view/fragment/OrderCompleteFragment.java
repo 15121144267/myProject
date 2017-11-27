@@ -14,6 +14,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.OrderCompleteControl;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -32,6 +33,7 @@ import butterknife.Unbinder;
 /**
  * Created by helei on 2017/5/3.
  * SendingOrderFragment
+ * 待评价
  */
 
 public class OrderCompleteFragment extends BaseFragment implements OrderCompleteControl.OrderCompleteView, BaseQuickAdapter.RequestLoadMoreListener {
@@ -43,7 +45,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     private List<MyOrdersResponse.ListBean.OrderItemBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
-    private Integer mStatus = 5;
+    private final String mStatus = "3";//1待付款 2待收货 3待评价   全部传""
 
     public static OrderCompleteFragment newInstance() {
         return new OrderCompleteFragment();
@@ -87,7 +89,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(mStatus,++mPagerNo, mPagerSize);
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
         }
     }
 
@@ -111,7 +113,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mStatus,mPagerNo, mPagerSize);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
     }
 
     private void initView() {

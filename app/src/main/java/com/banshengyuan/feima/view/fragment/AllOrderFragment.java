@@ -48,6 +48,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
+    private final String mStatus = "";//1待付款 2待收货 3待评价   全部传""
 
     @Inject
     AllOrderControl.PresenterAllOrderView mPresenter;
@@ -87,8 +88,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, "", true, Constant.TOKEN);
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
         }
     }
 
@@ -115,7 +115,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     private void initData() {
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, "1", true, Constant.TOKEN);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
     }
 
     private void initView() {

@@ -30,8 +30,6 @@ import butterknife.OnClick;
  */
 
 public class OrderDetailActivity extends BaseActivity implements OrderDetailControl.OrderDetailView {
-
-
     @Inject
     OrderDetailControl.PresenterOrderDetail mPresenter;
     @BindView(R.id.middle_name)

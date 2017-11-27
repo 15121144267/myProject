@@ -43,6 +43,8 @@
                     android:text="04-26 14:33" />
             </LinearLayout>
 
+            <include layout="@layout/order_address_layout"/>
+
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <TextView

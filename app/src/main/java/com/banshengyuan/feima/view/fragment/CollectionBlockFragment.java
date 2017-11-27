@@ -15,9 +15,11 @@ import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.HotFairResponse;
+import com.banshengyuan.feima.entity.MyCollectionResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +32,10 @@ import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
- * SendingOrderFragment
+ * 我的收藏-街区
  */
 
-public class CollectionBlockFragment extends BaseFragment implements CollectionBlockControl.CollectionBlockView {
+public class CollectionBlockFragment extends BaseFragment implements CollectionBlockControl.CollectionBlockView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static CollectionBlockFragment newInstance() {
         return new CollectionBlockFragment();
@@ -44,6 +46,8 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
 
     private Unbinder unbind;
     private HotFairAdapter mAdapter;
+    private Integer mPagerSize = 10;
+    private Integer mPagerNo = 1;
 
     @Inject
     CollectionBlockControl.PresenterCollectionBlock mPresenter;
@@ -77,6 +81,8 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
             list2.add(response);
         }
         mAdapter.setNewData(list2);
+
+        mPresenter.requestCollectionBlockList(mPagerNo, mPagerSize);
     }
 
     private void initView() {
@@ -120,5 +126,15 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
                 .collectionFragmentModule(new CollectionFragmentModule(this, (MyCollectionActivity) getActivity()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public void getMyCollectionListSuccess(MyCollectionResponse response) {
+
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+
     }
 }

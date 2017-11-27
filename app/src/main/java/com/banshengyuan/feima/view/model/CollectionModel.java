@@ -1,9 +1,12 @@
 package com.banshengyuan.feima.view.model;
 
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.network.networkapi.CollectionApi;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * Created by helei on 2017/4/28.
@@ -23,9 +26,30 @@ public class CollectionModel {
     }
 
 
-    /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
+  /*  public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
         request.partnerId = BuildConfig.PARTNER_ID;
         return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }*/
+
+    public Observable<ResponseData> collectionFairRequest(Integer page, Integer pageSize) {
+        return mApi.collectionFairRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> collectionProduceRequest(Integer page, Integer pageSize) {
+        return mApi.collectionProductRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> collectionHotRequest(Integer page, Integer pageSize) {
+        return mApi.collectionHotRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> collectionShopRequest(Integer page, Integer pageSize) {
+        return mApi.collectionShopRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> collectionBlockRequest(Integer page, Integer pageSize) {
+        return mApi.collectionBlockRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    }
+
 
 }

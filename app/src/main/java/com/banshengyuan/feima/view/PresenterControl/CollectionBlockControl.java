@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.MyCollectionResponse;
+
 /**
  * Created by lei.he on 2017/6/28.
  * AddAddressControl
@@ -7,8 +9,10 @@ package com.banshengyuan.feima.view.PresenterControl;
 
 public class CollectionBlockControl {
     public interface CollectionBlockView extends LoadDataView {
+        void getMyCollectionListSuccess(MyCollectionResponse response);
     }
 
     public interface PresenterCollectionBlock extends Presenter<CollectionBlockView> {
+        void requestCollectionBlockList(int page,int pageSize);
     }
 }

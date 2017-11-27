@@ -10,10 +10,11 @@ import com.banshengyuan.feima.entity.MyOrdersResponse;
 public class OrderCompleteControl {
     public interface OrderCompleteView extends LoadDataView {
         void loadFail(Throwable throwable);
+
         void getMyOrderListSuccess(MyOrdersResponse response);
     }
 
     public interface PresenterOrderComplete extends Presenter<OrderCompleteView> {
-        void requestMyOrderList(Integer status,Integer pageNo,Integer pageSize);
+        void requestMyOrderList(Integer pageNo, Integer pageSize, String status, boolean flag, String token);
     }
 }

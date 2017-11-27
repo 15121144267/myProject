@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.model.MyOrderModel;
@@ -29,19 +30,19 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
     }
 
     @Override
-    public void requestMyOrderList(Integer status,Integer pageNo, Integer pageSize) {
-        Disposable disposable = mModel.orderStatusListRequest(status,pageNo, pageSize).compose(mView.applySchedulers())
+    public void requestMyOrderList(Integer pageNo, Integer pageSize, String status,boolean flag,String token) {
+        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize, status, flag, token).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
                         throwable -> mView.loadFail(throwable));
         mView.addSubscription(disposable);
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 100){
+        if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
             mView.getMyOrderListSuccess(response);
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }

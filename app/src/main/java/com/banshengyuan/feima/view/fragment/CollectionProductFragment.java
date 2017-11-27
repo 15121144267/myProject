@@ -14,9 +14,11 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
+import com.banshengyuan.feima.entity.MyCollectionResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionProductAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,10 @@ import butterknife.Unbinder;
 
 /**
  * Created by helei on 2017/5/3.
- * SendingOrderFragment
+ * 我的收藏-产品
  */
 
-public class CollectionProductFragment extends BaseFragment implements CollectionProductControl.CollectionProductView {
-
+public class CollectionProductFragment extends BaseFragment implements CollectionProductControl.CollectionProductView, BaseQuickAdapter.RequestLoadMoreListener {
     public static CollectionProductFragment newInstance() {
         return new CollectionProductFragment();
     }
@@ -44,6 +45,8 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     private Unbinder unbind;
     private List<Integer> mList;
     private CollectionProductAdapter mAdapter;
+    private Integer mPagerSize = 10;
+    private Integer mPagerNo = 1;
     @Inject
     CollectionProductControl.PresenterCollectionProduct mPresenter;
 
@@ -74,6 +77,8 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
         mList.add(R.mipmap.main_banner_third);
         mList.add(R.mipmap.main_banner_third);
         mAdapter.setNewData(mList);
+
+        mPresenter.requestCollectionProductList(mPagerNo, mPagerSize);
     }
 
     private void initView() {
@@ -117,5 +122,15 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
                 .collectionFragmentModule(new CollectionFragmentModule(this, (MyCollectionActivity) getActivity()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public void getMyCollectionListSuccess(MyCollectionResponse response) {
+
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+
     }
 }

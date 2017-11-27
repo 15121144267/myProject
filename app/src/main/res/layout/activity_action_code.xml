@@ -43,11 +43,11 @@
                 android:id="@+id/action_code_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_40"
                 android:gravity="center_horizontal"
                 android:text="玩转文艺!"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_28" />
+                android:textSize="@dimen/sp_26" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -56,9 +56,7 @@
                 android:gravity="center_horizontal"
                 android:text="合肥半生缘街区市集嘉年华趣乐开启"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/sp_20"
-                android:visibility="gone" />
-
+                android:textSize="@dimen/sp_20" />
 
             <TextView
                 android:id="@+id/action_code_number"
@@ -66,12 +64,12 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_20"
-                android:layout_marginTop="250dp"
+                android:layout_marginTop="240dp"
                 android:background="@drawable/button_style_blue6_rightangle"
                 android:gravity="center"
                 android:text="券码：1234567890"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_22" />
+                android:textSize="@dimen/sp_20" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,13 +79,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/textview_sp18"
-                    android:text="时间：" />
+                    style="@style/textview"
+                    android:text="时间："
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/action_code_date"
-                    style="@style/textview_sp18"
-                    android:text="2017-11-23" />
+                    style="@style/textview"
+                    android:text="2017-11-23"
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,13 +98,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/textview_sp18"
-                    android:text="地点：" />
+                    style="@style/textview"
+                    android:text="地点："
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/action_code_place"
-                    style="@style/textview_sp18"
-                    android:text="半生缘潮流街区" />
+                    style="@style/textview"
+                    android:text="半生缘潮流街区"
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
 
 
@@ -123,13 +125,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/textview_sp18"
-                    android:text="报名手机号：" />
+                    style="@style/textview"
+                    android:text="报名手机号："
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/action_code_phone"
-                    style="@style/textview_sp18"
-                    android:text="13262253731" />
+                    style="@style/textview"
+                    android:text="13262253731"
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
         </LinearLayout>
 

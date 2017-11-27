@@ -14,9 +14,11 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
+import com.banshengyuan.feima.entity.MyCollectionResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionFairControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionFairAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +32,10 @@ import butterknife.Unbinder;
 /**
  * Created by helei on 2017/5/3.
  * SendingOrderFragment
+ * 我的收藏--市集
  */
 
-public class CollectionFairFragment extends BaseFragment implements CollectionFairControl.CollectionFairView {
+public class CollectionFairFragment extends BaseFragment implements CollectionFairControl.CollectionFairView, BaseQuickAdapter.RequestLoadMoreListener  {
 
     public static CollectionFairFragment newInstance() {
         return new CollectionFairFragment();
@@ -44,6 +47,8 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     private Unbinder unbind;
     private List<Integer> mList;
     private CollectionFairAdapter mAdapter;
+    private Integer mPagerSize = 10;
+    private Integer mPagerNo = 1;
     @Inject
     CollectionFairControl.PresenterCollectionFair mPresenter;
 
@@ -74,6 +79,8 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
         mList.add(R.mipmap.main_banner_third);
         mList.add(R.mipmap.main_banner_third);
         mAdapter.setNewData(mList);
+
+        mPresenter.requestCollectionFairList(mPagerNo,mPagerSize);
     }
 
     private void initView() {
@@ -117,5 +124,20 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
                 .collectionFragmentModule(new CollectionFragmentModule(this, (MyCollectionActivity) getActivity()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public void getMyCollectionListSuccess(MyCollectionResponse response) {
+        //
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
     }
 }
