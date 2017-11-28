@@ -96,11 +96,11 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
 
     private void initView() {
         mMagicFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity());
+        mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity(),mImageLoaderHelper);
         mMagicFairRecycleView.setAdapter(mMagicMusicAdapter);
 
         mMagicHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMusicHotAdapter = new MagicMusicHotAdapter(null, getActivity());
+        mMusicHotAdapter = new MagicMusicHotAdapter(null, getActivity(),mImageLoaderHelper);
         mMagicHotRecycleView.setAdapter(mMusicHotAdapter);
     }
 

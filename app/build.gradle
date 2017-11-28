@@ -131,7 +131,6 @@ dependencies {
     compile rootProject.ext.myDependencies["myPartOnePhoto"]
     compile rootProject.ext.myDependencies["myPartTwoPhoto"]
     compile rootProject.ext.myDependencies["myPartThreePhoto"]
-    compile 'jp.wasabeef:glide-transformations:2.0.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile project(path: ':mylibrary')
     compile files('libs/alipaySdk-20170710.jar')

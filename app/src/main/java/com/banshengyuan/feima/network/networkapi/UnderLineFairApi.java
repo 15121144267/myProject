@@ -19,4 +19,7 @@ public interface UnderLineFairApi {
 
     @GET("api/store")
     Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @GET("api/goods")
+    Observable<String> productListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
 }

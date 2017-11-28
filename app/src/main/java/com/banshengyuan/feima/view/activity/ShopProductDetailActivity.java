@@ -152,9 +152,13 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
                 if (state == State.EXPANDED) {
                     //展开状态
                     mMiddleName.setVisibility(View.GONE);
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                    mToolbarRightIcon.setImageResource(R.mipmap.share_white);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
                     mMiddleName.setVisibility(View.VISIBLE);
+                    mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
+                    mToolbarRightIcon.setImageResource(R.mipmap.common_share);
                 } else {
                     //中间状态
                     mMiddleName.setVisibility(View.GONE);

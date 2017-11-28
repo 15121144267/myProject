@@ -9,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +22,10 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerUnderLineFairActivityComponent;
 import com.banshengyuan.feima.dagger.module.UnderLineFairActivityModule;
 import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
@@ -163,6 +166,9 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
                 mFairUnderLineResponse.list.get(i).select_position = i == position;
             }
             initData();
+            Intent intent = new Intent(BroConstant.BLOCKDETAIL_UPDATE);
+            intent.putExtra("blockId",mBlockId);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         });
     }
 
@@ -187,6 +193,16 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
 
     @Override
     public void getStoreListFail() {
+
+    }
+
+    @Override
+    public void getProductListSuccess(BlockDetailProductListResponse response) {
+
+    }
+
+    @Override
+    public void getProductListFail(String des) {
 
     }
 

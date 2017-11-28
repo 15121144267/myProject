@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +17,10 @@ import com.banshengyuan.feima.dagger.component.DaggerUnderLineFairFragmentCompon
 import com.banshengyuan.feima.dagger.module.UnderLineFairActivityModule;
 import com.banshengyuan.feima.dagger.module.UnderLineFairFragmentModule;
 import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockFairListAdapter;
@@ -79,7 +83,7 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
         List<BlockDetailFairListResponse.ListBean> listBean = response.list;
         if (listBean != null && listBean.size() > 0) {
             mAdapter.setNewData(listBean);
-        }else {
+        } else {
             mFragmentBlockCommon.setVisibility(View.GONE);
         }
     }
@@ -88,6 +92,21 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
     public void getBlockFairListFail(String des) {
         showToast(des);
         mFragmentBlockCommon.setVisibility(View.GONE);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.BLOCKDETAIL_UPDATE);
+    }
+
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        super.onReceivePro(context, intent);
+        if (intent.getAction().equals(BroConstant.BLOCKDETAIL_UPDATE)) {
+            mBlockId = intent.getIntExtra("blockId", 0);
+            initData();
+        }
     }
 
     private void initView() {
@@ -119,6 +138,16 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
 
     @Override
     public void getStoreListFail() {
+
+    }
+
+    @Override
+    public void getProductListSuccess(BlockDetailProductListResponse response) {
+
+    }
+
+    @Override
+    public void getProductListFail(String des) {
 
     }
 

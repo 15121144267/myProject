@@ -19,7 +19,7 @@ public class BlockDetailShopAdapter extends BaseQuickAdapter<BlockStoreListRespo
     private final ImageLoaderHelper mImageLoaderHelper;
 
     public BlockDetailShopAdapter(List<BlockStoreListResponse> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.adapter_fair, mList);
+        super(R.layout.adapter_block_detail, mList);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
 

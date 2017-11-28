@@ -78,6 +78,7 @@
             />
 
         <TextView
+            android:id="@+id/recommend_discover_text"
             style="@style/TextColor_Black_18"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

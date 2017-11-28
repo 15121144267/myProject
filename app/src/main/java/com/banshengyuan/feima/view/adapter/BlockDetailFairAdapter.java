@@ -18,7 +18,7 @@ public class BlockDetailFairAdapter extends BaseQuickAdapter<BlockFairListRespon
     private final Context mContext;
     private final ImageLoaderHelper mImageLoaderHelper;
     public BlockDetailFairAdapter(List<BlockFairListResponse> mList, Context context,ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.adapter_fair, mList);
+        super(R.layout.adapter_block_detail, mList);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
     }

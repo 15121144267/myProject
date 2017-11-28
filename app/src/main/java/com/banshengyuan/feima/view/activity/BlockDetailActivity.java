@@ -28,10 +28,12 @@ import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
 import com.banshengyuan.feima.view.adapter.BlockDetailFairAdapter;
 import com.banshengyuan.feima.view.adapter.BlockDetailShopAdapter;
 import com.banshengyuan.feima.view.adapter.CommonItemAdapter;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -67,6 +69,8 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     AppBarLayout mAppBarLayout;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
+    @BindView(R.id.block_detail_collection)
+    ImageView mBlockDetailCollection;
 
 
     public static Intent getIntent(Context context, Integer id) {
@@ -82,6 +86,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     private BlockDetailShopAdapter mBlockDetailShopAdapter;
     private Integer mBlockId;
     private BlockDetailResponse.InfoBean mInfoBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +125,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     }
 
     private void initView() {
+
         mBlockId = getIntent().getIntExtra("blockId", 0);
         mBlockDetailHot.setLayoutManager(new LinearLayoutManager(this));
         mBlockDetailFair.setLayoutManager(new LinearLayoutManager(this));
@@ -134,25 +140,25 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mCommonItemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(BlockActivity.getIntent(this, 0,mBlockId));
+                    startActivity(BlockActivity.getIntent(this, 0, mBlockId));
                     break;
             }
         });
         mBlockDetailFairAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(BlockActivity.getIntent(this, 1,mBlockId));
+                    startActivity(BlockActivity.getIntent(this, 1, mBlockId));
                     break;
             }
         });
         mBlockDetailShopAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(BlockActivity.getIntent(this, 2,mBlockId));
+                    startActivity(BlockActivity.getIntent(this, 2, mBlockId));
                     break;
             }
         });
-
+        RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o ->requestCollectionStatue());
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mBlockDetailBanner.isAutoPlay(false);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -161,8 +167,12 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
                 if (state == State.EXPANDED) {
                     //展开状态
                     mMiddleName.setVisibility(View.GONE);
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                    mToolbarRightIcon.setImageResource(R.mipmap.share_white);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
+                    mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
+                    mToolbarRightIcon.setImageResource(R.mipmap.common_share);
                     mMiddleName.setVisibility(View.VISIBLE);
                     mMiddleName.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
                 } else {
@@ -171,6 +181,10 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
                 }
             }
         });
+    }
+
+    private void requestCollectionStatue() {
+
     }
 
     @Override

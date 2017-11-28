@@ -55,6 +55,8 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     TextView mRecommendBlockDetailName;
     @BindView(R.id.recommend_block_detail_top_icon)
     ImageView mRecommendBlockDetailTopIcon;
+    @BindView(R.id.recommend_discover_text)
+    TextView mRecommendDiscoverText;
 
     public static RecommendFragment newInstance() {
         return new RecommendFragment();
@@ -68,6 +70,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private RecommendDiscoverBrandAdapter mDiscoverBrandAdapter;
     private List<RecommendBrandResponse> mList;
     private RecommendTopResponse.InfoBean mInfoBean;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,9 +109,14 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
 
     @Override
     public void getRecommendBrandSuccess(RecommendBrandResponse recommendBrandResponse) {
-        mList = new ArrayList<>();
-        mList.add(recommendBrandResponse);
-        mAdapter.setNewData(mList);
+        if (recommendBrandResponse.list != null && recommendBrandResponse.list.size() > 0) {
+            mList = new ArrayList<>();
+            mList.add(recommendBrandResponse);
+            mAdapter.setNewData(mList);
+        } else {
+            mRecommendBrandRecycleView.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -121,11 +129,15 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         List<RecommendBottomResponse.ListBean> listBeen = recommendBottomResponse.list;
         if (listBeen != null && listBeen.size() > 0) {
             mDiscoverBrandAdapter.setNewData(listBeen);
+        } else {
+            mRecommendDiscoverText.setVisibility(View.GONE);
+            mRecommendDiscoverRecycleView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void getRecommendBottomFail() {
+        mRecommendDiscoverText.setVisibility(View.GONE);
         mRecommendDiscoverRecycleView.setVisibility(View.GONE);
     }
 
@@ -146,7 +158,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private void initView() {
 
         RxView.clicks(mRecommendBlockDetailTopIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> startActivity(BlockDetailActivity.getIntent(getActivity(),mInfoBean.id)));
+                o -> startActivity(BlockDetailActivity.getIntent(getActivity(), mInfoBean.id)));
 
         mRecommendBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecommendDiscoverRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));

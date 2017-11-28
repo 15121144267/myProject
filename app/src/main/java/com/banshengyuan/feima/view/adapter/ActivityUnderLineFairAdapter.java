@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
@@ -28,11 +27,6 @@ public class ActivityUnderLineFairAdapter extends BaseQuickAdapter<FairUnderLine
         helper.setText(R.id.adapter_under_block_name, item.name);
         ImageView imageView = helper.getView(R.id.adapter_under_block_pic);
         mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
-        if (item.select_position) {
-            helper.setBackgroundColor(R.id.adapter_under_block_background, ContextCompat.getColor(mContext, R.color.red));
-        }else {
-            helper.setBackgroundColor(R.id.adapter_under_block_background, ContextCompat.getColor(mContext, R.color.transparent));
-        }
 
     }
 

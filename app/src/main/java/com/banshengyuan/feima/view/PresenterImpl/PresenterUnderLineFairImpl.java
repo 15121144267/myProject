@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
@@ -29,6 +30,25 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
         mContext = context;
         mView = view;
         mModel = model;
+    }
+
+    @Override
+    public void requestBlockProductList(Integer blockId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.productListRequest(blockId).compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getProductListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(BlockDetailProductListResponse.class);
+            BlockDetailProductListResponse response = (BlockDetailProductListResponse) responseData.parsedData;
+            mView.getProductListSuccess(response);
+        } else {
+            mView.getProductListFail(responseData.errorDesc);
+        }
     }
 
     @Override

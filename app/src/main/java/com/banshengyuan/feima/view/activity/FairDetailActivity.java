@@ -47,7 +47,6 @@ import butterknife.ButterKnife;
 public class FairDetailActivity extends BaseActivity implements FairDetailControl.FairDetailView {
 
 
-
     public static Intent getIntent(Context context, Integer flag, RecommendBrandResponse.ListBean listBean) {
         Intent intent = new Intent(context, FairDetailActivity.class);
         intent.putExtra("layout_flag", flag);
@@ -61,9 +60,10 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         intent.putExtra("categoryBean", bean);
         return intent;
     }
+
     @BindView(R.id.appBarLayout)
     AppBarLayout mAppBarLayout;
-    @BindView(R.id.middle_name)
+    @BindView(R.id.fair_detail_middle_name)
     TextView mMiddleName;
     @BindView(R.id.fair_detail_name)
     TextView mFairDetailName;
@@ -141,7 +141,7 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mListBean = (RecommendBrandResponse.ListBean) getIntent().getSerializableExtra("brandBean");
             mFairId = mListBean.id;
             mMiddleName.setText(mListBean.name);
-            mFairDetailName.setText(mListBean.name);
+            mFairDetailName.setText(TextUtils.isEmpty(mListBean.name) ? "未知" : mListBean.name);
             mFairDetailSummary.setText(mListBean.summary);
             list.add("最新");
             list.add("商家");
@@ -154,8 +154,8 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         } else if (layoutFlag == 2) {
             mCategoryBean = (FairListResponse.CategoryBean) getIntent().getSerializableExtra("categoryBean");
             mFairId = mCategoryBean.id;
-            mMiddleName.setText(mListBean.name);
-            mFairDetailName.setText(mListBean.name);
+            mMiddleName.setText(mCategoryBean.name);
+            mFairDetailName.setText(TextUtils.isEmpty(mCategoryBean.name) ? "未知" : mCategoryBean.name);
             mFairDetailSummary.setText(mCategoryBean.summary);
             list.add("市集");
             list.add("产品");
@@ -181,17 +181,14 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
                     //展开状态
                     mMiddleName.setVisibility(View.GONE);
                     mToolbar.setNavigationIcon(R.mipmap.arrow_left);
-                    mToolbarRightIcon.setVisibility(View.VISIBLE);
+                    mToolbarRightIcon.setImageResource(R.mipmap.share_white);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
                     mMiddleName.setVisibility(View.VISIBLE);
-                    mMiddleName.setText(TextUtils.isEmpty(mListBean.name) ? "未知" : mListBean.name);
                     mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
-                    mToolbarRightIcon.setVisibility(View.GONE);
+                    mToolbarRightIcon.setImageResource(R.mipmap.common_share);
                 } else {
                     //中间状态
-                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
-                    mToolbarRightIcon.setVisibility(View.VISIBLE);
                     mMiddleName.setVisibility(View.GONE);
                 }
             }

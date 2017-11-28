@@ -16,7 +16,6 @@ import com.banshengyuan.feima.dagger.component.DaggerDiscoverFragmentComponent;
 import com.banshengyuan.feima.dagger.module.DiscoverFragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.FairListResponse;
-import com.banshengyuan.feima.entity.ProductResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.FairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
@@ -84,9 +83,14 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
 
     @Override
     public void getFairBrandSuccess(RecommendBrandResponse response) {
-        mList = new ArrayList<>();
-        mList.add(response);
-        mAdapter.setNewData(mList);
+        if(response.list!=null&&response.list.size()>0){
+            mList = new ArrayList<>();
+            mList.add(response);
+            mAdapter.setNewData(mList);
+        }else {
+            mSendFragmentFair.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

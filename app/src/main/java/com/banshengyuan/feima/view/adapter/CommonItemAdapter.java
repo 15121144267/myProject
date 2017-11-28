@@ -19,7 +19,7 @@ public class CommonItemAdapter extends BaseQuickAdapter<BlockHotListResponse, Ba
     private final ImageLoaderHelper mImageLoaderHelper;
 
     public CommonItemAdapter(List<BlockHotListResponse> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.adapter_fair, mList);
+        super(R.layout.adapter_block_detail, mList);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
     }

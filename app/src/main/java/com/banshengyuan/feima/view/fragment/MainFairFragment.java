@@ -84,9 +84,14 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
 
     @Override
     public void getRecommendBrandSuccess(RecommendBrandResponse recommendBrandResponse) {
-        mList = new ArrayList<>();
-        mList.add(recommendBrandResponse);
-        mAdapter.setNewData(mList);
+        if(recommendBrandResponse.list!=null&&recommendBrandResponse.list.size()>0){
+            mList = new ArrayList<>();
+            mList.add(recommendBrandResponse);
+            mAdapter.setNewData(mList);
+        }else {
+            mFairBrandRecycleView.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

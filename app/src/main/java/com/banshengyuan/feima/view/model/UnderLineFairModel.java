@@ -36,4 +36,8 @@ public class UnderLineFairModel {
     public Observable<ResponseData> storeListRequest(Integer blockId ) {
         return mApi.storeListRequest(blockId,1,10,true).map(mTransform::transformCommon);
     }
+
+    public Observable<ResponseData> productListRequest(Integer blockId ) {
+        return mApi.productListRequest(blockId,1,10,true).map(mTransform::transformCommon);
+    }
 }

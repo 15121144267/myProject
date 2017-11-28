@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,11 +17,15 @@ import com.banshengyuan.feima.dagger.component.DaggerUnderLineFairFragmentCompon
 import com.banshengyuan.feima.dagger.module.UnderLineFairActivityModule;
 import com.banshengyuan.feima.dagger.module.UnderLineFairFragmentModule;
 import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
+import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
-import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
+import com.banshengyuan.feima.view.adapter.BlockDetailProductAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,14 +50,14 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
     UnderLineFairControl.PresenterUnderLineFair mPresenter;
 
     private Unbinder unbind;
-    private FairDetailNewAdapter mAdapter;
-    private Integer mBlcokId;
+    private BlockDetailProductAdapter mAdapter;
+    private Integer mBlockId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        mBlcokId = ((UnderLineFairActivity) getActivity()).getBlockId();
+        mBlockId = ((UnderLineFairActivity) getActivity()).getBlockId();
     }
 
     @Nullable
@@ -69,20 +75,44 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
         initData();
     }
 
+    @Override
+    public void getProductListSuccess(BlockDetailProductListResponse response) {
+        List<BlockDetailProductListResponse.ListBean> listBeen = response.list;
+        if (listBeen != null && listBeen.size() > 0) {
+            mAdapter.setNewData(listBeen);
+        } else {
+            mFragmentTrendsListLast.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getProductListFail(String des) {
+        showToast(des);
+        mFragmentTrendsListLast.setVisibility(View.GONE);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.BLOCKDETAIL_UPDATE);
+    }
+
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        super.onReceivePro(context, intent);
+        if (intent.getAction().equals(BroConstant.BLOCKDETAIL_UPDATE)) {
+            mBlockId = intent.getIntExtra("blockId", 0);
+            initData();
+        }
+    }
+
     private void initData() {
-       /* List<Integer> list = new ArrayList<>();
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        list.add(R.mipmap.header);
-        mAdapter.setNewData(list);*/
+        mPresenter.requestBlockProductList(mBlockId);
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailNewAdapter(null, getActivity(), mImageLoaderHelper);
+        mAdapter = new BlockDetailProductAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
     }
 

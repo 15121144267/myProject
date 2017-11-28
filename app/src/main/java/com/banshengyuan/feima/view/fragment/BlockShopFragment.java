@@ -62,7 +62,7 @@ public class BlockShopFragment extends BaseFragment implements BlockControl.Bloc
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_block, container, false);
+        View view = inflater.inflate(R.layout.fragment_under_line_shop, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
         return view;
