@@ -27,11 +27,8 @@ public class SearchModel {
         mTransform = transform;
     }
 
-    public Observable<ResponseData> requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
-        return mApi.requestProductList(searchName, partnerId, sortName, sortNO, pagerSize, pagerNo).map(mTransform::transformTypeTwo);
-    }
 
-    public Observable<ResponseData> requestShopList(String partnerId ,String searchName) {
-        return mSearchOtherApi.requestShopList(partnerId, searchName).map(mTransform::transformTypeThree);
+    public Observable<ResponseData> requestSearchList(String searchName, String searchType) {
+        return mApi.requestSearchList(searchName, searchType, true).map(mTransform::transformCommon);
     }
 }

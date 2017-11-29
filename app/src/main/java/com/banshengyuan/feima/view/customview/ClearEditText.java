@@ -66,13 +66,7 @@ public class ClearEditText extends LinearLayout {
             mBtnClear.setVisibility(View.GONE);
         }
         mBtnClear.setOnClickListener(arg0 -> {
-            if (!TextUtils.isEmpty(editText.getText())) {
-                editText.setText("");
-            }
-            if (!isAlwaysShowDeleteBtn) {
-                mBtnClear.setVisibility(View.GONE);
-            }
-            editText.requestFocus();
+            clearContent();
         });
 
         editText.setOnFocusChangeListener((v, hasFocus) -> {
@@ -262,6 +256,16 @@ public class ClearEditText extends LinearLayout {
     }
 
     public void requestFouce() {
+        editText.requestFocus();
+    }
+
+    public void clearContent() {
+        if (!TextUtils.isEmpty(editText.getText())) {
+            editText.setText("");
+        }
+        if (!isAlwaysShowDeleteBtn) {
+            mBtnClear.setVisibility(View.GONE);
+        }
         editText.requestFocus();
     }
 

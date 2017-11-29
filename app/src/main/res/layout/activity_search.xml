@@ -29,7 +29,6 @@
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:background="@color/line_grey_bg2"
                 />
 
             <TextView
@@ -40,7 +39,7 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:text="取消"
-                android:textColor="@color/black"
+                android:textColor="@color/tab_text_normal"
                 />
         </LinearLayout>
 

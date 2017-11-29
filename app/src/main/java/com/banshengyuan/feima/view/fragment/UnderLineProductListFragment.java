@@ -22,6 +22,7 @@ import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
+import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockDetailProductAdapter;
 
@@ -114,6 +115,12 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mAdapter = new BlockDetailProductAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockDetailProductListResponse.ListBean listBean = (BlockDetailProductListResponse.ListBean) adapter.getItem(position);
+            if (listBean != null) {
+               startActivity( GoodDetailActivity.getIntent(getActivity(), listBean.id));
+            }
+        });
     }
 
     @Override

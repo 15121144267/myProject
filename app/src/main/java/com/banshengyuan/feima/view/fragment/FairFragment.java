@@ -127,6 +127,9 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         mFairProductAdapter = new FairProductAdapter(null, getActivity(),mImageLoaderHelper);
         mSendFragmentFair.setAdapter(mAdapter);
         mSendFragmentProduct.setAdapter(mFairProductAdapter);
+        mSendFragmentFair.setNestedScrollingEnabled(false);
+        mSendFragmentProduct.setNestedScrollingEnabled(false);
+
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
@@ -144,14 +147,6 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         });
 
 
-    }
-
-    public void showSearchLayout(boolean flag) {
-        if (!flag) {
-            mSearchLayout.setVisibility(View.VISIBLE);
-        } else {
-            mSearchLayout.setVisibility(View.GONE);
-        }
     }
 
     @Override

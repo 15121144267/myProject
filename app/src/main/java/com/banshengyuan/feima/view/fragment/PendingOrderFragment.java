@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -23,6 +24,7 @@ import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.PendingOrderControl;
 import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.banshengyuan.feima.view.customview.MyNoScrollViewPager;
@@ -58,6 +60,8 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     ClearEditText mSearchEdit;
     @BindView(R.id.search_layout)
     LinearLayout mSearchLayout;
+    @BindView(R.id.search_cancel)
+    TextView mSearchCancel;
 
     public static PendingOrderFragment newInstance() {
         return new PendingOrderFragment();
@@ -89,21 +93,10 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @Override
     public void onMyEditorAction() {
         String searchName = mSearchEdit.getEditText().trim();
-        String searchType = "";
         if (TextUtils.isEmpty(searchName)) {
             showToast("搜索栏不能为空");
         } else {
-            switch (mMainTabLayout.getSelectedTabPosition()) {
-                case 0:
-                    searchType = "";
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
+            startActivity(SearchActivity.getIntent(getActivity(),searchName));
         }
     }
 
@@ -125,6 +118,10 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         mMainTabLayout.setupWithViewPager(mMainViewPager);
         ValueUtil.setIndicator(mMainTabLayout, 10, 10);
         RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
+        RxView.clicks(mSearchCancel).subscribe(o -> {
+            mSearchEdit.clearContent();
+            mSearchLayout.setVisibility(View.GONE);
+        });
         RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
         mSearchEdit.setOnMyEditorActionListener(this, false);

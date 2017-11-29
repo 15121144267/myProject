@@ -40,6 +40,7 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
     public void requestPic() {
         Disposable disposable = mModel.requestPic()
                 .compose(mView.applySchedulers())
+                .retryWhen(new RetryWithDelay(5, 3000))
                 .subscribe(this::getPicSuccess
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);

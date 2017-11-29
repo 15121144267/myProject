@@ -14,15 +14,13 @@ public class CollectionShopAdapter extends BaseQuickAdapter<Integer, BaseViewHol
     private final Context mContext;
 
     public CollectionShopAdapter(List<Integer> mList, Context context) {
-        super(R.layout.adapter_collection_product, mList);
+        super(R.layout.adapter_fair_detail_shop, mList);
         mContext = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, Integer item) {
         if (item == null) return;
-        helper.setVisible(R.id.adapter_price_layout,false);
-        helper.setMargin(R.id.adapter_content_text,10);
         ImageView imageView = helper.getView(R.id.adapter_collection_icon);
         imageView.setImageResource(item);
     }

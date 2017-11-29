@@ -143,7 +143,7 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
                 Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                 startActivity(intent);
             } catch (Exception e) {
-                showToast("该设备无打电话功能");
+                showToast("该设备暂无打电话功能");
             }
         });
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {

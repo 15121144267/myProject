@@ -20,8 +20,8 @@
             android:id="@+id/adapter_store_icon"
             android:layout_width="180dp"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@mipmap/header"/>
+            android:scaleType="centerCrop"
+            />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -43,7 +43,7 @@
                 android:textSize="@dimen/sp_18"/>
 
             <TextView
-                android:id="@+id/adapter_store_summary"
+                android:id="@+id/adapter_store_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

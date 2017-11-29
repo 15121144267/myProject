@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerSearchActivityComponent;
 import com.banshengyuan.feima.dagger.module.SearchActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -36,7 +39,7 @@ import butterknife.ButterKnife;
  * SearchActivity
  */
 
-public class SearchActivity extends BaseActivity implements SearchControl.SearchView, ClearEditText.setOnMyEditorActionListener{
+public class SearchActivity extends BaseActivity implements SearchControl.SearchView, ClearEditText.setOnMyEditorActionListener {
 
 
     @BindView(R.id.search_goods)
@@ -50,8 +53,9 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     @BindView(R.id.search_view_pager)
     ViewPager mSearchViewPager;
 
-    public static Intent getIntent(Context context) {
+    public static Intent getIntent(Context context, String searchName) {
         Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("searchName", searchName);
         return intent;
     }
 
@@ -59,6 +63,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     SearchControl.PresenterSearch mPresenter;
 
     private final String[] modules = {"市集", "产品", "商家", "街区"};
+    private String searchName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +77,10 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
 
     @Override
     public void onMyEditorAction() {
+        String searchName = mSearchGoods.getEditText().trim();
+        Intent intent = new Intent(BroConstant.SEARCH_UPDATE);
+        intent.putExtra("broSearchName",searchName);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     @Override
@@ -80,6 +89,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     }
 
     private void initView() {
+        searchName = getIntent().getStringExtra("searchName");
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(SearchFairFragment.newInstance());
         mFragments.add(SearchProductFragment.newInstance());
@@ -95,9 +105,54 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());
     }
 
+    public String getSearchName() {
+        return searchName;
+    }
+
     private void initData() {
 
     }
+
+    @Override
+    public void getSearchFairListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchStoreListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchStreetListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchProductListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchFairListFail(String des) {
+
+    }
+
+    @Override
+    public void getSearchStoreListFail(String des) {
+
+    }
+
+    @Override
+    public void getSearchStreetListFail(String des) {
+
+    }
+
+    @Override
+    public void getSearchProductListFail(String des) {
+
+    }
+
 
     @Override
     public void showLoading(String msg) {
@@ -124,63 +179,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         super.onDestroy();
         mPresenter.onDestroy();
     }
-
-   /* private void changeStatus(TabLayout.Tab tab) {
-        if (tab.getTag() == null) return;
-        if (tab.isSelected()) {
-            //改变状态
-            if ((Integer) tab.getTag() == 1) {
-                arrowUiUp();
-                tab.setTag(2);
-                sortGoodsByPrice(1);
-
-            } else {
-                arrowUiDown();
-                tab.setTag(1);
-                sortGoodsByPrice(2);
-            }
-        } else {
-            //不改变状态
-            if ((Integer) tab.getTag() == 1) {
-                arrowUiDown();
-                tab.setTag(1);
-                sortGoodsByPrice(2);
-            } else {
-                arrowUiUp();
-                sortGoodsByPrice(1);
-            }
-        }
-    }*/
-
-    /*private void arrowUiUp() {
-        mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_blue));
-        mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up_dark));
-    }
-
-    private void arrowUiDown() {
-        mTabItemPriceUp.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_up));
-        mTabItemPriceLow.setBackground(ContextCompat.getDrawable(getContext(), R.mipmap.price_low));
-    }
-
-    private void sortGoodsBySaleCount() {
-        mSaleCountPagerNo = 1;
-        mSaleCountGoodsList.clear();
-        mPresenter.requestProductList(mSearchName, mPartnerId, "saleCount", 2, mPagerSize, mSaleCountPagerNo);
-    }
-
-    private void sortGoodsByNewProduct() {
-        mNewProductPagerNo = 1;
-        mNewProductGoodsList.clear();
-        mPresenter.requestProductList(mSearchName, mPartnerId, "pid", 2, mPagerSize, mNewProductPagerNo);
-    }
-
-    private void sortGoodsByPrice(Integer flag) {
-        mPricePagerDownNo = 1;
-        mPricePagerUpNo = 1;
-        mPriceDownGoodsList.clear();
-        mPriceUpGoodsList.clear();
-        mPresenter.requestProductList(mSearchName, mPartnerId, "finalPrice", flag, mPagerSize, 1);
-    }*/
 
 
     private void initializeInjector() {

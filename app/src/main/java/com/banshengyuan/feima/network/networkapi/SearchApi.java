@@ -10,8 +10,7 @@ import retrofit2.http.Query;
  */
 
 public interface SearchApi {
-    @GET("Query/Shop/ListProductByNameSort")
-    Observable<String> requestProductList(@Query("productName") String searchName, @Query("shopId")String partnerId,
-                                          @Query("sortName")String sortName, @Query("sortOrder")Integer sortNO, @Query("pagesize")Integer pagerSize, @Query("pagenumber")Integer pagerNo);
+    @GET("api/search")
+    Observable<String> requestSearchList(@Query("kw") String searchName, @Query("type") String searchType, @Query("flag") boolean flag);
 
 }

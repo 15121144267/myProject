@@ -35,6 +35,10 @@
                 android:background="@color/white"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
+                app:indicator_drawable_selected="@drawable/shape_banner_selected"
+                app:indicator_drawable_unselected="@drawable/shape_banner_unselected"
+                app:indicator_height="7dp"
+                app:indicator_width="7dp"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"/>
 

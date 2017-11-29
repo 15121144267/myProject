@@ -3,11 +3,13 @@ package com.banshengyuan.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,8 @@ import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.help.GlideLoader;
+import com.banshengyuan.feima.help.HtmlHelp.MxgsaTagHandler;
+import com.banshengyuan.feima.help.HtmlHelp.URLImageParser;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.fragment.SpecificationDialog;
@@ -123,7 +127,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void getGoodsCollectionSuccess(CollectionResponse response) {
-        mGoodsDetailCollection.setImageResource(response.status==1?R.mipmap.shop_detail_collection:R.mipmap.shop_detail_uncollection);
+        mGoodsDetailCollection.setImageResource(response.status == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
     }
 
     @Override
@@ -141,17 +145,21 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 mGoodsDetailAddress.setText(TextUtils.isEmpty(store.location) ? "未知" : store.location);
                 mGoodsDetailShopName.setText(TextUtils.isEmpty(store.name) ? "未知" : store.name);
             }
+            if (!TextUtils.isEmpty(mInfoBean.content)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    mGoodsDetailHtml.setText(Html.fromHtml(mInfoBean.content, Html.FROM_HTML_MODE_LEGACY,
+                            new URLImageParser(mGoodsDetailHtml, this), new MxgsaTagHandler(this)));
+                } else {
+                    mGoodsDetailHtml.setText(Html.fromHtml(mInfoBean.content,
+                            new URLImageParser(mGoodsDetailHtml, this), new MxgsaTagHandler(this)));
+                }
+            }
+
         } else {
             mGoodsDetailBottomLayout.setVisibility(View.GONE);
         }
 
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText, Html.FROM_HTML_MODE_LEGACY,
-                    new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
-        } else {
-            mGoodsDetailLinear.setText(Html.fromHtml(data.detailText,
-                    new URLImageParser(mGoodsDetailLinear, this), new MxgsaTagHandler(this)));
-        }*/
+
     }
 
     @Override
@@ -207,26 +215,16 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                 startActivity(intent);
             } catch (Exception e) {
-                showToast("该设备无打电话功能");
+                showToast("该设备暂打电话功能");
             }
         });
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
-            if(mInfoBean.store!=null){
-                mPresenter.requestGoodsCollection(mInfoBean.store.id,"goods");
+            if (mInfoBean.store != null) {
+                mPresenter.requestGoodsCollection(mInfoBean.store.id, "goods");
             }
 
         });
-       /*
-        if (mInfoBean.top_img != null && mInfoBean.top_img.size() > 0) {
-                mShopDetailDetailBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
-            }
 
-        RxView.clicks(mGoodsDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugOrAddGoods(2));
-        RxView.clicks(mGoodsSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestGoodsSpecification(1));
-        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestBugOrAddGoods(3));
-        RxView.clicks(mGoodsDetailCheckShoppingCard).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> switchToShoppingCard());
-        mCollapsingToolbarLayout.setTitle("商品详情");
-        mCollapsingToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);*/
     }
 
     private void initData() {

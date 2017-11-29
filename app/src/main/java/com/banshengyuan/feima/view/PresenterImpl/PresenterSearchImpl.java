@@ -2,10 +2,15 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
+import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.SearchModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by helei on 2017/4/27.
@@ -26,47 +31,82 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         mView = view;
     }
 
-    /*@Override
-    public void requestShopList(String partnerId, String searchName) {
+    @Override
+    public void requestSearchStoreList(String searchName, String searchType) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.requestShopList(partnerId, searchName).compose(mView.applySchedulers())
-                .subscribe(this::getShopListSuccess
+        Disposable disposable = mModel.requestSearchList(searchName, searchType).compose(mView.applySchedulers())
+                .subscribe(this::getSearchStoreListSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getShopListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(SearchShopListResponse.class);
-            SearchShopListResponse response = (SearchShopListResponse) responseData.parsedData;
-            mView.getShopListSuccess(response);
+    private void getSearchStoreListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(SearchResultResponse.class);
+            SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
+            mView.getSearchStoreListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getSearchStoreListFail(responseData.errorDesc);
         }
     }
 
     @Override
-    public void requestProductList(String searchName, String partnerId, String sortName, Integer sortNO, Integer pagerSize, Integer pagerNo) {
-        if (isShow) {
-            isShow = false;
-            mView.showLoading(mContext.getString(R.string.loading));
-        }
-        Disposable disposable = mModel.requestProductList(searchName, partnerId, sortName, sortNO, pagerSize, pagerNo).compose(mView.applySchedulers())
-                .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+    public void requestSearchStreetList(String searchName, String searchType) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.requestSearchList(searchName, searchType).compose(mView.applySchedulers())
+                .subscribe(this::getSearchStreetListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-
-    private void getProductListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(ShopDetailResponse.class);
-            ShopDetailResponse response = (ShopDetailResponse) responseData.parsedData;
-            mView.getProductListSuccess(response);
+    private void getSearchStreetListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(SearchResultResponse.class);
+            SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
+            mView.getSearchStreetListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getSearchStreetListFail(responseData.errorDesc);
         }
-    }*/
+    }
+
+    @Override
+    public void requestSearchProductList(String searchName, String searchType) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.requestSearchList(searchName, searchType).compose(mView.applySchedulers())
+                .subscribe(this::getSearchProductListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getSearchProductListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(SearchResultResponse.class);
+            SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
+            mView.getSearchProductListSuccess(response);
+        } else {
+            mView.getSearchProductListFail(responseData.errorDesc);
+        }
+    }
+
+    @Override
+    public void requestSearchFairList(String searchName, String searchType) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.requestSearchList(searchName, searchType).compose(mView.applySchedulers())
+                .subscribe(this::getSearchFairListSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getSearchFairListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(SearchResultResponse.class);
+            SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
+            mView.getSearchFairListSuccess(response);
+        } else {
+            mView.getSearchFairListFail(responseData.errorDesc);
+        }
+    }
+
 
     @Override
     public void onCreate() {

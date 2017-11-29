@@ -17,15 +17,16 @@
         android:paddingStart="5dp"
         android:imeOptions="actionSearch"
         android:background="@null"
-        android:drawableStart="@mipmap/main_magnifie"
+        android:drawableStart="@mipmap/search_icon"
         android:singleLine="true"
         android:textColorHint="#b8b8bf"/>
 
     <ImageView
         android:id="@+id/custom_edittext_img"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
         android:layout_marginEnd="15dip"
+        android:scaleType="centerInside"
         android:src="@mipmap/btn_delete_edit"
         android:visibility="gone"
        />

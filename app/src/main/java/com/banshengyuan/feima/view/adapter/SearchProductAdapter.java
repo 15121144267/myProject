@@ -6,28 +6,31 @@ import android.widget.ImageView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 
 
-public class SearchFairAdapter extends BaseQuickAdapter<SearchResultResponse.ListBean, BaseViewHolder> {
+public class SearchProductAdapter extends BaseQuickAdapter<SearchResultResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
     private final ImageLoaderHelper mImageLoaderHelper;
 
-    public SearchFairAdapter(List<SearchResultResponse.ListBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.adapter_search_fair, mList);
+    public SearchProductAdapter(List<SearchResultResponse.ListBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
+        super(R.layout.adapter_collection_product, mList);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResultResponse.ListBean item) {
-        ImageView imageView = helper.getView(R.id.imageView);
+        if (item == null) return;
+        ImageView imageView = helper.getView(R.id.adapter_collection_icon);
         mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
-        helper.setText(R.id.adapter_search_fair_name,item.name);
-        helper.setText(R.id.adapter_search_fair_summary,item.summary);
+        helper.setText(R.id.adapter_product_name, item.name);
+        helper.setText(R.id.adapter_product_summary, item.summary);
+        helper.setText(R.id.adapter_product_price, "￥"+ValueUtil.formatAmount2(item.price));
     }
 
 }

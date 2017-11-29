@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +16,11 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerSearchFragmentComponent;
 import com.banshengyuan.feima.dagger.module.SearchActivityModule;
 import com.banshengyuan.feima.dagger.module.SearchFragmentModule;
+import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
 import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.SearchFairAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -48,11 +49,13 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
 
     private Unbinder unbinder;
     private SearchFairAdapter mAdapter;
+    private String mSearchName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mSearchName = ((SearchActivity) getActivity()).getSearchName();
     }
 
     @Nullable
@@ -70,6 +73,66 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
         initData();
     }
 
+    @Override
+    public void getSearchFairListSuccess(SearchResultResponse response) {
+        if (response.list != null && response.list.size() > 0) {
+            mAdapter.setNewData(response.list);
+        } else {
+            mFragmentBlockCommon.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getSearchFairListFail(String des) {
+        showToast(des);
+        mFragmentBlockCommon.setVisibility(View.GONE);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.SEARCH_UPDATE);
+    }
+
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        super.onReceivePro(context, intent);
+        if (intent.getAction().equals(BroConstant.SEARCH_UPDATE)) {
+            mSearchName = intent.getStringExtra("broSearchName");
+            initData();
+        }
+    }
+
+    @Override
+    public void getSearchStoreListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchStreetListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchProductListSuccess(SearchResultResponse response) {
+
+    }
+
+    @Override
+    public void getSearchStoreListFail(String des) {
+
+    }
+
+    @Override
+    public void getSearchStreetListFail(String des) {
+
+    }
+
+    @Override
+    public void getSearchProductListFail(String des) {
+
+    }
+
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new SearchFairAdapter(null, getActivity(), mImageLoaderHelper);
@@ -78,11 +141,7 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
 
 
     private void initData() {
-        List<Integer> mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_first);
-        mList.add(R.mipmap.main_banner_second);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+        mPresenter.requestSearchFairList(mSearchName, "fair");
     }
 
     @Override

@@ -47,7 +47,7 @@ public class SearchActivityModule {
     SearchModel provideSearchModel(Gson gson, ModelTransform modelTransform ) {
         return new SearchModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.GOODS_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isHttps(!BuildConfig.DEBUG)
                 .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
@@ -55,7 +55,7 @@ public class SearchActivityModule {
                 .create(SearchApi.class),
                 new RetrofitUtil.Builder()
                         .context(activity)
-                        .baseUrl("http://member-api-tst.sandload.cn:8735/")
+                        .baseUrl(BuildConfig.DISPATCH_SERVICE)
                         .isToJson(false)
                         .builder()
                         .create(SearchOtherApi.class),

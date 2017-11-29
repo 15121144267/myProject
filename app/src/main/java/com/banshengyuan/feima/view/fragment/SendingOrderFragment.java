@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -23,6 +24,7 @@ import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
 import com.banshengyuan.feima.view.activity.GoodsClassifyActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.banshengyuan.feima.view.customview.MyNoScrollViewPager;
@@ -44,7 +46,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class SendingOrderFragment extends BaseFragment implements SendingOrderControl.SendingOrderView,ClearEditText.setOnMyEditorActionListener {
+public class SendingOrderFragment extends BaseFragment implements SendingOrderControl.SendingOrderView, ClearEditText.setOnMyEditorActionListener {
 
     @BindView(R.id.discover_tab_layout)
     TabLayout mDiscoverTabLayout;
@@ -58,6 +60,8 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     ClearEditText mSearchEdit;
     @BindView(R.id.search_layout)
     LinearLayout mSearchLayout;
+    @BindView(R.id.search_cancel)
+    TextView mSearchCancel;
 
     public static SendingOrderFragment newInstance() {
         return new SendingOrderFragment();
@@ -94,21 +98,10 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     @Override
     public void onMyEditorAction() {
         String searchName = mSearchEdit.getEditText().trim();
-        String searchType = "";
         if (TextUtils.isEmpty(searchName)) {
             showToast("搜索栏不能为空");
         } else {
-            switch (mDiscoverTabLayout.getSelectedTabPosition()) {
-                case 0:
-                    searchType = "";
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
+            startActivity(SearchActivity.getIntent(getActivity(), searchName));
         }
     }
 
@@ -139,6 +132,10 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
         ValueUtil.setIndicator(mDiscoverTabLayout, 20, 20);
         RxView.clicks(mSendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
+        RxView.clicks(mSearchCancel).subscribe(o -> {
+            mSearchEdit.clearContent();
+            mSearchLayout.setVisibility(View.GONE);
+        });
         RxView.clicks(mSendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
         mDiscoverTabLayout.addOnTabSelectedListener(new TabCheckListener() {
             @Override
