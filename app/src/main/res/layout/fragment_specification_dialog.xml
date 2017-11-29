@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/main_linear"
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="435dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="vertical"
@@ -17,128 +17,73 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="140dp"
-            android:gravity="center_vertical"
-            android:paddingTop="14dp">
+            android:paddingTop="12dp">
 
-            <TextView
-                android:id="@+id/dialog_goods_price"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="￥239"
-                android:textColor="@color/light_blue_dark"
-                android:textSize="@dimen/sp_20"/>
+            <ImageView
+                android:id="@+id/dialog_person_icon"
+                android:layout_width="133dp"
+                android:layout_height="133dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/shape_rectangle_icon2"
+                android:scaleType="fitXY"
+                android:src="@mipmap/freemud_logo"
+                />
 
             <LinearLayout
-                android:id="@+id/dialog_close"
-                android:layout_width="@dimen/dp_50"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center">
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_12"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <ImageView
+                <TextView
+                    android:id="@+id/dialog_goods_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="￥239"
+                    android:textColor="@color/light_red"
+                    android:textSize="@dimen/sp_18"/>
+
+                <TextView
+                    android:id="@+id/dialog_goods_choice_specification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/dialog_close"/>
+                    android:text="已选:米白"
+                    android:textColor="@color/tab_text_normal"
+                    android:textSize="@dimen/sp_14"/>
+
+                <TextView
+                    android:id="@+id/dialog_goods_choice_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="库存:24"
+                    android:textColor="@color/tab_text_normal"
+                    android:textSize="@dimen/sp_14"/>
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/dialog_close"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:scaleType="centerInside"
+                android:src="@mipmap/close_icon"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/dialog_goods_all_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="142dp"
-            android:layout_marginTop="8dp"
-            android:text="库存307件"
-            android:visibility="invisible"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_15"/>
-
-        <TextView
-            android:id="@+id/dialog_goods_color_checked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginStart="142dp"
-            android:layout_marginTop="11dp"
-            android:text="已选规格"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_15"/>
 
         <View
-            style="@style/LineH_Fill_Width1_ForView"
-            android:layout_marginEnd="15dp"
-            />
+            style="@style/LineH_Fill_Width1_5_ForView"
+            android:layout_marginTop="@dimen/dp_12"/>
 
-        <LinearLayout
-            android:id="@+id/dialog_goods_pay_count_layout"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:gravity="center_vertical">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="购买数量"
-                android:textColor="@color/darkblack"/>
-
-            <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="33dp"
-                android:layout_marginStart="42dp"
-                android:background="@drawable/shape_line_blod"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/dialog_goods_reduce"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingStart="7dp"
-                    android:text="—"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_goods_count"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18"
-                    />
-
-                <TextView
-                    android:id="@+id/dialog_goods_add"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:paddingEnd="7dp"
-                    android:text="+"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    />
-            </LinearLayout>
-        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/specification_diff_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,12 +97,12 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@drawable/selector_enable_button3"
+                android:background="@color/black"
                 android:gravity="center"
                 android:text="加入购物车"
-                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_15"
+                android:visibility="gone"
                 />
 
             <Button
@@ -166,25 +111,13 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@drawable/selector_enable_button2"
+                android:background="@drawable/gradient_style_pink"
                 android:gravity="center"
                 android:text="立刻购买"
-                android:textColor="@color/white"
+                android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_15"
                 />
         </LinearLayout>
     </LinearLayout>
 
-
-    <ImageView
-        android:id="@+id/dialog_person_icon"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="340dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/shape_rectangle_icon2"
-        android:scaleType="fitXY"
-        android:src="@mipmap/freemud_logo"
-        />
 </RelativeLayout>

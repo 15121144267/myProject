@@ -191,8 +191,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.GoodDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/transparentAppTheme"/>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activity.FairDetailActivity"

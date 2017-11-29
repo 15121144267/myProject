@@ -10,4 +10,5 @@ public class CollectionRequest implements Serializable {
     public String id;
     public String type;
     public boolean flag;
+    public String token;
 }

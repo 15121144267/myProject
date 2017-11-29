@@ -25,11 +25,13 @@ import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
+import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.help.HtmlHelp.MxgsaTagHandler;
 import com.banshengyuan.feima.help.HtmlHelp.URLImageParser;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
+import com.banshengyuan.feima.view.fragment.PhotoChoiceDialog;
 import com.banshengyuan.feima.view.fragment.SpecificationDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
@@ -88,6 +90,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     TextView mGoodsDetailAddress;
     @BindView(R.id.goods_detail_bottom_layout)
     LinearLayout mGoodsDetailBottomLayout;
+    @BindView(R.id.goods_detail_content)
+    LinearLayout mGoodsDetailContent;
 
     public static Intent getIntent(Context context, Integer productId) {
         Intent intent = new Intent(context, GoodDetailActivity.class);
@@ -157,6 +161,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
         } else {
             mGoodsDetailBottomLayout.setVisibility(View.GONE);
+            mGoodsDetailContent.setVisibility(View.GONE);
         }
 
 
@@ -165,6 +170,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Override
     public void getGoodsInfoFail(String data) {
         mGoodsDetailBottomLayout.setVisibility(View.GONE);
+        mGoodsDetailContent.setVisibility(View.GONE);
     }
 
     @Override
@@ -218,12 +224,24 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 showToast("该设备暂打电话功能");
             }
         });
+
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
             if (mInfoBean.store != null) {
                 mPresenter.requestGoodsCollection(mInfoBean.store.id, "goods");
             }
-
         });
+
+        RxView.clicks(mGoodsDetailSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(1));
+        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(2));
+        RxView.clicks(mGoodsDetailBuy).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(2));
+
+    }
+
+    private void showSpecificationDialog(Integer addOrBugFlag) {
+        SpecificationDialog mDialog = SpecificationDialog.newInstance();
+        mDialog.setGoodsBean(mInfoBean,addOrBugFlag,mImageLoaderHelper);
+        mDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
 
     }
 
@@ -231,52 +249,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         mPresenter.requestGoodInfo(mProductId);
     }
 
-    private void requestBugOrAddGoods(Integer flag) {
-       /* if (TextUtils.isEmpty(mGoodsSpecification.getText())) {
-            requestGoodsSpecification(flag);
-        } else {
-            if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
-                if (mProduct.specificationList.size() == mHashMap.size()) {
-                    bugOrAdd(flag);
-                } else {
-                    requestGoodsSpecification(flag);
-                }
-            } else {
-                bugOrAdd(flag);
-            }
-        }*/
-    }
-
-    private void bugOrAdd(Integer flag) {
-        if (flag == 2) {
-            checkProductId(Integer.valueOf(mCount));
-        } else if (flag == 3) {
-            //添加购物车
-            requestGoodsSpecification(flag);
-        }
-    }
-
-    private void switchToShoppingCard() {
-        startActivity(ShoppingCardActivity.getIntent(this));
-    }
 
     @Override
     public void addToShoppingCard(Integer count) {
-       /* AddShoppingCardRequest request = new AddShoppingCardRequest();
-        request.number = String.valueOf(count);
-        request.userId = mBuProcessor.getUserId();
-        request.linkName = mBuProcessor.getShopInfo().storeName;
-        request.type = "1";
-        if (mProductsBean != null) {
-            request.name = mProductsBean.name;
-            request.productId = mProductsBean.pid;
 
-        } else {
-            mProductsBean = mProduct;
-            request.name = mProduct.name;
-            request.productId = mProduct.pid;
-        }
-        mPresenter.requestAddShoppingCard(request);*/
     }
 
     @Override
@@ -287,98 +263,18 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void checkProductId(HashMap<String, String> hashMap) {
-        /*List<SpecificationResponse.ProductsBean.ProductSpecificationBean> productSpecification = mProduct.productSpecification;
-        for (SpecificationResponse.ProductsBean.ProductSpecificationBean productSpecificationBean : productSpecification) {
-            if (productSpecificationBean.size != null) {
-                if (productSpecificationBean.size.equals(hashMap.get("size"))) {
-                    if (productSpecificationBean.color != null) {
-                        if (productSpecificationBean.color.equals(hashMap.get("color"))) {
-                            if (productSpecificationBean.zipper != null) {
-                                if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
-                                    mProductSpecification = productSpecificationBean;
-                                }
-                            } else {
-                                mProductSpecification = productSpecificationBean;
-                            }
-                        }
-                    } else {
-                        mProductSpecification = productSpecificationBean;
-                    }
-                }
-            } else {
-                if (productSpecificationBean.color != null) {
-                    if (productSpecificationBean.color.equals(hashMap.get("color"))) {
-                        if (productSpecificationBean.zipper != null) {
-                            if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
-                                mProductSpecification = productSpecificationBean;
-                            }
-                        } else {
-                            mProductSpecification = productSpecificationBean;
-                        }
-                    }
-                } else {
-                    if (productSpecificationBean.zipper != null) {
-                        if (productSpecificationBean.zipper.equals(hashMap.get("zipper"))) {
-                            mProductSpecification = productSpecificationBean;
-                        }
-                    }
-                }
-            }
-        }
-        if (mProductSpecification != null) {
-            mPresenter.requestUniqueGoodInfo(String.valueOf(mProductSpecification.productId));
-        }*/
+
     }
 
     @Override
     public void getUniqueGoodInfoSuccess(SpecificationResponse data) {
-        /*mProductsBean = data.products.get(0);
-        mSpecificationDialog.setData(mProductsBean);*/
+
     }
 
     private void checkProductId(Integer count) {
-        /*if (mProduct.specificationList != null && mProduct.specificationList.size() > 0) {
-            if (mProductsBean != null) {
-                mProductsBean.saleCount = count;
-                payOrderCreate(mProductsBean);
-            } else {
-                showToast("请稍后重试");
-            }
-        } else {
-            mProductsBean = mProduct;
-            payOrderCreate(mProductsBean);
-        }*/
-    }
-
-
-   /* private void showEmptyDialog() {
-        SpecificationEmptyDialog dialog = SpecificationEmptyDialog.newInstance();
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, SpecificationEmptyDialog.TAG);
-    }*/
-
-    private void requestGoodsSpecification(Integer addOrBugFlag) {
-       /* if (mProduct != null) {
-            mSpecificationDialog = new SpecificationDialog();
-            mSpecificationDialog.setInstance(mSpecificationDialog);
-            mSpecificationDialog.setGoodsView(this);
-            mSpecificationDialog.setLists(mColorList, mZipperList, mSizeList);
-            mSpecificationDialog.setVisibilityFlag(addOrBugFlag);
-            if (mHashMap != null) {
-                mSpecificationDialog.setSpecificationHashMap(mHashMap);
-                mSpecificationDialog.setTextContent(mButter.toString());
-            }
-
-            if (mProductsBean != null) {
-                mSpecificationDialog.setProductBean(mProductsBean);
-            }
-
-            mSpecificationDialog.setImageLoadHelper(mImageLoaderHelper);
-            mSpecificationDialog.productSpecification(mProduct);
-            mSpecificationDialog.setListener(this);
-            DialogFactory.showDialogFragment(getSupportFragmentManager(), mSpecificationDialog, SpecificationDialog.TAG);
-        }*/
 
     }
+
 
     private void initializeInjector() {
         DaggerGoodsDetailActivityComponent.builder()

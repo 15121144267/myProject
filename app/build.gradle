@@ -52,6 +52,8 @@ android {
             buildConfigField "String", "STORE_NAME", HTTPS_STORE_NAME
             buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
             buildConfigField "String", "WX_APP_ID", DEBUG_WX_APP_ID
+            buildConfigField "String", "USER_TOKEN", DEBUG_USER_TOKEN
+
 
         }
         release {
@@ -75,6 +77,7 @@ android {
             buildConfigField "String", "STORE_NAME", HTTPS_STORE_NAME
             buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
             buildConfigField "String", "WX_APP_ID", RELEASE_WX_APP_ID
+            buildConfigField "String", "USER_TOKEN", RELEASE_USER_TOKEN
         }
     }
     greendao{
