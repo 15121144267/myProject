@@ -178,7 +178,7 @@ public class MyOrdersResponse implements Parcelable {
             private int store_id;
             private List<ProductBean> product;
 
-            protected OrderItemBean(Parcel in) {
+            public OrderItemBean(Parcel in) {
                 store_name = in.readString();
                 store_id = in.readInt();
                 product = in.createTypedArrayList(ProductBean.CREATOR);
@@ -195,6 +195,10 @@ public class MyOrdersResponse implements Parcelable {
                     return new OrderItemBean[size];
                 }
             };
+
+            public OrderItemBean() {
+
+            }
 
             public String getStore_name() {
                 return store_name;

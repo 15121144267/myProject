@@ -48,7 +48,9 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
         if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
-            mView.getMyOrderListSuccess(response);
+            if(response.getList().size()!=0){
+                mView.getMyOrderListSuccess(response);
+            }
         } else {
             mView.showToast(responseData.errorDesc);
         }

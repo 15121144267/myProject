@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
 android {
 
     compileSdkVersion rootProject.ext.myCompileSdkVersion
@@ -138,4 +143,5 @@ dependencies {
     compile project(path: ':mylibrary')
     compile files('libs/alipaySdk-20170710.jar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
+    compile 'com.github.AriesHoo:RadiusView:1.1.0'
 }
