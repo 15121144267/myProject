@@ -43,7 +43,7 @@ public class MyLinearLayout extends ViewGroup {
         }
         int wholeHeight;
 
-        wholeHeight  = stageHeight*stages + (stages+2)*VIEW_MARGIN+VIEW_MARGIN+VIEW_MARGIN;
+        wholeHeight  = stageHeight*stages + (stages)*VIEW_MARGIN;
         setMeasuredDimension(resolveSize(wholeWidth, widthMeasureSpec),
                 resolveSize(wholeHeight, heightMeasureSpec));
     }
@@ -66,12 +66,12 @@ public class MyLinearLayout extends ViewGroup {
                 lengthX += width + VIEW_MARGIN + jiange;//按钮之间的间隔
             }
 
-            lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height + arg2;
+            lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height ;
             //if it can't drawing on a same line , skip to next line
             if (lengthX > arg3) {
                 lengthX = width + VIEW_MARGIN + arg1;
                 row++;
-                lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height + arg2;
+                lengthY = row * (height +VIEW_MARGIN) +VIEW_MARGIN + height;
             }
             child.layout(lengthX - width, lengthY - height, lengthX, lengthY);
         }

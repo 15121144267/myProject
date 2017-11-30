@@ -6,6 +6,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
+import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.model.GoodsDetailModel;
@@ -34,8 +35,9 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     @Override
-    public void requestGoodsCollection(String productId,String type) {
-        Disposable disposable = mModel.goodsCollectionRequest(productId,type)
+    public void requestGoodsCollection(String productId, String type) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.goodsCollectionRequest(productId, type)
                 .compose(mView.applySchedulers())
                 .subscribe(this::getGoodsCollectionSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
@@ -54,6 +56,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
 
     @Override
     public void requestAddShoppingCard(AddShoppingCardRequest request) {
+        mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.requestAddShoppingCard(request)
                 .compose(mView.applySchedulers())
                 .subscribe(this::addShoppingCardSuccess
@@ -70,8 +73,9 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     @Override
-    public void requestUniqueGoodInfo(String productId) {
-        Disposable disposable = mModel.goodInfoSpecificationRequest(productId)
+    public void requestUniqueGoodInfo(Integer productId, String sku) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.goodInfoSpecificationRequest(productId,sku)
                 .compose(mView.applySchedulers())
                 .subscribe(this::getUniqueGoodInfoSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
@@ -79,12 +83,12 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     private void getUniqueGoodInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(SpecificationResponse.class);
-            SpecificationResponse response = (SpecificationResponse) responseData.parsedData;
+        if (responseData.resultCode == 200) {
+            responseData.parseData(SkuProductResponse.class);
+            SkuProductResponse response = (SkuProductResponse) responseData.parsedData;
             mView.getUniqueGoodInfoSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getUniqueGoodInfoFail(responseData.errorDesc);
         }
     }
 
@@ -111,12 +115,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
 
     @Override
     public void requestGoodsSpecification(String productId) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.goodInfoSpecificationRequest(productId)
-                .compose(mView.applySchedulers())
-                .subscribe(this::goodInfoSpecificationSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
+
     }
 
     private void goodInfoSpecificationSuccess(ResponseData responseData) {

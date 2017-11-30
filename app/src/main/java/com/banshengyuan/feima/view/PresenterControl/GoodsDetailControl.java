@@ -3,10 +3,10 @@ package com.banshengyuan.feima.view.PresenterControl;
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
+import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by helei on 2017/4/27.
@@ -23,15 +23,19 @@ public class GoodsDetailControl {
 
         void goodInfoSpecificationSuccess(SpecificationResponse data);
 
-        void getUniqueGoodInfoSuccess(SpecificationResponse data);
+        void getUniqueGoodInfoSuccess(SkuProductResponse data);
+
+        void getUniqueGoodInfoFail(String des);
 
         void addShoppingCardSuccess();
 
-        void checkProductId(HashMap<String, String> selectProMap);
+        void checkProductId(HashMap<Integer, Integer> selectProMap);
 
         void addToShoppingCard(Integer mCount);
 
-        void closeSpecificationDialog(HashMap<String, String> hashMap, String count, List<String> list1, List<String> list2, List<String> list3);
+        void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content);
+
+        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content);
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {
@@ -39,7 +43,7 @@ public class GoodsDetailControl {
 
         void requestGoodsCollection(String productId, String type);
 
-        void requestUniqueGoodInfo(String productId);
+        void requestUniqueGoodInfo(Integer productId, String sku);
 
         void requestAddShoppingCard(AddShoppingCardRequest request);
 

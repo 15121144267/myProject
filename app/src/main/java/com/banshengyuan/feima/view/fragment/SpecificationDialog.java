@@ -16,13 +16,16 @@ import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
+import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.help.AniCreator;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.ValueUtil;
+import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.adapter.SpecificationAdapter;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +61,12 @@ public class SpecificationDialog extends BaseDialogFragment {
     private ImageLoaderHelper mImageLoaderHelper;
     private GoodsInfoResponse.InfoBean mInfoBean;
     private Integer mAddOrBugFlag;
+    private HashMap<Integer, Integer> mSkuProMap;
+    private HashMap<Integer, String> mSelectProMap;
+    private StringBuilder mButter = new StringBuilder();
+    private GoodsDetailControl.GoodsDetailView mView;
+    private SpecificationDialog mDialog;
+    private SkuProductResponse.InfoBean mSkuInfoBean;
 
     public static SpecificationDialog newInstance() {
         return new SpecificationDialog();
@@ -67,12 +76,43 @@ public class SpecificationDialog extends BaseDialogFragment {
         this.dialogListener = dialogListener;
     }
 
-    public void setGoodsBean(GoodsInfoResponse.InfoBean infoBean, Integer flag,ImageLoaderHelper imageLoaderHelper) {
+    //初始化数据
+    public void setContent(GoodsInfoResponse.InfoBean infoBean, Integer flag, ImageLoaderHelper imageLoaderHelper,
+                           GoodsDetailControl.GoodsDetailView view, SpecificationDialog dialog,
+                           HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap,
+                           SkuProductResponse.InfoBean skuInfoBean) {
+        mSkuProMap = skuProMap;
+        mSelectProMap = selectProMap;
+        mSkuInfoBean = skuInfoBean;
         mInfoBean = infoBean;
         mAddOrBugFlag = flag;
         mImageLoaderHelper = imageLoaderHelper;
+        mView = view;
+        mDialog = dialog;
     }
 
+    //adapter回调数据
+    public void setSpecificationContent(HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap) {
+        mSkuProMap = skuProMap;
+        mSelectProMap = selectProMap;
+        mDialogBuyGoods.setEnabled(false);
+        mDialogAddGoods.setEnabled(false);
+        setTextContent();
+        if (mInfoBean.other_spec.size() == selectProMap.size()) {
+            //查询PID
+            mView.checkProductId(skuProMap);
+        }
+    }
+
+    //sku接口回调
+    public void setSkuDetail(SkuProductResponse.InfoBean infoBean) {
+        mSkuInfoBean = infoBean;
+        mDialogBuyGoods.setEnabled(true);
+        mDialogAddGoods.setEnabled(true);
+        mImageLoaderHelper.displayRoundedCornerImage(getActivity(), infoBean.img, mDialogPersonIcon, 4);
+        mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(infoBean.price));
+        mDialogGoodsChoiceCount.setText("库存:" + infoBean.stock);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,11 +146,29 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogAddGoods.setVisibility(View.GONE);
             mDialogBuyGoods.setText("确定");
         }
-        mDialogGoodsPrice.setText(ValueUtil.formatAmount2(mInfoBean.price));
-        mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.top_img.get(0), mDialogPersonIcon, 6);
+        if (mSkuInfoBean == null) {
+            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price));
+            mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.top_img.get(0), mDialogPersonIcon, 6);
+        } else {
+            mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mSkuInfoBean.img, mDialogPersonIcon, 4);
+            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mSkuInfoBean.price));
+            mDialogGoodsChoiceCount.setText("库存:" + mSkuInfoBean.stock);
+        }
+        if (mSelectProMap != null) {
+            setTextContent();
+        } else {
+            mDialogGoodsChoiceSpecification.setText("请选择");
+        }
 
+        if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()) {
+            mDialogBuyGoods.setEnabled(true);
+            mDialogAddGoods.setEnabled(true);
+        } else {
+            mDialogBuyGoods.setEnabled(false);
+            mDialogAddGoods.setEnabled(false);
+        }
         /*if (mInfoBean.other_spec.size() > 0) {
-            if (mSelectProMap != null && mProduct.specificationList.size() == mSelectProMap.size()) {
+            if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()) {
                 mDialogBuyGoods.setEnabled(true);
                 mDialogAddGoods.setEnabled(true);
             } else {
@@ -119,22 +177,28 @@ public class SpecificationDialog extends BaseDialogFragment {
             }
         } else {
             mDialogBuyGoods.setEnabled(true);
-            mDialogAddGoods.setEnabled(true);
-        }*/
+        mDialogAddGoods.setEnabled(true);
+    }*/
 
-
-
-        SpecificationAdapter mAdapter = new SpecificationAdapter(mInfoBean.other_spec, getActivity());
+        SpecificationAdapter mAdapter = new SpecificationAdapter(mInfoBean.other_spec, getActivity(), mDialog, mSelectProMap, mSkuProMap);
         mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSpecificationDiffRecycleView.setAdapter(mAdapter);
+    }
+
+    private void setTextContent() {
+        mButter.append("已选:");
+        for (Map.Entry<Integer, String> stringStringEntry : mSelectProMap.entrySet()) {
+            mButter.append(stringStringEntry.getValue()).append(" ");
+        }
+        mDialogGoodsChoiceSpecification.setText(mButter.toString());
+        mButter.delete(0, mButter.toString().length());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_close:
-
-                closeDialog();
+                onDismiss();
                 break;
 
 
@@ -154,7 +218,12 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     private void onDismiss() {
-//        mView.closeSpecificationDialog(mSelectProMap, mDialogGoodsCount.getText().toString(), mColorList, mZipperList, mSizeList);
+
+        if (mSkuInfoBean == null && mSelectProMap != null) {
+            mView.closeSpecificationDialog(mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString());
+        } else if (mSkuInfoBean != null) {
+            mView.closeSpecificationDialog2(mSkuInfoBean, mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString());
+        }
         closeDialog();
     }
 

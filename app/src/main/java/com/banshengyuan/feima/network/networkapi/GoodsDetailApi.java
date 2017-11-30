@@ -14,12 +14,12 @@ import retrofit2.http.Query;
 
 public interface GoodsDetailApi {
     @GET("api/goods/{id}")
-    Observable<String> goodInfoRequest(@Path("id") Integer id,@Query("flag") boolean flag);
+    Observable<String> goodInfoRequest(@Path("id") Integer id, @Query("flag") boolean flag);
 
     @POST("api/collect")
     Observable<String> goodsCollectionRequest(@Body String request);
 
-    @GET("Query/Product/ListBaseInfos")
-    Observable<String> goodInfoSpecificationRequest(@Query("shopId") String shopId, @Query("productId") String request);
+    @GET("api/goods/{id}/sku")
+    Observable<String> goodInfoSpecificationRequest(@Path("id") String shopId, @Query("spec") String sku, @Query("flag") boolean flag);
 
 }

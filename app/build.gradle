@@ -2,11 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-allprojects {
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-}
+
 android {
 
     compileSdkVersion rootProject.ext.myCompileSdkVersion

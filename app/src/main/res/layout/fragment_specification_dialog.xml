@@ -24,9 +24,7 @@
                 android:layout_width="133dp"
                 android:layout_height="133dp"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/shape_rectangle_icon2"
-                android:scaleType="fitXY"
-                android:src="@mipmap/freemud_logo"
+                android:scaleType="centerCrop"
                 />
 
             <LinearLayout
@@ -97,10 +95,11 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@color/black"
                 android:gravity="center"
                 android:text="加入购物车"
                 android:textColor="@color/white"
+                android:enabled="false"
+                android:background="@drawable/selector_enable_button3"
                 android:textSize="@dimen/sp_15"
                 android:visibility="gone"
                 />
@@ -111,9 +110,10 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@drawable/gradient_style_pink"
+                android:background="@drawable/selector_enable_button2"
                 android:gravity="center"
                 android:text="立刻购买"
+                android:enabled="false"
                 android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_15"
                 />

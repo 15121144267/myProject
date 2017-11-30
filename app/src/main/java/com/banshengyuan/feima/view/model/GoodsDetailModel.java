@@ -25,7 +25,7 @@ public class GoodsDetailModel {
     private final Gson mGson;
     private final ModelTransform mTransform;
     private BuProcessor mBuProcessor;
-    private final String partnerId = BuildConfig.PARTNER_ID+"_";
+    private final String partnerId = BuildConfig.PARTNER_ID + "_";
 
     @Inject
     public GoodsDetailModel(GoodsDetailApi api, AddShoppingCardApi addShoppingCardApi, Gson gson, ModelTransform transform, BuProcessor buProcessor) {
@@ -38,10 +38,10 @@ public class GoodsDetailModel {
 
 
     public Observable<ResponseData> goodInfoRequest(Integer productId) {
-        return mApi.goodInfoRequest(productId,true).map(mTransform::transformCommon);
+        return mApi.goodInfoRequest(productId, true).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> goodsCollectionRequest(String shopId,String type) {
+    public Observable<ResponseData> goodsCollectionRequest(String shopId, String type) {
         CollectionRequest request = new CollectionRequest();
         request.id = shopId;
         request.type = type;
@@ -50,9 +50,8 @@ public class GoodsDetailModel {
         return mApi.goodsCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> goodInfoSpecificationRequest(String productId) {
-        ShopListResponse.ListBean mBean = mBuProcessor.getShopInfo();
-        return mApi.goodInfoSpecificationRequest(partnerId + mBean.storeCode, productId).map(mTransform::transformTypeTwo);
+    public Observable<ResponseData> goodInfoSpecificationRequest(Integer productId, String sku) {
+        return mApi.goodInfoSpecificationRequest(productId + "", sku, true).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestAddShoppingCard(AddShoppingCardRequest request) {

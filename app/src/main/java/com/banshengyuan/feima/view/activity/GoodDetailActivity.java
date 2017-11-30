@@ -24,6 +24,7 @@ import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
+import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideLoader;
@@ -38,13 +39,15 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.banshengyuan.feima.R.id.goods_detail_specification;
 
 /**
  * Created by lei.he on 2017/6/30.
@@ -68,7 +71,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     TextView mGoodsDetailPrice;
     @BindView(R.id.goods_detail_dispatching_price)
     TextView mGoodsDetailDispatchingPrice;
-    @BindView(R.id.goods_detail_specification)
+    @BindView(goods_detail_specification)
     TextView mGoodsDetailSpecification;
     @BindView(R.id.goods_detail_comment)
     TextView mGoodsDetailComment;
@@ -104,14 +107,16 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
 
     private StringBuilder mButter;
-    private SpecificationDialog mSpecificationDialog;
-    private HashMap<String, String> mHashMap;
+    private SpecificationDialog mDialog;
+    private HashMap<Integer, String> mSelectProMap;
+    private HashMap<Integer, Integer> mSkuProMap;
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
     private String mCount;
     private SpecificationResponse.ProductsBean mProductsBean;
     private AMapLocation mLocationInfo;
     private Integer mProductId;
     private GoodsInfoResponse.InfoBean mInfoBean;
+    private SkuProductResponse.InfoBean mSkuInfoBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -174,14 +179,24 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<String, String> hashMap, String count, List<String> colorList, List<String> zipperList, List<String> sizeList) {
+    public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content) {
+        commonContent(selectProMap, skuProMap, content);
+    }
 
+    @Override
+    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content) {
+        mSkuInfoBean = skuInfoBean;
+        commonContent(selectProMap, skuProMap, content);
+    }
 
+    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content) {
+        mSelectProMap = selectProMap;
+        mSkuProMap = skuProMap;
+        mGoodsDetailSpecification.setText(content);
     }
 
     @Override
     public void buyButtonListener(HashMap<String, String> hashMap, Integer count) {
-        checkProductId(count);
     }
 
     @Override
@@ -238,8 +253,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void showSpecificationDialog(Integer addOrBugFlag) {
-        SpecificationDialog mDialog = SpecificationDialog.newInstance();
-        mDialog.setGoodsBean(mInfoBean,addOrBugFlag,mImageLoaderHelper);
+        mDialog = SpecificationDialog.newInstance();
+        mDialog.setContent(mInfoBean, addOrBugFlag, mImageLoaderHelper, this, mDialog, mSkuProMap,mSelectProMap, mSkuInfoBean);
         mDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
 
@@ -262,19 +277,30 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void checkProductId(HashMap<String, String> hashMap) {
+    public void checkProductId(HashMap<Integer, Integer> skuProMap) {
+        mButter = new StringBuilder();
+        for (Map.Entry<Integer, Integer> stringStringEntry : skuProMap.entrySet()) {
+            mButter.append(stringStringEntry.getValue()).append("_");
+        }
+        mButter.delete(mButter.toString().length() - 1, mButter.toString().length());
+        mPresenter.requestUniqueGoodInfo(mProductId, mButter.toString());
 
     }
 
     @Override
-    public void getUniqueGoodInfoSuccess(SpecificationResponse data) {
+    public void getUniqueGoodInfoSuccess(SkuProductResponse data) {
+        if (data.info != null) {
+            mDialog.setSkuDetail(data.info);
+        } else {
+            showToast("数据异常");
+        }
 
     }
 
-    private void checkProductId(Integer count) {
+    @Override
+    public void getUniqueGoodInfoFail(String des) {
 
     }
-
 
     private void initializeInjector() {
         DaggerGoodsDetailActivityComponent.builder()
