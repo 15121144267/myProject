@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailActivityModule;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
 import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
 import com.banshengyuan.feima.entity.StoreDetailResponse;
@@ -137,6 +138,7 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
         mShopDetailViewPager.setAdapter(adapter);
         mShopDetailTabLayout.setupWithViewPager(mShopDetailViewPager);
         ValueUtil.setIndicator(mShopDetailTabLayout, 40, 40);
+        RxView.clicks(mShopDetailCollection).subscribe(o ->   mPresenter.requestCollection(mShopId + "", "store"));
         RxView.clicks(mShopDetailPhone).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
             try {
                 Uri uri = Uri.parse("tel:" + mInfoBean.mobile);
@@ -169,6 +171,11 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
 
     public Integer getShopId() {
         return mShopId;
+    }
+
+    @Override
+    public void getCollectionSuccess(CollectionResponse response) {
+        mShopDetailCollection.setImageResource(response.status == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
     }
 
     @Override

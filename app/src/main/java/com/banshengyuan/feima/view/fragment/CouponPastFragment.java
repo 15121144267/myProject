@@ -70,7 +70,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
 
     private void initData() {
         mList = new ArrayList<>();
-        mList.add(R.mipmap.main_left_first);
+        mList.add(R.mipmap.freemud_logo);
         mAdapter.setNewData(mList);
     }
 

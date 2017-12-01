@@ -33,9 +33,9 @@ public class GoodsDetailControl {
 
         void addToShoppingCard(Integer mCount);
 
-        void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content);
+        void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean);
 
-        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content);
+        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean);
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {

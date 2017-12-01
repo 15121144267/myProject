@@ -21,7 +21,7 @@ public class CollectionShopAdapter extends BaseQuickAdapter<Integer, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, Integer item) {
         if (item == null) return;
-        ImageView imageView = helper.getView(R.id.adapter_collection_icon);
+        ImageView imageView = helper.getView(R.id.adapter_store_icon);
         imageView.setImageResource(item);
     }
 

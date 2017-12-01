@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
+import com.banshengyuan.feima.BuildConfig;
+import com.banshengyuan.feima.entity.CollectionRequest;
 import com.banshengyuan.feima.network.networkapi.BlockDetailApi;
 import com.google.gson.Gson;
 
@@ -39,5 +41,14 @@ public class BlockDetailModel {
 
     public Observable<ResponseData> storeListRequest(Integer blockId ) {
         return mApi.storeListRequest(blockId,1,3,true).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> streetCollectionRequest(String id, String type) {
+        CollectionRequest request = new CollectionRequest();
+        request.id = id;
+        request.type = type;
+        request.flag = true;
+        request.token = BuildConfig.USER_TOKEN;
+        return mApi.streetCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }

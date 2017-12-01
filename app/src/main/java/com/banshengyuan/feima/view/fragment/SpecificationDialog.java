@@ -92,8 +92,9 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     //adapter回调数据
-    public void setSpecificationContent(HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap) {
+    public void setSpecificationContent(HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap,GoodsInfoResponse.InfoBean infoBean) {
         mSkuProMap = skuProMap;
+        mInfoBean = infoBean;
         mSelectProMap = selectProMap;
         mDialogBuyGoods.setEnabled(false);
         mDialogAddGoods.setEnabled(false);
@@ -180,9 +181,15 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogAddGoods.setEnabled(true);
     }*/
 
-        SpecificationAdapter mAdapter = new SpecificationAdapter(mInfoBean.other_spec, getActivity(), mDialog, mSelectProMap, mSkuProMap);
+        SpecificationAdapter mAdapter = new SpecificationAdapter(mInfoBean.other_spec, mInfoBean, getActivity(), mDialog, mSelectProMap, mSkuProMap);
+        mAdapter.addFooterView(getFootView());
         mSpecificationDiffRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSpecificationDiffRecycleView.setAdapter(mAdapter);
+    }
+
+    private View getFootView() {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.recycleview_foot_specification, null);
+        return view;
     }
 
     private void setTextContent() {
@@ -220,9 +227,9 @@ public class SpecificationDialog extends BaseDialogFragment {
     private void onDismiss() {
 
         if (mSkuInfoBean == null && mSelectProMap != null) {
-            mView.closeSpecificationDialog(mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString());
+            mView.closeSpecificationDialog(mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(),mInfoBean);
         } else if (mSkuInfoBean != null) {
-            mView.closeSpecificationDialog2(mSkuInfoBean, mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString());
+            mView.closeSpecificationDialog2(mSkuInfoBean, mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(),mInfoBean);
         }
         closeDialog();
     }

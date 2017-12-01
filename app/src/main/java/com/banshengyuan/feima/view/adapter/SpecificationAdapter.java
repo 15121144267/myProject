@@ -17,22 +17,25 @@ import java.util.List;
 
 public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.InfoBean.OtherSpecBean, BaseViewHolder> {
     private final Context mContext;
-    private GoodsInfoResponse.InfoBean.OtherSpecBean mOtherSpecBean;
+    private List<GoodsInfoResponse.InfoBean.OtherSpecBean> mOtherSpecBean;
     private HashMap<Integer, Integer> mSkuProMap;
     private HashMap<Integer, String> mSelectProMap;
+    private GoodsInfoResponse.InfoBean mInfoBean;
     private SpecificationDialog mDialog;
 
-    public SpecificationAdapter(List<GoodsInfoResponse.InfoBean.OtherSpecBean> otherSpecBean,
+    public SpecificationAdapter(List<GoodsInfoResponse.InfoBean.OtherSpecBean> otherSpecBean, GoodsInfoResponse.InfoBean infoBean,
                                 Context context, SpecificationDialog dialog, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap) {
         super(R.layout.adapter_specifiaction, otherSpecBean);
+        mOtherSpecBean = otherSpecBean;
         mContext = context;
+        mInfoBean = infoBean;
         mDialog = dialog;
         if (selectProMap == null) {
             mSelectProMap = new HashMap<>();
         } else {
             mSelectProMap = selectProMap;
         }
-        if (mSkuProMap == null) {
+        if (skuProMap == null) {
             mSkuProMap = new HashMap<>();
         } else {
             mSkuProMap = skuProMap;
@@ -42,23 +45,29 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
     @Override
     protected void convert(BaseViewHolder helper, GoodsInfoResponse.InfoBean.OtherSpecBean item) {
         Integer type = item.id;
-        MyLinearLayout  myLinearLayout = helper.getView(R.id.adapter_specification);
+        MyLinearLayout myLinearLayout = helper.getView(R.id.adapter_specification);
+        List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> mList = item.value;
         if (myLinearLayout.getChildCount() == 0) {
-            List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> mList = item.value;
             TextView[] textViews = new TextView[mList.size()];
             for (int i = 0; i < mList.size(); i++) {
                 TextView textView = new TextView(mContext);
                 textView.setGravity(17);
                 textView.setPadding(25, 15, 25, 15);
                 textViews[i] = textView;
-                textViews[i].setBackgroundResource(R.drawable.shape_corners_white);
+                textViews[i].setBackgroundResource(R.drawable.selector_enable);
                 textViews[i].setText(mList.get(i).name);
                 textViews[i].setTag(i);
+                textViews[i].setEnabled(mList.get(i).enableFlag);
                 myLinearLayout.addView(textViews[i]);
             }
             for (TextView textView : textViews) {
                 textView.setTag(textViews);
-                textView.setOnClickListener(new SpecificationClickListener(type, mList));
+                textView.setOnClickListener(new SpecificationClickListener(type, mList, helper.getAdapterPosition()));
+            }
+        } else {
+            for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
+                TextView v = (TextView) myLinearLayout.getChildAt(j);
+                v.setEnabled(mList.get(j).enableFlag);
             }
         }
 
@@ -98,31 +107,50 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
 
     private class SpecificationClickListener implements View.OnClickListener {
         private Integer type;
+        private Integer mPosition;
         private List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> value;
 
-        public SpecificationClickListener(Integer type, List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> value) {
+        public SpecificationClickListener(Integer type, List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> value, Integer position) {
             this.type = type;
             this.value = value;
+            mPosition = position;
         }
 
         @Override
         public void onClick(View v) {
-            clickEvent(type, value, v);
+            clickEvent(type, value, mPosition, v);
         }
     }
 
-    private void clickEvent(Integer type, List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> value, View v) {
+    private void clickEvent(Integer type, List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> value, Integer position, View v) {
         TextView[] textViews = (TextView[]) v.getTag();
         TextView tv = (TextView) v;
+
         for (int i = 0; i < textViews.length; i++) {
             if (tv.equals(textViews[i])) {
                 mSkuProMap.put(type, value.get(i).id);
                 mSelectProMap.put(type, value.get(i).name);
+                for (int i1 = 0; i1 < mInfoBean.other_spec.size(); i1++) {
+                    if (i1 != position) {
+                        for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
+                            for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
+                                if (bindSpecBean.spec_id.contains(valueBean.id + "") && bindSpecBean.spec_id.contains(value.get(i).id + "")) {
+                                    valueBean.enableFlag = true;
+                                    break;
+                                } else {
+                                    valueBean.enableFlag = false;
+                                }
+                            }
+                        }
+
+                    }
+                }
+                mOtherSpecBean = mInfoBean.other_spec;
             } else {
-                textViews[i].setBackgroundResource(R.drawable.shape_corners_white);
+                textViews[i].setBackgroundResource(R.drawable.selector_enable2);
             }
         }
-        mDialog.setSpecificationContent(mSkuProMap,mSelectProMap);
+        mDialog.setSpecificationContent(mSkuProMap, mSelectProMap, mInfoBean);
         notifyDataSetChanged();
     }
 }

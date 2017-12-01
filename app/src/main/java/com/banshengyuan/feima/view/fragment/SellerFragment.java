@@ -132,14 +132,6 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     }
 
-    public void showSearchLayout(boolean flag) {
-        if (!flag) {
-            mSearchLayout.setVisibility(View.VISIBLE);
-        } else {
-            mSearchLayout.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public void sellerClickItemListener(int position) {
         startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity()));

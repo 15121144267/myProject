@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
 import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
 import com.banshengyuan.feima.entity.StoreDetailResponse;
@@ -29,6 +30,26 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
         mContext = context;
         mView = view;
         mModel = model;
+    }
+
+    @Override
+    public void requestCollection(String id, String type) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.collectionRequest(id, type)
+                .compose(mView.applySchedulers())
+                .subscribe(this::getCollectionSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getCollectionSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(CollectionResponse.class);
+            CollectionResponse response = (CollectionResponse) responseData.parsedData;
+            mView.getCollectionSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
+import com.banshengyuan.feima.BuildConfig;
+import com.banshengyuan.feima.entity.CollectionRequest;
 import com.banshengyuan.feima.entity.CouponInfoRequest;
 import com.banshengyuan.feima.network.networkapi.ShopProductDetailApi;
 import com.google.gson.Gson;
@@ -41,7 +43,16 @@ public class ShopProductDetailModel {
         CouponInfoRequest request = new CouponInfoRequest();
         request.flag = true;
         request.id = couponId+"";
-        request.token = "MSwxNTEwMjEzNjYyLDRkMDdlNTVjZTdjYjc1Y2EwMjBkZjJjNmIxNTZhNWQ3NTllODIxNWU=";
+        request.token = BuildConfig.USER_TOKEN;
         return mApi.couponInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> collectionRequest(String id, String type) {
+        CollectionRequest request = new CollectionRequest();
+        request.id = id;
+        request.type = type;
+        request.flag = true;
+        request.token = BuildConfig.USER_TOKEN;
+        return mApi.collectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }

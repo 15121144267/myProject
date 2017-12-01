@@ -1,5 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
 import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
 import com.banshengyuan.feima.entity.StoreDetailResponse;
@@ -25,6 +26,8 @@ public class ShopProductDetailControl {
 
         void getCouponInfoSuccess();
 
+        void getCollectionSuccess(CollectionResponse response);
+
     }
 
     public interface PresenterShopProductDetail extends Presenter<ShopProductDetailView> {
@@ -35,5 +38,7 @@ public class ShopProductDetailControl {
         void requestStoreCouponList(Integer shopId);
 
         void requestCouponInfo(Integer couponId);
+
+        void requestCollection(String id, String type);
     }
 }

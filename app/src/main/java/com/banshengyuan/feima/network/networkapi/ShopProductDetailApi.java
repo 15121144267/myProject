@@ -25,4 +25,7 @@ public interface ShopProductDetailApi {
     @POST("api/store/ticket/receive")
     Observable<String> couponInfoRequest(@Body  String request);
 
+    @POST("api/collect")
+    Observable<String> collectionRequest(@Body String request);
+
 }

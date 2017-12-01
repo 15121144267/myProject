@@ -7,6 +7,7 @@ import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockFairListResponse;
 import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
 import com.banshengyuan.feima.view.model.BlockDetailModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -30,6 +31,26 @@ public class PresenterBlockDetailImpl implements BlockDetailControl.PresenterBlo
         mContext = context;
         mView = view;
         mModel = model;
+    }
+
+    @Override
+    public void requestStreetCollection(String productId, String type) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.streetCollectionRequest(productId, type)
+                .compose(mView.applySchedulers())
+                .subscribe(this::getStreetCollectionSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getStreetCollectionSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(CollectionResponse.class);
+            CollectionResponse response = (CollectionResponse) responseData.parsedData;
+            mView.getStreetCollectionSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override

@@ -22,6 +22,7 @@ import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockFairListResponse;
 import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
@@ -158,7 +159,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
                     break;
             }
         });
-        RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o ->requestCollectionStatue());
+        RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> requestCollectionStatue());
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mBlockDetailBanner.isAutoPlay(false);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -184,7 +185,12 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
     }
 
     private void requestCollectionStatue() {
+        mPresenter.requestStreetCollection(mBlockId + "", "street");
+    }
 
+    @Override
+    public void getStreetCollectionSuccess(CollectionResponse response) {
+        mBlockDetailCollection.setImageResource(response.status == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
     }
 
     @Override

@@ -172,10 +172,6 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activity.ActivitiesActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name=".view.activity.CoupleActivity"
             android:screenOrientation="portrait"/>
 
@@ -186,9 +182,6 @@
             android:name=".view.activity.UnderLineFairActivity"
             android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".view.activity.MusicActivity"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.activity.GoodDetailActivity"
             android:screenOrientation="portrait"/>

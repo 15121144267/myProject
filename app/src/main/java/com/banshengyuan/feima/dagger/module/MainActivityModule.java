@@ -83,7 +83,7 @@ public class MainActivityModule {
                 .key(BuildConfig.STORE_NAME, BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
-                .create(MainApi.class), gson, modelTransform, daoSession.getOrderNoticeDao());
+                .create(MainApi.class), gson, modelTransform);
     }
 
     @Provides

@@ -1,7 +1,9 @@
 package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -22,5 +24,8 @@ public interface BlockDetailApi {
 
     @GET("api/store")
     Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @POST("api/collect")
+    Observable<String> streetCollectionRequest(@Body String request);
 
 }

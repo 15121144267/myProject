@@ -17,8 +17,8 @@
              android:layout_height="70dp"
              android:layout_marginStart="13dp"
              android:background="@drawable/shape_rectangle_icon2"
-             android:scaleType="fitXY"
-             android:src="@mipmap/neo"
+             android:scaleType="centerCrop"
+             android:src="@mipmap/freemud_logo"
              />
 
          <LinearLayout

@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.BuildConfig;
-import com.banshengyuan.feima.gen.OrderNoticeDao;
 import com.banshengyuan.feima.network.networkapi.MainApi;
 import com.google.gson.Gson;
 
@@ -20,7 +19,7 @@ public class MainModel {
     private final ModelTransform mTransform;
 
     @Inject
-    public MainModel(MainApi api, Gson gson, ModelTransform transform, OrderNoticeDao orderNoticeDao) {
+    public MainModel(MainApi api, Gson gson, ModelTransform transform) {
         mMainApi = api;
         mGson = gson;
         mTransform = transform;

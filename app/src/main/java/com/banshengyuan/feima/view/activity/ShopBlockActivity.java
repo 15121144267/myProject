@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,10 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.shop_block_blocks_icon)
+    ImageView mShopBlockBlocksIcon;
+    @BindView(R.id.shop_block_shop_icon)
+    ImageView mShopBlockShopIcon;
 
     public static Intent getActivityDetailIntent(Context context) {
         Intent intent = new Intent(context, ShopBlockActivity.class);
@@ -99,6 +104,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                         list.add("魔兽世界" + i);
                     }
                     showPopMenu(mShopBlockShopsLayout, list);
+            mShopBlockShopIcon.setImageResource(R.mipmap.price_up_blue);
                 }
         );
         mShopBlockBlocksLayout.setOnClickListener(v -> {
@@ -107,6 +113,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                         list.add("魔兽世界" + i);
                     }
                     showPopMenu(mShopBlockBlocksLayout, list);
+            mShopBlockBlocksIcon.setImageResource(R.mipmap.price_up_blue);
                 }
         );
 
@@ -124,13 +131,16 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
         adapter.setOnItemClickListener((adapter1, view1, position) ->
                 showToast("" + position)
         );
-        CustomPopWindow mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
+        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
                 .setView(contentView)
                 .size(mWith / 2, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create()
                 .showAsDropDown(view, 0, 0);
 
-
+        customPopWindow.getPopupWindow().setOnDismissListener(() -> {
+            mShopBlockBlocksIcon.setImageResource(R.mipmap.price_low);
+            mShopBlockShopIcon.setImageResource(R.mipmap.price_low);
+        });
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopProductDetailFragmentComponent;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailActivityModule;
 import com.banshengyuan.feima.dagger.module.ShopProductDetailFragmentModule;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.ShopDetailCouponListResponse;
 import com.banshengyuan.feima.entity.ShopDetailProductListResponse;
 import com.banshengyuan.feima.entity.StoreDetailResponse;
@@ -126,6 +127,11 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
 
     @Override
     public void getStoreProductListFail() {
+
+    }
+
+    @Override
+    public void getCollectionSuccess(CollectionResponse response) {
 
     }
 

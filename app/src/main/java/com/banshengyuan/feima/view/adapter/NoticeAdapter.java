@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.database.OrderNotice;
@@ -22,7 +21,7 @@ public class NoticeAdapter extends BaseQuickAdapter<OrderNotice, BaseViewHolder>
     @Override
     protected void convert(BaseViewHolder helper, OrderNotice item) {
         switch (item.getOrderChannel()) {
-            case "bdwm":
+          /*  case "bdwm":
                 helper.setImageDrawable(R.id.order_channel,ContextCompat.getDrawable(mContext,R.mipmap.channl_baidu));
                 break;
             case "eleme":
@@ -36,7 +35,7 @@ public class NoticeAdapter extends BaseQuickAdapter<OrderNotice, BaseViewHolder>
                 break;
             default:
                 helper.setVisible(R.id.order_channel, false);
-                break;
+                break;*/
         }
 
         helper.setText(R.id.adapter_time, TimeUtil.getTimeNow(item.getOrderTime()));

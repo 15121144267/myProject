@@ -148,7 +148,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             }
             mGoodsDetailSummary.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
             mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price));
-            mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.freight));
+            if(mInfoBean.freight!=null){
+                mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.freight.freight));
+            }
             GoodsInfoResponse.InfoBean.StoreBean store = mInfoBean.store;
             if (store != null) {
                 mGoodsDetailAddress.setText(TextUtils.isEmpty(store.location) ? "未知" : store.location);
@@ -179,17 +181,18 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content) {
-        commonContent(selectProMap, skuProMap, content);
+    public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean) {
+        commonContent(selectProMap, skuProMap, content,infoBean);
     }
 
     @Override
-    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content) {
+    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean) {
         mSkuInfoBean = skuInfoBean;
-        commonContent(selectProMap, skuProMap, content);
+        commonContent(selectProMap, skuProMap, content,infoBean);
     }
 
-    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content) {
+    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean) {
+        mInfoBean = infoBean;
         mSelectProMap = selectProMap;
         mSkuProMap = skuProMap;
         mGoodsDetailSpecification.setText(content);
@@ -242,7 +245,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
             if (mInfoBean.store != null) {
-                mPresenter.requestGoodsCollection(mInfoBean.store.id, "goods");
+                mPresenter.requestGoodsCollection(mInfoBean.store.id+"", "goods");
             }
         });
 

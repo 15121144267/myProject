@@ -11,9 +11,9 @@ import com.banshengyuan.feima.view.fragment.GuideFragment;
 public class GuideAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
     protected static final String[] CONTENT = new String[] { "1", "2", "3" };
     protected static final int[] ICONS = new int[] {
-            R.mipmap.logo,
-            R.mipmap.logo,
-            R.mipmap.logo
+            R.mipmap.freemud_logo,
+            R.mipmap.freemud_logo,
+            R.mipmap.freemud_logo
     };
 
     private int mCount = CONTENT.length;
