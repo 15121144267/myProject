@@ -19,7 +19,7 @@ public class AllProductSortResponse implements Serializable {
     public boolean has_next_page;
     public List<ListBean> list;
 
-    public static class ListBean {
+    public static class ListBean implements Serializable{
         /**
          * id : 1
          * name : 分类名字
@@ -29,5 +29,6 @@ public class AllProductSortResponse implements Serializable {
         public int id;
         public String name;
         public String cover_img;
+        public boolean isRed;
     }
 }

@@ -25,6 +25,7 @@ import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.banshengyuan.feima.view.customview.banner.CBViewHolderCreator;
 import com.banshengyuan.feima.view.customview.banner.ConvenientBanner;
 import com.banshengyuan.feima.view.customview.banner.NetworkImageHolderView;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,14 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     private Unbinder unbind;
     private List<List> mListAll;
     private ProductAdapter mAdapter;
+    private AllProductSortResponse mAllProductSortResponse;
+    private ProductControl.ProductView mView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mView = this;
     }
 
     @Nullable
@@ -96,23 +100,30 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     public void getAllProductSortSuccess(AllProductSortResponse allProductSortResponse) {
         List<AllProductSortResponse.ListBean> list = allProductSortResponse.list;
         if (list != null && list.size() > 0) {
+            mAllProductSortResponse = allProductSortResponse;
             mListAll = new ArrayList<>();
-            if(list.size()>8){
-                mListAll.add(list.subList(0,8));
-                mListAll.add(list.subList(8,list.size()));
-            }else {
+            if (list.size() > 8) {
+                mListAll.add(list.subList(0, 8));
+                mListAll.add(list.subList(8, list.size()));
+            } else {
                 mListAll.add(list);
             }
             mConvenientBanner.setCanLoop(false);
             mConvenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
                 @Override
                 public NetworkImageHolderView createHolder() {
-                    return new NetworkImageHolderView(mImageLoaderHelper);
+                    return new NetworkImageHolderView(mImageLoaderHelper, mView);
                 }
             }, mListAll).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
-        }else {
+        } else {
             mConvenientBanner.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void switchToProductList(BaseQuickAdapter adapter, Integer position) {
+        AllProductSortResponse.ListBean bean = (AllProductSortResponse.ListBean) adapter.getItem(position);
+        startActivity(ProductListActivity.getIntent(getActivity(), mAllProductSortResponse, bean.id));
     }
 
     @Override
@@ -123,9 +134,9 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     @Override
     public void getProductListSuccess(ProductListResponse response) {
         List<ProductListResponse.CategoryBean> list = response.category;
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             mAdapter.setNewData(list);
-        }else {
+        } else {
             mProductProducts.setVisibility(View.GONE);
         }
     }
@@ -145,25 +156,19 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
 
     private void initView() {
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ProductAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new ProductAdapter(null, getActivity(), mImageLoaderHelper);
         mProductProducts.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            ProductListResponse.CategoryBean categoryBean = (ProductListResponse.CategoryBean) adapter.getItem(position);
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(ProductListActivity.getIntent(getActivity()));
+                    startActivity(ProductListActivity.getIntent(getActivity(), mAllProductSortResponse, categoryBean.id));
                     break;
             }
         });
     }
 
-    public void showSearchLayout(boolean flag) {
-        if (!flag) {
-            mSearchLayout.setVisibility(View.VISIBLE);
-        } else {
-            mSearchLayout.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void showLoading(String msg) {

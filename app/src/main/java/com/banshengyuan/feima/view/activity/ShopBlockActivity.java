@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,10 +18,13 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopBlockActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopBlockActivityModule;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.entity.ShopSortListResponse;
 import com.banshengyuan.feima.utils.AppDeviceUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShopBlockControl;
-import com.banshengyuan.feima.view.adapter.CollectionShopAdapter;
+import com.banshengyuan.feima.view.adapter.ShopListAdapter;
 import com.banshengyuan.feima.view.adapter.ShopMenuAdapter;
+import com.banshengyuan.feima.view.adapter.StreetMenuAdapter;
 import com.banshengyuan.feima.view.customview.CustomPopWindow;
 
 import java.util.ArrayList;
@@ -30,6 +34,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.banshengyuan.feima.R.id.shop_block_shops_text;
 
 /**
  * Created by lei.he on 2017/6/5.
@@ -42,7 +48,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     TextView mShopBlockBlocksText;
     @BindView(R.id.shop_block_blocks_layout)
     LinearLayout mShopBlockBlocksLayout;
-    @BindView(R.id.shop_block_shops_text)
+    @BindView(shop_block_shops_text)
     TextView mShopBlockShopsText;
     @BindView(R.id.shop_block_shops_layout)
     LinearLayout mShopBlockShopsLayout;
@@ -57,8 +63,11 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     @BindView(R.id.shop_block_shop_icon)
     ImageView mShopBlockShopIcon;
 
-    public static Intent getActivityDetailIntent(Context context) {
+    public static Intent getActivityDetailIntent(Context context, FairUnderLineResponse response, FairUnderLineResponse.ListBean listBean, Integer categoryId) {
         Intent intent = new Intent(context, ShopBlockActivity.class);
+        intent.putExtra("fairUnderLineResponse", response);
+        intent.putExtra("fairUnderLineResponseItem", listBean);
+        intent.putExtra("categoryId", categoryId);
         return intent;
     }
 
@@ -66,7 +75,14 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     @Inject
     ShopBlockControl.PresenterShopBlock mPresenter;
     private int mWith;
-    private CollectionShopAdapter mAdapter;
+    private ShopListAdapter mAdapter;
+    private List<ShopSortListResponse.ListBean> mShopSortList;
+    private FairUnderLineResponse mBlockBean;
+    private Integer mStreetId;
+    private Integer mCategoryId;
+    private CustomPopWindow mCustomPopWindow1;
+    private CustomPopWindow mCustomPopWindow2;
+    private FairUnderLineResponse.ListBean mListItemBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +97,27 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
 
     }
 
+    //
+    @Override
+    public void getShopSortListSuccess(ShopSortListResponse response) {
+        if (response.list != null && response.list.size() > 0) {
+            for (int i = 0; i < response.list.size(); i++) {
+                if (response.list.get(i).id == mCategoryId) {
+                    response.list.get(i).select_position = true;
+                    mShopBlockShopsText.setText(response.list.get(i).name);
+                }
+            }
+            mShopSortList = response.list;
+        }
+    }
+
+    @Override
+    public void getShopSortListFail(String des) {
+        showToast(des);
+    }
+
     private void initData() {
+        mPresenter.requestShopSortList();
         List<Integer> mList = new ArrayList<>();
         mList.add(R.mipmap.main_banner_first);
         mList.add(R.mipmap.main_banner_second);
@@ -93,54 +129,97 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void initView() {
+        mBlockBean = (FairUnderLineResponse) getIntent().getSerializableExtra("fairUnderLineResponse");
+        mListItemBean = (FairUnderLineResponse.ListBean) getIntent().getSerializableExtra("fairUnderLineResponseItem");
+        if (mListItemBean != null) {
+            mStreetId = mListItemBean.id;
+            mShopBlockBlocksText.setText(mListItemBean.name);
+        }
+        mCategoryId = getIntent().getIntExtra("categoryId", 0);
+
         mShopBlockList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new CollectionShopAdapter(null, this);
+        mAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
         mShopBlockList.setAdapter(mAdapter);
 
-
+        if (mBlockBean != null) {
+            mShopBlockBlocksLayout.setOnClickListener(v -> {
+                        showStreetPopMenu(mShopBlockBlocksLayout, mBlockBean.list);
+                        mShopBlockBlocksIcon.setImageResource(R.mipmap.price_up_red);
+                        mShopBlockBlocksText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
+                    }
+            );
+        }
         mShopBlockShopsLayout.setOnClickListener(v -> {
-                    List<String> list = new ArrayList<>();
-                    for (int i = 0; i < 4; i++) {
-                        list.add("魔兽世界" + i);
-                    }
-                    showPopMenu(mShopBlockShopsLayout, list);
-            mShopBlockShopIcon.setImageResource(R.mipmap.price_up_blue);
+                    showPopMenu(mShopBlockShopsLayout, mShopSortList);
+                    mShopBlockShopIcon.setImageResource(R.mipmap.price_up_red);
+                    mShopBlockShopsText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
+
                 }
         );
-        mShopBlockBlocksLayout.setOnClickListener(v -> {
-                    List<String> list = new ArrayList<>();
-                    for (int i = 0; i < 4; i++) {
-                        list.add("魔兽世界" + i);
-                    }
-                    showPopMenu(mShopBlockBlocksLayout, list);
-            mShopBlockBlocksIcon.setImageResource(R.mipmap.price_up_blue);
-                }
-        );
-
-
         mWith = AppDeviceUtil.getDisplayMetrics(this).widthPixels;
     }
 
-    private void showPopMenu(View view, List<String> list) {
+    private void showStreetPopMenu(View view, List<FairUnderLineResponse.ListBean> list) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, null);
+        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
+        StreetMenuAdapter adapter = new StreetMenuAdapter(list, ShopBlockActivity.this);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((adapter1, view1, position) -> {
+                    for (int i = 0; i < mBlockBean.list.size(); i++) {
+                        mBlockBean.list.get(i).select_position = i == position;
+                    }
+                    FairUnderLineResponse.ListBean listBean = (FairUnderLineResponse.ListBean) adapter1.getItem(position);
+                    if (listBean != null) {
+                        mStreetId = listBean.id;
+                        mShopBlockBlocksText.setText(listBean.name);
+                        mCustomPopWindow1.dissmiss();
+                    }
+                }
+        );
+        mCustomPopWindow1 = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
+                .setView(contentView)
+                .size(mWith / 2, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .create()
+                .showAsDropDown(view, 0, 0);
+
+        mCustomPopWindow1.getPopupWindow().setOnDismissListener(() -> {
+                    mShopBlockBlocksText.setTextColor(ContextCompat.getColor(this, R.color.tab_text_normal));
+                    mShopBlockBlocksIcon.setImageResource(R.mipmap.price_down_black);
+                }
+        );
+    }
+
+    private void showPopMenu(View view, List<ShopSortListResponse.ListBean> list) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, null);
 
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         ShopMenuAdapter adapter = new ShopMenuAdapter(list, ShopBlockActivity.this);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter1, view1, position) ->
-                showToast("" + position)
+        adapter.setOnItemClickListener((adapter1, view1, position) -> {
+                    for (int i = 0; i < mShopSortList.size(); i++) {
+                        mShopSortList.get(i).select_position = i == position;
+                    }
+                    ShopSortListResponse.ListBean listBean = (ShopSortListResponse.ListBean) adapter1.getItem(position);
+                    if (listBean != null) {
+                        mCategoryId = listBean.id;
+                        mShopBlockShopsText.setText(listBean.name);
+                        mCustomPopWindow2.dissmiss();
+                    }
+                }
         );
-        CustomPopWindow customPopWindow = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
+        mCustomPopWindow2 = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
                 .setView(contentView)
                 .size(mWith / 2, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create()
                 .showAsDropDown(view, 0, 0);
 
-        customPopWindow.getPopupWindow().setOnDismissListener(() -> {
-            mShopBlockBlocksIcon.setImageResource(R.mipmap.price_low);
-            mShopBlockShopIcon.setImageResource(R.mipmap.price_low);
-        });
+        mCustomPopWindow2.getPopupWindow().setOnDismissListener(() -> {
+                    mShopBlockShopIcon.setImageResource(R.mipmap.price_down_black);
+                    mShopBlockShopsText.setTextColor(ContextCompat.getColor(this, R.color.tab_text_normal));
+                }
+        );
     }
 
     @Override

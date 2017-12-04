@@ -7,17 +7,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerProductListActivityComponent;
 import com.banshengyuan.feima.dagger.module.ProductListActivityModule;
+import com.banshengyuan.feima.entity.AllProductSortResponse;
+import com.banshengyuan.feima.entity.ProductCategoryResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductListControl;
-import com.banshengyuan.feima.view.adapter.CollectionProductAdapter;
+import com.banshengyuan.feima.view.adapter.ProductCategoryListAdapter;
 import com.banshengyuan.feima.view.adapter.ProductListSortAdapter;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,16 +43,20 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
     @BindView(R.id.product_list)
     RecyclerView mProductList;
 
-    public static Intent getIntent(Context context) {
+    public static Intent getIntent(Context context, AllProductSortResponse allProductSortResponse, Integer categoryId) {
         Intent intent = new Intent(context, ProductListActivity.class);
+        intent.putExtra("allProductSortResponse", allProductSortResponse);
+        intent.putExtra("categoryId", categoryId);
         return intent;
     }
 
     @Inject
     ProductListControl.PresenterProductList mPresenter;
     private ProductListSortAdapter mProductListSortAdapter;
-    private CollectionProductAdapter mProductAdapter;
-    private String[] mStrings = {"全部", "美食", "服饰", "休闲娱乐", "母婴亲子", "护肤彩妆", "运动健身", "家店数码", "鞋包", "文化", "设计感"};
+    private ProductCategoryListAdapter mProductAdapter;
+    private List<AllProductSortResponse.ListBean> mList;
+    private AllProductSortResponse mAllProductSortResponse;
+    private Integer mCategoryId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,27 +95,62 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
         mPresenter.onDestroy();
     }
 
+    @Override
+    public void getProductListSuccess(ProductCategoryResponse response) {
+        if (response.list != null && response.list.size() > 0) {
+            mProductList.setVisibility(View.VISIBLE);
+            mProductAdapter.setNewData(response.list);
+        } else {
+            mProductList.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getProductListFail(String des) {
+        mProductList.setVisibility(View.GONE);
+    }
+
     private void initData() {
-        List<String> list = new ArrayList<>();
-        Collections.addAll(list, mStrings);
-        mProductListSortAdapter.setNewData(list);
-
-
-        List<Integer> mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_first);
-        mList.add(R.mipmap.main_banner_second);
-        mList.add(R.mipmap.main_banner_third);
-        mProductAdapter.setNewData(mList);
+        mPresenter.requestProductList(mCategoryId);
     }
 
     private void initView() {
+        mAllProductSortResponse = (AllProductSortResponse) getIntent().getSerializableExtra("allProductSortResponse");
+        mList = mAllProductSortResponse.list;
+        mCategoryId = getIntent().getIntExtra("categoryId", 0);
+        for (AllProductSortResponse.ListBean listBean : mList) {
+            if (listBean.id == mCategoryId) {
+                listBean.isRed = true;
+            }
+        }
         mMiddleName.setText("产品列表");
         mProductListSort.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mProductList.setLayoutManager(new LinearLayoutManager(this));
-        mProductListSortAdapter = new ProductListSortAdapter(null, this);
-        mProductAdapter = new CollectionProductAdapter(null,this);
+        mProductListSortAdapter = new ProductListSortAdapter(mList, this);
+        mProductAdapter = new ProductCategoryListAdapter(null, this, mImageLoaderHelper);
         mProductListSort.setAdapter(mProductListSortAdapter);
         mProductList.setAdapter(mProductAdapter);
+
+        mProductListSortAdapter.setOnItemClickListener((adapter, view, position) -> {
+            AllProductSortResponse.ListBean item = (AllProductSortResponse.ListBean) adapter.getItem(position);
+            for (int i = 0; i < mList.size(); i++) {
+                mList.get(i).isRed = i == position;
+            }
+            mProductListSortAdapter.setNewData(mList);
+            mProductListSort.getLayoutManager().smoothScrollToPosition(mProductListSort, null, position);
+            if (item != null) {
+                mPresenter.requestProductList(item.id);
+            }
+
+        });
+
+        mProductAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ProductCategoryResponse.ListBean bean = (ProductCategoryResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(GoodDetailActivity.getIntent(this, bean.id));
+            }
+
+        });
 
     }
 

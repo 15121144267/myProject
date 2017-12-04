@@ -1,8 +1,8 @@
 package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by helei on 2017/4/27.
@@ -10,7 +10,7 @@ import retrofit2.http.POST;
  */
 
 public interface ProductListApi {
-    @POST("member/deliveraddress")
-    Observable<String> addAddressRequest(@Body String request);
+    @GET("api/goods")
+    Observable<String> productListRequest(@Query("category_id") Integer categoryId,@Query("page") Integer page,@Query("pageSize") Integer pageSize);
 
 }

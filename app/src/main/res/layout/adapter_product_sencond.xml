@@ -7,8 +7,9 @@
               android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/product_drawable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="32dp"
+        android:scaleType="centerCrop"
+        android:layout_height="32dp"/>
     <TextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"

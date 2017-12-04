@@ -70,13 +70,13 @@ public class ShopListActivity extends BaseActivity implements ShopListControl.Sh
 
     @Override
     public void getShopListSuccess(List<ShopListResponse.ListBean> list) {
-        mList = list;
+     /*   mList = list;
         if (list.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
         } else {
             mAdapter.loadMoreEnd();
-        }
+        }*/
     }
 
     @Override

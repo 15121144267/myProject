@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -23,9 +25,8 @@ public class ProductListModel {
     }
 
 
-    /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
+    public Observable<ResponseData> productListRequest(Integer categoryId) {
+        return mApi.productListRequest(categoryId,1,10).map(mTransform::transformCommon);
+    }
 
 }

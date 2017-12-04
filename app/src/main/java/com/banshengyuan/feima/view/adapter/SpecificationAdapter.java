@@ -84,28 +84,6 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
         }
     }
 
-    /*private void checkEnable(List<String> list) {
-        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
-            TextView v = (TextView) myLinearLayout.getChildAt(j);
-            if (list.contains(v.getText().toString())) {
-                v.setEnabled(true);
-            } else {
-                v.setEnabled(false);
-            }
-        }
-    }
-
-    private void checkEnable2(List<String> list) {
-        for (int j = 0; j < myLinearLayout.getChildCount(); j++) {
-            TextView v = (TextView) myLinearLayout.getChildAt(j);
-            if (list == null || list.size() > 0 && list.contains(v.getText().toString())) {
-                v.setEnabled(true);
-            } else {
-                v.setEnabled(false);
-            }
-        }
-    }*/
-
     private class SpecificationClickListener implements View.OnClickListener {
         private Integer type;
         private Integer mPosition;
@@ -151,19 +129,6 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
                                         valueBean.enableFlag = false;
                                     }
                                 }
-                               /* if (bindSpecBean.spec_id.contains(valueBean.id + "") && bindSpecBean.spec_id.contains(value.get(i).id + "")) {
-                                    for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
-                                        if (bindSpecBean.spec_id.contains(integerEntry.getValue()+"")){
-                                            valueBean.enableFlag = true;
-                                        }else {
-                                            valueBean.enableFlag = false;
-                                        }
-                                    }
-                                    valueBean.enableFlag = true;
-                                    break;
-                                } else {
-                                    valueBean.enableFlag = false;
-                                }*/
                             }
                         }
 

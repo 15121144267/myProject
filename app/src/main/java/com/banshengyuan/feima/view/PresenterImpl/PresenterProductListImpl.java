@@ -2,10 +2,15 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.ProductCategoryResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductListControl;
 import com.banshengyuan.feima.view.model.ProductListModel;
+import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
@@ -24,23 +29,25 @@ public class PresenterProductListImpl implements ProductListControl.PresenterPro
         mModel = model;
     }
 
-    /*@Override
-    public void requestAddAddress(AddAddressRequest request) {
+    @Override
+    public void requestProductList(Integer categoryId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addAddressRequest(request).compose(mView.applySchedulers())
-                .subscribe(this::addAddressSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.productListRequest(categoryId).compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void addAddressSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mView.addAddressSuccess();
+    private void getProductListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(ProductCategoryResponse.class);
+            ProductCategoryResponse response = (ProductCategoryResponse) responseData.parsedData;
+            mView.getProductListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.getProductListFail(responseData.errorDesc);
         }
     }
-*/
+
     @Override
     public void onCreate() {
 

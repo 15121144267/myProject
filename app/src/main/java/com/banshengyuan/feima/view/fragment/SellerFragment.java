@@ -61,6 +61,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     private SellerStoreAdapter mProductAdapter;
     private CardScaleHelper mCardScaleHelper;
     private GallerySellerAdapter mGallerySellerAdapter;
+    private FairUnderLineResponse mBlockBean;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     public void getBlockListSuccess(FairUnderLineResponse response) {
         List<FairUnderLineResponse.ListBean> listBeen = response.list;
         if (listBeen != null && listBeen.size() > 0) {
+            mBlockBean = response;
             mGallerySellerAdapter.setNewData(listBeen);
         } else {
             mShopTopGallery.setVisibility(View.GONE);
@@ -110,7 +112,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         List<StoreListResponse.CategoryBean> list = response.category;
         if (list != null && list.size() > 0) {
             mProductAdapter.setNewData(list);
-        }else {
+        } else {
             mShopBottomProducts.setVisibility(View.GONE);
         }
     }
@@ -134,7 +136,15 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     @Override
     public void sellerClickItemListener(int position) {
-        startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity()));
+        for (int i = 0; i < mBlockBean.list.size(); i++) {
+            if(i == position){
+                mBlockBean.list.get(i).select_position = true;
+            }else {
+                mBlockBean.list.get(i).select_position = false;
+            }
+        }
+
+        startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), mBlockBean, mBlockBean.list.get(position), 0));
     }
 
     private void initView() {
@@ -153,9 +163,11 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         mProductAdapter = new SellerStoreAdapter(null, getActivity(), mImageLoaderHelper);
         mShopBottomProducts.setAdapter(mProductAdapter);
         mProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            StoreListResponse.CategoryBean categoryBean = (StoreListResponse.CategoryBean) adapter.getItem(position);
+            if (categoryBean == null) return;
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity()));
+                    startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), mBlockBean, null, categoryBean.id));
                     break;
             }
         });

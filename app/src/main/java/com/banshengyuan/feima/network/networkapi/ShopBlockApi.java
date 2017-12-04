@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
@@ -10,7 +9,7 @@ import retrofit2.http.POST;
  */
 
 public interface ShopBlockApi {
-    @POST("member/deliveraddress")
-    Observable<String> addAddressRequest(@Body String request);
+    @POST("api/store-category/list")
+    Observable<String> shopSortListRequest();
 
 }

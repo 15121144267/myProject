@@ -2,10 +2,15 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.ShopSortListResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopBlockControl;
+import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShopBlockModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
@@ -24,6 +29,24 @@ public class PresenterShopBlockImpl implements ShopBlockControl.PresenterShopBlo
         mModel = model;
     }
 
+    @Override
+    public void requestShopSortList() {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.shopSortListRequest().compose(mView.applySchedulers())
+                .subscribe(this::getShopSortListSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getShopSortListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(ShopSortListResponse.class);
+            ShopSortListResponse response = (ShopSortListResponse) responseData.parsedData;
+            mView.getShopSortListSuccess(response);
+        } else {
+            mView.getShopSortListFail(responseData.errorDesc);
+        }
+    }
     /*@Override
     public void requestAddAddress(AddAddressRequest request) {
         mView.showLoading(mContext.getString(R.string.loading));

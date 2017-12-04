@@ -22,16 +22,16 @@
             <TextView
                 android:id="@+id/shop_block_blocks_text"
                 style="@style/TextColor_dark_black_14"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="全部街区 "/>
+                android:text="全部街区"/>
 
             <ImageView
                 android:id="@+id/shop_block_blocks_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/price_low"/>
+                android:src="@mipmap/price_down_black"/>
         </LinearLayout>
 
 
@@ -45,16 +45,16 @@
             <TextView
                 android:id="@+id/shop_block_shops_text"
                 style="@style/TextColor_dark_black_14"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="全部商家 "/>
+                android:text="全部商家"/>
 
             <ImageView
                 android:id="@+id/shop_block_shop_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/price_low"/>
+                android:src="@mipmap/price_down_black"/>
         </LinearLayout>
     </LinearLayout>
 
