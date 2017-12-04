@@ -13,6 +13,7 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.InfoBean.OtherSpecBean, BaseViewHolder> {
@@ -123,6 +124,7 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
     }
 
     private void clickEvent(Integer type, List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> value, Integer position, View v) {
+
         TextView[] textViews = (TextView[]) v.getTag();
         TextView tv = (TextView) v;
 
@@ -134,12 +136,34 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
                     if (i1 != position) {
                         for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
                             for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
-                                if (bindSpecBean.spec_id.contains(valueBean.id + "") && bindSpecBean.spec_id.contains(value.get(i).id + "")) {
+                                for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
+                                    if (bindSpecBean.spec_id.contains(integerEntry.getValue()+"")){
+                                        valueBean.enableFlag = true;
+                                    }else {
+                                        valueBean.enableFlag = false;
+                                    }
+                                }
+                                if( valueBean.enableFlag){
+                                    if(bindSpecBean.spec_id.contains(valueBean.id + "")){
+                                        valueBean.enableFlag = true;
+                                        break;
+                                    }else {
+                                        valueBean.enableFlag = false;
+                                    }
+                                }
+                               /* if (bindSpecBean.spec_id.contains(valueBean.id + "") && bindSpecBean.spec_id.contains(value.get(i).id + "")) {
+                                    for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
+                                        if (bindSpecBean.spec_id.contains(integerEntry.getValue()+"")){
+                                            valueBean.enableFlag = true;
+                                        }else {
+                                            valueBean.enableFlag = false;
+                                        }
+                                    }
                                     valueBean.enableFlag = true;
                                     break;
                                 } else {
                                     valueBean.enableFlag = false;
-                                }
+                                }*/
                             }
                         }
 
