@@ -33,14 +33,14 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     @Override
-    public void requestMyOrderList(Integer pageNo, Integer pageSize,String search_status,boolean flag,String token) {
+    public void requestMyOrderList(Integer pageNo, Integer pageSize, String search_status, boolean flag, String token) {
         if (isShow) {
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
-        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize,search_status,flag,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize, search_status, flag, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getMyOrderListSuccess,
-                        throwable -> mView.loadFail(throwable),() -> mView.dismissLoading());
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -48,9 +48,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
         if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
-            if(response.getList().size()!=0){
-                mView.getMyOrderListSuccess(response);
-            }
+            mView.getMyOrderListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }

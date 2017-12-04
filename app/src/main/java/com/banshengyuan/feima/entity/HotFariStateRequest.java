@@ -8,6 +8,7 @@ package com.banshengyuan.feima.entity;
 public class HotFariStateRequest {
     public String id;
     public String token;
+    public String order_sn;//报名订单号
     public boolean flag;
 
     public String getId() {
@@ -32,5 +33,13 @@ public class HotFariStateRequest {
 
     public void setFlag(boolean flag) {
         this.flag = flag;
+    }
+
+    public String getOrder_sn() {
+        return order_sn;
+    }
+
+    public void setOrder_sn(String order_sn) {
+        this.order_sn = order_sn;
     }
 }

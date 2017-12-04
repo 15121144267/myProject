@@ -20,9 +20,9 @@ public interface FairProductDetailApi {
     Observable<String> hotFairDetailRequest(@Path("id") String id,@Query("id") String id2,@Query("flag") boolean flag);
 
     @POST("api/hot/{id}/sign-up/status")
-    Observable<String> hotFairStateRequest(@Path("id") String id, @Body String request);
+    Observable<String> hotFairStateRequest(@Path("id") String id,@Query("order_sn") String order_sn, @Body String request);
 
     @POST("api/hot/{id}/sign-up")
-    Observable<String> hotFairJoinActionRequest(@Path("id") String id, @Body String request);
+    Observable<String> hotFairJoinActionRequest(@Path("id") String id,@Query("mobile") String mobile, @Body String request);
 
 }

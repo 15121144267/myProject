@@ -44,7 +44,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse.ListBean.OrderItemBean> mList;
+    private List<MyOrdersResponse.ListBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
@@ -52,7 +52,6 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Inject
     AllOrderControl.PresenterAllOrderView mPresenter;
-    private MyOrdersResponse.ListBean listBean = null;
     private MyOrdersResponse ordersResponse = null;//服务器返回数据
 
 
@@ -101,10 +100,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
-        mAdapter.setlistBeanData(response.getList().get(0));
         ordersResponse = response;
-        listBean = response.getList().get(0);
-        mList = response.getList().get(0).getOrder_item();
+        mList = response.getList();
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -124,18 +121,12 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
 
-//        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-//                    showToast("position=" + position);
-////                    MyOrdersResponse.ListBean response = (MyOrdersResponse.ListBean) adapter.getItem(position);
-////                    startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response));
-//                }
-//        );
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     switch (view.getId()) {
                         case R.id.mime_order_lv:
-                            MyOrdersResponse.ListBean.OrderItemBean response = (MyOrdersResponse.ListBean.OrderItemBean) adapter.getItem(position);
-                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), response,ordersResponse.getList().get(0)));
+                            MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
+                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), listBean));
                             break;
                         case R.id.order_left_btn:
                             showToast("" + position);

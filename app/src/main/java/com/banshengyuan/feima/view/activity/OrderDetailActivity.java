@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.OrderDetailActivityModule;
@@ -17,6 +19,9 @@ import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.OrderDetailControl;
 import com.banshengyuan.feima.view.adapter.OrdersDetailAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,10 +43,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     ImageView toolbarRightIcon;
     @BindView(R.id.toolbar_right_text)
     TextView toolbarRightText;
-    @BindView(R.id.order_detail_status)
-    TextView orderDetailStatus;
-    @BindView(R.id.order_detail_complete_time)
-    TextView orderDetailCompleteTime;
     @BindView(R.id.order_detail_shop_name)
     TextView orderDetailShopName;
     @BindView(R.id.order_detail_product_list)
@@ -55,15 +56,25 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     @BindView(R.id.order_detail_order_id)
     TextView orderDetailOrderId;
     @BindView(R.id.order_detail_copy_orderid)
-    TextView orderDetailCopyOrderid;
+    RadiusTextView orderDetailCopyOrderid;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    private MyOrdersResponse.ListBean.OrderItemBean mOrder;
-    private MyOrdersResponse.ListBean mListBean;
+    @BindView(R.id.address_map_icon)
+    ImageView addressMapIcon;
+    @BindView(R.id.order_right_btn)
+    RadiusTextView orderRightBtn;
+    @BindView(R.id.order_left_btn)
+    RadiusTextView orderLeftBtn;
+    private MyOrdersResponse.ListBean mListBean = null;
+    private MyOrdersResponse.ListBean.OrderItemBean orderItemBean = null;
+    List<MyOrdersResponse.ListBean.OrderItemBean.ProductBean> mProductBeen = new ArrayList<>();
 
-    public static Intent getOrderDetailIntent(Context context, MyOrdersResponse.ListBean.OrderItemBean order, MyOrdersResponse.ListBean listBean) {
+    Integer totalPrice = 0;
+    Integer transPrice = 0;
+    Integer shouldPrice = 0;
+
+    public static Intent getOrderDetailIntent(Context context, MyOrdersResponse.ListBean listBean) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
-        intent.putExtra("orderDetail", order);
         intent.putExtra("listBean", listBean);
         return intent;
     }
@@ -76,13 +87,14 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         supportActionBar(mToolbar, true);
         initializeInjector();
         middleName.setText("订单详情");
-        parseIntent();
         initView();
     }
 
     private void parseIntent() {
-        mOrder = getIntent().getParcelableExtra("orderDetail");
         mListBean = getIntent().getParcelableExtra("listBean");
+        if (mListBean != null) {
+            orderItemBean = mListBean.getOrder_item().get(0);
+        }
     }
 
     @Override
@@ -112,35 +124,26 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void initView() {
+        parseIntent();
         orderDetailProductList.setLayoutManager(new LinearLayoutManager(this));
-        OrdersDetailAdapter adapter = new OrdersDetailAdapter(mOrder.getProduct(), this, mImageLoaderHelper);
-        orderDetailProductList.setAdapter(adapter);
+        if (orderItemBean != null) {
+            OrdersDetailAdapter adapter = new OrdersDetailAdapter(orderItemBean.getProduct(), this, mImageLoaderHelper);
+            orderDetailProductList.setAdapter(adapter);
 
-//        mOrderDetailCompleteTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate), TimeUtil.TIME_MMDD_HHMMSS1));
-        orderDetailShopName.setText(mOrder.getStore_name());
-        Double totalPrice = 0.00;
-        Integer shouldPayPrice = 0;
+            orderDetailShopName.setText(orderItemBean.getStore_name());
 
-        for (MyOrdersResponse.ListBean.OrderItemBean.ProductBean productsBean : mOrder.getProduct()) {
-            totalPrice += Double.parseDouble(productsBean.getPrice()) * productsBean.getNumber();
-//                shouldPayPrice += productsBean.originalPrice * productsBean.productNumber;
+            for (MyOrdersResponse.ListBean.OrderItemBean.ProductBean productBean : orderItemBean.getProduct()) {
+                if (productBean != null) {
+                    totalPrice += productBean.getPrice() * productBean.getNumber();
+                }
+            }
         }
+
         String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
         orderDetailPrice.setText(priceTotal);
 
-//        if (mOrder.accounts != null) {
-//            MyOrdersResponse.OrdersBean.AccountsBean accounts = mOrder.accounts.get(0);
-//            String dispatchPrice = "￥" + ValueUtil.formatAmount(accounts.price);
-//            String finalPrice = "实付:￥" + ValueUtil.formatAmount(totalPrice + accounts.price);
-//            String shouldPayFinalPrice = "应付:￥" + ValueUtil.formatAmount(shouldPayPrice + accounts.price);
-//            mOrderDetailDispatchPrice.setText(dispatchPrice);
-//            mOrderDetailPayPrice.setText(finalPrice);
-//            mOrderDetailShouldPay.setText(shouldPayFinalPrice);
-//        }
-//
-//        mOrderDetailOrderId.setText(String.valueOf(mOrder.oid));
-//        mOrderDetailBeginTime.setText(TimeUtil.stringTimeToFormat(String.valueOf(mOrder.gmtCreate), TimeUtil.TIME_YYMMDD_HHMMSS));
-
+        shouldPrice = totalPrice + transPrice;
+        orderDetailShouldPay.setText("￥" + ValueUtil.formatAmount(shouldPrice));
     }
 
     private void initializeInjector() {
@@ -150,8 +153,21 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 .build().inject(this);
     }
 
-    @OnClick(R.id.order_detail_copy_orderid)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.call_business_iv, R.id.order_detail_copy_orderid, R.id.order_right_btn, R.id.order_left_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.call_business_iv:
+                showToast("call");
+                break;
+            case R.id.order_detail_copy_orderid:
+                showToast("copy");
+                break;
+            case R.id.order_right_btn:
+                showToast("right");
+                break;
+            case R.id.order_left_btn:
+                showToast("left");
+                break;
+        }
     }
 }

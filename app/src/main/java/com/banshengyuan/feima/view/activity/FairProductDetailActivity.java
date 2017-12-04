@@ -7,21 +7,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
+import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairProductDetailActivityModule;
 import com.banshengyuan.feima.entity.Constant;
-import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
 import com.banshengyuan.feima.entity.HotFariJoinActionResponse;
 import com.banshengyuan.feima.entity.HotFariStateRequest;
 import com.banshengyuan.feima.help.DialogFactory;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
@@ -42,7 +40,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     @BindView(R.id.back)
     ImageView back;
     @BindView(R.id.join)
-    Button join;
+    RadiusTextView join;
 
     public static Intent getIntent(Context context, String fId) {
         Intent intent = new Intent(context, FairProductDetailActivity.class);
@@ -105,6 +103,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     private void initData() {
         HotFariStateRequest hotFariStateRequest = new HotFariStateRequest();
         hotFariStateRequest.setId(fId);
+        hotFariStateRequest.setOrder_sn("H2017120109515797807");//报名订单号
         hotFariStateRequest.setToken(Constant.TOKEN);
         hotFariStateRequest.setFlag(Constant.requestFlag);
         mPresenter.requestHotFairState(fId, hotFariStateRequest); //热闹-报名订单状态查询
@@ -114,12 +113,10 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     /**
      * 报名参加
      * 查看二维码
-     *
-     * @param view
      */
-    public void join(View view) {
-        if (hotFairStateResponse.getStatus().equals("2")) {
-            startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this,hotFairDetailResponse,hotFairStateResponse.getQrcode()));
+    private void join() {
+        if (hotFairStateResponse.getStatus().equals("2")) {//查看二维码
+            startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
         } else {
             HotFariJoinActionRequest hotFariJoinActionRequest = new HotFariJoinActionRequest();
             hotFariJoinActionRequest.setId(fId);
@@ -140,10 +137,6 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
                 .build().inject(this);
     }
 
-    @OnClick(R.id.back)
-    public void onViewClicked() {
-        finish();
-    }
 
     @Override
     public void getHotFairDetailSuccess(HotFairDetailResponse response) {
@@ -176,6 +169,18 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
             if (!TextUtils.isEmpty(response.getOrder_sn())) {//判断订单号是否为空
                 //直接唤起支付
             }
+        }
+    }
+
+    @OnClick({R.id.join, R.id.back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.join:
+                join();
+                break;
+            case R.id.back:
+                finish();
+                break;
         }
     }
 }

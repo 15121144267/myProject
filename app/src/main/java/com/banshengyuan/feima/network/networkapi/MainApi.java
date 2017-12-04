@@ -45,5 +45,5 @@ public interface MainApi {
     Observable<String> vistaListRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 
     @GET("api/hot")
-    Observable<String> hotFairRequest(@Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> hotFairRequest(@Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("street_id") String streetId,@Query("flag") boolean flag);
 }

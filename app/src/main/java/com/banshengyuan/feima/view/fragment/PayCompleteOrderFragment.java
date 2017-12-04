@@ -42,7 +42,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse.ListBean.OrderItemBean> mList;
+    private List<MyOrdersResponse.ListBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private final String mStatus = "2";//1待付款 2待收货 3待评价   全部传""
@@ -53,7 +53,6 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
     @Inject
     PayCompleteControl.PresenterPayComplete mPresenter;
-    private MyOrdersResponse.ListBean listBean = null;
     private Unbinder unbind;
 
     @Override
@@ -101,8 +100,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
-        mAdapter.setlistBeanData(response.getList().get(0));
-        mList = response.getList().get(0).getOrder_item();
+        mList = response.getList();
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();

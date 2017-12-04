@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <include layout="@layout/toolbar_common" />
 
     <View style="@style/LineH_Fill_Width1_5_ForView" />
@@ -19,39 +20,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="79dp"
-                android:gravity="center_vertical"
-                android:paddingEnd="15dp"
-                android:paddingStart="15dp">
-
-                <TextView
-                    android:id="@+id/order_detail_status"
-                    style="@style/TextColor_dark_black2_15"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableStart="@mipmap/order_detail_icon"
-                    android:gravity="center_vertical"
-                    android:text="@string/order_status" />
-
-                <TextView
-                    android:id="@+id/order_detail_complete_time"
-                    style="@style/TextColor_Grey_15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="04-26 14:33" />
-            </LinearLayout>
+            <include layout="@layout/order_detail_top_layout" />
 
             <include layout="@layout/order_address_layout" />
 
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="60dp">
 
                 <TextView
                     android:id="@+id/order_detail_shop_name"
@@ -81,7 +58,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/call_business_tv"
                     android:padding="@dimen/dp_15"
-                    android:src="@mipmap/address_icon" />
+                    android:src="@mipmap/phone" />
             </RelativeLayout>
 
 
@@ -159,7 +136,7 @@
 
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:gravity="center_vertical"
@@ -170,15 +147,28 @@
                     android:id="@+id/order_detail_order_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单编号:122221466466446" />
+                    android:layout_alignParentLeft="true"
+                    android:text="订单编号:122221466466446"
+                    android:textColor="@color/color666" />
 
-                <TextView
+
+                <com.aries.ui.view.radius.RadiusTextView
                     android:id="@+id/order_detail_copy_orderid"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:gravity="center"
                     android:text="复制"
-                    android:textColor="@color/darkblack" />
-            </LinearLayout>
+                    rv:rv_backgroundColor="#ffffff"
+                    rv:rv_backgroundEnabledColor="#666666"
+                    rv:rv_backgroundPressedColor="#666666"
+                    rv:rv_strokeColor="#383838"
+                    rv:rv_strokeWidth="1dp"
+                    rv:rv_textColor="#666666"
+                    rv:rv_textEnabledColor="@android:color/white"
+                    rv:rv_textPressedColor="#ffffff" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -186,7 +176,8 @@
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp"
-                android:text="创建时间:2017-11-24 18：00：00" />
+                android:text="创建时间: 2017-11-24 18：00：00"
+                android:textColor="@color/color666" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,7 +185,8 @@
                 android:gravity="center_vertical"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp"
-                android:text="成交时间:2017-11-24 18：00：00" />
+                android:text="成交时间: 2017-11-24 18：00：00"
+                android:textColor="@color/color666" />
 
             <View
                 android:layout_width="match_parent"

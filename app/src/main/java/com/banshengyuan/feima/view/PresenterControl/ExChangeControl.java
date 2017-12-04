@@ -13,7 +13,7 @@ public class ExChangeControl {
     }
 
     public interface PresenterExChange extends Presenter<ExChangeView> {
-        void requestHotFairInfo();//请求热闹列表数据
+        void requestHotFairInfo(String street_id);//请求热闹列表数据
     }
 
 

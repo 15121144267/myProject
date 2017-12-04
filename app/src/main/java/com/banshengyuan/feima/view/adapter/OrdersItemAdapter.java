@@ -25,16 +25,13 @@ public class OrdersItemAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBea
     }
 
     @Override
-    protected void convert(BaseViewHolder helper,MyOrdersResponse.ListBean.OrderItemBean.ProductBean product) {
+    protected void convert(BaseViewHolder helper, MyOrdersResponse.ListBean.OrderItemBean.ProductBean product) {
         if (product == null) return;
         ImageView iconView = helper.getView(R.id.adapter_item_person_icon);
         mImageLoaderHelper.displayRoundedCornerImage(mContext, product.getCover_img(), iconView, 6);
 
         helper.setText(R.id.adapter_item_product_name, product.getName());
-        helper.setText(R.id.adapter_item_product_info, "暂无描述");
-        if(!TextUtils.isEmpty(product.getPrice())){
-            helper.setText(R.id.adapter_item_product_price, "￥" + ValueUtil.formatAmount(Double.parseDouble(product.getPrice())));
-        }
+        helper.setText(R.id.adapter_item_product_price, "￥" + ValueUtil.formatAmount(product.getPrice()));
 //        helper.setText(R.id.adapter_item_product_info2, "规格:" + product.specification);
         helper.setText(R.id.adapter_item_product_count, "x" + product.getNumber());
 

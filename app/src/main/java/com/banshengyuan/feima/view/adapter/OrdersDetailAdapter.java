@@ -30,11 +30,8 @@ public class OrdersDetailAdapter extends BaseQuickAdapter<MyOrdersResponse.ListB
         ImageView view = helper.getView(R.id.adapter_order_detail_product_pic);
         mImageLoaderHelper.displayCircularImage(mContext, item.getCover_img(), view);
         helper.setText(R.id.adapter_order_detail_product_name, item.getName());
-        if (!TextUtils.isEmpty(item.getPrice())) {
-            helper.setText(R.id.adapter_order_detail_product_price, "￥" + ValueUtil.formatAmount2(Double.parseDouble(item.getPrice())));
-        }
+        helper.setText(R.id.adapter_order_detail_product_price, "￥" + ValueUtil.formatAmount2(item.getPrice()));
         helper.setText(R.id.adapter_order_detail_product_count, "X" + item.getNumber());
-        helper.setText(R.id.adapter_order_detail_product_price, "￥" + item.getPrice());
 
     }
 

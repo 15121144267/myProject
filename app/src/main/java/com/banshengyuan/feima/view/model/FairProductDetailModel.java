@@ -33,11 +33,11 @@ public class FairProductDetailModel {
 
 
     public Observable<ResponseData> hotFairStateRequest(String id,HotFariStateRequest hotFariStateRequest) {
-        return mApi.hotFairStateRequest(id,mGson.toJson(hotFariStateRequest)).map(mTransform::transformCommon);
+        return mApi.hotFairStateRequest(id,hotFariStateRequest.getOrder_sn(),mGson.toJson(hotFariStateRequest)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> hotFairJoinActionRequest(String id,HotFariJoinActionRequest hotFariJoinActionRequest) {
-        return mApi.hotFairJoinActionRequest(id,mGson.toJson(hotFariJoinActionRequest)).map(mTransform::transformCommon);
+        return mApi.hotFairJoinActionRequest(id,hotFariJoinActionRequest.getPhone(),mGson.toJson(hotFariJoinActionRequest)).map(mTransform::transformCommon);
     }
 
     /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {

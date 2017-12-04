@@ -19,20 +19,17 @@
             android:src="@mipmap/person_head_icon" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="19dp"
             android:layout_marginStart="21dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp">
 
                 <TextView
                     android:id="@+id/adapter_order_detail_product_price"
@@ -48,21 +45,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
-                    android:text="连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙连衣裙"
                     android:textColor="@color/darkgrey1" />
 
+                <TextView
+                    android:id="@+id/adapter_order_detail_product_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:text="x50"
+                    android:textColor="@color/darkblack" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/adapter_order_detail_product_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:gravity="right"
-                android:text="x50"
-                android:textColor="@color/darkblack" />
 
         </LinearLayout>
     </LinearLayout>

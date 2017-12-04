@@ -48,6 +48,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
     ExChangeControl.PresenterExChange mPresenter;
     private Unbinder unbind;
     private ExChangeAdapter mHotFairAdapter;
+    private String streetId = "1";//街区ID
 
     public static ExchangeFragment newInstance() {
         return new ExchangeFragment();
@@ -116,7 +117,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
 
 
     private void initData() {
-        mPresenter.requestHotFairInfo();
+        mPresenter.requestHotFairInfo(streetId);
     }
 
     private void initView() {

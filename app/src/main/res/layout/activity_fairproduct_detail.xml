@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <Button
+
+    <com.aries.ui.view.radius.RadiusTextView
         android:id="@+id/join"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_style_blue6_rightangle"
+        android:layout_weight="1"
+        android:clickable="true"
         android:gravity="center"
-        android:onClick="join"
+        android:padding="10dp"
         android:text="报名参加"
-        android:textColor="@color/tab_text_normal"
-        android:textSize="@dimen/sp_15" />
+        rv:rv_backgroundColor="#fbbc00"
+        rv:rv_backgroundEnabledColor="#fbbc00"
+        rv:rv_backgroundPressedColor="#383838"
+        rv:rv_strokeColor="#383838"
+        rv:rv_textColor="@color/tab_text_normal"
+        rv:rv_textEnabledColor="#fbbc00"
+        rv:rv_textPressedColor="#ffffff"/>
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
