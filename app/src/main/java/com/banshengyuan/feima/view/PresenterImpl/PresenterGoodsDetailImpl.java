@@ -3,7 +3,6 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
@@ -55,9 +54,9 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     @Override
-    public void requestAddShoppingCard(AddShoppingCardRequest request) {
+    public void requestAddShoppingCard(String productId,String sku,Integer count) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.requestAddShoppingCard(request)
+        Disposable disposable = mModel.requestAddShoppingCard(productId,sku,count)
                 .compose(mView.applySchedulers())
                 .subscribe(this::addShoppingCardSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());

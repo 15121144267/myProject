@@ -164,7 +164,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         mUnderLineAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity(),mFairUnderLineResponse, 0));
+                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity(),mFairUnderLineResponse.list.get(0).id));
                     break;
             }
         });

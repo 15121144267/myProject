@@ -40,4 +40,8 @@ public class UnderLineFairModel {
     public Observable<ResponseData> productListRequest(Integer blockId ) {
         return mApi.productListRequest(blockId,1,10,true).map(mTransform::transformCommon);
     }
+
+    public Observable<ResponseData> vistaListRequest(double longitude, double latitude) {
+        return mApi.vistaListRequest(longitude + "", latitude + "", 1, 10, true).map(mTransform::transformCommon);
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.ShopSortListResponse;
+import com.banshengyuan.feima.entity.StoreCategoryListResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopBlockControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShopBlockModel;
@@ -27,6 +28,25 @@ public class PresenterShopBlockImpl implements ShopBlockControl.PresenterShopBlo
         mContext = context;
         mView = view;
         mModel = model;
+    }
+
+    @Override
+    public void requestShopList(Integer streetId, Integer categoryId) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.shopListRequest(streetId,categoryId).compose(mView.applySchedulers())
+                .subscribe(this::getShopListSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getShopListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(StoreCategoryListResponse.class);
+            StoreCategoryListResponse response = (StoreCategoryListResponse) responseData.parsedData;
+            mView.getShopListSuccess(response);
+        } else {
+            mView.getShopListFail(responseData.errorDesc);
+        }
     }
 
     @Override

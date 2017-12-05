@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
@@ -67,10 +68,9 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
     @BindView(R.id.fair_under_line_background)
     ImageView mFairUnderLineBackground;
 
-    public static Intent getActivityDetailIntent(Context context, FairUnderLineResponse fairUnderLineResponse, Integer position) {
+    public static Intent getActivityDetailIntent(Context context, Integer mStreetId) {
         Intent intent = new Intent(context, UnderLineFairActivity.class);
-        intent.putExtra("fairUnderLineResponse", fairUnderLineResponse);
-        intent.putExtra("position", position);
+        intent.putExtra("mStreetId", mStreetId);
         return intent;
     }
 
@@ -111,20 +111,44 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
 
     }
 
+    @Override
+    public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
+        if (fairUnderLineResponse.list != null && fairUnderLineResponse.list.size() > 0) {
+            mFairUnderLineResponse = fairUnderLineResponse;
+            mAdapter.setNewData(mFairUnderLineResponse.list);
+
+            for (int i = 0; i < fairUnderLineResponse.list.size(); i++) {
+                if (fairUnderLineResponse.list.get(i).id == mBlockId) {
+                    fairUnderLineResponse.list.get(i).select_position = true;
+                    mPosition = i;
+                }
+            }
+            mFairUnderLineRecyclerView.getLayoutManager().smoothScrollToPosition(mFairUnderLineRecyclerView, null, mPosition);
+        } else {
+            mFairUnderLineRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void getFairUnderLineFail() {
+        mFairUnderLineRecyclerView.setVisibility(View.GONE);
+    }
+
     private void initData() {
-        mAdapter.setNewData(mFairUnderLineResponse.list);
-        mFairUnderLineRecyclerView.getLayoutManager().smoothScrollToPosition(mFairUnderLineRecyclerView, null, mPosition);
         //请求街区详情
-        mPresenter.requestBlockDetail(mListBean.id);
+        mPresenter.requestBlockDetail(mBlockId);
+        //请求线下街区
+        if (mLocationInfo != null) {
+            mPresenter.requestFairUnderLine(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
+        } else {
+            mPresenter.requestFairUnderLine(0, 0);
+        }
     }
 
     private void initView() {
-        mFairUnderLineResponse = (FairUnderLineResponse) getIntent().getSerializableExtra("fairUnderLineResponse");
-        mPosition = getIntent().getIntExtra("position", 0);
         //选中的街区
-        mListBean = mFairUnderLineResponse.list.get(mPosition);
-        mListBean.select_position = true;
-        mBlockId = mListBean.id;
+        mBlockId = getIntent().getIntExtra("mStreetId", 0);
+
         mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.white));
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.tab_text_normal));
         mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
@@ -162,12 +186,13 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
             mPosition = position;
             mListBean = mFairUnderLineResponse.list.get(mPosition);
             mBlockId = mListBean.id;
-            for (int i = 0; i < mFairUnderLineResponse.list.size(); i++) {
+            /*for (int i = 0; i < mFairUnderLineResponse.list.size(); i++) {
                 mFairUnderLineResponse.list.get(i).select_position = i == position;
-            }
-            initData();
+            }*/
+            mFairUnderLineRecyclerView.getLayoutManager().smoothScrollToPosition(mFairUnderLineRecyclerView, null, mPosition);
+            mPresenter.requestBlockDetail(mBlockId);
             Intent intent = new Intent(BroConstant.BLOCKDETAIL_UPDATE);
-            intent.putExtra("blockId",mBlockId);
+            intent.putExtra("blockId", mBlockId);
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         });
     }

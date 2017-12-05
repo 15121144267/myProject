@@ -20,6 +20,7 @@ import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.help.AniCreator;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
+import com.banshengyuan.feima.utils.ToastUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.adapter.SpecificationAdapter;
@@ -67,6 +68,13 @@ public class SpecificationDialog extends BaseDialogFragment {
     private GoodsDetailControl.GoodsDetailView mView;
     private SpecificationDialog mDialog;
     private SkuProductResponse.InfoBean mSkuInfoBean;
+    private boolean mDoFlag = true;
+    private TextView mDialogGoodsReduce;
+    private TextView mDialogGoodsAdd;
+    private TextView mDialogGoodsCount;
+    private Integer count = 1;
+    private Integer mStock;
+    private String mSku;
 
     public static SpecificationDialog newInstance() {
         return new SpecificationDialog();
@@ -80,19 +88,21 @@ public class SpecificationDialog extends BaseDialogFragment {
     public void setContent(GoodsInfoResponse.InfoBean infoBean, Integer flag, ImageLoaderHelper imageLoaderHelper,
                            GoodsDetailControl.GoodsDetailView view, SpecificationDialog dialog,
                            HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap,
-                           SkuProductResponse.InfoBean skuInfoBean) {
+                           SkuProductResponse.InfoBean skuInfoBean, boolean doFlag) {
         mSkuProMap = skuProMap;
         mSelectProMap = selectProMap;
         mSkuInfoBean = skuInfoBean;
         mInfoBean = infoBean;
+        mStock = infoBean.stock;
         mAddOrBugFlag = flag;
         mImageLoaderHelper = imageLoaderHelper;
         mView = view;
         mDialog = dialog;
+        mDoFlag = doFlag;
     }
 
     //adapter回调数据
-    public void setSpecificationContent(HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap,GoodsInfoResponse.InfoBean infoBean) {
+    public void setSpecificationContent(HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap, GoodsInfoResponse.InfoBean infoBean) {
         mSkuProMap = skuProMap;
         mInfoBean = infoBean;
         mSelectProMap = selectProMap;
@@ -110,6 +120,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         mSkuInfoBean = infoBean;
         mDialogBuyGoods.setEnabled(true);
         mDialogAddGoods.setEnabled(true);
+        mStock = infoBean.stock;
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), infoBean.img, mDialogPersonIcon, 4);
         mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(infoBean.price));
         mDialogGoodsChoiceCount.setText("库存:" + infoBean.stock);
@@ -150,6 +161,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         if (mSkuInfoBean == null) {
             mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price));
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.top_img.get(0), mDialogPersonIcon, 6);
+            mDialogGoodsChoiceCount.setText("库存:" + mInfoBean.stock);
         } else {
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mSkuInfoBean.img, mDialogPersonIcon, 4);
             mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mSkuInfoBean.price));
@@ -160,15 +172,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         } else {
             mDialogGoodsChoiceSpecification.setText("请选择");
         }
-
-        if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()) {
-            mDialogBuyGoods.setEnabled(true);
-            mDialogAddGoods.setEnabled(true);
-        } else {
-            mDialogBuyGoods.setEnabled(false);
-            mDialogAddGoods.setEnabled(false);
-        }
-        /*if (mInfoBean.other_spec.size() > 0) {
+        if (mInfoBean.other_spec.size() > 0) {
             if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()) {
                 mDialogBuyGoods.setEnabled(true);
                 mDialogAddGoods.setEnabled(true);
@@ -178,8 +182,24 @@ public class SpecificationDialog extends BaseDialogFragment {
             }
         } else {
             mDialogBuyGoods.setEnabled(true);
-        mDialogAddGoods.setEnabled(true);
-    }*/
+            mDialogAddGoods.setEnabled(true);
+        }
+
+        if (mDoFlag) {
+            for (GoodsInfoResponse.InfoBean.OtherSpecBean specBean : mInfoBean.other_spec) {
+                for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : specBean.value) {
+                    for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
+                        if (bindSpecBean.spec_id.contains(valueBean.id + "")) {
+                            valueBean.enableFlag = true;
+                            break;
+                        } else {
+                            valueBean.enableFlag = false;
+                        }
+                    }
+                }
+            }
+            mDoFlag = false;
+        }
 
         SpecificationAdapter mAdapter = new SpecificationAdapter(mInfoBean.other_spec, mInfoBean, getActivity(), mDialog, mSelectProMap, mSkuProMap);
         mAdapter.addFooterView(getFootView());
@@ -189,6 +209,11 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     private View getFootView() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.recycleview_foot_specification, null);
+        mDialogGoodsReduce = (TextView) view.findViewById(R.id.dialog_goods_reduce);
+        mDialogGoodsAdd = (TextView) view.findViewById(R.id.dialog_goods_add);
+        mDialogGoodsCount = (TextView) view.findViewById(R.id.dialog_goods_count);
+        mDialogGoodsReduce.setOnClickListener(this);
+        mDialogGoodsAdd.setOnClickListener(this);
         return view;
     }
 
@@ -207,19 +232,39 @@ public class SpecificationDialog extends BaseDialogFragment {
             case R.id.dialog_close:
                 onDismiss();
                 break;
-
+            case R.id.dialog_goods_reduce:
+                if (count == 1) return;
+                mDialogGoodsCount.setText(String.valueOf(--count));
+                break;
+            case R.id.dialog_goods_add:
+                if (count.equals(mStock) || mStock == 0) {
+                    ToastUtils.showShortToast("数量超出范围");
+                    return;
+                }
+                mDialogGoodsCount.setText(String.valueOf(++count));
+                break;
 
             case R.id.dialog_buy_goods:
-              /*  if (mAddOrBugFlag == 3) {
-                    mView.addToShoppingCard(count);
+                if (mSkuInfoBean == null) {
+                    mSku = mInfoBean.main_sku;
                 } else {
-                    dialogListener.buyButtonListener(mSelectProMap, count);
-                }*/
+                    mSku = mSkuInfoBean.sku;
+                }
+                if (mAddOrBugFlag == 3) {
+                    mView.addToShoppingCard(mSku,count);
+                } else {
+                    dialogListener.buyButtonListener(mSku, count);
+                }
 
                 break;
 
             case R.id.dialog_add_goods:
-//                mView.addToShoppingCard(count);
+                if (mSkuInfoBean == null) {
+                    mSku = mInfoBean.main_sku;
+                } else {
+                    mSku = mSkuInfoBean.sku;
+                }
+                mView.addToShoppingCard(mSku,count);
                 break;
         }
     }
@@ -227,9 +272,9 @@ public class SpecificationDialog extends BaseDialogFragment {
     private void onDismiss() {
 
         if (mSkuInfoBean == null && mSelectProMap != null) {
-            mView.closeSpecificationDialog(mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(),mInfoBean);
+            mView.closeSpecificationDialog(mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(), mInfoBean, mDoFlag);
         } else if (mSkuInfoBean != null) {
-            mView.closeSpecificationDialog2(mSkuInfoBean, mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(),mInfoBean);
+            mView.closeSpecificationDialog2(mSkuInfoBean, mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(), mInfoBean, mDoFlag);
         }
         closeDialog();
     }
@@ -241,7 +286,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public interface specificationDialogListener {
-        void buyButtonListener(HashMap<String, String> hashMap, Integer count);
+        void buyButtonListener(String sku, Integer count);
     }
 
 

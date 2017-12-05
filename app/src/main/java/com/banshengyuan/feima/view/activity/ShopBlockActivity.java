@@ -20,6 +20,7 @@ import com.banshengyuan.feima.dagger.component.DaggerShopBlockActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopBlockActivityModule;
 import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.entity.ShopSortListResponse;
+import com.banshengyuan.feima.entity.StoreCategoryListResponse;
 import com.banshengyuan.feima.utils.AppDeviceUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShopBlockControl;
 import com.banshengyuan.feima.view.adapter.ShopListAdapter;
@@ -27,7 +28,6 @@ import com.banshengyuan.feima.view.adapter.ShopMenuAdapter;
 import com.banshengyuan.feima.view.adapter.StreetMenuAdapter;
 import com.banshengyuan.feima.view.customview.CustomPopWindow;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,11 +78,12 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     private ShopListAdapter mAdapter;
     private List<ShopSortListResponse.ListBean> mShopSortList;
     private FairUnderLineResponse mBlockBean;
-    private Integer mStreetId;
+    private Integer mStreetId = 0;
     private Integer mCategoryId;
     private CustomPopWindow mCustomPopWindow1;
     private CustomPopWindow mCustomPopWindow2;
     private FairUnderLineResponse.ListBean mListItemBean;
+    private ShopSortListResponse mShopListResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     @Override
     public void getShopSortListSuccess(ShopSortListResponse response) {
         if (response.list != null && response.list.size() > 0) {
+            mShopListResponse = response;
             for (int i = 0; i < response.list.size(); i++) {
                 if (response.list.get(i).id == mCategoryId) {
                     response.list.get(i).select_position = true;
@@ -116,16 +118,24 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
         showToast(des);
     }
 
+    @Override
+    public void getShopListSuccess(StoreCategoryListResponse response) {
+        mAdapter.setNewData(response.list);
+    }
+
+    @Override
+    public void getShopListFail(String des) {
+        showToast(des);
+        mShopBlockList.setVisibility(View.GONE);
+    }
+
     private void initData() {
         mPresenter.requestShopSortList();
-        List<Integer> mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_first);
-        mList.add(R.mipmap.main_banner_second);
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_first);
-        mList.add(R.mipmap.main_banner_second);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+        updateShopList();
+    }
+
+    void updateShopList() {
+        mPresenter.requestShopList(mStreetId, mCategoryId);
     }
 
     private void initView() {
@@ -136,7 +146,6 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
             mShopBlockBlocksText.setText(mListItemBean.name);
         }
         mCategoryId = getIntent().getIntExtra("categoryId", 0);
-
         mShopBlockList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
         mShopBlockList.setAdapter(mAdapter);
@@ -149,13 +158,17 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                     }
             );
         }
-        mShopBlockShopsLayout.setOnClickListener(v -> {
-                    showPopMenu(mShopBlockShopsLayout, mShopSortList);
-                    mShopBlockShopIcon.setImageResource(R.mipmap.price_up_red);
-                    mShopBlockShopsText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
 
-                }
-        );
+            mShopBlockShopsLayout.setOnClickListener(v -> {
+                        if (mShopListResponse != null) {
+                            showPopMenu(mShopBlockShopsLayout, mShopSortList);
+                            mShopBlockShopIcon.setImageResource(R.mipmap.price_up_red);
+                            mShopBlockShopsText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
+                        }
+
+                    }
+            );
+
         mWith = AppDeviceUtil.getDisplayMetrics(this).widthPixels;
     }
 
@@ -174,6 +187,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                         mStreetId = listBean.id;
                         mShopBlockBlocksText.setText(listBean.name);
                         mCustomPopWindow1.dissmiss();
+                        updateShopList();
                     }
                 }
         );
@@ -206,9 +220,11 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                         mCategoryId = listBean.id;
                         mShopBlockShopsText.setText(listBean.name);
                         mCustomPopWindow2.dissmiss();
+                        updateShopList();
                     }
                 }
         );
+
         mCustomPopWindow2 = new CustomPopWindow.PopupWindowBuilder(ShopBlockActivity.this)
                 .setView(contentView)
                 .size(mWith / 2, ViewGroup.LayoutParams.WRAP_CONTENT)

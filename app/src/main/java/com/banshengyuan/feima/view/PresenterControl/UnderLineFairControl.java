@@ -4,6 +4,7 @@ import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
 import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
 
 /**
  * Created by lei.he on 2017/6/28.
@@ -20,6 +21,10 @@ public class UnderLineFairControl {
         void getStoreListFail();
         void getProductListSuccess(BlockDetailProductListResponse response);
         void getProductListFail(String des);
+
+        void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse);
+
+        void getFairUnderLineFail();
     }
 
     public interface PresenterUnderLineFair extends Presenter<UnderLineFairView> {
@@ -27,5 +32,6 @@ public class UnderLineFairControl {
         void requestBlockFairList(Integer blockId);
         void requestBlockStoreList(Integer blockId);
         void requestBlockProductList(Integer blockId);
+        void requestFairUnderLine(double longitude, double latitude);
     }
 }

@@ -1,16 +1,19 @@
 package com.banshengyuan.feima.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by lei.he on 2017/8/9.
  * AddShoppingCardRequest
  */
 
 public class AddShoppingCardRequest {
-    public String userId;
-    public String linkId;
-    public String type;
-    public String productId;
-    public String number;
-    public String name;
-    public String linkName;
+    @SerializedName("goods_id")
+    public String goodsId;
+    @SerializedName("goods_sku")
+    public String goodsSku;
+    @SerializedName("goods_number")
+    public String goodsNumber;
+    public String token;
+
 }

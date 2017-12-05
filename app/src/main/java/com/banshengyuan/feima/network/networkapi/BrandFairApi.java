@@ -10,7 +10,6 @@ import retrofit2.http.Query;
  */
 
 public interface BrandFairApi {
-    @GET("api/fair")
-    Observable<String> fairListRequest(@Query("is_brand") String Brand_flag, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
-
+    @GET("api/fair-category")
+    Observable<String> fairListRequest(@Query("type") String type, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 }

@@ -21,6 +21,7 @@ import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockStoreListItemAdapter;
@@ -97,6 +98,16 @@ public class UnderLineShopFragment extends BaseFragment implements UnderLineFair
     void addFilter() {
         super.addFilter();
         mFilter.addAction(BroConstant.BLOCKDETAIL_UPDATE);
+    }
+
+    @Override
+    public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
+
+    }
+
+    @Override
+    public void getFairUnderLineFail() {
+
     }
 
     @Override

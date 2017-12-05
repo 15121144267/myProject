@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
-import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
@@ -31,11 +30,11 @@ public class GoodsDetailControl {
 
         void checkProductId(HashMap<Integer, Integer> selectProMap);
 
-        void addToShoppingCard(Integer mCount);
+        void addToShoppingCard(String sku,Integer mCount);
 
-        void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean);
+        void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag);
 
-        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean);
+        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag);
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {
@@ -45,7 +44,7 @@ public class GoodsDetailControl {
 
         void requestUniqueGoodInfo(Integer productId, String sku);
 
-        void requestAddShoppingCard(AddShoppingCardRequest request);
+        void requestAddShoppingCard(String productId,String sku,Integer count);
 
         void requestGoodsSpecification(String productId);
     }

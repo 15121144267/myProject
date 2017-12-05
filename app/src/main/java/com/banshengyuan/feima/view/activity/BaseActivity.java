@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.banshengyuan.feima.DaggerApplication;
@@ -62,7 +63,7 @@ public class BaseActivity extends AppCompatActivity {
     protected RxPermissions mRxPermissions;
     private Dialog mProgressDialog;
     private CompositeDisposable mDisposable;
-
+    public AMapLocation mLocationInfo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class BaseActivity extends AppCompatActivity {
                 .build();
         mRxPermissions = component.rxPermissions();
         component.inject(this);
+        mLocationInfo = ((DaggerApplication)getApplicationContext()).getMapLocation();
     }
 
     protected void initStatus() {

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+    <View
+        style="@style/LineH_Fill_Width_10_ForView"
+        android:layout_height="@dimen/dp_12"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_shopping_card_list"
@@ -47,13 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:text="合计：88"/>
+            android:text="合计：188"
+            android:textSize="@dimen/sp_14"/>
 
         <TextView
             android:id="@+id/activity_shopping_card_balance"
             android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
-            android:background="@color/order_price_color"
+            android:background="@drawable/gradient_style_pink"
             android:gravity="center"
             android:text="去结算"
             android:textColor="@color/white"/>

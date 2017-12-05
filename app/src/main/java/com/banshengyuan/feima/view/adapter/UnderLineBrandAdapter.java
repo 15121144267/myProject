@@ -35,7 +35,7 @@ public class UnderLineBrandAdapter extends BaseQuickAdapter<FairUnderLineRespons
         recyclerView.setAdapter(itemAdapter);
 
         itemAdapter.setOnItemClickListener((adapter, view, position) ->
-                mContext.startActivity(UnderLineFairActivity.getActivityDetailIntent(mContext,item, position))
+                mContext.startActivity(UnderLineFairActivity.getActivityDetailIntent(mContext,item.list.get(position).id))
         );
     }
 

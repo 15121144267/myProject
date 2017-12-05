@@ -25,7 +25,7 @@ public class BrandFairModel {
     }
 
     public Observable<ResponseData> fairListRequest( ) {
-        return mApi.fairListRequest("2",1,20,true).map(mTransform::transformCommon);
+        return mApi.fairListRequest("brand",1,20,true).map(mTransform::transformCommon);
     }
 
 }

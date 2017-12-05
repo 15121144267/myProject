@@ -7,6 +7,7 @@ import com.banshengyuan.feima.entity.BlockDetailFairListResponse;
 import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.UnderLineFairModel;
@@ -30,6 +31,25 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
         mContext = context;
         mView = view;
         mModel = model;
+    }
+
+    @Override
+    public void requestFairUnderLine(double longitude, double latitude) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.vistaListRequest(longitude,latitude).compose(mView.applySchedulers())
+                .subscribe(this::getFairUnderLineSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getFairUnderLineSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairUnderLineResponse.class);
+            FairUnderLineResponse response = (FairUnderLineResponse) responseData.parsedData;
+            mView.getFairUnderLineSuccess(response);
+        } else {
+            mView.getFairUnderLineFail();
+        }
     }
 
     @Override

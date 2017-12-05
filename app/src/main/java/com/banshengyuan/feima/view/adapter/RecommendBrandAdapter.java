@@ -35,7 +35,7 @@ public class RecommendBrandAdapter extends BaseQuickAdapter<RecommendBrandRespon
 
         itemAdapter.setOnItemClickListener((adapter, view, position) -> {
                     RecommendBrandResponse.ListBean bean = (RecommendBrandResponse.ListBean) adapter.getItem(position);
-                    mContext.startActivity(FairDetailActivity.getIntent(mContext,1, bean));
+                    mContext.startActivity(FairDetailActivity.getIntent(mContext,1, bean.id));
                 }
 
         );

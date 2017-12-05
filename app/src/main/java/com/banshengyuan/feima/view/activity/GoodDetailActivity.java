@@ -117,7 +117,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private Integer mProductId;
     private GoodsInfoResponse.InfoBean mInfoBean;
     private SkuProductResponse.InfoBean mSkuInfoBean;
-
+    private boolean mDoFlag;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,17 +181,20 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean) {
-        commonContent(selectProMap, skuProMap, content,infoBean);
+    public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap,
+                                         String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag) {
+        commonContent(selectProMap, skuProMap, content,infoBean,doFlag);
     }
 
     @Override
-    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean) {
+    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap,
+                                          HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag) {
         mSkuInfoBean = skuInfoBean;
-        commonContent(selectProMap, skuProMap, content,infoBean);
+        commonContent(selectProMap, skuProMap, content,infoBean,doFlag);
     }
 
-    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean) {
+    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag) {
+        mDoFlag = doFlag;
         mInfoBean = infoBean;
         mSelectProMap = selectProMap;
         mSkuProMap = skuProMap;
@@ -199,7 +202,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void buyButtonListener(HashMap<String, String> hashMap, Integer count) {
+    public void buyButtonListener(String sku, Integer count) {
+        showToast("购买");
     }
 
     @Override
@@ -250,14 +254,15 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         });
 
         RxView.clicks(mGoodsDetailSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(1));
-        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(2));
         RxView.clicks(mGoodsDetailBuy).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(2));
+        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(3));
+
 
     }
 
     private void showSpecificationDialog(Integer addOrBugFlag) {
         mDialog = SpecificationDialog.newInstance();
-        mDialog.setContent(mInfoBean, addOrBugFlag, mImageLoaderHelper, this, mDialog, mSkuProMap,mSelectProMap, mSkuInfoBean);
+        mDialog.setContent(mInfoBean, addOrBugFlag, mImageLoaderHelper, this, mDialog, mSkuProMap,mSelectProMap, mSkuInfoBean,mDoFlag);
         mDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
 
@@ -269,8 +274,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
 
     @Override
-    public void addToShoppingCard(Integer count) {
-
+    public void addToShoppingCard(String sku,Integer count) {
+        mPresenter.requestAddShoppingCard(mProductId+"",sku,count);
     }
 
     @Override

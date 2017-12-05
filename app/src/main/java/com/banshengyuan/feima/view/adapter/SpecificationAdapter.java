@@ -13,7 +13,6 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.InfoBean.OtherSpecBean, BaseViewHolder> {
@@ -114,13 +113,12 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
                     if (i1 != position) {
                         for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
                             for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
-                                for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
-                                    if (bindSpecBean.spec_id.contains(integerEntry.getValue()+"")){
-                                        valueBean.enableFlag = true;
-                                    }else {
-                                        valueBean.enableFlag = false;
-                                    }
+                                if (bindSpecBean.spec_id.contains(mSkuProMap.get(type)+"")){
+                                    valueBean.enableFlag = true;
+                                }else {
+                                    valueBean.enableFlag = false;
                                 }
+
                                 if( valueBean.enableFlag){
                                     if(bindSpecBean.spec_id.contains(valueBean.id + "")){
                                         valueBean.enableFlag = true;

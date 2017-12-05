@@ -55,15 +55,11 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Override
     public boolean handleMessage(Message msg) {
         if (msg.what == 1) {
-            Glide.with(WelcomeActivity.this).load(R.mipmap.welcome_bg)
-                    .into(mWelcomeBack);
-            mHandler.sendEmptyMessageDelayed(2, 3000);
-
-        } else if (msg.what == 2) {
             if (mShowGuideFinish) {
                 startActivity(MainActivity.getMainIntent(WelcomeActivity.this));
                 finish();
             }
+
         }
         return false;
     }
@@ -103,8 +99,9 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     @Override
     public void getAdSuccess(AdResponse response) {
-
-        mHandler.sendEmptyMessage(1);
+        Glide.with(WelcomeActivity.this).load(R.mipmap.welcome_bg)
+                .into(mWelcomeBack);
+        mHandler.sendEmptyMessageDelayed(1, 3000);
     }
 
     @Override

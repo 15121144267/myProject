@@ -4,7 +4,6 @@ import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.CollectionRequest;
-import com.banshengyuan.feima.entity.ShopListResponse;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.banshengyuan.feima.network.networkapi.GoodsDetailApi;
 import com.google.gson.Gson;
@@ -54,10 +53,13 @@ public class GoodsDetailModel {
         return mApi.goodInfoSpecificationRequest(productId + "", sku, true).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> requestAddShoppingCard(AddShoppingCardRequest request) {
-        ShopListResponse.ListBean mBean = mBuProcessor.getShopInfo();
-        request.linkId = partnerId + mBean.storeCode;
-        return mAddShoppingCardApi.requestAddShoppingCard(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    public Observable<ResponseData> requestAddShoppingCard(String productId, String sku, Integer count) {
+        AddShoppingCardRequest request = new AddShoppingCardRequest();
+        request.goodsId = productId;
+        request.goodsSku = sku;
+        request.goodsNumber = count+"";
+        request.token = BuildConfig.USER_TOKEN;
+        return mAddShoppingCardApi.requestAddShoppingCard(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 }

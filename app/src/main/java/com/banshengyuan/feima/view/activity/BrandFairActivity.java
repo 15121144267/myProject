@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerBrandFairActivityComponent;
 import com.banshengyuan.feima.dagger.module.BrandFairActivityModule;
-import com.banshengyuan.feima.entity.BrandAllFairListResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.BrandFairControl;
 import com.banshengyuan.feima.view.adapter.GalleryCardAdapter;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardScaleHelper;
@@ -61,8 +61,8 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
     }
 
     @Override
-    public void getFairListSuccess(BrandAllFairListResponse response) {
-        List<BrandAllFairListResponse.ListBean> list = response.list;
+    public void getFairListSuccess(RecommendBrandResponse response) {
+        List<RecommendBrandResponse.ListBean> list = response.list;
         if(list!=null&&list.size()>0){
             mAdapter.setNewData(list);
         }else {
@@ -102,7 +102,7 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
     }
 
     private void initData() {
-        //请求市集列表
+        //请求所有市集分类
         mPresenter.requestFairList();
     }
 

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.BrandAllFairListResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.view.customview.recycleviewgallery.CardAdapterHelper;
 
@@ -18,12 +18,12 @@ import java.util.List;
 
 
 public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.ViewHolder> {
-    private List<BrandAllFairListResponse.ListBean> mList;
+    private List<RecommendBrandResponse.ListBean> mList;
     private CardAdapterHelper mCardAdapterHelper = new CardAdapterHelper();
     private ImageLoaderHelper mImageLoaderHelper;
     private Context mContext;
 
-    public GalleryCardAdapter(List<BrandAllFairListResponse.ListBean> list, Context context, ImageLoaderHelper imageLoaderHelper) {
+    public GalleryCardAdapter(List<RecommendBrandResponse.ListBean> list, Context context, ImageLoaderHelper imageLoaderHelper) {
         if (mList == null) {
             mList = new ArrayList<>();
         } else {
@@ -35,7 +35,7 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
         mCardAdapterHelper.setShowLeftCardWidth(25);
     }
 
-    public void setNewData(List<BrandAllFairListResponse.ListBean> list) {
+    public void setNewData(List<RecommendBrandResponse.ListBean> list) {
         mList = list;
         notifyDataSetChanged();
     }
@@ -50,7 +50,7 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
-        BrandAllFairListResponse.ListBean bean = mList.get(position);
+        RecommendBrandResponse.ListBean bean = mList.get(position);
         mImageLoaderHelper.displayImage(mContext,bean.cover_img,holder.mImageView);
         holder.mNameTextView.setText(bean.name);
         holder.mSummaryTextView.setText(bean.summary);

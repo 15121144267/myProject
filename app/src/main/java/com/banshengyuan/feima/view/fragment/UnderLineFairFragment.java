@@ -21,6 +21,7 @@ import com.banshengyuan.feima.entity.BlockDetailProductListResponse;
 import com.banshengyuan.feima.entity.BlockDetailResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockFairListAdapter;
@@ -86,6 +87,16 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
         } else {
             mFragmentBlockCommon.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
+
+    }
+
+    @Override
+    public void getFairUnderLineFail() {
+
     }
 
     @Override

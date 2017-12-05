@@ -3,7 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.BrandAllFairListResponse;
+import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.view.PresenterControl.BrandFairControl;
 import com.banshengyuan.feima.view.model.BrandFairModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -40,8 +40,8 @@ public class PresenterBrandFairImpl implements BrandFairControl.PresenterBrandFa
 
     private void getFairListSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(BrandAllFairListResponse.class);
-            BrandAllFairListResponse response = (BrandAllFairListResponse) responseData.parsedData;
+            responseData.parseData(RecommendBrandResponse.class);
+            RecommendBrandResponse response = (RecommendBrandResponse) responseData.parsedData;
             mView.getFairListSuccess(response);
         } else {
             mView.getFairListFail();

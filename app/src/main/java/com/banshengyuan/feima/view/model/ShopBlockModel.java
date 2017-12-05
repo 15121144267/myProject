@@ -28,4 +28,8 @@ public class ShopBlockModel {
         return mApi.shopSortListRequest().map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> shopListRequest(Integer streetId, Integer categoryId) {
+        return mApi.shopListRequest(streetId+"",categoryId+"",1,10).map(mTransform::transformCommon);
+    }
+
 }

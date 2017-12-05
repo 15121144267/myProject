@@ -51,8 +51,11 @@ import butterknife.ButterKnife;
 
 public class ShoppingCardActivity extends BaseActivity implements ShoppingCardControl.ShoppingCardView {
 
+
     @BindView(R.id.middle_name)
     TextView mMiddleName;
+    @BindView(R.id.toolbar_right_text)
+    TextView mToolbarRightText;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.activity_shopping_card_list)

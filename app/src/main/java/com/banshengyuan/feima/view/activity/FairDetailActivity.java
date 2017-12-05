@@ -47,10 +47,10 @@ import butterknife.ButterKnife;
 public class FairDetailActivity extends BaseActivity implements FairDetailControl.FairDetailView {
 
 
-    public static Intent getIntent(Context context, Integer flag, RecommendBrandResponse.ListBean listBean) {
+    public static Intent getIntent(Context context, Integer flag, Integer fairId) {
         Intent intent = new Intent(context, FairDetailActivity.class);
         intent.putExtra("layout_flag", flag);
-        intent.putExtra("brandBean", listBean);
+        intent.putExtra("fairId", fairId);
         return intent;
     }
 
@@ -138,11 +138,10 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         List<String> list = new ArrayList<>();
         List<Fragment> mFragments = new ArrayList<>();
         if (layoutFlag == 1) {
-            mListBean = (RecommendBrandResponse.ListBean) getIntent().getSerializableExtra("brandBean");
-            mFairId = mListBean.id;
-            mMiddleName.setText(mListBean.name);
+            mFairId = getIntent().getIntExtra("fairId",0);
+            /*mMiddleName.setText(mListBean.name);
             mFairDetailName.setText(TextUtils.isEmpty(mListBean.name) ? "未知" : mListBean.name);
-            mFairDetailSummary.setText(mListBean.summary);
+            mFairDetailSummary.setText(mListBean.summary);*/
             list.add("最新");
             list.add("商家");
             list.add("产品");
@@ -151,6 +150,7 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mFragments.add(FollowFragment.newInstance());
             mFragments.add(CelebrityFragment.newInstance());
             mFragments.add(TrendsFragment.newInstance());
+//            mPresenter.request
         } else if (layoutFlag == 2) {
             mCategoryBean = (FairListResponse.CategoryBean) getIntent().getSerializableExtra("categoryBean");
             mFairId = mCategoryBean.id;

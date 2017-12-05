@@ -80,10 +80,10 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
         AllFairListResponse.ListBean.List1Bean dataBean = (AllFairListResponse.ListBean.List1Bean) adapter.getItem(position);
         switch (dataBean.flag){
             case "品牌市集":
-                showToast("品牌市集");
+//                startActivity(UnderLineFairActivity.getActivityDetailIntent(this,dataBean.id));
                 break;
             case "线下市集":
-                showToast("线下市集");
+                startActivity(UnderLineFairActivity.getActivityDetailIntent(this,dataBean.id));
                 break;
             case "其他市集":
                 showToast("其他市集");

@@ -22,4 +22,7 @@ public interface UnderLineFairApi {
 
     @GET("api/goods")
     Observable<String> productListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+
+    @GET("api/street")
+    Observable<String> vistaListRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 }

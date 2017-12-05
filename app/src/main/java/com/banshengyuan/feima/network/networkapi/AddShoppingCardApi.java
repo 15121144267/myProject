@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public interface AddShoppingCardApi {
 
-    @POST("ShoppingCart/AddProduct")
+    @POST("api/car/add")
     Observable<String> requestAddShoppingCard(@Body String request);
 
     @GET("Query/ShoppingCart/ListUserAllShoppingCarts")
