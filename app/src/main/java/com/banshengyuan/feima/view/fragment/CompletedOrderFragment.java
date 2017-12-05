@@ -60,6 +60,7 @@ import static com.banshengyuan.feima.view.activity.MainActivity.DIALOG_TYPE_EXIT
 /**
  * Created by helei on 2017/5/3.
  * CompletedOrderFragment
+ * 我的
  */
 
 public class CompletedOrderFragment extends BaseFragment implements CompletedOrderControl.CompletedOrderView, CommonDialog.CommonDialogListener {

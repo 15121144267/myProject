@@ -14,7 +14,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionShopControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionShopAdapter;
@@ -126,7 +126,7 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionResponse response) {
+    public void getMyCollectionListSuccess(MyCollectionFairResponse response) {
 
     }
 

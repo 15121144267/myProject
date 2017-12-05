@@ -3,7 +3,8 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -40,8 +41,8 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
 
     private void getCollectionBlockSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(MyCollectionResponse.class);
-            MyCollectionResponse response = (MyCollectionResponse) responseData.parsedData;
+            responseData.parseData(MyCollectionBlockResponse.class);
+            MyCollectionBlockResponse response = (MyCollectionBlockResponse) responseData.parsedData;
             mView.getMyCollectionListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);

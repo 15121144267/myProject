@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-
-    >
+    android:id="@+id/adapter_collection_product"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="98dp"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
         android:paddingBottom="12dp"
-        android:paddingTop="12dp"
-        >
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingTop="12dp">
 
         <ImageView
             android:id="@+id/adapter_collection_icon"
             android:layout_width="93dp"
             android:layout_height="74dp"
             android:layout_marginEnd="12dp"
-            android:scaleType="centerCrop"
-            />
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,13 +35,8 @@
                 android:maxLines="1"
                 android:text="西装衬衫"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_15"/>
+                android:textSize="@dimen/sp_15" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                />
 
             <TextView
                 android:id="@+id/adapter_product_summary"
@@ -55,14 +47,13 @@
                 android:maxLines="1"
                 android:text="西装衬衫"
                 android:textColor="@color/darkgrey1"
-                android:textSize="@dimen/sp_13"/>
+                android:textSize="@dimen/sp_13" />
 
 
             <LinearLayout
                 android:id="@+id/adapter_price_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:gravity="bottom">
 
                 <TextView
@@ -74,19 +65,19 @@
                     android:maxLines="1"
                     android:text="￥86"
                     android:textColor="@color/light_red"
-                    android:textSize="@dimen/sp_15"/>
+                    android:textSize="@dimen/sp_15" />
 
                 <ImageView
+                    android:id="@+id/adapter_product_addcart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_10"
-                    android:visibility="gone"
-                    android:background="@mipmap/shoppingcard_icon"
-                    />
+                    android:background="@mipmap/shoppingcard_icon" />
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-    <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+    <View style="@style/LineH_Yellow_Fill_Width1" />
 
 </LinearLayout>

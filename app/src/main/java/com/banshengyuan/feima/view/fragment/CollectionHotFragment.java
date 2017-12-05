@@ -15,7 +15,7 @@ import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.HotFairResponse;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
@@ -129,7 +129,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionResponse response) {
+    public void getMyCollectionListSuccess(MyCollectionFairResponse response) {
 
     }
 

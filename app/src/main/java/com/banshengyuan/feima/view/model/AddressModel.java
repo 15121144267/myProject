@@ -35,19 +35,19 @@ public class AddressModel {
 
     public Observable<ResponseData> addressDefaultRequest(AddressResponse.DataBean addressRequest) {
         AddAddressRequest request = new AddAddressRequest();
-        request.receiverName = addressRequest.receiverName.toString();
-        request.receiverPhone = addressRequest.receiverPhone;
+        request.name = addressRequest.receiverName.toString();
+        request.mobile = addressRequest.receiverPhone;
         request.address = addressRequest.address;
         request.area = addressRequest.area;
-        request.phone = addressRequest.phone;
-        request.isDefault = 1;
-        request.partnerId = partnerId;
-        request.id = addressRequest.id;
+//        request.phone = addressRequest.phone;
+        request.isDefault = "1";
+//        request.partnerId = partnerId;
+//        request.id = addressRequest.id;
         return mApi.addressDefaultRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> deleteAddressRequest(AddAddressRequest request) {
-        request.partnerId = partnerId;
+//        request.partnerId = partnerId;
         return mApi.deleteAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 

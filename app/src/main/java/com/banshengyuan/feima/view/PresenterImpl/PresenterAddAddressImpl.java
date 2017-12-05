@@ -39,7 +39,7 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     }
 
     private void addAddressSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.addAddressSuccess();
         } else {
             mView.showToast(responseData.errorDesc);

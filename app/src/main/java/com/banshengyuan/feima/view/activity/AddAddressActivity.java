@@ -20,6 +20,7 @@ import com.banshengyuan.feima.dagger.component.DaggerAddAddressActivityComponent
 import com.banshengyuan.feima.dagger.module.AddAddressActivityModule;
 import com.banshengyuan.feima.entity.AddAddressRequest;
 import com.banshengyuan.feima.entity.AddressResponse;
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.utils.ToastUtils;
@@ -78,6 +79,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     @Inject
     AddAddressControl.PresenterAddAddress mPresenter;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +120,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
 
     private void initView() {
         AMapLocation aMapLocation = ((DaggerApplication) getApplicationContext()).getMapLocation();
-        if(aMapLocation!=null){
+        if (aMapLocation != null) {
             mProvince = aMapLocation.getProvince();
             mCity = aMapLocation.getCity();
             mDistrict = aMapLocation.getDistrict();
@@ -152,14 +154,17 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
             ToastUtils.showShortToast("详细地址不能为空");
             return;
         }
-        request.receiverName = name;
-        request.receiverPhone = phone;
-        request.address = address;
-        request.area = addressDetail;
-        request.phone = mBuProcessor.getUserPhone() == null ? mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME) : mBuProcessor.getUserPhone();
-        request.isDefault = mAddAddressDefault.isChecked() ? 1 : 0;
+        request.name = name;
+//        request.mobile = mBuProcessor.getUserPhone() == null ? mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME) : mBuProcessor.getUserPhone();
+        request.mobile = phone;
+        request.province = mProvince;
+        request.city = mCity;
+        request.area = mDistrict;
+        request.street = " ";//街区  修改？？？？
+        request.address = addressDetail;
+        request.isDefault = mAddAddressDefault.isChecked() ? "1" : "0";
+        request.token = Constant.TOKEN;
         mPresenter.requestAddAddress(request);
-
     }
 
     @Override
@@ -177,7 +182,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
                 .confirTextColor("#35BBc6")
                 .backgroundPop(0xa0000000)
                 .province(TextUtils.isEmpty(mProvince) ? "北京市" : mProvince)
-                .city(TextUtils.isEmpty(mCity)? "北京市" : mCity)
+                .city(TextUtils.isEmpty(mCity) ? "北京市" : mCity)
                 .district(TextUtils.isEmpty(mDistrict) ? "朝阳区" : mDistrict)
                 .textColor(Color.parseColor("#35BBc6"))
                 .provinceCyclic(true)
@@ -190,6 +195,10 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
         cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
             @Override
             public void onSelected(String... citySelected) {
+                mProvince = citySelected[0];
+                mCity = citySelected[1];
+                mDistrict = citySelected[2];
+
                 if (citySelected[0].equals(citySelected[1])) {
                     mAddAddressLocationText.setText(citySelected[0] + citySelected[2]);
                 } else {
@@ -207,12 +216,11 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     private void initData() {
         if (getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL) != null) {
             AddressResponse.DataBean bean = (AddressResponse.DataBean) getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL);
-            mAddAddressName.setText((String)bean.receiverName);
+            mAddAddressName.setText((String) bean.receiverName);
             mAddAddressTel.setText(bean.receiverPhone);
             mAddAddressLocationText.setText(bean.address);
             mAddAddressLocationDetail.setText(bean.area);
             mAddAddressDefault.setChecked(bean.isDefault == 1);
-            request.id = bean.id;
         }
     }
 

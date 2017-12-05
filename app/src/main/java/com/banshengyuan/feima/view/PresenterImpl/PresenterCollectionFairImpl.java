@@ -3,8 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
-import com.banshengyuan.feima.utils.LogUtils;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionFairControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -69,8 +68,8 @@ public class PresenterCollectionFairImpl implements CollectionFairControl.Presen
 
     private void getCollectionFairSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(MyCollectionResponse.class);
-            MyCollectionResponse response = (MyCollectionResponse) responseData.parsedData;
+            responseData.parseData(MyCollectionFairResponse.class);
+            MyCollectionFairResponse response = (MyCollectionFairResponse) responseData.parsedData;
             mView.getMyCollectionListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);

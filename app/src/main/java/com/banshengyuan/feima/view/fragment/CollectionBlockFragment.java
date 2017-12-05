@@ -15,9 +15,11 @@ import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.HotFairResponse;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.adapter.CollectionBlockAdapter;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -43,11 +45,12 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
 
     @BindView(R.id.coupon_common_list)
     RecyclerView mCouponCommonList;
-
+    List<MyCollectionBlockResponse.ListBean> mList = new ArrayList<>();
     private Unbinder unbind;
-    private HotFairAdapter mAdapter;
+    private CollectionBlockAdapter mAdapter;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+
 
     @Inject
     CollectionBlockControl.PresenterCollectionBlock mPresenter;
@@ -74,20 +77,12 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     }
 
     private void initData() {
-        List<HotFairResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HotFairResponse response = new HotFairResponse();
-            response.name = "魔兽世界" + i;
-            list2.add(response);
-        }
-        mAdapter.setNewData(list2);
-
         mPresenter.requestCollectionBlockList(mPagerNo, mPagerSize);
     }
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new HotFairAdapter(null, getActivity());
+        mAdapter = new CollectionBlockAdapter(null, getActivity(), mImageLoaderHelper);
         mCouponCommonList.setAdapter(mAdapter);
     }
 
@@ -129,8 +124,11 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionResponse response) {
-
+    public void getMyCollectionListSuccess(MyCollectionBlockResponse response) {
+        if (response != null) {
+            mList = response.getList();
+            mAdapter.setNewData(mList);
+        }
     }
 
     @Override

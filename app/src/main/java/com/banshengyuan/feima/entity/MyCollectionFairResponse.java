@@ -6,12 +6,12 @@ import java.util.List;
  * 我的收藏
  */
 
-public class MyCollectionResponse {
+public class MyCollectionFairResponse {
 
     /**
-     * list : [{"id":1,"name":"产品名字1","cover_img":"http://example.com/a2.png","price":"120"},{"id":2,"name":"产品名字2","cover_img":"http://example.com/a1.png","price":"120"},{"id":3,"name":"产品名字3","cover_img":"http://example.com/a3.png","price":"120"}]
+     * list : [{"id":1,"name":"测试市集文章1","cover_img":"/uploads/5a24f218f014747412.jpg","created_at":1512370725},{"id":2,"name":"测试市集文章2","cover_img":"/uploads/5a24f2394562470804.jpg","created_at":1512370757},{"id":3,"name":"测试市集文章3","cover_img":"/uploads/5a24f251eb28d53508.jpg","created_at":1512370780}]
      * current_page : 1
-     * has_next_page : true
+     * has_next_page : false
      */
 
     private int current_page;
@@ -45,15 +45,15 @@ public class MyCollectionResponse {
     public static class ListBean {
         /**
          * id : 1
-         * name : 产品名字1
-         * cover_img : http://example.com/a2.png
-         * price : 120
+         * name : 测试市集文章1
+         * cover_img : /uploads/5a24f218f014747412.jpg
+         * created_at : 1512370725
          */
 
         private int id;
         private String name;
         private String cover_img;
-        private String price;
+        private int created_at;
 
         public int getId() {
             return id;
@@ -79,12 +79,12 @@ public class MyCollectionResponse {
             this.cover_img = cover_img;
         }
 
-        public String getPrice() {
-            return price;
+        public int getCreated_at() {
+            return created_at;
         }
 
-        public void setPrice(String price) {
-            this.price = price;
+        public void setCreated_at(int created_at) {
+            this.created_at = created_at;
         }
     }
 }

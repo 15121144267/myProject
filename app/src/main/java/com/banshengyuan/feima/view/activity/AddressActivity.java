@@ -179,8 +179,8 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     @Override
     public void commonDialogBtnOkListener(int type, int position) {
         AddAddressRequest request = new AddAddressRequest();
-        request.id = mBean.id;
-        request.phone = mUserPhone;
+//        request.id = mBean.id;
+//        request.phone = mUserPhone;
         mPresenter.requestDeleteAddress(request);
     }
 
