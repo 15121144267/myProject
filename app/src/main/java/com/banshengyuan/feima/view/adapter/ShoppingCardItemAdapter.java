@@ -1,12 +1,10 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
-import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.utils.ValueUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -24,7 +22,7 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
 
     @Override
     protected void convert(BaseViewHolder helper, ShoppingCardListResponse.DataBean.ProductsBean item) {
-        if (item == null) return;
+        /*if (item == null) return;
         helper.addOnClickListener(R.id.item_shopping_card_check).addOnClickListener(R.id.item_shopping_card_reduce)
                 .addOnClickListener(R.id.item_shopping_card_add).addOnClickListener(R.id.item_shopping_card_delete)
                 .addOnClickListener(R.id.item_shopping_card__slip_delete);
@@ -48,7 +46,7 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
         helper.setText(R.id.item_shopping_card_specification,item.specification);
         helper.setText(R.id.item_shopping_card_price,"￥"+ ValueUtil.formatAmount(item.finalPrice));
         ImageView imageView = helper.getView(R.id.item_shopping_card_icon);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext,item.picture,imageView,6);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext,item.picture,imageView,6);*/
     }
 
 }

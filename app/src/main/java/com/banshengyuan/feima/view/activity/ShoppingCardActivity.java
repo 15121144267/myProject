@@ -131,7 +131,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     @Override
     public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
-        mShoppingCardItemAdapter = itemAdapter;
+        /*mShoppingCardItemAdapter = itemAdapter;
         mPartnerPosition = parentPosition;
         ShoppingCardListResponse.DataBean mProduct = mProductList.get(parentPosition);
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -178,7 +178,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     break;
             }
 
-        });
+        });*/
     }
 
     private void requestDeleteProduct(ShoppingCardListResponse.DataBean product, ShoppingCardListResponse.DataBean.ProductsBean childProduct) {

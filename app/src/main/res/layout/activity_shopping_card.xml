@@ -60,6 +60,6 @@
             android:background="@drawable/gradient_style_pink"
             android:gravity="center"
             android:text="去结算"
-            android:textColor="@color/white"/>
+            android:textColor="@color/tab_text_normal"/>
     </LinearLayout>
 </LinearLayout>
