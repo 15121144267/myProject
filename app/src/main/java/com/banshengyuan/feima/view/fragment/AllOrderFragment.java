@@ -23,6 +23,7 @@ import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,7 +45,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
-    private List<MyOrdersResponse.ListBean> mList;
+    private List<MyOrdersResponse.ListBean> mList = new ArrayList<>();
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;

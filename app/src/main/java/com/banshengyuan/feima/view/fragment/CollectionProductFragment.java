@@ -14,11 +14,13 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
+import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionProductAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.listener.OnItemChildClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     RecyclerView mCouponCommonList;
 
     private Unbinder unbind;
-    private List<Integer> mList;
+    private List<MyCollectionProductsResponse.ListBean> mList;
     private CollectionProductAdapter mAdapter;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
@@ -73,18 +75,27 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
 
     private void initData() {
         mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
-
         mPresenter.requestCollectionProductList(mPagerNo, mPagerSize);
     }
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CollectionProductAdapter(null, getActivity());
+        mAdapter = new CollectionProductAdapter(null, getActivity(), mImageLoaderHelper);
         mCouponCommonList.setAdapter(mAdapter);
+
+        mCouponCommonList.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.adapter_collection_product:
+                        showToast("pos="+position);
+                        break;
+                    case R.id.adapter_product_addcart:
+                        showToast("addcart");
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -125,8 +136,11 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionResponse response) {
-
+    public void getMyCollectionListSuccess(MyCollectionProductsResponse response) {
+        if (response != null) {
+            mList = response.getList();
+            mAdapter.setNewData(mList);
+        }
     }
 
     @Override

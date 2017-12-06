@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -157,7 +158,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.call_business_iv:
-                showToast("call");
+                try {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:123456789"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.order_detail_copy_orderid:
                 showToast("copy");

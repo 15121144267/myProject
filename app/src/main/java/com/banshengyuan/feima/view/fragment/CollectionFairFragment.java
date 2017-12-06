@@ -14,7 +14,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionFairControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionFairAdapter;
@@ -35,7 +35,7 @@ import butterknife.Unbinder;
  * 我的收藏--市集
  */
 
-public class CollectionFairFragment extends BaseFragment implements CollectionFairControl.CollectionFairView, BaseQuickAdapter.RequestLoadMoreListener  {
+public class CollectionFairFragment extends BaseFragment implements CollectionFairControl.CollectionFairView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static CollectionFairFragment newInstance() {
         return new CollectionFairFragment();
@@ -45,7 +45,7 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     RecyclerView mCouponCommonList;
 
     private Unbinder unbind;
-    private List<Integer> mList;
+    private List<MyCollectionFairResponse.ListBean> mList = new ArrayList<>();
     private CollectionFairAdapter mAdapter;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
@@ -74,19 +74,16 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+        mPresenter.requestCollectionFairList(mPagerNo, mPagerSize);
 
-        mPresenter.requestCollectionFairList(mPagerNo,mPagerSize);
     }
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CollectionFairAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new CollectionFairAdapter(null, getActivity(), mImageLoaderHelper);
         mCouponCommonList.setAdapter(mAdapter);
+
+//
     }
 
 
@@ -127,8 +124,12 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionResponse response) {
-        //
+    public void getMyCollectionListSuccess(MyCollectionFairResponse response) {
+        if (response != null) {
+            mList = response.getList();
+            mAdapter.setNewData(mList);
+        }
+
     }
 
     @Override

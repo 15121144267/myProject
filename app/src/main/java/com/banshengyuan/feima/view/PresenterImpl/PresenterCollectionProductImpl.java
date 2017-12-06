@@ -3,7 +3,8 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
+import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -57,8 +58,8 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
 
     private void getCollectionProductSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(MyCollectionResponse.class);
-            MyCollectionResponse response = (MyCollectionResponse) responseData.parsedData;
+            responseData.parseData(MyCollectionProductsResponse.class);
+            MyCollectionProductsResponse response = (MyCollectionProductsResponse) responseData.parsedData;
             mView.getMyCollectionListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);

@@ -6,12 +6,14 @@ package com.banshengyuan.feima.entity;
  */
 
 public class AddAddressRequest {
-    public String phone;
-    public Integer id;
-    public String receiverName;
-    public String receiverPhone;
+    public String name;
+    public String mobile;
+    public String province;
+    public String city;
     public String area;
+    public String street;
     public String address;
-    public Integer isDefault;
-    public String partnerId;
+    public String isDefault;
+
+    public String token;
 }

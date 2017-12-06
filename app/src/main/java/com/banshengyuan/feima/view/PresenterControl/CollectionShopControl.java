@@ -1,6 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 
 /**
  * Created by lei.he on 2017/6/28.
@@ -9,7 +9,7 @@ import com.banshengyuan.feima.entity.MyCollectionResponse;
 
 public class CollectionShopControl {
     public interface CollectionShopView extends LoadDataView {
-        void getMyCollectionListSuccess(MyCollectionResponse response);
+        void getMyCollectionListSuccess(MyCollectionFairResponse response);
     }
 
     public interface PresenterCollectionShop extends Presenter<CollectionShopView> {

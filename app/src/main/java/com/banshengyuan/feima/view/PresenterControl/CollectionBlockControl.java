@@ -1,6 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
-import com.banshengyuan.feima.entity.MyCollectionResponse;
+import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
 
 /**
  * Created by lei.he on 2017/6/28.
@@ -9,7 +9,7 @@ import com.banshengyuan.feima.entity.MyCollectionResponse;
 
 public class CollectionBlockControl {
     public interface CollectionBlockView extends LoadDataView {
-        void getMyCollectionListSuccess(MyCollectionResponse response);
+        void getMyCollectionListSuccess(MyCollectionBlockResponse response);
     }
 
     public interface PresenterCollectionBlock extends Presenter<CollectionBlockView> {
