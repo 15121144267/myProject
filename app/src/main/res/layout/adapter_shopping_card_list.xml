@@ -4,6 +4,10 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
+    <View
+        style="@style/LineH_Fill_Width_10_ForView"
+        android:layout_height="@dimen/dp_12"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,59 +16,35 @@
 
         <CheckBox
             android:id="@+id/adapter_shopping_card_check"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="@dimen/dp_15"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/dp_20"
             android:background="@drawable/selector_check"
             android:button="@null"
             />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/adapter_shopping_card_shop_name"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableStart="@mipmap/order_shop_name"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="15dp"
-                    android:paddingStart="10dp"
-                    android:text="&#160;&#160; 官方店"
-                    android:textColor="@color/darkblack"/>
-
-                <TextView
-                    android:id="@+id/adapter_shopping_card_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/dp_15"
-                    android:text="编辑"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-
-
-            <View
-                style="@style/LineH_Fill_Width1_5_ForView"
-                android:layout_marginStart="10dp"
-                />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/adapter_shopping_card_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:drawableEnd="@mipmap/arrow_right"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="10dp"
+            android:text="官方店&#160;&#160; "
+            android:textColor="@color/black"/>
 
     </LinearLayout>
+
+    <View
+        style="@style/LineH_Fill_Width1_5_ForView"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_40"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adapter_shopping_card_list1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <View style="@style/LineH_Fill_Width_5_ForView"/>
 </LinearLayout>

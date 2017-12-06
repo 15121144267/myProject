@@ -22,4 +22,7 @@ public interface FairDetailApi {
 
     @GET("api/fair/{id}/comment")
     Observable<String> commentListRequest(@Path("id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+
+    @GET("api/fair-category/{id}")
+    Observable<String> categoryInfoRequest(@Path("id") Integer id);
 }

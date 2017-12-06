@@ -6,13 +6,10 @@
 
     <include layout="@layout/toolbar_common"/>
 
-    <View
-        style="@style/LineH_Fill_Width_10_ForView"
-        android:layout_height="@dimen/dp_12"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_shopping_card_list"
         android:layout_width="match_parent"
+        android:background="@color/banshengyuan_grey"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
@@ -28,8 +25,8 @@
 
         <CheckBox
             android:id="@+id/activity_shopping_card_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:background="@drawable/selector_check"
             android:button="@null"
             />

@@ -30,33 +30,33 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     @Override
-    public void requestChangeProductNumber(String shoppingCardId, String productId, String productCount) {
+    public void requestChangeProductNumber(Integer productId,String sku,Integer number) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mShoppingCardModel.changeProductNumberRequest(shoppingCardId, productId, productCount).compose(mView.applySchedulers())
+        Disposable disposable = mShoppingCardModel.changeProductNumberRequest(productId, sku, number).compose(mView.applySchedulers())
                 .subscribe(this::changeProductNumberSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void changeProductNumberSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.changeProductNumberSuccess();
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.changeProductNumberFail(responseData.errorDesc);
         }
     }
 
     @Override
-    public void requestDeleteProduct(String shoppingCardId, String productId, String productCount) {
+    public void requestDeleteProduct(Integer productId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mShoppingCardModel.deleteProductRequest(shoppingCardId, productId, productCount).compose(mView.applySchedulers())
+        Disposable disposable = mShoppingCardModel.deleteProductRequest(productId).compose(mView.applySchedulers())
                 .subscribe(this::deleteProductSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void deleteProductSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.deleteProductSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
@@ -65,21 +65,21 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     @Override
-    public void requestShoppingCardList(String companyId, String userId) {
+    public void requestShoppingCardList() {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mShoppingCardModel.shoppingCardListRequest(companyId, userId).compose(mView.applySchedulers())
+        Disposable disposable = mShoppingCardModel.shoppingCardListRequest().compose(mView.applySchedulers())
                 .subscribe(this::shoppingCardListSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void shoppingCardListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             responseData.parseData(ShoppingCardListResponse.class);
             ShoppingCardListResponse response = (ShoppingCardListResponse) responseData.parsedData;
             mView.shoppingCardListSuccess(response);
         } else {
-            mView.showToast(responseData.errorDesc);
+            mView.shoppingCardListFail(responseData.errorDesc);
         }
 
     }

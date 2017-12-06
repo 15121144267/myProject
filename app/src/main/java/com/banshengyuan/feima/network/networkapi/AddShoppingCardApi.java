@@ -16,12 +16,12 @@ public interface AddShoppingCardApi {
     @POST("api/car/add")
     Observable<String> requestAddShoppingCard(@Body String request);
 
-    @GET("Query/ShoppingCart/ListUserAllShoppingCarts")
-    Observable<String> shoppingCardListRequest(@Query("userId") String userId,@Query("companyId") String companyId);
+    @GET("api/car/list")
+    Observable<String> shoppingCardListRequest(@Query("token") String userToken);
 
-    @POST("ShoppingCart/DelProduct")
+    @POST("api/car/delete")
     Observable<String> deleteProductRequest(@Body String request);
 
-    @POST("ShoppingCart/SetNumber")
+    @POST("api/car/update-goods-number")
     Observable<String> changeProductNumberRequest(@Body String request);
 }

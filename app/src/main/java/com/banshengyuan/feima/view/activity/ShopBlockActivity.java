@@ -21,6 +21,7 @@ import com.banshengyuan.feima.dagger.module.ShopBlockActivityModule;
 import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.entity.ShopSortListResponse;
 import com.banshengyuan.feima.entity.StoreCategoryListResponse;
+import com.banshengyuan.feima.entity.StreetSortListResponse;
 import com.banshengyuan.feima.utils.AppDeviceUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShopBlockControl;
 import com.banshengyuan.feima.view.adapter.ShopListAdapter;
@@ -63,10 +64,9 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     @BindView(R.id.shop_block_shop_icon)
     ImageView mShopBlockShopIcon;
 
-    public static Intent getActivityDetailIntent(Context context, FairUnderLineResponse response, FairUnderLineResponse.ListBean listBean, Integer categoryId) {
+    public static Intent getActivityDetailIntent(Context context, Integer streetId, Integer categoryId) {
         Intent intent = new Intent(context, ShopBlockActivity.class);
-        intent.putExtra("fairUnderLineResponse", response);
-        intent.putExtra("fairUnderLineResponseItem", listBean);
+        intent.putExtra("streetId", streetId);
         intent.putExtra("categoryId", categoryId);
         return intent;
     }
@@ -77,13 +77,14 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     private int mWith;
     private ShopListAdapter mAdapter;
     private List<ShopSortListResponse.ListBean> mShopSortList;
-    private FairUnderLineResponse mBlockBean;
+    private List<StreetSortListResponse.ListBean> mStreetSortList;
     private Integer mStreetId = 0;
     private Integer mCategoryId;
     private CustomPopWindow mCustomPopWindow1;
     private CustomPopWindow mCustomPopWindow2;
     private FairUnderLineResponse.ListBean mListItemBean;
     private ShopSortListResponse mShopListResponse;
+    private StreetSortListResponse mStreetSortListResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +99,25 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
 
     }
 
-    //
+    @Override
+    public void getStreetSortListSuccess(StreetSortListResponse response) {
+        if (response.list != null && response.list.size() > 0) {
+            mStreetSortListResponse = response;
+            for (int i = 0; i < response.list.size(); i++) {
+                if (response.list.get(i).id ==mStreetId) {
+                    response.list.get(i).select_position = true;
+                    mShopBlockBlocksText.setText(response.list.get(i).name);
+                }
+            }
+            mStreetSortList = response.list;
+        }
+    }
+
+    @Override
+    public void getStreetSortListFail(String des) {
+        showToast(des);
+    }
+
     @Override
     public void getShopSortListSuccess(ShopSortListResponse response) {
         if (response.list != null && response.list.size() > 0) {
@@ -131,6 +150,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
 
     private void initData() {
         mPresenter.requestShopSortList();
+        mPresenter.requestStreetSortList();
         updateShopList();
     }
 
@@ -139,50 +159,48 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void initView() {
-        mBlockBean = (FairUnderLineResponse) getIntent().getSerializableExtra("fairUnderLineResponse");
-        mListItemBean = (FairUnderLineResponse.ListBean) getIntent().getSerializableExtra("fairUnderLineResponseItem");
-        if (mListItemBean != null) {
-            mStreetId = mListItemBean.id;
-            mShopBlockBlocksText.setText(mListItemBean.name);
-        }
+        mStreetId = getIntent().getIntExtra("streetId", 0);
         mCategoryId = getIntent().getIntExtra("categoryId", 0);
         mShopBlockList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
         mShopBlockList.setAdapter(mAdapter);
 
-        if (mBlockBean != null) {
-            mShopBlockBlocksLayout.setOnClickListener(v -> {
-                        showStreetPopMenu(mShopBlockBlocksLayout, mBlockBean.list);
+
+        mShopBlockBlocksLayout.setOnClickListener(v -> {
+                    if (mStreetSortListResponse != null) {
+                        showStreetPopMenu(mShopBlockBlocksLayout, mStreetSortList);
                         mShopBlockBlocksIcon.setImageResource(R.mipmap.price_up_red);
                         mShopBlockBlocksText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
                     }
-            );
-        }
 
-            mShopBlockShopsLayout.setOnClickListener(v -> {
-                        if (mShopListResponse != null) {
-                            showPopMenu(mShopBlockShopsLayout, mShopSortList);
-                            mShopBlockShopIcon.setImageResource(R.mipmap.price_up_red);
-                            mShopBlockShopsText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
-                        }
+                }
+        );
 
+
+        mShopBlockShopsLayout.setOnClickListener(v -> {
+                    if (mShopListResponse != null) {
+                        showPopMenu(mShopBlockShopsLayout, mShopSortList);
+                        mShopBlockShopIcon.setImageResource(R.mipmap.price_up_red);
+                        mShopBlockShopsText.setTextColor(ContextCompat.getColor(this, R.color.light_red));
                     }
-            );
+
+                }
+        );
 
         mWith = AppDeviceUtil.getDisplayMetrics(this).widthPixels;
     }
 
-    private void showStreetPopMenu(View view, List<FairUnderLineResponse.ListBean> list) {
+    private void showStreetPopMenu(View view, List<StreetSortListResponse.ListBean> list) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, null);
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         StreetMenuAdapter adapter = new StreetMenuAdapter(list, ShopBlockActivity.this);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view1, position) -> {
-                    for (int i = 0; i < mBlockBean.list.size(); i++) {
-                        mBlockBean.list.get(i).select_position = i == position;
+                    for (int i = 0; i < mStreetSortList.size(); i++) {
+                        mStreetSortList.get(i).select_position = i == position;
                     }
-                    FairUnderLineResponse.ListBean listBean = (FairUnderLineResponse.ListBean) adapter1.getItem(position);
+                    StreetSortListResponse.ListBean listBean = (StreetSortListResponse.ListBean) adapter1.getItem(position);
                     if (listBean != null) {
                         mStreetId = listBean.id;
                         mShopBlockBlocksText.setText(listBean.name);

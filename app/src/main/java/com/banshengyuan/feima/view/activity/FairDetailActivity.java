@@ -20,8 +20,8 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
+import com.banshengyuan.feima.entity.FairCategoryResponse;
 import com.banshengyuan.feima.entity.FairListResponse;
-import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
@@ -54,13 +54,9 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         return intent;
     }
 
-    public static Intent getIntent(Context context, Integer flag, FairListResponse.CategoryBean bean) {
-        Intent intent = new Intent(context, FairDetailActivity.class);
-        intent.putExtra("layout_flag", flag);
-        intent.putExtra("categoryBean", bean);
-        return intent;
-    }
 
+    @BindView(R.id.fair_detail_icon)
+    ImageView mFairDetailIcon;
     @BindView(R.id.appBarLayout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.fair_detail_middle_name)
@@ -84,7 +80,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
     FairDetailControl.PresenterFairDetail mPresenter;
 
     private Integer mFairId;
-    private RecommendBrandResponse.ListBean mListBean;
     private FairListResponse.CategoryBean mCategoryBean;
 
     @Override
@@ -124,12 +119,23 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         mPresenter.onDestroy();
     }
 
-    private void initData() {
+    @Override
+    public void getCategoryInfoSuccess(FairCategoryResponse response) {
+        if (response.info != null) {
+            mMiddleName.setText(response.info.name);
+            mFairDetailName.setText(TextUtils.isEmpty(response.info.name) ? "未知" : response.info.name);
+            mFairDetailSummary.setText(TextUtils.isEmpty(response.info.summary) ? "未知" : response.info.summary);
+            mImageLoaderHelper.displayImage(this,response.info.cover_img,mFairDetailIcon);
+        }
+    }
 
+    private void initData() {
+        mPresenter.requestCategoryInfo(mFairId);
     }
 
     private void initView() {
         Integer layoutFlag = getIntent().getIntExtra("layout_flag", 0);
+        mFairId = getIntent().getIntExtra("fairId", 0);
         mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.white));
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.tab_text_normal));
         mCollapsingToolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
@@ -138,10 +144,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         List<String> list = new ArrayList<>();
         List<Fragment> mFragments = new ArrayList<>();
         if (layoutFlag == 1) {
-            mFairId = getIntent().getIntExtra("fairId",0);
-            /*mMiddleName.setText(mListBean.name);
-            mFairDetailName.setText(TextUtils.isEmpty(mListBean.name) ? "未知" : mListBean.name);
-            mFairDetailSummary.setText(mListBean.summary);*/
             list.add("最新");
             list.add("商家");
             list.add("产品");
@@ -152,11 +154,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mFragments.add(TrendsFragment.newInstance());
 //            mPresenter.request
         } else if (layoutFlag == 2) {
-            mCategoryBean = (FairListResponse.CategoryBean) getIntent().getSerializableExtra("categoryBean");
-            mFairId = mCategoryBean.id;
-            mMiddleName.setText(mCategoryBean.name);
-            mFairDetailName.setText(TextUtils.isEmpty(mCategoryBean.name) ? "未知" : mCategoryBean.name);
-            mFairDetailSummary.setText(mCategoryBean.summary);
             list.add("市集");
             list.add("产品");
             list.add("点评");
@@ -166,7 +163,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mFragments.add(TrendsFragment.newInstance());
             mFragments.add(CommentFragment.newInstance());
         }
-
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
         mFairDetailViewPager.setOffscreenPageLimit(mFragments.size() - 1);
         mFairDetailViewPager.setAdapter(adapter);

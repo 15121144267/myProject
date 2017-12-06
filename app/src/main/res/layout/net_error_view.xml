@@ -13,15 +13,15 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/empty_shopping_card"/>
+            android:background="@mipmap/net_error"/>
 
         <Button
-            android:id="@+id/empty_go_shopping"
+            android:id="@+id/error_restart"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/shape_button_blue"
-            android:text="去逛逛"
+            android:text="点我重试"
             android:textColor="@color/tab_text_normal"/>
     </LinearLayout>
 </RelativeLayout>

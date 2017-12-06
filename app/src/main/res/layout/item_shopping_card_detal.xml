@@ -11,16 +11,16 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/dp_8"
-        android:paddingEnd="@dimen/dp_20"
+        android:paddingEnd="0dp"
         android:paddingStart="@dimen/dp_20"
         android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_8"
         >
 
         <CheckBox
             android:id="@+id/item_shopping_card_check"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="@dimen/dp_8"
             android:background="@drawable/selector_check"
             android:button="@null"
@@ -39,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginEnd="@dimen/dp_20"
             android:orientation="vertical">
 
             <TextView
@@ -110,6 +111,17 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_shopping_card_delete"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="删除"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            />
     </LinearLayout>
 
     <Button
@@ -118,6 +130,8 @@
         android:layout_height="match_parent"
         android:background="@color/red"
         android:text="删除"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_8"
         android:textColor="@android:color/white"/>
 
 </com.banshengyuan.feima.view.customview.SwipeMenuView>

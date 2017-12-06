@@ -2,134 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/white"
-              android:orientation="vertical">
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingBottom="@dimen/dp_10"
+              android:paddingEnd="@dimen/dp_20"
+              android:paddingStart="@dimen/dp_20">
 
-    <LinearLayout
-        android:id="@+id/pay_order_conf_id"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingEnd="0dp"
-        android:visibility="gone"
-        android:paddingStart="28dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="订单编号:"
-            android:textColor="@color/darkblack"
-            android:textSize="@dimen/sp_14"/>
-
-        <TextView
-            android:id="@+id/pay_order_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:maxLines="1"
-            android:text="123456789"
-            android:textColor="@color/darkblack"
-            android:textSize="@dimen/sp_14"/>
-    </LinearLayout>
+        android:background="@mipmap/pay_address_location"/>
 
     <LinearLayout
         android:id="@+id/pay_order_address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            >
+            android:padding="@dimen/dp_10">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:paddingEnd="0dp"
-                android:paddingStart="28dp">
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:text="收货人:未知"
+                android:textColor="@color/darkblack"
+                android:textSize="@dimen/sp_14"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="收货人:"
-                    android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14"/>
-
-                <TextView
-                    android:id="@+id/pay_order_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:maxLines="1"
-                    android:hint="请选择收货人"
-                    android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14"/>
-
-                <TextView
-                    android:id="@+id/pay_order_phone"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:maxLines="1"
-                    android:text="15121144267"
-                    android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@mipmap/pay_address_location"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="收获地址:"
-                    android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14"/>
-
-                <TextView
-                    android:id="@+id/pay_order_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:hint="请选择收货地址"
-                    android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14"/>
-            </LinearLayout>
-
+                android:layout_marginEnd="@dimen/dp_20"
+                android:maxLines="1"
+                android:text="未知"
+                android:textColor="@color/darkblack"
+                android:textSize="@dimen/sp_14"/>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:background="@mipmap/get_packet_arrow"/>
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:text="请选择收货地址"
+                android:textColor="@color/darkblack"
+                android:textSize="@dimen/sp_14"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/arrow_right"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-
-    <View
-        style="@style/LineH_Fill_Width1_5_pay"
-        android:layout_marginTop="17dp"/>
 </LinearLayout>

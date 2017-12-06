@@ -5,7 +5,9 @@ package com.banshengyuan.feima.entity;
  * ShoppingCardDeleteRequest
  */
 
-public class ShoppingCardDeleteRequest {
+public class ShoppingCardChangeNumberRequest {
     public String goods_id;
+    public String goods_sku;
     public String token;
+    public Integer number;
 }

@@ -136,11 +136,8 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     @Override
     public void sellerClickItemListener(int position) {
-        for (int i = 0; i < mBlockBean.list.size(); i++) {
-            mBlockBean.list.get(i).select_position = i == position;
-        }
 
-        startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), mBlockBean, mBlockBean.list.get(position), 0));
+        startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), mBlockBean.list.get(position).id, 0));
     }
 
     private void initView() {
@@ -166,7 +163,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
                     for (int i = 0; i < mBlockBean.list.size(); i++) {
                         mBlockBean.list.get(i).select_position = false;
                     }
-                    startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), mBlockBean, null, categoryBean.id));
+                    startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), 0, categoryBean.id));
                     break;
             }
         });

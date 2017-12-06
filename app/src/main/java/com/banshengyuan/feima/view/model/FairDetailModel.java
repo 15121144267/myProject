@@ -40,4 +40,8 @@ public class FairDetailModel {
         return mApi.commentListRequest(fairId,1,5,true).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> categoryInfoRequest(Integer fairCategoryId) {
+        return mApi.categoryInfoRequest(fairCategoryId).map(mTransform::transformCommon);
+    }
+
 }

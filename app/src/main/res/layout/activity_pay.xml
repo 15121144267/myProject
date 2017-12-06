@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/line_grey_bg2"
               android:orientation="vertical"
     >
 
@@ -10,7 +10,87 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-    <View style="@style/LineH_Fill_Width_5_ForView"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/pay_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:tabIndicatorColor="@color/yellow_color"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:id="@+id/pay_order_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/pay_address_location"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10">
+
+                <TextView
+                    android:id="@+id/pay_address_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="收货人:未知"
+                    android:textColor="@color/darkblack"
+                    android:textSize="@dimen/sp_14"/>
+
+                <TextView
+                    android:id="@+id/pay_address_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:maxLines="1"
+                    android:text="未知"
+                    android:textColor="@color/darkblack"
+                    android:textSize="@dimen/sp_14"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pay_choose_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/dp_10">
+
+                <TextView
+                    android:id="@+id/pay_address_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:text="请选择收货地址"
+                    android:textColor="@color/darkblack"
+                    android:textSize="@dimen/sp_14"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/arrow_right"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pay_order_list"
@@ -21,9 +101,34 @@
         />
 
 
-    <Button
-        android:id="@+id/pay_order"
-        style="@style/Login_Button_Style_person"
-        android:layout_gravity="bottom"
-        android:text="立即支付"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_15"
+        >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/pay_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="合计：188"
+            android:textSize="@dimen/sp_14"/>
+
+        <TextView
+            android:id="@+id/pay_order"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_style_pink"
+            android:gravity="center"
+            android:text="提交订单"
+            android:textColor="@color/tab_text_normal"/>
+    </LinearLayout>
+
 </LinearLayout>

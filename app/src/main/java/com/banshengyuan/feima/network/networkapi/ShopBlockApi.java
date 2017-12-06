@@ -14,6 +14,9 @@ public interface ShopBlockApi {
     @POST("api/store-category/list")
     Observable<String> shopSortListRequest();
 
+    @GET("api/street/list")
+    Observable<String> streetSortListRequest();
+
     @GET("api/store")
     Observable<String> shopListRequest(@Query("category_id") String categoryId,@Query("street_id") String streetId,@Query("page") Integer page,@Query("pageSize") Integer pageSize);
 

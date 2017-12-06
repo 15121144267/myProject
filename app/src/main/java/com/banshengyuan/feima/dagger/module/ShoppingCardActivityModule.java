@@ -46,7 +46,7 @@ public class ShoppingCardActivityModule {
     ShoppingCardModel provideShoppingCardModel(Gson gson, ModelTransform modelTransform ) {
         return new ShoppingCardModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.ORDER_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(AddShoppingCardApi.class), gson, modelTransform);

@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
+import com.banshengyuan.feima.BuildConfig;
+import com.banshengyuan.feima.entity.ShoppingCardChangeNumberRequest;
 import com.banshengyuan.feima.entity.ShoppingCardDeleteRequest;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.google.gson.Gson;
@@ -26,24 +28,24 @@ public class ShoppingCardModel {
     }
 
 
-    public Observable<ResponseData> shoppingCardListRequest(String companyId, String userId) {
-        return mApi.shoppingCardListRequest(userId, companyId).map(mTransform::transformTypeFour);
+    public Observable<ResponseData> shoppingCardListRequest() {
+        return mApi.shoppingCardListRequest(BuildConfig.USER_TOKEN).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> deleteProductRequest(String shoppingCardId, String productId, String productCount) {
+    public Observable<ResponseData> deleteProductRequest(Integer productId) {
         ShoppingCardDeleteRequest request = new ShoppingCardDeleteRequest();
-        request.shoppingcartId = shoppingCardId;
-        request.productId = productId;
-        request.number = productCount;
-        return mApi.deleteProductRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+        request.goods_id = productId.toString();
+        request.token = BuildConfig.USER_TOKEN;
+        return mApi.deleteProductRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> changeProductNumberRequest(String shoppingCardId, String productId, String productCount) {
-        ShoppingCardDeleteRequest request = new ShoppingCardDeleteRequest();
-        request.shoppingcartId = shoppingCardId;
-        request.productId = productId;
-        request.number = productCount;
-        return mApi.changeProductNumberRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
+    public Observable<ResponseData> changeProductNumberRequest(Integer productId,String sku,Integer number) {
+        ShoppingCardChangeNumberRequest request = new ShoppingCardChangeNumberRequest();
+        request.goods_id = productId.toString();
+        request.goods_sku = sku;
+        request.number = number;
+        request.token = BuildConfig.USER_TOKEN;
+        return mApi.changeProductNumberRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 }

@@ -4,39 +4,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.PayActivityModule;
+import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
-import com.banshengyuan.feima.entity.OrderConfirmedRequest;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
-import com.banshengyuan.feima.entity.PayAccessRequest;
 import com.banshengyuan.feima.entity.PayConstant;
 import com.banshengyuan.feima.entity.PayCreateRequest;
 import com.banshengyuan.feima.entity.PayResponse;
-import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.PayZFBHelper;
 import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
+import com.banshengyuan.feima.listener.TabCheckListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.PayControl;
 import com.banshengyuan.feima.view.adapter.PayGoodsListAdapter;
 import com.banshengyuan.feima.view.fragment.PayMethodDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -51,27 +45,44 @@ import butterknife.ButterKnife;
 
 public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
 
-    public static Intent getIntent(Context context, PayCreateRequest request) {
-        Intent intent = new Intent(context, PayActivity.class);
-        intent.putExtra("PayCreateRequest", request);
-        return intent;
-    }
-
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.pay_tab_layout)
+    TabLayout mPayTabLayout;
     @BindView(R.id.pay_order_list)
     RecyclerView mPayOrderList;
+    @BindView(R.id.pay_price)
+    TextView mPayPrice;
     @BindView(R.id.pay_order)
-    Button mPayOrder;
+    TextView mPayOrder;
+    @BindView(R.id.pay_address_name)
+    TextView mPayAddressName;
+    @BindView(R.id.pay_address_phone)
+    TextView mPayAddressPhone;
+    @BindView(R.id.pay_address_detail)
+    TextView mPayAddressDetail;
+    @BindView(R.id.pay_choose_address)
+    LinearLayout mPayChooseAddress;
+    @BindView(R.id.pay_order_address_layout)
+    LinearLayout mPayOrderAddressLayout;
+
+    public static Intent getIntent(Context context, ShoppingCardListResponse response) {
+        Intent intent = new Intent(context, PayActivity.class);
+        intent.putExtra("ShoppingCardListResponse", response);
+        return intent;
+    }
+
+
     @Inject
     PayControl.PresenterPay mPresenter;
+    private final String[] modules = {"物流到家", "门店自提"};
     private PayGoodsListAdapter mAdapter;
     private TextView mPayOrderName;
     private TextView mPayOrderPhone;
     private TextView mPayOrderAddress;
-    private OrderConfirmedResponse mResponse;
+    private ShoppingCardListResponse mOrderConfirm;
     private PayCreateRequest mProductSpecification;
     private AddressResponse.DataBean mDataBean;
 
@@ -89,10 +100,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
-        mResponse = response;
+       /* mResponse = response;
         PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
         payMethodDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);*/
     }
 
     @Override
@@ -123,7 +134,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void clickRechargeBtn(String payType) {
-        if (mResponse != null) {
+        /*if (mResponse != null) {
             switch (payType) {
                 case PayConstant.PAY_TYPE_WX:
                     mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_WX);
@@ -132,7 +143,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                     mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_ZFB);
                     break;
             }
-        }
+        }*/
     }
 
     @Override
@@ -146,7 +157,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderPaySuccess() {
-        PayAccessRequest request = new PayAccessRequest();
+        /*PayAccessRequest request = new PayAccessRequest();
         List<PayAccessRequest.OrdersBean> list = new ArrayList<>();
         for (String s : mResponse.data) {
             PayAccessRequest.OrdersBean order = new PayAccessRequest.OrdersBean();
@@ -154,7 +165,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             list.add(order);
         }
         request.orders = list;
-        mPresenter.updateOrderStatus(request);
+        mPresenter.updateOrderStatus(request);*/
     }
 
     @Override
@@ -171,14 +182,17 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initView() {
-        mProductSpecification = (PayCreateRequest) getIntent().getSerializableExtra("PayCreateRequest");
+
+        for (int i = 0; i < modules.length; i++) {
+            mPayTabLayout.addTab(mPayTabLayout.newTab().setText(modules[i]));
+        }
+        ValueUtil.setIndicator(mPayTabLayout, 20, 20);
+        mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);
         mPayOrderList.setAdapter(mAdapter);
-        if (mProductSpecification != null) {
-            addHeadView();
-            addFootView();
-            mAdapter.setNewData(mProductSpecification.orders);
+        if (mOrderConfirm != null) {
+            mAdapter.setNewData(mOrderConfirm.list);
         }
 
         mAdapter.setOnItemClickListener((adapter, view, position) ->
@@ -186,10 +200,24 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         );
 
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
+
+        mPayTabLayout.addOnTabSelectedListener(new TabCheckListener() {
+            @Override
+            public void onMyTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        mPayOrderAddressLayout.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        mPayOrderAddressLayout.setVisibility(View.GONE);
+                        break;
+                }
+            }
+        });
     }
 
     private void requestPay() {
-        if (TextUtils.isEmpty(mPayOrderName.getText()) && TextUtils.isEmpty(mPayOrderAddress.getText())) {
+      /*  if (TextUtils.isEmpty(mPayOrderName.getText()) && TextUtils.isEmpty(mPayOrderAddress.getText())) {
             showToast("请选择收获地址");
             return;
         }
@@ -205,18 +233,18 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
             payMethodDialog.setListener(this);
             DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
-        }
+        }*/
 
     }
 
     private void addHeadView() {
-        View mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
+      /*  View mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addHeaderView(mHeadView);
         mPayOrderName = (TextView) mHeadView.findViewById(R.id.pay_order_name);
         mPayOrderPhone = (TextView) mHeadView.findViewById(R.id.pay_order_phone);
         mPayOrderAddress = (TextView) mHeadView.findViewById(R.id.pay_order_address);
         LinearLayout mAddressLinearLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_address_layout);
-        mAddressLinearLayout.setOnClickListener(v -> startActivityForResult(AddressActivity.getIntent(this, "payActivity"), 1));
+        mAddressLinearLayout.setOnClickListener(v -> startActivityForResult(AddressActivity.getIntent(this, "payActivity"), 1));*/
     }
 
     @Override
@@ -237,7 +265,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void addFootView() {
-        View mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
+      /*  View mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
         mAdapter.addFooterView(mFootView);
         TextView mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
         TextView mFinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
@@ -253,7 +281,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         }
 
         mDispatchPrice.setText(ValueUtil.formatAmount(dispatchingPrice));
-        mFinalPrice.setText(ValueUtil.formatAmount(allPrice + dispatchingPrice));
+        mFinalPrice.setText(ValueUtil.formatAmount(allPrice + dispatchingPrice));*/
     }
 
     private void initializeInjector() {

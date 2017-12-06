@@ -29,50 +29,61 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@mipmap/header"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    >
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/fair_detail_name"
+                    <ImageView
+                        android:id="@+id/fair_detail_icon"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dp_25"
-                        android:gravity="center"
-                        android:text="浮屠市集"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp_24"
-                        android:textStyle="bold"/>
+                        android:scaleType="centerCrop"
+                        android:layout_height="match_parent"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <View style="@style/LineH_Fill_Width_50_ForView"/>
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
 
                         <TextView
-                            android:id="@+id/fair_detail_summary"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/fair_detail_name"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dp_10"
-                            android:layout_marginStart="@dimen/dp_10"
-                            android:ellipsize="end"
+                            android:layout_marginBottom="@dimen/dp_25"
                             android:gravity="center"
-                            android:maxLines="1"
-                            android:text="浮屠市集、浮屠市集集"
+                            android:text="浮屠市集"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/sp_15"
-                            />
+                            android:textSize="@dimen/sp_24"
+                            android:textStyle="bold"/>
 
-                        <View style="@style/LineH_Fill_Width_50_ForView"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <View style="@style/LineH_Fill_Width_50_ForView"/>
+
+                            <TextView
+                                android:id="@+id/fair_detail_summary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/dp_10"
+                                android:layout_marginStart="@dimen/dp_10"
+                                android:ellipsize="end"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="浮屠市集、浮屠市集集"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_15"
+                                />
+
+                            <View style="@style/LineH_Fill_Width_50_ForView"/>
+                        </LinearLayout>
+
                     </LinearLayout>
+                </FrameLayout>
 
-                </LinearLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

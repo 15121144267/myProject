@@ -1,126 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/white"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardUseCompatPadding="true"
-    android:layout_margin="5dp"
+    android:background="@color/white"
+    android:orientation="vertical"
     >
-    <LinearLayout
+
+    <View
+        style="@style/LineH_Fill_Width_5_ForView"
+        android:layout_height="12dp"/>
+
+    <TextView
+        android:id="@+id/adapter_shopping_card_shop_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:text="未知门店"
+        android:textColor="@color/darkblack"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/adapter_shopping_card_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"/>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
         <TextView
-            android:id="@+id/adapter_shopping_card_shop_name"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:drawableStart="@mipmap/order_shop_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:paddingEnd="15dp"
-            android:paddingStart="15dp"
-            android:text="&#160;&#160; 梅子熟了"
-            android:textColor="@color/darkblack"/>
+            android:text="配送方式"
+            android:textColor="@color/tab_text_normal"
+            />
 
-        <View style="@style/LineH_Fill_Width1_5_ForView"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/adapter_shopping_card_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <View style="@style/LineH_Fill_Width1_5_ForView"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="43dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="商品金额"
-                android:textColor="@color/darkblack"
-                />
-
-            <TextView
-                android:id="@+id/adapter_shopping_card_product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingEnd="15dp"
-                android:text="￥300"
-                android:textColor="@color/darkblack"
-                />
-        </LinearLayout>
-
-        <View style="@style/LineH_Fill_Width1_5_ForView"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="43dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingStart="15dp"
-                android:text="运费"
-                android:textColor="@color/darkblack"
-                />
-
-            <TextView
-                android:id="@+id/adapter_shopping_card_dispatching_price"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingEnd="15dp"
-                android:text="￥300"
-                android:textColor="@color/darkblack"
-                />
-        </LinearLayout>
-
-        <View style="@style/LineH_Fill_Width1_5_ForView"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="43dp">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:id="@+id/adapter_shopping_card_product_count"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingEnd="35dp"
-                android:text="共计1件商品"
-                android:textColor="@color/darkblack"
-                />
-
-            <TextView
-                android:id="@+id/adapter_shopping_card_price_all"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingEnd="15dp"
-                android:text="小计:￥300"
-                android:textColor="@color/darkblack"
-                />
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/adapter_pay_dispatching_way"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableEnd="@mipmap/arrow_right"
+            android:gravity="center_vertical"
+            android:text="门店自提  "
+            android:textColor="@color/tab_text_normal"
+            />
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="积分优惠券"
+            android:textColor="@color/tab_text_normal"
+            />
+
+        <TextView
+            android:id="@+id/adapter_pay_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableEnd="@mipmap/arrow_right"
+            android:gravity="center_vertical"
+            android:text="选择  "
+            android:textColor="@color/tab_text_normal"
+            />
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="买家留言:"
+            android:textColor="@color/darkblack"
+            />
+
+        <EditText
+            android:id="@+id/adapter_pay_suggestion"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:hint="选填：对本次交易的说明(建议填写与卖家协商内容)"
+            android:maxLines="1"
+            android:paddingStart="@dimen/dp_10"
+            android:textColor="@color/darkblack"
+            android:textSize="@dimen/sp_12"
+            />
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="运费"
+            android:textColor="@color/darkblack"
+            />
+
+        <TextView
+            android:id="@+id/adapter_shopping_card_dispatching_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="￥300"
+            android:textColor="@color/darkblack"
+            />
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/adapter_shopping_card_product_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingEnd="10dp"
+            android:text="共计1件商品"
+            android:textColor="@color/darkblack"
+            />
+
+        <TextView
+            android:id="@+id/adapter_shopping_card_price_all"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="小计:￥300"
+            android:textColor="@color/light_red"
+            />
+    </LinearLayout>
+
+</LinearLayout>
+
 

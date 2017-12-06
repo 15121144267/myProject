@@ -4,23 +4,23 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.FairUnderLineResponse;
+import com.banshengyuan.feima.entity.StreetSortListResponse;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 
 
-public class StreetMenuAdapter extends BaseQuickAdapter<FairUnderLineResponse.ListBean, BaseViewHolder> {
+public class StreetMenuAdapter extends BaseQuickAdapter<StreetSortListResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
 
-    public StreetMenuAdapter(List<FairUnderLineResponse.ListBean> mList, Context context) {
+    public StreetMenuAdapter(List<StreetSortListResponse.ListBean> mList, Context context) {
         super(R.layout.adapter_shop_menu, mList);
         mContext = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FairUnderLineResponse.ListBean item) {
+    protected void convert(BaseViewHolder helper, StreetSortListResponse.ListBean item) {
         helper.setText(R.id.menu_text_name, item.name);
         if(item.select_position){
             helper.setTextColor(R.id.menu_text_name, ContextCompat.getColor(mContext,R.color.light_red));
