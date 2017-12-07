@@ -16,15 +16,17 @@ import com.banshengyuan.feima.dagger.component.DaggerAddressActivityComponent;
 import com.banshengyuan.feima.dagger.module.AddressActivityModule;
 import com.banshengyuan.feima.entity.AddAddressRequest;
 import com.banshengyuan.feima.entity.AddressResponse;
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AddressControl;
 import com.banshengyuan.feima.view.adapter.AddressAdapter;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +48,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         return intent;
     }
 
-
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
@@ -56,10 +57,13 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     @BindView(R.id.address_add)
     Button mAddressAdd;
     private CheckBox mCheckBox;
-    private AddressResponse.DataBean mBean;
+    private AddressResponse.ListBean mBean;
     private AddressAdapter mAdapter;
     private String mUserPhone;
     private Integer mPosition;
+
+    private List<AddressResponse.ListBean> mList = new ArrayList<>();
+    private int deleteId = -1;
 
     @Inject
     AddressControl.PresenterAddress mPresenter;
@@ -112,7 +116,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         RxView.clicks(mAddressAdd).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddAddress());
         if (fromFlag.equals("payActivity")) {
             mAdapter.setOnItemClickListener((adapter, view, position) -> {
-                        mBean = (AddressResponse.DataBean) adapter.getItem(position);
+                        mBean = (AddressResponse.ListBean) adapter.getItem(position);
                         Intent intent = new Intent();
                         intent.putExtra("addressDataBean", mBean);
                         setResult(RESULT_OK, intent);
@@ -123,45 +127,62 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     mPosition = position;
-                    mBean = (AddressResponse.DataBean) adapter.getItem(position);
+                    mBean = (AddressResponse.ListBean) adapter.getItem(position);
                     mCheckBox = (CheckBox) view.findViewById(R.id.address_default);
                     switch (view.getId()) {
                         case R.id.address_edit:
-                            startActivity(AddAddressActivity.getIntent(this, mBean));
+                            startActivityForResult(AddAddressActivity.getIntent(this, mBean),IntentConstant.ORDER_POSITION_ONE);
                             break;
                         case R.id.address_delete:
+                            deleteId = ((AddressResponse.ListBean) adapter.getItem(position)).getId();
                             showDialog();
                             break;
                         case R.id.address_default:
-                            if (!mCheckBox.isChecked()) {
-                                mCheckBox.setChecked(true);
-                                return;
+//                            if (!mCheckBox.isChecked()) {
+//                                mCheckBox.setChecked(true);
+//                                return;
+//                            }
+//
+//
+//                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
+                            AddressResponse.ListBean listBean = (AddressResponse.ListBean) adapter.getItem(position);
+                            if (listBean.getIs_default() == 1) {
+                                //设为默认地址
+                                AddAddressRequest addAddressRequest = new AddAddressRequest();
+                                addAddressRequest.setName(listBean.getName());
+                                addAddressRequest.setAddress(listBean.getAddress());
+                                addAddressRequest.setArea(listBean.getArea());
+                                addAddressRequest.setCity(listBean.getCity());
+                                addAddressRequest.setMobile(listBean.getMobile());
+                                addAddressRequest.setProvince(listBean.getProvince());
+                                addAddressRequest.setStreet(listBean.getStreet());
+                                addAddressRequest.setIsDefault("2");
+                                mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, Constant.TOKEN);
                             }
-                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
                             break;
                     }
                 }
         );
     }
 
-    @Override
-    public void addressDefaultSuccess() {
-        List<AddressResponse.DataBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            if (i == mPosition) {
-                list.get(i).isDefault = 1;
-            } else {
-                list.get(i).isDefault = 0;
-            }
-        }
-        Collections.sort(list, (o1, o2) -> {
-            if (o1.isDefault < (o2.isDefault)) {
-                return 1;
-            }
-            return -1;
-        });
-        mAdapter.setNewData(list);
-    }
+//    @Override
+//    public void addressDefaultSuccess() {
+//        List<AddressResponse.DataBean> list = mAdapter.getData();
+//        for (int i = 0; i < list.size(); i++) {
+//            if (i == mPosition) {
+//                list.get(i).isDefault = 1;
+//            } else {
+//                list.get(i).isDefault = 0;
+//            }
+//        }
+//        Collections.sort(list, (o1, o2) -> {
+//            if (o1.isDefault < (o2.isDefault)) {
+//                return 1;
+//            }
+//            return -1;
+//        });
+//        mAdapter.setNewData(list);
+//    }
 
     private void requestAddAddress() {
         startActivityForResult(AddAddressActivity.getIntent(this, null), IntentConstant.ORDER_POSITION_ONE);
@@ -170,18 +191,39 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
-            mPresenter.requestAddressList(mUserPhone);
+        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {//添加地址  更新地址
+            mPresenter.requestAddressList(Constant.TOKEN);
         }
 
     }
 
     @Override
     public void commonDialogBtnOkListener(int type, int position) {
-        AddAddressRequest request = new AddAddressRequest();
-//        request.id = mBean.id;
-//        request.phone = mUserPhone;
-        mPresenter.requestDeleteAddress(request);
+        if (deleteId != -1) {
+            mPresenter.requestDeleteAddress(deleteId + "", Constant.TOKEN);
+        }
+    }
+
+    @Override
+    public void listAddressSuccess(AddressResponse addressResponse) {
+        if (addressResponse != null) {
+            mList = addressResponse.getList();
+        }
+//        for (int i = 0; i < list.size(); i++) {
+//            if (i == mPosition) {
+//                list.get(i).isDefault = 1;
+//            } else {
+//                list.get(i).isDefault = 0;
+//            }
+//        }
+//        Collections.sort(list, (o1, o2) -> {
+//            if (o1.isDefault < (o2.isDefault)) {
+//                return 1;
+//            }
+//            return -1;
+//        });
+        mAdapter.setNewData(mList);
+
     }
 
     @Override
@@ -190,20 +232,28 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     }
 
     @Override
-    public void addressListSuccess(List<AddressResponse.DataBean> data) {
-        Collections.sort(data, (o1, o2) -> {
-            if (o1.isDefault < (o2.isDefault)) {
-                return 1;
-            }
-            return -1;
-        });
-        if (data.size() > 0) {
-            mAdapter.setNewData(data);
-        }
+    public void updateAddressSuccess() {
+        showToast("更新成功");
+//        mPresenter.requestAddressList(Constant.TOKEN);
+
     }
 
+
+//    @Override
+//    public void addressListSuccess(List<AddressResponse.DataBean> data) {
+//        Collections.sort(data, (o1, o2) -> {
+//            if (o1.isDefault < (o2.isDefault)) {
+//                return 1;
+//            }
+//            return -1;
+//        });
+//        if (data.size() > 0) {
+//            mAdapter.setNewData(data);
+//        }
+//    }
+
     private void initData() {
-        mPresenter.requestAddressList(mUserPhone);
+        mPresenter.requestAddressList(Constant.TOKEN);
     }
 
     private void showDialog() {
@@ -212,6 +262,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         commonDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
     }
+
 
     private void initializeInjector() {
         DaggerAddressActivityComponent.builder()

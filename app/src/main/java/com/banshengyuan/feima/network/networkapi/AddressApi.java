@@ -5,6 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -13,12 +14,13 @@ import retrofit2.http.Query;
  */
 
 public interface AddressApi {
-    @GET("member/deliveraddress/list")
-    Observable<String> addressListRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
 
-    @HTTP(method = "DELETE", path = "member/deliveraddress", hasBody = true)
-    Observable<String> deleteAddressRequest(@Body String request);
+    @GET("api/user/receiving-address")
+    Observable<String> listAddressRequest(@Query("token") String token);
 
-    @POST("member/deliveraddress")
-    Observable<String> addressDefaultRequest(@Body String request);
+    @POST("api/user/receiving-address/delete/{id}")
+    Observable<String> deleteAddressRequest(@Path("id") String addressId, @Query("token") String token);
+
+    @POST("api/user/receiving-address/update/{id}")
+    Observable<String> updateAddressRequest(@Path("id") String addressId, @Body String request ,@Query("token") String token);
 }

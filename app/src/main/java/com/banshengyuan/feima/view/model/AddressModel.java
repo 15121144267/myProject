@@ -29,26 +29,35 @@ public class AddressModel {
     }
 
 
-    public Observable<ResponseData> addressListRequest(String phone) {
-        return mApi.addressListRequest(partnerId, phone).map(mTransform::transformTypeThree);
+//    public Observable<ResponseData> addressListRequest(String phone) {
+//        return mApi.addressListRequest(partnerId, phone).map(mTransform::transformTypeThree);
+//    }
+
+//    public Observable<ResponseData> addressDefaultRequest(AddressResponse.ListBean addressRequest) {
+//        AddAddressRequest request = new AddAddressRequest();
+//        request.name = addressRequest.getName().toString();
+//        request.mobile = addressRequest.getMobile();
+//        request.address = addressRequest.getAddress();
+//        request.area = addressRequest.getArea();
+////        request.phone = addressRequest.phone;
+//        request.isDefault = "1";
+////        request.partnerId = partnerId;
+////        request.id = addressRequest.id;
+//        return mApi.addressDefaultRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+//    }
+
+
+    public Observable<ResponseData> listAddressRequest(String token) {
+        return mApi.listAddressRequest(token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> addressDefaultRequest(AddressResponse.DataBean addressRequest) {
-        AddAddressRequest request = new AddAddressRequest();
-        request.name = addressRequest.receiverName.toString();
-        request.mobile = addressRequest.receiverPhone;
-        request.address = addressRequest.address;
-        request.area = addressRequest.area;
-//        request.phone = addressRequest.phone;
-        request.isDefault = "1";
-//        request.partnerId = partnerId;
-//        request.id = addressRequest.id;
-        return mApi.addressDefaultRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    public Observable<ResponseData> deleteAddressRequest(String addressId, String token) {
+        return mApi.deleteAddressRequest(addressId, token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> deleteAddressRequest(AddAddressRequest request) {
-//        request.partnerId = partnerId;
-        return mApi.deleteAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    public Observable<ResponseData> updateAddressRequest(String addressId, AddAddressRequest request, String token) {
+        return mApi.updateAddressRequest(addressId, mGson.toJson(request), token).map(mTransform::transformCommon);
     }
+
 
 }

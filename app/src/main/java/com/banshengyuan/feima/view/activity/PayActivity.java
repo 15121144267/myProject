@@ -84,7 +84,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private TextView mPayOrderAddress;
     private ShoppingCardListResponse mOrderConfirm;
     private PayCreateRequest mProductSpecification;
-    private AddressResponse.DataBean mDataBean;
+    private AddressResponse.ListBean mDataBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -223,9 +223,9 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         }
         if (mResponse == null) {
             for (OrderConfirmedRequest request : mProductSpecification.orders) {
-                request.address = mDataBean.address + mDataBean.area;
-                request.phone = mDataBean.receiverPhone;
-                request.userName = (String) mDataBean.receiverName;
+                request.address = mDataBean.getAddress() + mDataBean.getArea();
+                request.phone = mDataBean.getMobile();
+                request.userName = (String) mDataBean.getName();
             }
 
             mPresenter.requestOrderConfirmed(mProductSpecification);
@@ -252,12 +252,12 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_POSITION_TWO && resultCode == RESULT_OK) {
             if (data != null) {
-                mDataBean = (AddressResponse.DataBean) data.getSerializableExtra("addressDataBean");
+                mDataBean = (AddressResponse.ListBean) data.getSerializableExtra("addressDataBean");
                 if (mDataBean != null) {
                     mPayOrderPhone.setVisibility(View.VISIBLE);
-                    mPayOrderPhone.setText(mDataBean.receiverPhone);
-                    mPayOrderName.setText((String) mDataBean.receiverName);
-                    mPayOrderAddress.setText(mDataBean.address + mDataBean.area);
+                    mPayOrderPhone.setText(mDataBean.getMobile());
+                    mPayOrderName.setText((String) mDataBean.getName());
+                    mPayOrderAddress.setText(mDataBean.getAddress() + mDataBean.getArea());
                 }
             }
         }

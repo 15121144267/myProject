@@ -53,7 +53,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Inject
     AllOrderControl.PresenterAllOrderView mPresenter;
-    private MyOrdersResponse ordersResponse = null;//服务器返回数据
+//    private MyOrdersResponse ordersResponse = null;//服务器返回数据
 
 
     @Override
@@ -101,7 +101,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         if (response == null) return;
-        ordersResponse = response;
+//        ordersResponse = response;
         mList = response.getList();
         if (mList.size() > 0) {
             mAdapter.addData(mList);

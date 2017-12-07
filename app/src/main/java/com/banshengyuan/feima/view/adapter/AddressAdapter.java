@@ -10,26 +10,26 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class AddressAdapter extends BaseQuickAdapter<AddressResponse.DataBean, BaseViewHolder> {
+public class AddressAdapter extends BaseQuickAdapter<AddressResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
 
-    public AddressAdapter(List<AddressResponse.DataBean> mList, Context context) {
+    public AddressAdapter(List<AddressResponse.ListBean> mList, Context context) {
         super(R.layout.adapter_address, mList);
         mContext = context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, AddressResponse.DataBean item) {
+    protected void convert(BaseViewHolder helper, AddressResponse.ListBean item) {
 
         if (item == null) return;
 
         helper.addOnClickListener(R.id.address_edit).addOnClickListener(R.id.address_delete).addOnClickListener(R.id.address_default);
-        helper.setText(R.id.address_name, item.receiverName + "");
-        helper.setText(R.id.address_phone, item.receiverPhone);
-        helper.setText(R.id.address_address, item.address + item.area);
-        helper.setChecked(R.id.address_default, item.isDefault == 1);
-        helper.setText(R.id.address_default_text, item.isDefault == 1 ? "默认地址" : "设为默认");
-
+        helper.setText(R.id.address_name, item.getName());
+        helper.setText(R.id.address_phone, item.getMobile());
+        String address = item.getProvince() + item.getCity() + item.getArea() + " " + item.getStreet() +" "+ item.getAddress();
+        helper.setText(R.id.address_address, address);
+        helper.setChecked(R.id.address_default, item.getIs_default() == 2);
+        helper.setText(R.id.address_default_text, item.getIs_default() == 2 ? "默认地址" : "设为默认");
     }
 
 }

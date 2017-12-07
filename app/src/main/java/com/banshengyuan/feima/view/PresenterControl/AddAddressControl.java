@@ -9,10 +9,16 @@ import com.banshengyuan.feima.entity.AddAddressRequest;
 
 public class AddAddressControl {
     public interface AddAddressView extends LoadDataView {
+
         void addAddressSuccess();
+
+        void updateAddressSuccess();
     }
 
     public interface PresenterAddAddress extends Presenter<AddAddressView> {
-        void requestAddAddress(AddAddressRequest request);
+
+        void requestAddressAdd(AddAddressRequest request,String token);
+
+        void requestAddressUpdate(String addressId, AddAddressRequest request,String token);
     }
 }

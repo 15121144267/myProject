@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AddAddressRequest;
+import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.view.PresenterControl.AddAddressControl;
+import com.banshengyuan.feima.view.PresenterControl.AddressControl;
 import com.banshengyuan.feima.view.model.AddAddressModel;
 import com.banshengyuan.feima.view.model.ResponseData;
 
@@ -30,13 +32,33 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     }
 
     @Override
-    public void requestAddAddress(AddAddressRequest request) {
+    public void onCreate() {
+    }
+
+
+    @Override
+    public void onDestroy() {
+        mView = null;
+    }
+
+    @Override
+    public void requestAddressAdd(AddAddressRequest request,String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addAddressRequest(request).compose(mView.applySchedulers())
+        Disposable disposable = mModel.addAddressRequest(request,token).compose(mView.applySchedulers())
                 .subscribe(this::addAddressSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
+
+    @Override
+    public void requestAddressUpdate(String addressId, AddAddressRequest request, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.updateAddressRequest(addressId ,request,token).compose(mView.applySchedulers())
+                .subscribe(this::updateAddressSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
 
     private void addAddressSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
@@ -46,14 +68,13 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
         }
     }
 
-    @Override
-    public void onCreate() {
-
+    private void updateAddressSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.updateAddressSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
 
-    @Override
-    public void onDestroy() {
-        mView = null;
-    }
 }

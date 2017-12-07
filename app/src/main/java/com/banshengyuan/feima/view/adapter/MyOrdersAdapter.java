@@ -23,13 +23,12 @@ import java.util.List;
 public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
     private ImageLoaderHelper mImageLoaderHelper;
-    private List<MyOrdersResponse.ListBean> mListBean = new ArrayList<>();
+    private List<MyOrdersResponse.ListBean.OrderItemBean> mOrderItemBeen = new ArrayList<>();
 
     public MyOrdersAdapter(List<MyOrdersResponse.ListBean> listBean, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_my_orders, listBean);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
-        mListBean = listBean;
     }
 
 

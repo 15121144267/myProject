@@ -12,15 +12,19 @@ import java.util.List;
 
 public class AddressControl {
     public interface AddressView extends LoadDataView {
-        void addressListSuccess(List<AddressResponse.DataBean> data);
+        void listAddressSuccess(AddressResponse addressResponse);
+
         void deleteAddressSuccess();
-        void addressDefaultSuccess();
+
+        void updateAddressSuccess();
+
     }
 
     public interface PresenterAddress extends Presenter<AddressView> {
         void requestAddressList(String phone);
 
-        void requestDeleteAddress(AddAddressRequest request);
-        void requestAddressDefault(AddressResponse.DataBean request);
+        void requestDeleteAddress(String addressId, String token);
+
+        void requestUpdateAddress(String addressId ,AddAddressRequest request ,String token);
     }
 }

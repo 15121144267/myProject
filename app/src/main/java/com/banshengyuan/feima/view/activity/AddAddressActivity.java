@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 
 public class AddAddressActivity extends BaseActivity implements AddAddressControl.AddAddressView {
 
-    public static Intent getIntent(Context context, AddressResponse.DataBean bean) {
+    public static Intent getIntent(Context context, AddressResponse.ListBean bean) {
         Intent intent = new Intent(context, AddAddressActivity.class);
         if (bean != null) {
             intent.putExtra(IntentConstant.ADDRESS_DETAIL, bean);
@@ -66,6 +66,8 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     TextView mAddAddressLocationText;
     @BindView(R.id.add_address_location_detail)
     EditText mAddAddressLocationDetail;
+    @BindView(R.id.add_address_location_street)
+    EditText mAddAddressLocationStreet;
     @BindView(R.id.add_address_time)
     TextView mAddAddressTime;
     @BindView(R.id.add_address_default)
@@ -78,6 +80,8 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     private AddAddressRequest request = new AddAddressRequest();
     @Inject
     AddAddressControl.PresenterAddAddress mPresenter;
+
+    private AddressResponse.ListBean bean = null;
 
 
     @Override
@@ -149,6 +153,12 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
             return;
         }
 
+        String street = mAddAddressLocationStreet.getText().toString().trim();
+        if (TextUtils.isEmpty(street)) {
+            ToastUtils.showShortToast("所在街道不能为空");
+            return;
+        }
+
         String addressDetail = mAddAddressLocationDetail.getText().toString().trim();
         if (TextUtils.isEmpty(addressDetail)) {
             ToastUtils.showShortToast("详细地址不能为空");
@@ -160,16 +170,26 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
         request.province = mProvince;
         request.city = mCity;
         request.area = mDistrict;
-        request.street = " ";//街区  修改？？？？
+        request.street = street;//街区  修改？？？？
         request.address = addressDetail;
-        request.isDefault = mAddAddressDefault.isChecked() ? "1" : "0";
-        request.token = Constant.TOKEN;
-        mPresenter.requestAddAddress(request);
+        request.isDefault = mAddAddressDefault.isChecked() ? "2" : "1";
+
+        if (bean == null) {
+            mPresenter.requestAddressAdd(request, Constant.TOKEN);
+        } else {
+            mPresenter.requestAddressUpdate(bean.getId() + "", request, Constant.TOKEN);
+        }
     }
 
     @Override
     public void addAddressSuccess() {
         showToast("操作成功");
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void updateAddressSuccess() {
         setResult(RESULT_OK);
         finish();
     }
@@ -214,13 +234,19 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     }
 
     private void initData() {
-        if (getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL) != null) {
-            AddressResponse.DataBean bean = (AddressResponse.DataBean) getIntent().getSerializableExtra(IntentConstant.ADDRESS_DETAIL);
-            mAddAddressName.setText((String) bean.receiverName);
-            mAddAddressTel.setText(bean.receiverPhone);
-            mAddAddressLocationText.setText(bean.address);
-            mAddAddressLocationDetail.setText(bean.area);
-            mAddAddressDefault.setChecked(bean.isDefault == 1);
+        if (getIntent() != null) {
+            bean = getIntent().getParcelableExtra(IntentConstant.ADDRESS_DETAIL);
+            if (bean == null) return;
+            mAddAddressName.setText(bean.getName());
+            mAddAddressTel.setText(bean.getMobile());
+            if (bean.getProvince().equals(bean.getCity())) {
+                mAddAddressLocationText.setText(bean.getProvince() + bean.getArea());
+            } else {
+                mAddAddressLocationText.setText(bean.getProvince() + bean.getCity() + bean.getArea());
+            }
+            mAddAddressLocationStreet.setText(bean.getStreet());
+            mAddAddressLocationDetail.setText(bean.getAddress());
+            mAddAddressDefault.setChecked(bean.getIs_default() == 2);
         }
     }
 

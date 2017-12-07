@@ -112,6 +112,30 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="所在街道" />
+
+        <EditText
+            android:id="@+id/add_address_location_street"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="40dp"
+            android:background="@null"
+            android:inputType="text"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/TextColor_dark_black_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="详细地址" />
 
         <EditText
@@ -130,7 +154,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <TextView
             style="@style/TextColor_dark_black_15"
@@ -171,8 +196,8 @@
 
         <CheckBox
             android:id="@+id/add_address_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/selector_check"
             android:button="@null" />

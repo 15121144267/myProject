@@ -27,9 +27,13 @@ public class AddAddressModel {
     }
 
 
-    public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-//        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    public Observable<ResponseData> addAddressRequest(AddAddressRequest request, String token) {
+        return mApi.addAddressRequest(mGson.toJson(request), token).map(mTransform::transformCommon);
     }
+
+    public Observable<ResponseData> updateAddressRequest(String addressId, AddAddressRequest request, String token) {
+        return mApi.updateAddressRequest(addressId, mGson.toJson(request), token).map(mTransform::transformCommon);
+    }
+
 
 }
