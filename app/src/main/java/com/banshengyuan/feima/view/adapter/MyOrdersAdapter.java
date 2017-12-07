@@ -23,7 +23,6 @@ import java.util.List;
 public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
     private ImageLoaderHelper mImageLoaderHelper;
-    private List<MyOrdersResponse.ListBean.OrderItemBean> mOrderItemBeen = new ArrayList<>();
 
     public MyOrdersAdapter(List<MyOrdersResponse.ListBean> listBean, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_my_orders, listBean);
@@ -37,8 +36,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
         if (item == null) return;
         helper.addOnClickListener(R.id.order_left_btn).addOnClickListener(R.id.order_right_btn).addOnClickListener(R.id.mime_order_lv);
 
-        MyOrdersResponse.ListBean.OrderItemBean bean = item.getOrder_item().get(0);
-        List<MyOrdersResponse.ListBean.OrderItemBean.ProductBean> products = bean.getProduct();
+        List<MyOrdersResponse.ListBean.ProductBean> products = item.getProduct();
         RecyclerView recyclerView = helper.getView(R.id.adapter_product_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         OrdersItemAdapter itemAdapter = new OrdersItemAdapter(products, mContext, mImageLoaderHelper);
@@ -48,7 +46,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
             mContext.startActivity(OrderDetailActivity.getOrderDetailIntent(mContext, item));
         });
 
-        helper.setText(R.id.shop_name, "  " + bean.getStore_name());
+        helper.setText(R.id.shop_name, "  " + item.getStore_name());
         //pay_status :1 待付款 2已付款
         //deliver_status : 1 待发货 2已发货
 
@@ -67,7 +65,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
         Double orderPrice = 0.00;
         String orderPricePartOne = "合计：";
         if (products != null) {
-            for (MyOrdersResponse.ListBean.OrderItemBean.ProductBean product : products) {
+            for (MyOrdersResponse.ListBean.ProductBean product : products) {
                 orderPrice += product.getPrice() * product.getNumber();
                 orderCount += product.getNumber();
             }

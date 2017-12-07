@@ -13,18 +13,18 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class OrdersItemAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean.OrderItemBean.ProductBean, BaseViewHolder> {
+public class OrdersItemAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean.ProductBean, BaseViewHolder> {
     private final Context mContext;
     private ImageLoaderHelper mImageLoaderHelper;
 
-    public OrdersItemAdapter(List<MyOrdersResponse.ListBean.OrderItemBean.ProductBean> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
+    public OrdersItemAdapter(List<MyOrdersResponse.ListBean.ProductBean> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_order_item, notices);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, MyOrdersResponse.ListBean.OrderItemBean.ProductBean product) {
+    protected void convert(BaseViewHolder helper, MyOrdersResponse.ListBean.ProductBean product) {
         if (product == null) return;
         ImageView iconView = helper.getView(R.id.adapter_item_person_icon);
         mImageLoaderHelper.displayRoundedCornerImage(mContext, product.getCover_img(), iconView, 6);

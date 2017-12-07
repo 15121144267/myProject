@@ -62,7 +62,7 @@ public class ExChangeResponse {
         private String start_time;
         private String end_time;
         private String summary;
-        private int street_id;
+        private String street_id;
         private String street_name;
 
         public int getId() {
@@ -113,11 +113,11 @@ public class ExChangeResponse {
             this.summary = summary;
         }
 
-        public int getStreet_id() {
+        public String getStreet_id() {
             return street_id;
         }
 
-        public void setStreet_id(int street_id) {
+        public void setStreet_id(String street_id) {
             this.street_id = street_id;
         }
 

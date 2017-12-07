@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+
 /**
  * Created by helei on 2017/4/28.
  * LoginModel
@@ -22,10 +24,7 @@ public class CoupleModel {
         mTransform = transform;
     }
 
-
-  /*  public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
-
+    public Observable<ResponseData> myCoupleRequest(String states, int page, int pageSize, String token) {
+        return mApi.myCoupleRequest(states, page , pageSize , token).map(mTransform::transformCommon);
+    }
 }

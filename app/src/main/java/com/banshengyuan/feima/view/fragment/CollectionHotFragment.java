@@ -14,10 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
+import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.entity.HotFairResponse;
 import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.adapter.ExChangeAdapter;
 import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -35,7 +37,7 @@ import butterknife.Unbinder;
  * 我的收藏-热闹
  */
 
-public class CollectionHotFragment extends BaseFragment implements CollectionHotControl.CollectionHotView , BaseQuickAdapter.RequestLoadMoreListener{
+public class CollectionHotFragment extends BaseFragment implements CollectionHotControl.CollectionHotView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static CollectionHotFragment newInstance() {
         return new CollectionHotFragment();
@@ -45,7 +47,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     RecyclerView mCouponCommonList;
 
     private Unbinder unbind;
-    private HotFairAdapter mAdapter;
+    private ExChangeAdapter mAdapter;//HotFairAdapter
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
 
@@ -74,20 +76,12 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     }
 
     private void initData() {
-        List<HotFairResponse> list2 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            HotFairResponse response = new HotFairResponse();
-            response.name = "魔兽世界" + i;
-            list2.add(response);
-        }
-        mAdapter.setNewData(list2);
-
         mPresenter.requestCollectionHotList(mPagerNo, mPagerSize);
     }
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new HotFairAdapter(null, getActivity());
+        mAdapter = new ExChangeAdapter(null, getActivity(), mImageLoaderHelper);
         mCouponCommonList.setAdapter(mAdapter);
     }
 
@@ -129,8 +123,8 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionFairResponse response) {
-
+    public void getMyCollectionListSuccess(ExChangeResponse response) {
+        mAdapter.setNewData(response.getList());
     }
 
     @Override

@@ -13,8 +13,8 @@ import retrofit2.http.Query;
  */
 
 public interface CoupleApi {
-    @GET("member/deliveraddress/list")
-    Observable<String> addressListRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
+    @GET("api/user/ticket")
+    Observable<String> myCoupleRequest(@Query("status") String status, @Query("page") int page,@Query("pageSize") int pageSize,@Query("token") String token);
 
     @HTTP(method = "DELETE", path = "member/deliveraddress", hasBody = true)
     Observable<String> deleteAddressRequest(@Body String request);

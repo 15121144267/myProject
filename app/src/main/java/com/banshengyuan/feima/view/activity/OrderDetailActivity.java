@@ -67,8 +67,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     @BindView(R.id.order_left_btn)
     RadiusTextView orderLeftBtn;
     private MyOrdersResponse.ListBean mListBean = null;
-    private MyOrdersResponse.ListBean.OrderItemBean orderItemBean = null;
-    List<MyOrdersResponse.ListBean.OrderItemBean.ProductBean> mProductBeen = new ArrayList<>();
+    private MyOrdersResponse.ListBean orderItemBean = null;
+    List<MyOrdersResponse.ListBean.ProductBean> mProductBeen = new ArrayList<>();
 
     Integer totalPrice = 0;
     Integer transPrice = 0;
@@ -93,9 +93,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     private void parseIntent() {
         mListBean = getIntent().getParcelableExtra("listBean");
-        if (mListBean != null) {
-            orderItemBean = mListBean.getOrder_item().get(0);
-        }
     }
 
     @Override
@@ -133,7 +130,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
             orderDetailShopName.setText(orderItemBean.getStore_name());
 
-            for (MyOrdersResponse.ListBean.OrderItemBean.ProductBean productBean : orderItemBean.getProduct()) {
+            for (MyOrdersResponse.ListBean.ProductBean productBean : orderItemBean.getProduct()) {
                 if (productBean != null) {
                     totalPrice += productBean.getPrice() * productBean.getNumber();
                 }

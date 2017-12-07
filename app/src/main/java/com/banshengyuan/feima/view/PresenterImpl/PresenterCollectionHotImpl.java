@@ -3,7 +3,9 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.entity.MyCollectionFairResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -40,8 +42,8 @@ public class PresenterCollectionHotImpl implements CollectionHotControl.Presente
 
     private void getCollectionHotSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(MyCollectionFairResponse.class);
-            MyCollectionFairResponse response = (MyCollectionFairResponse) responseData.parsedData;
+            responseData.parseData(ExChangeResponse.class);
+            ExChangeResponse response = (ExChangeResponse) responseData.parsedData;
             mView.getMyCollectionListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);

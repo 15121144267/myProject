@@ -14,9 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCouponFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CoupleActivityModule;
 import com.banshengyuan.feima.dagger.module.CouponFragmentModule;
+import com.banshengyuan.feima.entity.Constant;
+import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.view.PresenterControl.CouponPastAvailableControl;
 import com.banshengyuan.feima.view.activity.CoupleActivity;
 import com.banshengyuan.feima.view.adapter.CouponAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +35,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class CouponPastFragment extends BaseFragment implements CouponPastAvailableControl.CouponPastAvailableView {
-
+public class CouponPastFragment extends BaseFragment implements CouponPastAvailableControl.CouponPastAvailableView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static CouponPastFragment newInstance() {
         return new CouponPastFragment();
@@ -46,7 +48,11 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
 
     private CouponAdapter mAdapter;
     private Unbinder unbind;
-    private List<Integer> mList;
+    private List<MyCoupleResponse.ListBean> mList = new ArrayList<>();
+    private String state = "3";//券状态 1未使用 2已使用 3已过期
+    private int page = 1;
+    private int pageSize = 10;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +75,11 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        mList.add(R.mipmap.freemud_logo);
-        mAdapter.setNewData(mList);
+//        mList = new ArrayList<>();
+//        mList.add(R.mipmap.freemud_logo);
+//        mAdapter.setNewData(mList);
+
+        mPresenter.requestExpiredCouponList(state, page, pageSize, Constant.TOKEN);
     }
 
     private void initView() {
@@ -111,9 +119,26 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     private void initialize() {
         DaggerCouponFragmentComponent.builder()
                 .applicationComponent(((DaggerApplication) getActivity().getApplication()).getApplicationComponent())
-                .coupleActivityModule(new CoupleActivityModule((AppCompatActivity)getActivity()))
+                .coupleActivityModule(new CoupleActivityModule((AppCompatActivity) getActivity()))
                 .couponFragmentModule(new CouponFragmentModule(this, (CoupleActivity) getActivity()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public void getExpiredCoupleListSuccess(MyCoupleResponse myCoupleResponse) {
+        if (myCoupleResponse.getList().size() > 0) {
+            mList = myCoupleResponse.getList();
+            mAdapter.setNewData(mList);
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() < pageSize) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            mPresenter.requestExpiredCouponList(state, ++page, pageSize, Constant.TOKEN);
+        }
     }
 }

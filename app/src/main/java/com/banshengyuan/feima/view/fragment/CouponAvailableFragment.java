@@ -14,9 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCouponFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CoupleActivityModule;
 import com.banshengyuan.feima.dagger.module.CouponFragmentModule;
+import com.banshengyuan.feima.entity.Constant;
+import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.view.PresenterControl.CouponAvailableControl;
 import com.banshengyuan.feima.view.activity.CoupleActivity;
 import com.banshengyuan.feima.view.adapter.CouponAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +33,10 @@ import butterknife.Unbinder;
 /**
  * Created by helei on 2017/5/3.
  * SendingOrderFragment
+ * 未使用
  */
 
-public class CouponAvailableFragment extends BaseFragment implements CouponAvailableControl.CouponAvailableView {
+public class CouponAvailableFragment extends BaseFragment implements CouponAvailableControl.CouponAvailableView, BaseQuickAdapter.RequestLoadMoreListener {
 
     public static CouponAvailableFragment newInstance() {
         return new CouponAvailableFragment();
@@ -43,7 +47,11 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
 
     private CouponAdapter mAdapter;
     private Unbinder unbind;
-    private List<Integer> mList;
+    private List<MyCoupleResponse.ListBean> mList;
+    private String state = "1";//券状态 1未使用 2已使用 3已过期
+    private int page = 1;
+    private int pageSize = 10;
+
     @Inject
     CouponAvailableControl.PresenterCouponAvailable mPresenter;
 
@@ -69,12 +77,12 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+        mPresenter.requestNoUseCouponList(state, page, pageSize, Constant.TOKEN);
+
     }
 
     private void initView() {
+        mList = new ArrayList<>();
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CouponAdapter(null, getActivity());
         mCouponCommonList.setAdapter(mAdapter);
@@ -115,5 +123,22 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
                 .couponFragmentModule(new CouponFragmentModule(this, (CoupleActivity) getActivity()))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public void getNoUseCouponListSuccess(MyCoupleResponse myCoupleResponse) {
+        if (myCoupleResponse != null) {
+            mList = myCoupleResponse.getList();
+            mAdapter.setNewData(mList);
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() < pageSize) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            mPresenter.requestNoUseCouponList(state, ++page, pageSize, Constant.TOKEN);
+        }
     }
 }

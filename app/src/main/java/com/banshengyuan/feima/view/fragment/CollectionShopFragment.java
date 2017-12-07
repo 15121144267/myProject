@@ -14,6 +14,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
+import com.banshengyuan.feima.entity.CollectionShopResponse;
 import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionShopControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
@@ -44,7 +45,7 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     RecyclerView mCouponCommonList;
 
     private Unbinder unbind;
-    private List<Integer> mList;
+    private List<CollectionShopResponse.ListBean> mList = new ArrayList<>();
     private CollectionShopAdapter mAdapter;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
@@ -73,18 +74,17 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     }
 
     private void initData() {
-        mList = new ArrayList<>();
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_third);
-        mList.add(R.mipmap.main_banner_third);
-        mAdapter.setNewData(mList);
+//        mList = new ArrayList<>();
+//        mList.add(R.mipmap.main_banner_third);
+//        mList.add(R.mipmap.main_banner_third);
+//        mList.add(R.mipmap.main_banner_third);
 
         mPresenter.requestCollectionShopList(mPagerNo, mPagerSize);
     }
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CollectionShopAdapter(null, getActivity());
+        mAdapter = new CollectionShopAdapter(null, getActivity(), mImageLoaderHelper);
         mCouponCommonList.setAdapter(mAdapter);
     }
 
@@ -126,8 +126,11 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     }
 
     @Override
-    public void getMyCollectionListSuccess(MyCollectionFairResponse response) {
-
+    public void getMyCollectionListSuccess(CollectionShopResponse response) {
+        if (response != null) {
+            mList = response.getList();
+            mAdapter.setNewData(mList);
+        }
     }
 
     @Override

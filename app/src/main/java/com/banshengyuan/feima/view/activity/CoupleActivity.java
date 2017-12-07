@@ -34,12 +34,9 @@ import butterknife.ButterKnife;
 
 public class CoupleActivity extends BaseActivity implements CoupleControl.CoupleView {
 
-
-
     public static Intent getIntent(Context context) {
         return new Intent(context, CoupleActivity.class);
     }
-
 
     @BindView(R.id.middle_name)
     TextView mMiddleName;

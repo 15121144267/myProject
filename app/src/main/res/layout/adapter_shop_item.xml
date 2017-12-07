@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="130dp">
-
-    <ImageView
-        android:id="@+id/item_shop_pic"
-        android:layout_width="110dp"
-        android:layout_height="96dp"
-        android:layout_centerVertical="true"
-        android:scaleType="fitXY"
-        android:background="@mipmap/freemud_logo"/>
+    android:layout_width="match_parent"
+    android:layout_height="130dp">
 
     <LinearLayout
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_margin="15dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/shop_item_location"
-            />
+            android:background="@mipmap/shop_item_location" />
 
         <TextView
             android:id="@+id/item_shop_location"
@@ -34,19 +25,20 @@
             android:paddingEnd="5dp"
             android:paddingStart="5dp"
             android:text="2F  L2016"
-            android:textColor="@color/light_blue_dark"
-            />
+            android:textColor="@color/light_blue_dark" />
     </LinearLayout>
+
+
+    <View
+        style="@style/LineH_Fill_Width1_5_ForView"
+        android:layout_alignParentBottom="true" />
 
     <LinearLayout
         android:id="@+id/item_shop_des"
         android:layout_width="193dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="9dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@id/item_shop_pic"
+        android:layout_alignBottom="@+id/item_shop_pic"
+        android:layout_alignStart="@+id/item_shop_name"
         android:orientation="vertical">
 
         <TextView
@@ -57,29 +49,26 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:text="生活用品。"
-            android:textColor="@color/gray_color"
-            />
+            android:textColor="@color/gray_color" />
 
-              <TextView
+        <TextView
             android:id="@+id/item_shop_content2"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:text="大是大非三个都是感受到"
             android:textColor="@color/gray_color"
-            />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/item_shop_content3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:ellipsize="end"
             android:text="大是大非三个都是感受到大是大非三个都是感受到"
             android:textColor="@color/gray_color"
-            />
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
@@ -90,11 +79,16 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/item_shop_pic"
         android:text="店名"
-        android:textSize="@dimen/sp_15"
         android:textColor="@color/black"
-        />
+        android:textSize="@dimen/sp_15" />
 
-    <View
-        style="@style/LineH_Fill_Width1_5_ForView"
-        android:layout_alignParentBottom="true"/>
+    <ImageView
+        android:id="@+id/item_shop_pic"
+        android:layout_width="110dp"
+        android:layout_height="96dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/freemud_logo"
+        android:scaleType="fitXY" />
 </RelativeLayout>
