@@ -21,6 +21,7 @@ import com.amap.api.location.AMapLocation;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
+import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
@@ -38,7 +39,9 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -118,6 +121,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private GoodsInfoResponse.InfoBean mInfoBean;
     private SkuProductResponse.InfoBean mSkuInfoBean;
     private boolean mDoFlag;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +152,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             }
             mGoodsDetailSummary.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
             mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price));
-            if(mInfoBean.freight!=null){
+            if (mInfoBean.freight != null) {
                 mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.freight.freight));
             }
             GoodsInfoResponse.InfoBean.StoreBean store = mInfoBean.store;
@@ -182,18 +186,18 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap,
-                                         String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag) {
-        commonContent(selectProMap, skuProMap, content,infoBean,doFlag);
+                                         String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
+        commonContent(selectProMap, skuProMap, content, infoBean, doFlag);
     }
 
     @Override
     public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap,
-                                          HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag) {
+                                          HashMap<Integer, Integer> skuProMap, String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
         mSkuInfoBean = skuInfoBean;
-        commonContent(selectProMap, skuProMap, content,infoBean,doFlag);
+        commonContent(selectProMap, skuProMap, content, infoBean, doFlag);
     }
 
-    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag) {
+    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
         mDoFlag = doFlag;
         mInfoBean = infoBean;
         mSelectProMap = selectProMap;
@@ -202,8 +206,30 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void buyButtonListener(String sku, Integer count) {
-        showToast("购买");
+    public void buyButtonListener(SkuProductResponse.InfoBean skuInfoBean, Integer count) {
+        ShoppingCardListResponse response = new ShoppingCardListResponse();
+        List<ShoppingCardListResponse.ListBeanX> orderConfirm = new ArrayList<>();
+        List<ShoppingCardListResponse.ListBeanX.ListBean> productList = new ArrayList<>();
+        ShoppingCardListResponse.ListBeanX product = new ShoppingCardListResponse.ListBeanX();
+        product.stoer_name = mInfoBean.store.name;
+        product.store_id = mInfoBean.store.id;
+        ShoppingCardListResponse.ListBeanX.ListBean productInfo = new ShoppingCardListResponse.ListBeanX.ListBean();
+        productInfo.number = count;
+        productInfo.goods_id = mInfoBean.id;
+        if (skuInfoBean == null ) {
+            productInfo.goods_img = mInfoBean.top_img.get(0);
+            productInfo.goods_name = mInfoBean.name;
+            productInfo.goods_sku = mInfoBean.main_sku;
+        } else {
+            productInfo.goods_img = skuInfoBean.img;
+            productInfo.goods_name = skuInfoBean.name;
+            productInfo.goods_sku = skuInfoBean.sku;
+        }
+        productList.add(productInfo);
+        product.list = productList;
+        orderConfirm.add(product);
+        response.list = orderConfirm;
+        startActivity(PayActivity.getIntent(this,response));
     }
 
     @Override
@@ -249,7 +275,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
             if (mInfoBean.store != null) {
-                mPresenter.requestGoodsCollection(mInfoBean.store.id+"", "goods");
+                mPresenter.requestGoodsCollection(mInfoBean.store.id + "", "goods");
             }
         });
 
@@ -262,7 +288,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private void showSpecificationDialog(Integer addOrBugFlag) {
         mDialog = SpecificationDialog.newInstance();
-        mDialog.setContent(mInfoBean, addOrBugFlag, mImageLoaderHelper, this, mDialog, mSkuProMap,mSelectProMap, mSkuInfoBean,mDoFlag);
+        mDialog.setContent(mInfoBean, addOrBugFlag, mImageLoaderHelper, this, mDialog, mSkuProMap, mSelectProMap, mSkuInfoBean, mDoFlag);
         mDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
 
@@ -274,8 +300,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
 
     @Override
-    public void addToShoppingCard(String sku,Integer count) {
-        mPresenter.requestAddShoppingCard(mProductId+"",sku,count);
+    public void addToShoppingCard(String sku, Integer count) {
+        mPresenter.requestAddShoppingCard(mProductId + "", sku, count);
     }
 
     @Override
@@ -307,7 +333,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void getUniqueGoodInfoFail(String des) {
-
+        showToast("服务器异常");
     }
 
     private void initializeInjector() {

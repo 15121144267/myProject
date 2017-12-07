@@ -173,7 +173,7 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogGoodsChoiceSpecification.setText("请选择");
         }
         if (mInfoBean.other_spec.size() > 0) {
-            if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()) {
+            if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()&&mSkuInfoBean!=null) {
                 mDialogBuyGoods.setEnabled(true);
                 mDialogAddGoods.setEnabled(true);
             } else {
@@ -253,7 +253,7 @@ public class SpecificationDialog extends BaseDialogFragment {
                 if (mAddOrBugFlag == 3) {
                     mView.addToShoppingCard(mSku,count);
                 } else {
-                    dialogListener.buyButtonListener(mSku, count);
+                    dialogListener.buyButtonListener(mSkuInfoBean, count);
                 }
 
                 break;
@@ -286,7 +286,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public interface specificationDialogListener {
-        void buyButtonListener(String sku, Integer count);
+        void buyButtonListener( SkuProductResponse.InfoBean sku, Integer count);
     }
 
 

@@ -104,6 +104,7 @@ public class GoodsInfoResponse implements Serializable {
             public String spec_name;
             public int price;
             public int stock;
+            public boolean falg;
         }
     }
 }

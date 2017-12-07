@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +21,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShoppingCardActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShoppingCardActivityModule;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.utils.SpannableStringUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
@@ -96,7 +94,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_SHOPPING_CARD_INFO));
+//        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_SHOPPING_CARD_INFO));
     }
 
     @Override
@@ -218,12 +216,14 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     @Override
     public void shoppingCardListSuccess(ShoppingCardListResponse response) {
         if (response.list != null && response.list.size() > 0) {
+            mToolbarRightText.setVisibility(View.VISIBLE);
             mBeanXList = response.list;
             mActivityShoppingCardBottomView.setVisibility(View.VISIBLE);
             mAdapter.setNewData(response.list);
         } else {
             mActivityShoppingCardBottomView.setVisibility(View.GONE);
             mAdapter.setEmptyView(mEmptyView);
+            mToolbarRightText.setVisibility(View.GONE);
         }
 
     }
@@ -239,9 +239,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     private void initView() {
-        mToolbarRightText.setVisibility(View.VISIBLE);
         mToolbarRightText.setText("编辑");
-
         setAllPriceText(0);
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);

@@ -11,8 +11,11 @@ import com.banshengyuan.feima.view.fragment.SpecificationDialog;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.InfoBean.OtherSpecBean, BaseViewHolder> {
@@ -22,7 +25,7 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
     private HashMap<Integer, String> mSelectProMap;
     private GoodsInfoResponse.InfoBean mInfoBean;
     private SpecificationDialog mDialog;
-
+    private HashMap<Integer, Integer> mIntegerMap = new HashMap<>();
     public SpecificationAdapter(List<GoodsInfoResponse.InfoBean.OtherSpecBean> otherSpecBean, GoodsInfoResponse.InfoBean infoBean,
                                 Context context, SpecificationDialog dialog, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap) {
         super(R.layout.adapter_specifiaction, otherSpecBean);
@@ -44,7 +47,7 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
 
     @Override
     protected void convert(BaseViewHolder helper, GoodsInfoResponse.InfoBean.OtherSpecBean item) {
-        Integer type = item.id;
+        Integer type = helper.getAdapterPosition();
         MyLinearLayout myLinearLayout = helper.getView(R.id.adapter_specification);
         List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> mList = item.value;
         if (myLinearLayout.getChildCount() == 0) {
@@ -109,18 +112,27 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
             if (tv.equals(textViews[i])) {
                 mSkuProMap.put(type, value.get(i).id);
                 mSelectProMap.put(type, value.get(i).name);
+                List<Integer> list1 = new ArrayList<>();
+                for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
+                    list1.add(integerEntry.getKey());
+                }
                 for (int i1 = 0; i1 < mInfoBean.other_spec.size(); i1++) {
-                    if (i1 != position) {
+                    if (!list1.contains(i1)) {
                         for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
                             for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
-                                if (bindSpecBean.spec_id.contains(mSkuProMap.get(type)+"")){
+                                String[] array = bindSpecBean.spec_id.split("_");
+                                if (Arrays.asList(array).contains(mSkuProMap.get(type)+"")){
                                     valueBean.enableFlag = true;
                                 }else {
                                     valueBean.enableFlag = false;
                                 }
 
                                 if( valueBean.enableFlag){
-                                    if(bindSpecBean.spec_id.contains(valueBean.id + "")){
+                                    List<String> list = new ArrayList<>();
+                                    for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
+                                        list.add(integerEntry.getValue().toString());
+                                    }
+                                    if(Arrays.asList(array).containsAll(list)&&Arrays.asList(array).contains(valueBean.id+"")){
                                         valueBean.enableFlag = true;
                                         break;
                                     }else {
@@ -130,6 +142,35 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
                             }
                         }
 
+                    }else {
+                        if(mSkuProMap.size()== mInfoBean.other_spec.size()){
+                            mIntegerMap.put(type, value.get(i).id);
+                            if(i1!=position){
+                                for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
+                                    for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
+                                        String[] array = bindSpecBean.spec_id.split("_");
+                                        if (Arrays.asList(array).contains(mIntegerMap.get(type)+"")){
+                                            valueBean.enableFlag = true;
+                                        }else {
+                                            valueBean.enableFlag = false;
+                                        }
+
+                                        if( valueBean.enableFlag){
+                                            List<String> list = new ArrayList<>();
+                                            for (Map.Entry<Integer, Integer> integerEntry : mIntegerMap.entrySet()) {
+                                                list.add(integerEntry.getValue().toString());
+                                            }
+                                            if(Arrays.asList(array).containsAll(list)&&Arrays.asList(array).contains(valueBean.id+"")){
+                                                valueBean.enableFlag = true;
+                                                break;
+                                            }else {
+                                                valueBean.enableFlag = false;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 mOtherSpecBean = mInfoBean.other_spec;
