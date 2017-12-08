@@ -29,6 +29,7 @@
                     android:layout_width="match_parent"
                     android:contentDescription="@string/app_name"
                     android:background="@drawable/yellow_style"
+                    android:scaleType="centerCrop"
                     android:layout_height="match_parent"/>
 
                 <RelativeLayout
@@ -46,7 +47,7 @@
                         android:layout_height="50dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:scaleType="fitXY"
+                        android:scaleType="centerCrop"
                         android:src="@mipmap/person_head_icon"/>
 
                     <LinearLayout
