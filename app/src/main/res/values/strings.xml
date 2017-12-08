@@ -31,7 +31,7 @@
     <string name="user_notice">我的通知</string>
     <string name="user_work_res">工作汇总</string>
     <string name="user_setting_center">设置中心</string>
-    <string name="user_person_center">个人信息</string>
+    <string name="user_person_center">个人设置</string>
     <string name="user_order_detail">订单详情</string>
     <string name="login_password_empty">请输入密码</string>
     <string name="text_verify_code">获取验证码</string>

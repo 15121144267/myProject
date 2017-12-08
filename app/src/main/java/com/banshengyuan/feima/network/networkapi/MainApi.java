@@ -11,8 +11,8 @@ import retrofit2.http.Query;
 
 public interface MainApi {
 
-    @GET("member/info")
-    Observable<String> personInfoRequest(@Query("partnerId") String partnerId, @Query("phone") String phone);
+    @GET("api/user/info")
+    Observable<String> personInfoRequest(@Query("token") String phone);
 
     @GET("api/magic-door")
     Observable<String> musicListRequest(@Query("flag") boolean flag);

@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/line_grey_bg"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common"/>
+    <include layout="@layout/toolbar_common" />
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+    <View style="@style/LineH_Fill_Width1_5_ForView" />
 
     <LinearLayout
         android:id="@+id/person_center_head"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <TextView
-
             style="@style/TextColor_dark_black_15"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="头像"/>
+            android:text="更改头像" />
 
         <ImageView
             android:id="@+id/person_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/person_fake_icon"
-            />
+            android:src="@mipmap/person_fake_icon" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="9dp"
-            android:src="@mipmap/arrow_right"
-            />
+            android:src="@mipmap/arrow_right" />
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView"/>
+    <View style="@style/LineH_Fill_Width1_ForView" />
 
     <LinearLayout
-        android:id="@+id/person_center_name"
+        android:id="@+id/person_page_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <TextView
@@ -55,7 +55,39 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="昵称"/>
+            android:text="更改个人主页背景" />
+
+        <ImageView
+            android:id="@+id/person_page_bg_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/person_fake_icon" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="9dp"
+            android:src="@mipmap/arrow_right" />
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width_10_ForView" />
+
+    <LinearLayout
+        android:id="@+id/person_center_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/TextColor_dark_black_15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="昵称" />
 
         <TextView
             android:id="@+id/person_name"
@@ -66,16 +98,16 @@
             android:drawableEnd="@mipmap/arrow_right"
             android:text="@string/app_setting_less"
             android:textColor="#ff7679"
-            android:textSize="14sp"
-            />
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView"/>
+    <View style="@style/LineH_Fill_Width1_ForView" />
 
     <LinearLayout
         android:id="@+id/person_center_sex"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <TextView
@@ -84,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="性别"/>
+            android:text="性别" />
 
         <TextView
             android:id="@+id/person_sex"
@@ -94,16 +126,16 @@
             android:layout_marginEnd="15dp"
             android:layout_marginStart="9dp"
             android:drawableEnd="@mipmap/arrow_right"
-            android:text="@string/app_choice"
-            />
+            android:text="@string/app_choice" />
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView"/>
+    <View style="@style/LineH_Fill_Width1_ForView" />
 
     <LinearLayout
         android:id="@+id/person_center_birthday"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <TextView
@@ -112,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="生日"/>
+            android:text="生日" />
 
         <TextView
             android:id="@+id/person_birthday_date"
@@ -122,20 +154,47 @@
             android:layout_marginEnd="15dp"
             android:layout_marginStart="9dp"
             android:drawableEnd="@mipmap/arrow_right"
-            android:text="@string/app_choice"
-            />
+            android:text="@string/app_choice" />
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView"/>
+    <View style="@style/LineH_Fill_Width_10_ForView" />
+
+    <EditText
+        android:id="@+id/person_center_signature"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        android:gravity="left|top"
+        android:hint="点击输入个性签名（最多15字）"
+        android:maxLength="15"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:textColor="@color/color666"
+        android:textColorHint="@color/color666"
+        android:textSize="15sp" />
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <Button
+    <com.aries.ui.view.radius.RadiusTextView
         android:id="@+id/update_person_info"
-        style="@style/Login_Button_Style_person"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:padding="10dp"
         android:text="保存"
-        />
+        rv:rv_backgroundColor="#fbbc00"
+        rv:rv_backgroundEnabledColor="#fffc00"
+        rv:rv_backgroundPressedColor="#fffc00"
+        rv:rv_strokeColor="#383838"
+        rv:rv_textColor="@color/tab_text_normal"
+        rv:rv_textEnabledColor="#fbbc00"
+        rv:rv_textPressedColor="#ffffff"/>
+
+
 </LinearLayout>

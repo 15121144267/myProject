@@ -26,6 +26,8 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.Constant;
+import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
@@ -55,6 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
 import static com.banshengyuan.feima.view.activity.MainActivity.DIALOG_TYPE_EXIT_OK;
 
 
@@ -69,6 +72,8 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     RecyclerView mPersonListEnter;
     @BindView(R.id.person_enter_safe_page)
     TextView mPersonEnterSafePage;
+    @BindView(R.id.person_enter_personal_page)
+    TextView mPersonEnterPersonalPage;
     @BindView(R.id.person_address_page)
     TextView mPersonAddressPage;
     @BindView(R.id.person_cache)
@@ -104,9 +109,15 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     ImageView mPersonIcon;
     @BindView(R.id.person_name)
     TextView mPersonName;
+    @BindView(R.id.person_icon)
+    ImageView mPersonIcon;
     @BindView(R.id.person_detail)
     TextView mPersonDetail;
-
+   /*
+    @BindView(R.id.person_address)
+    TextView mPersonAddress;
+    @BindView(R.id.person_info)
+    TextView mPersonInfo;
     @BindView(R.id.move_image)
     ImageView mMoveImage;
     @BindView(R.id.scroll_layout)
@@ -124,6 +135,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     private String[] productNames = {"购物车", "我的订单", "我的卡券", "我的收藏"};
     private List<MainProducts> mList;
     private MainProductsAdapter mAdapter;
+    private String phone = Constant.TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,6 +171,9 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initView() {
+        RxView.clicks(mPersonEnterPersonalPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivityForResult(PersonCenterActivity.getPersonIntent(getActivity(), mResponse), IntentConstant.ORDER_POSITION_ONE));
+
         RxView.clicks(mPersonEnterSafePage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(SafeSettingActivity.getIntent(getActivity())));
 
@@ -212,6 +227,15 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
+            mPresenter.requestPersonInfo(phone);
+        }
+
+    }
+
     private void initData() {
         mList = new ArrayList<>();
         try {
@@ -233,6 +257,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         }
         mAdapter.setNewData(mList);
 
+        mPresenter.requestPersonInfo(phone);//
     }
 
     private void showDialog() {
@@ -243,7 +268,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void requestInfo() {
-        startActivity(PersonCenterActivity.getPersonIntent(getActivity(), mResponse));
+
     }
 
     private void requestAddress() {
@@ -269,7 +294,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @Override
     void onReceivePro(Context context, Intent intent) {
         if (intent.getAction().equals(BroConstant.UPDATE_PERSON_INFO)) {
-            mPresenter.requestPersonInfo(mSharePreferenceUtil.getStringValue(SpConstant.USER_NAME));
+            mPresenter.requestPersonInfo(phone);//
         }
     }
 
@@ -301,19 +326,22 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void update(PersonInfoResponse response) {
-        /*if (response == null) return;
-        mPersonName.setText(response.nickName == null ? "未知  " : response.nickName + "  ");
-        mImageLoaderHelper.displayCircularImage(getActivity(), response.avatarUrl == null ?
-                R.mipmap.person_head_icon : response.avatarUrl, mPersonIcon);
+        if (response == null) return;
+        PersonInfoResponse.InfoBean infoBean = response.getInfo();
+
+        mPersonDetail.setText(infoBean.getSalt());
+        mPersonName.setText(infoBean.getName() == null ? "未知  " : infoBean.getName() + "  ");
+        mImageLoaderHelper.displayCircularImage(getActivity(), infoBean.getHead_img() == null ?
+                R.mipmap.person_head_icon : infoBean.getHead_img(), mPersonIcon);
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
         Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
         drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());
         drawable2.setBounds(0, 0, drawable2.getMinimumHeight(), drawable2.getMinimumHeight());
-        if (response.sex == 2) {
+        if (infoBean.getSex() == 2) {
             mPersonName.setCompoundDrawables(null, null, drawable, null);
         } else {
             mPersonName.setCompoundDrawables(null, null, drawable2, null);
-        }*/
+        }
 
     }
 

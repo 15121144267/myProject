@@ -26,7 +26,7 @@ public class MainModel {
     }
 
     public Observable<ResponseData> personInfoRequest(String phone) {
-        return mMainApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
+        return mMainApi.personInfoRequest(phone).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> fairListRequest() {

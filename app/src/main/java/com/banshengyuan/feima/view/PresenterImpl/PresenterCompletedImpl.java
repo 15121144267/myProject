@@ -40,7 +40,7 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
 
 
     private void getPersonInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             responseData.parseData(PersonInfoResponse.class);
             PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
             mView.getPersonInfoSuccess(response);

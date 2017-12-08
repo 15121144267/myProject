@@ -112,8 +112,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
-        mBuProcessor.setUserId(response != null ? response.memberId : "");
-        mBuProcessor.setUserPhone(response != null ? response.phone : "");
+        mBuProcessor.setUserId(response != null ? response.getInfo().getId() + "" : "");
+        mBuProcessor.setUserPhone(response != null ? response.getInfo().getMobile() : "");
         mBuProcessor.setPersonInfo(response != null ? response : null);
         startActivity(MainActivity.getMainIntent(this));
         finish();

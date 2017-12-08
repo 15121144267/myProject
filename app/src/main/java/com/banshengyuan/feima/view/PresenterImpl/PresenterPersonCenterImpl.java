@@ -39,7 +39,7 @@ public class PresenterPersonCenterImpl implements PersonCenterControl.PresenterP
     }
 
     private void updatePersonInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.updatePersonInfoSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
