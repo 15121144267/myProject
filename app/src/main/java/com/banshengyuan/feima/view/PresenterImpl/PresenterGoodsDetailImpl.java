@@ -64,7 +64,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     private void addShoppingCardSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.addShoppingCardSuccess();
         } else {
             mView.showToast(responseData.errorDesc);

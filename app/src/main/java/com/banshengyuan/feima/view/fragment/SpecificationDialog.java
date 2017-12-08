@@ -111,7 +111,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         setTextContent();
         if (mInfoBean.other_spec.size() == selectProMap.size()) {
             //查询PID
-            mView.checkProductId(selectProMap);
+            mView.checkProductId(skuProMap);
         }
     }
 

@@ -93,7 +93,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         ButterKnife.bind(this);
         initializeInjector();
         supportActionBar(mToolbar, true);
-        mMiddleName.setText("确认支付");
+        mMiddleName.setText("提交订单");
         initView();
         initData();
     }
@@ -186,7 +186,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         for (String module : modules) {
             mPayTabLayout.addTab(mPayTabLayout.newTab().setText(module));
         }
-        ValueUtil.setIndicator(mPayTabLayout, 20, 20);
+        ValueUtil.setIndicator(mPayTabLayout, 60, 60);
         mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);

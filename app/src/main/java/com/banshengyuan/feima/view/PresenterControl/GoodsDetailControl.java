@@ -28,7 +28,7 @@ public class GoodsDetailControl {
 
         void addShoppingCardSuccess();
 
-        void checkProductId(TreeMap<Integer, String> selectProMap);
+        void checkProductId(TreeMap<Integer, Integer> selectProMap);
 
         void addToShoppingCard(String sku,Integer mCount);
 

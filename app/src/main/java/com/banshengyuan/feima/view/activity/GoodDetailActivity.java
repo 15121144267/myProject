@@ -40,6 +40,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -109,7 +110,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @Inject
     GoodsDetailControl.PresenterGoodsDetail mPresenter;
 
-    private StringBuilder mButter;
     private SpecificationDialog mDialog;
     private TreeMap<Integer, String> mSelectProMap;
     private TreeMap<Integer, Integer> mSkuProMap;
@@ -121,6 +121,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private GoodsInfoResponse.InfoBean mInfoBean;
     private SkuProductResponse.InfoBean mSkuInfoBean;
     private boolean mDoFlag;
+    private List<String> mSkuList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -216,7 +217,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         ShoppingCardListResponse.ListBeanX.ListBean productInfo = new ShoppingCardListResponse.ListBeanX.ListBean();
         productInfo.number = count;
         productInfo.goods_id = mInfoBean.id;
-        if (skuInfoBean == null ) {
+        if (skuInfoBean == null) {
             productInfo.goods_img = mInfoBean.top_img.get(0);
             productInfo.goods_name = mInfoBean.name;
             productInfo.goods_sku = mInfoBean.main_sku;
@@ -229,7 +230,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         product.list = productList;
         orderConfirm.add(product);
         response.list = orderConfirm;
-        startActivity(PayActivity.getIntent(this,response));
+        startActivity(PayActivity.getIntent(this, response));
     }
 
     @Override
@@ -311,13 +312,23 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void checkProductId(TreeMap<Integer, String> mProMap) {
-        mButter = new StringBuilder();
-        for (Map.Entry<Integer, String> stringStringEntry : mProMap.entrySet()) {
-            mButter.append(stringStringEntry.getValue()).append("_");
+    public void checkProductId(TreeMap<Integer, Integer> mProMap) {
+        mSkuList.clear();
+
+        String skuName = "";
+        for (Map.Entry<Integer, Integer> stringStringEntry : mProMap.entrySet()) {
+            mSkuList.add(stringStringEntry.getValue().toString());
         }
-        mButter.delete(mButter.toString().length() - 1, mButter.toString().length());
-        mPresenter.requestUniqueGoodInfo(mProductId, mButter.toString());
+
+        for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
+            String[] array = bindSpecBean.spec_id.split("_");
+            if (Arrays.asList(array).containsAll(mSkuList)) {
+                skuName = bindSpecBean.sku_name;
+            }
+        }
+        if (!TextUtils.isEmpty(skuName)) {
+            mPresenter.requestUniqueGoodInfo(mProductId, skuName);
+        }
 
     }
 
