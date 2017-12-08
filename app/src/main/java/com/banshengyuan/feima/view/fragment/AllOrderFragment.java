@@ -16,7 +16,6 @@ import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;

@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
 import com.banshengyuan.feima.entity.CollectionShopResponse;
-import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 
 /**
  * Created by lei.he on 2017/6/28.

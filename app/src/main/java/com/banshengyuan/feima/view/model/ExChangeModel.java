@@ -5,8 +5,6 @@ import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-
 /**
  * Created by helei on 2017/4/28.
  * LoginModel

@@ -3,8 +3,6 @@ package com.banshengyuan.feima.view.PresenterControl;
 import com.banshengyuan.feima.entity.AddAddressRequest;
 import com.banshengyuan.feima.entity.AddressResponse;
 
-import java.util.List;
-
 /**
  * Created by lei.he on 2017/6/28.
  * AddressControl

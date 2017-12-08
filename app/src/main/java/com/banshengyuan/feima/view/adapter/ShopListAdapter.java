@@ -17,7 +17,7 @@ public class ShopListAdapter extends BaseQuickAdapter<StoreCategoryListResponse.
     private final ImageLoaderHelper mImageLoaderHelper;
 
     public ShopListAdapter(List<StoreCategoryListResponse.ListBean> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.adapter_collection_product, notices);
+        super(R.layout.adapter_shop_list_item, notices);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
     }
@@ -25,10 +25,11 @@ public class ShopListAdapter extends BaseQuickAdapter<StoreCategoryListResponse.
     @Override
     protected void convert(BaseViewHolder helper, StoreCategoryListResponse.ListBean item) {
         if (item == null) return;
-        ImageView imageView = helper.getView(R.id.adapter_collection_icon);
+        ImageView imageView = helper.getView(R.id.adapter_shop_list_icon);
         mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
-        helper.setText(R.id.adapter_product_name,item.name);
-        helper.setText(R.id.adapter_product_summary,item.category);
+        helper.setText(R.id.adapter_shop_list_name,item.name);
+        helper.setText(R.id.adapter_shop_list_summary,item.category);
+
     }
 
 }

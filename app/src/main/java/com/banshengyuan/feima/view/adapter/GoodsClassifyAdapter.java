@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AllFairListResponse;
-import com.banshengyuan.feima.entity.GoodsClassifyResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsClassifyControl;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;

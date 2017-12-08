@@ -20,6 +20,6 @@ public interface GoodsDetailApi {
     Observable<String> goodsCollectionRequest(@Body String request);
 
     @GET("api/goods/{id}/sku")
-    Observable<String> goodInfoSpecificationRequest(@Path("id") String shopId, @Query("spec") String sku, @Query("flag") boolean flag);
+    Observable<String> goodInfoSpecificationRequest(@Path("id") String id, @Query("spec") String sku, @Query("flag") boolean flag);
 
 }

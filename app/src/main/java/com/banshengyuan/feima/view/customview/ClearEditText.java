@@ -65,9 +65,7 @@ public class ClearEditText extends LinearLayout {
         } else {
             mBtnClear.setVisibility(View.GONE);
         }
-        mBtnClear.setOnClickListener(arg0 -> {
-            clearContent();
-        });
+        mBtnClear.setOnClickListener(arg0 -> clearContent());
 
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {

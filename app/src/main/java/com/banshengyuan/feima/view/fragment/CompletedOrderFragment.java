@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,6 +85,16 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     AppBarLayout mAppBarLayout;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
+    @BindView(R.id.person_background)
+    ImageView mPersonBackground;
+    @BindView(R.id.person_icon)
+    ImageView mPersonIcon;
+    @BindView(R.id.person_name)
+    TextView mPersonName;
+    @BindView(R.id.person_detail)
+    TextView mPersonDetail;
+    @BindView(R.id.login_submit)
+    Button mLoginSubmit;
    /*
     @BindView(R.id.person_address)
     TextView mPersonAddress;
@@ -162,6 +173,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         mPersonListEnter.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mAdapter = new MainProductsAdapter(null, getActivity());
         mPersonListEnter.setAdapter(mAdapter);
+        mPersonListEnter.setNestedScrollingEnabled(false);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0:

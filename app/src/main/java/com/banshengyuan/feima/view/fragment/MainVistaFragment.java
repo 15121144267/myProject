@@ -96,7 +96,9 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
         mMainFairRecycleView.setAdapter(mHotFairAdapter);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
             VistaListResponse.ListBean bean = (VistaListResponse.ListBean)adapter.getItem(position);
-            startActivity(BlockDetailActivity.getIntent(getActivity(),bean.id));
+            if(bean!=null){
+                startActivity(BlockDetailActivity.getIntent(getActivity(),bean.id));
+            }
         });
     }
 

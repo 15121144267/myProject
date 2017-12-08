@@ -5,7 +5,7 @@ import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by helei on 2017/4/27.
@@ -28,13 +28,13 @@ public class GoodsDetailControl {
 
         void addShoppingCardSuccess();
 
-        void checkProductId(HashMap<Integer, Integer> selectProMap);
+        void checkProductId(TreeMap<Integer, String> selectProMap);
 
         void addToShoppingCard(String sku,Integer mCount);
 
-        void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag);
+        void closeSpecificationDialog(TreeMap<Integer, String> selectProMap, TreeMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag);
 
-        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag);
+        void closeSpecificationDialog2(SkuProductResponse.InfoBean mSkuInfoBean, TreeMap<Integer, String> selectProMap, TreeMap<Integer, Integer> skuProMap, String content,GoodsInfoResponse.InfoBean infoBean,boolean doFlag);
     }
 
     public interface PresenterGoodsDetail extends Presenter<GoodsDetailView> {

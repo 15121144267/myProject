@@ -123,7 +123,9 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     @Override
     public void switchToProductList(BaseQuickAdapter adapter, Integer position) {
         AllProductSortResponse.ListBean bean = (AllProductSortResponse.ListBean) adapter.getItem(position);
-        startActivity(ProductListActivity.getIntent(getActivity(), mAllProductSortResponse, bean.id));
+        if (bean != null) {
+            startActivity(ProductListActivity.getIntent(getActivity(), mAllProductSortResponse, bean.id));
+        }
     }
 
     @Override
@@ -161,6 +163,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             ProductListResponse.CategoryBean categoryBean = (ProductListResponse.CategoryBean) adapter.getItem(position);
+            if (categoryBean == null) return;
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
                     startActivity(ProductListActivity.getIntent(getActivity(), mAllProductSortResponse, categoryBean.id));

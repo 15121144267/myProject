@@ -477,12 +477,7 @@ public class SwipeMenuView extends ViewGroup {
 
         cancelAnim();
         mExpandAnim = ValueAnimator.ofInt(getScrollX(), isLeftSwipe ? mRightMenuWidths : -mRightMenuWidths);
-        mExpandAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                scrollTo((Integer) animation.getAnimatedValue(), 0);
-            }
-        });
+        mExpandAnim.addUpdateListener(animation -> scrollTo((Integer) animation.getAnimatedValue(), 0));
         mExpandAnim.setInterpolator(new OvershootInterpolator());
         mExpandAnim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -521,12 +516,7 @@ public class SwipeMenuView extends ViewGroup {
 
         cancelAnim();
         mCloseAnim = ValueAnimator.ofInt(getScrollX(), 0);
-        mCloseAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                scrollTo((Integer) animation.getAnimatedValue(), 0);
-            }
-        });
+        mCloseAnim.addUpdateListener(animation -> scrollTo((Integer) animation.getAnimatedValue(), 0));
         mCloseAnim.setInterpolator(new AccelerateInterpolator());
         mCloseAnim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -581,10 +571,7 @@ public class SwipeMenuView extends ViewGroup {
     //展开时，禁止长按
     @Override
     public boolean performLongClick() {
-        if (Math.abs(getScrollX()) > mScaleTouchSlop) {
-            return false;
-        }
-        return super.performLongClick();
+        return Math.abs(getScrollX()) <= mScaleTouchSlop && super.performLongClick();
     }
 
     //平滑滚动 弃用 改属性动画实现

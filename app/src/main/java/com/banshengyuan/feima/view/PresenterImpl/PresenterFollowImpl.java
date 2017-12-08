@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.FairDetailListResponse;
-import com.banshengyuan.feima.entity.ShopResponse;
 import com.banshengyuan.feima.view.PresenterControl.FollowControl;
 import com.banshengyuan.feima.view.model.FairDetailModel;
 import com.banshengyuan.feima.view.model.ResponseData;

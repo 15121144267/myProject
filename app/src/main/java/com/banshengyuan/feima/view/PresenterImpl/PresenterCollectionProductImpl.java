@@ -3,7 +3,6 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.model.CollectionModel;

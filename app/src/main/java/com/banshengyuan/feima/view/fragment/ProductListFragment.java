@@ -100,7 +100,9 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         mFragmentTrendsListLast.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ShopDetailProductListResponse.ListBean bean = (ShopDetailProductListResponse.ListBean) adapter.getItem(position);
-            startActivity(GoodDetailActivity.getIntent(getActivity(), bean.id));
+            if(bean!=null){
+                startActivity(GoodDetailActivity.getIntent(getActivity(), bean.id));
+            }
         });
     }
 

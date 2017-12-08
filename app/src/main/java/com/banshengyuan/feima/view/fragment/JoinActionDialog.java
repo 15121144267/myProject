@@ -18,8 +18,6 @@ import com.banshengyuan.feima.help.AniCreator;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

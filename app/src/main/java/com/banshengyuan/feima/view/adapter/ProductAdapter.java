@@ -34,8 +34,10 @@ public class ProductAdapter extends BaseQuickAdapter<ProductListResponse.Categor
         ProductItemAdapter itemAdapter = new ProductItemAdapter(item.goods, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
         itemAdapter.setOnItemClickListener((adapter, view, position) -> {
-            ProductListResponse.CategoryBean.GoodsBean item2 = (ProductListResponse.CategoryBean.GoodsBean) adapter.getItem(position);
-                    mContext.startActivity(GoodDetailActivity.getIntent(mContext, item2.id));
+                    ProductListResponse.CategoryBean.GoodsBean item2 = (ProductListResponse.CategoryBean.GoodsBean) adapter.getItem(position);
+                    if (item2 != null) {
+                        mContext.startActivity(GoodDetailActivity.getIntent(mContext, item2.id));
+                    }
                 }
         );
     }

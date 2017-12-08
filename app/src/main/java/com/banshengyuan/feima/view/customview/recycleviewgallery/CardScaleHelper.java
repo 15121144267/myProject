@@ -32,11 +32,8 @@ public class CardScaleHelper {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    mLinearSnapHelper.mNoNeedToScroll = mCurrentItemOffset == 0 || mCurrentItemOffset == getDestItemOffset(mRecyclerView.getAdapter().getItemCount() - 1);
-                } else {
-                    mLinearSnapHelper.mNoNeedToScroll = false;
-                }
+                mLinearSnapHelper.mNoNeedToScroll = newState == RecyclerView.SCROLL_STATE_IDLE &&
+                        (mCurrentItemOffset == 0 || mCurrentItemOffset == getDestItemOffset(mRecyclerView.getAdapter().getItemCount() - 1));
             }
 
             @Override
@@ -57,15 +54,12 @@ public class CardScaleHelper {
      * 初始化卡片宽度
      */
     private void initWidth() {
-        mRecyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                mCardGalleryWidth = mRecyclerView.getWidth();
-                mCardWidth = mCardGalleryWidth - ScreenUtil.dip2px(mContext, 2 * (mPagePadding + mShowLeftCardWidth));
-                mOnePageWidth = mCardWidth;
-                mRecyclerView.smoothScrollToPosition(mCurrentItemPos);
-                onScrolledChangedCallback();
-            }
+        mRecyclerView.post(() -> {
+            mCardGalleryWidth = mRecyclerView.getWidth();
+            mCardWidth = mCardGalleryWidth - ScreenUtil.dip2px(mContext, 2 * (mPagePadding + mShowLeftCardWidth));
+            mOnePageWidth = mCardWidth;
+            mRecyclerView.smoothScrollToPosition(mCurrentItemPos);
+            onScrolledChangedCallback();
         });
     }
 

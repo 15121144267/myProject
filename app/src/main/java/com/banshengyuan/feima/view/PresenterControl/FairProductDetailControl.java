@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
-import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.HotFariJoinActionRequest;

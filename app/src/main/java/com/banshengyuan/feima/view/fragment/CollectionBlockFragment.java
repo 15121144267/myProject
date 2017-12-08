@@ -14,13 +14,10 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
-import com.banshengyuan.feima.entity.HotFairResponse;
 import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
-import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionBlockAdapter;
-import com.banshengyuan.feima.view.adapter.HotFairAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -111,7 +108,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //mPresenter.onDestroy();
+        mPresenter.onDestroy();
     }
 
     private void initialize() {

@@ -130,11 +130,9 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
             orderDetailShopName.setText(orderItemBean.getStore_name());
 
-            for (MyOrdersResponse.ListBean.ProductBean productBean : orderItemBean.getProduct()) {
-                if (productBean != null) {
-                    totalPrice += productBean.getPrice() * productBean.getNumber();
-                }
-            }
+            orderItemBean.getProduct().stream().filter(productBean -> productBean != null).forEachOrdered(productBean ->
+                totalPrice += productBean.getPrice() * productBean.getNumber()
+            );
         }
 
         String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);

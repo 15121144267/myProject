@@ -57,6 +57,7 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
     private List<AllProductSortResponse.ListBean> mList;
     private AllProductSortResponse mAllProductSortResponse;
     private Integer mCategoryId;
+    private Integer mOriginPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,19 +119,23 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
         mAllProductSortResponse = (AllProductSortResponse) getIntent().getSerializableExtra("allProductSortResponse");
         mList = mAllProductSortResponse.list;
         mCategoryId = getIntent().getIntExtra("categoryId", 0);
-        for (AllProductSortResponse.ListBean listBean : mList) {
-            if (listBean.id == mCategoryId) {
-                listBean.isRed = true;
-            }
-        }
+
         mMiddleName.setText("产品列表");
         mProductListSort.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mProductList.setLayoutManager(new LinearLayoutManager(this));
-        mProductListSortAdapter = new ProductListSortAdapter(mList, this);
+        mProductListSortAdapter = new ProductListSortAdapter(null, this);
         mProductAdapter = new ProductCategoryListAdapter(null, this, mImageLoaderHelper);
         mProductListSort.setAdapter(mProductListSortAdapter);
         mProductList.setAdapter(mProductAdapter);
 
+        for (int i = 0; i < mList.size(); i++) {
+            if (mList.get(i).id == mCategoryId) {
+                mOriginPosition = i;
+                mList.get(i).isRed = true;
+            }
+        }
+        mProductListSortAdapter.setNewData(mList);
+        mProductListSort.getLayoutManager().smoothScrollToPosition(mProductListSort, null, mOriginPosition);
         mProductListSortAdapter.setOnItemClickListener((adapter, view, position) -> {
             AllProductSortResponse.ListBean item = (AllProductSortResponse.ListBean) adapter.getItem(position);
             for (int i = 0; i < mList.size(); i++) {

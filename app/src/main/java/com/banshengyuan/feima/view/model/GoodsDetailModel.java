@@ -24,7 +24,6 @@ public class GoodsDetailModel {
     private final Gson mGson;
     private final ModelTransform mTransform;
     private BuProcessor mBuProcessor;
-    private final String partnerId = BuildConfig.PARTNER_ID + "_";
 
     @Inject
     public GoodsDetailModel(GoodsDetailApi api, AddShoppingCardApi addShoppingCardApi, Gson gson, ModelTransform transform, BuProcessor buProcessor) {

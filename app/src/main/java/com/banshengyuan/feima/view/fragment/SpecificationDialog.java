@@ -25,8 +25,8 @@ import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.adapter.SpecificationAdapter;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +62,8 @@ public class SpecificationDialog extends BaseDialogFragment {
     private ImageLoaderHelper mImageLoaderHelper;
     private GoodsInfoResponse.InfoBean mInfoBean;
     private Integer mAddOrBugFlag;
-    private HashMap<Integer, Integer> mSkuProMap;
-    private HashMap<Integer, String> mSelectProMap;
+    private TreeMap<Integer, Integer> mSkuProMap;
+    private TreeMap<Integer, String> mSelectProMap;
     private StringBuilder mButter = new StringBuilder();
     private GoodsDetailControl.GoodsDetailView mView;
     private SpecificationDialog mDialog;
@@ -87,7 +87,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     //初始化数据
     public void setContent(GoodsInfoResponse.InfoBean infoBean, Integer flag, ImageLoaderHelper imageLoaderHelper,
                            GoodsDetailControl.GoodsDetailView view, SpecificationDialog dialog,
-                           HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap,
+                           TreeMap<Integer, Integer> skuProMap, TreeMap<Integer, String> selectProMap,
                            SkuProductResponse.InfoBean skuInfoBean, boolean doFlag) {
         mSkuProMap = skuProMap;
         mSelectProMap = selectProMap;
@@ -102,7 +102,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     //adapter回调数据
-    public void setSpecificationContent(HashMap<Integer, Integer> skuProMap, HashMap<Integer, String> selectProMap, GoodsInfoResponse.InfoBean infoBean) {
+    public void setSpecificationContent(TreeMap<Integer, Integer> skuProMap, TreeMap<Integer, String> selectProMap, GoodsInfoResponse.InfoBean infoBean) {
         mSkuProMap = skuProMap;
         mInfoBean = infoBean;
         mSelectProMap = selectProMap;
@@ -111,7 +111,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         setTextContent();
         if (mInfoBean.other_spec.size() == selectProMap.size()) {
             //查询PID
-            mView.checkProductId(skuProMap);
+            mView.checkProductId(selectProMap);
         }
     }
 

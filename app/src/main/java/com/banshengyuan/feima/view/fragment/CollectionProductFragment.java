@@ -14,7 +14,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
-import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;

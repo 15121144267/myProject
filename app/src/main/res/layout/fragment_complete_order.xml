@@ -20,55 +20,68 @@
             app:titleEnabled="false"
             >
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/yellow_style"
-                android:padding="20dp"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7"
-                >
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/person_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/person_head_icon"/>
+                    android:id="@+id/person_background"
+                    android:layout_width="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:background="@drawable/yellow_style"
+                    android:layout_height="match_parent"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
-                    <TextView
-                        android:id="@+id/person_name"
+                    android:padding="20dp"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7"
+                    >
+
+                    <ImageView
+                        android:id="@+id/person_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/person_head_icon"/>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="鹿晗"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_25"
-                        android:textStyle="bold"
-                        />
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/person_detail"
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="1"
-                        android:text="没有个性签名"
-                        android:textColor="#615e5e"
-                        />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/person_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="鹿晗"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_25"
+                            android:textStyle="bold"
+                            />
 
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/person_detail"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="没有个性签名"
+                            android:textColor="#615e5e"
+                            />
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </FrameLayout>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -82,10 +95,10 @@
 
                 <TextView
                     android:id="@+id/middle_name"
-                    android:text="个人中心"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:text="个人中心"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="20sp"
                     />
@@ -96,7 +109,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/my_message"
+                    android:src="@mipmap/my_message_un_read"
                     />
 
             </android.support.v7.widget.Toolbar>
@@ -116,7 +129,6 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/person_list_enter"
                 android:layout_width="match_parent"
-                android:nestedScrollingEnabled="false"
                 android:layout_height="110dp"/>
 
             <View style="@style/LineH_Fill_Width_10_ForView"/>

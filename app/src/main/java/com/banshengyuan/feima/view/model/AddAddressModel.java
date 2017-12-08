@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.AddAddressRequest;
 import com.banshengyuan.feima.network.networkapi.AddAddressApi;
 import com.google.gson.Gson;

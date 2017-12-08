@@ -7,7 +7,6 @@ import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.MyOrderApi;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.PresenterControl.MyOrderControl;
 import com.banshengyuan.feima.view.PresenterControl.OrderCompleteControl;

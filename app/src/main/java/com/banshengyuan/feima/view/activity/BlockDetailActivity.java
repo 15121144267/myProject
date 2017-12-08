@@ -138,6 +138,10 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mBlockDetailFair.setAdapter(mBlockDetailFairAdapter);
         mBlockDetailShop.setAdapter(mBlockDetailShopAdapter);
 
+        mBlockDetailHot.setNestedScrollingEnabled(false);
+        mBlockDetailFair.setNestedScrollingEnabled(false);
+        mBlockDetailShop.setNestedScrollingEnabled(false);
+
         mCommonItemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:

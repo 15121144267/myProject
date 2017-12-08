@@ -5,7 +5,6 @@ import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AllProductSortResponse;
-import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;

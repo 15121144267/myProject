@@ -60,6 +60,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     private RecommendBrandAdapter mAdapter;
     private FairProductAdapter mFairProductAdapter;
     private List<RecommendBrandResponse> mList;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +84,11 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
 
     @Override
     public void getFairBrandSuccess(RecommendBrandResponse response) {
-        if(response.list!=null&&response.list.size()>0){
+        if (response.list != null && response.list.size() > 0) {
             mList = new ArrayList<>();
             mList.add(response);
             mAdapter.setNewData(mList);
-        }else {
+        } else {
             mSendFragmentFair.setVisibility(View.GONE);
         }
 
@@ -101,9 +102,9 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     @Override
     public void getFairListSuccess(FairListResponse response) {
         List<FairListResponse.CategoryBean> list = response.category;
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             mFairProductAdapter.setNewData(list);
-        }else {
+        } else {
             mSendFragmentProduct.setVisibility(View.GONE);
         }
     }
@@ -123,8 +124,8 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     private void initView() {
         mSendFragmentFair.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSendFragmentProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new RecommendBrandAdapter(null, getActivity(),mImageLoaderHelper);
-        mFairProductAdapter = new FairProductAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
+        mFairProductAdapter = new FairProductAdapter(null, getActivity(), mImageLoaderHelper);
         mSendFragmentFair.setAdapter(mAdapter);
         mSendFragmentProduct.setAdapter(mFairProductAdapter);
         mSendFragmentFair.setNestedScrollingEnabled(false);
@@ -139,10 +140,11 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
         });
 
         mFairProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            FairListResponse.CategoryBean bean = mFairProductAdapter.getItem(position);
+            if (bean == null) return;
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    FairListResponse.CategoryBean bean = mFairProductAdapter.getItem(position);
-                    startActivity(FairDetailActivity.getIntent(getActivity(), 2,bean.id));
+                    startActivity(FairDetailActivity.getIntent(getActivity(), 2, bean.id));
             }
         });
 

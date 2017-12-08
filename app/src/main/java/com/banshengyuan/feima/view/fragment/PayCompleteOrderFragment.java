@@ -18,7 +18,6 @@ import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.PayCompleteControl;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
-import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 

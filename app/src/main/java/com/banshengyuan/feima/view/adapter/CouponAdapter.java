@@ -5,9 +5,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
-import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;

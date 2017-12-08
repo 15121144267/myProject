@@ -5,7 +5,6 @@ import android.content.Context;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.model.MyOrderModel;
 import com.banshengyuan.feima.view.model.ResponseData;

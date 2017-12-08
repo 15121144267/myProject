@@ -104,7 +104,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
         if (response.list != null && response.list.size() > 0) {
             mStreetSortListResponse = response;
             for (int i = 0; i < response.list.size(); i++) {
-                if (response.list.get(i).id ==mStreetId) {
+                if (response.list.get(i).id == mStreetId) {
                     response.list.get(i).select_position = true;
                     mShopBlockBlocksText.setText(response.list.get(i).name);
                 }
@@ -164,7 +164,12 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
         mShopBlockList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
         mShopBlockList.setAdapter(mAdapter);
-
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            StoreCategoryListResponse.ListBean bean = (StoreCategoryListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(ShopProductDetailActivity.getActivityDetailIntent(this, bean.id));
+            }
+        });
 
         mShopBlockBlocksLayout.setOnClickListener(v -> {
                     if (mStreetSortListResponse != null) {
@@ -191,7 +196,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void showStreetPopMenu(View view, List<StreetSortListResponse.ListBean> list) {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(),false);
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         StreetMenuAdapter adapter = new StreetMenuAdapter(list, ShopBlockActivity.this);
@@ -223,7 +228,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void showPopMenu(View view, List<ShopSortListResponse.ListBean> list) {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(),false);
 
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));

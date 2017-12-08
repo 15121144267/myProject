@@ -30,7 +30,7 @@ import java.util.List;
 public class ConvenientBanner<T> extends LinearLayout {
     private List<T> mDatas;
     private int[] page_indicatorId;
-    private ArrayList<ImageView> mPointViews = new ArrayList<ImageView>();
+    private ArrayList<ImageView> mPointViews = new ArrayList<>();
     private CBPageChangeListener pageChangeListener;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private CBPageAdapter pageAdapter;
@@ -94,7 +94,7 @@ public class ConvenientBanner<T> extends LinearLayout {
         private final WeakReference<ConvenientBanner> reference;
 
         AdSwitchTask(ConvenientBanner convenientBanner) {
-            this.reference = new WeakReference<ConvenientBanner>(convenientBanner);
+            this.reference = new WeakReference<>(convenientBanner);
         }
 
         @Override

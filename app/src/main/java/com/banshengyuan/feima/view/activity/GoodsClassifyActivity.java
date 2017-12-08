@@ -63,9 +63,9 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     @Override
     public void getAllFairListSuccess(AllFairListResponse response) {
         List<AllFairListResponse.ListBean> listBean = response.list;
-        if(listBean!=null&&listBean.size()>0){
+        if (listBean != null && listBean.size() > 0) {
             mAdapter.setNewData(listBean);
-        }else {
+        } else {
             mGoodsClassifyList.setVisibility(View.GONE);
         }
     }
@@ -78,17 +78,20 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         AllFairListResponse.ListBean.List1Bean dataBean = (AllFairListResponse.ListBean.List1Bean) adapter.getItem(position);
-        switch (dataBean.flag){
-            case "品牌市集":
-//                startActivity(UnderLineFairActivity.getActivityDetailIntent(this,dataBean.id));
-                break;
-            case "线下市集":
-                startActivity(UnderLineFairActivity.getActivityDetailIntent(this,dataBean.id));
-                break;
-            case "其他市集":
-                showToast("其他市集");
-                break;
+        if (dataBean != null) {
+            switch (dataBean.flag) {
+                case "品牌市集":
+                    startActivity(FairDetailActivity.getIntent(this, 1, dataBean.id));
+                    break;
+                case "线下市集":
+                    startActivity(UnderLineFairActivity.getActivityDetailIntent(this, dataBean.id));
+                    break;
+                case "其他市集":
+                    startActivity(FairDetailActivity.getIntent(this, 2, dataBean.id));
+                    break;
+            }
         }
+
     }
 
     @Override

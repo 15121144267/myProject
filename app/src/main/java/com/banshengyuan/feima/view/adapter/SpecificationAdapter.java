@@ -13,33 +13,35 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.InfoBean.OtherSpecBean, BaseViewHolder> {
     private final Context mContext;
     private List<GoodsInfoResponse.InfoBean.OtherSpecBean> mOtherSpecBean;
-    private HashMap<Integer, Integer> mSkuProMap;
-    private HashMap<Integer, String> mSelectProMap;
+    private TreeMap<Integer, Integer> mSkuProMap;
+    private TreeMap<Integer, String> mSelectProMap;
     private GoodsInfoResponse.InfoBean mInfoBean;
     private SpecificationDialog mDialog;
-    private HashMap<Integer, Integer> mIntegerMap = new HashMap<>();
+    private List<Integer> list1 = new ArrayList<>();
+    private List<String> list2 = new ArrayList<>();
+
     public SpecificationAdapter(List<GoodsInfoResponse.InfoBean.OtherSpecBean> otherSpecBean, GoodsInfoResponse.InfoBean infoBean,
-                                Context context, SpecificationDialog dialog, HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap) {
+                                Context context, SpecificationDialog dialog, TreeMap<Integer, String> selectProMap, TreeMap<Integer, Integer> skuProMap) {
         super(R.layout.adapter_specifiaction, otherSpecBean);
         mOtherSpecBean = otherSpecBean;
         mContext = context;
         mInfoBean = infoBean;
         mDialog = dialog;
         if (selectProMap == null) {
-            mSelectProMap = new HashMap<>();
+            mSelectProMap = new TreeMap<>();
         } else {
             mSelectProMap = selectProMap;
         }
         if (skuProMap == null) {
-            mSkuProMap = new HashMap<>();
+            mSkuProMap = new TreeMap<>();
         } else {
             mSkuProMap = skuProMap;
         }
@@ -112,7 +114,7 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
             if (tv.equals(textViews[i])) {
                 mSkuProMap.put(type, value.get(i).id);
                 mSelectProMap.put(type, value.get(i).name);
-                List<Integer> list1 = new ArrayList<>();
+                list1.clear();
                 for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
                     list1.add(integerEntry.getKey());
                 }
@@ -121,51 +123,41 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
                         for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
                             for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
                                 String[] array = bindSpecBean.spec_id.split("_");
-                                if (Arrays.asList(array).contains(mSkuProMap.get(type)+"")){
-                                    valueBean.enableFlag = true;
-                                }else {
-                                    valueBean.enableFlag = false;
-                                }
+                                valueBean.enableFlag = Arrays.asList(array).contains(mSkuProMap.get(type) + "");
 
-                                if( valueBean.enableFlag){
+                                if (valueBean.enableFlag) {
                                     List<String> list = new ArrayList<>();
                                     for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
                                         list.add(integerEntry.getValue().toString());
                                     }
-                                    if(Arrays.asList(array).containsAll(list)&&Arrays.asList(array).contains(valueBean.id+"")){
+                                    if (Arrays.asList(array).containsAll(list) && Arrays.asList(array).contains(valueBean.id + "")) {
                                         valueBean.enableFlag = true;
                                         break;
-                                    }else {
+                                    } else {
                                         valueBean.enableFlag = false;
                                     }
                                 }
                             }
                         }
 
-                    }else {
-                        if(mSkuProMap.size()== mInfoBean.other_spec.size()){
-                            mIntegerMap.put(type, value.get(i).id);
-                            if(i1!=position){
-                                for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
-                                    for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
-                                        String[] array = bindSpecBean.spec_id.split("_");
-                                        if (Arrays.asList(array).contains(mIntegerMap.get(type)+"")){
-                                            valueBean.enableFlag = true;
-                                        }else {
-                                            valueBean.enableFlag = false;
-                                        }
+                    } else {
+                        if (mSkuProMap.size() == mInfoBean.other_spec.size()) {
+                            list2.clear();
+                            for (Map.Entry<Integer, Integer> integerEntry : mSkuProMap.entrySet()) {
+                                if (integerEntry.getKey() != i1) {
+                                    list2.add(integerEntry.getValue().toString());
+                                }
+                            }
 
-                                        if( valueBean.enableFlag){
-                                            List<String> list = new ArrayList<>();
-                                            for (Map.Entry<Integer, Integer> integerEntry : mIntegerMap.entrySet()) {
-                                                list.add(integerEntry.getValue().toString());
-                                            }
-                                            if(Arrays.asList(array).containsAll(list)&&Arrays.asList(array).contains(valueBean.id+"")){
-                                                valueBean.enableFlag = true;
-                                                break;
-                                            }else {
-                                                valueBean.enableFlag = false;
-                                            }
+                            for (GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean valueBean : mInfoBean.other_spec.get(i1).value) {
+                                for (GoodsInfoResponse.InfoBean.BindSpecBean bindSpecBean : mInfoBean.bind_spec) {
+                                    String[] array = bindSpecBean.spec_id.split("_");
+                                    if (Arrays.asList(array).containsAll(list2)) {
+                                        if (Arrays.asList(array).contains(valueBean.id + "")) {
+                                            valueBean.enableFlag = true;
+                                            break;
+                                        } else {
+                                            valueBean.enableFlag = false;
                                         }
                                     }
                                 }

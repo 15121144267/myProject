@@ -80,11 +80,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
         switch (resultCode) {
             case 100:
                 mShowGuideFinish = true;
-                if (mShowGuideFinish) {
-                    switchToMain();
-                } else {
-                    initData();
-                }
+                switchToMain();
                 break;
 
             default:

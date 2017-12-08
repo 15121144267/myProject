@@ -4,9 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AddAddressRequest;
-import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.view.PresenterControl.AddAddressControl;
-import com.banshengyuan.feima.view.PresenterControl.AddressControl;
 import com.banshengyuan.feima.view.model.AddAddressModel;
 import com.banshengyuan.feima.view.model.ResponseData;
 

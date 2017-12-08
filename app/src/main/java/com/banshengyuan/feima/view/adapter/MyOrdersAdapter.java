@@ -5,7 +5,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
-import android.widget.Toast;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
@@ -16,7 +15,6 @@ import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,9 +40,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
         OrdersItemAdapter itemAdapter = new OrdersItemAdapter(products, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
 
-        itemAdapter.setOnItemClickListener((adapter, view, position) -> {
-            mContext.startActivity(OrderDetailActivity.getOrderDetailIntent(mContext, item));
-        });
+        itemAdapter.setOnItemClickListener((adapter, view, position) -> mContext.startActivity(OrderDetailActivity.getOrderDetailIntent(mContext, item)));
 
         helper.setText(R.id.shop_name, "  " + item.getStore_name());
         //pay_status :1 待付款 2已付款

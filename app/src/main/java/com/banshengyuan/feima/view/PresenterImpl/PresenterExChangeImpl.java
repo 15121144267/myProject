@@ -3,11 +3,8 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.entity.ExChangeResponse;
-import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
-import com.banshengyuan.feima.view.model.ExChangeModel;
 import com.banshengyuan.feima.view.model.MainModel;
 import com.banshengyuan.feima.view.model.ResponseData;
 

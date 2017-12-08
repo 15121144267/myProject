@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.networkapi.MyOrderApi;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;

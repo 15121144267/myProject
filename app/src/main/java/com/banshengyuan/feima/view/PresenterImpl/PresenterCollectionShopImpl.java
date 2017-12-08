@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.CollectionShopResponse;
-import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionShopControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;

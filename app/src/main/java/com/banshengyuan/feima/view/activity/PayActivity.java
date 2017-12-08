@@ -183,8 +183,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     private void initView() {
 
-        for (int i = 0; i < modules.length; i++) {
-            mPayTabLayout.addTab(mPayTabLayout.newTab().setText(modules[i]));
+        for (String module : modules) {
+            mPayTabLayout.addTab(mPayTabLayout.newTab().setText(module));
         }
         ValueUtil.setIndicator(mPayTabLayout, 20, 20);
         mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");

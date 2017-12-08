@@ -69,10 +69,7 @@ public class CBLoopViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (isCanScroll)
-            return super.onInterceptTouchEvent(ev);
-        else
-            return false;
+        return isCanScroll && super.onInterceptTouchEvent(ev);
     }
 
     public CBPageAdapter getAdapter() {

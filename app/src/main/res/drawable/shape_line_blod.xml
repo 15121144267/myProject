@@ -5,5 +5,4 @@
     <solid android:color="@color/white"/>
     <stroke android:color="@color/gray" android:width="0.5dp"/>
     <!-- 矩形的圆角半径 -->
-    />
 </shape>

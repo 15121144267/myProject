@@ -242,7 +242,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mToolbarRightText.setText("编辑");
         setAllPriceText(0);
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
-        Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_go_shopping);
+        Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         mErrorView = LayoutInflater.from(this).inflate(R.layout.net_error_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> onBackPressed());
         RxView.clicks(mActivityShoppingCardBalance).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForPayShoppingCard());

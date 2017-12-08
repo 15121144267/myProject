@@ -20,7 +20,6 @@ import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.DialogFactory;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AddressControl;
 import com.banshengyuan.feima.view.adapter.AddressAdapter;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
@@ -131,10 +130,10 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                     mCheckBox = (CheckBox) view.findViewById(R.id.address_default);
                     switch (view.getId()) {
                         case R.id.address_edit:
-                            startActivityForResult(AddAddressActivity.getIntent(this, mBean),IntentConstant.ORDER_POSITION_ONE);
+                            startActivityForResult(AddAddressActivity.getIntent(this, mBean), IntentConstant.ORDER_POSITION_ONE);
                             break;
                         case R.id.address_delete:
-                            deleteId = ((AddressResponse.ListBean) adapter.getItem(position)).getId();
+                            deleteId = mBean.getId();
                             showDialog();
                             break;
                         case R.id.address_default:
@@ -146,18 +145,20 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 //
 //                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
                             AddressResponse.ListBean listBean = (AddressResponse.ListBean) adapter.getItem(position);
-                            if (listBean.getIs_default() == 1) {
-                                //设为默认地址
-                                AddAddressRequest addAddressRequest = new AddAddressRequest();
-                                addAddressRequest.setName(listBean.getName());
-                                addAddressRequest.setAddress(listBean.getAddress());
-                                addAddressRequest.setArea(listBean.getArea());
-                                addAddressRequest.setCity(listBean.getCity());
-                                addAddressRequest.setMobile(listBean.getMobile());
-                                addAddressRequest.setProvince(listBean.getProvince());
-                                addAddressRequest.setStreet(listBean.getStreet());
-                                addAddressRequest.setIsDefault("2");
-                                mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, Constant.TOKEN);
+                            if(listBean!=null){
+                                if (listBean.getIs_default() == 1) {
+                                    //设为默认地址
+                                    AddAddressRequest addAddressRequest = new AddAddressRequest();
+                                    addAddressRequest.setName(listBean.getName());
+                                    addAddressRequest.setAddress(listBean.getAddress());
+                                    addAddressRequest.setArea(listBean.getArea());
+                                    addAddressRequest.setCity(listBean.getCity());
+                                    addAddressRequest.setMobile(listBean.getMobile());
+                                    addAddressRequest.setProvince(listBean.getProvince());
+                                    addAddressRequest.setStreet(listBean.getStreet());
+                                    addAddressRequest.setIsDefault("2");
+                                    mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, Constant.TOKEN);
+                                }
                             }
                             break;
                     }

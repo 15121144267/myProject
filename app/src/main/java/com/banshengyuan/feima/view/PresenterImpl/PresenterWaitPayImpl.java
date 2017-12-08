@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.model.MyOrderModel;

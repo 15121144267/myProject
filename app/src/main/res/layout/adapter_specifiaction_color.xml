@@ -6,7 +6,7 @@
         <TextView
             android:id="@+id/specification_string"
             android:layout_width="wrap_content"
-            android:background="@mipmap/specification_back"
+            android:background="@mipmap/background_select"
             android:layout_marginBottom="15dp"
             android:layout_marginEnd="@dimen/dp_10"
             android:paddingStart="5dp"

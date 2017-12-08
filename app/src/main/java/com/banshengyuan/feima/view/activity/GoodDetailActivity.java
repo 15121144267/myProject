@@ -40,9 +40,9 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -111,8 +111,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     private StringBuilder mButter;
     private SpecificationDialog mDialog;
-    private HashMap<Integer, String> mSelectProMap;
-    private HashMap<Integer, Integer> mSkuProMap;
+    private TreeMap<Integer, String> mSelectProMap;
+    private TreeMap<Integer, Integer> mSkuProMap;
     private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
     private String mCount;
     private SpecificationResponse.ProductsBean mProductsBean;
@@ -185,19 +185,19 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void closeSpecificationDialog(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap,
+    public void closeSpecificationDialog(TreeMap<Integer, String> selectProMap, TreeMap<Integer, Integer> skuProMap,
                                          String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
         commonContent(selectProMap, skuProMap, content, infoBean, doFlag);
     }
 
     @Override
-    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, HashMap<Integer, String> selectProMap,
-                                          HashMap<Integer, Integer> skuProMap, String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
+    public void closeSpecificationDialog2(SkuProductResponse.InfoBean skuInfoBean, TreeMap<Integer, String> selectProMap,
+                                          TreeMap<Integer, Integer> skuProMap, String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
         mSkuInfoBean = skuInfoBean;
         commonContent(selectProMap, skuProMap, content, infoBean, doFlag);
     }
 
-    private void commonContent(HashMap<Integer, String> selectProMap, HashMap<Integer, Integer> skuProMap, String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
+    private void commonContent(TreeMap<Integer, String> selectProMap, TreeMap<Integer, Integer> skuProMap, String content, GoodsInfoResponse.InfoBean infoBean, boolean doFlag) {
         mDoFlag = doFlag;
         mInfoBean = infoBean;
         mSelectProMap = selectProMap;
@@ -311,9 +311,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
-    public void checkProductId(HashMap<Integer, Integer> skuProMap) {
+    public void checkProductId(TreeMap<Integer, String> mProMap) {
         mButter = new StringBuilder();
-        for (Map.Entry<Integer, Integer> stringStringEntry : skuProMap.entrySet()) {
+        for (Map.Entry<Integer, String> stringStringEntry : mProMap.entrySet()) {
             mButter.append(stringStringEntry.getValue()).append("_");
         }
         mButter.delete(mButter.toString().length() - 1, mButter.toString().length());

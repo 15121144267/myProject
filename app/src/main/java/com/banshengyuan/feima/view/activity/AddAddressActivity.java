@@ -22,8 +22,6 @@ import com.banshengyuan.feima.entity.AddAddressRequest;
 import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
-import com.banshengyuan.feima.entity.SpConstant;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.ToastUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.AddAddressControl;

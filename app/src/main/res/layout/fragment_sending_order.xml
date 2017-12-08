@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:text="取消"
             android:textColor="#212121"
-            android:textSize="15dp"/>
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <com.banshengyuan.feima.view.customview.MyNoScrollViewPager

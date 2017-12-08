@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="活动报名标题"
             android:textColor="@color/tab_text_normal"
             android:gravity="center_horizontal"
@@ -93,7 +93,7 @@
                     android:background="@null"
                     android:digits="123456789"
                     android:hint="请输入手机号码"
-                    android:inputType="number"
+                    android:inputType="phone"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
                     android:textSize="@dimen/sp_16" />
