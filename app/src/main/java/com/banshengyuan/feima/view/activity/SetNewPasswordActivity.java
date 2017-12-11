@@ -16,6 +16,9 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerSetNewPasswordActivityComponent;
 import com.banshengyuan.feima.dagger.module.SetNewPasswordActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.SetNewPasswordControl;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -100,14 +103,14 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
     private void initView() {
         mToolbarRightText.setVisibility(View.VISIBLE);
         mToolbarRightText.setText("完成");
-        /*mPhone = getIntent().getStringExtra("phone");
-        mVerityCode = getIntent().getStringExtra("verityCode");
+//        mPhone = getIntent().getStringExtra("phone");
+//        mVerityCode = getIntent().getStringExtra("verityCode");
         mPasswordEdit = mSettingPassword.getEditText();
         mPasswordAgainEdit = mSettingPasswordAgain.getEditText();
         TextChange textChange = new TextChange();
         mPasswordEdit.addTextChangedListener(textChange);
         mPasswordAgainEdit.addTextChangedListener(textChange);
-        RxView.clicks(mToolbarRightText).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetForSure());*/
+        RxView.clicks(mToolbarRightText).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> switchSetForSure());
     }
 
     private void switchSetForSure() {

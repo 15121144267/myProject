@@ -52,7 +52,6 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Inject
     AllOrderControl.PresenterAllOrderView mPresenter;
-//    private MyOrdersResponse ordersResponse = null;//服务器返回数据
 
 
     @Override
@@ -126,7 +125,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                     switch (view.getId()) {
                         case R.id.mime_order_lv:
                             MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
-                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), listBean));
+                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), listBean.getOrder_sn()));
                             break;
                         case R.id.order_left_btn:
                             showToast("" + position);

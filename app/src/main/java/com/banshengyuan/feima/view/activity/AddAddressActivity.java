@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -245,7 +246,14 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
             }
             mAddAddressLocationStreet.setText(bean.getStreet());
             mAddAddressLocationDetail.setText(bean.getAddress());
+
             mAddAddressDefault.setChecked(bean.getIs_default() == 2);
+
+            mAddAddressDefault.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (!mAddAddressDefault.isChecked() && bean.getIs_default() == 2) {
+                    mAddAddressDefault.setChecked(true);
+                }
+            });
         }
     }
 

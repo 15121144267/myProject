@@ -16,7 +16,9 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.OrderDetailActivityModule;
+import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.entity.OrderDetailResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.OrderDetailControl;
 import com.banshengyuan.feima.view.adapter.OrdersDetailAdapter;
@@ -66,17 +68,20 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     RadiusTextView orderRightBtn;
     @BindView(R.id.order_left_btn)
     RadiusTextView orderLeftBtn;
-    private MyOrdersResponse.ListBean mListBean = null;
-    private MyOrdersResponse.ListBean orderItemBean = null;
-    List<MyOrdersResponse.ListBean.ProductBean> mProductBeen = new ArrayList<>();
+
+    private String order_sn;
+    private String token = Constant.TOKEN;
+//    private MyOrdersResponse.ListBean orderItemBean = null;
+    List<OrderDetailResponse.GoodsListBean> mList = new ArrayList<>();
+    private OrdersDetailAdapter adapter = null;
 
     Integer totalPrice = 0;
     Integer transPrice = 0;
     Integer shouldPrice = 0;
 
-    public static Intent getOrderDetailIntent(Context context, MyOrdersResponse.ListBean listBean) {
+    public static Intent getOrderDetailIntent(Context context, String order_sn) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
-        intent.putExtra("listBean", listBean);
+        intent.putExtra("order_sn", order_sn);
         return intent;
     }
 
@@ -89,10 +94,15 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         initializeInjector();
         middleName.setText("订单详情");
         initView();
+        initData();
+    }
+
+    private void initData() {
+        mPresenter.requestOrderDetailInfo(order_sn, token);
     }
 
     private void parseIntent() {
-        mListBean = getIntent().getParcelableExtra("listBean");
+        order_sn = getIntent().getParcelableExtra("order_sn");
     }
 
     @Override
@@ -124,16 +134,16 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     private void initView() {
         parseIntent();
         orderDetailProductList.setLayoutManager(new LinearLayoutManager(this));
-        if (orderItemBean != null) {
-            OrdersDetailAdapter adapter = new OrdersDetailAdapter(orderItemBean.getProduct(), this, mImageLoaderHelper);
-            orderDetailProductList.setAdapter(adapter);
-
-            orderDetailShopName.setText(orderItemBean.getStore_name());
-
-            orderItemBean.getProduct().stream().filter(productBean -> productBean != null).forEachOrdered(productBean ->
-                totalPrice += productBean.getPrice() * productBean.getNumber()
-            );
-        }
+        adapter = new OrdersDetailAdapter(null, this, mImageLoaderHelper);
+        orderDetailProductList.setAdapter(adapter);
+//        if (orderItemBean != null) {
+//
+//            orderDetailShopName.setText(orderItemBean.getStore_name());
+//
+//            orderItemBean.getProduct().stream().filter(productBean -> productBean != null).forEachOrdered(productBean ->
+//                    totalPrice += productBean.getPrice() * productBean.getNumber()
+//            );
+//        }
 
         String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
         orderDetailPrice.setText(priceTotal);
@@ -170,6 +180,14 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             case R.id.order_left_btn:
                 showToast("left");
                 break;
+        }
+    }
+
+    @Override
+    public void getOrderDetailInfoSuccess(OrderDetailResponse orderDetailResponse) {
+        if(orderDetailResponse!=null){
+            mList = orderDetailResponse.getGoods_list();
+//            adapter.setNewData(mList);
         }
     }
 }

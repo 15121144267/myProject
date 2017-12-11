@@ -43,7 +43,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
     ExChangeControl.PresenterExChange mPresenter;
     private Unbinder unbind;
     private ExChangeAdapter mHotFairAdapter;
-    private String streetId = "1";//街区ID
+    private String streetId = "0";//街区ID
 
     public static ExchangeFragment newInstance() {
         return new ExchangeFragment();

@@ -103,7 +103,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     private void initData() {
         HotFariStateRequest hotFariStateRequest = new HotFariStateRequest();
         hotFariStateRequest.setId(fId);
-        hotFariStateRequest.setOrder_sn("H2017120109515797807");//报名订单号
+        hotFariStateRequest.setOrder_sn("");//报名订单号
         hotFariStateRequest.setToken(Constant.TOKEN);
         hotFariStateRequest.setFlag(Constant.requestFlag);
         mPresenter.requestHotFairState(fId, hotFariStateRequest); //热闹-报名订单状态查询
@@ -115,18 +115,20 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
      * 查看二维码
      */
     private void join() {
-        if (hotFairStateResponse.getStatus().equals("2")) {//查看二维码
-            startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
-        } else {
-            HotFariJoinActionRequest hotFariJoinActionRequest = new HotFariJoinActionRequest();
-            hotFariJoinActionRequest.setId(fId);
-            hotFariJoinActionRequest.setToken(Constant.TOKEN);
-            hotFariJoinActionRequest.setFlag(Constant.requestFlag);
+        if (hotFairStateResponse.getStatus() != null) {
+            if (hotFairStateResponse.getStatus().equals("2")) {//查看二维码
+                startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
+            } else {
+                HotFariJoinActionRequest hotFariJoinActionRequest = new HotFariJoinActionRequest();
+                hotFariJoinActionRequest.setId(fId);
+                hotFariJoinActionRequest.setToken(Constant.TOKEN);
+                hotFariJoinActionRequest.setFlag(Constant.requestFlag);
 
-            JoinActionDialog joinActionDialog = JoinActionDialog.newInstance();
-            joinActionDialog.setData(mPresenter, fId, hotFariJoinActionRequest);
+                JoinActionDialog joinActionDialog = JoinActionDialog.newInstance();
+                joinActionDialog.setData(mPresenter, fId, hotFariJoinActionRequest);
 
-            DialogFactory.showDialogFragment(getSupportFragmentManager(), joinActionDialog, CommonDialog.TAG);
+                DialogFactory.showDialogFragment(getSupportFragmentManager(), joinActionDialog, CommonDialog.TAG);
+            }
         }
     }
 

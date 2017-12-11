@@ -177,7 +177,10 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
                 o -> startActivity(SafeSettingActivity.getIntent(getActivity())));
 
         RxView.clicks(mPersonTips).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> startActivity(NoticeCenterActivity.getIntent(getActivity())));
+                o -> {
+                    mPersonTips.setImageResource(R.mipmap.my_message);
+                    startActivity(NoticeCenterActivity.getIntent(getActivity()));
+                });
 
         RxView.clicks(mPersonAddressPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(AddressActivity.getIntent(getActivity(), "CompletedOrderFragment")));

@@ -41,14 +41,14 @@
             android:src="@mipmap/arrow_right" />
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView" />
 
     <LinearLayout
         android:id="@+id/person_page_bg"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/white"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <TextView
             style="@style/TextColor_dark_black_15"
@@ -189,9 +189,9 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="保存"
-        rv:rv_backgroundColor="#fbbc00"
-        rv:rv_backgroundEnabledColor="#fffc00"
-        rv:rv_backgroundPressedColor="#fffc00"
+        rv:rv_backgroundColor="#fffc00"
+        rv:rv_backgroundEnabledColor="#fbbc00"
+        rv:rv_backgroundPressedColor="#fbbc00"
         rv:rv_strokeColor="#383838"
         rv:rv_textColor="@color/tab_text_normal"
         rv:rv_textEnabledColor="#fbbc00"

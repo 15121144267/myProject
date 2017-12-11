@@ -142,7 +142,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                                 mCheckBox.setChecked(true);
                                 return;
                             }
-//                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
                             AddressResponse.ListBean listBean = (AddressResponse.ListBean) adapter.getItem(position);
                             if (listBean != null) {
                                 if (listBean.getIs_default() == 1) {

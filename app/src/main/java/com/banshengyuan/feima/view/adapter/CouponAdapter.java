@@ -49,11 +49,10 @@ public class CouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListBean, B
         if (item.getType() == 1 && !TextUtils.isEmpty(item.getValue())) {
             //券类型 1满减 2折扣
             helper.setText(R.id.adapter_couple_price, "￥" + ValueUtil.formatAmount(Double.parseDouble(item.getValue().split(",")[1])));
-        } else if (item.getType() == 2 && !TextUtils.isEmpty(item.getValue())) {
-            helper.setText(R.id.adapter_couple_price, item.getValue().split(",")[1] + "折");
+        } else if (item.getType() == 2 && !TextUtils.isEmpty(item.getValue()) ) {
+            if(!TextUtils.isEmpty(item.getValue().split(",")[1])){
+                helper.setText(R.id.adapter_couple_price, Double.parseDouble(item.getValue().split(",")[1]) * 10 + "折");
+            }
         }
-
-
     }
-
 }

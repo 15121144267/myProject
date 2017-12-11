@@ -47,7 +47,7 @@ public class NoticeAdapter extends BaseQuickAdapter<NoticeResponse.ListBean, Bas
             if(TimeUtil.getTimeIsToday(String.valueOf(item.getCreate_time()))){
                 helper.setText(R.id.adapter_notice_date, "今天"+TimeUtil.transferLongToDate(TimeUtil.TIME_HHMMSS, (long)item.getCreate_time()));
             }else {
-                helper.setText(R.id.adapter_notice_date, TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_CH, (long)item.getCreate_time()));
+                helper.setText(R.id.adapter_notice_date, TimeUtil.transferLongToDate(TimeUtil.TIME_YMMDD, (long)item.getCreate_time()));
             }
         }
 //        if (item.getOrderFlag() == 0) {
