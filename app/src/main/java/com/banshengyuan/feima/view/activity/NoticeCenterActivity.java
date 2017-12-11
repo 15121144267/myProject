@@ -14,6 +14,8 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerNoticeCenterActivityComponent;
 import com.banshengyuan.feima.dagger.module.NoticeCenterActivityModule;
 import com.banshengyuan.feima.database.OrderNotice;
+import com.banshengyuan.feima.entity.Constant;
+import com.banshengyuan.feima.entity.NoticeResponse;
 import com.banshengyuan.feima.entity.QueryParam;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.view.PresenterControl.NoticeCenterControl;
@@ -21,8 +23,8 @@ import com.banshengyuan.feima.view.adapter.NoticeAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.listener.OnItemClickListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,7 +37,7 @@ import butterknife.ButterKnife;
  * NoticeCenterActivity
  */
 
-public class NoticeCenterActivity extends BaseActivity implements NoticeCenterControl.NoticeCenterView {
+public class NoticeCenterActivity extends BaseActivity implements NoticeCenterControl.NoticeCenterView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.middle_name)
     TextView mMiddleName;
@@ -43,6 +45,10 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     Toolbar mToolbar;
     @BindView(R.id.notice_all)
     RecyclerView mRecyclerView;
+    private int page = 1;
+    private int pageSize = 10;
+    private String token = Constant.TOKEN;
+    private List<NoticeResponse.ListBean> mList = new ArrayList<>();
 
     @Inject
     NoticeCenterControl.PresenterNoticeCenter mPresenter;
@@ -52,6 +58,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     }
 
     private NoticeAdapter mNoticeAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +75,14 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     @Override
     public void querySuccess(List<OrderNotice> list) {
-        dismissLoading();
-        Collections.sort(list,(o1,o2)->{
-            if(o1.getOrderTime().before(o2.getOrderTime())){
-                return 1;
-            }
-            return -1;
-        });
-        mNoticeAdapter.setNewData(list);
+//        dismissLoading();
+//        Collections.sort(list, (o1, o2) -> {
+//            if (o1.getOrderTime().before(o2.getOrderTime())) {
+//                return 1;
+//            }
+//            return -1;
+//        });
+//        mNoticeAdapter.setNewData(list);
     }
 
     @Override
@@ -100,12 +107,12 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNoticeAdapter = new NoticeAdapter(null,getContext());
+        mNoticeAdapter = new NoticeAdapter(null, getContext());
         mRecyclerView.setAdapter(mNoticeAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                mPresenter.updateNoticeDB((OrderNotice)adapter.getItem(position));
+//                mPresenter.updateNoticeDB((OrderNotice) adapter.getItem(position));
             }
         });
     }
@@ -115,18 +122,28 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
         mNoticeAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void queryNoticeListSuccess(NoticeResponse noticeResponse) {
+        if (noticeResponse != null) {
+            mList = noticeResponse.getList();
+            mNoticeAdapter.setNewData(mList);
+        }
+    }
+
     private void initData(Calendar calendar) {
         QueryParam param = new QueryParam();
         param.today = calendar.getTime();
         calendar.add(Calendar.DAY_OF_MONTH, +1);
         param.tomorrow = calendar.getTime();
-        mPresenter.requestDbNotices(param);
+//        mPresenter.requestDbNotices(param);
+
+        mPresenter.requestNoticeList(page, pageSize, token);
     }
 
     private void initializeInjector() {
         DaggerNoticeCenterActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .noticeCenterActivityModule(new NoticeCenterActivityModule(NoticeCenterActivity.this,this))
+                .noticeCenterActivityModule(new NoticeCenterActivityModule(NoticeCenterActivity.this, this))
                 .build().inject(this);
     }
 
@@ -134,5 +151,14 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mList.size() < pageSize) {
+            mNoticeAdapter.loadMoreEnd(true);
+        } else {
+            mPresenter.requestNoticeList(++page, pageSize, token);
+        }
     }
 }

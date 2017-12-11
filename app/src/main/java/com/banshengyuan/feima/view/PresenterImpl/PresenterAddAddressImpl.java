@@ -49,7 +49,7 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     }
 
     @Override
-    public void requestAddressUpdate(String addressId, AddAddressRequest request, String token) {
+    public void requestAddressUpdate(int addressId, AddAddressRequest request, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.updateAddressRequest(addressId ,request,token).compose(mView.applySchedulers())
                 .subscribe(this::updateAddressSuccess, throwable -> mView.showErrMessage(throwable),

@@ -38,10 +38,10 @@ public class WorkSummaryAdapter extends BaseQuickAdapter<MyOrders, BaseViewHolde
                 break;
         }
 
-        helper.setText(R.id.adapter_time, item.endTime);
-        String orderId = "订单编号:"+item.businessId;
-        helper.setText(R.id.adapter_content, orderId);
-        helper.setVisible(R.id.order_new_message,false);
+//        helper.setText(R.id.ad, item.endTime);
+//        String orderId = "订单编号:"+item.businessId;
+//        helper.setText(R.id.adapter_content, orderId);
+//        helper.setVisible(R.id.order_new_message,false);
     }
 
 }

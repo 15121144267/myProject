@@ -171,12 +171,12 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
         request.area = mDistrict;
         request.street = street;//街区  修改？？？？
         request.address = addressDetail;
-        request.isDefault = mAddAddressDefault.isChecked() ? "2" : "1";
+        request.is_default = mAddAddressDefault.isChecked() ? "2" : "1";
 
         if (bean == null) {
             mPresenter.requestAddressAdd(request, Constant.TOKEN);
         } else {
-            mPresenter.requestAddressUpdate(bean.getId() + "", request, Constant.TOKEN);
+            mPresenter.requestAddressUpdate(bean.getId(), request, Constant.TOKEN);
         }
     }
 

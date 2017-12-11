@@ -30,7 +30,7 @@ public class AddAddressModel {
         return mApi.addAddressRequest(mGson.toJson(request), token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> updateAddressRequest(String addressId, AddAddressRequest request, String token) {
+    public Observable<ResponseData> updateAddressRequest(int addressId, AddAddressRequest request, String token) {
         return mApi.updateAddressRequest(addressId, mGson.toJson(request), token).map(mTransform::transformCommon);
     }
 

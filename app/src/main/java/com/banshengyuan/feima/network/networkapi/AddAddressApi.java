@@ -16,5 +16,5 @@ public interface AddAddressApi {
     Observable<String> addAddressRequest(@Body String request,@Query("token") String token);
 
     @POST("api/user/receiving-address/update/{id}")
-    Observable<String> updateAddressRequest(@Path("id") String addressId, @Body String request ,@Query("token") String token);
+    Observable<String> updateAddressRequest(@Path("id") Integer addressId, @Body String request ,@Query("token") String token);
 }

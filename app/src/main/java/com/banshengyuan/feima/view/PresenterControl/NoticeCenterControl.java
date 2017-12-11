@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
 import com.banshengyuan.feima.database.OrderNotice;
+import com.banshengyuan.feima.entity.NoticeResponse;
 import com.banshengyuan.feima.entity.QueryParam;
 
 import java.util.List;
@@ -14,10 +15,13 @@ public class NoticeCenterControl {
     public interface NoticeCenterView extends LoadDataView{
         void querySuccess(List<OrderNotice> list);
         void updateSuccess();
+        void queryNoticeListSuccess(NoticeResponse noticeResponse);
     }
 
     public interface PresenterNoticeCenter extends Presenter<NoticeCenterView> {
         void requestDbNotices(QueryParam param);
         void updateNoticeDB(OrderNotice orderNotice);
+
+        void requestNoticeList(int page,int pageSize,String token);
     }
 }

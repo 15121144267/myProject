@@ -19,6 +19,6 @@ public class AddAddressControl {
 
         void requestAddressAdd(AddAddressRequest request,String token);
 
-        void requestAddressUpdate(String addressId, AddAddressRequest request,String token);
+        void requestAddressUpdate(int addressId, AddAddressRequest request,String token);
     }
 }

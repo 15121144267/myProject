@@ -13,7 +13,7 @@ public class AddAddressRequest {
     public String area;
     public String street;
     public String address;
-    public String isDefault;
+    public String is_default;
 
     public String getName() {
         return name;
@@ -71,11 +71,11 @@ public class AddAddressRequest {
         this.address = address;
     }
 
-    public String getIsDefault() {
-        return isDefault;
+    public String getIs_default() {
+        return is_default;
     }
 
-    public void setIsDefault(String isDefault) {
-        this.isDefault = isDefault;
+    public void setIs_default(String is_default) {
+        this.is_default = is_default;
     }
 }

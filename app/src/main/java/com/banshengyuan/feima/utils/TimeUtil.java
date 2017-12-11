@@ -253,6 +253,16 @@ public class TimeUtil {
         }
     }
 
+    public static boolean getTimeIsToday(String time) {
+        long s = timeToLong(stringTimeToFormat(time, TIME_YYMMDD), TIME_YYMMDD);
+        long now = timeToLong(getFullTime(TIME_YYMMDD), TIME_YYMMDD);
+        if (s - now == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static String getNumMonth(long time, int addNum, boolean isHavaYear) {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date(time * 1000));
