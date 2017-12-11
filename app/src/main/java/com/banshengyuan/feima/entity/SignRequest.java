@@ -6,8 +6,7 @@ package com.banshengyuan.feima.entity;
  */
 
 public class SignRequest {
-    public String partnerId;
-    public String phone;
-    public String smsCode;
+    public String mobile;
+    public String code;
     public String password;
 }

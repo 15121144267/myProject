@@ -2,10 +2,13 @@ package com.banshengyuan.feima.view.model;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedRequest;
+import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
+import com.banshengyuan.feima.entity.PayRequest;
 import com.banshengyuan.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
 
@@ -39,21 +42,18 @@ public class PayModel {
         OrderConfirmedRequest request = new OrderConfirmedRequest();
         request.address_id = addressId;
         request.detail = mGson.toJson(list);
+        request.token = BuildConfig.USER_TOKEN;
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
-    /*public Observable<ResponseData> payRequest(OrderConfirmedResponse response, String payCode) {
+    public Observable<ResponseData> payRequest(OrderConfirmedResponse response, Integer payType, Integer channel) {
         PayRequest request = new PayRequest();
-        List<PayRequest.OrdersBean> list = new ArrayList<>();
-        for (String s : response.data) {
-            PayRequest.OrdersBean order = new PayRequest.OrdersBean();
-            order.orderId = s;
-            order.pay_ebcode = payCode;
-            list.add(order);
-        }
-        request.orders = list;
-        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
-    }*/
+        request.order_sn = response.order_sn;
+        request.payment_type = payType;
+        request.type = channel;
+        request.token = BuildConfig.USER_TOKEN;
+        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    }
 
     public Observable<ResponseData> updateOrderStatusRequest(PayAccessRequest request) {
         return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
@@ -62,6 +62,5 @@ public class PayModel {
     public Observable<ResponseData> listAddressRequest(String token) {
         return mApi.listAddressRequest(token).map(mTransform::transformCommon);
     }
-
 
 }

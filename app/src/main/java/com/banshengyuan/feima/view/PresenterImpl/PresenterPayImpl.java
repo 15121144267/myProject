@@ -35,6 +35,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
         mModel = model;
     }
 
+
     @Override
     public void requestAddressList(String token) {
         mView.showLoading(mContext.getString(R.string.loading));
@@ -72,16 +73,16 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void requestPayInfo(OrderConfirmedResponse response, String payCode) {
-       /* mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.payRequest(response, payCode).compose(mView.applySchedulers())
+    public void requestPayInfo(OrderConfirmedResponse response, Integer payType,Integer channel) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.payRequest(response, payType,channel).compose(mView.applySchedulers())
                 .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
-        mView.addSubscription(disposable);*/
+        mView.addSubscription(disposable);
     }
 
     private void getPayInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             responseData.parseData(PayResponse.class);
             PayResponse response = (PayResponse) responseData.parsedData;
             mView.orderPayInfoSuccess(response);

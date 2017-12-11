@@ -6,6 +6,6 @@ package com.banshengyuan.feima.entity;
  */
 
 public class PayConstant {
-    public static  final String PAY_TYPE_ZFB = "10001";//支付宝支付
-    public static  final String PAY_TYPE_WX ="10004";//微信支付
+    public static final Integer PAY_TYPE_ZFB = 1;//支付宝支付
+    public static final Integer PAY_TYPE_WX = 2;//微信支付
 }

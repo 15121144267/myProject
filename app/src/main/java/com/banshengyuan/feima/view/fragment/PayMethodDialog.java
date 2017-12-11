@@ -94,7 +94,7 @@ public class PayMethodDialog extends BaseDialogFragment {
     }
 
     public interface PayMethodClickListener {
-        void clickRechargeBtn(String payType);
+        void clickRechargeBtn(Integer payType);
     }
 
 

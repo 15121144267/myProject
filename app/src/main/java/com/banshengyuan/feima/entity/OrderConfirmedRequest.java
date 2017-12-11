@@ -8,5 +8,6 @@ package com.banshengyuan.feima.entity;
 public class OrderConfirmedRequest {
     public String address_id;
     public String detail;
+    public String token;
 
 }

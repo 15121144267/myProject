@@ -143,7 +143,10 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
                 showToast("验证码不能为空");
                 return;
             }
-
+        }
+        if(!mSignCheckContent.isChecked()){
+            showToast("请勾选用户协议");
+            return;
         }
         mPresenter.onRequestSign(mPhone, password, verityCode);
     }

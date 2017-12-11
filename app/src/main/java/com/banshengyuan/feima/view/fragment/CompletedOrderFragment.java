@@ -30,7 +30,6 @@ import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
-import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.DataCleanManager;
@@ -192,6 +191,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0:
+//                    startActivity(LoginActivity.getLoginIntent(getActivity()));
                     startActivity(ShoppingCardActivity.getIntent(getActivity()));
                     break;
                 case 1:

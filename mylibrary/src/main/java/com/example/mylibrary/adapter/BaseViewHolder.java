@@ -108,6 +108,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public BaseViewHolder setEnable(@IdRes int viewId, boolean enable) {
+        TextView view = getView(viewId);
+        view.setEnabled(enable);
+        return this;
+    }
+
     public BaseViewHolder getPaint(@IdRes int viewId) {
         TextView view = getView(viewId);
         view.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

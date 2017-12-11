@@ -42,6 +42,8 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
         helper.setText(R.id.item_shopping_card_price,"￥"+ ValueUtil.formatAmount(item.goods_price));
         ImageView imageView = helper.getView(R.id.item_shopping_card_icon);
         mImageLoaderHelper.displayImage(mContext,item.goods_img,imageView);
+
+
     }
 
 }

@@ -216,9 +216,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             product.stoer_name = mInfoBean.store.name;
             product.store_id = mInfoBean.store.id;
         }
-        if(mInfoBean.freight!=null){
+        // TODO: 2017/12/11  
+       /* if(mInfoBean.freight!=null){
             product.freight = mInfoBean.freight.freight;
-        }
+        }*/
 
         ShoppingCardListResponse.ListBeanX.ListBean productInfo = new ShoppingCardListResponse.ListBeanX.ListBean();
         productInfo.number = count;

@@ -364,8 +364,8 @@
     </style>
 
     <style name="MyEditText3" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">#999999</item>
-        <item name="colorControlActivated">#999999</item>
+        <item name="colorControlNormal">#cccccc</item>
+        <item name="colorControlActivated">#cccccc</item>
     </style>
 
     <style name="AnimBottom" parent="@android:style/Animation">

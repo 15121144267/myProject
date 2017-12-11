@@ -25,6 +25,7 @@ import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayConstant;
 import com.banshengyuan.feima.entity.PayResponse;
+import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.PayZFBHelper;
 import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
 import com.banshengyuan.feima.listener.TabCheckListener;
@@ -87,6 +88,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private ShoppingCardListResponse mOrderConfirm;
     private AddressResponse.ListBean mDataBean;
     private String mAddressId;
+    private OrderConfirmedResponse mResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,10 +119,11 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
-       /* mResponse = response;
+        showToast("订单确定成功");
+        mResponse = response;
         PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
         payMethodDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);*/
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
     }
 
     @Override
@@ -150,22 +153,22 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     @Override
-    public void clickRechargeBtn(String payType) {
-        /*if (mResponse != null) {
+    public void clickRechargeBtn(Integer payType) {
+        if (mResponse != null) {
             switch (payType) {
-                case PayConstant.PAY_TYPE_WX:
-                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_WX);
+                case 1:
+                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_ZFB, 1);
                     break;
-                case PayConstant.PAY_TYPE_ZFB:
-                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_ZFB);
+                case 2:
+                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_WX, 1);
                     break;
             }
-        }*/
+        }
     }
 
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
-        if (PayConstant.PAY_TYPE_WX.equals(String.valueOf(response.pay_ebcode))) {
+        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode)) {
             PayWXHelper.getInstance().pay(response.pay_order, this);
         } else {
             PayZFBHelper.getInstance().pay(response.biz_content, this);
@@ -206,15 +209,12 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         ValueUtil.setIndicator(mPayTabLayout, 60, 60);
         mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new PayGoodsListAdapter(null, this, mImageLoaderHelper);
+        mAdapter = new PayGoodsListAdapter(null, PayActivity.this, mImageLoaderHelper);
         mPayOrderList.setAdapter(mAdapter);
         if (mOrderConfirm != null) {
             mAdapter.setNewData(mOrderConfirm.list);
         }
 
-        mAdapter.setOnItemClickListener((adapter, view, position) ->
-                showToast(position + "")
-        );
         countPrice();
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
         RxView.clicks(mPayOrderAddressLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestAddress());
@@ -253,8 +253,17 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 OrderConfirmItem confirmItem = new OrderConfirmItem();
                 confirmItem.store_id = mOrderConfirm.list.get(i).store_id;
                 confirmItem.store_name = mOrderConfirm.list.get(i).stoer_name;
-                confirmItem.freight = mOrderConfirm.list.get(i).freight;
-                EditText edit = (EditText) mAdapter.getViewByPosition(i, R.id.adapter_pay_suggestion);
+                ShoppingCardListResponse.ListBeanX.ShopFreightConfigBean freightInfo = mOrderConfirm.list.get(i).shop_freight_config;
+                if (freightInfo != null) {
+                    if (freightInfo.freight == 1) {
+
+                    } else {
+                        confirmItem.freight = freightInfo.free_shipping_price / 100;
+                    }
+
+                }
+
+                EditText edit = (EditText) mAdapter.getViewByPosition(mPayOrderList, i, R.id.adapter_pay_suggestion);
                 if (edit != null) {
                     confirmItem.remark = edit.getText().toString();
                 }
@@ -271,7 +280,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 confirmItem.product = product;
                 list.add(confirmItem);
             }
-            mPresenter.requestOrderConfirmed(mAddressId,list);
+            mPresenter.requestOrderConfirmed(mAddressId, list);
         }
 
        /* if (mResponse == null) {
@@ -313,17 +322,22 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
 
     private void countPrice() {
-        if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
+       /* if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
             Integer allPrice = 0;
             Integer dispatchingPrice = 0;
             for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
-                dispatchingPrice += listBeanX.freight;
+                if (listBeanX.shop_freight_config != null) {
+                    if(listBeanX.shop_freight_config.freight ==1){
+                        dispatchingPrice += listBeanX.shop_freight_config.free_shipping_price;
+                    }
+
+                }
                 for (ShoppingCardListResponse.ListBeanX.ListBean listBean : listBeanX.list) {
                     allPrice += listBean.goods_price * listBean.number;
                 }
             }
             mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice, this));
-        }
+        }*/
     }
 
     private void initializeInjector() {

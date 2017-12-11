@@ -27,33 +27,47 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<ShoppingCardListRespon
 
     @Override
     protected void convert(BaseViewHolder helper, ShoppingCardListResponse.ListBeanX item) {
-        if (item.freightWay == 0) {
-            if (item.freight == 0) {
-                helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
-            } else {
-                helper.setText(R.id.adapter_pay_dispatching_way, "快递 " + ValueUtil.formatAmount2(item.freight));
-            }
-
-        } else {
-            helper.setText(R.id.adapter_pay_dispatching_way, "门店自提");
-        }
-        RecyclerView recyclerView = helper.getView(R.id.adapter_shopping_card_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        PayGoodsItemListAdapter adapter = new PayGoodsItemListAdapter(item.list, mContext, mImageLoaderHelper);
-        recyclerView.setAdapter(adapter);
+        helper.addOnClickListener(R.id.adapter_pay_coupon);
         Integer productPrice = 0;
         for (ShoppingCardListResponse.ListBeanX.ListBean product : item.list) {
             productPrice += product.goods_price * product.number;
         }
-        helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
-       /* Integer dispatchingPrice = 0;
-        for (OrderConfirmedRequest.AccountsBean account : item.accounts) {
-            dispatchingPrice += Integer.valueOf(account.price);
-        }*/
-//        helper.setText(R.id.adapter_shopping_card_dispatching_price, "￥" + ValueUtil.formatAmount2(dispatchingPrice));
+        if (item.freightWay == 0) {
+            if (item.shop_freight_config != null) {
+                if (item.shop_freight_config.freight == 1) {
+                    if (productPrice >= 9900) {
+                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
+                        helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
+                    } else {
+                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 " + ValueUtil.formatAmount2(item.shop_freight_config.free_shipping_price));
+                        helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice + item.shop_freight_config.free_shipping_price));
+                    }
+                } else {
+                    helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
+                    helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
+                }
+            }
+        } else {
+            helper.setText(R.id.adapter_pay_dispatching_way, "门店自提");
+            helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
+        }
+        if (item.user_ticket != null && item.user_ticket.size() > 0) {
+            helper.setText(R.id.adapter_pay_coupon, "可用优惠券" + item.user_ticket.size());
+            helper.setEnable(R.id.adapter_pay_coupon, true);
+        } else {
+            helper.setText(R.id.adapter_pay_coupon, "无可用");
+            helper.setEnable(R.id.adapter_pay_coupon, false);
+        }
+
+        RecyclerView recyclerView = helper.getView(R.id.adapter_shopping_card_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        PayGoodsItemListAdapter adapter = new PayGoodsItemListAdapter(item.list, mContext, mImageLoaderHelper);
+        recyclerView.setAdapter(adapter);
+
+
         helper.setText(R.id.adapter_shopping_card_product_count, "共计" + item.list.size() + "件商品");
         helper.setText(R.id.adapter_shopping_card_shop_name, TextUtils.isEmpty(item.stoer_name) ? "  未知店铺" : "  " + item.stoer_name);
-//        helper.setText(R.id.adapter_shopping_card_price_all, "小计:" + ValueUtil.formatAmount2(dispatchingPrice + productPrice));
+
 
     }
 

@@ -43,7 +43,7 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
         Disposable disposable = mSignModel.verityCodeRequest(phone)
                 .compose(mView.applySchedulers())
                 .subscribe(this::getVerifyCodeSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -53,15 +53,18 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
                 .take(61)
                 .compose(mView.applySchedulers())
                 .subscribe(aLong -> mView.setButtonEnable(false, aLong),
-                        throwable -> {},
+                        throwable -> {
+                        },
                         () -> mView.setButtonEnable(true, (long) 0));
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.showToast(mContext.getString(R.string.verity_send_success));
+        } else {
+            mView.showToast("请稍后重试");
         }
     }
 
     @Override
-    public void onRequestSign(String phone, String password,String verityCode ) {
+    public void onRequestSign(String phone, String password, String verityCode) {
         Disposable disposable = mSignModel.veritySignUp(phone, password, verityCode)
                 .compose(mView.applySchedulers())
                 .subscribe(this::signSuccess
@@ -70,9 +73,9 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
     }
 
     private void signSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 100){
+        if (responseData.resultCode == 200) {
             mView.signUpSuccess();
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }

@@ -329,7 +329,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 }
             }
         }
-        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0,this));
+        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(allPrice,this));
     }
 
 

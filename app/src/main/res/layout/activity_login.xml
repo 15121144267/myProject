@@ -22,7 +22,7 @@
             android:inputType="number"
             android:paddingBottom="15dp"
             android:textColor="@color/black"
-            android:theme="@style/MyEditText2"
+            android:theme="@style/MyEditText3"
             />
 
     </android.support.design.widget.TextInputLayout>
@@ -42,7 +42,7 @@
             android:inputType="textPassword"
             android:paddingBottom="15dp"
             android:textColor="@color/black"
-            android:theme="@style/MyEditText2"
+            android:theme="@style/MyEditText3"
             />
     </android.support.design.widget.TextInputLayout>
 

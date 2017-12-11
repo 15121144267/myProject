@@ -10,6 +10,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
+import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -39,6 +40,12 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         ShoppingCardItemAdapter itemAdapter = new ShoppingCardItemAdapter(item.list, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
         mView.setChildAdapter(helper.getAdapterPosition(), itemAdapter, checkBox);
+        itemAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ShoppingCardListResponse.ListBeanX.ListBean bean = (ShoppingCardListResponse.ListBeanX.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                mContext.startActivity(GoodDetailActivity.getIntent(mContext, bean.goods_id));
+            }
+        });
     }
 
 }
