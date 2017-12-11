@@ -73,11 +73,11 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
 
     @Override
     public void requestPayInfo(OrderConfirmedResponse response, String payCode) {
-        mView.showLoading(mContext.getString(R.string.loading));
+       /* mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.payRequest(response, payCode).compose(mView.applySchedulers())
                 .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
+        mView.addSubscription(disposable);*/
     }
 
     private void getPayInfoSuccess(ResponseData responseData) {

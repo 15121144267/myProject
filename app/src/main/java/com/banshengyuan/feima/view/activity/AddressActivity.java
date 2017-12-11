@@ -26,6 +26,7 @@ import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -166,25 +167,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         );
     }
 
-//    @Override
-//    public void addressDefaultSuccess() {
-//        List<AddressResponse.DataBean> list = mAdapter.getData();
-//        for (int i = 0; i < list.size(); i++) {
-//            if (i == mPosition) {
-//                list.get(i).isDefault = 1;
-//            } else {
-//                list.get(i).isDefault = 0;
-//            }
-//        }
-//        Collections.sort(list, (o1, o2) -> {
-//            if (o1.isDefault < (o2.isDefault)) {
-//                return 1;
-//            }
-//            return -1;
-//        });
-//        mAdapter.setNewData(list);
-//    }
-
     private void requestAddAddress() {
         startActivityForResult(AddAddressActivity.getIntent(this, null), IntentConstant.ORDER_POSITION_ONE);
     }
@@ -209,19 +191,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     public void listAddressSuccess(AddressResponse addressResponse) {
         if (addressResponse.getList() != null && addressResponse.getList().size() > 0) {
             mList = addressResponse.getList();
-          /*  for (int i = 0; i < mList.size(); i++) {
-                if (i == mPosition) {
-                    mList.get(i).getIs_default() = 1;
-                } else {
-                    mList.get(i).isDefault = 0;
-                }
-            }
-            Collections.sort(list, (o1, o2) -> {
-                if (o1.isDefault < (o2.isDefault)) {
-                    return 1;
-                }
-                return -1;
-            });*/
             mAdapter.setNewData(mList);
         }
 
@@ -237,8 +206,20 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     @Override
     public void updateAddressSuccess() {
         showToast("更新成功");
-//        mPresenter.requestAddressList(Constant.TOKEN);
-
+        for (int i = 0; i < mList.size(); i++) {
+            if (i == mPosition) {
+                mList.get(i).setIs_default(2);
+            } else {
+                mList.get(i).setIs_default(0);
+            }
+        }
+        Collections.sort(mList, (o1, o2) -> {
+            if (o1.getIs_default() < (o2.getIs_default())) {
+                return 1;
+            }
+            return -1;
+        });
+        mAdapter.setNewData(mList);
     }
 
     @Override
@@ -251,18 +232,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         showErrMessage(throwable);
         mCheckBox.setChecked(false);
     }
-    //    @Override
-//    public void addressListSuccess(List<AddressResponse.DataBean> data) {
-//        Collections.sort(data, (o1, o2) -> {
-//            if (o1.isDefault < (o2.isDefault)) {
-//                return 1;
-//            }
-//            return -1;
-//        });
-//        if (data.size() > 0) {
-//            mAdapter.setNewData(data);
-//        }
-//    }
 
     private void initData() {
         mPresenter.requestAddressList(Constant.TOKEN);

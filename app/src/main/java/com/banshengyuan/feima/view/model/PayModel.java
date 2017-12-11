@@ -5,13 +5,10 @@ import android.content.Context;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedRequest;
-import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
-import com.banshengyuan.feima.entity.PayRequest;
 import com.banshengyuan.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,7 +42,7 @@ public class PayModel {
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> payRequest(OrderConfirmedResponse response, String payCode) {
+    /*public Observable<ResponseData> payRequest(OrderConfirmedResponse response, String payCode) {
         PayRequest request = new PayRequest();
         List<PayRequest.OrdersBean> list = new ArrayList<>();
         for (String s : response.data) {
@@ -56,7 +53,7 @@ public class PayModel {
         }
         request.orders = list;
         return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
-    }
+    }*/
 
     public Observable<ResponseData> updateOrderStatusRequest(PayAccessRequest request) {
         return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
