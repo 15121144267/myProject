@@ -64,7 +64,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     private List<AddressResponse.ListBean> mList = new ArrayList<>();
     private int deleteId = -1;
-    private int stateFlag = -1;
 
     @Inject
     AddressControl.PresenterAddress mPresenter;
@@ -143,18 +142,23 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                                 mCheckBox.setChecked(true);
                                 return;
                             }
-//
-//
-                            stateFlag = 2;
-//                            if (!mCheckBox.isChecked()) {
-//                                mCheckBox.setChecked(true);
-//                                return;
-//                            }
 //                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
                             AddressResponse.ListBean listBean = (AddressResponse.ListBean) adapter.getItem(position);
-
-                            showUpdateDialog(listBean);
-
+                            if (listBean != null) {
+                                if (listBean.getIs_default() == 1) {
+                                    //设为默认地址
+                                    AddAddressRequest addAddressRequest = new AddAddressRequest();
+                                    addAddressRequest.setName(listBean.getName());
+                                    addAddressRequest.setAddress(listBean.getAddress());
+                                    addAddressRequest.setArea(listBean.getArea());
+                                    addAddressRequest.setCity(listBean.getCity());
+                                    addAddressRequest.setMobile(listBean.getMobile());
+                                    addAddressRequest.setProvince(listBean.getProvince());
+                                    addAddressRequest.setStreet(listBean.getStreet());
+                                    addAddressRequest.setIs_default("2");
+                                    mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, Constant.TOKEN);
+                                }
+                            }
                             break;
                     }
                 }
@@ -177,33 +181,8 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     @Override
     public void commonDialogBtnOkListener(int type, int position) {
-        switch (stateFlag){
-            case 1://删除
-                if (deleteId != -1) {
-                    mPresenter.requestDeleteAddress(deleteId + "", Constant.TOKEN);
-                }
-                break;
-            case 2://更新
-                if (deleteId != -1) {
-                    mPresenter.requestDeleteAddress(deleteId + "", Constant.TOKEN);
-                }
-
-//                if(listBean!=null){
-//                    if (listBean.getIs_default() == 1) {
-//                        //设为默认地址
-//                        AddAddressRequest addAddressRequest = new AddAddressRequest();
-//                        addAddressRequest.setName(listBean.getName());
-//                        addAddressRequest.setAddress(listBean.getAddress());
-//                        addAddressRequest.setArea(listBean.getArea());
-//                        addAddressRequest.setCity(listBean.getCity());
-//                        addAddressRequest.setMobile(listBean.getMobile());
-//                        addAddressRequest.setProvince(listBean.getProvince());
-//                        addAddressRequest.setStreet(listBean.getStreet());
-//                        addAddressRequest.setIs_default("2");
-//                        mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, Constant.TOKEN);
-//                    }
-//                }
-                break;
+        if (deleteId != -1) {
+            mPresenter.requestDeleteAddress(deleteId + "", Constant.TOKEN);
         }
 
     }
@@ -229,7 +208,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
             if (i == mPosition) {
                 mList.get(i).setIs_default(2);
             } else {
-                mList.get(i).setIs_default(0);
+                mList.get(i).setIs_default(1);
             }
         }
         Collections.sort(mList, (o1, o2) -> {
@@ -261,14 +240,6 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         commonDialog.setContent(getString(R.string.delete_address));
         commonDialog.setListener(this);
         DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
-    }
-
-    private void showUpdateDialog(AddressResponse.ListBean listBean) {
-        CommonDialog commonDialog = CommonDialog.newInstance();
-        commonDialog.setContent("确定要设为默认地址吗？");
-        commonDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), commonDialog, CommonDialog.TAG);
-
     }
 
 
