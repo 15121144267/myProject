@@ -15,6 +15,8 @@ public class AddressControl {
         void deleteAddressSuccess();
 
         void updateAddressSuccess();
+        void updateAddressFail();
+        void updateAddressError(Throwable throwable);
 
     }
 

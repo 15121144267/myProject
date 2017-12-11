@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by lei.he on 2017/7/13.
@@ -10,12 +9,11 @@ import java.util.List;
 
 public class OrderConfirmedResponse implements Serializable {
 
-
     /**
-     * data : ["84534633062990099"]
-     * errcode : 100
-     * errmsg : 创建订单成功
+     * order_sn : 2017110421470012
+     * total_fee : 10021
      */
 
-    public List<String> data;
+    public String order_sn;
+    public int total_fee;
 }

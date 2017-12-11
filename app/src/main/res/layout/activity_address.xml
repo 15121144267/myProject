@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/line_grey_bg"
+    android:background="@color/line_grey_bg2"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_common" />
@@ -17,6 +17,8 @@
 
     <Button
         android:id="@+id/address_add"
-        style="@style/Login_Button_Style_person"
-        android:text="添加地址" />
+        style="@style/order_detail_Button_Style"
+        android:background="@drawable/gradient_style_pink"
+        android:textColor="@color/new_order_color"
+        android:text="添加新地址" />
 </LinearLayout>

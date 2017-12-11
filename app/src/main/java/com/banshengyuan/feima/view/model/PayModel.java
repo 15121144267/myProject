@@ -3,9 +3,10 @@ package com.banshengyuan.feima.view.model;
 import android.content.Context;
 
 import com.banshengyuan.feima.entity.BuProcessor;
+import com.banshengyuan.feima.entity.OrderConfirmItem;
+import com.banshengyuan.feima.entity.OrderConfirmedRequest;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
-import com.banshengyuan.feima.entity.PayCreateRequest;
 import com.banshengyuan.feima.entity.PayRequest;
 import com.banshengyuan.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
@@ -37,8 +38,11 @@ public class PayModel {
     }
 
 
-    public Observable<ResponseData> orderConfirmedRequest(PayCreateRequest request) {
-        return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformTypeFour);
+    public Observable<ResponseData> orderConfirmedRequest(String addressId, List<OrderConfirmItem> list) {
+        OrderConfirmedRequest request = new OrderConfirmedRequest();
+        request.address_id = addressId;
+        request.detail = mGson.toJson(list);
+        return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> payRequest(OrderConfirmedResponse response, String payCode) {
@@ -57,5 +61,10 @@ public class PayModel {
     public Observable<ResponseData> updateOrderStatusRequest(PayAccessRequest request) {
         return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
+
+    public Observable<ResponseData> listAddressRequest(String token) {
+        return mApi.listAddressRequest(token).map(mTransform::transformCommon);
+    }
+
 
 }

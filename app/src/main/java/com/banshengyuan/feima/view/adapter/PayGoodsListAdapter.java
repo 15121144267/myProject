@@ -27,6 +27,16 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<ShoppingCardListRespon
 
     @Override
     protected void convert(BaseViewHolder helper, ShoppingCardListResponse.ListBeanX item) {
+        if (item.freightWay == 0) {
+            if (item.freight == 0) {
+                helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
+            } else {
+                helper.setText(R.id.adapter_pay_dispatching_way, "快递 " + ValueUtil.formatAmount2(item.freight));
+            }
+
+        } else {
+            helper.setText(R.id.adapter_pay_dispatching_way, "门店自提");
+        }
         RecyclerView recyclerView = helper.getView(R.id.adapter_shopping_card_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         PayGoodsItemListAdapter adapter = new PayGoodsItemListAdapter(item.list, mContext, mImageLoaderHelper);

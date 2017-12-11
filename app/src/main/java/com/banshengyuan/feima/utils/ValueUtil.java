@@ -7,11 +7,15 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.banshengyuan.feima.R;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
@@ -123,7 +127,7 @@ public class ValueUtil {
 
     public static String replaceBlank(String str) {
         String dest = "";
-        if (str!=null) {
+        if (str != null) {
             Pattern p = Pattern.compile("\\s*|\t|\r|\n");
             Matcher m = p.matcher(str);
             dest = m.replaceAll("");
@@ -219,6 +223,20 @@ public class ValueUtil {
         double newAmount = amount / 100;
         DecimalFormat format = new DecimalFormat("##0.00");
         return format.format(newAmount);
+    }
+
+    public static SpannableStringBuilder setAllPriceText(double price,Context context) {
+        String orderPricePartOne = "合计：";
+        String orderPricePartTwo = ValueUtil.formatAmount2(price);
+        SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
+                .setForegroundColor(ContextCompat.getColor(context, R.color.light_red))
+                .setSize(18, true)
+                .create();
+        SpannableStringBuilder stringBuilder2 = SpannableStringUtils.getBuilder(orderPricePartOne)
+                .setForegroundColor(ContextCompat.getColor(context, R.color.tab_text_normal))
+                .append(stringBuilder)
+                .create();
+        return stringBuilder2;
     }
 
     public static void setIndicator(TabLayout tabs, int leftDip, int rightDip) {

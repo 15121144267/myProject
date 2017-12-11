@@ -2,7 +2,9 @@ package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by helei on 2017/4/27.
@@ -10,7 +12,7 @@ import retrofit2.http.POST;
  */
 
 public interface PayApi {
-    @POST("Order/CreateOrders")
+    @POST("api/order/submit")
     Observable<String> orderConfirmedRequest(@Body String request);
 
     @POST("Order/PayOrders")
@@ -19,4 +21,6 @@ public interface PayApi {
     @POST("Order/PayAccessOrders")
     Observable<String> updateOrderStatusRequest(@Body String request);
 
+    @GET("api/user/receiving-address")
+    Observable<String> listAddressRequest(@Query("token") String token);
 }

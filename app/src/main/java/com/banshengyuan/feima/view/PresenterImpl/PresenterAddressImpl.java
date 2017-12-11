@@ -52,7 +52,7 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
     public void requestUpdateAddress(String addressId, AddAddressRequest request , String token) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.updateAddressRequest(addressId,request,token).compose(mView.applySchedulers())
-                .subscribe(this::updateAddressSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::updateAddressSuccess, throwable -> mView.updateAddressError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
@@ -81,6 +81,7 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
             mView.updateAddressSuccess();
         }else {
             mView.showToast(responseData.errorDesc);
+            mView.updateAddressFail();
         }
     }
 

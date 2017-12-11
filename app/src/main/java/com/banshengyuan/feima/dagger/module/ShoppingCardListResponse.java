@@ -20,6 +20,8 @@ public class ShoppingCardListResponse implements Serializable {
          */
 
         public int store_id;
+        public int freight;
+        public int freightWay;
         public String stoer_name;
         public List<ListBean> list;
         public boolean checkFlag;

@@ -137,15 +137,15 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                             showDialog();
                             break;
                         case R.id.address_default:
-//                            if (!mCheckBox.isChecked()) {
-//                                mCheckBox.setChecked(true);
-//                                return;
-//                            }
+                            if (!mCheckBox.isChecked()) {
+                                mCheckBox.setChecked(true);
+                                return;
+                            }
 //
 //
 //                            mPresenter.requestAddressDefault((AddressResponse.DataBean) adapter.getItem(position));
                             AddressResponse.ListBean listBean = (AddressResponse.ListBean) adapter.getItem(position);
-                            if(listBean!=null){
+                            if (listBean != null) {
                                 if (listBean.getIs_default() == 1) {
                                     //设为默认地址
                                     AddAddressRequest addAddressRequest = new AddAddressRequest();
@@ -207,25 +207,27 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     @Override
     public void listAddressSuccess(AddressResponse addressResponse) {
-        if (addressResponse != null) {
+        if (addressResponse.getList() != null && addressResponse.getList().size() > 0) {
             mList = addressResponse.getList();
+          /*  for (int i = 0; i < mList.size(); i++) {
+                if (i == mPosition) {
+                    mList.get(i).getIs_default() = 1;
+                } else {
+                    mList.get(i).isDefault = 0;
+                }
+            }
+            Collections.sort(list, (o1, o2) -> {
+                if (o1.isDefault < (o2.isDefault)) {
+                    return 1;
+                }
+                return -1;
+            });*/
+            mAdapter.setNewData(mList);
         }
-//        for (int i = 0; i < list.size(); i++) {
-//            if (i == mPosition) {
-//                list.get(i).isDefault = 1;
-//            } else {
-//                list.get(i).isDefault = 0;
-//            }
-//        }
-//        Collections.sort(list, (o1, o2) -> {
-//            if (o1.isDefault < (o2.isDefault)) {
-//                return 1;
-//            }
-//            return -1;
-//        });
-        mAdapter.setNewData(mList);
+
 
     }
+
 
     @Override
     public void deleteAddressSuccess() {
@@ -239,8 +241,17 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     }
 
+    @Override
+    public void updateAddressFail() {
+        mCheckBox.setChecked(false);
+    }
 
-//    @Override
+    @Override
+    public void updateAddressError(Throwable throwable) {
+        showErrMessage(throwable);
+        mCheckBox.setChecked(false);
+    }
+    //    @Override
 //    public void addressListSuccess(List<AddressResponse.DataBean> data) {
 //        Collections.sort(data, (o1, o2) -> {
 //            if (o1.isDefault < (o2.isDefault)) {

@@ -212,8 +212,14 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         List<ShoppingCardListResponse.ListBeanX> orderConfirm = new ArrayList<>();
         List<ShoppingCardListResponse.ListBeanX.ListBean> productList = new ArrayList<>();
         ShoppingCardListResponse.ListBeanX product = new ShoppingCardListResponse.ListBeanX();
-        product.stoer_name = mInfoBean.store.name;
-        product.store_id = mInfoBean.store.id;
+        if( mInfoBean.store!=null){
+            product.stoer_name = mInfoBean.store.name;
+            product.store_id = mInfoBean.store.id;
+        }
+        if(mInfoBean.freight!=null){
+            product.freight = mInfoBean.freight.freight;
+        }
+
         ShoppingCardListResponse.ListBeanX.ListBean productInfo = new ShoppingCardListResponse.ListBeanX.ListBean();
         productInfo.number = count;
         productInfo.goods_id = mInfoBean.id;

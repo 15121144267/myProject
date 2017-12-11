@@ -47,7 +47,7 @@ public class PayActivityModule {
     PayModel providePayModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new PayModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.ORDER_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(PayApi.class), gson, modelTransform,buProcessor,activity);

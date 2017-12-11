@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShoppingCardActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShoppingCardActivityModule;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
-import com.banshengyuan.feima.utils.SpannableStringUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
 import com.banshengyuan.feima.view.adapter.ShoppingCardAdapter;
@@ -240,7 +237,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private void initView() {
         mToolbarRightText.setText("编辑");
-        setAllPriceText(0);
+        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0,this));
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         mErrorView = LayoutInflater.from(this).inflate(R.layout.net_error_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
@@ -332,22 +329,9 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 }
             }
         }
-        setAllPriceText(allPrice);
+        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0,this));
     }
 
-    private void setAllPriceText(Integer price) {
-        String orderPricePartOne = "合计：";
-        String orderPricePartTwo = ValueUtil.formatAmount2(price);
-        SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
-                .setForegroundColor(ContextCompat.getColor(this, R.color.light_red))
-                .setSize(18, true)
-                .create();
-        SpannableStringBuilder stringBuilder2 = SpannableStringUtils.getBuilder(orderPricePartOne)
-                .setForegroundColor(ContextCompat.getColor(this, R.color.tab_text_normal))
-                .append(stringBuilder)
-                .create();
-        mActivityShoppingCardPrice.setText(stringBuilder2);
-    }
 
     private void checkForAll() {
         if (!mActivityShoppingCardCheck.isChecked()) {

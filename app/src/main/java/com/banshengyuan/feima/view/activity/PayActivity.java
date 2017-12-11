@@ -8,19 +8,22 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.PayActivityModule;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
+import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayConstant;
-import com.banshengyuan.feima.entity.PayCreateRequest;
 import com.banshengyuan.feima.entity.PayResponse;
 import com.banshengyuan.feima.help.PayZFBHelper;
 import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
@@ -31,6 +34,8 @@ import com.banshengyuan.feima.view.adapter.PayGoodsListAdapter;
 import com.banshengyuan.feima.view.fragment.PayMethodDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -79,12 +84,9 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     PayControl.PresenterPay mPresenter;
     private final String[] modules = {"物流到家", "门店自提"};
     private PayGoodsListAdapter mAdapter;
-    private TextView mPayOrderName;
-    private TextView mPayOrderPhone;
-    private TextView mPayOrderAddress;
     private ShoppingCardListResponse mOrderConfirm;
-    private PayCreateRequest mProductSpecification;
     private AddressResponse.ListBean mDataBean;
+    private String mAddressId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +98,21 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         mMiddleName.setText("提交订单");
         initView();
         initData();
+    }
+
+    @Override
+    public void listAddressSuccess(AddressResponse addressResponse) {
+        if (addressResponse.getList() != null && addressResponse.getList().size() > 0) {
+            List<AddressResponse.ListBean> addressList = addressResponse.getList();
+            for (AddressResponse.ListBean listBean : addressList) {
+                if (listBean.getIs_default() == 2) {
+                    mAddressId = listBean.getId() + "";
+                    mPayAddressName.setText(TextUtils.isEmpty(listBean.getName()) ? "未知" : listBean.getName());
+                    mPayAddressDetail.setText(TextUtils.isEmpty(listBean.getAddress()) ? "未知" : listBean.getAddress());
+                    mPayAddressPhone.setText(TextUtils.isEmpty(listBean.getMobile()) ? "未知" : listBean.getMobile());
+                }
+            }
+        }
     }
 
     @Override
@@ -178,7 +195,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initData() {
-
+        mPresenter.requestAddressList(BuildConfig.USER_TOKEN);
     }
 
     private void initView() {
@@ -198,8 +215,9 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         mAdapter.setOnItemClickListener((adapter, view, position) ->
                 showToast(position + "")
         );
-
+        countPrice();
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
+        RxView.clicks(mPayOrderAddressLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestAddress());
 
         mPayTabLayout.addOnTabSelectedListener(new TabCheckListener() {
             @Override
@@ -207,21 +225,56 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 switch (tab.getPosition()) {
                     case 0:
                         mPayOrderAddressLayout.setVisibility(View.VISIBLE);
+                        for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
+                            listBeanX.freightWay = 0;
+                        }
+
                         break;
                     case 1:
                         mPayOrderAddressLayout.setVisibility(View.GONE);
+                        for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
+                            listBeanX.freightWay = 1;
+                        }
                         break;
                 }
+                mAdapter.setNewData(mOrderConfirm.list);
             }
         });
     }
 
     private void requestPay() {
-      /*  if (TextUtils.isEmpty(mPayOrderName.getText()) && TextUtils.isEmpty(mPayOrderAddress.getText())) {
+        if (TextUtils.isEmpty(mAddressId)) {
             showToast("请选择收获地址");
             return;
         }
-        if (mResponse == null) {
+        if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
+            List<OrderConfirmItem> list = new ArrayList<>();
+            for (int i = 0; i < mOrderConfirm.list.size(); i++) {
+                OrderConfirmItem confirmItem = new OrderConfirmItem();
+                confirmItem.store_id = mOrderConfirm.list.get(i).store_id;
+                confirmItem.store_name = mOrderConfirm.list.get(i).stoer_name;
+                confirmItem.freight = mOrderConfirm.list.get(i).freight;
+                EditText edit = (EditText) mAdapter.getViewByPosition(i, R.id.adapter_pay_suggestion);
+                if (edit != null) {
+                    confirmItem.remark = edit.getText().toString();
+                }
+                confirmItem.ticket_id = "";
+                List<OrderConfirmItem.ProductBean> product = new ArrayList<>();
+                for (ShoppingCardListResponse.ListBeanX.ListBean listBean : mOrderConfirm.list.get(i).list) {
+                    OrderConfirmItem.ProductBean productItem = new OrderConfirmItem.ProductBean();
+                    productItem.goods_id = listBean.goods_id;
+                    productItem.goods_sku = listBean.goods_sku;
+                    productItem.number = listBean.number;
+                    product.add(productItem);
+                }
+
+                confirmItem.product = product;
+                list.add(confirmItem);
+            }
+            mPresenter.requestOrderConfirmed(mAddressId,list);
+        }
+
+       /* if (mResponse == null) {
             for (OrderConfirmedRequest request : mProductSpecification.orders) {
                 request.address = mDataBean.getAddress() + mDataBean.getArea();
                 request.phone = mDataBean.getMobile();
@@ -237,14 +290,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     }
 
-    private void addHeadView() {
-      /*  View mHeadView = LayoutInflater.from(this).inflate(R.layout.head_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
-        mAdapter.addHeaderView(mHeadView);
-        mPayOrderName = (TextView) mHeadView.findViewById(R.id.pay_order_name);
-        mPayOrderPhone = (TextView) mHeadView.findViewById(R.id.pay_order_phone);
-        mPayOrderAddress = (TextView) mHeadView.findViewById(R.id.pay_order_address);
-        LinearLayout mAddressLinearLayout = (LinearLayout) mHeadView.findViewById(R.id.pay_order_address_layout);
-        mAddressLinearLayout.setOnClickListener(v -> startActivityForResult(AddressActivity.getIntent(this, "payActivity"), 1));*/
+    private void requestAddress() {
+        startActivityForResult(AddressActivity.getIntent(this, "payActivity"), 1);
     }
 
     @Override
@@ -252,36 +299,31 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_POSITION_TWO && resultCode == RESULT_OK) {
             if (data != null) {
-                mDataBean = (AddressResponse.ListBean) data.getSerializableExtra("addressDataBean");
+                mDataBean = data.getParcelableExtra("addressDataBean");
                 if (mDataBean != null) {
-                    mPayOrderPhone.setVisibility(View.VISIBLE);
-                    mPayOrderPhone.setText(mDataBean.getMobile());
-                    mPayOrderName.setText((String) mDataBean.getName());
-                    mPayOrderAddress.setText(mDataBean.getAddress() + mDataBean.getArea());
+                    mAddressId = mDataBean.getId() + "";
+                    mPayAddressName.setText(TextUtils.isEmpty(mDataBean.getName()) ? "未知" : mDataBean.getName());
+                    mPayAddressDetail.setText(TextUtils.isEmpty(mDataBean.getAddress()) ? "未知" : mDataBean.getAddress());
+                    mPayAddressPhone.setText(TextUtils.isEmpty(mDataBean.getMobile()) ? "未知" : mDataBean.getMobile());
                 }
             }
         }
 
     }
 
-    private void addFootView() {
-      /*  View mFootView = LayoutInflater.from(this).inflate(R.layout.foot_pay_view, (ViewGroup) mPayOrderList.getParent(), false);
-        mAdapter.addFooterView(mFootView);
-        TextView mDispatchPrice = (TextView) mFootView.findViewById(R.id.pay_order_dispatch_price);
-        TextView mFinalPrice = (TextView) mFootView.findViewById(R.id.pay_order_price);
-        Integer allPrice = 0;
-        Integer dispatchingPrice = 0;
-        for (OrderConfirmedRequest request : mProductSpecification.orders) {
-            for (OrderConfirmedRequest.ProductsBean product : request.products) {
-                allPrice += product.price * Integer.valueOf(product.number);
-            }
-            for (OrderConfirmedRequest.AccountsBean account : request.accounts) {
-                dispatchingPrice += Integer.valueOf(account.price);
-            }
-        }
 
-        mDispatchPrice.setText(ValueUtil.formatAmount(dispatchingPrice));
-        mFinalPrice.setText(ValueUtil.formatAmount(allPrice + dispatchingPrice));*/
+    private void countPrice() {
+        if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
+            Integer allPrice = 0;
+            Integer dispatchingPrice = 0;
+            for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
+                dispatchingPrice += listBeanX.freight;
+                for (ShoppingCardListResponse.ListBeanX.ListBean listBean : listBeanX.list) {
+                    allPrice += listBean.goods_price * listBean.number;
+                }
+            }
+            mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice, this));
+        }
     }
 
     private void initializeInjector() {
