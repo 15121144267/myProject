@@ -5,6 +5,7 @@
     android:background="@color/lineView1_font_color_1">
 
     <TextView
+        android:id="@+id/order_detail_state_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -14,11 +15,12 @@
         android:textSize="16sp" />
 
     <ImageView
+        android:id="@+id/order_detail_state_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="30dp"
-        android:src="@mipmap/car_wait" />
+        android:src="@mipmap/order_detail_no_receipt" />
 
 </RelativeLayout>

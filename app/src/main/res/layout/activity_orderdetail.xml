@@ -5,15 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <include layout="@layout/toolbar_common" />
 
     <View style="@style/LineH_Fill_Width1_5_ForView" />
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,10 +62,17 @@
 
             <View style="@style/LineH_Yellow_Fill_Width1" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/order_detail_product_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/order_detail_product_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
 
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
@@ -88,7 +93,7 @@
                     android:id="@+id/order_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥100"
+                    android:text=""
                     android:textColor="@color/darkblack" />
             </LinearLayout>
 
@@ -109,7 +114,7 @@
                     android:id="@+id/order_detail_dispatch_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥15"
+                    android:text=""
                     android:textColor="@color/darkblack" />
             </LinearLayout>
 
@@ -130,7 +135,7 @@
                     android:id="@+id/order_detail_should_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="￥15"
+                    android:text=""
                     android:textColor="@color/darkblack" />
             </LinearLayout>
 
@@ -171,6 +176,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/order_detail_create_date"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="center_vertical"
@@ -180,6 +186,7 @@
                 android:textColor="@color/color666" />
 
             <TextView
+                android:id="@+id/order_detail_pay_date"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="center_vertical"
@@ -198,16 +205,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center_vertical"
-                android:paddingEnd="19dp">
-
+                android:gravity="center_vertical">
 
                 <com.aries.ui.view.radius.RadiusTextView
                     android:id="@+id/order_right_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:clickable="true"
                     android:gravity="center"
                     android:paddingBottom="10dp"
@@ -228,10 +233,8 @@
                     android:id="@+id/order_left_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:layout_toStartOf="@id/order_right_btn"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:layout_toLeftOf="@id/order_right_btn"
                     android:clickable="true"
                     android:gravity="center"
                     android:paddingBottom="10dp"
@@ -250,7 +253,8 @@
 
             </RelativeLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+    </ScrollView>
 
 </LinearLayout>
 

@@ -47,22 +47,35 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
         //deliver_status : 1 待发货 2已发货
 
 
-        switch (item.getPay_status()) {
-            case 1:
-                helper.setText(R.id.adapter_order_status, "待付款");
-                break;
-            case 2:
-                helper.setText(R.id.adapter_order_status, "已付款");
-                break;
-            default:
-                helper.setText(R.id.adapter_order_status, "系统处理中");
+        /**
+         * pay_status        1 待付款 2已付款
+         * 	deliver_status   1 待发货 2已发货
+         */
+        if (item.getPay_status() == 1) {//待付款
+            helper.setText(R.id.adapter_order_status, "待付款");
+            helper.setText(R.id.order_left_btn, "取消订单");
+            helper.setText(R.id.order_right_btn, "立即付款");
+        } else {//已付款
+            helper.setText(R.id.adapter_order_status, "已付款");
+            helper.setText(R.id.order_left_btn, "查看物流");
+            helper.setText(R.id.order_right_btn, "确认收货");
+//            if (item.get == 1) {//待发货
+//                stateTv.setText("待发货");
+//                stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
+//                orderLeftBtn.setText("提醒发货");
+//                orderRightBtn.setText("再来一单");
+//            } else if (infoBean.getDeliver_status() == 2) {
+//                stateTv.setText("已发货");
+//                stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
+//                orderLeftBtn.setText("查看物流");
+//                orderRightBtn.setText("确认收货");
+//            }
         }
+
         Integer orderCount = 0;
-//        Double orderPrice = 0.00;
         String orderPricePartOne = "合计：";
         if (products != null) {
             for (MyOrdersResponse.ListBean.ProductBean product : products) {
-//                orderPrice += product.getPrice() * product.getNumber();
                 orderCount += product.getNumber();
             }
         }

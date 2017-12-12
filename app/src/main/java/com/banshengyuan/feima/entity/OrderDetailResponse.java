@@ -7,13 +7,15 @@ import java.util.List;
  */
 
 public class OrderDetailResponse {
+
+
     /**
      * info : {"member_name":"","member_mobile":"13813800000","member_province":"上海市","member_city":"上海","member_area":"徐汇区","member_street":"虹漕路接到","member_address":"人民广场","sn":"2017120106111687320","payed":0,"total_fee":42000,"freight":0,"create_time":1512123076,"deal_time":1512123076,"pay_status":1,"deliver_status":1,"receive_status":1,"comment_status":2,"comment_content":"123123123","logistics_name":"","logistics_sn":""}
-     * goods_list : [{"store_name":"test的店铺","store_id":8,"store_mobile":"15000319679","product":{"id":1,"goods_id":1,"goods_sku":"0003","goods_name":"测试商品","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"120.00","number":1}},{"store_name":"test的店铺","store_id":8,"store_mobile":"15000319679","product":{"id":2,"goods_id":1,"goods_sku":"0006","goods_name":"测试商品","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"150.00","number":1}},{"store_name":"test的店铺","store_id":8,"store_mobile":"15000319679","product":{"id":3,"goods_id":1,"goods_sku":"0007","goods_name":"测试商品","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"150.00","number":1}}]
+     * goods_list : {"store_name":"test的店铺","store_id":8,"store_mobile":"15000319679","product":[{"goods_id":1,"sku_name":"0003","goods_name":"测试商品","price":"120.00","number":1,"id":1,"goods_sku":"0003","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"120.00"},{"goods_id":1,"sku_name":"0006","goods_name":"测试商品","price":"150.00","number":1,"id":2,"goods_sku":"0006","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"150.00"},{"goods_id":1,"sku_name":"0007","goods_name":"测试商品","price":"150.00","number":1,"id":3,"goods_sku":"0007","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"150.00"}]}
      */
 
     private InfoBean info;
-    private List<GoodsListBean> goods_list;
+    private GoodsListBean goods_list;
 
     public InfoBean getInfo() {
         return info;
@@ -23,11 +25,11 @@ public class OrderDetailResponse {
         this.info = info;
     }
 
-    public List<GoodsListBean> getGoods_list() {
+    public GoodsListBean getGoods_list() {
         return goods_list;
     }
 
-    public void setGoods_list(List<GoodsListBean> goods_list) {
+    public void setGoods_list(GoodsListBean goods_list) {
         this.goods_list = goods_list;
     }
 
@@ -242,13 +244,13 @@ public class OrderDetailResponse {
          * store_name : test的店铺
          * store_id : 8
          * store_mobile : 15000319679
-         * product : {"id":1,"goods_id":1,"goods_sku":"0003","goods_name":"测试商品","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"120.00","number":1}
+         * product : [{"goods_id":1,"sku_name":"0003","goods_name":"测试商品","price":"120.00","number":1,"id":1,"goods_sku":"0003","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"120.00"},{"goods_id":1,"sku_name":"0006","goods_name":"测试商品","price":"150.00","number":1,"id":2,"goods_sku":"0006","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"150.00"},{"goods_id":1,"sku_name":"0007","goods_name":"测试商品","price":"150.00","number":1,"id":3,"goods_sku":"0007","goods_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]","goods_price":"150.00"}]
          */
 
         private String store_name;
         private int store_id;
         private String store_mobile;
-        private ProductBean product;
+        private List<ProductBean> product;
 
         public String getStore_name() {
             return store_name;
@@ -274,40 +276,36 @@ public class OrderDetailResponse {
             this.store_mobile = store_mobile;
         }
 
-        public ProductBean getProduct() {
+        public List<ProductBean> getProduct() {
             return product;
         }
 
-        public void setProduct(ProductBean product) {
+        public void setProduct(List<ProductBean> product) {
             this.product = product;
         }
 
         public static class ProductBean {
             /**
-             * id : 1
              * goods_id : 1
-             * goods_sku : 0003
+             * sku_name : 0003
              * goods_name : 测试商品
+             * price : 120.00
+             * number : 1
+             * id : 1
+             * goods_sku : 0003
              * goods_img : ["/upload/example.jpg", "/upload/example2.jpg", "/upload/example3.jpg", "/upload/example4.jpg"]
              * goods_price : 120.00
-             * number : 1
              */
 
-            private int id;
             private int goods_id;
-            private String goods_sku;
+            private String sku_name;
             private String goods_name;
+            private String price;
+            private int number;
+            private int id;
+            private String goods_sku;
             private String goods_img;
             private String goods_price;
-            private int number;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
 
             public int getGoods_id() {
                 return goods_id;
@@ -317,12 +315,12 @@ public class OrderDetailResponse {
                 this.goods_id = goods_id;
             }
 
-            public String getGoods_sku() {
-                return goods_sku;
+            public String getSku_name() {
+                return sku_name;
             }
 
-            public void setGoods_sku(String goods_sku) {
-                this.goods_sku = goods_sku;
+            public void setSku_name(String sku_name) {
+                this.sku_name = sku_name;
             }
 
             public String getGoods_name() {
@@ -331,6 +329,38 @@ public class OrderDetailResponse {
 
             public void setGoods_name(String goods_name) {
                 this.goods_name = goods_name;
+            }
+
+            public String getPrice() {
+                return price;
+            }
+
+            public void setPrice(String price) {
+                this.price = price;
+            }
+
+            public int getNumber() {
+                return number;
+            }
+
+            public void setNumber(int number) {
+                this.number = number;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getGoods_sku() {
+                return goods_sku;
+            }
+
+            public void setGoods_sku(String goods_sku) {
+                this.goods_sku = goods_sku;
             }
 
             public String getGoods_img() {
@@ -347,14 +377,6 @@ public class OrderDetailResponse {
 
             public void setGoods_price(String goods_price) {
                 this.goods_price = goods_price;
-            }
-
-            public int getNumber() {
-                return number;
-            }
-
-            public void setNumber(int number) {
-                this.number = number;
             }
         }
     }

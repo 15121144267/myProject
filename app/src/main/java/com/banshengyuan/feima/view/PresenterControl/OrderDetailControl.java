@@ -9,11 +9,12 @@ import com.banshengyuan.feima.entity.OrderDetailResponse;
 
 public class OrderDetailControl {
     public interface OrderDetailView extends LoadDataView {
-      void  getOrderDetailInfoSuccess(OrderDetailResponse orderDetailResponse);
+        void loadFail(Throwable throwable);
+        void getOrderDetailInfoSuccess(OrderDetailResponse orderDetailResponse);
     }
 
     public interface PresenterOrderDetail extends Presenter<OrderDetailView> {
-        void requestOrderDetailInfo(String order_sn,String token);
+        void requestOrderDetailInfo(String order_sn, String token);
     }
 
 }

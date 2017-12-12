@@ -37,7 +37,7 @@ public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrd
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.orderDetailInfoRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getOrderDetailInfoSuccess,
-                        throwable -> mView.dismissLoading());
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 

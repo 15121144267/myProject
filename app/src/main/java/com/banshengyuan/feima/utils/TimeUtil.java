@@ -43,7 +43,8 @@ public class TimeUtil {
      */
     public static String transferLongToDate(String dateFormat, Long millSec) {
         String result = null;
-        Date date = new Date(millSec*1000);
+        if (millSec == null) return result;
+        Date date = new Date(millSec * 1000);
         SimpleDateFormat sd = new SimpleDateFormat(dateFormat);
         result = sd.format(date);
         return result;
@@ -322,7 +323,7 @@ public class TimeUtil {
     /**
      * 毫秒转换为 月日
      */
-    public static String getMMDD(long timestamp){
+    public static String getMMDD(long timestamp) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日");//初始化Formatter的转换格式。
         String hms = formatter.format(timestamp);
         return hms;
