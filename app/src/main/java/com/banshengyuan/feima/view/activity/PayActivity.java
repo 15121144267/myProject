@@ -157,10 +157,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         if (mResponse != null) {
             switch (payType) {
                 case 1:
-                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_ZFB, 1);
+                    mPresenter.requestPayInfo(mResponse, payType, 1);
                     break;
                 case 2:
-                    mPresenter.requestPayInfo(mResponse, PayConstant.PAY_TYPE_WX, 1);
+                    mPresenter.requestPayInfo(mResponse, payType, 1);
                     break;
             }
         }
@@ -168,7 +168,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
-        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode)) {
+        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode+"")) {
             PayWXHelper.getInstance().pay(response.pay_order, this);
         } else {
             PayZFBHelper.getInstance().pay(response.biz_content, this);
@@ -215,10 +215,9 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             mAdapter.setNewData(mOrderConfirm.list);
         }
 
-        countPrice();
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
         RxView.clicks(mPayOrderAddressLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestAddress());
-
+        countPrice();
         mPayTabLayout.addOnTabSelectedListener(new TabCheckListener() {
             @Override
             public void onMyTabSelected(TabLayout.Tab tab) {
@@ -247,55 +246,39 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             showToast("请选择收获地址");
             return;
         }
-        if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
-            List<OrderConfirmItem> list = new ArrayList<>();
-            for (int i = 0; i < mOrderConfirm.list.size(); i++) {
-                OrderConfirmItem confirmItem = new OrderConfirmItem();
-                confirmItem.store_id = mOrderConfirm.list.get(i).store_id;
-                confirmItem.store_name = mOrderConfirm.list.get(i).stoer_name;
-                ShoppingCardListResponse.ListBeanX.ShopFreightConfigBean freightInfo = mOrderConfirm.list.get(i).shop_freight_config;
-                if (freightInfo != null) {
-                    if (freightInfo.freight == 1) {
 
-                    } else {
-                        confirmItem.freight = freightInfo.free_shipping_price / 100;
+
+        if (mResponse == null) {
+            if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
+                List<OrderConfirmItem> list = new ArrayList<>();
+                for (int i = 0; i < mOrderConfirm.list.size(); i++) {
+                    OrderConfirmItem confirmItem = new OrderConfirmItem();
+                    confirmItem.store_id = mOrderConfirm.list.get(i).store_id;
+                    confirmItem.store_name = mOrderConfirm.list.get(i).stoer_name;
+                    EditText edit = (EditText) mAdapter.getViewByPosition(mPayOrderList, i, R.id.adapter_pay_suggestion);
+                    if (edit != null) {
+                        confirmItem.remark = edit.getText().toString();
+                    }
+                    confirmItem.ticket_id = "";
+                    List<OrderConfirmItem.ProductBean> product = new ArrayList<>();
+                    for (ShoppingCardListResponse.ListBeanX.ListBean listBean : mOrderConfirm.list.get(i).list) {
+                        OrderConfirmItem.ProductBean productItem = new OrderConfirmItem.ProductBean();
+                        productItem.goods_id = listBean.goods_id;
+                        productItem.goods_sku = listBean.goods_sku;
+                        productItem.number = listBean.number;
+                        product.add(productItem);
                     }
 
+                    confirmItem.product = product;
+                    list.add(confirmItem);
                 }
-
-                EditText edit = (EditText) mAdapter.getViewByPosition(mPayOrderList, i, R.id.adapter_pay_suggestion);
-                if (edit != null) {
-                    confirmItem.remark = edit.getText().toString();
-                }
-                confirmItem.ticket_id = "";
-                List<OrderConfirmItem.ProductBean> product = new ArrayList<>();
-                for (ShoppingCardListResponse.ListBeanX.ListBean listBean : mOrderConfirm.list.get(i).list) {
-                    OrderConfirmItem.ProductBean productItem = new OrderConfirmItem.ProductBean();
-                    productItem.goods_id = listBean.goods_id;
-                    productItem.goods_sku = listBean.goods_sku;
-                    productItem.number = listBean.number;
-                    product.add(productItem);
-                }
-
-                confirmItem.product = product;
-                list.add(confirmItem);
+                mPresenter.requestOrderConfirmed(mAddressId, list);
             }
-            mPresenter.requestOrderConfirmed(mAddressId, list);
-        }
-
-       /* if (mResponse == null) {
-            for (OrderConfirmedRequest request : mProductSpecification.orders) {
-                request.address = mDataBean.getAddress() + mDataBean.getArea();
-                request.phone = mDataBean.getMobile();
-                request.userName = (String) mDataBean.getName();
-            }
-
-            mPresenter.requestOrderConfirmed(mProductSpecification);
         } else {
             PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
             payMethodDialog.setListener(this);
             DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
-        }*/
+        }
 
     }
 
@@ -322,22 +305,33 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
 
     private void countPrice() {
-       /* if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
+        if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
             Integer allPrice = 0;
             Integer dispatchingPrice = 0;
             for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
+                Integer price = 0;
+                for (ShoppingCardListResponse.ListBeanX.ListBean listBean : listBeanX.list) {
+                    price += listBean.goods_price * listBean.number;
+                }
+                allPrice += price;
                 if (listBeanX.shop_freight_config != null) {
-                    if(listBeanX.shop_freight_config.freight ==1){
-                        dispatchingPrice += listBeanX.shop_freight_config.free_shipping_price;
+                    if (listBeanX.shop_freight_config.freight == 1) {
+                        if (price >= listBeanX.shop_freight_config.free_shipping_price) {
+                            dispatchingPrice += 0;
+                        } else {
+                            dispatchingPrice += listBeanX.shop_freight_config.shipping_price;
+                        }
+
+                    } else {
+                        dispatchingPrice += 0;
                     }
 
                 }
-                for (ShoppingCardListResponse.ListBeanX.ListBean listBean : listBeanX.list) {
-                    allPrice += listBean.goods_price * listBean.number;
-                }
+
             }
             mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice, this));
-        }*/
+        }
+
     }
 
     private void initializeInjector() {

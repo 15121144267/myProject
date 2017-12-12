@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.LoginResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.utils.SharePreferenceUtil;
 import com.banshengyuan.feima.view.PresenterControl.LoginControl;
@@ -43,8 +44,10 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
     }
 
     private void operationalData(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mLoginView.loginSuccess();
+        if (responseData.resultCode == 200) {
+            responseData.parseData(LoginResponse.class);
+            LoginResponse response = (LoginResponse) responseData.parsedData;
+            mLoginView.loginSuccess(response);
         } else {
             mLoginView.showToast(responseData.errorDesc);
         }

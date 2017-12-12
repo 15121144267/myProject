@@ -82,7 +82,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     private void getPayInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 200) {
+        if (responseData.resultCode == 100) {
             responseData.parseData(PayResponse.class);
             PayResponse response = (PayResponse) responseData.parsedData;
             mView.orderPayInfoSuccess(response);

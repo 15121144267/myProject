@@ -1,5 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.LoginResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 
 /**
@@ -8,13 +9,15 @@ import com.banshengyuan.feima.entity.PersonInfoResponse;
  */
 
 public class LoginControl {
-    public interface LoginView extends LoadDataView{
-        void loginSuccess( );
+    public interface LoginView extends LoadDataView {
+        void loginSuccess(LoginResponse response);
+
         void getPersonInfoSuccess(PersonInfoResponse response);
     }
 
     public interface PresenterLogin extends Presenter<LoginView> {
-        void onRequestLogin(String phone,String passWord);
+        void onRequestLogin(String phone, String passWord);
+
         void requestPersonInfo(String phone);
     }
 

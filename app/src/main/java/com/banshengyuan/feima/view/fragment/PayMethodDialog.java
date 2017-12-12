@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.PayConstant;
 import com.banshengyuan.feima.help.AniCreator;
 import com.banshengyuan.feima.help.DialogFactory;
 
@@ -80,13 +79,13 @@ public class PayMethodDialog extends BaseDialogFragment {
                 break;
             case R.id.payMethod_WXLayout:
                 if (mListener != null) {
-                    mListener.clickRechargeBtn(PayConstant.PAY_TYPE_WX);
+                    mListener.clickRechargeBtn(2);
                 }
                 closeThisDialog();
                 break;
             case R.id.payMethod_ZFBLayout:
                 if (mListener != null) {
-                    mListener.clickRechargeBtn(PayConstant.PAY_TYPE_ZFB);
+                    mListener.clickRechargeBtn(1);
                 }
                 closeThisDialog();
                 break;

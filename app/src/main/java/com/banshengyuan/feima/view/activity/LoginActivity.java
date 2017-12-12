@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -18,6 +19,8 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
 import com.banshengyuan.feima.dagger.component.LoginActivityComponent;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.LoginResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.DialogFactory;
@@ -71,6 +74,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         setContentView(R.layout.activity_login);
         initializeInjector();
         ButterKnife.bind(this);
+        supportActionBar(mToolbar,true);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
         initView();
     }
@@ -103,18 +107,15 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
 
 
     @Override
-    public void loginSuccess() {
-        mSharePreferenceUtil.setBooleanValue("isFirstOpen", false);
-        mBuProcessor.setUserPhone(myPhone);
-        mSharePreferenceUtil.setStringValue(SpConstant.USER_NAME, myPhone);
-        mPresenterLogin.requestPersonInfo(myPhone);
+    public void loginSuccess(LoginResponse response) {
+        showToast("登录成功");
+        mBuProcessor.setLoginUser(myPhone, response.token);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_INFO));
+        finish();
     }
 
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
-        mBuProcessor.setUserId(response != null ? response.getInfo().getId() + "" : "");
-        mBuProcessor.setUserPhone(response != null ? response.getInfo().getMobile() : "");
-        mBuProcessor.setPersonInfo(response != null ? response : null);
         startActivity(MainActivity.getMainIntent(this));
         finish();
     }

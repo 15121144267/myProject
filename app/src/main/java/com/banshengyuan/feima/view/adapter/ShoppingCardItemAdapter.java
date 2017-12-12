@@ -26,8 +26,9 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
     protected void convert(BaseViewHolder helper, ShoppingCardListResponse.ListBeanX.ListBean item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.item_shopping_card_check).addOnClickListener(R.id.item_shopping_card_reduce)
+                .addOnClickListener(R.id.item_shopping_card_icon).addOnClickListener(R.id.item_shopping_card_des)
                 .addOnClickListener(R.id.item_shopping_card_add).addOnClickListener(R.id.item_shopping_card_delete)
-                .addOnClickListener(R.id.item_shopping_card__slip_delete);
+                .addOnClickListener(R.id.item_shopping_card__slip_delete).addOnClickListener(R.id.item_shopping_card_price);
 
         helper.setText(R.id.item_shopping_card_des,item.goods_name);
         if(item.childEditFlag){

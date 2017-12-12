@@ -15,6 +15,6 @@ public class CompletedOrderControl {
     }
 
     public interface PresenterCompletedOrder extends Presenter<CompletedOrderView> {
-        void requestPersonInfo(String phone);
+        void requestPersonInfo(String token);
     }
 }

@@ -17,7 +17,6 @@ public class OrderConfirmItem {
      */
 
     public int store_id;
-    public int freight;
     public String store_name;
     public String ticket_id;
     public String remark;

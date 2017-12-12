@@ -15,7 +15,7 @@ public class ForgetControl {
     public interface PresenterForget extends Presenter<ForgetView> {
         void onRequestVerifyCode(String phone);
 
-        void requestCheckCode(String phone, String code);
+        void requestCheckCode(String phone, String code, String password);
     }
 
 }

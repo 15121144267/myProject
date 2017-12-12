@@ -40,19 +40,14 @@ public class GoodsInfoResponse implements Serializable {
         public boolean is_collected;
         public String main_sku;
         public int stock;
-        public FreightBean freight;
+        public int freight;
+        public int shipping_price;
+        public int free_shipping_price;
         public StoreBean store;
         public List<String> top_img;
         public List<OtherSpecBean> other_spec;
         public List<BindSpecBean> bind_spec;
 
-        public static class FreightBean {
-            /**
-             * freight : 2
-             */
-
-            public int freight;
-        }
 
         public static class StoreBean {
             /**

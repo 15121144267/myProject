@@ -1,13 +1,11 @@
 package com.banshengyuan.feima.entity;
 
 /**
- * Created by helei on 2017/5/2.
- * LoginRequest
+ * Created by lei.he on 2017/12/12.
  */
 
-public class LoginRequest {
-
+public class ForgetRequest {
     public String mobile;
-
+    public String code;
     public String password;
 }

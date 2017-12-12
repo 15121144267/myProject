@@ -35,6 +35,7 @@ public class ShoppingCardListResponse implements Serializable {
 
             public int freight;
             public int free_shipping_price;
+            public int shipping_price;
         }
 
         public static class UserTicketBean implements Serializable{

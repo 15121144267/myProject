@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MainProducts;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
@@ -36,6 +36,7 @@ import com.banshengyuan.feima.utils.DataCleanManager;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
 import com.banshengyuan.feima.view.activity.AddressActivity;
 import com.banshengyuan.feima.view.activity.CoupleActivity;
+import com.banshengyuan.feima.view.activity.LoginActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -99,28 +100,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     TextView mPersonDetail;
     @BindView(R.id.login_submit)
     Button mLoginSubmit;
-   /*
-    @BindView(R.id.person_address)
-    TextView mPersonAddress;
-    @BindView(R.id.person_info)
-    TextView mPersonInfo;
-    @BindView(R.id.person_icon)
-    ImageView mPersonIcon;
-    @BindView(R.id.person_name)
-    TextView mPersonName;
-    @BindView(R.id.person_icon)
-    ImageView mPersonIcon;
-    @BindView(R.id.person_detail)
-    TextView mPersonDetail;
-   /*
-    @BindView(R.id.person_address)
-    TextView mPersonAddress;
-    @BindView(R.id.person_info)
-    TextView mPersonInfo;
-    @BindView(R.id.move_image)
-    ImageView mMoveImage;
-    @BindView(R.id.scroll_layout)
-    MoveScrollView mScrollLayout;*/
+
 
     public static CompletedOrderFragment newInstance() {
         return new CompletedOrderFragment();
@@ -134,7 +114,6 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     private String[] productNames = {"购物车", "我的订单", "我的卡券", "我的收藏"};
     private List<MainProducts> mList;
     private MainProductsAdapter mAdapter;
-    private String phone = Constant.TOKEN;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -170,17 +149,24 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initView() {
-        RxView.clicks(mPersonEnterPersonalPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> startActivityForResult(PersonCenterActivity.getPersonIntent(getActivity(), mResponse), IntentConstant.ORDER_POSITION_ONE));
+        RxView.clicks(mPersonEnterPersonalPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                startActivityForResult(PersonCenterActivity.getPersonIntent(getActivity(), mResponse), IntentConstant.ORDER_POSITION_ONE);
+            } else {
+                switchToLogin();
+            }
+        });
 
         RxView.clicks(mPersonEnterSafePage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(SafeSettingActivity.getIntent(getActivity())));
 
-        RxView.clicks(mPersonTips).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> {
-                    mPersonTips.setImageResource(R.mipmap.my_message);
-                    startActivity(NoticeCenterActivity.getIntent(getActivity()));
-                });
+        RxView.clicks(mLoginSubmit).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> requestLoginOut());
+
+        RxView.clicks(mPersonTips).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            mPersonTips.setImageResource(R.mipmap.my_message);
+            startActivity(NoticeCenterActivity.getIntent(getActivity()));
+        });
 
         RxView.clicks(mPersonAddressPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(AddressActivity.getIntent(getActivity(), "CompletedOrderFragment")));
@@ -192,21 +178,25 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         mPersonListEnter.setAdapter(mAdapter);
         mPersonListEnter.setNestedScrollingEnabled(false);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            switch (position) {
-                case 0:
-//                    startActivity(LoginActivity.getLoginIntent(getActivity()));
-                    startActivity(ShoppingCardActivity.getIntent(getActivity()));
-                    break;
-                case 1:
-                    startActivity(MyOrderActivity.getIntent(getActivity()));
-                    break;
-                case 2:
-                    startActivity(CoupleActivity.getIntent(getActivity()));
-                    break;
-                case 3:
-                    startActivity(MyCollectionActivity.getIntent(getActivity()));
-                    break;
+            if (mBuProcessor.isValidLogin()) {
+                switch (position) {
+                    case 0:
+                        startActivity(ShoppingCardActivity.getIntent(getActivity()));
+                        break;
+                    case 1:
+                        startActivity(MyOrderActivity.getIntent(getActivity()));
+                        break;
+                    case 2:
+                        startActivity(CoupleActivity.getIntent(getActivity()));
+                        break;
+                    case 3:
+                        startActivity(MyCollectionActivity.getIntent(getActivity()));
+                        break;
+                }
+            } else {
+                switchToLogin();
             }
+
         });
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -234,9 +224,12 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
-            mPresenter.requestPersonInfo(phone);
+            mPresenter.requestPersonInfo(mBuProcessor.getUserToken());
         }
+    }
 
+    private void switchToLogin() {
+        startActivity(LoginActivity.getLoginIntent(getActivity()));
     }
 
     private void initData() {
@@ -259,8 +252,10 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
             mList.add(product);
         }
         mAdapter.setNewData(mList);
+        if (mBuProcessor.isValidLogin()) {
+            mPresenter.requestPersonInfo(mBuProcessor.getUserToken());
+        }
 
-        mPresenter.requestPersonInfo(phone);//
     }
 
     private void showDialog() {
@@ -270,7 +265,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         DialogFactory.showDialogFragment(getChildFragmentManager(), commonDialog, CommonDialog.TAG);
     }
 
-    private void requestInfo() {
+    private void requestLoginOut() {
 
     }
 
@@ -297,7 +292,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @Override
     void onReceivePro(Context context, Intent intent) {
         if (intent.getAction().equals(BroConstant.UPDATE_PERSON_INFO)) {
-            mPresenter.requestPersonInfo(phone);//
+            mPresenter.requestPersonInfo(mBuProcessor.getUserToken());
         }
     }
 
@@ -331,9 +326,8 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     private void update(PersonInfoResponse response) {
         if (response == null) return;
         PersonInfoResponse.InfoBean infoBean = response.getInfo();
-
         mPersonDetail.setText(infoBean.getSalt());
-        mPersonName.setText(infoBean.getName() == null ? "未知  " : infoBean.getName() + "  ");
+        mPersonName.setText(TextUtils.isEmpty(infoBean.getName()) ? "未知  " : infoBean.getName() + "  ");
         mImageLoaderHelper.displayCircularImage(getActivity(), infoBean.getHead_img() == null ?
                 R.mipmap.person_head_icon : infoBean.getHead_img(), mPersonIcon);
         Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);

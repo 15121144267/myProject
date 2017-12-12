@@ -256,14 +256,14 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
         ShopListResponse.ListBean mShopInfo = (ShopListResponse.ListBean) getIntent().getSerializableExtra("shopInfo");
         ShopResponse mShopInfo2 = (ShopResponse) getIntent().getSerializableExtra("ShopResponse");
         if (mShopInfo2 != null) {
-            mBuProcessor.setShopResponse(mShopInfo2);
+          /*  mBuProcessor.setShopResponse(mShopInfo2);
             mImageLoaderHelper.displayRoundedCornerImage(this, mShopInfo2.businessImages.get(0).imageUrl, mShopDetailShopIcon, 6);
             mStoreCode = mShopInfo2.storeCode;
-            mShopDetailShopName.setText(mShopInfo2.fullName);
+            mShopDetailShopName.setText(mShopInfo2.fullName);*/
         }
 
         if (mShopInfo != null) {
-            mBuProcessor.setShopInfo(mShopInfo);
+           /* mBuProcessor.setShopInfo(mShopInfo);
             mStoreCode = mShopInfo.storeCode;
             List<ShopListResponse.ListBean.BusinessImagesBean> shopItemInfo = mShopInfo.businessImages;
             if (shopItemInfo.size() != 0) {
@@ -271,7 +271,7 @@ public class ShopDetailActivity extends BaseActivity implements ShopDetailContro
             } else {
                 mImageLoaderHelper.displayRoundedCornerImage(this, R.mipmap.freemud_logo, mShopDetailShopIcon, 6);
             }
-            mShopDetailShopName.setText(mShopInfo.fullName == null ? "未知" : mShopInfo.fullName);
+            mShopDetailShopName.setText(mShopInfo.fullName == null ? "未知" : mShopInfo.fullName);*/
         }
 
 

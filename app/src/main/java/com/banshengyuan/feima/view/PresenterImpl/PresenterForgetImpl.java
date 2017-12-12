@@ -38,12 +38,20 @@ public class PresenterForgetImpl implements ForgetControl.PresenterForget {
     }
 
     @Override
-    public void requestCheckCode(String phone, String code) {
-        Disposable disposable = mModel.checkCodeRequest(phone, code)
+    public void requestCheckCode(String phone, String code, String password) {
+        Disposable disposable = mModel.checkCodeRequest(phone, code, password)
                 .compose(mView.applySchedulers())
                 .subscribe(this::checkCodeSuccess
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
+    }
+
+    private void checkCodeSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.checkCodeSuccess();
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     @Override
@@ -52,29 +60,23 @@ public class PresenterForgetImpl implements ForgetControl.PresenterForget {
         Disposable disposable = mModel.verityCodeRequest(phone)
                 .compose(mView.applySchedulers())
                 .subscribe(this::getVerifyCodeSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
-    }
-
-    private void checkCodeSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mView.checkCodeSuccess();
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
     }
 
     private void getVerifyCodeSuccess(ResponseData responseData) {
         Observable.interval(0, 1, TimeUnit.SECONDS)
-                .map(aLong -> 59 - aLong)
-                .take(60)
+                .map(aLong -> 60 - aLong)
+                .take(61)
                 .compose(mView.applySchedulers())
                 .subscribe(aLong -> mView.setButtonEnable(false, aLong),
                         throwable -> {
                         },
                         () -> mView.setButtonEnable(true, (long) 0));
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.showToast(mContext.getString(R.string.verity_send_success));
+        } else {
+            mView.showToast("请稍后重试");
         }
     }
 

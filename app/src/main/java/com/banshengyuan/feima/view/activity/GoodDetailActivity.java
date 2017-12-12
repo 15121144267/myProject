@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
@@ -113,10 +112,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     private SpecificationDialog mDialog;
     private TreeMap<Integer, String> mSelectProMap;
     private TreeMap<Integer, Integer> mSkuProMap;
-    private SpecificationResponse.ProductsBean.ProductSpecificationBean mProductSpecification;
-    private String mCount;
-    private SpecificationResponse.ProductsBean mProductsBean;
-    private AMapLocation mLocationInfo;
     private Integer mProductId;
     private GoodsInfoResponse.InfoBean mInfoBean;
     private SkuProductResponse.InfoBean mSkuInfoBean;
@@ -152,10 +147,15 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 mBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
             }
             mGoodsDetailSummary.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
-            mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price));
-            if (mInfoBean.freight != null) {
-                mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.freight.freight));
+            mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price)+"");
+            if((mInfoBean.freight==1)){
+                mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.shipping_price)+
+                        ";满"+ValueUtil.formatAmount2(mInfoBean.free_shipping_price)+"包邮");
+            }else{
+                mGoodsDetailDispatchingPrice.setText("快递:免邮");
             }
+
+
             GoodsInfoResponse.InfoBean.StoreBean store = mInfoBean.store;
             if (store != null) {
                 mGoodsDetailAddress.setText(TextUtils.isEmpty(store.location) ? "未知" : store.location);
@@ -212,14 +212,16 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         List<ShoppingCardListResponse.ListBeanX> orderConfirm = new ArrayList<>();
         List<ShoppingCardListResponse.ListBeanX.ListBean> productList = new ArrayList<>();
         ShoppingCardListResponse.ListBeanX product = new ShoppingCardListResponse.ListBeanX();
-        if( mInfoBean.store!=null){
+        if (mInfoBean.store != null) {
             product.stoer_name = mInfoBean.store.name;
             product.store_id = mInfoBean.store.id;
         }
-        // TODO: 2017/12/11  
-       /* if(mInfoBean.freight!=null){
-            product.freight = mInfoBean.freight.freight;
-        }*/
+
+        ShoppingCardListResponse.ListBeanX.ShopFreightConfigBean freightConfigBean = new ShoppingCardListResponse.ListBeanX.ShopFreightConfigBean();
+        freightConfigBean.freight = mInfoBean.freight;
+        freightConfigBean.free_shipping_price = mInfoBean.free_shipping_price;
+        freightConfigBean.shipping_price = mInfoBean.shipping_price;
+        product.shop_freight_config = freightConfigBean;
 
         ShoppingCardListResponse.ListBeanX.ListBean productInfo = new ShoppingCardListResponse.ListBeanX.ListBean();
         productInfo.number = count;

@@ -165,6 +165,11 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 case R.id.item_shopping_card__slip_delete:
                     requestDeleteProduct(mChildProduct);
                     break;
+                case R.id.item_shopping_card_price:
+                case R.id.item_shopping_card_des:
+                case R.id.item_shopping_card_icon:
+                    startActivity(GoodDetailActivity.getIntent(this, mChildProduct.goods_id));
+                    break;
             }
 
         });
@@ -237,7 +242,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private void initView() {
         mToolbarRightText.setText("编辑");
-        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0,this));
+        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0, this));
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         mErrorView = LayoutInflater.from(this).inflate(R.layout.net_error_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
@@ -329,7 +334,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 }
             }
         }
-        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(allPrice,this));
+        mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(allPrice, this));
     }
 
 
@@ -371,7 +376,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                 }
             }
             mAdapter.setNewData(mBeanXList);
-        }else {
+        } else {
             mToolbarRightText.setVisibility(View.GONE);
         }
 

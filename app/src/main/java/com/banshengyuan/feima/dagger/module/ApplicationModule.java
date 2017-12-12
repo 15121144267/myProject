@@ -78,8 +78,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    BuProcessor provideBuProcessor() {
-        return new BuProcessor();
+    BuProcessor provideBuProcessor(Context arg1,SharePreferenceUtil arg2) {
+        return new BuProcessor(arg1,arg2);
     }
 
     @Provides

@@ -9,6 +9,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.banshengyuan.feima.dagger.component.ApplicationComponent;
 import com.banshengyuan.feima.dagger.component.DaggerApplicationComponent;
 import com.banshengyuan.feima.dagger.module.ApplicationModule;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.utils.SharePreferenceUtil;
 import com.banshengyuan.feima.utils.Utils;
 import com.google.gson.Gson;
@@ -20,7 +21,8 @@ public class DaggerApplication extends Application {
     private AMapLocation aMapLocation;
     @Inject
     SharePreferenceUtil mSharePreferenceUtil;
-
+    @Inject
+    BuProcessor mBuProcessor;
     @Inject
     AMapLocationClient mAMapLocationClient;
     @Inject
@@ -37,7 +39,7 @@ public class DaggerApplication extends Application {
         mAppComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
         mAppComponent.inject(this);
         Utils.init(this);
-
+        mBuProcessor.reSetUserData();
         /*//本地服务
         mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
         if (!TextUtils.isEmpty(mUId)) {

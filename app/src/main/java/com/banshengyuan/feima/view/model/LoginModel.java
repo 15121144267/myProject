@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.BuildConfig;
+import com.banshengyuan.feima.entity.LoginRequest;
 import com.banshengyuan.feima.network.networkapi.LoginApi;
 import com.google.gson.Gson;
 
@@ -28,7 +29,10 @@ public class LoginModel {
 
 
     public Observable<ResponseData> LoginRequest(String phone, String password) {
-        return mLoginApi.loginRequest(partnerId,phone,password).map(mTransform::transformCommon);
+        LoginRequest request = new LoginRequest();
+        request.mobile = phone;
+        request.password = password;
+        return mLoginApi.loginRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> personInfoRequest(String phone) {

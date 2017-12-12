@@ -35,21 +35,21 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         if (item.freightWay == 0) {
             if (item.shop_freight_config != null) {
                 if (item.shop_freight_config.freight == 1) {
-                    if (productPrice >= 9900) {
+                    if (productPrice >= item.shop_freight_config.free_shipping_price) {
                         helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
-                        helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
+                        helper.setText(R.id.adapter_shopping_card_price_all,  ValueUtil.formatAmount2(productPrice));
                     } else {
-                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 " + ValueUtil.formatAmount2(item.shop_freight_config.free_shipping_price));
-                        helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice + item.shop_freight_config.free_shipping_price));
+                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 " + ValueUtil.formatAmount2(item.shop_freight_config.shipping_price));
+                        helper.setText(R.id.adapter_shopping_card_price_all, ValueUtil.formatAmount2(productPrice + item.shop_freight_config.shipping_price));
                     }
                 } else {
                     helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
-                    helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
+                    helper.setText(R.id.adapter_shopping_card_price_all,  ValueUtil.formatAmount2(productPrice));
                 }
             }
         } else {
             helper.setText(R.id.adapter_pay_dispatching_way, "门店自提");
-            helper.setText(R.id.adapter_shopping_card_price_all, "￥" + ValueUtil.formatAmount2(productPrice));
+            helper.setText(R.id.adapter_shopping_card_price_all,  ValueUtil.formatAmount2(productPrice));
         }
         if (item.user_ticket != null && item.user_ticket.size() > 0) {
             helper.setText(R.id.adapter_pay_coupon, "可用优惠券" + item.user_ticket.size());

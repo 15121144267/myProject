@@ -52,7 +52,7 @@ public class PayModel {
         request.payment_type = payType;
         request.type = channel;
         request.token = BuildConfig.USER_TOKEN;
-        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeFour);
     }
 
     public Observable<ResponseData> updateOrderStatusRequest(PayAccessRequest request) {

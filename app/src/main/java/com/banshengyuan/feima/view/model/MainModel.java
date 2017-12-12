@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.network.networkapi.MainApi;
 import com.google.gson.Gson;
 
@@ -25,8 +24,8 @@ public class MainModel {
         mTransform = transform;
     }
 
-    public Observable<ResponseData> personInfoRequest(String phone) {
-        return mMainApi.personInfoRequest(phone).map(mTransform::transformCommon);
+    public Observable<ResponseData> personInfoRequest(String token) {
+        return mMainApi.personInfoRequest(token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> fairListRequest() {

@@ -15,7 +15,6 @@ import com.banshengyuan.feima.dagger.component.DaggerWorkSummaryComponent;
 import com.banshengyuan.feima.dagger.module.WorkSummaryActivityModule;
 import com.banshengyuan.feima.entity.MyOrders;
 import com.banshengyuan.feima.entity.OrderDeliveryResponse;
-import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
 import com.banshengyuan.feima.view.adapter.WorkSummaryAdapter;
 
@@ -106,10 +105,10 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     private void initData() {
 
-        String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, TimeUtil.getTimesMonthmorning());
+       /* String startTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, TimeUtil.getTimesMonthmorning());
         String endTime = TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS1, TimeUtil.getTimesMonthnight());
         mPresenter.requestAllOrderInfo(mBuProcessor.getUserToken(),
-                mBuProcessor.getUserId(), startTime, endTime);
+                mBuProcessor.getUserId(), startTime, endTime);*/
     }
 
     private void initializeInjector() {

@@ -40,8 +40,8 @@ public class ResponseData {
     }
 
     public ResponseData(JSONObject jsonObject, String response,Integer flag) throws JSONException {
-        resultCode = jsonObject.optInt("ret");
-        errorDesc = jsonObject.optString("errmsg");
+        resultCode = jsonObject.optInt("statusCode");
+        errorDesc = jsonObject.optString("msg");
         result = response;
     }
 

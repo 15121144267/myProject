@@ -1,90 +1,63 @@
 package com.banshengyuan.feima.entity;
 
+import android.content.Context;
+import android.text.TextUtils;
+
+import com.banshengyuan.feima.utils.SharePreferenceUtil;
+
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by helei on 2017/5/3.
  * BuProcessor
  */
-
+@Singleton
 public class BuProcessor {
-
-    private String userToken;
-    private String userId;
-
-    private ShopDetailResponse.ProductsBean mGoodsInfo;
-    private String userPhone;
-    private ShopListResponse.ListBean shopInfo;
-    private PersonInfoResponse personInfo;
-    private String mPartnerId;
-    private ShopResponse mShopResponse;
+    private LoginUser mLoginUser = new LoginUser();
+    private final SharePreferenceUtil sharePreferenceUtil;
+    private Context mContext;
 
     @Inject
-    public BuProcessor() {
+    public BuProcessor(Context arg1, SharePreferenceUtil arg2) {
+        mContext = arg1;
+        sharePreferenceUtil = arg2;
     }
 
-
-    public ShopResponse getShopResponse() {
-        return mShopResponse;
-    }
-
-    public void setShopResponse(ShopResponse shopResponse) {
-        mShopResponse = shopResponse;
-    }
-
-    public String getPartnerId() {
-        return mPartnerId;
-    }
-
-    public void setPartnerId(String partnerId) {
-        mPartnerId = partnerId;
-    }
-
-    public PersonInfoResponse getPersonInfo() {
-        return personInfo;
-    }
-
-    public void setPersonInfo(PersonInfoResponse personInfo) {
-        this.personInfo = personInfo;
-    }
-
-    public ShopDetailResponse.ProductsBean getGoodsInfo() {
-        return mGoodsInfo;
-    }
-
-    public void setGoodsInfo(ShopDetailResponse.ProductsBean goodsInfo) {
-        mGoodsInfo = goodsInfo;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserPhone() {
-        return userPhone;
-    }
-
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
-    }
-
-    public ShopListResponse.ListBean getShopInfo() {
-        return shopInfo;
-    }
-
-    public void setShopInfo(ShopListResponse.ListBean shopInfo) {
-        this.shopInfo = shopInfo;
+    public boolean isValidLogin() {
+        return mLoginUser != null && !TextUtils.isEmpty(mLoginUser.getUserToken()) && !TextUtils.isEmpty(mLoginUser.getUserPhone());
     }
 
     public String getUserToken() {
-        return userToken;
+        if (!isValidLogin()) {
+            return "";
+        }
+        return mLoginUser.getUserToken();
     }
 
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
+    public String getUserPhone() {
+        if (!isValidLogin()) {
+            return "";
+        }
+        return mLoginUser.getUserPhone();
     }
+
+    public LoginUser getLoginUser() {
+        return mLoginUser;
+    }
+
+    public void setLoginUser(String userPhone, String userToken) {
+        mLoginUser.setUserPhone(userPhone);
+        mLoginUser.setUserToken(userToken);
+        sharePreferenceUtil.setObjectValue(SpConstant.LOGIN_USER, mLoginUser);
+    }
+
+    public void reSetUserData() {
+        // 恢复用户相关
+        Object o1 = sharePreferenceUtil.getObjectValue(SpConstant.LOGIN_USER);
+        if (o1 != null && o1 instanceof LoginUser) {
+            mLoginUser = (LoginUser) o1;
+        }
+    }
+
 }

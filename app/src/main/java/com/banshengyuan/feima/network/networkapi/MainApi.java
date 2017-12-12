@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface MainApi {
 
     @GET("api/user/info")
-    Observable<String> personInfoRequest(@Query("token") String phone);
+    Observable<String> personInfoRequest(@Query("token") String token);
 
     @GET("api/magic-door")
     Observable<String> musicListRequest(@Query("flag") boolean flag);

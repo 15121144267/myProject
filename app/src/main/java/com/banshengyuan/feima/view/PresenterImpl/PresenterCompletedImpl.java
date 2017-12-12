@@ -30,9 +30,9 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     }
 
     @Override
-    public void requestPersonInfo(String phone) {
+    public void requestPersonInfo(String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable =  mMainModel.personInfoRequest(phone).compose(mView.applySchedulers())
+        Disposable disposable =  mMainModel.personInfoRequest(token).compose(mView.applySchedulers())
                 .subscribe(this::getPersonInfoSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
