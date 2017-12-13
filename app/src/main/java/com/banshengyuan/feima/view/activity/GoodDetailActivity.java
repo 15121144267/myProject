@@ -3,13 +3,11 @@ package com.banshengyuan.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -28,8 +26,6 @@ import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideLoader;
-import com.banshengyuan.feima.help.HtmlHelp.MxgsaTagHandler;
-import com.banshengyuan.feima.help.HtmlHelp.URLImageParser;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.fragment.PhotoChoiceDialog;
@@ -162,13 +158,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 mGoodsDetailShopName.setText(TextUtils.isEmpty(store.name) ? "未知" : store.name);
             }
             if (!TextUtils.isEmpty(mInfoBean.content)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    mGoodsDetailHtml.setText(Html.fromHtml(mInfoBean.content, Html.FROM_HTML_MODE_LEGACY,
-                            new URLImageParser(mGoodsDetailHtml, this), new MxgsaTagHandler(this)));
-                } else {
-                    mGoodsDetailHtml.setText(Html.fromHtml(mInfoBean.content,
-                            new URLImageParser(mGoodsDetailHtml, this), new MxgsaTagHandler(this)));
-                }
+                ValueUtil.setHtmlContent(this,mInfoBean.content,mGoodsDetailHtml);
             }
 
         } else {

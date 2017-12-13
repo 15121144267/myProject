@@ -1,6 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
-import com.banshengyuan.feima.entity.OrderDeliveryResponse;
+import com.banshengyuan.feima.entity.FairContentDetailResponse;
 
 /**
  * Created by helei on 2017/5/3.
@@ -9,7 +9,7 @@ import com.banshengyuan.feima.entity.OrderDeliveryResponse;
 
 public class SendingOrderControl {
     public interface SendingOrderView extends LoadDataView{
-        void getSendingOrderSuccess(OrderDeliveryResponse response);
+        void getSendingOrderSuccess(FairContentDetailResponse response);
         void updateOrderStatusSuccess();
         void getOrderComplete();
         void getOrderError(Throwable throwable);

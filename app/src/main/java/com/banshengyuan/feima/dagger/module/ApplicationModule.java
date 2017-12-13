@@ -48,8 +48,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    ImageLoaderHelper provideImageLoaderHelper() {
-        return new ImageLoaderHelper();
+    ImageLoaderHelper provideImageLoaderHelper(Context ctx) {
+        return new ImageLoaderHelper(ctx);
     }
 
     @Provides

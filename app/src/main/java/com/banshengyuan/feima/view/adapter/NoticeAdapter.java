@@ -1,12 +1,9 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.database.OrderNotice;
 import com.banshengyuan.feima.entity.NoticeResponse;
-import com.banshengyuan.feima.utils.TimeUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -41,7 +38,7 @@ public class NoticeAdapter extends BaseQuickAdapter<NoticeResponse.ListBean, Bas
 //                break;
 //        }
 
-        helper.setText(R.id.adapter_content, item.getTitle());
+        /*helper.setText(R.id.adapter_content, item.getTitle());
         helper.setText(R.id.adapter_notice_detail, item.getDesc());
         if (item.getCreate_time() > 0){
             if(TimeUtil.getTimeIsToday(String.valueOf(item.getCreate_time()))){
@@ -49,7 +46,7 @@ public class NoticeAdapter extends BaseQuickAdapter<NoticeResponse.ListBean, Bas
             }else {
                 helper.setText(R.id.adapter_notice_date, TimeUtil.transferLongToDate(TimeUtil.TIME_YMMDD, (long)item.getCreate_time()));
             }
-        }
+        }*/
 //        if (item.getOrderFlag() == 0) {
 //            helper.setVisible(R.id.order_new_message, true);
 //        } else {

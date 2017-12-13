@@ -18,7 +18,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.OrderDeliveryResponse;
+import com.banshengyuan.feima.entity.FairContentDetailResponse;
 import com.banshengyuan.feima.listener.TabCheckListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
@@ -162,7 +162,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     }
 
     @Override
-    public void getSendingOrderSuccess(OrderDeliveryResponse response) {
+    public void getSendingOrderSuccess(FairContentDetailResponse response) {
 
     }
 

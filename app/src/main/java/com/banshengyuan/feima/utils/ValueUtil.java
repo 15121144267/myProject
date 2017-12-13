@@ -6,16 +6,21 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.help.HtmlHelp.MxgsaTagHandler;
+import com.banshengyuan.feima.help.HtmlHelp.URLImageParser;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
@@ -225,7 +230,7 @@ public class ValueUtil {
         return format.format(newAmount);
     }
 
-    public static SpannableStringBuilder setAllPriceText(double price,Context context) {
+    public static SpannableStringBuilder setAllPriceText(double price, Context context) {
         String orderPricePartOne = "合计：";
         String orderPricePartTwo = ValueUtil.formatAmount2(price);
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
@@ -309,5 +314,15 @@ public class ValueUtil {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    public static void setHtmlContent(Context context, String htmlContent, TextView textView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_LEGACY,
+                    new URLImageParser(textView, context), new MxgsaTagHandler(context)));
+        } else {
+            textView.setText(Html.fromHtml(htmlContent,
+                    new URLImageParser(textView, context), new MxgsaTagHandler(context)));
+        }
     }
 }

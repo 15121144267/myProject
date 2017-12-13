@@ -1,83 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/white"
-    card_view:cardCornerRadius="6dp"
-    card_view:cardUseCompatPadding="true">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/order_new_message"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@mipmap/notice_new"
-        android:contentDescription="@string/app_name"
-        android:visibility="gone" />
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/adapter_fair_product_html"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_marginBottom="@dimen/dp_25"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:textColor="@color/tab_text_normal"
+        android:textSize="@dimen/sp_15"/>
 
-        <ImageView
-            android:id="@+id/order_channel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="15dp"
-            android:contentDescription="@string/app_name"
-            android:src="@mipmap/channl_baidu" />
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/adapter_notice_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:text="今天 14：00"
-                    android:textColor="@color/color666" />
-
-                <TextView
-                    android:id="@+id/adapter_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@id/adapter_notice_date"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="您有一份待取餐的订单"
-                    android:textColor="@color/color333" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/adapter_notice_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View style="@style/LineH_Fill_Width1_5_ForView" />
-</android.support.v7.widget.CardView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/adapter_fair_product_list"
+        android:layout_width="match_parent"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

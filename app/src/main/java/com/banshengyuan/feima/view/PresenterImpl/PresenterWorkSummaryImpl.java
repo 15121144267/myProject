@@ -3,7 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.OrderDeliveryResponse;
+import com.banshengyuan.feima.entity.FairContentDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.WorkSummaryModel;
@@ -29,20 +29,19 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
     }
 
     @Override
-    public void requestAllOrderInfo(String token, String uId, String startTime, String endTime) {
-
+    public void requestFairDetail(Integer fairId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable =  mWorkSummaryModel.AllOrderInfoRequest(token,uId,startTime,endTime).compose(mView.applySchedulers())
-                .subscribe(this::getAllOrderSuccess
+        Disposable disposable =  mWorkSummaryModel.fairDetailRequest(fairId).compose(mView.applySchedulers())
+                .subscribe(this::getFairDetailSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getAllOrderSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(OrderDeliveryResponse.class);
-            OrderDeliveryResponse response = (OrderDeliveryResponse) responseData.parsedData;
-            mView.getAllOrderSuccess(response);
+    private void getFairDetailSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairContentDetailResponse.class);
+            FairContentDetailResponse response = (FairContentDetailResponse) responseData.parsedData;
+            mView.getFairDetailSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }

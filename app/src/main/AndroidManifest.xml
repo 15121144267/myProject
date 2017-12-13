@@ -73,6 +73,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+
+        <meta-data android:name="com.banshengyuan.feima.help.GlideHelper.CustomCachingGlideModule"
+                   android:value="GlideModule"/>
         <!--7.0文件适配-->
         <meta-data
             android:name="com.amap.api.v2.apikey"

@@ -24,6 +24,7 @@ import com.banshengyuan.feima.view.PresenterControl.RecommendControl;
 import com.banshengyuan.feima.view.activity.BlockDetailActivity;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendDiscoverBrandAdapter;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -174,6 +175,12 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
                 case R.id.adapter_fair_more:
                     startActivity(BrandFairActivity.getIntent(getActivity()));
                     break;
+            }
+        });
+        mDiscoverBrandAdapter.setOnItemClickListener((adapter, view, position) -> {
+            RecommendBottomResponse.ListBean bean = mDiscoverBrandAdapter.getItem(position);
+            if(bean!=null){
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(),bean.id));
             }
         });
     }

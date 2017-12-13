@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="106dp"
+    >
+
+    <ImageView
+        android:id="@+id/product_icon"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"
+        android:background="@mipmap/header"
+        android:scaleType="centerCrop"/>
+
+    <View
+        style="@style/LineH_Fill_Width1_5_ForView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_12"/>
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_toEndOf="@id/product_icon"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="未知"
+        android:textColor="@color/tab_text_normal"
+        android:textSize="@dimen/sp_15"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/product_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/shop_detail_collection"
+            android:gravity="center"
+            android:text=" 收藏"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_13"/>
+
+        <TextView
+            android:id="@+id/product_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:drawableStart="@mipmap/small_shoppingcard_icon"
+            android:gravity="center"
+            android:text=" 购买"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_13"/>
+    </LinearLayout>
+</RelativeLayout>

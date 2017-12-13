@@ -188,7 +188,7 @@
     @butterknife.* <methods>;
 }
 
--keep public class com.dispatching.feima.entity.**{*;}
+-keep public class com.banshengyuan.feima.entity.**{*;}
 
 #Rxjava
 -dontwarn sun.misc.**
@@ -247,3 +247,5 @@
 -keep class com.tencent.mm.sdk.** {
    *;
 }
+
+-keep class * com.banshengyuan.feima.help.GlideHelper.CustomCachingGlideModule

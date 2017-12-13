@@ -164,8 +164,8 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
             }
         });
         RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> requestCollectionStatue());
-        mToolbarRightIcon.setVisibility(View.VISIBLE);
         mBlockDetailBanner.isAutoPlay(false);
+        mToolbarRightIcon.setVisibility(View.VISIBLE);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {

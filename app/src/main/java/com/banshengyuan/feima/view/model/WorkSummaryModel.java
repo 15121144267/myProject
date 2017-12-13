@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.network.networkapi.WorkSummaryApi;
 import com.google.gson.Gson;
 
@@ -16,16 +15,13 @@ import io.reactivex.Observable;
 public class WorkSummaryModel {
     private final WorkSummaryApi mApi;
     private final ModelTransform mTransform;
-    private final String version;
     @Inject
     public WorkSummaryModel(WorkSummaryApi api, Gson gson, ModelTransform transform) {
         mApi = api;
         mTransform = transform;
-        version = BuildConfig.VERSION_NAME;
     }
 
-    public Observable<ResponseData> AllOrderInfoRequest(String token, String uId, String startTime, String endTime) {
-
-        return mApi.AllOrderInfoRequest(token,version,uId,startTime,endTime).map(mTransform::transformCommon);
+    public Observable<ResponseData> fairDetailRequest(Integer fairId) {
+        return mApi.fairDetailRequest(fairId+"").map(mTransform::transformCommon);
     }
 }

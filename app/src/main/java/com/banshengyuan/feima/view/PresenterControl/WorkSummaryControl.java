@@ -1,6 +1,6 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
-import com.banshengyuan.feima.entity.OrderDeliveryResponse;
+import com.banshengyuan.feima.entity.FairContentDetailResponse;
 
 /**
  * Created by helei on 2017/5/3.
@@ -10,10 +10,10 @@ import com.banshengyuan.feima.entity.OrderDeliveryResponse;
 public class WorkSummaryControl {
 
     public interface WorkSummaryView extends LoadDataView {
-        void getAllOrderSuccess(OrderDeliveryResponse response);
+        void getFairDetailSuccess(FairContentDetailResponse response);
     }
 
     public interface PresenterWorkSummary extends Presenter<WorkSummaryView> {
-        void requestAllOrderInfo(String token, String uId, String startTime, String endTime);
+        void requestFairDetail(Integer fairId);
     }
 }
