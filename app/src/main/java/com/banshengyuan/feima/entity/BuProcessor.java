@@ -60,4 +60,13 @@ public class BuProcessor {
         }
     }
 
+    //退出登录清除数据
+    public void clearLoginUser() {
+        // 清空用户
+        if (mLoginUser != null) {
+            mLoginUser.clear();
+        }
+        sharePreferenceUtil.setObjectValue(SpConstant.LOGIN_USER, "");
+    }
+
 }
