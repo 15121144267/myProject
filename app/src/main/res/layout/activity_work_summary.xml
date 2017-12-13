@@ -2,30 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-              >
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common"/>
 
-    <TextView
-        style="@style/summaryText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:text="本月订单"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/order_summary"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-
-    </android.support.v7.widget.RecyclerView>
-    <Button
-        android:id="@+id/order_detail_button"
-        style="@style/Login_Button_Style2"
-        android:layout_gravity="bottom"
-        android:text="@string/work_summary"
-        />
 </LinearLayout>

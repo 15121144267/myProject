@@ -90,6 +90,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
 
     private void initView() {
         searchName = getIntent().getStringExtra("searchName");
+        mSearchGoods.setEditText(searchName);
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(SearchFairFragment.newInstance());
         mFragments.add(SearchProductFragment.newInstance());

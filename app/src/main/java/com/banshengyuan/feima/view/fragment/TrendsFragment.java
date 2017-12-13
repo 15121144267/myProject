@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.entity.FairDetailProductListResponse;
 import com.banshengyuan.feima.view.PresenterControl.TrendsControl;
 import com.banshengyuan.feima.view.activity.FairDetailActivity;
+import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailProductListAdapter;
 
 import java.util.List;
@@ -89,8 +90,14 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailProductListAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new FairDetailProductListAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            FairDetailProductListResponse.ListBean bean = (FairDetailProductListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(GoodDetailActivity.getIntent(getActivity(),bean.id));
+            }
+        });
     }
 
     @Override
