@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         mViewSwapper.setOffscreenPageLimit(fragments.size());
         mViewSwapper.setAdapter(adapter);
         mViewBottomNavigation.setOnNavigationItemSelectedListener(this);
+
     }
 
     @Override

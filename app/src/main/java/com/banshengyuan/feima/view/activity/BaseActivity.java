@@ -1,11 +1,15 @@
 package com.banshengyuan.feima.view.activity;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -64,6 +68,8 @@ public class BaseActivity extends AppCompatActivity {
     private Dialog mProgressDialog;
     private CompositeDisposable mDisposable;
     public AMapLocation mLocationInfo;
+    final IntentFilter mFilter = new IntentFilter();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +79,8 @@ public class BaseActivity extends AppCompatActivity {
                 .build();
         mRxPermissions = component.rxPermissions();
         component.inject(this);
-        mLocationInfo = ((DaggerApplication)getApplicationContext()).getMapLocation();
+        mLocationInfo = ((DaggerApplication) getApplicationContext()).getMapLocation();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mFilter);
     }
 
     protected void initStatus() {
@@ -88,12 +95,26 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onReceivePro(context, intent);
+        }
+    };
+
+    void onReceivePro(Context context, Intent intent) {
+    }
+
+    void addFilter() {
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mDisposable != null) {
             mDisposable.clear();
         }
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }
 
     void showBaseToast(String message) {
