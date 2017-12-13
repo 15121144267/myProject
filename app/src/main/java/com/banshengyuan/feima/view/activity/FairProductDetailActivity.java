@@ -54,6 +54,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     private String fId;
     private HotFairDetailResponse hotFairDetailResponse = null;//热闹详情
     private HotFairStateResponse hotFairStateResponse = null;
+    private String token;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,10 +102,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     }
 
     private void initData() {
+        token = mBuProcessor.getUserToken();
         HotFariStateRequest hotFariStateRequest = new HotFariStateRequest();
         hotFariStateRequest.setId(fId);
         hotFariStateRequest.setOrder_sn("");//报名订单号
-        hotFariStateRequest.setToken(Constant.TOKEN);
+        hotFariStateRequest.setToken(token);
         hotFariStateRequest.setFlag(Constant.requestFlag);
         mPresenter.requestHotFairState(fId, hotFariStateRequest); //热闹-报名订单状态查询
         mPresenter.requestHotFairDetail(fId);//根据id查看热闹详情
@@ -121,7 +123,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
             } else {
                 HotFariJoinActionRequest hotFariJoinActionRequest = new HotFariJoinActionRequest();
                 hotFariJoinActionRequest.setId(fId);
-                hotFariJoinActionRequest.setToken(Constant.TOKEN);
+                hotFariJoinActionRequest.setToken(token);
                 hotFariJoinActionRequest.setFlag(Constant.requestFlag);
 
                 JoinActionDialog joinActionDialog = JoinActionDialog.newInstance();

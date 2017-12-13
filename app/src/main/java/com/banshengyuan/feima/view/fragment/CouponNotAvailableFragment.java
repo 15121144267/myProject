@@ -52,6 +52,7 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     private String state = "2";//券状态 1未使用 2已使用 3已过期
     private int page = 1;
     private int pageSize = 10;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,11 +76,8 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     }
 
     private void initData() {
-//        mList = new ArrayList<>();
-//        mList.add(R.mipmap.main_banner_second);
-//        mAdapter.setNewData(mList);
-
-        mPresenter.requestUsedCouponList(state, page, pageSize, Constant.TOKEN);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestUsedCouponList(state, page, pageSize, token);
     }
 
     private void initView() {
@@ -138,7 +136,7 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
         if (mList.size() < pageSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestUsedCouponList(state, ++page, pageSize, Constant.TOKEN);
+            mPresenter.requestUsedCouponList(state, ++page, pageSize, token);
         }
     }
 }

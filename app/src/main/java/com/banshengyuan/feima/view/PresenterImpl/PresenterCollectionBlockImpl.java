@@ -30,9 +30,9 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
     }
 
     @Override
-    public void requestCollectionBlockList(int page, int pageSize) {
+    public void requestCollectionBlockList(int page, int pageSize,String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.collectionBlockRequest(page, pageSize).compose(mView.applySchedulers())
+        Disposable disposable = mModel.collectionBlockRequest(page, pageSize,token).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionBlockSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

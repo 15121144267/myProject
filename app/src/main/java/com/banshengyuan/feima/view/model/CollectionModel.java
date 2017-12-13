@@ -31,24 +31,24 @@ public class CollectionModel {
         return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }*/
 
-    public Observable<ResponseData> collectionFairRequest(Integer page, Integer pageSize) {
-        return mApi.collectionFairRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    public Observable<ResponseData> collectionFairRequest(Integer page, Integer pageSize, String token) {
+        return mApi.collectionFairRequest(page, pageSize, true, token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> collectionProduceRequest(Integer page, Integer pageSize) {
-        return mApi.collectionProductRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    public Observable<ResponseData> collectionProduceRequest(Integer page, Integer pageSize, String token) {
+        return mApi.collectionProductRequest(page, pageSize, true, token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> collectionHotRequest(Integer page, Integer pageSize) {
-        return mApi.collectionHotRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    public Observable<ResponseData> collectionHotRequest(Integer page, Integer pageSize, String token) {
+        return mApi.collectionHotRequest(page, pageSize, true, token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> collectionShopRequest(Integer page, Integer pageSize) {
-        return mApi.collectionShopRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    public Observable<ResponseData> collectionShopRequest(Integer page, Integer pageSize, String token) {
+        return mApi.collectionShopRequest(page, pageSize, true, token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> collectionBlockRequest(Integer page, Integer pageSize) {
-        return mApi.collectionBlockRequest(page,pageSize,true,Constant.TOKEN).map(mTransform::transformCommon);
+    public Observable<ResponseData> collectionBlockRequest(Integer page, Integer pageSize, String token) {
+        return mApi.collectionBlockRequest(page, pageSize, true, token).map(mTransform::transformCommon);
     }
 
 

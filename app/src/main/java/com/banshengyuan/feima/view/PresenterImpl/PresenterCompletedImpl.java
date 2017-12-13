@@ -38,6 +38,23 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
         mView.addSubscription(disposable);
     }
 
+    @Override
+    public void requestExitLogin(String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable =  mMainModel.exitLoginRequest(token).compose(mView.applySchedulers())
+                .subscribe(this::getExitLoginSuccess
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getExitLoginSuccess(ResponseData responseData) {
+        if(responseData.resultCode ==200){
+            mView.getExitLoginSuccess();
+        }else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+
 
     private void getPersonInfoSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {

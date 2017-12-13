@@ -13,6 +13,6 @@ public class CollectionBlockControl {
     }
 
     public interface PresenterCollectionBlock extends Presenter<CollectionBlockView> {
-        void requestCollectionBlockList(int page,int pageSize);
+        void requestCollectionBlockList(int page,int pageSize,String token);
     }
 }

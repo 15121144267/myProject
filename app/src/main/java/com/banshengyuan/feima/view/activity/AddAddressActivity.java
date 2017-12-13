@@ -82,6 +82,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     AddAddressControl.PresenterAddAddress mPresenter;
 
     private AddressResponse.ListBean bean = null;
+    private String token ;
 
 
     @Override
@@ -175,9 +176,9 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
         request.is_default = mAddAddressDefault.isChecked() ? "2" : "1";
 
         if (bean == null) {
-            mPresenter.requestAddressAdd(request, Constant.TOKEN);
+            mPresenter.requestAddressAdd(request,token);
         } else {
-            mPresenter.requestAddressUpdate(bean.getId(), request, Constant.TOKEN);
+            mPresenter.requestAddressUpdate(bean.getId(), request, token);
         }
     }
 
@@ -234,6 +235,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
     }
 
     private void initData() {
+        token = mBuProcessor.getUserToken();
         if (getIntent() != null) {
             bean = getIntent().getParcelableExtra(IntentConstant.ADDRESS_DETAIL);
             if (bean == null) return;

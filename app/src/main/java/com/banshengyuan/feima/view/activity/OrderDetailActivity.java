@@ -86,7 +86,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     ImageView stateIv;
 
     private String order_sn;
-    private String token = Constant.TOKEN;
+    private String token;
     //    private MyOrdersResponse.ListBean orderItemBean = null;
     List<OrderDetailResponse.GoodsListBean.ProductBean> mList = new ArrayList<>();
     private OrdersDetailAdapter adapter = null;
@@ -112,6 +112,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void initData() {
+        token = mBuProcessor.getUserToken();
         mPresenter.requestOrderDetailInfo(order_sn, token);
     }
 
@@ -215,19 +216,19 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             if (infoBean.getPay_status() == 1) {//待付款
                 stateTv.setText("待付款");
                 stateIv.setImageResource(R.mipmap.order_detail_no_pay);
-                orderLeftBtn.setText("取消订单");
-                orderRightBtn.setText("立即付款");
-            } else {//已付款
-                if (infoBean.getDeliver_status() == 1) {//待发货
-                    stateTv.setText("待发货");
-                    stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
-                    orderLeftBtn.setText("提醒发货");
-                    orderRightBtn.setText("再来一单");
-                } else if (infoBean.getDeliver_status() == 2) {
-                    stateTv.setText("已发货");
-                    stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
-                    orderLeftBtn.setText("查看物流");
-                    orderRightBtn.setText("确认收货");
+                    orderLeftBtn.setText("取消订单");
+                    orderRightBtn.setText("立即付款");
+                } else {//已付款
+                    if (infoBean.getDeliver_status() == 1) {//待发货
+                        stateTv.setText("待发货");
+                        stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
+                        orderLeftBtn.setText("提醒发货");
+                        orderRightBtn.setText("再来一单");
+                    } else if (infoBean.getDeliver_status() == 2) {
+                        stateTv.setText("已发货");
+                        stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
+                        orderLeftBtn.setText("查看物流");
+                        orderRightBtn.setText("确认收货");
                 }
             }
 

@@ -44,6 +44,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     private ExChangeAdapter mAdapter;//HotFairAdapter
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+    private String token;
 
     @Inject
     CollectionHotControl.PresenterCollectionHot mPresenter;
@@ -70,7 +71,8 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     }
 
     private void initData() {
-        mPresenter.requestCollectionHotList(mPagerNo, mPagerSize);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestCollectionHotList(mPagerNo, mPagerSize, token);
     }
 
     private void initView() {

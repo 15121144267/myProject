@@ -51,6 +51,7 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
     private String state = "1";//券状态 1未使用 2已使用 3已过期
     private int page = 1;
     private int pageSize = 10;
+    private String token;
 
     @Inject
     CouponAvailableControl.PresenterCouponAvailable mPresenter;
@@ -77,7 +78,8 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
     }
 
     private void initData() {
-        mPresenter.requestNoUseCouponList(state, page, pageSize, Constant.TOKEN);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestNoUseCouponList(state, page, pageSize, token);
 
     }
 
@@ -138,7 +140,7 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
         if (mList.size() < pageSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestNoUseCouponList(state, ++page, pageSize, Constant.TOKEN);
+            mPresenter.requestNoUseCouponList(state, ++page, pageSize, token);
         }
     }
 }

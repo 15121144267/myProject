@@ -12,9 +12,12 @@ public class CompletedOrderControl {
 
         void getPersonInfoSuccess(PersonInfoResponse response);
 
+        void getExitLoginSuccess();
     }
 
     public interface PresenterCompletedOrder extends Presenter<CompletedOrderView> {
         void requestPersonInfo(String token);
+
+        void requestExitLogin(String token);
     }
 }

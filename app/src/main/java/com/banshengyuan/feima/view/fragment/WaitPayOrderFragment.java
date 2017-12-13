@@ -45,6 +45,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private final String mStatus = "1";//1待付款 2待收货 3待评价   全部传""
+    private String token ;
 
     public static WaitPayOrderFragment newInstance() {
         return new WaitPayOrderFragment();
@@ -87,7 +88,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, token);
         }
     }
 
@@ -110,8 +111,9 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     private void initData() {
+        token = mBuProcessor.getUserToken();
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize,mStatus, true, Constant.TOKEN);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize,mStatus, true, token);
     }
 
     private void initView() {

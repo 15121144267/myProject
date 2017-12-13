@@ -29,28 +29,8 @@ public class PersonCenterModel {
     }
 
 
-    public Observable<ResponseData> updatePersonInfoRequest(PersonInfoResponse response) {
-//        PersonInfoResponse.InfoBean infoBean = response.getInfo();
-//        UpdatePersonInfoRequest request = new UpdatePersonInfoRequest();
-////        request.memberId = response.getInfo().getId() + "";
-////        request.id
-//        request.id = infoBean.getId();
-//        request.created_at = infoBean.getCreated_at();
-//        request.password = infoBean.getPassword();
-//        request.reg_source = infoBean.getReg_source();
-//        request.status = infoBean.getStatus();
-//        request.token = infoBean.getToken();
-//        request.token_expire = infoBean.getToken_expire();
-//
-//        request.head_img = infoBean.getHead_img();
-//        request.birthday = infoBean.getBirthday();
-//        request.mobile = infoBean.getMobile();
-//        request.sex = infoBean.getSex();
-//        request.name = infoBean.getName();
-//        request.salt = infoBean.getSalt();
-//
-//        LogUtils.i("---"+request.toString());
-        return mApi.updatePersonInfoRequest(mGson.toJson(response.getInfo()), Constant.TOKEN).map(mTransform::transformCommon);
+    public Observable<ResponseData> updatePersonInfoRequest(PersonInfoResponse response,String token) {
+        return mApi.updatePersonInfoRequest(mGson.toJson(response.getInfo()), token).map(mTransform::transformCommon);
     }
 
 }

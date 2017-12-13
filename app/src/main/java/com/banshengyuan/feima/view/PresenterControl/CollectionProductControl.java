@@ -13,6 +13,6 @@ public class CollectionProductControl {
     }
 
     public interface PresenterCollectionProduct extends Presenter<CollectionProductView> {
-        void requestCollectionProductList(int page,int pageSize);
+        void requestCollectionProductList(int page,int pageSize,String token);
     }
 }

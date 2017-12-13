@@ -13,6 +13,6 @@ public class CollectionHotControl {
     }
 
     public interface PresenterCollectionHot extends Presenter<CollectionHotView> {
-        void requestCollectionHotList(int page,int pageSize);
+        void requestCollectionHotList(int page,int pageSize,String token);
     }
 }

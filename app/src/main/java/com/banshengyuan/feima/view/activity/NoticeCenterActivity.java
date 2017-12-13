@@ -47,7 +47,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     RecyclerView mRecyclerView;
     private int page = 1;
     private int pageSize = 10;
-    private String token = Constant.TOKEN;
+    private String token ;
     private List<NoticeResponse.ListBean> mList = new ArrayList<>();
 
     @Inject
@@ -131,6 +131,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     }
 
     private void initData(Calendar calendar) {
+        token = mBuProcessor.getUserToken();
         QueryParam param = new QueryParam();
         param.today = calendar.getTime();
         calendar.add(Calendar.DAY_OF_MONTH, +1);

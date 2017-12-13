@@ -20,6 +20,7 @@ import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
 import com.banshengyuan.feima.dagger.component.LoginActivityComponent;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.LoginResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
@@ -111,6 +112,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         showToast("登录成功");
         mBuProcessor.setLoginUser(myPhone, response.token);
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_INFO));
+        setResult(IntentConstant.LOGIN_SUCCESS_FOR_WODE);
         finish();
     }
 
@@ -211,4 +213,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 .loginActivityModule(new LoginActivityModule(LoginActivity.this, this))
                 .build();
     }
+
+
 }

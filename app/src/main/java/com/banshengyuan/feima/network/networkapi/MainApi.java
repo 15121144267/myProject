@@ -46,4 +46,9 @@ public interface MainApi {
 
     @GET("api/hot")
     Observable<String> hotFairRequest(@Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("street_id") String streetId,@Query("flag") boolean flag);
+
+    @GET("api/user/logout")
+    Observable<String> exitLoginRequest(@Query("token") String token);
+
+
 }

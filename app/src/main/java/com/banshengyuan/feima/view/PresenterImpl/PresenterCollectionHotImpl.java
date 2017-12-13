@@ -30,9 +30,9 @@ public class PresenterCollectionHotImpl implements CollectionHotControl.Presente
     }
 
     @Override
-    public void requestCollectionHotList(int page, int pageSize) {
+    public void requestCollectionHotList(int page, int pageSize,String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.collectionHotRequest(page, pageSize).compose(mView.applySchedulers())
+        Disposable disposable = mModel.collectionHotRequest(page, pageSize,token).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionHotSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

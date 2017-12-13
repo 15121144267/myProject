@@ -52,6 +52,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     private String state = "3";//券状态 1未使用 2已使用 3已过期
     private int page = 1;
     private int pageSize = 10;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,11 +76,8 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     }
 
     private void initData() {
-//        mList = new ArrayList<>();
-//        mList.add(R.mipmap.freemud_logo);
-//        mAdapter.setNewData(mList);
-
-        mPresenter.requestExpiredCouponList(state, page, pageSize, Constant.TOKEN);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestExpiredCouponList(state, page, pageSize, token);
     }
 
     private void initView() {
@@ -138,7 +136,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
         if (mList.size() < pageSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestExpiredCouponList(state, ++page, pageSize, Constant.TOKEN);
+            mPresenter.requestExpiredCouponList(state, ++page, pageSize, token);
         }
     }
 }

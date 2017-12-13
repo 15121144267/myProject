@@ -30,9 +30,9 @@ public class PresenterPersonCenterImpl implements PersonCenterControl.PresenterP
     }
 
     @Override
-    public void requestUpdatePersonInfo(PersonInfoResponse request) {
+    public void requestUpdatePersonInfo(PersonInfoResponse request,String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.updatePersonInfoRequest(request).compose(mView.applySchedulers())
+        Disposable disposable = mModel.updatePersonInfoRequest(request,token).compose(mView.applySchedulers())
                 .subscribe(this::updatePersonInfoSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

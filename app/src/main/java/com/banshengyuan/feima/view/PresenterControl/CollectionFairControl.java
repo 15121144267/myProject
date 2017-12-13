@@ -13,6 +13,6 @@ public class CollectionFairControl {
     }
 
     public interface PresenterCollectionFair extends Presenter<CollectionFairView> {
-        void requestCollectionFairList(int page,int pageSize);
+        void requestCollectionFairList(int page,int pageSize,String token);
     }
 }

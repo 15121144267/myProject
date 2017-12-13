@@ -54,7 +54,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     OrderCompleteControl.PresenterOrderComplete mPresenter;
 
     private Unbinder unbind;
-    private MyOrdersResponse.ListBean listBean = null;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, token);
         }
     }
 
@@ -112,7 +112,8 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
     }
 
     private void initView() {

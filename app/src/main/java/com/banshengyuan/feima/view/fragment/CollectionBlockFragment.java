@@ -47,6 +47,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     private CollectionBlockAdapter mAdapter;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+    private String token;
 
 
     @Inject
@@ -74,7 +75,8 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     }
 
     private void initData() {
-        mPresenter.requestCollectionBlockList(mPagerNo, mPagerSize);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestCollectionBlockList(mPagerNo, mPagerSize,token);
     }
 
     private void initView() {

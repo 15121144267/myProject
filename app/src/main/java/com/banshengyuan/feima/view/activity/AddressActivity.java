@@ -61,9 +61,10 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     private AddressAdapter mAdapter;
     private String mUserPhone;
     private Integer mPosition;
+    private String token;
 
     private List<AddressResponse.ListBean> mList = new ArrayList<>();
-    private int deleteId = -1;
+    private int deleteId = -1;//记录要删除的id
 
     @Inject
     AddressControl.PresenterAddress mPresenter;
@@ -155,7 +156,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
                                     addAddressRequest.setProvince(listBean.getProvince());
                                     addAddressRequest.setStreet(listBean.getStreet());
                                     addAddressRequest.setIs_default("2");
-                                    mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, Constant.TOKEN);
+                                    mPresenter.requestUpdateAddress(listBean.getId() + "", addAddressRequest, token);
                                 }
                             }
                             break;
@@ -173,7 +174,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {//添加地址  更新地址
-            mPresenter.requestAddressList(Constant.TOKEN);
+            mPresenter.requestAddressList(token);
         }
 
     }
@@ -181,7 +182,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     @Override
     public void commonDialogBtnOkListener(int type, int position) {
         if (deleteId != -1) {
-            mPresenter.requestDeleteAddress(deleteId + "", Constant.TOKEN);
+            mPresenter.requestDeleteAddress(deleteId + "", token);
         }
 
     }
@@ -231,7 +232,8 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
     }
 
     private void initData() {
-        mPresenter.requestAddressList(Constant.TOKEN);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestAddressList(token);
     }
 
     private void showDialog() {

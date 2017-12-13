@@ -39,10 +39,8 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     public static CollectionShopFragment newInstance() {
         return new CollectionShopFragment();
     }
-
     @BindView(R.id.coupon_common_list)
     RecyclerView mCouponCommonList;
-
     private Unbinder unbind;
     private List<CollectionShopResponse.ListBean> mList = new ArrayList<>();
     private CollectionShopAdapter mAdapter;
@@ -50,6 +48,7 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     private Integer mPagerNo = 1;
     @Inject
     CollectionShopControl.PresenterCollectionShop mPresenter;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,12 +72,8 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     }
 
     private void initData() {
-//        mList = new ArrayList<>();
-//        mList.add(R.mipmap.main_banner_third);
-//        mList.add(R.mipmap.main_banner_third);
-//        mList.add(R.mipmap.main_banner_third);
-
-        mPresenter.requestCollectionShopList(mPagerNo, mPagerSize);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestCollectionShopList(mPagerNo, mPagerSize,token);
     }
 
     private void initView() {

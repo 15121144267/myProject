@@ -101,6 +101,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     private PersonInfoResponse mPersonInfoResponse;
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
+    private String token;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -142,7 +143,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     }
 
     private void initData() {
-
+        token = mBuProcessor.getUserToken();
     }
 
     private void initView() {
@@ -178,8 +179,6 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
                 mImageLoaderHelper.displayCircularImage(this, infoBean.getHead_img(), mPersonIcon);
             }
         }
-
-
         RxView.clicks(mPersonCenterHead).subscribe(v -> requestChoicePic());
         RxView.clicks(mPersonCenterName).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPersonName());
         RxView.clicks(mPersonCenterSex).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPersonSex());
@@ -298,7 +297,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     }
 
     private void requestUpdatePersonInfo() {
-        mPresenter.requestUpdatePersonInfo(mPersonInfoResponse);
+        mPresenter.requestUpdatePersonInfo(mPersonInfoResponse,token);
     }
 
     private void requestPersonBirthday() {

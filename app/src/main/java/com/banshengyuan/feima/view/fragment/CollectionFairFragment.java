@@ -51,6 +51,7 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     private Integer mPagerNo = 1;
     @Inject
     CollectionFairControl.PresenterCollectionFair mPresenter;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +75,8 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     }
 
     private void initData() {
-        mPresenter.requestCollectionFairList(mPagerNo, mPagerSize);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestCollectionFairList(mPagerNo, mPagerSize, token);
 
     }
 

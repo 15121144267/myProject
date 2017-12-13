@@ -53,6 +53,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @Inject
     PayCompleteControl.PresenterPayComplete mPresenter;
     private Unbinder unbind;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         if (mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
+            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, token);
         }
     }
 
@@ -109,7 +110,8 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     }
 
     private void initData() {
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, Constant.TOKEN);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
     }
 
     private void initView() {

@@ -47,9 +47,9 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
     }*/
 
    @Override
-   public void requestCollectionProductList(int page, int pageSize) {
+   public void requestCollectionProductList(int page, int pageSize,String token) {
        mView.showLoading(mContext.getString(R.string.loading));
-       Disposable disposable = mModel.collectionProduceRequest(page, pageSize).compose(mView.applySchedulers())
+       Disposable disposable = mModel.collectionProduceRequest(page, pageSize,token).compose(mView.applySchedulers())
                .subscribe(this::getCollectionProductSuccess, throwable -> mView.showErrMessage(throwable),
                        () -> mView.dismissLoading());
        mView.addSubscription(disposable);

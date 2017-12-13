@@ -50,6 +50,7 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     private Integer mPagerNo = 1;
     @Inject
     CollectionProductControl.PresenterCollectionProduct mPresenter;
+    private String token;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +75,8 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
 
     private void initData() {
         mList = new ArrayList<>();
-        mPresenter.requestCollectionProductList(mPagerNo, mPagerSize);
+        token = mBuProcessor.getUserToken();
+        mPresenter.requestCollectionProductList(mPagerNo, mPagerSize, token);
     }
 
     private void initView() {
@@ -85,9 +87,9 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
         mCouponCommonList.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.adapter_collection_product:
-                        showToast("pos="+position);
+                        showToast("pos=" + position);
                         break;
                     case R.id.adapter_product_addcart:
                         showToast("addcart");

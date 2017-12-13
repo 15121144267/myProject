@@ -28,6 +28,10 @@ public class MainModel {
         return mMainApi.personInfoRequest(token).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> exitLoginRequest(String token) {
+        return mMainApi.exitLoginRequest(token).map(mTransform::transformCommon);
+    }
+
     public Observable<ResponseData> fairListRequest() {
         return mMainApi.fairListRequest(true).map(mTransform::transformCommon);
     }

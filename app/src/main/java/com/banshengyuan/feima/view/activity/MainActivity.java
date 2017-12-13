@@ -3,6 +3,8 @@ package com.banshengyuan.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainActivityComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
+import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.help.BottomNavigationViewHelper;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.view.PresenterControl.MainControl;
@@ -41,9 +44,13 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     ViewPager mViewSwapper;
     @BindView(R.id.view_bottom_navigation)
     BottomNavigationView mViewBottomNavigation;
-
     @Inject
     MainControl.PresenterMain mPresenter;
+    private Handler mHandler = null;
+    public static final int SWITCH_FIRST_PAGE = 0;
+    public static final int SWITCH_SECOND_PAGE = 1;
+    public static final int SWITCH_THIRD_PAGE = 2;
+    public static final int SWITCH_FORTH_PAGE = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,10 +60,10 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         initializeInjector();
         initView();
         initData();
+        initMessageHandler();
     }
 
     private void initData() {
-
     }
 
     @Override
@@ -110,20 +117,44 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     }
 
+    private void initMessageHandler() {
+        mHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case SWITCH_FIRST_PAGE:
+                        mViewSwapper.setCurrentItem(0);
+                        mViewBottomNavigation.setSelectedItemId(R.id.action_one);
+                        break;
+                    case SWITCH_FORTH_PAGE:
+                        mViewSwapper.setCurrentItem(3);
+                        break;
+                }
+                super.handleMessage(msg);
+            }
+        };
+
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_one:
-                mViewSwapper.setCurrentItem(0);
+                mViewSwapper.setCurrentItem(0, false);
                 break;
             case R.id.action_two:
-                mViewSwapper.setCurrentItem(1);
+                mViewSwapper.setCurrentItem(1, false);
                 break;
             case R.id.action_three:
-                mViewSwapper.setCurrentItem(2);
+                mViewSwapper.setCurrentItem(2, false);
                 break;
             case R.id.action_four:
-                mViewSwapper.setCurrentItem(3);
+                if (mBuProcessor.isValidLogin()) {
+                    mViewSwapper.setCurrentItem(3, false);
+                    CompletedOrderFragment.setmHandler(mHandler);
+                } else {
+                    switchToLogin();
+                    return false;
+                }
                 break;
         }
         return true;
@@ -153,4 +184,17 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                 .build().inject(this);
     }
 
+
+    private void switchToLogin() {
+        startActivityForResult(LoginActivity.getLoginIntent(MainActivity.this), IntentConstant.ORDER_POSITION_ONE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == IntentConstant.LOGIN_SUCCESS_FOR_WODE) {
+            mViewSwapper.setCurrentItem(3, false);
+            mViewBottomNavigation.setSelectedItemId(R.id.action_four);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
