@@ -24,6 +24,7 @@ public class CommentAdapter extends BaseQuickAdapter<CommentListResponse.ListBea
     @Override
     protected void convert(BaseViewHolder helper, CommentListResponse.ListBean item) {
         if (item == null) return;
+        helper.addOnClickListener(R.id.adapter_comment_number);
         ImageView imageView = helper.getView(R.id.adapter_comment_icon);
         mImageLoaderHelper.displayCircularImage(mContext,item.head_img,imageView);
         helper.setText(R.id.adapter_comment_name,item.username);

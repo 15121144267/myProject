@@ -21,7 +21,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.entity.FairCategoryResponse;
-import com.banshengyuan.feima.entity.FairListResponse;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
@@ -80,7 +79,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
     FairDetailControl.PresenterFairDetail mPresenter;
 
     private Integer mFairId;
-    private FairListResponse.CategoryBean mCategoryBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

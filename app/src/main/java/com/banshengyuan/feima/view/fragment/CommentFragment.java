@@ -90,8 +90,17 @@ public class CommentFragment extends BaseFragment implements CommentControl.Comm
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CommentAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new CommentAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            CommentListResponse.ListBean bean = (CommentListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+//                mPresenter.requestPraise(bean.id);
+                // TODO: 2017/12/14
+                showToast("评论点赞");
+            }
+        });
     }
 
     @Override

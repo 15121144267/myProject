@@ -57,6 +57,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     TextView mLoginForgetPassword;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
 
     public static Intent getLoginIntent(Context context) {
         return new Intent(context, LoginActivity.class);
@@ -75,7 +77,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         setContentView(R.layout.activity_login);
         initializeInjector();
         ButterKnife.bind(this);
-        supportActionBar(mToolbar,true);
+        supportActionBar(mToolbar, true);
+        mMiddleName.setText(R.string.app_login);
         mPresenterLogin = mActivityComponent.getPresenterLogin();
         initView();
     }
