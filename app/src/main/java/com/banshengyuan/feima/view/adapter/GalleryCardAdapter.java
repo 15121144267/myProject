@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
@@ -22,6 +23,11 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
     private CardAdapterHelper mCardAdapterHelper = new CardAdapterHelper();
     private ImageLoaderHelper mImageLoaderHelper;
     private Context mContext;
+    private ClickItem mClickItem;
+
+    public void setOnMyItemClick(ClickItem clickItem) {
+        mClickItem = clickItem;
+    }
 
     public GalleryCardAdapter(List<RecommendBrandResponse.ListBean> list, Context context, ImageLoaderHelper imageLoaderHelper) {
         if (mList == null) {
@@ -51,9 +57,14 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
         RecommendBrandResponse.ListBean bean = mList.get(position);
-        mImageLoaderHelper.displayImage(mContext,bean.cover_img,holder.mImageView);
+        mImageLoaderHelper.displayImage(mContext, bean.cover_img, holder.mImageView);
         holder.mNameTextView.setText(bean.name);
         holder.mSummaryTextView.setText(bean.summary);
+        holder.mGalleryLayout.setOnClickListener(v -> {
+            if (mClickItem != null) {
+                mClickItem.clickMyItem(bean);
+            }
+        });
     }
 
     @Override
@@ -65,13 +76,19 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
         private final ImageView mImageView;
         private final TextView mNameTextView;
         private final TextView mSummaryTextView;
+        private final LinearLayout mGalleryLayout;
+
         private ViewHolder(final View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.imageView);
             mNameTextView = (TextView) itemView.findViewById(R.id.adapter_brand_fair_name);
             mSummaryTextView = (TextView) itemView.findViewById(R.id.adapter_brand_fair_summary);
+            mGalleryLayout = (LinearLayout) itemView.findViewById(R.id.gallery_layout);
         }
 
     }
 
+    public interface ClickItem {
+        void clickMyItem(RecommendBrandResponse.ListBean bean);
+    }
 }

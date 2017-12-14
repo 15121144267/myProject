@@ -16,7 +16,9 @@ import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
 import com.banshengyuan.feima.entity.MusicListResponse;
 import com.banshengyuan.feima.view.PresenterControl.MagicMusicControl;
+import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.MagicMusicAdapter;
 import com.banshengyuan.feima.view.adapter.MagicMusicHotAdapter;
 
@@ -96,12 +98,26 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
 
     private void initView() {
         mMagicFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity(),mImageLoaderHelper);
+        mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity(), mImageLoaderHelper);
         mMagicFairRecycleView.setAdapter(mMagicMusicAdapter);
 
         mMagicHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMusicHotAdapter = new MagicMusicHotAdapter(null, getActivity(),mImageLoaderHelper);
+        mMusicHotAdapter = new MagicMusicHotAdapter(null, getActivity(), mImageLoaderHelper);
         mMagicHotRecycleView.setAdapter(mMusicHotAdapter);
+
+        mMagicMusicAdapter.setOnItemClickListener((adapter, view, position) -> {
+            MusicListResponse.FairBean bean = (MusicListResponse.FairBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
+            }
+        });
+
+        mMusicHotAdapter.setOnItemClickListener((adapter, view, position) -> {
+            MusicListResponse.HotBean bean = (MusicListResponse.HotBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id + ""));
+            }
+        });
     }
 
     @Override

@@ -11,7 +11,6 @@
         android:layout_height="84dp"
         android:layout_marginBottom="@dimen/dp_12"
         android:layout_marginTop="@dimen/dp_12"
-        android:background="@mipmap/header"
         android:scaleType="centerCrop"/>
 
     <View
@@ -43,7 +42,7 @@
             android:id="@+id/product_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/shop_detail_collection"
+            android:drawableStart="@mipmap/shop_detail_uncollection"
             android:gravity="center"
             android:text=" 收藏"
             android:textColor="@color/tab_text_normal"

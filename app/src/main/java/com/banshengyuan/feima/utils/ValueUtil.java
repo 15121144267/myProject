@@ -325,4 +325,25 @@ public class ValueUtil {
                     new URLImageParser(textView, context), new MxgsaTagHandler(context)));
         }
     }
+
+    public static void setTextDrawable(Context context, TextView textView, int id, Integer position) {
+        Drawable drawable = ContextCompat.getDrawable(context, id);
+        switch (position) {
+            case 0:
+                textView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
+//                textView.setCompoundDrawables(drawable, null, null, null);
+                break;
+            case 1:
+                textView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable, null, null);
+                break;
+            case 2:
+                textView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, drawable, null);
+                break;
+            case 3:
+                textView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, drawable);
+                break;
+
+        }
+
+    }
 }

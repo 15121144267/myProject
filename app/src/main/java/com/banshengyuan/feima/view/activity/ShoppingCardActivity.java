@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,7 +69,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private ShoppingCardAdapter mAdapter;
     private View mEmptyView;
-    private View mErrorView;
     private ShoppingCardItemAdapter mShoppingCardItemAdapter;
     private Integer mChildPosition;
     private Integer mPartnerPosition;
@@ -86,12 +86,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mMiddleName.setText("我的购物车");
         initView();
         initData();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_SHOPPING_CARD_INFO));
     }
 
     @Override
@@ -184,12 +178,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mPresenter.requestChangeProductNumber(childProduct.goods_id, childProduct.goods_sku, childProduct.number);
     }
 
-    /*@Override
-    public void deleteProduct(ShoppingCardListResponse.DataBean product, ShoppingCardListResponse.DataBean.ProductsBean childProduct, Integer position) {
-        mChildPosition = position;
-        requestDeleteProduct(product, childProduct);
-    }*/
-
     @Override
     public void changeProductNumberSuccess() {
         mShoppingCardItemAdapter.setData(mChildPosition, mChildProduct);
@@ -212,6 +200,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         if (mAdapter.getData().size() == 0) {
             mActivityShoppingCardBottomView.setVisibility(View.GONE);
             mAdapter.setEmptyView(mEmptyView);
+            mToolbarRightText.setVisibility(View.GONE);
         }
     }
 
@@ -233,7 +222,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     @Override
     public void shoppingCardListFail(String des) {
         mActivityShoppingCardBottomView.setVisibility(View.GONE);
-        mAdapter.setEmptyView(mErrorView);
+        mAdapter.setEmptyView(mEmptyView);
     }
 
     private void initData() {
@@ -242,11 +231,8 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private void initView() {
         mToolbarRightText.setText("编辑");
+        setEmptyView();
         mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0, this));
-        mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
-        Button mEmptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
-        mErrorView = LayoutInflater.from(this).inflate(R.layout.net_error_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
-        RxView.clicks(mEmptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> onBackPressed());
         RxView.clicks(mActivityShoppingCardBalance).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> goForPayShoppingCard());
         mActivityShoppingCardList.setLayoutManager(new LinearLayoutManager(this));
         RxView.clicks(mActivityShoppingCardCheck).subscribe(o -> checkForAll());
@@ -278,6 +264,15 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
             }
         });
 
+    }
+
+    private void setEmptyView() {
+        mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.empty_shopping_card);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setText("去逛逛");
+        RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));
     }
 
     private void goForPayShoppingCard() {

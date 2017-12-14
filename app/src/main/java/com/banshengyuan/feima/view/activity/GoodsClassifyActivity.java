@@ -79,17 +79,20 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         AllFairListResponse.ListBean.List1Bean dataBean = (AllFairListResponse.ListBean.List1Bean) adapter.getItem(position);
         if (dataBean != null) {
-            switch (dataBean.flag) {
-                case "品牌市集":
-                    startActivity(FairDetailActivity.getIntent(this, 1, dataBean.id));
-                    break;
-                case "线下市集":
-                    startActivity(UnderLineFairActivity.getActivityDetailIntent(this, dataBean.id));
-                    break;
-                case "其他市集":
-                    startActivity(FairDetailActivity.getIntent(this, 2, dataBean.id));
-                    break;
+            if (dataBean.flag != null) {
+                switch (dataBean.flag) {
+                    case "品牌市集":
+                        startActivity(FairDetailActivity.getIntent(this, 1, dataBean.id));
+                        break;
+                    case "线下市集":
+                        startActivity(UnderLineFairActivity.getActivityDetailIntent(this, dataBean.id));
+                        break;
+                    case "其他分类":
+                        startActivity(FairDetailActivity.getIntent(this, 2, dataBean.id));
+                        break;
+                }
             }
+
         }
 
     }

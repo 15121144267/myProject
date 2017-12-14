@@ -220,10 +220,12 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             productInfo.goods_img = mInfoBean.top_img.get(0);
             productInfo.goods_name = mInfoBean.name;
             productInfo.goods_sku = mInfoBean.main_sku;
+            productInfo.goods_price = mInfoBean.price;
         } else {
             productInfo.goods_img = skuInfoBean.img;
             productInfo.goods_name = skuInfoBean.name;
             productInfo.goods_sku = skuInfoBean.sku;
+            productInfo.goods_price = skuInfoBean.price;
         }
         productList.add(productInfo);
         product.list = productList;

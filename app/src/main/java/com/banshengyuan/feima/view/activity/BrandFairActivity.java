@@ -63,9 +63,9 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
     @Override
     public void getFairListSuccess(RecommendBrandResponse response) {
         List<RecommendBrandResponse.ListBean> list = response.list;
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             mAdapter.setNewData(list);
-        }else {
+        } else {
             mBrandFairGallery.setVisibility(View.GONE);
         }
     }
@@ -108,13 +108,15 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
 
     private void initView() {
         mBrandFairGallery.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mAdapter = new GalleryCardAdapter(null,this,mImageLoaderHelper);
+        mAdapter = new GalleryCardAdapter(null, this, mImageLoaderHelper);
         mBrandFairGallery.setAdapter(mAdapter);
         mCardScaleHelper = new CardScaleHelper();
         mCardScaleHelper.setCurrentItemPos(0);
         mCardScaleHelper.setPagePadding(5);
         mCardScaleHelper.setShowLeftCardWidth(25);
         mCardScaleHelper.attachToRecyclerView(mBrandFairGallery);
+        mAdapter.setOnMyItemClick(bean ->
+                startActivity(FairDetailActivity.getIntent(this, 1, bean.id)));
     }
 
 

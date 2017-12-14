@@ -31,6 +31,7 @@ public class BlockDetailShopAdapter extends BaseQuickAdapter<BlockStoreListRespo
         helper.addOnClickListener(R.id.adapter_fair_more);
         helper.setText(R.id.adapter_fair_sign, " 店铺");
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         BlockDetailStoreItemAdapter itemAdapter = new BlockDetailStoreItemAdapter(item.list, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);

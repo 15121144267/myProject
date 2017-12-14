@@ -35,10 +35,10 @@ import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.DataCleanManager;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
 import com.banshengyuan.feima.view.activity.AddressActivity;
 import com.banshengyuan.feima.view.activity.CoupleActivity;
-import com.banshengyuan.feima.view.activity.LoginActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -335,20 +335,16 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void update(PersonInfoResponse response) {
-        if (response == null) return;
+        if (response.getInfo() == null) return;
         PersonInfoResponse.InfoBean infoBean = response.getInfo();
         mPersonDetail.setText(infoBean.getSalt());
         mPersonName.setText(TextUtils.isEmpty(infoBean.getName()) ? "昵称  " : infoBean.getName() + "  ");
         mImageLoaderHelper.displayCircularImage(getActivity(), infoBean.getHead_img() == null ?
                 R.mipmap.person_head_icon : infoBean.getHead_img(), mPersonIcon);
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_man);
-        Drawable drawable2 = ContextCompat.getDrawable(getActivity(), R.mipmap.person_sex_women);
-        drawable.setBounds(0, 0, drawable.getMinimumHeight(), drawable.getMinimumHeight());
-        drawable2.setBounds(0, 0, drawable2.getMinimumHeight(), drawable2.getMinimumHeight());
         if (infoBean.getSex() == 2) {
-            mPersonName.setCompoundDrawables(null, null, drawable, null);
+            ValueUtil.setTextDrawable(getActivity(), mPersonName, R.mipmap.person_sex_man, 2);
         } else {
-            mPersonName.setCompoundDrawables(null, null, drawable2, null);
+            ValueUtil.setTextDrawable(getActivity(), mPersonName, R.mipmap.person_sex_women, 2);
         }
 
     }

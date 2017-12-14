@@ -44,7 +44,7 @@ public class GoodsDetailModel {
         request.id = shopId;
         request.type = type;
         request.flag = true;
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mApi.goodsCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 

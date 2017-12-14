@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.WorkSummaryApi;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
@@ -43,13 +44,13 @@ public class WorkSummaryActivityModule {
 
     @Provides
     @PerActivity
-    WorkSummaryModel provideWorkSummaryModel(Gson gson, ModelTransform modelTransform) {
+    WorkSummaryModel provideWorkSummaryModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new WorkSummaryModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(WorkSummaryApi.class), gson, modelTransform);
+                .create(WorkSummaryApi.class), gson, modelTransform,buProcessor);
     }
 
     @Provides

@@ -29,6 +29,7 @@ public class BlockDetailFairAdapter extends BaseQuickAdapter<BlockFairListRespon
         helper.addOnClickListener(R.id.adapter_fair_more);
         helper.setText(R.id.adapter_fair_sign," 市集");
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         BlockDetailFairItemAdapter itemAdapter = new BlockDetailFairItemAdapter(item.list, mContext,mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);

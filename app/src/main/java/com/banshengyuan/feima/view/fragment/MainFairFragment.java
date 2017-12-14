@@ -21,6 +21,7 @@ import com.banshengyuan.feima.view.PresenterControl.MainFairControl;
 import com.banshengyuan.feima.view.activity.BrandFairActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.MainHotFairAdapter;
 import com.banshengyuan.feima.view.adapter.RecommendBrandAdapter;
 import com.banshengyuan.feima.view.adapter.UnderLineBrandAdapter;
@@ -61,6 +62,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     private List<RecommendBrandResponse> mList;
     private List<FairUnderLineResponse> mList2;
     private FairUnderLineResponse mFairUnderLineResponse;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +86,11 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
 
     @Override
     public void getRecommendBrandSuccess(RecommendBrandResponse recommendBrandResponse) {
-        if(recommendBrandResponse.list!=null&&recommendBrandResponse.list.size()>0){
+        if (recommendBrandResponse.list != null && recommendBrandResponse.list.size() > 0) {
             mList = new ArrayList<>();
             mList.add(recommendBrandResponse);
             mAdapter.setNewData(mList);
-        }else {
+        } else {
             mFairBrandRecycleView.setVisibility(View.GONE);
         }
 
@@ -101,12 +103,12 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
 
     @Override
     public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
-        if(fairUnderLineResponse.list!=null&&fairUnderLineResponse.list.size()>0){
+        if (fairUnderLineResponse.list != null && fairUnderLineResponse.list.size() > 0) {
             mFairUnderLineResponse = fairUnderLineResponse;
             mList2 = new ArrayList<>();
             mList2.add(fairUnderLineResponse);
             mUnderLineAdapter.setNewData(mList2);
-        }else {
+        } else {
             mFairBrandRecycleView.setVisibility(View.GONE);
         }
 
@@ -149,7 +151,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
         mUnderLineAdapter = new UnderLineBrandAdapter(null, getActivity(), mImageLoaderHelper);
-        mHotFairAdapter = new MainHotFairAdapter(null, getActivity(),mImageLoaderHelper);
+        mHotFairAdapter = new MainHotFairAdapter(null, getActivity(), mImageLoaderHelper);
         mFairOfflineHotRecycleView.setAdapter(mUnderLineAdapter);
         mFairBrandRecycleView.setAdapter(mAdapter);
         mFairHotRecycleView.setAdapter(mHotFairAdapter);
@@ -164,10 +166,18 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
         mUnderLineAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {
                 case R.id.adapter_fair_more:
-                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity(),mFairUnderLineResponse.list.get(0).id));
+                    startActivity(UnderLineFairActivity.getActivityDetailIntent(getActivity(), mFairUnderLineResponse.list.get(0).id));
                     break;
             }
         });
+        mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
+            FairBottomResponse.ListBean bean = mHotFairAdapter.getItem(position);
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
+            }
+
+        });
+
     }
 
     @Override

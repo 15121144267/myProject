@@ -23,10 +23,15 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerWorkSummaryComponent;
 import com.banshengyuan.feima.dagger.module.WorkSummaryActivityModule;
+import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.FairContentDetailResponse;
+import com.banshengyuan.feima.entity.FairPraiseResponse;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
 import com.banshengyuan.feima.view.adapter.WorkSummaryAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseViewHolder;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
@@ -90,6 +95,9 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     private View mHeadView;
     private TextView mHeadTextView;
     private Menu mMenu;
+    private BaseQuickAdapter<FairContentDetailResponse.DetailBean.ProductBean, BaseViewHolder> mBaseAdapter;
+    private Integer mItemPosition;
+    private FairContentDetailResponse.DetailBean.ProductBean itemBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +108,44 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         supportActionBar(mToolbar, true);
         initView();
         initData();
+    }
+
+    @Override
+    public void getFairPraiseSuccess(FairPraiseResponse response) {
+        if (response.status == 1) {
+            ValueUtil.setTextDrawable(this, mFairDetailPraise, R.mipmap.praise_icon_check, 2);
+        } else {
+            ValueUtil.setTextDrawable(this, mFairDetailPraise, R.mipmap.praise_icon, 2);
+        }
+    }
+
+    @Override
+    public void getFairCollectionSuccess(CollectionResponse response) {
+        if (response.status == 1) {
+            ValueUtil.setTextDrawable(this, mFairDetailCollection, R.mipmap.shop_detail_collection, 2);
+        } else {
+            ValueUtil.setTextDrawable(this, mFairDetailCollection, R.mipmap.shop_detail_uncollection, 2);
+        }
+
+    }
+
+    @Override
+    public void getGoodCollectionSuccess(CollectionResponse response) {
+        if (response.status == 1) {
+            itemBean.isCollection = true;
+        } else {
+            itemBean.isCollection = false;
+        }
+        mBaseAdapter.setData(mItemPosition, itemBean);
+    }
+
+    @Override
+    public void requestCollection(BaseQuickAdapter<FairContentDetailResponse.DetailBean.ProductBean, BaseViewHolder> adapter,
+                                  Integer position, FairContentDetailResponse.DetailBean.ProductBean bean) {
+        mBaseAdapter = adapter;
+        mItemPosition = position;
+        itemBean = bean;
+        mPresenter.requestGoodCollection(bean.id);
     }
 
     @Override
@@ -183,8 +229,16 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         mFairProductList.setItemIconTintList(null);
         mMenu = mFairProductList.getMenu();
         mFairDetailProductList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new WorkSummaryAdapter(null, this, mImageLoaderHelper);
+        mAdapter = new WorkSummaryAdapter(null, WorkSummaryActivity.this, mImageLoaderHelper, this);
         mFairDetailProductList.setAdapter(mAdapter);
+
+        RxView.clicks(mFairDetailCollection).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                mPresenter.requestFairCollection(mFairId);
+            } else {
+                switchToLogin();
+            }
+        });
 
         RxView.clicks(mFairDetailProduct).subscribe(o -> {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
@@ -193,6 +247,15 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 mDrawerLayout.openDrawer(GravityCompat.END);
             }
         });
+
+        RxView.clicks(mFairDetailPraise).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                mPresenter.requestPraise(mFairId);
+            } else {
+                switchToLogin();
+            }
+        });
+
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
@@ -213,6 +276,10 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 }
             }
         });
+    }
+
+    private void switchToLogin() {
+        startActivity(LoginActivity.getLoginIntent(this));
     }
 
     private void initData() {

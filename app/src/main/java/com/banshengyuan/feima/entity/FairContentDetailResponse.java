@@ -66,7 +66,7 @@ public class FairContentDetailResponse implements Serializable {
              * name : 产品名字1
              * cover_img : http://example.com/a2.png
              */
-
+            public boolean isCollection;
             public int id;
             public String name;
             public String cover_img;
