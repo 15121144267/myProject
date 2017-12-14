@@ -52,7 +52,7 @@ import retrofit2.HttpException;
  * BaseActivity
  */
 
-public class BaseActivity extends AppCompatActivity implements Handler.Callback{
+public class BaseActivity extends AppCompatActivity implements Handler.Callback {
     @Inject
     protected SharePreferenceUtil mSharePreferenceUtil;
     @Inject
@@ -72,6 +72,7 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback{
     public AMapLocation mLocationInfo;
     protected final IntentFilter mFilter = new IntentFilter();
     protected Handler mHandler;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +177,10 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback{
             mProgressDialog.dismiss();
         }
         mProgressDialog = null;
+    }
+
+    protected void switchToLogin() {
+        startActivity(LoginActivity.getLoginIntent(this));
     }
 
     public <T> ObservableTransformer<T, T> applySchedulers() {

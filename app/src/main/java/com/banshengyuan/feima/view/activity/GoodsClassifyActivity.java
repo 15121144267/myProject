@@ -84,7 +84,7 @@ public class GoodsClassifyActivity extends BaseActivity implements GoodsClassify
                     case "品牌市集":
                         startActivity(FairDetailActivity.getIntent(this, 1, dataBean.id));
                         break;
-                    case "线下市集":
+                    case "线下街区":
                         startActivity(UnderLineFairActivity.getActivityDetailIntent(this, dataBean.id));
                         break;
                     case "其他分类":

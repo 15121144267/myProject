@@ -57,7 +57,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textColor="@color/darkblack"
+                android:textColor="@color/tab_text_normal"
                 android:background="@drawable/button_common_left"
                 android:text="@string/btn_cancel" />
 
@@ -71,7 +71,8 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/order_price_color"
+                android:textColor="@color/tab_text_normal"
+                android:background="@drawable/button_common_right"
                 android:text="@string/btn_ok" />
         </LinearLayout>
     </LinearLayout>

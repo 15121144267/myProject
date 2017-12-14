@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                     mViewSwapper.setCurrentItem(SWITCH_FORTH_PAGE, false);
                     CompletedOrderFragment.setmHandler(mHandler);
                 } else {
-                    switchToLogin();
+                    switchToMyLogin();
                     return false;
                 }
                 break;
@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     }
 
 
-    private void switchToLogin() {
+    private void switchToMyLogin() {
         startActivityForResult(LoginActivity.getLoginIntent(MainActivity.this), IntentConstant.ORDER_POSITION_ONE);
     }
 

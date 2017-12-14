@@ -278,10 +278,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         });
     }
 
-    private void switchToLogin() {
-        startActivity(LoginActivity.getLoginIntent(this));
-    }
-
     private void initData() {
         mPresenter.requestFairDetail(mFairId);
     }

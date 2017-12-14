@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMyOrderActivityComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.MyOrderControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.fragment.AllOrderFragment;
@@ -80,7 +81,7 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
         mOrderViewpager.setOffscreenPageLimit(mFragments.size() - 1);
         mOrderViewpager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mOrderViewpager);
-
+        ValueUtil.setIndicator(mTabLayout,20,20);
     }
 
     @Override

@@ -143,11 +143,11 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 mBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
             }
             mGoodsDetailSummary.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
-            mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price)+"");
-            if((mInfoBean.freight==1)){
-                mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.shipping_price)+
-                        ";满"+ValueUtil.formatAmount2(mInfoBean.free_shipping_price)+"包邮");
-            }else{
+            mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price) + "");
+            if ((mInfoBean.freight == 1)) {
+                mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.shipping_price) +
+                        ";满" + ValueUtil.formatAmount2(mInfoBean.free_shipping_price) + "包邮");
+            } else {
                 mGoodsDetailDispatchingPrice.setText("快递:免邮");
             }
 
@@ -158,7 +158,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 mGoodsDetailShopName.setText(TextUtils.isEmpty(store.name) ? "未知" : store.name);
             }
             if (!TextUtils.isEmpty(mInfoBean.content)) {
-                ValueUtil.setHtmlContent(this,mInfoBean.content,mGoodsDetailHtml);
+                ValueUtil.setHtmlContent(this, mInfoBean.content, mGoodsDetailHtml);
             }
 
         } else {
@@ -276,14 +276,37 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         });
 
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
-            if (mInfoBean.store != null) {
-                mPresenter.requestGoodsCollection(mInfoBean.store.id + "", "goods");
+            if (mBuProcessor.isValidLogin()) {
+                if (mInfoBean.store != null) {
+                    mPresenter.requestGoodsCollection(mInfoBean.store.id + "", "goods");
+                }
+            } else {
+                switchToLogin();
             }
+
         });
 
-        RxView.clicks(mGoodsDetailSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(1));
-        RxView.clicks(mGoodsDetailBuy).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(2));
-        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showSpecificationDialog(3));
+        RxView.clicks(mGoodsDetailSpecification).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                showSpecificationDialog(1);
+            } else {
+                switchToLogin();
+            }
+        });
+        RxView.clicks(mGoodsDetailBuy).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                showSpecificationDialog(2);
+            } else {
+                switchToLogin();
+            }
+        });
+        RxView.clicks(mGoodsDetailAdd).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                showSpecificationDialog(3);
+            } else {
+                switchToLogin();
+            }
+        });
 
 
     }

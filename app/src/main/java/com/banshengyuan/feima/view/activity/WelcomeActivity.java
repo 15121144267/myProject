@@ -7,14 +7,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerWelcomeActivityComponent;
 import com.banshengyuan.feima.dagger.module.WelcomeActivityModule;
 import com.banshengyuan.feima.entity.AdResponse;
-import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.view.PresenterControl.WelcomeControl;
-import com.bumptech.glide.Glide;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
@@ -31,8 +32,11 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     WelcomeControl.PresenterWelcome mPresenter;
     @BindView(R.id.welcome_back)
     ImageView mWelcomeBack;
+    @BindView(R.id.welcome_number)
+    TextView mWelcomeNumber;
+
     private boolean mShowGuideFinish = false;
-    private Handler mHandler = new Handler(this);
+    private AtomicInteger mCutDownTime = new AtomicInteger();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,13 +57,22 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Override
     public boolean handleMessage(Message msg) {
         if (msg.what == 1) {
-            if (mShowGuideFinish) {
-                startActivity(MainActivity.getMainIntent(WelcomeActivity.this));
-                finish();
+            if (mCutDownTime.get() < 1) {
+                if (mHandler.hasMessages(1)) {
+                    mHandler.removeMessages(1);
+                }
+                if (mShowGuideFinish) {
+                    startActivity(MainActivity.getMainIntent(WelcomeActivity.this));
+                    finish();
+                }
+            } else {
+                mWelcomeNumber.setText("" + mCutDownTime.decrementAndGet() + "跳过");
+                mHandler.sendEmptyMessageDelayed(1, 1000);
             }
 
+
         }
-        return false;
+        return super.handleMessage(msg);
     }
 
     @Override
@@ -93,19 +106,9 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     @Override
     public void getAdSuccess(AdResponse response) {
-        Glide.with(WelcomeActivity.this).load(R.mipmap.welcome_bg)
-                .into(mWelcomeBack);
-        mHandler.sendEmptyMessageDelayed(1, 3000);
-    }
-
-    @Override
-    public void getPersonInfoSuccess(PersonInfoResponse response) {
-//        mBuProcessor.setUserId(response.memberId);
-//        mBuProcessor.setUserPhone(response.phone);
-//        mBuProcessor.setPartnerId(response.partnerId);
-//        mBuProcessor.setPersonInfo(response);
-        startActivity(MainActivity.getMainIntent(this));
-        finish();
+        mImageLoaderHelper.displayImage(this, response.string, mWelcomeBack);
+        mCutDownTime.set(5);
+        mHandler.sendEmptyMessage(1);
     }
 
     @Override
@@ -136,6 +139,9 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mHandler.hasMessages(1)) {
+            mHandler.removeMessages(1);
+        }
         mPresenter.onDestroy();
     }
 
