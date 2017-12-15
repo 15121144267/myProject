@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
-import com.banshengyuan.feima.dagger.component.LoginActivityComponent;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.IntentConstant;
@@ -33,6 +32,8 @@ import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,9 +65,8 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         return new Intent(context, LoginActivity.class);
     }
 
-
-    private LoginActivityComponent mActivityComponent;
-    private LoginControl.PresenterLogin mPresenterLogin;
+    @Inject
+    LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
     private String mPassword;
     private boolean flag = false;
@@ -79,7 +79,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         mMiddleName.setText(R.string.app_login);
-        mPresenterLogin = mActivityComponent.getPresenterLogin();
         initView();
     }
 
@@ -211,7 +210,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     }
 
     private void initializeInjector() {
-        mActivityComponent = DaggerLoginActivityComponent.builder()
+        DaggerLoginActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .loginActivityModule(new LoginActivityModule(LoginActivity.this, this))
                 .build();

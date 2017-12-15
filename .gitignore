@@ -10,3 +10,5 @@
 src/androidTest/
 src/test/
 /adb
+/app/gradle.properties
+mylibrary/libs/
