@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.BlockFairListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.utils.ToastUtils;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -33,7 +33,12 @@ public class BlockDetailFairAdapter extends BaseQuickAdapter<BlockFairListRespon
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         BlockDetailFairItemAdapter itemAdapter = new BlockDetailFairItemAdapter(item.list, mContext,mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);
-        itemAdapter.setOnItemClickListener((adapter, view, position) -> ToastUtils.showLongToast("市集详情"));
+        itemAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockFairListResponse.ListBean bean = (BlockFairListResponse.ListBean) adapter.getItem(position);
+            if(bean!=null){
+                mContext.startActivity(WorkSummaryActivity.getSummaryIntent(mContext,bean.id));
+            }
+        });
     }
 
 }

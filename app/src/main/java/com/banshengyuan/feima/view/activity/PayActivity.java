@@ -321,8 +321,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                             dispatchingPrice += listBeanX.shop_freight_config.shipping_price;
                         }
 
-                    } else {
-                        dispatchingPrice += 0;
                     }
 
                 }

@@ -24,6 +24,7 @@ import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.BlockFairListAdapter;
 
 import java.util.List;
@@ -124,6 +125,12 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new BlockFairListAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockDetailFairListResponse.ListBean bean = (BlockDetailFairListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
+            }
+        });
     }
 
 

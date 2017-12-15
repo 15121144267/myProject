@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.LoginControl;
+import com.banshengyuan.feima.view.activity.LoginActivity;
 
 import dagger.Component;
 
@@ -17,5 +18,5 @@ import dagger.Component;
 public interface LoginActivityComponent {
     AppCompatActivity activity();
     LoginControl.LoginView view();
-    LoginControl.PresenterLogin getPresenterLogin();
+    void inject(LoginActivity activity);
 }

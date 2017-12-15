@@ -120,9 +120,9 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         mHotFairAdapter = new ExChangeAdapter(null, getActivity(), mImageLoaderHelper);
         mHotFragmentActivities.setAdapter(mHotFairAdapter);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
-            showToast("点击"+position);
-            if(mHotFairAdapter.getItem(position)!=null){
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(mHotFairAdapter.getItem(position).getId())));
+            ExChangeResponse.ListBean bean = mHotFairAdapter.getItem(position);
+            if (bean != null) {
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId())));
             }
         });
     }

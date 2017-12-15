@@ -23,6 +23,7 @@ import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
+import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockStoreListItemAdapter;
 
@@ -123,6 +124,12 @@ public class UnderLineShopFragment extends BaseFragment implements UnderLineFair
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new BlockStoreListItemAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockStoreListResponse.ListBean bean = (BlockStoreListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(ShopProductDetailActivity.getActivityDetailIntent(getContext(), bean.id));
+            }
+        });
     }
 
 

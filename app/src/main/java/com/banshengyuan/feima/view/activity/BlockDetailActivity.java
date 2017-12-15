@@ -202,6 +202,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
         mInfoBean = response.info;
         if (mInfoBean != null) {
             mBlockDetailName.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
+            mBlockDetailCollection.setImageResource(mInfoBean.is_collected ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
             mBlockDetailSummary.setText(TextUtils.isEmpty(mInfoBean.summary) ? "未知" : mInfoBean.summary);
             List<String> list = mInfoBean.top_img;
             if (list != null && list.size() > 0) {

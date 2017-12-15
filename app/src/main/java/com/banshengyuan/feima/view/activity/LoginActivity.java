@@ -236,7 +236,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         DaggerLoginActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .loginActivityModule(new LoginActivityModule(LoginActivity.this, this))
-                .build();
+                .build().inject(this);
     }
 
 

@@ -32,6 +32,7 @@ public class ShopDetailCouponListResponse implements Serializable{
         public String name;
         public int type;
         public String value;
+        public String price;
         public boolean is_received;
     }
 }

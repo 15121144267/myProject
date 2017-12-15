@@ -142,6 +142,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             if (mInfoBean.top_img != null && mInfoBean.top_img.size() > 0) {
                 mBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
             }
+            mGoodsDetailCollection.setImageResource(mInfoBean.is_collected ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
             mGoodsDetailSummary.setText(TextUtils.isEmpty(mInfoBean.name) ? "未知" : mInfoBean.name);
             mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price) + "");
             if ((mInfoBean.freight == 1)) {

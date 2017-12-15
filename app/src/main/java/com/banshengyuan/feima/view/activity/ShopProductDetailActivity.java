@@ -107,6 +107,7 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
             if (mInfoBean.top_img != null && mInfoBean.top_img.size() > 0) {
                 mShopDetailDetailBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
             }
+            mShopDetailCollection.setImageResource(mInfoBean.is_collected ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
             mShopDetailName.setText(mInfoBean.name);
             mMiddleName.setText(mInfoBean.name);
             mShopDetailAddress.setText(mInfoBean.address);
@@ -138,7 +139,7 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
         mShopDetailViewPager.setAdapter(adapter);
         mShopDetailTabLayout.setupWithViewPager(mShopDetailViewPager);
         ValueUtil.setIndicator(mShopDetailTabLayout, 40, 40);
-        RxView.clicks(mShopDetailCollection).subscribe(o ->   mPresenter.requestCollection(mShopId + "", "store"));
+        RxView.clicks(mShopDetailCollection).subscribe(o -> mPresenter.requestCollection(mShopId + "", "store"));
         RxView.clicks(mShopDetailPhone).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
             try {
                 Uri uri = Uri.parse("tel:" + mInfoBean.mobile);

@@ -13,7 +13,7 @@ public class ModelTransform {
     public ResponseData transformCommon(String response) {
         ResponseData responseData;
         try {
-            JSONObject jsonObject = new JSONObject(response);
+                JSONObject jsonObject = new JSONObject(response);
              responseData = new ResponseData(jsonObject);
         } catch (JSONException e) {
             responseData = new ResponseData();
