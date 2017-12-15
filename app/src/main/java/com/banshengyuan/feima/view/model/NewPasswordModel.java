@@ -27,13 +27,8 @@ public class NewPasswordModel {
     }
 
 
-    public Observable<ResponseData> setPasswordRequest(String phone, String smsCode, String password) {
-        SetPasswordRequest request = new SetPasswordRequest();
-        request.partnerId = BuildConfig.PARTNER_ID;
-        request.phone = phone;
-        request.smsCode = smsCode;
-        request.password = password;
-        return mForgetApi.setPasswordRequest(mGson.toJson(request)).map(mTransform::transformCommon);
+    public Observable<ResponseData> setPasswordRequest(SetPasswordRequest request,String token) {
+        return mForgetApi.setPasswordRequest(mGson.toJson(request),token).map(mTransform::transformCommon);
     }
 
 }

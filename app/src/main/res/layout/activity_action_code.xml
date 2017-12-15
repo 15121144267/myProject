@@ -64,7 +64,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_20"
-                android:layout_marginTop="240dp"
+                android:layout_marginTop="220dp"
                 android:background="@drawable/button_style_blue6_rightangle"
                 android:gravity="center"
                 android:text="券码：1234567890"
@@ -116,6 +116,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@mipmap/freemud_logo" />
+
+            <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -33,27 +33,9 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
         mView = view;
         mModel = model;
     }
-/*
-    @Override
-    public void requestAddAddress(AddAddressRequest request) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addAddressRequest(request).compose(mView.applySchedulers())
-                .subscribe(this::addAddressSuccess, throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void addAddressSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mView.addAddressSuccess();
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }*/
 
     @Override
     public void onCreate() {
-
     }
 
 
@@ -63,9 +45,9 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     }
 
     @Override
-    public void requestHotFairDetail(String id) {
+    public void requestHotFairDetail(String id, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.hotFairDetailRequest(id,true).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.hotFairDetailRequest(id, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairDetailSuccess
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
@@ -74,9 +56,9 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
 
     @Override
-    public void requestHotFairState(String id, HotFariStateRequest hotFariStateRequest) {
+    public void requestHotFairState(String id, String order_sn,String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.hotFairStateRequest(id,hotFariStateRequest).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.hotFairStateRequest(id, order_sn,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairStateSuccess
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
@@ -85,16 +67,16 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
 
     @Override
-    public void requestHotFairJoinAction(String id, HotFariJoinActionRequest hotFariJoinActionRequest) {
+    public void requestHotFairJoinAction(String id, String phone, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.hotFairJoinActionRequest(id,hotFariJoinActionRequest).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.hotFairJoinActionRequest(id, phone, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairJoinActionSuccess
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getHotFairDetailSuccess(ResponseData responseData){
+    private void getHotFairDetailSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFairDetailResponse.class);
             HotFairDetailResponse response = (HotFairDetailResponse) responseData.parsedData;
@@ -104,7 +86,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
         }
     }
 
-    private void getHotFairStateSuccess(ResponseData responseData){
+    private void getHotFairStateSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFairStateResponse.class);
             HotFairStateResponse response = (HotFairStateResponse) responseData.parsedData;
@@ -114,7 +96,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
         }
     }
 
-    private void getHotFairJoinActionSuccess(ResponseData responseData){
+    private void getHotFairJoinActionSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFariJoinActionResponse.class);
             HotFariJoinActionResponse response = (HotFariJoinActionResponse) responseData.parsedData;

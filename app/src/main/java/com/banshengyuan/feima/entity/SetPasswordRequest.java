@@ -7,8 +7,7 @@ package com.banshengyuan.feima.entity;
 
 public class SetPasswordRequest {
 
-    public String phone;
-    public String partnerId;
-    public String smsCode;
+    public String old_password;
     public String password;
+    public String confirm_password;
 }

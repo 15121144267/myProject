@@ -13,6 +13,6 @@ public class PersonCenterControl {
     }
 
     public interface PresenterPersonCenter extends Presenter<PersonCenterView> {
-        void requestUpdatePersonInfo(PersonInfoResponse response,String token);
+        void requestUpdatePersonInfo(PersonInfoResponse response,String token,boolean avatalFlag);
     }
 }

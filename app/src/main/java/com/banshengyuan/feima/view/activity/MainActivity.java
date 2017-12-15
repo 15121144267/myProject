@@ -164,6 +164,12 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        mViewBottomNavigation.setSelectedItemId(R.id.action_one);
+        super.onNewIntent(intent);
+    }
+
     private void showDialog() {
         CommonDialog commonDialog = CommonDialog.newInstance();
         commonDialog.setContent(getString(R.string.main_exit));
@@ -185,7 +191,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == IntentConstant.LOGIN_SUCCESS_FOR_WODE) {
+        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
             mViewSwapper.setCurrentItem(SWITCH_FORTH_PAGE, false);
             mViewBottomNavigation.setSelectedItemId(R.id.action_four);
         }

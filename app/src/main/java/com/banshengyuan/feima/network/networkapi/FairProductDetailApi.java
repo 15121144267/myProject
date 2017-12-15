@@ -17,12 +17,12 @@ public interface FairProductDetailApi {
     Observable<String> addAddressRequest(@Body String request);
 
     @GET("api/hot/{id}")
-    Observable<String> hotFairDetailRequest(@Path("id") String id,@Query("id") String id2,@Query("flag") boolean flag);
+    Observable<String> hotFairDetailRequest(@Path("id") String id,@Query("id") String id2,@Query("token") String token);
 
     @POST("api/hot/{id}/sign-up/status")
-    Observable<String> hotFairStateRequest(@Path("id") String id,@Query("order_sn") String order_sn, @Body String request);
+    Observable<String> hotFairStateRequest(@Path("id") String id,@Query("id") String id2,@Query("order_sn") String order_sn,@Query("token") String token);
 
     @POST("api/hot/{id}/sign-up")
-    Observable<String> hotFairJoinActionRequest(@Path("id") String id,@Query("mobile") String mobile, @Body String request);
+    Observable<String> hotFairJoinActionRequest(@Path("id") String id,@Query("id") String id2, @Query("mobile") String mobile,@Query("token") String token);
 
 }

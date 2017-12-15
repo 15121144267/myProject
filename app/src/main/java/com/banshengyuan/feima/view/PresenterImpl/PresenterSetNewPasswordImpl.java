@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.entity.SetPasswordRequest;
 import com.banshengyuan.feima.view.PresenterControl.SetNewPasswordControl;
 import com.banshengyuan.feima.view.model.NewPasswordModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -28,8 +29,8 @@ public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.Presen
     }
 
     @Override
-    public void onRequestForSure(String phone, String smsCode, String password) {
-        Disposable disposable = mModel.setPasswordRequest(phone, smsCode, password)
+    public void onRequestForSure(SetPasswordRequest request ,String token) {
+        Disposable disposable = mModel.setPasswordRequest(request, token)
                 .compose(mView.applySchedulers())
                 .subscribe(this::setPasswordSuccess
                         , throwable -> mView.showErrMessage(throwable));
@@ -37,7 +38,7 @@ public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.Presen
     }
 
     private void setPasswordSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.setPasswordSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
