@@ -17,10 +17,8 @@ import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
-import com.banshengyuan.feima.dagger.component.LoginActivityComponent;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
-import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.LoginResponse;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.entity.SpConstant;
@@ -71,8 +69,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         clearActivity = clear;
     }
 
-    private LoginActivityComponent mActivityComponent;
-    private LoginControl.PresenterLogin mPresenterLogin;
     @Inject
     LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
@@ -133,17 +129,18 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     public void onBackPressed() {
         if (clearActivity != null) {
             clearActivity();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
 
-    private void clearActivity(){
+    private void clearActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
         startActivity(MainActivity.getMainIntent(this));
