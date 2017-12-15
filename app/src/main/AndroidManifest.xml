@@ -221,7 +221,6 @@
 
         <activity
             android:name=".view.activity.MainActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/YellowAppTheme"
             android:windowSoftInputMode="adjustPan"/>

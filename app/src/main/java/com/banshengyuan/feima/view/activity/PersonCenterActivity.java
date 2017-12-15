@@ -102,6 +102,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private String token;
+    private boolean avatalFlag = false;//记录是否更新头像
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -178,6 +179,11 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
             } else {
                 mImageLoaderHelper.displayCircularImage(this, infoBean.getHead_img(), mPersonIcon);
             }
+
+            if (!TextUtils.isEmpty(infoBean.getSalt())) {
+                personCenterSignature.setText(infoBean.getSalt());
+            }
+
         }
         RxView.clicks(mPersonCenterHead).subscribe(v -> requestChoicePic());
         RxView.clicks(mPersonCenterName).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPersonName());
@@ -217,6 +223,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
         Bitmap bitmap = BitmapFactory.decodeFile(result.getImage().getCompressPath());
         String img_url = ValueUtil.convertIconToString(bitmap);
         mPersonInfoResponse.getInfo().setHead_img(img_url);
+        avatalFlag = true;
         mImageLoaderHelper.displayCircularImage(this, result.getImage().getCompressPath(), mPersonIcon);
     }
 
@@ -297,7 +304,9 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
     }
 
     private void requestUpdatePersonInfo() {
-        mPresenter.requestUpdatePersonInfo(mPersonInfoResponse,token);
+        String signature = personCenterSignature.getText().toString();
+        mPersonInfoResponse.getInfo().setSalt(signature);
+        mPresenter.requestUpdatePersonInfo(mPersonInfoResponse, token, avatalFlag);
     }
 
     private void requestPersonBirthday() {

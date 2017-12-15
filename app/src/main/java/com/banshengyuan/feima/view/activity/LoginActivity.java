@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
+import com.banshengyuan.feima.dagger.component.LoginActivityComponent;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.IntentConstant;
@@ -58,6 +59,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     TextView mLoginForgetPassword;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    private static String clearActivity = null;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
 
@@ -65,6 +67,12 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         return new Intent(context, LoginActivity.class);
     }
 
+    public static void setClearActivity(String clear) {
+        clearActivity = clear;
+    }
+
+    private LoginActivityComponent mActivityComponent;
+    private LoginControl.PresenterLogin mPresenterLogin;
     @Inject
     LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
@@ -112,12 +120,30 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     @Override
     public void loginSuccess(LoginResponse response) {
         showToast("登录成功");
+        if (clearActivity != null) {
+            clearActivity();
+        }
         mBuProcessor.setLoginUser(myPhone, response.token);
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_INFO));
-        setResult(IntentConstant.LOGIN_SUCCESS_FOR_WODE);
+        setResult(RESULT_OK);
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (clearActivity != null) {
+            clearActivity();
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    private void clearActivity(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
     @Override
     public void getPersonInfoSuccess(PersonInfoResponse response) {
         startActivity(MainActivity.getMainIntent(this));

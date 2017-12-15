@@ -33,6 +33,8 @@ public class SafeSettingActivity extends BaseActivity {
 
     @BindView(R.id.middle_name)
     TextView mMiddleName;
+    @BindView(R.id.setting_phone)
+    TextView mPhone;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.toolbar_right_icon)
@@ -50,7 +52,7 @@ public class SafeSettingActivity extends BaseActivity {
     }
 
     private void initData() {
-
+        mPhone.setText(mBuProcessor.getUserPhone());
     }
 
     private void initView() {

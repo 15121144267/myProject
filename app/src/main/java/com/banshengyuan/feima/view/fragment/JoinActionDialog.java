@@ -12,10 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
 import com.banshengyuan.feima.help.AniCreator;
 import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.utils.LogUtils;
+import com.banshengyuan.feima.utils.TimeUtil;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 
 import butterknife.BindView;
@@ -39,9 +44,9 @@ public class JoinActionDialog extends BaseDialogFragment {
     @BindView(R.id.join_action_phone)
     EditText joinActionPhone;
     @BindView(R.id.cancal_btn)
-    TextView cancalBtn;
+    RadiusTextView cancalBtn;
     @BindView(R.id.sure_btn)
-    Button sureBtn;
+    RadiusTextView sureBtn;
     @BindView(R.id.join_action_lv)
     LinearLayout joinActionLv;
     Unbinder unbinder;
@@ -49,24 +54,22 @@ public class JoinActionDialog extends BaseDialogFragment {
 
     private FairProductDetailControl.PresenterFairProductDetail mPresenter;
     private String id;
-    private HotFariJoinActionRequest mHotFariJoinActionRequest;
+    private String mToken;
+    private HotFairDetailResponse mHotFairDetailResponse = null;//热闹详情
 
     public static JoinActionDialog newInstance() {
         return new JoinActionDialog();
     }
 
-    /*public void setPayFlag(String payFlag) {
-        this.payFlag = payFlag;
-    }*/
-
     public void setListener(PayMethodClickListener listener) {
         this.mListener = listener;
     }
 
-    public void setData(FairProductDetailControl.PresenterFairProductDetail presenter, String fId, HotFariJoinActionRequest hotFariJoinActionRequest) {
+    public void setData(FairProductDetailControl.PresenterFairProductDetail presenter, String fId, String token, HotFairDetailResponse hotFairDetailResponse) {
         mPresenter = presenter;
         id = fId;
-        mHotFariJoinActionRequest = hotFariJoinActionRequest;
+        mToken = token;
+        mHotFairDetailResponse = hotFairDetailResponse;
     }
 
     @Override
@@ -75,7 +78,23 @@ public class JoinActionDialog extends BaseDialogFragment {
         View view = inflater.inflate(R.layout.dialog_join_action, container, true);
         unbinder = ButterKnife.bind(this, view);
         AniCreator.getInstance().apply_animation_translate(joinActionLv, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
+        initView();
         return view;
+    }
+
+    private void initView() {
+        if (mHotFairDetailResponse != null) {
+            HotFairDetailResponse.InfoBean infoBean = mHotFairDetailResponse.getInfo();
+            joinActionTitle.setText(infoBean.getName());
+            String date = "时间: " + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD, (long) infoBean.getStart_time());
+            String place = TextUtils.isEmpty(infoBean.getStreet_name()) ? "未知街区  " : infoBean.getName();
+            if (infoBean.getSales_price() > 0) {
+                String money = "￥" + ValueUtil.formatAmount2(infoBean.getSales_price());
+                joinActionMoney.setText(money);
+            }
+            joinActionDate.setText(date);
+            joinActionPlace.setText("地点： " + place);
+        }
     }
 
     @Override
@@ -97,12 +116,17 @@ public class JoinActionDialog extends BaseDialogFragment {
                 closeThisDialog();
                 break;
             case R.id.sure_btn:
-                if (TextUtils.isEmpty(joinActionPhone.getText().toString())) {
+                String phone = joinActionPhone.getText().toString();
+                if (TextUtils.isEmpty(phone)) {
                     Toast.makeText(getActivity(), "手机号码不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mHotFariJoinActionRequest.setPhone(joinActionPhone.getText().toString());
-                mPresenter.requestHotFairJoinAction(id, mHotFariJoinActionRequest);
+                if (ValueUtil.isMobilePhone(phone)) {
+                    Toast.makeText(getActivity(), "请输入正确的手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mPresenter.requestHotFairJoinAction(id, phone, mToken);
                 closeThisDialog();
                 break;
         }

@@ -15,6 +15,7 @@ public class IntentConstant {
     public static final Integer ORDER_POSITION_TWO = 1;
     public static final Integer ORDER_POSITION_THREE = 2;
     public static final Integer LOGIN_SUCCESS_FOR_WODE = 3;
+    public static final Integer UPDATE_PWD_TO_LOGIN = 4;
     public static final Integer ADD_NEW_ADDRESS_RESULT_CODE = 10;
     public static final String ADDRESS_DETAIL = "address_detail";
 

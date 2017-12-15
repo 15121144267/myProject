@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.SetPasswordRequest;
+
 /**
  * Created by helei on 2017/4/27.
  * LoginControl
@@ -11,7 +13,7 @@ public class SetNewPasswordControl {
     }
 
     public interface PresenterSetNewPassword extends Presenter<SetNewPasswordView> {
-        void onRequestForSure(String phone,String smsCode,String password);
+        void onRequestForSure(SetPasswordRequest request ,String token);
     }
 
 }

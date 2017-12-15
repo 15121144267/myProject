@@ -6,13 +6,14 @@ package com.banshengyuan.feima.entity;
  */
 
 public class HotFariJoinActionResponse {
+
     /**
-     * order_sn : 201711021307
-     * total_fee : 1025
+     * order_sn : H2017121402145181656
+     * total_fee : 11100
      */
 
     private String order_sn;
-    private String total_fee;
+    private int total_fee;
 
     public String getOrder_sn() {
         return order_sn;
@@ -22,11 +23,11 @@ public class HotFariJoinActionResponse {
         this.order_sn = order_sn;
     }
 
-    public String getTotal_fee() {
+    public int getTotal_fee() {
         return total_fee;
     }
 
-    public void setTotal_fee(String total_fee) {
+    public void setTotal_fee(int total_fee) {
         this.total_fee = total_fee;
     }
 }

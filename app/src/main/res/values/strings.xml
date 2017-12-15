@@ -15,6 +15,7 @@
     <string name="app_password">&#160;&#160;输入密码</string>
     <string name="app_sure_password">&#160;&#160;确认新密码</string>
     <string name="app_put_password">&#160;&#160;输入新密码</string>
+    <string name="app_put_original_password">&#160;&#160;输入原始密码</string>
     <string name="app_sign_content">&#160;同意会员注册协议和隐私保护政策</string>
     <string name="app_put_password1">&#160;&#160;输入密码</string>
     <string name="app_verity">&#160;&#160;输入验证码</string>

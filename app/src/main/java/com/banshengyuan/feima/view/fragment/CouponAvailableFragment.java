@@ -78,7 +78,8 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
     }
 
     private void initData() {
-        token = mBuProcessor.getUserToken();
+//        token = mBuProcessor.getUserToken();
+        token = Constant.TOKEN;
         mPresenter.requestNoUseCouponList(state, page, pageSize, token);
 
     }

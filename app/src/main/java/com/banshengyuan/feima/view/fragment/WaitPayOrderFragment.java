@@ -111,7 +111,8 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     private void initData() {
-        token = mBuProcessor.getUserToken();
+//        token = mBuProcessor.getUserToken();
+        token = Constant.TOKEN;
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
         mPresenter.requestMyOrderList(mPagerNo, mPagerSize,mStatus, true, token);
     }

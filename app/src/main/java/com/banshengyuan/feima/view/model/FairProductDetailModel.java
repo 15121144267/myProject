@@ -27,17 +27,17 @@ public class FairProductDetailModel {
     }
 
 
-    public Observable<ResponseData> hotFairDetailRequest(String id,boolean flag) {
-        return mApi.hotFairDetailRequest(id,id,flag).map(mTransform::transformCommon);
+    public Observable<ResponseData> hotFairDetailRequest(String id,String token) {
+        return mApi.hotFairDetailRequest(id, id,token).map(mTransform::transformCommon);
     }
 
 
-    public Observable<ResponseData> hotFairStateRequest(String id,HotFariStateRequest hotFariStateRequest) {
-        return mApi.hotFairStateRequest(id,hotFariStateRequest.getOrder_sn(),mGson.toJson(hotFariStateRequest)).map(mTransform::transformCommon);
+    public Observable<ResponseData> hotFairStateRequest(String id, String order_sn,String token) {
+        return mApi.hotFairStateRequest(id, id,order_sn,token).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> hotFairJoinActionRequest(String id,HotFariJoinActionRequest hotFariJoinActionRequest) {
-        return mApi.hotFairJoinActionRequest(id,hotFariJoinActionRequest.getPhone(),mGson.toJson(hotFariJoinActionRequest)).map(mTransform::transformCommon);
+    public Observable<ResponseData> hotFairJoinActionRequest(String id, String phone, String token) {
+        return mApi.hotFairJoinActionRequest(id, id,phone, token).map(mTransform::transformCommon);
     }
 
     /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
