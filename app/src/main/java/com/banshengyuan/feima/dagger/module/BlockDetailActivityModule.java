@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.BlockDetailApi;
 import com.banshengyuan.feima.view.PresenterControl.BlockDetailControl;
@@ -43,7 +44,7 @@ public class BlockDetailActivityModule {
 
     @Provides
     @PerActivity
-    BlockDetailModel provideBlockDetailModel(Gson gson, ModelTransform modelTransform ) {
+    BlockDetailModel provideBlockDetailModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new BlockDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
@@ -51,7 +52,7 @@ public class BlockDetailActivityModule {
                 .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
-                .create(BlockDetailApi.class), gson, modelTransform);
+                .create(BlockDetailApi.class), gson, modelTransform,buProcessor);
     }
 
     @Provides

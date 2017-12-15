@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.model;
 
 import android.content.Context;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedRequest;
@@ -28,6 +27,7 @@ public class PayModel {
     private final Gson mGson;
     private final ModelTransform mTransform;
     private final Context mContext;
+    private final BuProcessor mBuProcessor;
 
     @Inject
     public PayModel(PayApi api, Gson gson, ModelTransform transform, BuProcessor buProcessor, Context context) {
@@ -35,6 +35,7 @@ public class PayModel {
         mGson = gson;
         mTransform = transform;
         mContext = context;
+        mBuProcessor = buProcessor;
     }
 
 
@@ -42,7 +43,7 @@ public class PayModel {
         OrderConfirmedRequest request = new OrderConfirmedRequest();
         request.address_id = addressId;
         request.detail = mGson.toJson(list);
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
@@ -51,7 +52,7 @@ public class PayModel {
         request.order_sn = response.order_sn;
         request.payment_type = payType;
         request.type = channel;
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeFour);
     }
 

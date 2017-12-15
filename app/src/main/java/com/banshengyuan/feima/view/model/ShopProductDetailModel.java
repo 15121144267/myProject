@@ -1,6 +1,6 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.CollectionRequest;
 import com.banshengyuan.feima.entity.CouponInfoRequest;
 import com.banshengyuan.feima.network.networkapi.ShopProductDetailApi;
@@ -19,12 +19,14 @@ public class ShopProductDetailModel {
     private final ShopProductDetailApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
+    private final BuProcessor mBuProcessor;
 
     @Inject
-    public ShopProductDetailModel(ShopProductDetailApi api, Gson gson, ModelTransform transform) {
+    public ShopProductDetailModel(ShopProductDetailApi api, Gson gson, ModelTransform transform,BuProcessor buProcessor) {
         mApi = api;
         mGson = gson;
         mTransform = transform;
+        mBuProcessor = buProcessor;
     }
 
 
@@ -43,7 +45,7 @@ public class ShopProductDetailModel {
         CouponInfoRequest request = new CouponInfoRequest();
         request.flag = true;
         request.id = couponId+"";
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mApi.couponInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
@@ -52,7 +54,7 @@ public class ShopProductDetailModel {
         request.id = id;
         request.type = type;
         request.flag = true;
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mApi.collectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }

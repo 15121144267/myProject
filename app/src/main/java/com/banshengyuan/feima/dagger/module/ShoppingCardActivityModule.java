@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
@@ -43,13 +44,13 @@ public class ShoppingCardActivityModule {
 
     @Provides
     @PerActivity
-    ShoppingCardModel provideShoppingCardModel(Gson gson, ModelTransform modelTransform ) {
+    ShoppingCardModel provideShoppingCardModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new ShoppingCardModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(AddShoppingCardApi.class), gson, modelTransform);
+                .create(AddShoppingCardApi.class), gson, modelTransform,buProcessor);
     }
 
     @Provides

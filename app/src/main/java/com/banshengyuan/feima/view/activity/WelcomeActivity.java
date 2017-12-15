@@ -37,7 +37,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     private boolean mShowGuideFinish = false;
     private AtomicInteger mCutDownTime = new AtomicInteger();
-
+    public static final Integer CUT_DOWN_TIME = 5;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getWindow().setBackgroundDrawable(null);
@@ -107,7 +107,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Override
     public void getAdSuccess(AdResponse response) {
         mImageLoaderHelper.displayImage(this, response.string, mWelcomeBack);
-        mCutDownTime.set(5);
+        mCutDownTime.set(CUT_DOWN_TIME);
         mHandler.sendEmptyMessage(1);
     }
 

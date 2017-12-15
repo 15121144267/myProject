@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.PayActivityModule;
@@ -198,7 +197,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initData() {
-        mPresenter.requestAddressList(BuildConfig.USER_TOKEN);
+        mPresenter.requestAddressList(mBuProcessor.getUserToken());
     }
 
     private void initView() {

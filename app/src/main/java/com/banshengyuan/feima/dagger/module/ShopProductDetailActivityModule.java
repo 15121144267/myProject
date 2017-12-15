@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.ShopProductDetailApi;
 import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
@@ -43,7 +44,7 @@ public class ShopProductDetailActivityModule {
 
     @Provides
     @PerActivity
-    ShopProductDetailModel provideAddAddressModel(Gson gson, ModelTransform modelTransform) {
+    ShopProductDetailModel provideAddAddressModel(Gson gson, ModelTransform modelTransform, BuProcessor buProcessor) {
         return new ShopProductDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)
@@ -51,7 +52,7 @@ public class ShopProductDetailActivityModule {
                 .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
                 .builder()
-                .create(ShopProductDetailApi.class), gson, modelTransform);
+                .create(ShopProductDetailApi.class), gson, modelTransform,buProcessor);
     }
 
     @Provides

@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.AddShoppingCardRequest;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.CollectionRequest;
@@ -57,7 +56,7 @@ public class GoodsDetailModel {
         request.goodsId = productId;
         request.goodsSku = sku;
         request.goodsNumber = count+"";
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mAddShoppingCardApi.requestAddShoppingCard(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 

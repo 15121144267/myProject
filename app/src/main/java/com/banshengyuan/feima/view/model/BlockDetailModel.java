@@ -1,6 +1,6 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
+import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.CollectionRequest;
 import com.banshengyuan.feima.network.networkapi.BlockDetailApi;
 import com.google.gson.Gson;
@@ -18,12 +18,14 @@ public class BlockDetailModel {
     private final BlockDetailApi mApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
+    private final BuProcessor mBuProcessor;
 
     @Inject
-    public BlockDetailModel(BlockDetailApi api, Gson gson, ModelTransform transform) {
+    public BlockDetailModel(BlockDetailApi api, Gson gson, ModelTransform transform,BuProcessor buProcessor) {
         mApi = api;
         mGson = gson;
         mTransform = transform;
+        mBuProcessor = buProcessor;
     }
 
 
@@ -48,7 +50,7 @@ public class BlockDetailModel {
         request.id = id;
         request.type = type;
         request.flag = true;
-        request.token = BuildConfig.USER_TOKEN;
+        request.token = mBuProcessor.getUserToken();
         return mApi.streetCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 }
