@@ -232,7 +232,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         product.list = productList;
         orderConfirm.add(product);
         response.list = orderConfirm;
-        startActivity(PayActivity.getIntent(this, response));
+        startActivity(PayActivity.getIntent(this, response,1));
     }
 
     @Override

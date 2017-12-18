@@ -299,7 +299,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         if (orderConfirm.size() > 0) {
             ShoppingCardListResponse response = new ShoppingCardListResponse();
             response.list = orderConfirm;
-            startActivity(PayActivity.getIntent(this, response));
+            startActivity(PayActivity.getIntent(this, response,2));
         } else {
             showToast("您还没有选择宝贝哦");
         }

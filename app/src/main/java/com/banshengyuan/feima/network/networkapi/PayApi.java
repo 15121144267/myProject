@@ -23,4 +23,7 @@ public interface PayApi {
 
     @GET("api/user/receiving-address")
     Observable<String> listAddressRequest(@Query("token") String token);
+
+    @GET("api/user/ticket")
+    Observable<String> couponListRequest(@Query("token") String token,@Query("store_id") String storeId,@Query("status") String status);
 }

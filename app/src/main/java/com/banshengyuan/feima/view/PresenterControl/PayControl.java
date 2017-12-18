@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
 import com.banshengyuan.feima.entity.AddressResponse;
+import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
@@ -20,6 +21,8 @@ public class PayControl {
         void orderPaySuccess();
         void updateOrderStatusSuccess();
         void listAddressSuccess(AddressResponse addressResponse);
+        void getCouponListRequestSuccess(MyCoupleResponse response);
+        void getCouponListRequestFail(String des);
     }
 
     public interface PresenterPay extends Presenter<PayView> {
@@ -27,5 +30,6 @@ public class PayControl {
         void requestPayInfo(OrderConfirmedResponse response,Integer payType,Integer channel);
         void updateOrderStatus(PayAccessRequest request);
         void requestAddressList(String token);
+        void requestCouponList(String storeId,String status);
     }
 }

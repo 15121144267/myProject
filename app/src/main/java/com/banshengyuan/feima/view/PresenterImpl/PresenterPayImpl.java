@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.AddressResponse;
+import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
@@ -35,6 +36,24 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
         mModel = model;
     }
 
+    @Override
+    public void requestCouponList(String storeId, String status) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.couponListRequest(storeId,status).compose(mView.applySchedulers())
+                .subscribe(this::getCouponListRequestSuccess, throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getCouponListRequestSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(MyCoupleResponse.class);
+            MyCoupleResponse response = (MyCoupleResponse) responseData.parsedData;
+            mView.getCouponListRequestSuccess(response);
+        } else {
+            mView.getCouponListRequestFail(responseData.errorDesc);
+        }
+    }
 
     @Override
     public void requestAddressList(String token) {
@@ -73,9 +92,9 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void requestPayInfo(OrderConfirmedResponse response, Integer payType,Integer channel) {
+    public void requestPayInfo(OrderConfirmedResponse response, Integer payType, Integer channel) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.payRequest(response, payType,channel).compose(mView.applySchedulers())
+        Disposable disposable = mModel.payRequest(response, payType, channel).compose(mView.applySchedulers())
                 .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -94,7 +113,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     @Override
     public void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.orderConfirmedRequest(addressId,list).compose(mView.applySchedulers())
+        Disposable disposable = mModel.orderConfirmedRequest(addressId, list).compose(mView.applySchedulers())
                 .subscribe(this::orderConfirmedSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

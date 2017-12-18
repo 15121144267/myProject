@@ -64,4 +64,8 @@ public class PayModel {
         return mApi.listAddressRequest(token).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> couponListRequest(String storeId, String status) {
+        return mApi.couponListRequest(mBuProcessor.getUserToken(), storeId, status).map(mTransform::transformCommon);
+    }
+
 }

@@ -20,6 +20,7 @@ import com.banshengyuan.feima.dagger.module.PayActivityModule;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
+import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayConstant;
@@ -73,9 +74,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     @BindView(R.id.pay_order_address_layout)
     LinearLayout mPayOrderAddressLayout;
 
-    public static Intent getIntent(Context context, ShoppingCardListResponse response) {
+    public static Intent getIntent(Context context, ShoppingCardListResponse response, Integer flag) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("ShoppingCardListResponse", response);
+        intent.putExtra("flag", flag);
         return intent;
     }
 
@@ -88,6 +90,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private AddressResponse.ListBean mDataBean;
     private String mAddressId;
     private OrderConfirmedResponse mResponse;
+    private Integer mFlag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -167,7 +170,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
-        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode+"")) {
+        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode + "")) {
             PayWXHelper.getInstance().pay(response.pay_order, this);
         } else {
             PayZFBHelper.getInstance().pay(response.biz_content, this);
@@ -176,15 +179,36 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderPaySuccess() {
-        /*PayAccessRequest request = new PayAccessRequest();
-        List<PayAccessRequest.OrdersBean> list = new ArrayList<>();
-        for (String s : mResponse.data) {
-            PayAccessRequest.OrdersBean order = new PayAccessRequest.OrdersBean();
-            order.orderId = s;
-            list.add(order);
+
+    }
+
+    @Override
+    public void getCouponListRequestSuccess(MyCoupleResponse response) {
+        List<ShoppingCardListResponse.ListBeanX.UserTicketBean> list = new ArrayList<>();
+        if (response.getList() != null && response.getList().size() > 0) {
+            for (MyCoupleResponse.ListBean listBean : response.getList()) {
+                ShoppingCardListResponse.ListBeanX.UserTicketBean bean = new ShoppingCardListResponse.ListBeanX.UserTicketBean();
+                bean.id = listBean.getId();
+                bean.name = listBean.getName();
+                bean.status = listBean.getStatus();
+                bean.store_name = listBean.getStore_name();
+                bean.store_id = listBean.getStore_id();
+                bean.type = listBean.getType();
+                bean.value = listBean.getValue();
+                bean.expire_end_time = listBean.getExpire_end_time();
+                bean.expire_start_time = listBean.getExpire_start_time();
+                list.add(bean);
+            }
+            mOrderConfirm.list.get(0).user_ticket = list;
         }
-        request.orders = list;
-        mPresenter.updateOrderStatus(request);*/
+
+        mAdapter.setNewData(mOrderConfirm.list);
+    }
+
+    @Override
+    public void getCouponListRequestFail(String des) {
+        showToast(des);
+        mAdapter.setNewData(mOrderConfirm.list);
     }
 
     @Override
@@ -201,18 +225,24 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initView() {
-
         for (String module : modules) {
             mPayTabLayout.addTab(mPayTabLayout.newTab().setText(module));
         }
         ValueUtil.setIndicator(mPayTabLayout, 60, 60);
         mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");
+        mFlag = getIntent().getIntExtra("flag", 0);
+
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, PayActivity.this, mImageLoaderHelper);
         mPayOrderList.setAdapter(mAdapter);
-        if (mOrderConfirm != null) {
-            mAdapter.setNewData(mOrderConfirm.list);
+        if (mFlag == 2) {
+            if (mOrderConfirm != null) {
+                mAdapter.setNewData(mOrderConfirm.list);
+            }
+        } else {
+            mPresenter.requestCouponList(mOrderConfirm.list.get(0).store_id + "", "1");
         }
+
 
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
         RxView.clicks(mPayOrderAddressLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestAddress());
@@ -236,6 +266,14 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                         break;
                 }
                 mAdapter.setNewData(mOrderConfirm.list);
+            }
+        });
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.adapter_pay_coupon:
+                    showToast("显示优惠券");
+                    break;
             }
         });
     }
