@@ -19,6 +19,7 @@ import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockControl;
 import com.banshengyuan.feima.view.activity.BlockActivity;
+import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.BlockDetailStoreListAdapter;
 
 import java.util.List;
@@ -92,8 +93,15 @@ public class BlockShopFragment extends BaseFragment implements BlockControl.Bloc
 
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BlockDetailStoreListAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new BlockDetailStoreListAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockStoreListResponse.ListBean bean = (BlockStoreListResponse.ListBean) adapter.getItem(position);
+            if(bean!=null){
+                startActivity(ShopProductDetailActivity.getActivityDetailIntent(getActivity(), bean.id));
+            }
+
+        });
     }
 
 

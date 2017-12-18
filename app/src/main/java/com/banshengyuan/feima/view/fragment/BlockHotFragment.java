@@ -19,6 +19,7 @@ import com.banshengyuan.feima.entity.BlockHotListResponse;
 import com.banshengyuan.feima.entity.BlockStoreListResponse;
 import com.banshengyuan.feima.view.PresenterControl.BlockControl;
 import com.banshengyuan.feima.view.activity.BlockActivity;
+import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.BlockHotAdapter;
 
 import java.util.List;
@@ -117,8 +118,14 @@ public class BlockHotFragment extends BaseFragment implements BlockControl.Block
 
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BlockHotAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new BlockHotAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockHotListResponse.ListBean bean = (BlockHotListResponse.ListBean) adapter.getItem(position);
+            if(bean!=null){
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id+""));
+            }
+        });
     }
 
 
