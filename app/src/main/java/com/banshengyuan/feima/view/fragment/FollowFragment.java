@@ -17,6 +17,7 @@ import com.banshengyuan.feima.dagger.module.FairDetailActivityModule;
 import com.banshengyuan.feima.entity.FairDetailListResponse;
 import com.banshengyuan.feima.view.PresenterControl.FollowControl;
 import com.banshengyuan.feima.view.activity.FairDetailActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailListAdapter;
 
 import java.util.List;
@@ -93,6 +94,12 @@ public class FollowFragment extends BaseFragment implements FollowControl.Follow
         mFragmentTrendsListFirst.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new FairDetailListAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListFirst.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            FairDetailListResponse.ListBean bean = (FairDetailListResponse.ListBean) adapter.getItem(position);
+            if(bean!=null){
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
+            }
+        });
     }
 
 
