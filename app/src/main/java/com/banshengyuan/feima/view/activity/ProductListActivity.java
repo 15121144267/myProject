@@ -135,7 +135,10 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
             }
         }
         mProductListSortAdapter.setNewData(mList);
-        mProductListSort.getLayoutManager().smoothScrollToPosition(mProductListSort, null, mOriginPosition);
+        if (mOriginPosition != null) {
+            mProductListSort.getLayoutManager().smoothScrollToPosition(mProductListSort, null, mOriginPosition);
+        }
+
         mProductListSortAdapter.setOnItemClickListener((adapter, view, position) -> {
             AllProductSortResponse.ListBean item = (AllProductSortResponse.ListBean) adapter.getItem(position);
             for (int i = 0; i < mList.size(); i++) {

@@ -3,15 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/dp_20"
+    android:paddingStart="@dimen/dp_20"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/adapter_fair_product_html"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_25"
-        android:paddingEnd="@dimen/dp_20"
-        android:paddingStart="@dimen/dp_20"
         android:textColor="@color/tab_text_normal"
         android:textSize="@dimen/sp_15"/>
 
@@ -20,7 +19,5 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/adapter_fair_product_list"
         android:layout_width="match_parent"
-        android:paddingEnd="@dimen/dp_20"
-        android:paddingStart="@dimen/dp_20"
         android:layout_height="wrap_content"/>
 </LinearLayout>

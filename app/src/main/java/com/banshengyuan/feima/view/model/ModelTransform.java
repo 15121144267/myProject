@@ -13,8 +13,8 @@ public class ModelTransform {
     public ResponseData transformCommon(String response) {
         ResponseData responseData;
         try {
-                JSONObject jsonObject = new JSONObject(response);
-             responseData = new ResponseData(jsonObject);
+            JSONObject jsonObject = new JSONObject(response);
+            responseData = new ResponseData(jsonObject);
         } catch (JSONException e) {
             responseData = new ResponseData();
         }
@@ -25,7 +25,7 @@ public class ModelTransform {
         ResponseData responseData;
         try {
             JSONObject jsonObject = new JSONObject(response);
-            responseData = new ResponseData(jsonObject,1);
+            responseData = new ResponseData(jsonObject, 1);
         } catch (JSONException e) {
             responseData = new ResponseData();
         }
@@ -37,7 +37,7 @@ public class ModelTransform {
         ResponseData responseData;
         try {
             JSONObject jsonObject = new JSONObject(response);
-            responseData = new ResponseData(jsonObject,response);
+            responseData = new ResponseData(jsonObject, response);
         } catch (JSONException e) {
             responseData = new ResponseData();
         }
@@ -48,7 +48,7 @@ public class ModelTransform {
         ResponseData responseData;
         try {
             JSONObject jsonObject = new JSONObject(response);
-            responseData = new ResponseData(jsonObject,response,1);
+            responseData = new ResponseData(jsonObject, response, 1);
         } catch (JSONException e) {
             responseData = new ResponseData();
         }

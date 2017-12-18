@@ -2,6 +2,8 @@ package com.banshengyuan.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +32,9 @@ import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
 import com.banshengyuan.feima.view.adapter.WorkSummaryAdapter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -174,15 +179,15 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                     mProductCount += detailBean.product.size();
                     for (int i = 0; i < detailBean.product.size(); i++) {
                         MenuItem item = mMenu.add(i, detailBean.product.get(i).id, i, detailBean.product.get(i).name);
-                        item.setIcon(R.mipmap.praise_icon_check);
-                       /* Glide.with(this).load(detailBean.product.get(i).cover_img).asBitmap().error(R.mipmap.freemud_logo)
+                        Glide.with(this).load(detailBean.product.get(i).cover_img).asBitmap().error(R.mipmap.freemud_logo)
                                 .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                BitmapDrawable drawable = new BitmapDrawable(null, resource);
-
-                            }
-                        });*/
+                                    @Override
+                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                        BitmapDrawable drawable = new BitmapDrawable(null, resource);
+                                        drawable.setBounds(0, 0, resource.getWidth(), resource.getHeight());
+                                        item.setIcon(drawable);
+                                    }
+                                });
 
                     }
                 }

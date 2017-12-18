@@ -24,12 +24,21 @@ public class ImageLoaderHelper extends GlideLoader {
 
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
-
         Glide.with(context).load(path)
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.freemud_logo)
                 .placeholder(R.mipmap.freemud_logo)
+                .into(imageView);
+    }
+
+    @Override
+    public void displayImage(Context context, Object path, ImageView imageView, int res) {
+        Glide.with(context).load(path)
+                .thumbnail(0.5f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(res)
+                .placeholder(res)
                 .into(imageView);
     }
 

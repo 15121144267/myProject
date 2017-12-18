@@ -17,7 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="55dp"
-        android:text="立即体现"
+        android:text="立即体验"
         android:textSize="@dimen/sp_14"
         android:textColor="@color/tab_text_normal"
         android:background="@drawable/gradient_style_pink"

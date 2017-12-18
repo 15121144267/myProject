@@ -106,7 +106,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     @Override
     public void getAdSuccess(AdResponse response) {
-        mImageLoaderHelper.displayImage(this, response.string, mWelcomeBack);
+        mImageLoaderHelper.displayImage(this, response.string, mWelcomeBack,R.mipmap.activity_welcome);
         mCutDownTime.set(CUT_DOWN_TIME);
         mHandler.sendEmptyMessage(1);
     }

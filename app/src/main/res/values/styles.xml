@@ -100,7 +100,7 @@
     </style>
 
     <style name="LineV_Fill_Height0_5_ForView">
-        <item name="android:layout_width">0.5dip</item>
+        <item name="android:layout_width">1dip</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/line_grey_bg2</item>
     </style>

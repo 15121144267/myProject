@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
 import com.banshengyuan.feima.dagger.module.MainFragmentModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.RecommendBottomResponse;
 import com.banshengyuan.feima.entity.RecommendBrandResponse;
 import com.banshengyuan.feima.entity.RecommendTopResponse;
@@ -142,13 +145,32 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         mRecommendDiscoverRecycleView.setVisibility(View.GONE);
     }
 
-    private void initData() {
-        //请求推荐页头布局
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.UPDATE_PERSON_INFO);
+    }
+
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        super.onReceivePro(context, intent);
+        if (intent.getAction().equals(BroConstant.UPDATE_PERSON_INFO)) {
+            requestRecommend();
+        }
+
+    }
+
+    private void requestRecommend() {
         if (mLocationInfo != null) {
             mPresenter.requestRecommendTop(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
         } else {
             mPresenter.requestRecommendTop(0, 0);
         }
+    }
+
+    private void initData() {
+        //请求推荐页头布局
+        requestRecommend();
         //请求推荐页品牌布局
         mPresenter.requestRecommendBrand();
 
@@ -179,8 +201,8 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         });
         mDiscoverBrandAdapter.setOnItemClickListener((adapter, view, position) -> {
             RecommendBottomResponse.ListBean bean = mDiscoverBrandAdapter.getItem(position);
-            if(bean!=null){
-                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(),bean.id));
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
             }
         });
     }

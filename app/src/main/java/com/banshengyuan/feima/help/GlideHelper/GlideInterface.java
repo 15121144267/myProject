@@ -10,7 +10,12 @@ import android.view.View;
 
 public interface GlideInterface<T extends View> {
     void displayImage(Context context, Object path, T imageView);
+
+    void displayImage(Context context, Object path, T imageView, int res);
+
     void displayCircularImage(Context context, Object path, T imageView);
-    void displayRoundedCornerImage(Context context, Object path, T imageView,Integer size);
+
+    void displayRoundedCornerImage(Context context, Object path, T imageView, Integer size);
+
     T createImageView(Context context);
 }
