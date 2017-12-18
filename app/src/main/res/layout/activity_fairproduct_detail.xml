@@ -15,7 +15,7 @@
         android:clickable="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="报名参加11"
+        android:text="报名参加"
         rv:rv_backgroundColor="#fffc00"
         rv:rv_backgroundEnabledColor="#fbbc00"
         rv:rv_backgroundPressedColor="#fbbc00"

@@ -21,6 +21,7 @@ import com.banshengyuan.feima.entity.HotFariJoinActionResponse;
 import com.banshengyuan.feima.entity.HotFariStateRequest;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
@@ -103,8 +104,8 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     }
 
     private void initData() {
-//        token = mBuProcessor.getUserToken();
-        token = Constant.TOKEN;
+        token = mBuProcessor.getUserToken();
+//        token = Constant.TOKEN;
         if (mBuProcessor.isValidLogin()) {
             mPresenter.requestHotFairDetail(fId, token);//根据id查看热闹详情
         } else {
@@ -123,10 +124,10 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
             switchToLogin2();
             return;
         }
-        if (hotFairStateResponse != null) {
-            if(hotFairStateResponse.getStatus().equals("2")){//付款完成
+        if (hotFairDetailResponse!=null) {
+            if(hotFairStateResponse != null && TextUtils.isEmpty(hotFairDetailResponse.getInfo().getOrder_sn())){//付款完成
                 startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
-            } else {
+            } else {//报名参加
                 JoinActionDialog joinActionDialog = JoinActionDialog.newInstance();
                 joinActionDialog.setData(mPresenter, fId, token, hotFairDetailResponse);
 
@@ -147,33 +148,27 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     @Override
     public void getHotFairDetailSuccess(HotFairDetailResponse response) {
-        if (response != null) {
-            hotFairDetailResponse = response;
-            if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
-                order_sn = response.getInfo().getOrder_sn();
-                if (mBuProcessor.isValidLogin()) {
-                    mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询
-                }
-//                join.setText("报名参加");
-//                join.setBackgroundResource(R.drawable.button_style_blue6_rightangle);
-//                join.setTextColor(Color.parseColor("#212121"));
-            }
+        hotFairDetailResponse = response;
+        String order_sn = response.getInfo().getOrder_sn();
+        if (!TextUtils.isEmpty(order_sn)) {
+            order_sn = response.getInfo().getOrder_sn();
+            mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询
+        }else {
+            join.setText("报名参加");
         }
     }
 
     @Override
     public void getHotFairStateSuccess(HotFairStateResponse response) {
-        if (response != null) {
-            hotFairStateResponse = response;
-            if (response.getStatus().equals("2")) {//付款完成
-                join.setText("查看二维码");
+        hotFairStateResponse = response;
+        if (response.getStatus().equals("2")) {//付款完成
+            join.setText("查看二维码");
 //                join.setBackgroundColor(Color.parseColor("#212121"));
 //                join.setTextColor(Color.WHITE);
-            } else {
-                join.setText("报名参加");
+        } else {
+            join.setText("去付款");
 //                join.setBackgroundResource(R.drawable.button_style_blue6_rightangle);
 //                join.setTextColor(Color.parseColor("#212121"));
-            }
         }
     }
 

@@ -53,7 +53,7 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     @Inject
     MyOrderControl.PresenterMyOrder mPresenter;
 
-    private final String[] orderModules = {"全部", "待发货", "配送中", "已完成"};
+    private final String[] orderModules = {"全部", "待付款", "待收货", "待评价"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

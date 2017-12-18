@@ -32,7 +32,6 @@ import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.gen.DaoSession;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.utils.ActivityCollector;
 import com.banshengyuan.feima.utils.SharePreferenceUtil;
 import com.banshengyuan.feima.utils.ToastUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -82,7 +81,6 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
                 .baseActivityModule(new BaseActivityModule(BaseActivity.this))
                 .build();
         mRxPermissions = component.rxPermissions();
-        ActivityCollector.addActivity(this);
         component.inject(this);
         mHandler = new Handler(this);
         mLocationInfo = ((DaggerApplication) getApplicationContext()).getMapLocation();

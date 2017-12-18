@@ -59,7 +59,6 @@ public class ActionCodeActivity extends BaseActivity {
     private void initData() {
         if (getIntent() != null) {
             mHotFairDetailResponse = getIntent().getParcelableExtra("hotFairDetailResponse");
-            LogUtils.i("hotFairDetailResponse222=" + mHotFairDetailResponse.getInfo().getName());
             qrCode = getIntent().getStringExtra("qrCode");
             if (!TextUtils.isEmpty(qrCode)) {
                 setQRCodeBitmap("1234567890");

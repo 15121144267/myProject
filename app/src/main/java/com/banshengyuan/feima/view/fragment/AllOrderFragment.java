@@ -48,6 +48,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
+    //待付款（待付款）     待收货（待发货、已发货）    待评价（已完成）
     private final String mStatus = "";//1待付款 2待收货 3待评价   全部传""
     private String token = null;
 
@@ -111,8 +112,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     }
 
     private void initData() {
-//        token = mBuProcessor.getUserToken();
-        token = Constant.TOKEN;
+        token = mBuProcessor.getUserToken();
+//        token = Constant.TOKEN;
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
         mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
     }

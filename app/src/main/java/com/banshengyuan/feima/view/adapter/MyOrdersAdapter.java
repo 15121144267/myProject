@@ -52,11 +52,11 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
          * 	deliver_status   1 待发货 2已发货
          */
         if (item.getPay_status() == 1) {//待付款
-            helper.setText(R.id.adapter_order_status, "待付款");
+            helper.setText(R.id.order_state, "待付款");
             helper.setText(R.id.order_left_btn, "取消订单");
             helper.setText(R.id.order_right_btn, "立即付款");
         } else {//已付款
-            helper.setText(R.id.adapter_order_status, "已付款");
+            helper.setText(R.id.order_state, "已付款");
             helper.setText(R.id.order_left_btn, "查看物流");
             helper.setText(R.id.order_right_btn, "确认收货");
 //            if (item.get == 1) {//待发货

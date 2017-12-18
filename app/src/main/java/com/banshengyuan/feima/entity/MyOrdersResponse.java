@@ -11,8 +11,10 @@ import java.util.List;
  */
 
 public class MyOrdersResponse implements Parcelable {
+
+
     /**
-     * list : [{"order_sn":"Z2017120106111625062","store_name":"test的店铺","store_id":8,"product":[{"id":3,"name":"测试商品","goods_id":1,"price":12000,"number":1,"cover_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]"},{"id":6,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]"},{"id":7,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]"}],"pay_status":1,"total_fee":42000,"freight":0}]
+     * list : [{"order_sn":"Z2017120106111625062","store_name":"test的店铺","store_id":8,"product":[{"id":3,"name":"测试商品","goods_id":1,"price":12000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"},{"id":6,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"},{"id":7,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"}],"pay_status":1,"pay_status_name":"等待买家付款","total_fee":42000,"freight":0}]
      * current_page : 1
      * has_next_page : true
      */
@@ -80,8 +82,9 @@ public class MyOrdersResponse implements Parcelable {
          * order_sn : Z2017120106111625062
          * store_name : test的店铺
          * store_id : 8
-         * product : [{"id":3,"name":"测试商品","goods_id":1,"price":12000,"number":1,"cover_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]"},{"id":6,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]"},{"id":7,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"[\"/upload/example.jpg\", \"/upload/example2.jpg\", \"/upload/example3.jpg\", \"/upload/example4.jpg\"]"}]
+         * product : [{"id":3,"name":"测试商品","goods_id":1,"price":12000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"},{"id":6,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"},{"id":7,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"}]
          * pay_status : 1
+         * pay_status_name : 等待买家付款
          * total_fee : 42000
          * freight : 0
          */
@@ -90,6 +93,7 @@ public class MyOrdersResponse implements Parcelable {
         private String store_name;
         private int store_id;
         private int pay_status;
+        private String pay_status_name;
         private int total_fee;
         private int freight;
         private List<ProductBean> product;
@@ -99,6 +103,7 @@ public class MyOrdersResponse implements Parcelable {
             store_name = in.readString();
             store_id = in.readInt();
             pay_status = in.readInt();
+            pay_status_name = in.readString();
             total_fee = in.readInt();
             freight = in.readInt();
             product = in.createTypedArrayList(ProductBean.CREATOR);
@@ -110,6 +115,7 @@ public class MyOrdersResponse implements Parcelable {
             dest.writeString(store_name);
             dest.writeInt(store_id);
             dest.writeInt(pay_status);
+            dest.writeString(pay_status_name);
             dest.writeInt(total_fee);
             dest.writeInt(freight);
             dest.writeTypedList(product);
@@ -164,6 +170,14 @@ public class MyOrdersResponse implements Parcelable {
             this.pay_status = pay_status;
         }
 
+        public String getPay_status_name() {
+            return pay_status_name;
+        }
+
+        public void setPay_status_name(String pay_status_name) {
+            this.pay_status_name = pay_status_name;
+        }
+
         public int getTotal_fee() {
             return total_fee;
         }
@@ -195,7 +209,7 @@ public class MyOrdersResponse implements Parcelable {
              * goods_id : 1
              * price : 12000
              * number : 1
-             * cover_img : ["/upload/example.jpg", "/upload/example2.jpg", "/upload/example3.jpg", "/upload/example4.jpg"]
+             * cover_img : http://ssapp.jixuanjk.com/upload/example.jpg
              */
 
             private int id;
