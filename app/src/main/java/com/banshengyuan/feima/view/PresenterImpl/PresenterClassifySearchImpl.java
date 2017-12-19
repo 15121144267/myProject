@@ -9,6 +9,8 @@ import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by helei on 2017/4/27.
  * PresenterLoginImpl
@@ -19,7 +21,7 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
     private ClassifySearchControl.ClassifySearchView mView;
     private final GoodsClassifyModel mModel;
     private final Context mContext;
-    private boolean isShow = true;
+
 
     @Inject
     public PresenterClassifySearchImpl(Context context, GoodsClassifyModel model, ClassifySearchControl.ClassifySearchView view) {
@@ -29,23 +31,19 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
     }
 
     @Override
-    public void requestClassifySearchRequest(String shopId, String nodeId, Integer deep, String sortName, Integer sortOrder, Integer searchType, Integer pageSize, Integer pageNumber) {
-        /*if (isShow) {
-            isShow = false;
-            mView.showLoading(mContext.getString(R.string.loading));
-        }
-        Disposable disposable = mModel.sortListRequest(shopId, nodeId, deep, sortName, sortOrder, pageSize, pageNumber).compose(mView.applySchedulers())
-                .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
-        mView.addSubscription(disposable);*/
+    public void requestCommentList(Integer fairId, Integer page, Integer pageSize) {
+        mView.showLoading("");
+        Disposable disposable = mModel.commentListRequest(fairId, page, pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getCommentListSuccess
+                        , throwable -> mView.loadError(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
     }
 
-
-    private void getProductListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+    private void getCommentListSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
             responseData.parseData(ClassifySearchListResponse.class);
             ClassifySearchListResponse response = (ClassifySearchListResponse) responseData.parsedData;
-            mView.getProductListSuccess(response);
+            mView.getCommentListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }

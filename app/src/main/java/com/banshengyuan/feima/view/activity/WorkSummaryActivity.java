@@ -40,6 +40,7 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -259,6 +260,8 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 switchToLogin();
             }
         });
+
+        RxView.clicks(mFairDetailComment).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> startActivity(FairCommentActivity.getIntent(this, mFairId)));
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override

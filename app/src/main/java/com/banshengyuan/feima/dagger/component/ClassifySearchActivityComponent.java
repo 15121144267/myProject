@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.dagger.module.ClassifySearchActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.ClassifySearchControl;
-import com.banshengyuan.feima.view.activity.ClassifySearchActivity;
+import com.banshengyuan.feima.view.activity.FairCommentActivity;
 
 import dagger.Component;
 
@@ -18,5 +18,5 @@ import dagger.Component;
 public interface ClassifySearchActivityComponent {
     AppCompatActivity activity();
     ClassifySearchControl.ClassifySearchView view();
-    void inject(ClassifySearchActivity activity);
+    void inject(FairCommentActivity activity);
 }

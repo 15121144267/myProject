@@ -46,7 +46,7 @@ public class ClassifySearchActivityModule {
     GoodsClassifyModel provideSearchModel(Gson gson, ModelTransform modelTransform ) {
         return new GoodsClassifyModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.GOODS_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isHttps(!BuildConfig.DEBUG)
                 .key(BuildConfig.STORE_NAME,BuildConfig.STORE_PASSWORD)
                 .isToJson(false)

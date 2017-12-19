@@ -25,8 +25,11 @@ public class GoodsClassifyModel {
     }
 
 
+    public Observable<ResponseData> commentListRequest(Integer fairId, Integer page, Integer pageSize) {
+        return mApi.commentListRequest(fairId + "", page, pageSize).map(mTransform::transformCommon);
+    }
+
     public Observable<ResponseData> allFairListRequest() {
         return mApi.allFairListRequest(true).map(mTransform::transformCommon);
     }
-
 }

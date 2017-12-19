@@ -148,7 +148,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activity.ClassifySearchActivity"
+            android:name=".view.activity.FairCommentActivity"
             android:screenOrientation="portrait"/>
 
         <activity

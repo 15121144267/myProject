@@ -9,11 +9,12 @@ import com.banshengyuan.feima.entity.ClassifySearchListResponse;
 
 public class ClassifySearchControl {
     public interface ClassifySearchView extends LoadDataView {
-        void getProductListSuccess(ClassifySearchListResponse response);
+        void getCommentListSuccess(ClassifySearchListResponse response);
+        void loadError(Throwable error);
     }
 
     public interface PresenterClassifySearch extends Presenter<ClassifySearchView> {
-        void requestClassifySearchRequest(String shopId, String nodeId,Integer deep, String sortName, Integer sortOrder,Integer type,Integer pageSize,Integer pageNumber);
+        void requestCommentList(Integer fairId,Integer page,Integer pageSize);
     }
 
 }
