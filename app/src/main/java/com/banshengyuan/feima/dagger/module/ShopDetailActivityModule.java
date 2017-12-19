@@ -47,16 +47,10 @@ public class ShopDetailActivityModule {
     ShopDetailModel provideShopDetailModel(Gson gson, ModelTransform modelTransform) {
         return new ShopDetailModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl(BuildConfig.GOODS_SERVICE)
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
                 .create(ShopDetailApi.class),
-                new RetrofitUtil.Builder()
-                        .context(activity)
-                        .baseUrl("http://member-api-tst.sandload.cn:8735/")
-                        .isToJson(false)
-                        .builder()
-                        .create(ShopDetailOtherApi.class),
                 gson, modelTransform);
     }
 

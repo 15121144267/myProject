@@ -232,7 +232,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         product.list = productList;
         orderConfirm.add(product);
         response.list = orderConfirm;
-        startActivity(PayActivity.getIntent(this, response,1));
+        startActivity(PayActivity.getIntent(this, response, 1));
     }
 
     @Override
@@ -309,6 +309,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             }
         });
 
+        RxView.clicks(mGoodsDetailComment).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(GoodsCommentActivity.getIntent(this, mProductId)));
 
     }
 

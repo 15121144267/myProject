@@ -2,6 +2,7 @@ package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -10,6 +11,6 @@ import retrofit2.http.Query;
  */
 
 public interface ShopDetailApi {
-    @GET("Query/Shop/ListAllProductsSort")
-    Observable<String> shopGoodsListRequest(@Query("sortName") String sortName, @Query("sortOrder") Integer sortOrder, @Query("pagenumber") Integer number, @Query("pagesize") Integer pagesize, @Query("shopId") String shopId);
+    @GET("api/goods/{id}/comment")
+    Observable<String> goodsCommentRequest(@Path("id") String id, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 }

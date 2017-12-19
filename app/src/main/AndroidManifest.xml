@@ -240,7 +240,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activity.ShopDetailActivity"
+            android:name=".view.activity.GoodsCommentActivity"
             android:screenOrientation="portrait"/>
 
         <activity

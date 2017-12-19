@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_common"/>
+
+    <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_goods_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"/>
+</LinearLayout>

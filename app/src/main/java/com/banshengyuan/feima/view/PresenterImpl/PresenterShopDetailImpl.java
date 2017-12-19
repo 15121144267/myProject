@@ -3,8 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.ShopDetailBannerResponse;
-import com.banshengyuan.feima.entity.ShopDetailResponse;
+import com.banshengyuan.feima.entity.GoodsCommentResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopDetailControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShopDetailModel;
@@ -23,7 +22,6 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
     private ShopDetailControl.ShopDetailView mView;
     private Context mContext;
     private ShopDetailModel mModel;
-    private boolean isShow = true;
 
     @Inject
     public PresenterShopDetailImpl(Context context, ShopDetailControl.ShopDetailView view, ShopDetailModel model) {
@@ -33,6 +31,24 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
     }
 
     @Override
+    public void requestGoodsComment(Integer goodsId, Integer page, Integer pageSize) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.goodsCommentRequest(goodsId, page, pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getGoodsCommentSuccess
+                        , throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getGoodsCommentSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(GoodsCommentResponse.class);
+            GoodsCommentResponse response = (GoodsCommentResponse) responseData.parsedData;
+            mView.getGoodsCommentSuccess(response);
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
+    }
+    /* @Override
     public void requestShopBanner(String partnerId, String storeCode) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.shopBannerRequest(partnerId, storeCode).compose(mView.applySchedulers())
@@ -43,35 +59,14 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
 
     private void getShopBannerSuccess(ResponseData responseData) {
         if (responseData.resultCode == 100) {
-            responseData.parseData(ShopDetailBannerResponse.class);
-            ShopDetailBannerResponse response = (ShopDetailBannerResponse) responseData.parsedData;
+            responseData.parseData(GoodsCommentResponse.class);
+            GoodsCommentResponse response = (GoodsCommentResponse) responseData.parsedData;
             mView.getShopBannerSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }
+    }*/
 
-    @Override
-    public void requestShopGoodsList(String sortName, Integer sortOrder, String storeCode, Integer pagerNumber, Integer pagerSize) {
-        if (isShow) {
-            isShow = false;
-            mView.showLoading(mContext.getString(R.string.loading));
-        }
-        Disposable disposable = mModel.shopGoodsListRequest(sortName, sortOrder, storeCode, pagerNumber, pagerSize).compose(mView.applySchedulers())
-                .subscribe(this::getShopGoodsListSuccess
-                        , throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void getShopGoodsListSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(ShopDetailResponse.class);
-            ShopDetailResponse response = (ShopDetailResponse) responseData.parsedData;
-            mView.transformShopGoodsListSuccess(response.products);
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }
 
     @Override
     public void onCreate() {
