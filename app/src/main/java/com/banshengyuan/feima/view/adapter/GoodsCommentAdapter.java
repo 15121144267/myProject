@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.GoodsCommentResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
+import com.banshengyuan.feima.utils.TimeUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -25,7 +26,7 @@ public class GoodsCommentAdapter extends BaseQuickAdapter<GoodsCommentResponse.L
     @Override
     protected void convert(BaseViewHolder helper, GoodsCommentResponse.ListBean item) {
         helper.setText(R.id.adapter_comment_name, item.user_name);
-//        helper.setText(R.id.adapter_comment_time, TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD, (long) item.));
+        helper.setText(R.id.adapter_comment_time, TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD, (long) item.comment_time));
         helper.setText(R.id.adapter_comment_content, item.content);
         ImageView imageView = helper.getView(R.id.adapter_comment_icon);
         mImageLoaderHelper.displayCircularImage(mContext, item.user_head_img, imageView);

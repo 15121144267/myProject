@@ -36,5 +36,6 @@ public class GoodsCommentResponse implements Serializable {
         public String user_name;
         public String user_head_img;
         public String content;
+        public int comment_time;
     }
 }
