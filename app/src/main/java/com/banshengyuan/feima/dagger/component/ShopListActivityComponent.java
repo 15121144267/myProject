@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.dagger.module.ShopListActivityModule;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
-import com.banshengyuan.feima.view.activity.ShopListActivity;
+import com.banshengyuan.feima.view.activity.CommentActivity;
 
 import dagger.Component;
 
@@ -18,5 +18,5 @@ import dagger.Component;
 public interface ShopListActivityComponent {
     AppCompatActivity activity();
     ShopListControl.ShopListView view();
-    void inject(ShopListActivity activity);
+    void inject(CommentActivity activity);
 }

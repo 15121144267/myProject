@@ -236,7 +236,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activity.ShopListActivity"
+            android:name=".view.activity.CommentActivity"
             android:screenOrientation="portrait"/>
 
         <activity

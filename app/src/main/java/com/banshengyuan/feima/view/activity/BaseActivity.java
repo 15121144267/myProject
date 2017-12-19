@@ -179,6 +179,11 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
         mProgressDialog = null;
     }
 
+    protected void clearSwitchToLogin() {
+        mBuProcessor.clearLoginUser();
+        switchToLogin();
+    }
+
     protected void switchToLogin() {
         startActivity(LoginActivity.getLoginIntent(this));
     }

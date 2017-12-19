@@ -138,21 +138,21 @@ public class BlockActivity extends BaseActivity implements BlockControl.BlockVie
 
     private void initView() {
         Integer position = getIntent().getIntExtra("tabPosition", 3);
-        mBlockId = getIntent().getIntExtra("blockId", 0);
-        mMiddleName.setText("半生缘街区");
-        List<Fragment> mFragments = new ArrayList<>();
-        mFragments.add(BlockHotFragment.newInstance());
-        mFragments.add(BlockFairFragment.newInstance());
-        mFragments.add(BlockShopFragment.newInstance());
-        MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
-        mBlockViewPager.setOffscreenPageLimit(mFragments.size() - 1);
-        mBlockViewPager.setAdapter(adapter);
-        mBlockTabLayout.setupWithViewPager(mBlockViewPager);
-        ValueUtil.setIndicator(mBlockTabLayout, 40, 40);
-        TabLayout.Tab tab = mBlockTabLayout.getTabAt(position);
-        if (tab != null) {
-            mBlockViewPager.setCurrentItem(position);
-            tab.select();
+            mBlockId = getIntent().getIntExtra("blockId", 0);
+            mMiddleName.setText("半生缘街区");
+            List<Fragment> mFragments = new ArrayList<>();
+            mFragments.add(BlockHotFragment.newInstance());
+            mFragments.add(BlockFairFragment.newInstance());
+            mFragments.add(BlockShopFragment.newInstance());
+            MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
+            mBlockViewPager.setOffscreenPageLimit(mFragments.size() - 1);
+            mBlockViewPager.setAdapter(adapter);
+            mBlockTabLayout.setupWithViewPager(mBlockViewPager);
+            ValueUtil.setIndicator(mBlockTabLayout, 40, 40);
+            TabLayout.Tab tab = mBlockTabLayout.getTabAt(position);
+            if (tab != null) {
+                mBlockViewPager.setCurrentItem(position);
+                tab.select();
         }
     }
 

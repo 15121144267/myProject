@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,10 +14,8 @@ import android.widget.Toast;
 import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
-import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
 import com.banshengyuan.feima.help.AniCreator;
 import com.banshengyuan.feima.help.DialogFactory;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
@@ -102,6 +99,11 @@ public class JoinActionDialog extends BaseDialogFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 
     @Override
     public void onDestroyView() {

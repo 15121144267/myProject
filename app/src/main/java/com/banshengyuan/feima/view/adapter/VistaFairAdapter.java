@@ -2,10 +2,12 @@ package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.VistaListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -29,6 +31,14 @@ public class VistaFairAdapter extends BaseQuickAdapter<VistaListResponse.ListBea
         mImageLoaderHelper.displayRoundedCornerImage(mContext, item.cover_img, imageView, 6);
         helper.setText(R.id.hot_fair_time_name, item.name);
         helper.setText(R.id.adapter_fair_summary, item.summary);
+        helper.setVisible(R.id.hot_fair_time_first, true);
+        TextView textView = helper.getView(R.id.hot_fair_time_first);
+        if (item.distance == 0) {
+            textView.setText("  距离未知");
+        } else {
+            textView.setText("  " + ValueUtil.formatDistance((float) item.distance));
+        }
+        ValueUtil.setTextDrawable(mContext,textView,R.mipmap.pay_address_location,0);
     }
 
 }

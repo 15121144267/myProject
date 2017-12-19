@@ -2,10 +2,10 @@ package com.banshengyuan.feima.dagger.module;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.ShopListApi;
-import com.banshengyuan.feima.network.networkapi.ShopOtherListApi;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterShopListImpl;
 import com.banshengyuan.feima.view.model.ModelTransform;
@@ -46,16 +46,10 @@ public class ShopListActivityModule {
     ShopListModel provideShopListModel(Gson gson, ModelTransform modelTransform) {
         return new ShopListModel(new RetrofitUtil.Builder()
                 .context(activity)
-                .baseUrl("http://console.freemudvip.com/service/restful/")
+                .baseUrl(BuildConfig.DISPATCH_SERVICE)
                 .isToJson(false)
                 .builder()
-                .create(ShopListApi.class),
-                new RetrofitUtil.Builder()
-                        .context(activity)
-                        .baseUrl("http://member-api-tst.sandload.cn:8735/")
-                        .isToJson(false)
-                        .builder()
-                        .create(ShopOtherListApi.class)
+                .create(ShopListApi.class)
                 , gson, modelTransform);
     }
 

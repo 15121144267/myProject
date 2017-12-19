@@ -36,7 +36,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.banshengyuan.feima.R.id.shop_block_shops_text;
 
 /**
  * Created by lei.he on 2017/6/5.
@@ -49,8 +48,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     TextView mShopBlockBlocksText;
     @BindView(R.id.shop_block_blocks_layout)
     LinearLayout mShopBlockBlocksLayout;
-    @BindView(shop_block_shops_text)
-    TextView mShopBlockShopsText;
+
     @BindView(R.id.shop_block_shops_layout)
     LinearLayout mShopBlockShopsLayout;
     @BindView(R.id.shop_block_list)
@@ -63,6 +61,8 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     ImageView mShopBlockBlocksIcon;
     @BindView(R.id.shop_block_shop_icon)
     ImageView mShopBlockShopIcon;
+    @BindView(R.id.shop_block_shops_text)
+    TextView mShopBlockShopsText;
 
     public static Intent getActivityDetailIntent(Context context, Integer streetId, Integer categoryId) {
         Intent intent = new Intent(context, ShopBlockActivity.class);
@@ -106,7 +106,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
             for (int i = 0; i < response.list.size(); i++) {
                 if (response.list.get(i).id == mStreetId) {
                     response.list.get(i).select_position = true;
-                    mShopBlockBlocksText.setText(response.list.get(i).name);
+                    mShopBlockBlocksText.setText("" + response.list.get(i).name + " ");
                 }
             }
             mStreetSortList = response.list;
@@ -125,7 +125,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
             for (int i = 0; i < response.list.size(); i++) {
                 if (response.list.get(i).id == mCategoryId) {
                     response.list.get(i).select_position = true;
-                    mShopBlockShopsText.setText(response.list.get(i).name);
+                    mShopBlockShopsText.setText("" + response.list.get(i).name + " ");
                 }
             }
             mShopSortList = response.list;
@@ -196,7 +196,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void showStreetPopMenu(View view, List<StreetSortListResponse.ListBean> list) {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(),false);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(), false);
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         StreetMenuAdapter adapter = new StreetMenuAdapter(list, ShopBlockActivity.this);
@@ -208,7 +208,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                     StreetSortListResponse.ListBean listBean = (StreetSortListResponse.ListBean) adapter1.getItem(position);
                     if (listBean != null) {
                         mStreetId = listBean.id;
-                        mShopBlockBlocksText.setText(listBean.name);
+                        mShopBlockBlocksText.setText(listBean.name+" ");
                         mCustomPopWindow1.dissmiss();
                         updateShopList();
                     }
@@ -228,7 +228,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     private void showPopMenu(View view, List<ShopSortListResponse.ListBean> list) {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(),false);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(), false);
 
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
@@ -241,7 +241,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                     ShopSortListResponse.ListBean listBean = (ShopSortListResponse.ListBean) adapter1.getItem(position);
                     if (listBean != null) {
                         mCategoryId = listBean.id;
-                        mShopBlockShopsText.setText(listBean.name);
+                        mShopBlockShopsText.setText(""+listBean.name + " ");
                         mCustomPopWindow2.dissmiss();
                         updateShopList();
                     }

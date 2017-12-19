@@ -72,7 +72,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private Unbinder unbind;
     private RecommendBrandAdapter mAdapter;
     private RecommendDiscoverBrandAdapter mDiscoverBrandAdapter;
-    private List<RecommendBrandResponse> mList;
     private RecommendTopResponse.InfoBean mInfoBean;
 
     @Override
@@ -104,7 +103,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
             if (mInfoBean.distance.equals("0")) {
                 mRecommendBlockDetailDistance.setText("  距离未知,请开启权限");
             } else {
-                mRecommendBlockDetailDistance.setText("  距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance)));
+                mRecommendBlockDetailDistance.setText("  距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance))+"");
             }
             mRecommendBlockDetailName.setText(mInfoBean.name);
         }
@@ -114,7 +113,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     @Override
     public void getRecommendBrandSuccess(RecommendBrandResponse recommendBrandResponse) {
         if (recommendBrandResponse.list != null && recommendBrandResponse.list.size() > 0) {
-            mList = new ArrayList<>();
+            List<RecommendBrandResponse> mList = new ArrayList<>();
             mList.add(recommendBrandResponse);
             mAdapter.setNewData(mList);
         } else {
