@@ -35,7 +35,7 @@ public class FairContentDetailProductItemAdapter extends BaseQuickAdapter<FairCo
             ValueUtil.setTextDrawable(mContext, textView, R.mipmap.shop_detail_uncollection, 0);
         }
         ImageView imageView = helper.getView(R.id.product_icon);
-        mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
+        mImageLoaderHelper.displayImage(mContext, item.image, imageView);
         helper.setText(R.id.product_name, item.name);
     }
 

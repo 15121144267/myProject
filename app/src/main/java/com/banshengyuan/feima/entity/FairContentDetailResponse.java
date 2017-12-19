@@ -69,7 +69,8 @@ public class FairContentDetailResponse implements Serializable {
             public boolean isCollection;
             public int id;
             public String name;
-            public String cover_img;
+            public String image;
+            public String goods_sku;
         }
     }
 

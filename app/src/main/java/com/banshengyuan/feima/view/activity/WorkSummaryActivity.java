@@ -179,11 +179,12 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                     mProductCount += detailBean.product.size();
                     for (int i = 0; i < detailBean.product.size(); i++) {
                         MenuItem item = mMenu.add(i, detailBean.product.get(i).id, i, detailBean.product.get(i).name);
-                        Glide.with(this).load(detailBean.product.get(i).cover_img).asBitmap().override(56,56)
+                        Glide.with(this).load(detailBean.product.get(i).image).asBitmap()
                                 .into(new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                         BitmapDrawable drawable = new BitmapDrawable(null, resource);
+                                        drawable.setBounds(0,0,250,250);
                                         item.setIcon(drawable);
                                     }
                                 });
