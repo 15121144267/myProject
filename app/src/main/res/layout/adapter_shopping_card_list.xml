@@ -32,7 +32,8 @@
             android:gravity="center_vertical"
             android:paddingEnd="15dp"
             android:paddingStart="10dp"
-            android:text="官方店&#160;&#160; "
+            android:drawablePadding="@dimen/dp_10"
+            android:text="官方店"
             android:textColor="@color/black"/>
 
     </LinearLayout>

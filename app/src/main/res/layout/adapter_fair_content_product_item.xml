@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/shop_detail_uncollection"
             android:gravity="center"
-            android:text=" 收藏"
+            android:drawablePadding="@dimen/dp_5"
+            android:text="收藏"
             android:textColor="@color/tab_text_normal"
             android:textSize="@dimen/sp_13"/>
 
@@ -55,7 +56,8 @@
             android:layout_marginStart="18dp"
             android:drawableStart="@mipmap/small_shoppingcard_icon"
             android:gravity="center"
-            android:text=" 购买"
+            android:drawablePadding="@dimen/dp_5"
+            android:text="购买"
             android:textColor="@color/tab_text_normal"
             android:textSize="@dimen/sp_13"/>
     </LinearLayout>

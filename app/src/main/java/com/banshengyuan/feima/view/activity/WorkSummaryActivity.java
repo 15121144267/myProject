@@ -165,9 +165,9 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
             mInfoBean = response.info;
             mFairDetailTitle.setText(mInfoBean.name);
             mFairDetailReadCount.setText(" " + mInfoBean.read_count + "");
-            mFairDetailComment.setText("" + mInfoBean.comment_count + " 评论  ");
-            mFairDetailCollection.setText("" + mInfoBean.collected_count + " 收藏  ");
-            mFairDetailPraise.setText("" + mInfoBean.zan_count + " 赞  ");
+            mFairDetailComment.setText("" + mInfoBean.comment_count + " 评论");
+            mFairDetailCollection.setText("" + mInfoBean.collected_count + " 收藏");
+            mFairDetailPraise.setText("" + mInfoBean.zan_count + " 赞");
             mImageLoaderHelper.displayImage(this, mInfoBean.cover_img, mBlockDetailBackground);
 
         }
@@ -184,7 +184,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                                     @Override
                                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                         BitmapDrawable drawable = new BitmapDrawable(null, resource);
-                                        drawable.setBounds(0,0,250,250);
                                         item.setIcon(drawable);
                                     }
                                 });
@@ -193,7 +192,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 }
 
             }
-            mFairDetailProduct.setText("" + mProductCount + " 产品  ");
+            mFairDetailProduct.setText("" + mProductCount + " 产品");
             mHeadTextView.setText("" + mProductCount + " 产品");
         }
     }

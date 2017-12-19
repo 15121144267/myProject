@@ -140,7 +140,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
                         android:drawableStart="@mipmap/product_flag"
-                        android:text=" 正品保证"
+                        android:text="正品保证"
+                        android:drawablePadding="@dimen/dp_5"
                         android:textColor="@color/darkgrey1"
                         android:textSize="@dimen/sp_12"/>
 
@@ -148,7 +149,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@mipmap/product_flag"
-                        android:text=" 交易担保"
+                        android:text="交易担保"
+                        android:drawablePadding="@dimen/dp_5"
                         android:textColor="@color/darkgrey1"
                         android:textSize="@dimen/sp_12"/>
                 </LinearLayout>
@@ -214,7 +216,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@mipmap/order_arrow_right"
-                        android:text="进店逛逛 "
+                        android:text="进店逛逛"
+                        android:drawablePadding="@dimen/dp_5"
                         android:textColor="@color/light_red"
                         android:textSize="@dimen/sp_13"/>
                 </LinearLayout>

@@ -29,7 +29,7 @@ public class BlockDetailShopAdapter extends BaseQuickAdapter<BlockStoreListRespo
     protected void convert(BaseViewHolder helper, BlockStoreListResponse item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.adapter_fair_more);
-        helper.setText(R.id.adapter_fair_sign, " 店铺");
+        helper.setText(R.id.adapter_fair_sign, "店铺");
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));

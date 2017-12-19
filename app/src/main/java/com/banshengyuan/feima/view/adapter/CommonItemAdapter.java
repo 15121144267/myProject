@@ -28,7 +28,7 @@ public class CommonItemAdapter extends BaseQuickAdapter<BlockHotListResponse, Ba
     protected void convert(BaseViewHolder helper, BlockHotListResponse item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.adapter_fair_more);
-        helper.setText(R.id.adapter_fair_sign, " 热闹");
+        helper.setText(R.id.adapter_fair_sign, "热闹");
         RecyclerView recyclerView = helper.getView(R.id.adapter_fair_content);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));

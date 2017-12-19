@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/address_edit"
             android:gravity="center_vertical"
+            android:drawablePadding="@dimen/dp_5"
             android:text="@string/address_edit" />
 
         <TextView
@@ -82,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:drawablePadding="@dimen/dp_5"
             android:drawableStart="@mipmap/address_cycle"
             android:gravity="center_vertical"
             android:text="@string/address_delete" />

@@ -36,26 +36,26 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<ShoppingCardListRespon
             if (item.shop_freight_config != null) {
                 if (item.shop_freight_config.freight == 1) {
                     if (productPrice >= item.shop_freight_config.free_shipping_price) {
-                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮 ");
-                        helper.setText(R.id.adapter_shopping_card_price_all,  ValueUtil.formatAmount2(productPrice));
+                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
+                        helper.setText(R.id.adapter_shopping_card_price_all, ValueUtil.formatAmount2(productPrice));
                     } else {
-                        helper.setText(R.id.adapter_pay_dispatching_way, "快递 " + ValueUtil.formatAmount2(item.shop_freight_config.shipping_price)+" ");
-                        helper.setText(R.id.adapter_shopping_card_price_all, ValueUtil.formatAmount2(productPrice + item.shop_freight_config.shipping_price)+" ");
+                        helper.setText(R.id.adapter_pay_dispatching_way, "快递" + ValueUtil.formatAmount2(item.shop_freight_config.shipping_price) + "");
+                        helper.setText(R.id.adapter_shopping_card_price_all, ValueUtil.formatAmount2(productPrice + item.shop_freight_config.shipping_price) + "");
                     }
                 } else {
-                    helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮 ");
-                    helper.setText(R.id.adapter_shopping_card_price_all,  ValueUtil.formatAmount2(productPrice));
+                    helper.setText(R.id.adapter_pay_dispatching_way, "快递 免邮");
+                    helper.setText(R.id.adapter_shopping_card_price_all, ValueUtil.formatAmount2(productPrice));
                 }
             }
         } else {
-            helper.setText(R.id.adapter_pay_dispatching_way, "门店自提 ");
-            helper.setText(R.id.adapter_shopping_card_price_all,  ValueUtil.formatAmount2(productPrice));
+            helper.setText(R.id.adapter_pay_dispatching_way, "门店自提");
+            helper.setText(R.id.adapter_shopping_card_price_all, ValueUtil.formatAmount2(productPrice));
         }
         if (item.user_ticket != null && item.user_ticket.size() > 0) {
-            helper.setText(R.id.adapter_pay_coupon, "可用优惠券" + item.user_ticket.size()+" ");
+            helper.setText(R.id.adapter_pay_coupon, "可用优惠券" + item.user_ticket.size() + "");
             helper.setEnable(R.id.adapter_pay_coupon, true);
         } else {
-            helper.setText(R.id.adapter_pay_coupon, "无可用 ");
+            helper.setText(R.id.adapter_pay_coupon, "无可用");
             helper.setEnable(R.id.adapter_pay_coupon, false);
         }
 
@@ -66,7 +66,7 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<ShoppingCardListRespon
 
 
         helper.setText(R.id.adapter_shopping_card_product_count, "共计" + item.list.size() + "件商品");
-        helper.setText(R.id.adapter_shopping_card_shop_name, TextUtils.isEmpty(item.stoer_name) ? "  未知店铺" : "  " + item.stoer_name);
+        helper.setText(R.id.adapter_shopping_card_shop_name, TextUtils.isEmpty(item.stoer_name) ? "未知店铺" : item.stoer_name);
     }
 
 }

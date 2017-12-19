@@ -19,11 +19,11 @@
     <string name="app_sign_content">&#160;同意会员注册协议和隐私保护政策</string>
     <string name="app_put_password1">&#160;&#160;输入密码</string>
     <string name="app_verity">&#160;&#160;输入验证码</string>
-    <string name="order_status">&#160;&#160;&#160;&#160;订单已完成</string>
-    <string name="app_setting_less">未设置&#160;&#160;</string>
-    <string name="app_choice">请选择&#160;&#160;</string>
-    <string name="address_edit">&#160;编辑</string>
-    <string name="address_delete">&#160;删除</string>
+    <string name="order_status">订单已完成</string>
+    <string name="app_setting_less">未设置</string>
+    <string name="app_choice">请选择</string>
+    <string name="address_edit">编辑</string>
+    <string name="address_delete">删除</string>
     <string name="user_number">编号：暂无</string>
     <string name="user_status_open">接单中</string>
     <string name="app_shop_list">商铺列表</string>

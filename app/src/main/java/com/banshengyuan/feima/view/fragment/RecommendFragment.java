@@ -101,9 +101,9 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         if (mInfoBean != null) {
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.cover_img, mRecommendBlockDetailTopIcon, 4);
             if (mInfoBean.distance.equals("0")) {
-                mRecommendBlockDetailDistance.setText("  距离未知,请开启权限");
+                mRecommendBlockDetailDistance.setText("距离未知,请开启权限");
             } else {
-                mRecommendBlockDetailDistance.setText("  距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance))+"");
+                mRecommendBlockDetailDistance.setText("距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance))+"");
             }
             mRecommendBlockDetailName.setText(mInfoBean.name);
         }

@@ -39,6 +39,7 @@
             android:maxLines="1"
             android:text="未知"
             android:textColor="#666666"
+            android:drawablePadding="@dimen/dp_5"
             android:textSize="@dimen/sp_13"
             android:visibility="gone" />
     </LinearLayout>

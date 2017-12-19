@@ -34,9 +34,9 @@ public class VistaFairAdapter extends BaseQuickAdapter<VistaListResponse.ListBea
         helper.setVisible(R.id.hot_fair_time_first, true);
         TextView textView = helper.getView(R.id.hot_fair_time_first);
         if (item.distance == 0) {
-            textView.setText("  距离未知");
+            textView.setText("距离未知");
         } else {
-            textView.setText("  " + ValueUtil.formatDistance((float) item.distance));
+            textView.setText(""+ValueUtil.formatDistance((float) item.distance)+"");
         }
         ValueUtil.setTextDrawable(mContext,textView,R.mipmap.pay_address_location,0);
     }

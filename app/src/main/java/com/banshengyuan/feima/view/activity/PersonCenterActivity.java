@@ -10,11 +10,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +21,6 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerPersonCenterActivityComponent;
 import com.banshengyuan.feima.dagger.module.PersonCenterActivityModule;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.help.DialogFactory;
@@ -39,7 +35,6 @@ import com.banshengyuan.feima.help.photohelp.TakePhoto;
 import com.banshengyuan.feima.help.photohelp.TakePhotoImpl;
 import com.banshengyuan.feima.help.photohelp.TakePhotoInvocationHandler;
 import com.banshengyuan.feima.help.photohelp.TakePhotoOptions;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.PersonCenterControl;
 import com.banshengyuan.feima.view.customview.timepickview.DatePicker;
@@ -159,18 +154,18 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
             if (infoBean.getSex() == 0) {
                 mPersonSex.setText(getString(R.string.app_choice));
             } else {
-                mPersonSex.setText(infoBean.getSex() == 1 ? "男  " : "女  ");
+                mPersonSex.setText(infoBean.getSex() == 1 ? "男" : "女");
             }
 
             if (TextUtils.isEmpty(infoBean.getBirthday())) {
                 mPersonBirthdayDate.setText(getString(R.string.app_choice));
             } else {
-                mPersonBirthdayDate.setText(infoBean.getBirthday() + "  ");
+                mPersonBirthdayDate.setText(infoBean.getBirthday());
             }
             if (TextUtils.isEmpty(infoBean.getName())) {
                 mPersonName.setText(getString(R.string.app_setting_less));
             } else {
-                mPersonName.setText(infoBean.getName() + "  ");
+                mPersonName.setText(infoBean.getName());
                 mPersonName.setTextColor(Color.parseColor("#333333"));
             }
 
@@ -285,13 +280,13 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
                 mPersonInfoResponse.getInfo().setSex(2);
             }
 
-            mPersonSex.setText(sex + "  ");
+            mPersonSex.setText(sex);
 
         } else if (requestCode == IntentConstant.ORDER_POSITION_TWO && resultCode == RESULT_OK) {
             String name = data.getStringExtra("name");
             mPersonInfoResponse.getInfo().setName(name);
             mPersonName.setTextColor(Color.parseColor("#333333"));
-            mPersonName.setText(name + "  ");
+            mPersonName.setText(name );
         }
 
     }
@@ -322,7 +317,7 @@ public class PersonCenterActivity extends BaseActivity implements TakePhoto.Take
                 -> {
             String date = year + "-" + month + "-" + day;
             mPersonInfoResponse.getInfo().setBirthday(date);
-            mPersonBirthdayDate.setText(date + "  ");
+            mPersonBirthdayDate.setText(date);
         });
         picker.setOnWheelListener(new DatePicker.OnWheelListener() {
             @Override

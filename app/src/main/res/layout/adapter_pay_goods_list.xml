@@ -53,7 +53,8 @@
             android:layout_height="match_parent"
             android:drawableEnd="@mipmap/arrow_right"
             android:gravity="center_vertical"
-            android:text="门店自提  "
+            android:text="门店自提"
+            android:drawablePadding="@dimen/dp_10"
             android:textColor="@color/tab_text_normal"
             />
     </LinearLayout>
@@ -81,7 +82,8 @@
             android:layout_height="match_parent"
             android:drawableEnd="@mipmap/arrow_right"
             android:gravity="center_vertical"
-            android:text="选择  "
+            android:text="选择"
+            android:drawablePadding="@dimen/dp_10"
             android:textColor="@color/tab_text_normal"
             />
     </LinearLayout>
