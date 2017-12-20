@@ -3,6 +3,7 @@ package com.banshengyuan.feima.network.networkapi;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by helei on 2017/4/27.
@@ -15,4 +16,7 @@ public interface ShopListApi {
 
     @POST("base?op=getShop")
     Observable<String> shopIdRequest(@Body String request);
+
+    @POST("api/user/order/comment")
+    Observable<String> publishCommentRequest(@Query("goods_id") String goods_id,@Query("content") String content ,@Query("token") String token);
 }

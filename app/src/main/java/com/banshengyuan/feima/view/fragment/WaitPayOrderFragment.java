@@ -44,7 +44,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private List<MyOrdersResponse.ListBean> mList;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
-    private final String mStatus = "1";//1待付款 2待收货 3待评价   全部传""
+    private final String mStatus = "1";//1.等待买家付款（待付款） 2.等待买家收货（已发货或待收货） 3.等待卖家发货（待发货或已付款） 4.交易成功（待评价或已完成） 5.交易关闭（已取消）
     private String token ;
 
     public static WaitPayOrderFragment newInstance() {

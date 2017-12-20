@@ -73,11 +73,20 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     LinearLayout mPayChooseAddress;
     @BindView(R.id.pay_order_address_layout)
     LinearLayout mPayOrderAddressLayout;
+    @BindView(R.id.pay_layout)
+    LinearLayout payLayout;
+
 
     public static Intent getIntent(Context context, ShoppingCardListResponse response, Integer flag) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("ShoppingCardListResponse", response);
         intent.putExtra("flag", flag);
+        return intent;
+    }
+
+    public static Intent getIntent(Context context, String order_sn) {
+        Intent intent = new Intent(context, PayActivity.class);
+        intent.putExtra("order_sn", order_sn);
         return intent;
     }
 
@@ -91,6 +100,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private String mAddressId;
     private OrderConfirmedResponse mResponse;
     private Integer mFlag;
+    private String mOrderSn;
+    private int mChannel = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -159,10 +170,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         if (mResponse != null) {
             switch (payType) {
                 case 1:
-                    mPresenter.requestPayInfo(mResponse, payType, 1);
+                    mPresenter.requestPayInfo(mResponse, payType, mChannel);
                     break;
                 case 2:
-                    mPresenter.requestPayInfo(mResponse, payType, 1);
+                    mPresenter.requestPayInfo(mResponse, payType, mChannel);
                     break;
             }
         }
@@ -225,11 +236,22 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void initView() {
+        mOrderSn = getIntent().getStringExtra("order_sn");
+        if (!TextUtils.isEmpty(mOrderSn)) {
+            mChannel = 2;
+            payLayout.setVisibility(View.GONE);
+            mResponse = new OrderConfirmedResponse();
+            mResponse.order_sn = mOrderSn;
+            showDialog();
+            return;
+        }
+
         for (String module : modules) {
             mPayTabLayout.addTab(mPayTabLayout.newTab().setText(module));
         }
         ValueUtil.setIndicator(mPayTabLayout, 60, 60);
         mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");
+
         mFlag = getIntent().getIntExtra("flag", 0);
 
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
@@ -239,7 +261,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             if (mOrderConfirm != null) {
                 mAdapter.setNewData(mOrderConfirm.list);
             }
-        } else {
+        } else if (mFlag == 1) {
             mPresenter.requestCouponList(mOrderConfirm.list.get(0).store_id + "", "1");
         }
 
@@ -312,11 +334,15 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 mPresenter.requestOrderConfirmed(mAddressId, list);
             }
         } else {
-            PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
-            payMethodDialog.setListener(this);
-            DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
+            showDialog();
         }
 
+    }
+
+    private void showDialog() {
+        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
+        payMethodDialog.setListener(this);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
     }
 
     private void requestAddress() {

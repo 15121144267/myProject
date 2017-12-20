@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
@@ -31,16 +33,16 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
         return new Intent(context, CommentActivity.class);
     }
 
-    @BindView(R.id.banner)
-    Banner mBanner;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.shop_list)
-    RecyclerView mShopList;
+    @BindView(R.id.comment_content)
+    EditText commentontent;
     @Inject
     ShopListControl.PresenterShopList mPresenter;
+    private String gId;
+    private String token;
 
 
     @Override
@@ -95,11 +97,16 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
     }
 
     private void initView() {
-
     }
 
     private void initData() {
-
+        token = mBuProcessor.getUserToken();
+        String content = commentontent.getText().toString();
+        if (TextUtils.isEmpty(content)) {
+            showToast("评论不能为空");
+            return;
+        }
+        mPresenter.requestPublishComment(gId, content, token);
     }
 
     private void initializeInjector() {
@@ -109,4 +116,8 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
                 .build().inject(this);
     }
 
+    @Override
+    public void getCommentSuccess() {
+
+    }
 }

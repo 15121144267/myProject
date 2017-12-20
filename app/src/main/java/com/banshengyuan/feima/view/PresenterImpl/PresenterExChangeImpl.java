@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
@@ -60,13 +61,15 @@ public class PresenterExChangeImpl implements ExChangeControl.PresenterExChange 
 
     @Override
     public void requestHotFairInfo(String street_id) {
-        Disposable disposable = mModel.hotFairRequest(1, 10,street_id,true).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.hotFairRequest(1, 10, street_id, true).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairInfoSuccess
-                        , throwable -> mView.showErrMessage(throwable));
+                        , throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-    private void getHotFairInfoSuccess(ResponseData responseData){
+    private void getHotFairInfoSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             responseData.parseData(ExChangeResponse.class);
             ExChangeResponse response = (ExChangeResponse) responseData.parsedData;

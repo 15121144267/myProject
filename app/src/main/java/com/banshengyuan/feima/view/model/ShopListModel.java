@@ -31,5 +31,10 @@ public class ShopListModel {
         return mApi.shopIdRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 
+    public Observable<ResponseData> publishCommentRequest(String gId, String content,String token) {
+        ShopRequest request = new ShopRequest();
+        return mApi.publishCommentRequest(gId,content,token).map(mTransform::transformTypeTwo);
+    }
+
 
 }

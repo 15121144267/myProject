@@ -2,10 +2,15 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
+import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShopListModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by lei.he on 2017/6/26.
@@ -24,28 +29,25 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
         mModel = model;
     }
 
-
-  /*  @Override
-    public void requestShopList(Integer pagerNo, Integer pagerSize) {
-        Disposable disposable = mModel.shopListRequest(pagerNo, pagerSize).compose(mView.applySchedulers())
-                .subscribe(this::shopListRequestSuccess, throwable -> mView.loadFail(throwable));
+    @Override
+    public void requestPublishComment(String oId, String content, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.publishCommentRequest(oId, content, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::getCommentSuccess
+                        , throwable -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
-
-    private void shopListRequestSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 0) {
-            responseData.parseData(ShopListResponse.class);
-            ShopListResponse response = (ShopListResponse) responseData.parsedData;
-            mView.getShopListSuccess(response.list);
+    private void getCommentSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 100) {
+            mView.getCommentSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
         }
-    }*/
+    }
 
     @Override
     public void onCreate() {
-
     }
 
 
@@ -53,4 +55,6 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
     public void onDestroy() {
         mView = null;
     }
+
+
 }
