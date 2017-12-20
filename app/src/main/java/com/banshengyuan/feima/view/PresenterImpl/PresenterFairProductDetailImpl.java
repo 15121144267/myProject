@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
@@ -56,9 +57,9 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
 
     @Override
-    public void requestHotFairState(String id, String order_sn,String token) {
+    public void requestHotFairState(String id, String order_sn, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.hotFairStateRequest(id, order_sn,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.hotFairStateRequest(id, order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairStateSuccess
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
@@ -98,9 +99,14 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
     private void getHotFairJoinActionSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(HotFariJoinActionResponse.class);
-            HotFariJoinActionResponse response = (HotFariJoinActionResponse) responseData.parsedData;
-            mView.getHotFairJoinActionSuccess(response);
+            String result = responseData.result;
+            if (!result.equals("{}")) {
+                responseData.parseData(HotFariJoinActionResponse.class);
+                HotFariJoinActionResponse response = (HotFariJoinActionResponse) responseData.parsedData;
+                mView.getHotFairJoinActionSuccess(response);
+            }else {
+                mView.getHotFairJoinActionSuccess(null);
+            }
         } else {
             mView.showToast(responseData.errorDesc);
         }

@@ -7,9 +7,10 @@ package com.banshengyuan.feima.entity;
 
 public class HotFariJoinActionResponse {
 
+
     /**
-     * order_sn : H2017121402145181656
-     * total_fee : 11100
+     * order_sn : H2017122010562383291
+     * total_fee : 100
      */
 
     private String order_sn;

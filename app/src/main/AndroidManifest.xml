@@ -246,6 +246,7 @@
 
         <activity
             android:name=".view.activity.CommentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity

@@ -29,8 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_10"
             android:layout_marginEnd="15dp"
+            android:layout_marginStart="@dimen/dp_10"
             android:text="待付款"
             android:textColor="@color/tab_text_normal"
             android:textSize="@dimen/sp_16" />
@@ -40,9 +40,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:maxLines="1"
             android:paddingEnd="15dp"
             android:paddingStart="15dp"
-           android:maxLines="1"
             android:text="梅子熟了梅子熟了"
             android:textSize="@dimen/sp_16" />
     </RelativeLayout>
@@ -52,15 +52,14 @@
         android:id="@+id/adapter_order_status"
         android:layout_width="match_parent"
         android:layout_height="43dp"
+        android:drawablePadding="@dimen/dp_10"
         android:drawableStart="@mipmap/order_already_out"
         android:gravity="center_vertical"
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
-        android:drawablePadding="@dimen/dp_10"
         android:text="已出库"
         android:textColor="@color/darkblack"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <View style="@style/LineH_Fill_Width1_5_ForView" />
 
@@ -134,6 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginEnd="@dimen/dp_10"
             android:layout_marginStart="10dp"
             android:layout_toStartOf="@id/order_right_btn"
             android:clickable="true"
@@ -142,7 +142,6 @@
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:paddingTop="10dp"
-            android:layout_marginEnd="@dimen/dp_10"
             android:text="取消订单"
             rv:rv_backgroundColor="#ffffff"
             rv:rv_backgroundPressedColor="#333333"
@@ -152,6 +151,7 @@
             rv:rv_strokeWidth="1dp"
             rv:rv_textColor="#333333"
             rv:rv_textPressedColor="#ffffff" />
+
 
     </RelativeLayout>
 

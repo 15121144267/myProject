@@ -2,7 +2,9 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.model.MyOrderModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -47,8 +49,24 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
     }
 
     @Override
-    public void onCreate() {
+    public void requestCancelOrder(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.cancelOrderRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::cancelOrderSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
 
+    private void cancelOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.getCancelOrderSuccess(true);
+        } else {
+            mView.showToast("操作失败");
+        }
+    }
+
+    @Override
+    public void onCreate() {
     }
 
 

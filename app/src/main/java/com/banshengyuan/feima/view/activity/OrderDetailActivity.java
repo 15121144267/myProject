@@ -210,11 +210,17 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             payDate.setText("成交时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getDeal_time()));
             receiptAddress.setText(address);
             /**
+             *  /**
+             * 1.等待买家付款（待付款）
+             2.等待买家收货（已发货或待收货、待自提）
+             3.等待卖家发货（待发货或已付款）自提订单无此状态
+             4.交易成功（待评价或已完成）
+             5.交易关闭（已取消）
              * pay_status        1 待付款 2已付款
              * 	deliver_status   1 待发货 2已发货
              */
             if (infoBean.getPay_status() == 1) {//待付款
-                stateTv.setText("待付款");
+                stateTv.setText("等待买家付款");
                 stateIv.setImageResource(R.mipmap.order_detail_no_pay);
                     orderLeftBtn.setText("取消订单");
                     orderRightBtn.setText("立即付款");

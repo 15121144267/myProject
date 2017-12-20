@@ -32,7 +32,6 @@ public class ShopListModel {
     }
 
     public Observable<ResponseData> publishCommentRequest(String gId, String content,String token) {
-        ShopRequest request = new ShopRequest();
         return mApi.publishCommentRequest(gId,content,token).map(mTransform::transformTypeTwo);
     }
 

@@ -2,6 +2,7 @@ package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -16,5 +17,9 @@ public interface MyOrderApi {
 
     @GET("Query/Order/ListByUserStatus")
     Observable<String> orderStatusListRequest(@Query("userId") String userId, @Query("status") Integer status, @Query("pagenumber") Integer pagenumber, @Query("pagesize") Integer pagesize);
+
+
+    @POST("api/user/order/cancel")
+    Observable<String> cancelOrderRequest(@Query("order_sn") String order_sn, @Query("token") String token);
 
 }

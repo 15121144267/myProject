@@ -32,6 +32,10 @@ public class MyOrderModel {
         return mApi.orderListRequest(pageNo, pageSize, search_status,flag,token).map(mTransform::transformTypeTwo);
     }
 
+    public Observable<ResponseData> cancelOrderRequest(String order_sn,String token) {
+        return mApi.cancelOrderRequest(order_sn, token).map(mTransform::transformTypeTwo);
+    }
+
 //    public Observable<ResponseData> orderStatusListRequest(Integer status, Integer pageNo, Integer pageSize) {
 //        return mApi.orderStatusListRequest(mBuProcessor.getUserId(), status, pageNo, pageSize).map(mTransform::transformTypeTwo);
 //    }

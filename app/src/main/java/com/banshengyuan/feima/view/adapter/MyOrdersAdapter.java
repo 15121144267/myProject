@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.view.View;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
@@ -45,31 +46,32 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
         helper.setText(R.id.shop_name, "  " + item.getStore_name());
         //pay_status :1 待付款 2已付款
         //deliver_status : 1 待发货 2已发货
-
-
+        helper.setText(R.id.order_state, item.getPay_status_name());
+        helper.setVisible(R.id.order_left_btn, true);
         /**
+         * 1.等待买家付款（待付款）
+           2.等待买家收货（已发货或待收货、待自提）
+           3.等待卖家发货（待发货或已付款）自提订单无此状态
+           4.交易成功（待评价或已完成）
+           5.交易关闭（已取消）
          * pay_status        1 待付款 2已付款
          * 	deliver_status   1 待发货 2已发货
          */
-        if (item.getPay_status() == 1) {//待付款
-            helper.setText(R.id.order_state, "待付款");
+        if (item.getPay_status() == 1) {
             helper.setText(R.id.order_left_btn, "取消订单");
             helper.setText(R.id.order_right_btn, "立即付款");
-        } else {//已付款
-            helper.setText(R.id.order_state, "已付款");
-            helper.setText(R.id.order_left_btn, "查看物流");
+        } else if (item.getPay_status() == 2) {
+            helper.setText(R.id.order_left_btn, "再来一单");
             helper.setText(R.id.order_right_btn, "确认收货");
-//            if (item.get == 1) {//待发货
-//                stateTv.setText("待发货");
-//                stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
-//                orderLeftBtn.setText("提醒发货");
-//                orderRightBtn.setText("再来一单");
-//            } else if (infoBean.getDeliver_status() == 2) {
-//                stateTv.setText("已发货");
-//                stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
-//                orderLeftBtn.setText("查看物流");
-//                orderRightBtn.setText("确认收货");
-//            }
+        } else if (item.getPay_status() == 3) {
+            helper.setText(R.id.order_left_btn, "再来一单");
+            helper.setText(R.id.order_right_btn, "提醒发货");
+        } else if (item.getPay_status() == 4) {
+            helper.setText(R.id.order_left_btn, "再来一单");
+            helper.setText(R.id.order_right_btn, "去评价");
+        } else if (item.getPay_status() == 5) {
+            helper.setVisible(R.id.order_left_btn, false);
+            helper.setText(R.id.order_right_btn, "已取消");
         }
 
         Integer orderCount = 0;
@@ -89,7 +91,7 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
                 .setForegroundColor(ContextCompat.getColor(mContext, R.color.light_grey_dark))
                 .append(stringBuilder).create();
 
-        helper.setText(R.id.order_price, stringBuilder2 + "(含运费￥" + ValueUtil.formatAmount2(item.getFreight())+")");
+        helper.setText(R.id.order_price, stringBuilder2 + "(含运费￥" + ValueUtil.formatAmount2(item.getFreight()) + ")");
         helper.setText(R.id.order_count, "共" + orderCount + "件商品");
 
     }

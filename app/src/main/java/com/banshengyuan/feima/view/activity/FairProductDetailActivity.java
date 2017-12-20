@@ -181,12 +181,10 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     @Override
     public void getHotFairJoinActionSuccess(HotFariJoinActionResponse response) {
-        if (response != null) {
-            showToast("报名成功");
-            if (!TextUtils.isEmpty(response.getOrder_sn())) {//判断订单号是否为空
-                //直接唤起支付
-                mPresenter.requestHotFairState(fId, response.getOrder_sn(), token); //热闹-报名订单状态查询
-            }
+        showToast("报名成功");
+        if (!TextUtils.isEmpty(response.getOrder_sn())) {//判断订单号是否为空
+            //直接唤起支付
+            mPresenter.requestHotFairState(fId, response.getOrder_sn(), token); //热闹-报名订单状态查询
         }
     }
 

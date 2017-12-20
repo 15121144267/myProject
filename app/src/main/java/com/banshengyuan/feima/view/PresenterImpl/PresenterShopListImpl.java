@@ -33,13 +33,13 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
     public void requestPublishComment(String oId, String content, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.publishCommentRequest(oId, content, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
-                .subscribe(this::getCommentSuccess
-                        , throwable -> mView.dismissLoading());
+                .subscribe(this::getCommentSuccess,
+                        throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getCommentSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
+        if (responseData.resultCode == 200) {
             mView.getCommentSuccess();
         } else {
             mView.showToast(responseData.errorDesc);
