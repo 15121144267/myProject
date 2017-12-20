@@ -3,7 +3,6 @@ package com.banshengyuan.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -27,7 +26,7 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class WelcomeActivity extends BaseActivity implements WelcomeControl.WelcomeView, Handler.Callback {
+public class WelcomeActivity extends BaseActivity implements WelcomeControl.WelcomeView {
     @Inject
     WelcomeControl.PresenterWelcome mPresenter;
     @BindView(R.id.welcome_back)

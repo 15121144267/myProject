@@ -14,31 +14,21 @@ import com.example.mylibrary.adapter.BaseViewHolder;
 import java.util.List;
 
 
-public class CouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListBean, BaseViewHolder> {
+public class ChoiceCouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
 
-    public CouponAdapter(List<MyCoupleResponse.ListBean> mList, Context context) {
+    public ChoiceCouponAdapter(List<MyCoupleResponse.ListBean> mList, Context context) {
         super(R.layout.adapter_coupon_item, mList);
         mContext = context;
+
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MyCoupleResponse.ListBean item) {
+        helper.addOnClickListener(R.id.adapter_couple_check);
+        helper.setVisible(R.id.adapter_couple_check, true);
         ImageView imageView = helper.getView(R.id.adapter_coupon_image);
-        switch (item.getStatus()) {
-            case 1:
-                imageView.setImageResource(R.mipmap.nouse_couple_bg);
-                break;
-            case 2:
-                imageView.setImageResource(R.mipmap.used_couple_bg);
-                break;
-            case 3:
-                imageView.setImageResource(R.mipmap.expired_couple_bg);
-                break;
-            default:
-                imageView.setImageResource(R.mipmap.expired_couple_bg);
-                break;
-        }
+        imageView.setImageResource(R.mipmap.nouse_couple_bg);
 
         helper.setText(R.id.adapter_couple_name, item.getName());
         helper.setText(R.id.adapter_couple_usetime, "使用期限：" + TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH, (long) item.getExpire_start_time()) +

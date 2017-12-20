@@ -154,11 +154,20 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/shop_detail_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="37dp"/>
         </LinearLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
 
+    <Button
+        android:id="@+id/shop_detail_pay"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/tab_text_normal"
+        android:background="@drawable/button_common_right"
+        android:gravity="center"
+        android:text="优惠买单"/>
 
 </android.support.design.widget.CoordinatorLayout>

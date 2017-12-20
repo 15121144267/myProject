@@ -1,12 +1,13 @@
 package com.banshengyuan.feima.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by li.liu on 2017/12/7.
  */
 
-public class MyCoupleResponse {
+public class MyCoupleResponse implements Serializable{
 
     /**
      * list : [{"id":1,"name":"85折","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"0,0.85","type":2,"store_id":12,"store_name":"test005"},{"id":2,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":3,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":4,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":5,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":6,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"}]
@@ -42,7 +43,7 @@ public class MyCoupleResponse {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean implements Serializable{
         /**
          * id : 1
          * name : 85折

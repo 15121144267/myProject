@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/banshengyuan_grey"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_common"/>
+
+    <View style="@style/LineH_Fill_Width_12_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消费总额:"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_14"/>
+
+        <EditText
+            android:id="@+id/activity_reduction_all_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical|end"
+            android:hint="请输入金额"
+            android:inputType="number"
+            android:textColorHint="@color/dark_gray"/>
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不参与优惠金额:"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_14"/>
+
+        <EditText
+            android:id="@+id/activity_reduction_reduce_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center_vertical|end"
+            android:hint="请询问服务员后输入"
+            android:inputType="number"
+            android:textColorHint="@color/dark_gray"/>
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width_12_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="优惠:"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_14"/>
+
+        <TextView
+            android:id="@+id/activity_reduction_coupon_size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:drawableEnd="@mipmap/arrow_right"
+            android:drawablePadding="@dimen/dp_5"
+            android:text="无可用"
+            android:textColor="@color/light_red"
+            android:textSize="@dimen/sp_14"/>
+    </LinearLayout>
+
+    <View style="@style/LineH_Fill_Width_12_ForView"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="@dimen/dp_25"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="实付金额:"
+            android:textColor="@color/tab_text_normal"
+            android:textSize="@dimen/sp_14"/>
+
+        <TextView
+            android:id="@+id/activity_reduction_final_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥0.00"
+            android:textColor="@color/light_red"
+            android:textSize="@dimen/sp_24"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/activity_reduction_pay"
+        style="@style/Login_Button_Style2"
+        android:layout_width="300dp"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:background="@drawable/button_style_blue3"
+        android:enabled="true"
+        android:text="立即买单"
+        android:textColor="@color/tab_text_normal"
+        android:textSize="@dimen/sp_15"/>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="买单仅限于到店支付,请确定金额后提交"
+        android:textColor="@color/dark_gray"
+        android:textSize="@dimen/sp_12"/>
+</LinearLayout>

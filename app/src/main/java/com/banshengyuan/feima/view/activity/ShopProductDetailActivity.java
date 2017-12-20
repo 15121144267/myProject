@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,6 +75,8 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
     TextView mMiddleName;
     @BindView(R.id.appBarLayout)
     AppBarLayout mAppBarLayout;
+    @BindView(R.id.shop_detail_pay)
+    Button mShopDetailPay;
 
     public static Intent getActivityDetailIntent(Context context, Integer shopId) {
         Intent intent = new Intent(context, ShopProductDetailActivity.class);
@@ -140,6 +143,7 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
         mShopDetailTabLayout.setupWithViewPager(mShopDetailViewPager);
         ValueUtil.setIndicator(mShopDetailTabLayout, 40, 40);
         RxView.clicks(mShopDetailCollection).subscribe(o -> mPresenter.requestCollection(mShopId + "", "store"));
+        RxView.clicks(mShopDetailPay).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> startActivity(ReductionPayActivity.getIntent(this, mShopId)));
         RxView.clicks(mShopDetailPhone).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
             try {
                 Uri uri = Uri.parse("tel:" + mInfoBean.mobile);

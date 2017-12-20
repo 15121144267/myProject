@@ -131,6 +131,15 @@
         <activity
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.CouponActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.ReductionPayActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".view.activity.MyCollectionActivity"
             android:screenOrientation="portrait"/>
