@@ -231,9 +231,8 @@ public class ValueUtil {
     }
 
     public static String formatAmount3(double amount) {
-        double newAmount = amount / 100;
-        DecimalFormat format = new DecimalFormat("##0.0元");
-        return format.format(newAmount);
+        DecimalFormat format = new DecimalFormat("##0.00");
+        return format.format(amount);
     }
 
     public static SpannableStringBuilder setAllPriceText(double price, Context context) {

@@ -15,6 +15,7 @@ import com.banshengyuan.feima.dagger.component.DaggerReductionPayActivityCompone
 import com.banshengyuan.feima.dagger.module.ReductionPayActivityModule;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.listener.MyTextWatchListener;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ReductionPayControl;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -164,6 +165,8 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
                 if (!(mAllPrice >= mNotCutPrice)) {
                     showToast("不参与优惠金额不能大于消费总额");
                     mActivityReductionPay.setEnabled(false);
+                } else {
+                    mActivityReductionPay.setEnabled(true);
                 }
                 countPrice();
             }
@@ -172,8 +175,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     }
 
     private void countPrice() {
-        mActivityReductionPay.setEnabled(true);
-        mActivityReductionFinalPrice.setText("￥" + ((mAllPrice - mNotCutPrice - mCouplePrice) + mNotCutPrice) + "");
+        mActivityReductionFinalPrice.setText("￥" + ValueUtil.formatAmount3((mAllPrice - mNotCutPrice - mCouplePrice) + mNotCutPrice) + "");
     }
 
     private void initializeInjector() {
