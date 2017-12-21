@@ -31,7 +31,7 @@ public class CouponActivity extends BaseActivity {
     @BindView(R.id.coupon_common_list)
     RecyclerView mCouponCommonList;
 
-    public static Intent getIntent(Context context, MyCoupleResponse mCoupleResponse,double price) {
+    public static Intent getIntent(Context context, MyCoupleResponse mCoupleResponse, double price) {
         Intent intent = new Intent(context, CouponActivity.class);
         intent.putExtra("mCoupleResponse", mCoupleResponse);
         intent.putExtra("price", price);
@@ -58,7 +58,7 @@ public class CouponActivity extends BaseActivity {
     }
 
     private void initView() {
-        mPrice = getIntent().getDoubleExtra("price",0.0);
+        mPrice = getIntent().getDoubleExtra("price", 0.0);
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ChoiceCouponAdapter(null, this);
         mCouponCommonList.setAdapter(mAdapter);

@@ -9,30 +9,29 @@ import java.util.List;
 
 public class ShopDetailCouponListResponse implements Serializable{
 
-    /**
-     * list : [{"id":11,"name":"20元优惠券","type":1,"value":"200,20","is_received":false},{"id":11,"name":"20元优惠券","type":1,"value":"200,20","is_received":false}]
-     * current_page : 1
-     * has_next_page : true
-     */
-
-    public int current_page;
-    public boolean has_next_page;
     public List<ListBean> list;
 
     public static class ListBean {
         /**
-         * id : 11
-         * name : 20元优惠券
+         * id : 13
+         * name : 20171201满99减50
          * type : 1
-         * value : 200,20
-         * is_received : false
+         * start_time : 2017-12-01 00:00:00
+         * end_time : 2017-12-31 00:00:00
+         * start_val : 99
+         * end_val : 50
+         * price : 50
+         * is_received : true
          */
 
         public int id;
         public String name;
         public int type;
-        public String value;
-        public String price;
+        public String start_time;
+        public String end_time;
+        public double start_val;
+        public double end_val;
+        public double price;
         public boolean is_received;
     }
 }

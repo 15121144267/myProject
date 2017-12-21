@@ -131,8 +131,13 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
                 showToast("请输入正确金额");
                 return;
             }
+            if(price !=0){
+                mActivityReductionReducePrice.setEnabled(false);
+                mActivityReductionAllPrice.setEnabled(false);
+            }
             startActivityForResult(CouponActivity.getIntent(this, mResponse, price), 1);
         });
+
         mActivityReductionAllPrice.addTextChangedListener(new MyTextWatchListener() {
             @Override
             public void onMyTextChanged(CharSequence s) {

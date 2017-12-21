@@ -26,7 +26,7 @@ public class PayControl {
     }
 
     public interface PresenterPay extends Presenter<PayView> {
-        void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list);
+        void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list,Integer self);
         void requestPayInfo(OrderConfirmedResponse response,Integer payType,Integer channel);
         void updateOrderStatus(PayAccessRequest request);
         void requestAddressList(String token);

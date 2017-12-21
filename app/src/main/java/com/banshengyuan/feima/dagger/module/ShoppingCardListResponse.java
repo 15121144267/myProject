@@ -56,7 +56,8 @@ public class ShoppingCardListResponse implements Serializable {
             public int expire_start_time;
             public int expire_end_time;
             public int type;
-            public String value;
+            public double start_val;
+            public double end_val;
             public String store_name;
             public int store_id;
             public int status;

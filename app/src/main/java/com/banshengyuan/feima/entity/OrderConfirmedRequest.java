@@ -9,5 +9,6 @@ public class OrderConfirmedRequest {
     public String address_id;
     public String detail;
     public String token;
+    public Integer is_selffetch;
 
 }

@@ -9,8 +9,9 @@ import java.util.List;
 
 public class MyCoupleResponse implements Serializable{
 
+
     /**
-     * list : [{"id":1,"name":"85折","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"0,0.85","type":2,"store_id":12,"store_name":"test005"},{"id":2,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":3,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":4,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":5,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"},{"id":6,"name":"20优惠券","expire_start_time":1511618880,"expire_end_time":1512050884,"status":3,"value":"20000,2000","type":1,"store_id":12,"store_name":"test005"}]
+     * list : [{"id":11,"name":"20171201满99减50","expire_start_time":1512057600,"expire_end_time":1514649600,"status":1,"type":1,"store_id":8,"store_name":"test的店铺","start_val":99,"end_val":50},{"id":12,"name":"20171201满199减100","expire_start_time":1512057600,"expire_end_time":1514649600,"status":1,"type":1,"store_id":8,"store_name":"test的店铺","start_val":199,"end_val":100},{"id":13,"name":"20171201满999减200","expire_start_time":1512057600,"expire_end_time":1514649600,"status":1,"type":1,"store_id":8,"store_name":"test的店铺","start_val":999,"end_val":200},{"id":14,"name":"20171201五折劵","expire_start_time":1512057600,"expire_end_time":1514649600,"status":1,"type":2,"store_id":8,"store_name":"test的店铺","start_val":0,"end_val":0.5}]
      * current_page : 1
      * has_next_page : false
      */
@@ -45,15 +46,16 @@ public class MyCoupleResponse implements Serializable{
 
     public static class ListBean implements Serializable{
         /**
-         * id : 1
-         * name : 85折
-         * expire_start_time : 1511618880
-         * expire_end_time : 1512050884
-         * status : 3
-         * value : 0,0.85
-         * type : 2
-         * store_id : 12
-         * store_name : test005
+         * id : 11
+         * name : 20171201满99减50
+         * expire_start_time : 1512057600
+         * expire_end_time : 1514649600
+         * status : 1
+         * type : 1
+         * store_id : 8
+         * store_name : test的店铺
+         * start_val : 99
+         * end_val : 50
          */
 
         private int id;
@@ -61,10 +63,11 @@ public class MyCoupleResponse implements Serializable{
         private int expire_start_time;
         private int expire_end_time;
         private int status;
-        private String value;
         private int type;
         private int store_id;
         private String store_name;
+        private double start_val;
+        private double end_val;
 
         public int getId() {
             return id;
@@ -106,14 +109,6 @@ public class MyCoupleResponse implements Serializable{
             this.status = status;
         }
 
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
         public int getType() {
             return type;
         }
@@ -136,6 +131,22 @@ public class MyCoupleResponse implements Serializable{
 
         public void setStore_name(String store_name) {
             this.store_name = store_name;
+        }
+
+        public double getStart_val() {
+            return start_val;
+        }
+
+        public void setStart_val(double start_val) {
+            this.start_val = start_val;
+        }
+
+        public double getEnd_val() {
+            return end_val;
+        }
+
+        public void setEnd_val(double end_val) {
+            this.end_val = end_val;
         }
     }
 }

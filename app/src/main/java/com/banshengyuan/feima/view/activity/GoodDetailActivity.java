@@ -147,9 +147,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             mGoodsDetailPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price) + "");
             if ((mInfoBean.freight == 1)) {
                 mGoodsDetailDispatchingPrice.setText("快递:" + ValueUtil.formatAmount2(mInfoBean.shipping_price) +
-                        ";满" + ValueUtil.formatAmount2(mInfoBean.free_shipping_price) + "包邮");
+                        ";满" + ValueUtil.formatAmount2(mInfoBean.free_shipping_price) + "包邮  ");
             } else {
-                mGoodsDetailDispatchingPrice.setText("快递:免邮");
+                mGoodsDetailDispatchingPrice.setText("快递:免邮  ");
             }
 
 

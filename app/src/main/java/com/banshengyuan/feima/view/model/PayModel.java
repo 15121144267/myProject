@@ -39,11 +39,12 @@ public class PayModel {
     }
 
 
-    public Observable<ResponseData> orderConfirmedRequest(String addressId, List<OrderConfirmItem> list) {
+    public Observable<ResponseData> orderConfirmedRequest(String addressId, List<OrderConfirmItem> list, Integer self) {
         OrderConfirmedRequest request = new OrderConfirmedRequest();
         request.address_id = addressId;
         request.detail = mGson.toJson(list);
         request.token = mBuProcessor.getUserToken();
+        request.is_selffetch = self;
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 

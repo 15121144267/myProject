@@ -39,7 +39,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     @Override
     public void requestCouponList(String storeId, String status) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.couponListRequest(storeId,status).compose(mView.applySchedulers())
+        Disposable disposable = mModel.couponListRequest(storeId, status).compose(mView.applySchedulers())
                 .subscribe(this::getCouponListRequestSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -111,9 +111,9 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     @Override
-    public void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list) {
+    public void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list, Integer self) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.orderConfirmedRequest(addressId, list).compose(mView.applySchedulers())
+        Disposable disposable = mModel.orderConfirmedRequest(addressId, list, self).compose(mView.applySchedulers())
                 .subscribe(this::orderConfirmedSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

@@ -44,6 +44,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 /**
  * Created by lei.he on 2017/6/27.
  * MyOrderActivity
@@ -55,8 +56,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     TextView mMiddleName;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.pay_tab_layout)
-    TabLayout mPayTabLayout;
     @BindView(R.id.pay_order_list)
     RecyclerView mPayOrderList;
     @BindView(R.id.pay_price)
@@ -75,6 +74,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     LinearLayout mPayOrderAddressLayout;
     @BindView(R.id.pay_layout)
     LinearLayout payLayout;
+    @BindView(R.id.pay_tab_layout)
+    TabLayout mPayTabLayout;
 
 
     public static Intent getIntent(Context context, ShoppingCardListResponse response, Integer flag) {
@@ -97,7 +98,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private PayGoodsListAdapter mAdapter;
     private ShoppingCardListResponse mOrderConfirm;
     private AddressResponse.ListBean mDataBean;
-    private String mAddressId;
+    private String mAddressId = "";
+    private Integer mIsSelfFetch = 0;
     private OrderConfirmedResponse mResponse;
     private Integer mFlag;
     private String mOrderSn;
@@ -121,6 +123,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             List<AddressResponse.ListBean> addressList = addressResponse.getList();
             for (AddressResponse.ListBean listBean : addressList) {
                 if (listBean.getIs_default() == 2) {
+                    mDataBean = listBean;
                     mAddressId = listBean.getId() + "";
                     mPayAddressName.setText(TextUtils.isEmpty(listBean.getName()) ? "未知" : listBean.getName());
                     mPayAddressDetail.setText(TextUtils.isEmpty(listBean.getAddress()) ? "未知" : listBean.getAddress());
@@ -132,6 +135,13 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
+        LinearLayout tabStrip = (LinearLayout) mPayTabLayout.getChildAt(0);
+        for (int i = 0; i < tabStrip.getChildCount(); i++) {
+            View tabView = tabStrip.getChildAt(i);
+            if (tabView != null) {
+                tabView.setClickable(false);
+            }
+        }
         showToast("订单确定成功");
         mResponse = response;
         PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
@@ -205,7 +215,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 bean.store_name = listBean.getStore_name();
                 bean.store_id = listBean.getStore_id();
                 bean.type = listBean.getType();
-                bean.value = listBean.getValue();
+                bean.start_val = listBean.getStart_val();
+                bean.end_val = listBean.getEnd_val();
                 bean.expire_end_time = listBean.getExpire_end_time();
                 bean.expire_start_time = listBean.getExpire_start_time();
                 list.add(bean);
@@ -274,6 +285,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             public void onMyTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        mIsSelfFetch = 0;
+                        if (mDataBean != null) {
+                            mAddressId = mDataBean.getId() + "";
+                        }
                         mPayOrderAddressLayout.setVisibility(View.VISIBLE);
                         for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
                             listBeanX.freightWay = 0;
@@ -281,6 +296,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
                         break;
                     case 1:
+                        mIsSelfFetch = 1;
+                        mAddressId = "";
                         mPayOrderAddressLayout.setVisibility(View.GONE);
                         for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
                             listBeanX.freightWay = 1;
@@ -301,7 +318,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     private void requestPay() {
-        if (TextUtils.isEmpty(mAddressId)) {
+        if (mIsSelfFetch == 0 && TextUtils.isEmpty(mAddressId)) {
             showToast("请选择收获地址");
             return;
         }
@@ -331,7 +348,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                     confirmItem.product = product;
                     list.add(confirmItem);
                 }
-                mPresenter.requestOrderConfirmed(mAddressId, list);
+                mPresenter.requestOrderConfirmed(mAddressId, list, mIsSelfFetch);
             }
         } else {
             showDialog();

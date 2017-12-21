@@ -1,13 +1,11 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.utils.TimeUtil;
-import com.banshengyuan.feima.utils.ValueUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -35,13 +33,11 @@ public class ChoiceCouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListB
                 "-" + TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH, (long) item.getExpire_end_time()));
         helper.setText(R.id.adapter_couple_limit, "仅可在店铺" + item.getStore_name() + "中使用");
 
-        if (item.getType() == 1 && !TextUtils.isEmpty(item.getValue())) {
+        if (item.getType() == 1) {
             //券类型 1满减 2折扣
-            helper.setText(R.id.adapter_couple_price, "￥" + ValueUtil.formatAmount(Double.parseDouble(item.getValue().split(",")[1])));
-        } else if (item.getType() == 2 && !TextUtils.isEmpty(item.getValue())) {
-            if (!TextUtils.isEmpty(item.getValue().split(",")[1])) {
-                helper.setText(R.id.adapter_couple_price, Double.parseDouble(item.getValue().split(",")[1]) * 10 + "折");
-            }
+            helper.setText(R.id.adapter_couple_price, "￥" + item.getEnd_val());
+        } else {
+            helper.setText(R.id.adapter_couple_price, item.getEnd_val()*10 + "折");
         }
     }
 }
