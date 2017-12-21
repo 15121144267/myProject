@@ -7,11 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.view.adapter.ChoiceCouponAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +44,7 @@ public class CouponActivity extends BaseActivity {
     private ChoiceCouponAdapter mAdapter;
     private MyCoupleResponse mCoupleResponse;
     private double mPrice;
+    private MyCoupleResponse.ListBean mCheckData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,8 +69,60 @@ public class CouponActivity extends BaseActivity {
 
         mCoupleResponse = (MyCoupleResponse) getIntent().getSerializableExtra("mCoupleResponse");
         if (mCoupleResponse != null && mCoupleResponse.getList() != null) {
+            for (MyCoupleResponse.ListBean listBean : mCoupleResponse.getList()) {
+                if (listBean.getType() == 2 && mPrice != 0) {
+                    listBean.isVisiable = true;
+                    break;
+                }
+                if (listBean.getType() == 1 && mPrice >= listBean.getStart_val()) {
+                    listBean.isVisiable = true;
+                }
+            }
             mAdapter.setNewData(mCoupleResponse.getList());
         }
+
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            MyCoupleResponse.ListBean bean = (MyCoupleResponse.ListBean) adapter.getItem(position);
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_couple_check);
+            if (bean != null) {
+                switch (view.getId()) {
+                    case R.id.adapter_couple_check:
+                        if (!checkBox.isChecked()) {
+                            checkBox.setChecked(true);
+                            return;
+                        }
+
+                        List<MyCoupleResponse.ListBean> list = adapter.getData();
+                        for (int i = 0; i < list.size(); i++) {
+                            if (i == position) {
+                                list.get(i).isCheck = true;
+                                mCheckData = list.get(i);
+                                mAdapter.setData(i, mCheckData);
+                            } else {
+                                if (list.get(i).isCheck) {
+                                    list.get(i).isCheck = false;
+                                    mAdapter.setData(i, list.get(i));
+                                }
+                            }
+                        }
+                        break;
+                }
+
+            }
+
+        });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mCheckData != null) {
+            Intent intent = new Intent();
+            intent.putExtra("mCheckData", mCheckData);
+            setResult(RESULT_OK, intent);
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
 }

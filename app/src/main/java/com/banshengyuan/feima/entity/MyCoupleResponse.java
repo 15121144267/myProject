@@ -68,7 +68,8 @@ public class MyCoupleResponse implements Serializable{
         private String store_name;
         private double start_val;
         private double end_val;
-
+        public boolean isVisiable;
+        public boolean isCheck;
         public int getId() {
             return id;
         }

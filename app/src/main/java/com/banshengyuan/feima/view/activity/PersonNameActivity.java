@@ -60,7 +60,6 @@ public class PersonNameActivity extends BaseActivity {
     }
 
     private void requestSure() {
-
         String name = mChangeName.getEditText();
         if(ValueUtil.checkSpecialString1(name)){
             Intent intent = new Intent();

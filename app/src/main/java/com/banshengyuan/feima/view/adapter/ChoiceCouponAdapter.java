@@ -24,10 +24,14 @@ public class ChoiceCouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListB
     @Override
     protected void convert(BaseViewHolder helper, MyCoupleResponse.ListBean item) {
         helper.addOnClickListener(R.id.adapter_couple_check);
-        helper.setVisible(R.id.adapter_couple_check, true);
+        helper.setChecked(R.id.adapter_couple_check,item.isCheck);
         ImageView imageView = helper.getView(R.id.adapter_coupon_image);
-        imageView.setImageResource(R.mipmap.nouse_couple_bg);
-
+        helper.setVisible(R.id.adapter_couple_check, item.isVisiable);
+        if (item.isVisiable) {
+            imageView.setImageResource(R.mipmap.nouse_couple_bg);
+        } else {
+            imageView.setImageResource(R.mipmap.expired_couple_bg);
+        }
         helper.setText(R.id.adapter_couple_name, item.getName());
         helper.setText(R.id.adapter_couple_usetime, "使用期限：" + TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH, (long) item.getExpire_start_time()) +
                 "-" + TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH, (long) item.getExpire_end_time()));
@@ -37,7 +41,7 @@ public class ChoiceCouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListB
             //券类型 1满减 2折扣
             helper.setText(R.id.adapter_couple_price, "￥" + item.getEnd_val());
         } else {
-            helper.setText(R.id.adapter_couple_price, item.getEnd_val()*10 + "折");
+            helper.setText(R.id.adapter_couple_price, item.getEnd_val() * 10 + "折");
         }
     }
 }

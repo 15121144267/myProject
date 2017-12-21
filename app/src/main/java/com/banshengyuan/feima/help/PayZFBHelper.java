@@ -9,6 +9,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.PayResult;
 import com.banshengyuan.feima.view.PresenterControl.LoadDataView;
 import com.banshengyuan.feima.view.PresenterControl.PayControl;
+import com.banshengyuan.feima.view.PresenterControl.ReductionPayControl;
 import com.banshengyuan.feima.view.activity.BaseActivity;
 
 public class PayZFBHelper {
@@ -92,6 +93,11 @@ public class PayZFBHelper {
         }
         if(mLoadDataView instanceof PayControl.PayView){
             PayControl.PayView view = (PayControl.PayView)mLoadDataView;
+            view.orderPaySuccess();
+        }
+
+        if(mLoadDataView instanceof ReductionPayControl.ReductionPayView){
+            ReductionPayControl.ReductionPayView view = (ReductionPayControl.ReductionPayView)mLoadDataView;
             view.orderPaySuccess();
         }
     }

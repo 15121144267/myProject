@@ -19,6 +19,7 @@ import com.banshengyuan.feima.dagger.component.DaggerPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.PayActivityModule;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.AddressResponse;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
@@ -142,7 +143,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                 tabView.setClickable(false);
             }
         }
-        showToast("订单确定成功");
+
         mResponse = response;
         PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
         payMethodDialog.setListener(this);
@@ -197,10 +198,24 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             PayZFBHelper.getInstance().pay(response.biz_content, this);
         }
     }
-
+    //支付宝支付成功回调
     @Override
     public void orderPaySuccess() {
+        showToast("跳转页面");
+    }
 
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS);
+    }
+    //微信支付成功回调
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        super.onReceivePro(context, intent);
+        if(intent.getAction().equals(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS)){
+            showToast("跳转页面");
+        }
     }
 
     @Override

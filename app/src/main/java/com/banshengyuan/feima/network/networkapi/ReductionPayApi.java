@@ -1,7 +1,9 @@
 package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -12,5 +14,11 @@ import retrofit2.http.Query;
 public interface ReductionPayApi {
 
     @GET("api/user/ticket")
-    Observable<String> couponListRequest(@Query("token") String token,@Query("store_id") String storeId,@Query("status") String status);
+    Observable<String> couponListRequest(@Query("token") String token, @Query("store_id") String storeId, @Query("status") String status);
+
+    @POST("api/order/store_submit")
+    Observable<String> payConfirmRequest(@Body String request);
+
+    @POST("api/trade/payment")
+    Observable<String> payRequest(@Body String request);
 }

@@ -83,6 +83,7 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
         mRxPermissions = component.rxPermissions();
         component.inject(this);
         mHandler = new Handler(this);
+        addFilter();
         mLocationInfo = ((DaggerApplication) getApplicationContext()).getMapLocation();
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mFilter);
     }
