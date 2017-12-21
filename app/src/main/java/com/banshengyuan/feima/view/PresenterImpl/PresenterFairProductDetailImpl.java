@@ -70,7 +70,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     @Override
     public void requestHotFairJoinAction(String id, String phone, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.hotFairJoinActionRequest(id, phone, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.hotFairJoinActionRequest(id, phone, token).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairJoinActionSuccess
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
@@ -99,14 +99,9 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
     private void getHotFairJoinActionSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            String result = responseData.result;
-            if (!result.equals("{}")) {
-                responseData.parseData(HotFariJoinActionResponse.class);
-                HotFariJoinActionResponse response = (HotFariJoinActionResponse) responseData.parsedData;
-                mView.getHotFairJoinActionSuccess(response);
-            }else {
-                mView.getHotFairJoinActionSuccess(null);
-            }
+            responseData.parseData(HotFariJoinActionResponse.class);
+            HotFariJoinActionResponse response = (HotFariJoinActionResponse) responseData.parsedData;
+            mView.getHotFairJoinActionSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
         }

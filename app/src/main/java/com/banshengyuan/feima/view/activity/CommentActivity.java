@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopListActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopListActivityModule;
+import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
@@ -36,11 +37,12 @@ import butterknife.OnClick;
 
 public class CommentActivity extends BaseActivity implements ShopListControl.ShopListView {
 
-    private List<MyOrdersResponse.ListBean.ProductBean> mList ;
+    private List<MyOrdersResponse.ListBean.ProductBean> mList;
+    private List<GoodsCommentContentRequest> commentList = new ArrayList<>();
 
     public static Intent getIntent(Context context, ArrayList<MyOrdersResponse.ListBean.ProductBean> mList) {
         Intent intent = new Intent(context, CommentActivity.class);
-        intent.putParcelableArrayListExtra("mList",mList);
+        intent.putParcelableArrayListExtra("mList", mList);
         return intent;
     }
 
@@ -137,6 +139,18 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
 
     @OnClick(R.id.toolbar_right_text)
     public void onViewClicked() {
+
+        for (int i = 0; i < mList.size(); i++) {
+            GoodsCommentContentRequest request = new GoodsCommentContentRequest();
+            EditText edit = (EditText) mAdapter.getViewByPosition(mRecyclerview, i, R.id.comment_content);
+            request.setGoods_id(mList.get(i).getGoods_id());
+            if (!TextUtils.isEmpty(edit.getText().toString())) {
+                request.setContent(edit.getText().toString());
+            }
+            commentList.add(request);
+        }
+
+        mPresenter.requestPublishComment(commentList, token);
 //        String content = commentontent.getText().toString();
 //        if (TextUtils.isEmpty(content)) {
 //            showToast("评论不能为空");

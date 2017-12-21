@@ -218,6 +218,15 @@ public class MyOrdersResponse implements Parcelable {
             private int price;
             private int number;
             private String cover_img;
+            private String content;
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
+            }
 
             protected ProductBean(Parcel in) {
                 id = in.readInt();

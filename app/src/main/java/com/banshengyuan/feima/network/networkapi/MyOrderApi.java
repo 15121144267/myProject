@@ -22,4 +22,10 @@ public interface MyOrderApi {
     @POST("api/user/order/cancel")
     Observable<String> cancelOrderRequest(@Query("order_sn") String order_sn, @Query("token") String token);
 
+    @POST("api/order/confirm-received")
+    Observable<String> comfirmOrderRequest(@Query("order_sn") String order_sn, @Query("token") String token);
+
+    @POST("api/order/remind")
+    Observable<String> remindSendGoodsRequest(@Query("order_sn") String order_sn, @Query("token") String token);
+
 }

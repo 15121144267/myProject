@@ -50,7 +50,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
-    //1.等待买家付款（待付款） 2.等待买家收货（已发货或待收货） 3.等待卖家发货（待发货或已付款） 4.交易成功（待评价或已完成） 5.交易关闭（已取消）
+    //1.待付款 2.待收货 3. 待评价
     private final String mStatus = "0";
     private String mToken = null;
     private int mPos;
@@ -124,13 +124,21 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         }
     }
 
+    @Override
+    public void getComfirmOrderSuccess(boolean flag) {
+        //确认收货
+        if (flag) {
+            showToast("确认订单成功");
+//            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        }
+    }
+
     private void initData() {
         mToken = mBuProcessor.getUserToken();
 //        mToken = Constant.mToken;
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
         mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
     }
-
 
 
     private void initView() {
@@ -152,14 +160,13 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             if (listBean.getPay_status() == 1) {//取消订单
                                 mPresenter.requestCancelOrder(mOrderSn, mToken);
                             } else if (listBean.getPay_status() == 2) {
-                                startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
 //                                helper.setText(R.id.order_left_btn, "再来一单");
                             } else if (listBean.getPay_status() == 3) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
                             } else if (listBean.getPay_status() == 4) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
                             } else if (listBean.getPay_status() == 5) {
-//                                helper.setVisible(R.id.order_left_btn, false);
+//                              helper.setVisible(R.id.order_left_btn, false);
 //                                helper.setText(R.id.order_right_btn, "已取消");
                             }
                             break;
@@ -171,15 +178,18 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             } else if (listBean.getPay_status() == 2) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
 //                                helper.setText(R.id.order_right_btn, "确认收货");
+                                mPresenter.requestConfirmOrder(mOrderSn, mToken);
                             } else if (listBean.getPay_status() == 3) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
 //                                helper.setText(R.id.order_right_btn, "提醒发货");
+                                mPresenter.requestRemindSendGoods(mOrderSn, mToken);
                             } else if (listBean.getPay_status() == 4) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
 //                                helper.setText(R.id.order_right_btn, "去评价");
+                                startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
                             } else if (listBean.getPay_status() == 5) {
-//                                helper.setVisible(R.id.order_left_btn, false);
-//                                helper.setText(R.id.order_right_btn, "已取消");
+//                                showToast("已取消");
+
                             }
                             break;
                     }

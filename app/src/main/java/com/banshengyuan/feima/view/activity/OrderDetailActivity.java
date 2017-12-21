@@ -209,10 +209,11 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             createDate.setText("创建时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getCreate_time()));
             payDate.setText("成交时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getDeal_time()));
             receiptAddress.setText(address);
+            stateTv.setText(infoBean.getStatus());
             /**
              *  /**
              * 1.等待买家付款（待付款）
-             2.等待买家收货（已发货或待收货、待自提）
+              2.等待买家收货（已发货或待收货、待自提）
              3.等待卖家发货（待发货或已付款）自提订单无此状态
              4.交易成功（待评价或已完成）
              5.交易关闭（已取消）
@@ -220,22 +221,25 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
              * 	deliver_status   1 待发货 2已发货
              */
             if (infoBean.getPay_status() == 1) {//待付款
-                stateTv.setText("等待买家付款");
                 stateIv.setImageResource(R.mipmap.order_detail_no_pay);
-                    orderLeftBtn.setText("取消订单");
-                    orderRightBtn.setText("立即付款");
-                } else {//已付款
-                    if (infoBean.getDeliver_status() == 1) {//待发货
-                        stateTv.setText("待发货");
-                        stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
-                        orderLeftBtn.setText("提醒发货");
-                        orderRightBtn.setText("再来一单");
-                    } else if (infoBean.getDeliver_status() == 2) {
-                        stateTv.setText("已发货");
-                        stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
-                        orderLeftBtn.setText("查看物流");
-                        orderRightBtn.setText("确认收货");
-                }
+                orderLeftBtn.setText("取消订单");
+                orderRightBtn.setText("立即付款");
+            } else if (infoBean.getPay_status() == 2) {//已付款
+                stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
+                orderLeftBtn.setText("确认收货");
+                orderRightBtn.setText("再来一单");
+            } else if (infoBean.getPay_status() == 3) {
+                stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
+                orderLeftBtn.setText("提醒发货");
+                orderRightBtn.setText("再来一单");
+            } else if (infoBean.getPay_status() == 4) {
+                stateIv.setImageResource(R.mipmap.order_detail_success);
+                orderLeftBtn.setText("去评价");
+                orderRightBtn.setText("再来一单");
+            } else if (infoBean.getPay_status() == 5) {
+                stateIv.setImageResource(R.mipmap.order_detail_close);
+                orderLeftBtn.setVisibility(View.GONE);
+                orderRightBtn.setText("交易完成");
             }
 
             Integer totalPrice = infoBean.getTotal_fee();

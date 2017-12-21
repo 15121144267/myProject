@@ -3,10 +3,13 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShopListModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -30,9 +33,9 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
     }
 
     @Override
-    public void requestPublishComment(String oId, String content, String token) {
+    public void requestPublishComment(List<GoodsCommentContentRequest> mList, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.publishCommentRequest(oId, content, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.publishCommentRequest(mList, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getCommentSuccess,
                         throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);

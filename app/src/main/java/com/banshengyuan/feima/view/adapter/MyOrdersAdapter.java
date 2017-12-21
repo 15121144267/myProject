@@ -49,10 +49,13 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
         helper.setText(R.id.order_state, item.getPay_status_name());
         helper.setVisible(R.id.order_left_btn, true);
         /**
+         *
+         * 订单状态
+         * order_type  1线上订单  2自提订单  3线下收款订单
          * 1.等待买家付款（待付款）
            2.等待买家收货（已发货或待收货、待自提）
            3.等待卖家发货（待发货或已付款）自提订单无此状态
-           4.交易成功（待评价或已完成）
+           4.交易成功（待评价或已完成、线下收款）线下收款订单没有商品，故无评价
            5.交易关闭（已取消）
          * pay_status        1 待付款 2已付款
          * 	deliver_status   1 待发货 2已发货
@@ -70,6 +73,8 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
             helper.setText(R.id.order_left_btn, "再来一单");
             helper.setText(R.id.order_right_btn, "去评价");
         } else if (item.getPay_status() == 5) {
+//            helper.setText(R.id.order_left_btn, "已取消");
+//            helper.setVisible(R.id.order_right_btn, false);
             helper.setVisible(R.id.order_left_btn, false);
             helper.setText(R.id.order_right_btn, "已取消");
         }

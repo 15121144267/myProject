@@ -9,8 +9,8 @@ public class HotFariJoinActionResponse {
 
 
     /**
-     * order_sn : H2017122010562383291
-     * total_fee : 100
+     * order_sn : H2017122101164710906
+     * total_fee : 11100
      */
 
     private String order_sn;

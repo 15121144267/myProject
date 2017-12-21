@@ -76,8 +76,8 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     }
 
     private void initData() {
-//        token = mBuProcessor.getUserToken();
-        token = Constant.TOKEN;
+        token = mBuProcessor.getUserToken();
+//        token = Constant.TOKEN;
         mPresenter.requestUsedCouponList(state, page, pageSize, token);
     }
 

@@ -52,9 +52,43 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
         mView.addSubscription(disposable);
     }
 
+    @Override
+    public void requestConfirmOrder(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.comfirmOrderRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::comfirmOrderSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    @Override
+    public void requestRemindSendGoods(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.remindSendGoodsRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::remindSendGoodsSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
     private void cancelOrderSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             mView.getCancelOrderSuccess(true);
+        } else {
+            mView.showToast("操作失败");
+        }
+    }
+
+    private void comfirmOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.getComfirmOrderSuccess(true);
+        } else {
+            mView.showToast("操作失败");
+        }
+    }
+
+    private void remindSendGoodsSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.showToast("提醒成功");
         } else {
             mView.showToast("操作失败");
         }

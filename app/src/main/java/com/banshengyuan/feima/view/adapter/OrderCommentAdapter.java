@@ -27,6 +27,8 @@ public class OrderCommentAdapter extends BaseQuickAdapter<MyOrdersResponse.ListB
         if(item ==null) return;
         mImageLoaderHelper.displayImage(mContext,item.getCover_img(),helper.getView(R.id.goods_img));
         helper.setText(R.id.goods_name,item.getName());
+
+
     }
 
 }

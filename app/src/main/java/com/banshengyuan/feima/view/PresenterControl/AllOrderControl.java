@@ -13,12 +13,18 @@ public class AllOrderControl {
         void getMyOrderListSuccess(MyOrdersResponse response);
 
         void getCancelOrderSuccess(boolean flag);
+
+        void getComfirmOrderSuccess(boolean flag);
     }
 
     public interface PresenterAllOrderView extends Presenter<AllOrderView> {
         void requestMyOrderList(Integer pageNo, Integer pageSize,String search_status,boolean flag,String token);
 
         void requestCancelOrder(String order_sn,String token);
+
+        void requestConfirmOrder(String order_sn,String token);
+
+        void requestRemindSendGoods(String order_sn ,String token);
 
     }
 }

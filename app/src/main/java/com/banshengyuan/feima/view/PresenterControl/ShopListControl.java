@@ -1,5 +1,9 @@
 package com.banshengyuan.feima.view.PresenterControl;
 
+import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
+
+import java.util.List;
+
 /**
  * Created by helei on 2017/4/27.
  * LoginControl
@@ -11,7 +15,7 @@ public class ShopListControl {
     }
 
     public interface PresenterShopList extends Presenter<ShopListView> {
-        void requestPublishComment(String gId, String content,String token);
+        void requestPublishComment(List<GoodsCommentContentRequest> mList, String token);
     }
 
 }

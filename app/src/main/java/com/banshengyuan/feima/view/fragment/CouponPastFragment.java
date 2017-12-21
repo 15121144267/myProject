@@ -76,8 +76,8 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     }
 
     private void initData() {
-//        token = mBuProcessor.getUserToken();
-        token = Constant.TOKEN;
+        token = mBuProcessor.getUserToken();
+//        token = Constant.TOKEN;
         mPresenter.requestExpiredCouponList(state, page, pageSize, token);
     }
 

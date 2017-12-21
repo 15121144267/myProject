@@ -18,5 +18,7 @@ public interface ShopListApi {
     Observable<String> shopIdRequest(@Body String request);
 
     @POST("api/user/order/comment")
-    Observable<String> publishCommentRequest(@Query("goods_id") String goods_id,@Query("content") String content ,@Query("token") String token);
+    Observable<String> publishCommentRequest(@Body String request,@Query("token") String token);
+
+
 }
