@@ -77,7 +77,7 @@ public class MyOrdersResponse implements Parcelable {
         this.list = list;
     }
 
-    public static class ListBean implements Parcelable{
+    public static class ListBean implements Parcelable {
         /**
          * order_sn : Z2017120106111625062
          * store_name : test的店铺
@@ -96,6 +96,7 @@ public class MyOrdersResponse implements Parcelable {
         private String pay_status_name;
         private int total_fee;
         private int freight;
+        private int order_type;
         private List<ProductBean> product;
 
         protected ListBean(Parcel in) {
@@ -137,6 +138,14 @@ public class MyOrdersResponse implements Parcelable {
                 return new ListBean[size];
             }
         };
+
+        public int getOrder_type() {
+            return order_type;
+        }
+
+        public void setOrder_type(int order_type) {
+            this.order_type = order_type;
+        }
 
         public String getOrder_sn() {
             return order_sn;
@@ -202,7 +211,7 @@ public class MyOrdersResponse implements Parcelable {
             this.product = product;
         }
 
-        public static class ProductBean implements Parcelable{
+        public static class ProductBean implements Parcelable {
             /**
              * id : 3
              * name : 测试商品

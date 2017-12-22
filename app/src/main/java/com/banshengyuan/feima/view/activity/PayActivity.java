@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,21 +18,14 @@ import com.banshengyuan.feima.dagger.component.DaggerPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.PayActivityModule;
 import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.AddressResponse;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
-import com.banshengyuan.feima.entity.PayConstant;
-import com.banshengyuan.feima.entity.PayResponse;
-import com.banshengyuan.feima.help.DialogFactory;
-import com.banshengyuan.feima.help.PayZFBHelper;
-import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
 import com.banshengyuan.feima.listener.TabCheckListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.PayControl;
 import com.banshengyuan.feima.view.adapter.PayGoodsListAdapter;
-import com.banshengyuan.feima.view.fragment.PayMethodDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
@@ -51,7 +43,7 @@ import butterknife.ButterKnife;
  * MyOrderActivity
  */
 
-public class PayActivity extends BaseActivity implements PayControl.PayView, PayMethodDialog.PayMethodClickListener {
+public class PayActivity extends BaseActivity implements PayControl.PayView {
 
     @BindView(R.id.middle_name)
     TextView mMiddleName;
@@ -86,13 +78,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         return intent;
     }
 
-    public static Intent getIntent(Context context, String order_sn) {
-        Intent intent = new Intent(context, PayActivity.class);
-        intent.putExtra("order_sn", order_sn);
-        return intent;
-    }
-
-
     @Inject
     PayControl.PresenterPay mPresenter;
     private final String[] modules = {"物流到家", "门店自提"};
@@ -101,10 +86,8 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     private AddressResponse.ListBean mDataBean;
     private String mAddressId = "";
     private Integer mIsSelfFetch = 0;
-    private OrderConfirmedResponse mResponse;
     private Integer mFlag;
-    private String mOrderSn;
-    private int mChannel = 1;
+    private Integer mCouponPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,18 +119,9 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
-        LinearLayout tabStrip = (LinearLayout) mPayTabLayout.getChildAt(0);
-        for (int i = 0; i < tabStrip.getChildCount(); i++) {
-            View tabView = tabStrip.getChildAt(i);
-            if (tabView != null) {
-                tabView.setClickable(false);
-            }
+        if(!TextUtils.isEmpty(response.order_sn)){
+            startActivity(FinalPayActivity.getIntent(this, response.order_sn, 1));
         }
-
-        mResponse = response;
-        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
-        payMethodDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
     }
 
     @Override
@@ -177,48 +151,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
     }
 
     @Override
-    public void clickRechargeBtn(Integer payType) {
-        if (mResponse != null) {
-            switch (payType) {
-                case 1:
-                    mPresenter.requestPayInfo(mResponse, payType, mChannel);
-                    break;
-                case 2:
-                    mPresenter.requestPayInfo(mResponse, payType, mChannel);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void orderPayInfoSuccess(PayResponse response) {
-        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode + "")) {
-            PayWXHelper.getInstance().pay(response.pay_order, this);
-        } else {
-            PayZFBHelper.getInstance().pay(response.biz_content, this);
-        }
-    }
-    //支付宝支付成功回调
-    @Override
-    public void orderPaySuccess() {
-        showToast("跳转页面");
-    }
-
-    @Override
-    void addFilter() {
-        super.addFilter();
-        mFilter.addAction(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS);
-    }
-    //微信支付成功回调
-    @Override
-    void onReceivePro(Context context, Intent intent) {
-        super.onReceivePro(context, intent);
-        if(intent.getAction().equals(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS)){
-            showToast("跳转页面");
-        }
-    }
-
-    @Override
     public void getCouponListRequestSuccess(MyCoupleResponse response) {
         List<ShoppingCardListResponse.ListBeanX.UserTicketBean> list = new ArrayList<>();
         if (response.getList() != null && response.getList().size() > 0) {
@@ -240,12 +172,14 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         }
 
         mAdapter.setNewData(mOrderConfirm.list);
+        initCountPrice();
     }
 
     @Override
     public void getCouponListRequestFail(String des) {
         showToast(des);
         mAdapter.setNewData(mOrderConfirm.list);
+        initCountPrice();
     }
 
     @Override
@@ -257,21 +191,12 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         this.finish();
     }
 
+
     private void initData() {
         mPresenter.requestAddressList(mBuProcessor.getUserToken());
     }
 
     private void initView() {
-        mOrderSn = getIntent().getStringExtra("order_sn");
-        if (!TextUtils.isEmpty(mOrderSn)) {
-            mChannel = 2;
-            payLayout.setVisibility(View.GONE);
-            mResponse = new OrderConfirmedResponse();
-            mResponse.order_sn = mOrderSn;
-            showDialog();
-            return;
-        }
-
         for (String module : modules) {
             mPayTabLayout.addTab(mPayTabLayout.newTab().setText(module));
         }
@@ -286,6 +211,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         if (mFlag == 2) {
             if (mOrderConfirm != null) {
                 mAdapter.setNewData(mOrderConfirm.list);
+                initCountPrice();
             }
         } else if (mFlag == 1) {
             mPresenter.requestCouponList(mOrderConfirm.list.get(0).store_id + "", "1");
@@ -294,7 +220,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
 
         RxView.clicks(mPayOrder).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestPay());
         RxView.clicks(mPayOrderAddressLayout).throttleFirst(1, TimeUnit.SECONDS).subscribe(v -> requestAddress());
-        countPrice();
+
         mPayTabLayout.addOnTabSelectedListener(new TabCheckListener() {
             @Override
             public void onMyTabSelected(TabLayout.Tab tab) {
@@ -324,11 +250,41 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
         });
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()) {
-                case R.id.adapter_pay_coupon:
-                    showToast("显示优惠券");
-                    break;
+            ShoppingCardListResponse.ListBeanX bean = (ShoppingCardListResponse.ListBeanX) adapter.getItem(position);
+            TextView textView = (TextView) adapter.getViewByPosition(mPayOrderList, position, R.id.adapter_shopping_card_price_all);
+            double price = 0;
+            if (bean != null) {
+                switch (view.getId()) {
+                    case R.id.adapter_pay_coupon:
+                        mCouponPosition = position;
+                        if (textView != null) {
+                            price = Double.parseDouble(textView.getText().toString());
+                        }
+                        if (bean.user_ticket != null && bean.user_ticket.size() > 0) {
+                            MyCoupleResponse response = new MyCoupleResponse();
+                            List<MyCoupleResponse.ListBean> listBean = new ArrayList<>();
+                            for (ShoppingCardListResponse.ListBeanX.UserTicketBean userTicketBean : bean.user_ticket) {
+                                MyCoupleResponse.ListBean beanItem = new MyCoupleResponse.ListBean();
+                                beanItem.setEnd_val(userTicketBean.end_val);
+                                beanItem.setStart_val(userTicketBean.start_val);
+                                beanItem.setExpire_end_time(userTicketBean.expire_end_time);
+                                beanItem.setExpire_start_time(userTicketBean.expire_start_time);
+                                beanItem.setId(userTicketBean.id);
+                                beanItem.setStore_id(userTicketBean.store_id);
+                                beanItem.setStore_name(userTicketBean.store_name);
+                                beanItem.setName(userTicketBean.name);
+                                beanItem.setType(userTicketBean.type);
+                                beanItem.setStatus(userTicketBean.status);
+                                listBean.add(beanItem);
+                            }
+                            response.setList(listBean);
+                            startActivityForResult(CouponActivity.getIntent(this, response, price), 12);
+                        }
+
+                        break;
+                }
             }
+
         });
     }
 
@@ -338,43 +294,28 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
             return;
         }
 
-
-        if (mResponse == null) {
-            if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
-                List<OrderConfirmItem> list = new ArrayList<>();
-                for (int i = 0; i < mOrderConfirm.list.size(); i++) {
-                    OrderConfirmItem confirmItem = new OrderConfirmItem();
-                    confirmItem.store_id = mOrderConfirm.list.get(i).store_id;
-                    confirmItem.store_name = mOrderConfirm.list.get(i).stoer_name;
-                    EditText edit = (EditText) mAdapter.getViewByPosition(mPayOrderList, i, R.id.adapter_pay_suggestion);
-                    if (edit != null) {
-                        confirmItem.remark = edit.getText().toString();
-                    }
-                    confirmItem.ticket_id = "";
-                    List<OrderConfirmItem.ProductBean> product = new ArrayList<>();
-                    for (ShoppingCardListResponse.ListBeanX.ListBean listBean : mOrderConfirm.list.get(i).list) {
-                        OrderConfirmItem.ProductBean productItem = new OrderConfirmItem.ProductBean();
-                        productItem.goods_id = listBean.goods_id;
-                        productItem.goods_sku = listBean.goods_sku;
-                        productItem.number = listBean.number;
-                        product.add(productItem);
-                    }
-
-                    confirmItem.product = product;
-                    list.add(confirmItem);
+        if (mAdapter.getData().size() > 0) {
+            List<OrderConfirmItem> list = new ArrayList<>();
+            for (ShoppingCardListResponse.ListBeanX listBeanX : mAdapter.getData()) {
+                OrderConfirmItem confirmItem = new OrderConfirmItem();
+                confirmItem.store_id = listBeanX.store_id;
+                confirmItem.store_name = listBeanX.stoer_name;
+                confirmItem.ticket_id = listBeanX.couponId;
+                confirmItem.remark = listBeanX.remark;
+                List<OrderConfirmItem.ProductBean> product = new ArrayList<>();
+                for (ShoppingCardListResponse.ListBeanX.ListBean listBean : listBeanX.list) {
+                    OrderConfirmItem.ProductBean productItem = new OrderConfirmItem.ProductBean();
+                    productItem.goods_id = listBean.goods_id;
+                    productItem.goods_sku = listBean.goods_sku;
+                    productItem.number = listBean.number;
+                    product.add(productItem);
                 }
-                mPresenter.requestOrderConfirmed(mAddressId, list, mIsSelfFetch);
+                confirmItem.product = product;
+                list.add(confirmItem);
             }
-        } else {
-            showDialog();
+            mPresenter.requestOrderConfirmed(mAddressId, list, mIsSelfFetch);
         }
 
-    }
-
-    private void showDialog() {
-        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
-        payMethodDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
     }
 
     private void requestAddress() {
@@ -394,17 +335,30 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                     mPayAddressPhone.setText(TextUtils.isEmpty(mDataBean.getMobile()) ? "未知" : mDataBean.getMobile());
                 }
             }
+        } else if (requestCode == 12 && resultCode == RESULT_OK) {
+            MyCoupleResponse.ListBean mCheckData = (MyCoupleResponse.ListBean) data.getSerializableExtra("mCheckData");
+            if (mCheckData != null) {
+                ShoppingCardListResponse.ListBeanX bean = mAdapter.getItem(mCouponPosition);
+                if (bean != null) {
+                    bean.reduceWay = mCheckData.getType();
+                    bean.reduceValue = mCheckData.getEnd_val();
+                    bean.couponDes = mCheckData.getName();
+                    bean.couponId = mCheckData.getId();
+                    mAdapter.setData(mCouponPosition, bean);
+                    initCountPrice();
+                }
+            }
         }
 
     }
 
-
-    private void countPrice() {
+    private void initCountPrice() {
         if (mOrderConfirm.list != null && mOrderConfirm.list.size() > 0) {
-            Integer allPrice = 0;
+            double allPrice = 0;
+            double cutPrice = 0;
             Integer dispatchingPrice = 0;
-            for (ShoppingCardListResponse.ListBeanX listBeanX : mOrderConfirm.list) {
-                Integer price = 0;
+            for (ShoppingCardListResponse.ListBeanX listBeanX : mAdapter.getData()) {
+                double price = 0;
                 for (ShoppingCardListResponse.ListBeanX.ListBean listBean : listBeanX.list) {
                     price += listBean.goods_price * listBean.number;
                 }
@@ -420,9 +374,13 @@ public class PayActivity extends BaseActivity implements PayControl.PayView, Pay
                     }
 
                 }
-
+                if (listBeanX.reduceWay == 1) {
+                    cutPrice += listBeanX.reduceValue * 100;
+                } else {
+                    cutPrice += price * listBeanX.reduceValue;
+                }
             }
-            mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice, this));
+            mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice - cutPrice, this));
         }
 
     }

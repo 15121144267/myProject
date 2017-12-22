@@ -11,7 +11,7 @@ import java.util.List;
 public class ShoppingCardListResponse implements Serializable {
     public List<ListBeanX> list;
 
-    public static class ListBeanX implements Serializable{
+    public static class ListBeanX implements Serializable {
         /**
          * store_id : 1
          * stoer_name : 店铺名字
@@ -27,7 +27,13 @@ public class ShoppingCardListResponse implements Serializable {
         public List<ListBean> list;
         public boolean checkFlag;
         public int freightWay;
-        public static class ShopFreightConfigBean implements Serializable{
+        public int reduceWay = 1;
+        public double reduceValue;
+        public String couponDes;
+        public int couponId;
+        public String remark;
+
+        public static class ShopFreightConfigBean implements Serializable {
             /**
              * freight : 1
              * free_shipping_price : 99
@@ -38,7 +44,7 @@ public class ShoppingCardListResponse implements Serializable {
             public int shipping_price;
         }
 
-        public static class UserTicketBean implements Serializable{
+        public static class UserTicketBean implements Serializable {
             /**
              * id : 11
              * name : 满200立减20
@@ -63,7 +69,7 @@ public class ShoppingCardListResponse implements Serializable {
             public int status;
         }
 
-        public static class ListBean implements Serializable{
+        public static class ListBean implements Serializable {
             /**
              * id : 1
              * goods_id : 1
@@ -79,7 +85,7 @@ public class ShoppingCardListResponse implements Serializable {
             public String goods_sku;
             public String goods_name;
             public String goods_img;
-            public int goods_price;
+            public double goods_price;
             public int number;
             public boolean childEditFlag;
             public boolean childCheckFlag;

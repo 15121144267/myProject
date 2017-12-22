@@ -15,9 +15,6 @@ public interface PayApi {
     @POST("api/order/submit")
     Observable<String> orderConfirmedRequest(@Body String request);
 
-    @POST("api/trade/payment")
-    Observable<String> payRequest(@Body String request);
-
     @POST("Order/PayAccessOrders")
     Observable<String> updateOrderStatusRequest(@Body String request);
 

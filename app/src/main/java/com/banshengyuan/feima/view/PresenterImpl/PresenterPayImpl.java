@@ -8,7 +8,6 @@ import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
-import com.banshengyuan.feima.entity.PayResponse;
 import com.banshengyuan.feima.view.PresenterControl.PayControl;
 import com.banshengyuan.feima.view.model.PayModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -91,24 +90,6 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
         }
     }
 
-    @Override
-    public void requestPayInfo(OrderConfirmedResponse response, Integer payType, Integer channel) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.payRequest(response, payType, channel).compose(mView.applySchedulers())
-                .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void getPayInfoSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(PayResponse.class);
-            PayResponse response = (PayResponse) responseData.parsedData;
-            mView.orderPayInfoSuccess(response);
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }
 
     @Override
     public void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list, Integer self) {

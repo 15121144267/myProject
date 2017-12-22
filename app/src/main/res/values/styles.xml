@@ -386,8 +386,8 @@
         <item name="android:background">@drawable/item_main_white</item>
         <item name="android:layout_height">@dimen/dp_60</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:paddingLeft">14.0dip</item>
-        <item name="android:paddingRight">14.0dip</item>
+        <item name="android:paddingLeft">20.0dip</item>
+        <item name="android:paddingRight">20.0dip</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 

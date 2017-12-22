@@ -2,9 +2,7 @@ package com.banshengyuan.feima.view.PresenterControl;
 
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
-import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
-import com.banshengyuan.feima.entity.HotFariJoinActionResponse;
-import com.banshengyuan.feima.entity.HotFariStateRequest;
+import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 
 /**
  * Created by lei.he on 2017/6/28.
@@ -17,7 +15,7 @@ public class FairProductDetailControl {
 
         void getHotFairStateSuccess(HotFairStateResponse response);
 
-        void getHotFairJoinActionSuccess(HotFariJoinActionResponse response);
+        void getHotFairJoinActionSuccess(OrderConfirmedResponse response);
     }
 
     public interface PresenterFairProductDetail extends Presenter<FairProductDetailView> {

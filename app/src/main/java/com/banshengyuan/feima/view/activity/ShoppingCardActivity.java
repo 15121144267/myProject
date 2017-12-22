@@ -317,7 +317,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     private void countPrice() {
-        Integer allPrice = 0;
+        double allPrice = 0;
         List<ShoppingCardListResponse.ListBeanX> list = mAdapter.getData();
         if (list.size() > 0) {
             for (ShoppingCardListResponse.ListBeanX dataBean : list) {

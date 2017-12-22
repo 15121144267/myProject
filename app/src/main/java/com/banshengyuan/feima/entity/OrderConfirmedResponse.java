@@ -16,4 +16,5 @@ public class OrderConfirmedResponse implements Serializable {
 
     public String order_sn;
     public int total_fee;
+    public int channel;
 }

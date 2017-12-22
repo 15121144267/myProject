@@ -1,14 +1,12 @@
 package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
-import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
 import com.banshengyuan.feima.entity.HotFariJoinActionResponse;
-import com.banshengyuan.feima.entity.HotFariStateRequest;
+import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.model.FairProductDetailModel;
@@ -100,7 +98,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     private void getHotFairJoinActionSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFariJoinActionResponse.class);
-            HotFariJoinActionResponse response = (HotFariJoinActionResponse) responseData.parsedData;
+            OrderConfirmedResponse response = (OrderConfirmedResponse) responseData.parsedData;
             mView.getHotFairJoinActionSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);

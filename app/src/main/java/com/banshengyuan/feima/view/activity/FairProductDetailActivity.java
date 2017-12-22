@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -13,15 +12,11 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairProductDetailActivityModule;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
-import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
-import com.banshengyuan.feima.entity.HotFariJoinActionResponse;
-import com.banshengyuan.feima.entity.HotFariStateRequest;
 import com.banshengyuan.feima.entity.IntentConstant;
+import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
@@ -128,7 +123,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (hotFairDetailResponse != null) {
             if (hotFairStateResponse != null) {//付款完成
                 if (hotFairStateResponse.getStatus().equals("1")) {//已报名 未付款
-                    startActivity(PayActivity.getIntent(FairProductDetailActivity.this, order_sn));
+                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, order_sn,2));
                 } else {// 已付款
                     startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
                 }
@@ -180,11 +175,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     }
 
     @Override
-    public void getHotFairJoinActionSuccess(HotFariJoinActionResponse response) {
+    public void getHotFairJoinActionSuccess(OrderConfirmedResponse response) {
         showToast("报名成功");
-        if (!TextUtils.isEmpty(response.getOrder_sn())) {//判断订单号是否为空
+        if (!TextUtils.isEmpty(response.order_sn)) {//判断订单号是否为空
             //直接唤起支付
-            mPresenter.requestHotFairState(fId, response.getOrder_sn(), token); //热闹-报名订单状态查询
+            mPresenter.requestHotFairState(fId, response.order_sn, token); //热闹-报名订单状态查询
         }
     }
 

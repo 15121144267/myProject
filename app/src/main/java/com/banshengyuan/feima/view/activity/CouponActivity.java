@@ -72,9 +72,7 @@ public class CouponActivity extends BaseActivity {
             for (MyCoupleResponse.ListBean listBean : mCoupleResponse.getList()) {
                 if (listBean.getType() == 2 && mPrice != 0) {
                     listBean.isVisiable = true;
-                    break;
-                }
-                if (listBean.getType() == 1 && mPrice >= listBean.getStart_val()) {
+                }else if(listBean.getType() == 1 && mPrice >= listBean.getStart_val()){
                     listBean.isVisiable = true;
                 }
             }
@@ -105,6 +103,13 @@ public class CouponActivity extends BaseActivity {
                                 }
                             }
                         }
+                        if (mCheckData != null) {
+                            Intent intent = new Intent();
+                            intent.putExtra("mCheckData", mCheckData);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+
                         break;
                 }
 
@@ -113,16 +118,4 @@ public class CouponActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mCheckData != null) {
-            Intent intent = new Intent();
-            intent.putExtra("mCheckData", mCheckData);
-            setResult(RESULT_OK, intent);
-            finish();
-        } else {
-            super.onBackPressed();
-        }
-
-    }
 }

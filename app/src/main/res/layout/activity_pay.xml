@@ -109,7 +109,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/pay_price"
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:text="合计：188"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_14"/>
 
         <TextView
             android:id="@+id/pay_order"
@@ -126,7 +126,7 @@
             android:background="@drawable/gradient_style_pink"
             android:gravity="center"
             android:text="提交订单"
-            android:textColor="@color/tab_text_normal" />
+            android:textColor="@color/tab_text_normal"/>
     </LinearLayout>
 
 </LinearLayout>

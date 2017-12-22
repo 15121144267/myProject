@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/line_grey_bg"
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar_common"/>
+
+    <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+    <RadioGroup
+        android:id="@+id/pay_choice_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        >
+
+        <RadioButton
+            android:id="@+id/final_pay_zfb"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:button="@drawable/selector_check"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableStart="@mipmap/img_pay_zfb"
+            android:paddingStart="50dp"
+            android:text="支付宝支付"/>
+
+        <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+        <RadioButton
+            android:id="@+id/final_pay_wx"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:button="@drawable/selector_check"
+            android:drawablePadding="@dimen/dp_10"
+            android:drawableStart="@mipmap/img_pay_wx"
+            android:paddingStart="50dp"
+            android:text="微信支付"/>
+    </RadioGroup>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/final_pay_pay"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_style_pink"
+            android:gravity="center"
+            android:text="支付"
+            android:textColor="@color/tab_text_normal"/>
+    </LinearLayout>
+
+</LinearLayout>

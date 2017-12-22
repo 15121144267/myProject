@@ -18,7 +18,7 @@ public class OrderConfirmItem {
 
     public int store_id;
     public String store_name;
-    public String ticket_id;
+    public int ticket_id;
     public String remark;
     public List<ProductBean> product;
 

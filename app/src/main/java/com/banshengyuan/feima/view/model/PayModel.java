@@ -5,9 +5,7 @@ import android.content.Context;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedRequest;
-import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.entity.PayAccessRequest;
-import com.banshengyuan.feima.entity.PayRequest;
 import com.banshengyuan.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
 
@@ -48,14 +46,6 @@ public class PayModel {
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> payRequest(OrderConfirmedResponse response, Integer payType, Integer channel) {
-        PayRequest request = new PayRequest();
-        request.order_sn = response.order_sn;
-        request.payment_type = payType;
-        request.type = channel;
-        request.token = mBuProcessor.getUserToken();
-        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeFour);
-    }
 
     public Observable<ResponseData> updateOrderStatusRequest(PayAccessRequest request) {
         return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);

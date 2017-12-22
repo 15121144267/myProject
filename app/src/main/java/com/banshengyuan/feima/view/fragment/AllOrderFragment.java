@@ -14,13 +14,12 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
+import com.banshengyuan.feima.view.activity.FinalPayActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
-import com.banshengyuan.feima.view.activity.PayActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -174,7 +173,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             if (listBean.getPay_status() == 1) {//取消订单
 //                                helper.setText(R.id.order_left_btn, "取消订单");
 //                                helper.setText(R.id.order_right_btn, "立即付款");
-                                startActivity(PayActivity.getIntent(getActivity(), mOrderSn));
+                                startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn,listBean.getOrder_type()));
                             } else if (listBean.getPay_status() == 2) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
 //                                helper.setText(R.id.order_right_btn, "确认收货");

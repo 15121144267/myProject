@@ -13,18 +13,11 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerReductionPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.ReductionPayActivityModule;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
-import com.banshengyuan.feima.entity.PayConstant;
-import com.banshengyuan.feima.entity.PayResponse;
-import com.banshengyuan.feima.help.DialogFactory;
-import com.banshengyuan.feima.help.PayZFBHelper;
-import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
 import com.banshengyuan.feima.listener.MyTextWatchListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ReductionPayControl;
-import com.banshengyuan.feima.view.fragment.PayMethodDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -39,7 +32,7 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class ReductionPayActivity extends BaseActivity implements ReductionPayControl.ReductionPayView, PayMethodDialog.PayMethodClickListener {
+public class ReductionPayActivity extends BaseActivity implements ReductionPayControl.ReductionPayView {
 
     public static Intent getIntent(Context context, Integer shopId) {
         Intent intent = new Intent(context, ReductionPayActivity.class);
@@ -70,7 +63,6 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     private double mNotCutPrice;
     private double mFinalPrice;
     private double mCouponPrice;
-    private OrderConfirmedResponse mOrderConfirmedResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,54 +76,9 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     }
 
     @Override
-    public void orderPayInfoSuccess(PayResponse response) {
-        if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode + "")) {
-            PayWXHelper.getInstance().pay(response.pay_order, this);
-        } else {
-            PayZFBHelper.getInstance().pay(response.biz_content, this);
-        }
-    }
-
-    @Override
     public void getPayRequestSuccess(OrderConfirmedResponse response) {
-        mOrderConfirmedResponse = response;
-        mActivityReductionCouponSize.setEnabled(false);
-        mActivityReductionAllPrice.setEnabled(false);
-        mActivityReductionReducePrice.setEnabled(false);
-        showDialog();
-    }
-
-    @Override
-    public void clickRechargeBtn(Integer payType) {
-        if (mOrderConfirmedResponse != null) {
-            switch (payType) {
-                case 1:
-                    mPresenter.requestPayInfo(mOrderConfirmedResponse, payType, 3);
-                    break;
-                case 2:
-                    mPresenter.requestPayInfo(mOrderConfirmedResponse, payType, 3);
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void orderPaySuccess() {
-        finish();
-    }
-
-    @Override
-    void addFilter() {
-        super.addFilter();
-        mFilter.addAction(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS);
-    }
-
-    //微信支付成功回调
-    @Override
-    void onReceivePro(Context context, Intent intent) {
-        super.onReceivePro(context, intent);
-        if (intent.getAction().equals(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS)) {
-           finish();
+        if (!TextUtils.isEmpty(response.order_sn)) {
+            startActivity(FinalPayActivity.getIntent(this, response.order_sn, 3));
         }
     }
 
@@ -249,22 +196,12 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
         RxView.clicks(mActivityReductionPay).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> requestPay());
     }
 
-    private void showDialog() {
-        PayMethodDialog payMethodDialog = PayMethodDialog.newInstance();
-        payMethodDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), payMethodDialog, PayMethodDialog.TAG);
-    }
-
     private void requestPay() {
         if (TextUtils.isEmpty(mActivityReductionAllPrice.getText())) {
             showToast("请输入金额");
             return;
         }
-        if (mOrderConfirmedResponse == null) {
-            mPresenter.requestPay(mShopId + "", mActivityReductionAllPrice.getText().toString(), mCouponPrice + "", mFinalPrice + "");
-        } else {
-            showDialog();
-        }
+        mPresenter.requestPay(mShopId + "", mActivityReductionAllPrice.getText().toString(), mCouponPrice + "", mFinalPrice + "");
 
     }
 
