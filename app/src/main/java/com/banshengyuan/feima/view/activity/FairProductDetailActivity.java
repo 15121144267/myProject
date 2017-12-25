@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
@@ -34,10 +35,12 @@ import butterknife.OnClick;
 
 public class FairProductDetailActivity extends BaseActivity implements FairProductDetailControl.FairProductDetailView {
 
-    @BindView(R.id.back)
-    ImageView back;
     @BindView(R.id.join)
     RadiusTextView join;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     public static Intent getIntent(Context context, String fId) {
         Intent intent = new Intent(context, FairProductDetailActivity.class);
@@ -60,8 +63,8 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         setContentView(R.layout.activity_fairproduct_detail);
         ButterKnife.bind(this);
         initializeInjector();
-       /* supportActionBar(mToolbar, true);
-        mMiddleName.setText("新增收货地址");*/
+        supportActionBar(mToolbar, true);
+        mMiddleName.setText("热闹详情");
         initView();
         initData();
     }
@@ -123,7 +126,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (hotFairDetailResponse != null) {
             if (hotFairStateResponse != null) {//付款完成
                 if (hotFairStateResponse.getStatus().equals("1")) {//已报名 未付款
-                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, order_sn,2));
+                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, order_sn, 2));
                 } else {// 已付款
                     startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
                 }
@@ -183,14 +186,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         }
     }
 
-    @OnClick({R.id.join, R.id.back})
+    @OnClick({R.id.join})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.join:
                 join();
-                break;
-            case R.id.back:
-                finish();
                 break;
         }
     }
