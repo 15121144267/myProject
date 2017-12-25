@@ -25,10 +25,9 @@
 
         <CheckBox
             android:id="@+id/activity_shopping_card_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/selector_check"
-            android:button="@null"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:button="@drawable/selector_check"
             />
 
         <TextView

@@ -19,11 +19,10 @@
 
         <CheckBox
             android:id="@+id/item_shopping_card_check"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
             android:layout_marginEnd="@dimen/dp_8"
-            android:background="@drawable/selector_check"
-            android:button="@null"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:button="@drawable/selector_check"
             />
 
         <ImageView

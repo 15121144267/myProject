@@ -5,7 +5,6 @@ import android.content.Context;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
-import com.banshengyuan.feima.entity.HotFariJoinActionResponse;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
@@ -97,7 +96,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
     private void getHotFairJoinActionSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            responseData.parseData(HotFariJoinActionResponse.class);
+            responseData.parseData(OrderConfirmedResponse.class);
             OrderConfirmedResponse response = (OrderConfirmedResponse) responseData.parsedData;
             mView.getHotFairJoinActionSuccess(response);
         } else {

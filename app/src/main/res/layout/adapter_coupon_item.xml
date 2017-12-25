@@ -84,12 +84,11 @@
 
             <CheckBox
                 android:id="@+id/adapter_couple_check"
-                android:layout_width="20dp"
                 android:visibility="gone"
-                android:layout_height="20dp"
                 android:layout_marginEnd="@dimen/dp_20"
-                android:background="@drawable/selector_check"
-                android:button="@null"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:button="@drawable/selector_check"
                 />
         </LinearLayout>
 
