@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.entity.GoodsCommentRequest;
-import com.banshengyuan.feima.entity.ShopRequest;
 import com.banshengyuan.feima.network.networkapi.ShopListApi;
 import com.google.gson.Gson;
 
@@ -29,16 +28,10 @@ public class ShopListModel {
         mTransform = transform;
     }
 
-
-    public Observable<ResponseData> shopIdRequest(String storeCode,Integer type) {
-        ShopRequest request = new ShopRequest();
-        return mApi.shopIdRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
-    }
-
     public Observable<ResponseData> publishCommentRequest(List<GoodsCommentContentRequest> mList, String token) {
         GoodsCommentRequest request = new GoodsCommentRequest();
         request.data =  mGson.toJson(mList);
-        return mApi.publishCommentRequest(mGson.toJson(request),token).map(mTransform::transformTypeTwo);
+        return mApi.publishCommentRequest(mGson.toJson(request),token).map(mTransform::transformCommon);
     }
 
 

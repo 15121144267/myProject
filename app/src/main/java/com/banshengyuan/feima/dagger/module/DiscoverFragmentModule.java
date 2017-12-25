@@ -35,24 +35,6 @@ public class DiscoverFragmentModule {
         }
     }
 
-   /* @Provides
-    @PerActivity
-    ShopListModel provideShopListModel(Gson gson, ModelTransform modelTransform) {
-        return new ShopListModel(new RetrofitUtil.Builder()
-                .context(activity)
-                .baseUrl("http://console.freemudvip.com/service/restful/")
-                .isToJson(false)
-                .builder()
-                .create(ShopListApi.class),
-                new RetrofitUtil.Builder()
-                        .context(activity)
-                        .baseUrl(BuildConfig.DISPATCH_SERVICE)
-                        .isToJson(false)
-                        .builder()
-                        .create(ShopOtherListApi.class),
-                gson, modelTransform);
-    }*/
-
     @Provides
     @PerActivity
     FairControl.FairView fairView() {

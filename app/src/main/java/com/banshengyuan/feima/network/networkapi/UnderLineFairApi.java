@@ -12,17 +12,17 @@ import retrofit2.http.Query;
 
 public interface UnderLineFairApi {
     @GET("api/street/{id}")
-    Observable<String> blockDetailRequest(@Path("id") Integer blockId, @Query("flag") boolean flag);
+    Observable<String> blockDetailRequest(@Path("id") Integer blockId);
 
     @GET("api/fair")
-    Observable<String> blockFairListRequest(@Query("street_id") String street_id, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> blockFairListRequest(@Query("street_id") String street_id, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/store")
-    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/goods")
-    Observable<String> productListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize,@Query("flag") boolean flag);
+    Observable<String> productListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/street")
-    Observable<String> vistaListRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> vistaListRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 }

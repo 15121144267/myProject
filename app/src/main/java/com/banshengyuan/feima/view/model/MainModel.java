@@ -1,10 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.network.networkapi.MainApi;
-import com.banshengyuan.feima.utils.ValueUtil;
 import com.google.gson.Gson;
-
-import java.util.TreeMap;
 
 import javax.inject.Inject;
 
@@ -28,12 +25,7 @@ public class MainModel {
     }
 
     public Observable<ResponseData> personInfoRequest(String token) {
-        TreeMap<String, String> treeMap = new TreeMap<>();
-        String timestamp = String.valueOf(System.currentTimeMillis());
-        treeMap.put("timestamp", timestamp);
-        treeMap.put("token", token);
-        String head = ValueUtil.getSign(treeMap,timestamp);
-        return mMainApi.personInfoRequest(token,head).map(mTransform::transformCommon);
+        return mMainApi.personInfoRequest(token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> exitLoginRequest(String token) {
@@ -41,48 +33,46 @@ public class MainModel {
     }
 
     public Observable<ResponseData> fairListRequest() {
-        return mMainApi.fairListRequest(true).map(mTransform::transformCommon);
+        return mMainApi.fairListRequest().map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> productListRequest() {
-        return mMainApi.productListRequest(true).map(mTransform::transformCommon);
+        return mMainApi.productListRequest().map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> recommendTopRequest(double longitude, double latitude) {
-        return mMainApi.recommendTopRequest(longitude + "", latitude + "", true).map(mTransform::transformCommon);
+        return mMainApi.recommendTopRequest(longitude + "", latitude + "").map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestRecommendBrand() {
-        return mMainApi.recommendTopRequest("brand", 1, 5, true).map(mTransform::transformCommon);
+        return mMainApi.recommendTopRequest("brand", 1, 5).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestRecommendBottom() {
-        return mMainApi.recommendBottomRequest(2, 1, 10, true).map(mTransform::transformCommon);
+        return mMainApi.recommendBottomRequest(2, 1, 10).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestFairBottom() {
-        return mMainApi.requestFairBottom("read_count", 1, 10, true).map(mTransform::transformCommon);
+        return mMainApi.requestFairBottom("read_count", 1, 10).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> vistaListRequest(double longitude, double latitude) {
-        return mMainApi.vistaListRequest(longitude + "", latitude + "", 1, 10, true).map(mTransform::transformCommon);
+        return mMainApi.vistaListRequest(longitude + "", latitude + "", 1, 10).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> musicListRequest() {
-        return mMainApi.musicListRequest(true).map(mTransform::transformCommon);
+        return mMainApi.musicListRequest().map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> allProductSortRequest() {
-        return mMainApi.allProductSortRequest(true).map(mTransform::transformCommon);
+        return mMainApi.allProductSortRequest().map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeListRequest() {
-        return mMainApi.storeListRequest(true).map(mTransform::transformCommon);
+        return mMainApi.storeListRequest().map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> hotFairRequest(int page, int pageSize, String street_id, boolean flag) {
-        return mMainApi.hotFairRequest(page, pageSize, street_id, flag).map(mTransform::transformCommon);
+    public Observable<ResponseData> hotFairRequest(int page, int pageSize, String street_id) {
+        return mMainApi.hotFairRequest(page, pageSize, street_id).map(mTransform::transformCommon);
     }
-
-
 }

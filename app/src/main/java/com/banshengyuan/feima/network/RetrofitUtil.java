@@ -2,20 +2,29 @@ package com.banshengyuan.feima.network;
 
 import android.content.Context;
 
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.Buffer;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,6 +55,17 @@ public class RetrofitUtil {
         this.retrofit = initRetrofit();
     }
 
+    private static String bodyToString(final Request request) {
+        try {
+            final Request copy = request.newBuilder().build();
+            final Buffer buffer = new Buffer();
+            copy.body().writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "did not work";
+        }
+    }
+
     private Retrofit initRetrofit() {
         Gson gson = new Gson();
         OkHttpClient okHttpClient;
@@ -54,25 +74,40 @@ public class RetrofitUtil {
                         .connectTimeout(60 * 1000, TimeUnit.MILLISECONDS)
                         .readTimeout(60 * 1000, TimeUnit.MILLISECONDS);
 
-        /*okHttpClientBuilder.addInterceptor(new Interceptor() {
+        okHttpClientBuilder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                Request.Builder requestBuilder = original.newBuilder()
-                        .header("platform", "platform")//平台
-                        .header("sysVersion", "sysVersion")//系统版本号
-                        .header("device", "device")//设备信息
-                        .header("screen", "screen")//屏幕大小
-                        .header("uuid", "uuid")//设备唯一码
-                        .header("version", "version")//app版本
-                        .header("apiVersion", "apiVersion")//api版本
-                        .header("token", "token")//令牌
-                        .header("channelId", "channelId")//渠道
-                        .header("networkType", "networkType");//网络类型
-                Request request = requestBuilder.build();
+                Request request = chain.request();
+                String method = request.method();
+                TreeMap<String, Object> rootMap = new TreeMap<>();
+                if (method.equals("GET")) {
+                    HttpUrl httpUrlurl = request.url();
+                    Set<String> parameterNames = httpUrlurl.queryParameterNames();
+                    for (String key : parameterNames) {
+                        rootMap.put(key, httpUrlurl.queryParameter(key));
+                    }
+
+                } else {
+                    RequestBody requestBody = request.body();
+                    if (requestBody instanceof FormBody) {
+                        for (int i = 0; i < ((FormBody) requestBody).size(); i++) {
+                            rootMap.put(((FormBody) requestBody).encodedName(i), ((FormBody) requestBody).encodedValue(i));
+                        }
+                    } else {
+                        Buffer buffer = new Buffer();
+                        requestBody.writeTo(buffer);
+                        String oldParamsJson = buffer.readUtf8();
+                        Gson mGson = new Gson();
+                        rootMap = mGson.fromJson(oldParamsJson, TreeMap.class);
+                    }
+                }
+                String timestamp = String.valueOf(System.currentTimeMillis());
+                rootMap.put("timestamp", timestamp);
+                String sign = ValueUtil.getSign(rootMap);
+                request.newBuilder().addHeader("ssapp-token", sign).build();
                 return chain.proceed(request);
             }
-        });*/
+        });
 
         if (isHttps) {
             SSLSocketFactory ssl = new SSLSocketUtil.Builder()

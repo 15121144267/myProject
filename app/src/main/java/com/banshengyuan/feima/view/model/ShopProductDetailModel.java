@@ -22,7 +22,7 @@ public class ShopProductDetailModel {
     private final BuProcessor mBuProcessor;
 
     @Inject
-    public ShopProductDetailModel(ShopProductDetailApi api, Gson gson, ModelTransform transform,BuProcessor buProcessor) {
+    public ShopProductDetailModel(ShopProductDetailApi api, Gson gson, ModelTransform transform, BuProcessor buProcessor) {
         mApi = api;
         mGson = gson;
         mTransform = transform;
@@ -31,29 +31,29 @@ public class ShopProductDetailModel {
 
 
     public Observable<ResponseData> shopDetailRequest(Integer shopId) {
-        return mApi.shopDetailRequest(shopId,true).map(mTransform::transformCommon);
+        return mApi.shopDetailRequest(shopId).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeProductListRequest(Integer shopId) {
-        return mApi.storeProductListRequest(shopId,true).map(mTransform::transformCommon);
+        return mApi.storeProductListRequest(shopId).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeCouponListRequest(Integer shopId) {
-        return mApi.storeCouponListRequest(shopId,true).map(mTransform::transformCommon);
+        return mApi.storeCouponListRequest(shopId).map(mTransform::transformCommon);
     }
+
     public Observable<ResponseData> couponInfoRequest(Integer couponId) {
         CouponInfoRequest request = new CouponInfoRequest();
-        request.flag = true;
-        request.id = couponId+"";
+        request.id = couponId + "";
         request.token = mBuProcessor.getUserToken();
         return mApi.couponInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> collectionRequest(String id, String type) {
+
         CollectionRequest request = new CollectionRequest();
         request.id = id;
         request.type = type;
-        request.flag = true;
         request.token = mBuProcessor.getUserToken();
         return mApi.collectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }

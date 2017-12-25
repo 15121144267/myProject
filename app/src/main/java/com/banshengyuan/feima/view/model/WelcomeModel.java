@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.network.networkapi.WelcomeApi;
 import com.google.gson.Gson;
 
@@ -23,10 +22,6 @@ public class WelcomeModel {
         mApi = api;
         mGson = gson;
         mTransform = transform;
-    }
-
-    public Observable<ResponseData> personInfoRequest(String phone) {
-        return mApi.personInfoRequest(BuildConfig.PARTNER_ID, phone).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestPic( ) {

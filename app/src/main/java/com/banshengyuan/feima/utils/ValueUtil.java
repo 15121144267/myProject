@@ -411,9 +411,9 @@ public class ValueUtil {
         }
     }
 
-    public static String getSign(TreeMap<String, String> treeMap, String timestamp) {
+    public static String getSign(TreeMap<String, Object> treeMap) {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> stringStringEntry : treeMap.entrySet()) {
+        for (Map.Entry<String, Object> stringStringEntry : treeMap.entrySet()) {
             if (!TextUtils.isEmpty(stringStringEntry.getKey())) {
                 sb.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue()).append("&");
             }
@@ -424,8 +424,7 @@ public class ValueUtil {
             result = sb.substring(0, sb.length() - 1);
         }
         String md5Sign = encryptToMD5(result + BuildConfig.USER_KEY);
-        String finalResult = timestamp + "," + md5Sign;
-        String value = Base64.encodeToString(finalResult.getBytes(), Base64.DEFAULT).trim();
-        return value;
+        String finalResult = treeMap.get("timestamp") + "," + md5Sign;
+        return Base64.encodeToString(finalResult.getBytes(), Base64.DEFAULT).trim();
     }
 }

@@ -26,22 +26,24 @@ public class UnderLineFairModel {
 
 
     public Observable<ResponseData> blockDetailRequest(Integer blockId) {
-        return mApi.blockDetailRequest(blockId,true).map(mTransform::transformCommon);
+        return mApi.blockDetailRequest(blockId).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> blockFairListRequest(Integer blockId) {
-        return mApi.blockFairListRequest(blockId+"",1,10,true).map(mTransform::transformCommon);
+        return mApi.blockFairListRequest(blockId + "", 1, 10).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> storeListRequest(Integer blockId ) {
-        return mApi.storeListRequest(blockId,1,10,true).map(mTransform::transformCommon);
+    public Observable<ResponseData> storeListRequest(Integer blockId) {
+        return mApi.storeListRequest(blockId, 1, 10).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> productListRequest(Integer blockId ) {
-        return mApi.productListRequest(blockId,1,10,true).map(mTransform::transformCommon);
+    public Observable<ResponseData> productListRequest(Integer blockId) {
+        return mApi.productListRequest(blockId, 1, 10).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> vistaListRequest(double longitude, double latitude) {
-        return mApi.vistaListRequest(longitude + "", latitude + "", 1, 10, true).map(mTransform::transformCommon);
+        return mApi.vistaListRequest(longitude + "", latitude + "", 1, 10).map(mTransform::transformCommon);
     }
+
+
 }

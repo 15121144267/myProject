@@ -11,14 +11,8 @@ import retrofit2.http.Query;
  */
 
 public interface ShopListApi {
-    @POST("base?op=getShopList")
-    Observable<String> shopListRequest(@Body String request);
-
-    @POST("base?op=getShop")
-    Observable<String> shopIdRequest(@Body String request);
 
     @POST("api/user/order/comment")
     Observable<String> publishCommentRequest(@Body String request,@Query("token") String token);
-
 
 }

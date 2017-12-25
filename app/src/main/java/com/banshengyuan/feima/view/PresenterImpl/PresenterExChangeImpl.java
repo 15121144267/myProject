@@ -62,7 +62,7 @@ public class PresenterExChangeImpl implements ExChangeControl.PresenterExChange 
     @Override
     public void requestHotFairInfo(String street_id) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.hotFairRequest(1, 10, street_id, true).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.hotFairRequest(1, 10, street_id).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getHotFairInfoSuccess
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
