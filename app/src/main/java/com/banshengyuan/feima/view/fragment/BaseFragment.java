@@ -24,6 +24,7 @@ import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.SharePreferenceUtil;
 import com.banshengyuan.feima.utils.ToastUtils;
+import com.banshengyuan.feima.view.activity.LoginActivity;
 
 import java.net.ConnectException;
 
@@ -120,6 +121,11 @@ public class BaseFragment extends Fragment {
             WindowManager.LayoutParams localLayoutParams = getActivity().getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
+    }
+
+    public void clearSwitchToLogin() {
+        mBuProcessor.clearLoginUser();
+        startActivity(LoginActivity.getLoginIntent(getActivity()));
     }
 
     void showDialogLoading(String msg) {

@@ -63,6 +63,8 @@ public class PresenterReductionPayImpl implements ReductionPayControl.PresenterR
             responseData.parseData(MyCoupleResponse.class);
             MyCoupleResponse response = (MyCoupleResponse) responseData.parsedData;
             mView.getCouponListRequestSuccess(response);
+        } else if (responseData.resultCode == 100401 || responseData.resultCode == 100107) {
+            mView.clearSwitchToLogin();
         } else {
             mView.showToast(responseData.errorDesc);
         }
@@ -77,25 +79,5 @@ public class PresenterReductionPayImpl implements ReductionPayControl.PresenterR
     public void onDestroy() {
         mView = null;
     }
-
-
-    /*@Override
-    public void requestAddressUpdate(int addressId, AddAddressRequest request, String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.updateAddressRequest(addressId ,request,token).compose(mView.applySchedulers())
-                .subscribe(this::updateAddressSuccess, throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-
-    private void addAddressSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 200) {
-            mView.addAddressSuccess();
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }*/
-
 
 }

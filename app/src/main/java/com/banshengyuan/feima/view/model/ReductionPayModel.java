@@ -1,11 +1,12 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.entity.BuProcessor;
-import com.banshengyuan.feima.entity.OrderConfirmedResponse;
-import com.banshengyuan.feima.entity.PayRequest;
 import com.banshengyuan.feima.entity.UnderPayRequest;
 import com.banshengyuan.feima.network.networkapi.ReductionPayApi;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.google.gson.Gson;
+
+import java.util.TreeMap;
 
 import javax.inject.Inject;
 
@@ -30,17 +31,14 @@ public class ReductionPayModel {
         mBuProcessor = buProcessor;
     }
 
-    public Observable<ResponseData> payRequest(OrderConfirmedResponse response, Integer payType, Integer channel) {
-        PayRequest request = new PayRequest();
-        request.order_sn = response.order_sn;
-        request.payment_type = payType;
-        request.type = channel;
-        request.token = mBuProcessor.getUserToken();
-        return mApi.payRequest(mGson.toJson(request)).map(mTransform::transformTypeFour);
-    }
-
     public Observable<ResponseData> couponListRequest(String storeId, String status) {
-        return mApi.couponListRequest(mBuProcessor.getUserToken(), storeId, status).map(mTransform::transformCommon);
+        TreeMap<String, String> treeMap = new TreeMap<>();
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        treeMap.put("timestamp", timestamp);
+        treeMap.put("token", mBuProcessor.getUserToken());
+        treeMap.put("status", status);
+        String head = ValueUtil.getSign(treeMap,timestamp);
+        return mApi.couponListRequest(mBuProcessor.getUserToken(), storeId, status,head).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> payConfirmRequest(String storeId, String amount, String discount, String payed) {

@@ -1,7 +1,10 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.network.networkapi.MainApi;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.google.gson.Gson;
+
+import java.util.TreeMap;
 
 import javax.inject.Inject;
 
@@ -25,7 +28,12 @@ public class MainModel {
     }
 
     public Observable<ResponseData> personInfoRequest(String token) {
-        return mMainApi.personInfoRequest(token).map(mTransform::transformCommon);
+        TreeMap<String, String> treeMap = new TreeMap<>();
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        treeMap.put("timestamp", timestamp);
+        treeMap.put("token", token);
+        String head = ValueUtil.getSign(treeMap,timestamp);
+        return mMainApi.personInfoRequest(token,head).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> exitLoginRequest(String token) {
@@ -72,7 +80,9 @@ public class MainModel {
         return mMainApi.storeListRequest(true).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> hotFairRequest(int page, int pageSize, String street_id ,boolean flag) {
-        return mMainApi.hotFairRequest(page, pageSize,street_id, flag).map(mTransform::transformCommon);
+    public Observable<ResponseData> hotFairRequest(int page, int pageSize, String street_id, boolean flag) {
+        return mMainApi.hotFairRequest(page, pageSize, street_id, flag).map(mTransform::transformCommon);
     }
+
+
 }

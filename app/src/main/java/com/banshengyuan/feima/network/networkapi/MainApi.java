@@ -2,6 +2,7 @@ package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 /**
@@ -10,9 +11,8 @@ import retrofit2.http.Query;
  */
 
 public interface MainApi {
-
     @GET("api/user/info")
-    Observable<String> personInfoRequest(@Query("token") String token);
+    Observable<String> personInfoRequest(@Query("token") String token, @Header("ssapp-token") String head);
 
     @GET("api/magic-door")
     Observable<String> musicListRequest(@Query("flag") boolean flag);
@@ -45,7 +45,7 @@ public interface MainApi {
     Observable<String> vistaListRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
 
     @GET("api/hot")
-    Observable<String> hotFairRequest(@Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("street_id") String streetId,@Query("flag") boolean flag);
+    Observable<String> hotFairRequest(@Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("street_id") String streetId, @Query("flag") boolean flag);
 
     @GET("api/user/logout")
     Observable<String> exitLoginRequest(@Query("token") String token);

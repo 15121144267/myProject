@@ -23,7 +23,7 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     private final Context mContext;
 
     @Inject
-    public PresenterCompletedImpl(Context context, MainModel model,CompletedOrderControl.CompletedOrderView view) {
+    public PresenterCompletedImpl(Context context, MainModel model, CompletedOrderControl.CompletedOrderView view) {
         mContext = context;
         mMainModel = model;
         mView = view;
@@ -32,7 +32,7 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     @Override
     public void requestPersonInfo(String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable =  mMainModel.personInfoRequest(token).compose(mView.applySchedulers())
+        Disposable disposable = mMainModel.personInfoRequest(token).compose(mView.applySchedulers())
                 .subscribe(this::getPersonInfoSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -41,16 +41,16 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
     @Override
     public void requestExitLogin(String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable =  mMainModel.exitLoginRequest(token).compose(mView.applySchedulers())
+        Disposable disposable = mMainModel.exitLoginRequest(token).compose(mView.applySchedulers())
                 .subscribe(this::getExitLoginSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getExitLoginSuccess(ResponseData responseData) {
-        if(responseData.resultCode ==200){
+        if (responseData.resultCode == 200) {
             mView.getExitLoginSuccess();
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }
@@ -61,6 +61,9 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
             responseData.parseData(PersonInfoResponse.class);
             PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
             mView.getPersonInfoSuccess(response);
+        } else if (responseData.resultCode == 100401 || responseData.resultCode == 100107) {
+            mView.showToast("登入过期,请重新登入");
+            mView.clearSwitchToLogin();
         } else {
             mView.showToast(responseData.errorDesc);
         }

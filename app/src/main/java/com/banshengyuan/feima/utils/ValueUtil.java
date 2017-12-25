@@ -18,13 +18,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.help.HtmlHelp.MxgsaTagHandler;
 import com.banshengyuan.feima.help.HtmlHelp.URLImageParser;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +41,60 @@ public class ValueUtil {
 
     public static final String TAG = ValueUtil.class.getSimpleName();
 
+    /**
+     * MD5 加密
+     *
+     * @param info 需要MD5加密的字符穿
+     * @return String result MD5加密后返回的结果
+     */
+    public static String encryptToMD5(String info) {
+        // MessageDegist计算摘要后 得到的是Byte数组
+        byte[] digesta = null;
+        try {
+            // 获取消息摘要MessageDigest抽象类的实例
+            MessageDigest mDigest = MessageDigest.getInstance("MD5");
+            // 添加需要进行计算摘要的对象（字节数组）
+            mDigest.update(info.getBytes("UTF-8"));
+            // 计算摘要
+            digesta = mDigest.digest();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // 将字节数组转换为String并返回
+
+        return bytes2Hex(digesta);
+    }
+
+    /**
+     * 将2进制字节数组转换为16进制字符串
+     *
+     * @param bytes 字节数组
+     * @return String hex 返回16进制内容的字符串，比较类似UDB的密钥
+     */
+    public static String bytes2Hex(byte[] bytes) {
+        // 16进制结果
+        String hex = "";
+        // 存放byte字节对象的临时变量
+        String temp = "";
+
+        // 对字节数组元素进行处理
+        for (int i = 0; i < bytes.length; i++) {
+            // byte的取值范围是从-127-128，需要& 0xFF (11111111) 使得byte原来的负值变成正的
+            temp = Integer.toHexString(bytes[i] & 0xFF);
+            // 长度为1，那么需要补充一位 0
+            if (temp.length() == 1) {
+                hex = hex + "0" + temp;
+            } else {
+                // 长度为2，直接拼接即可
+                hex = hex + temp;
+            }
+        }
+        // 返回大写的字符串
+        return hex.toUpperCase();
+    }
 
     //产生一个十位数的随机数
     public static long getRandom() {
@@ -349,6 +409,23 @@ public class ValueUtil {
                 break;
 
         }
+    }
 
+    public static String getSign(TreeMap<String, String> treeMap, String timestamp) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> stringStringEntry : treeMap.entrySet()) {
+            if (!TextUtils.isEmpty(stringStringEntry.getKey())) {
+                sb.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue()).append("&");
+            }
+        }
+
+        String result = "";
+        if (sb.length() > 0) {
+            result = sb.substring(0, sb.length() - 1);
+        }
+        String md5Sign = encryptToMD5(result + BuildConfig.USER_KEY);
+        String finalResult = timestamp + "," + md5Sign;
+        String value = Base64.encodeToString(finalResult.getBytes(), Base64.DEFAULT).trim();
+        return value;
     }
 }

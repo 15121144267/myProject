@@ -14,6 +14,8 @@ public interface LoadDataView {
 
     void showToast(String message);
 
+    void clearSwitchToLogin();
+
     <T> ObservableTransformer<T, T> applySchedulers();
 
     void addSubscription(Disposable disposable);

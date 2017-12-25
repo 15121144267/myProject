@@ -13,6 +13,11 @@ import com.banshengyuan.feima.dagger.component.DaggerWelcomeActivityComponent;
 import com.banshengyuan.feima.dagger.module.WelcomeActivityModule;
 import com.banshengyuan.feima.entity.AdResponse;
 import com.banshengyuan.feima.view.PresenterControl.WelcomeControl;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,6 +42,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     private boolean mShowGuideFinish = false;
     private AtomicInteger mCutDownTime = new AtomicInteger();
     public static final Integer CUT_DOWN_TIME = 5;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         getWindow().setBackgroundDrawable(null);
@@ -105,9 +111,19 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     @Override
     public void getAdSuccess(AdResponse response) {
-        mImageLoaderHelper.displayImage(this, response.string, mWelcomeBack,R.mipmap.activity_welcome);
-        mCutDownTime.set(CUT_DOWN_TIME);
-        mHandler.sendEmptyMessage(1);
+        Glide.with(this).load(response.string)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.mipmap.activity_welcome)
+                .placeholder(R.mipmap.activity_welcome)
+                .centerCrop()
+                .into(new GlideDrawableImageViewTarget(mWelcomeBack) {
+                    @Override
+                    public void onResourceReady(GlideDrawable drawable, GlideAnimation anim) {
+                        super.onResourceReady(drawable, anim);
+                        mCutDownTime.set(CUT_DOWN_TIME);
+                        mHandler.sendEmptyMessage(1);
+                    }
+                });
     }
 
     @Override
