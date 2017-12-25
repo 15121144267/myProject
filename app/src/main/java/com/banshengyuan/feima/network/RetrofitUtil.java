@@ -78,6 +78,7 @@ public class RetrofitUtil {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
+                Request newRequest;
                 String method = request.method();
                 TreeMap<String, Object> rootMap = new TreeMap<>();
                 if (method.equals("GET")) {
@@ -104,8 +105,8 @@ public class RetrofitUtil {
                 String timestamp = String.valueOf(System.currentTimeMillis());
                 rootMap.put("timestamp", timestamp);
                 String sign = ValueUtil.getSign(rootMap);
-                request.newBuilder().addHeader("ssapp-token", sign).build();
-                return chain.proceed(request);
+                newRequest = request.newBuilder().addHeader("ssapp-token", sign).build();
+                return chain.proceed(newRequest);
             }
         });
 
