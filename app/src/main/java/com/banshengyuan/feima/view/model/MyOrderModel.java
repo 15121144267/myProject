@@ -29,18 +29,18 @@ public class MyOrderModel {
 
 
     public Observable<ResponseData> myOrderListRequest(int pageNo, int pageSize,String search_status,boolean flag,String token) {
-        return mApi.orderListRequest(pageNo, pageSize, search_status,flag,token).map(mTransform::transformTypeTwo);
+        return mApi.orderListRequest(pageNo, pageSize, search_status,flag,token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> cancelOrderRequest(String order_sn,String token) {
-        return mApi.cancelOrderRequest(order_sn, token).map(mTransform::transformTypeTwo);
+        return mApi.cancelOrderRequest(order_sn, token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> comfirmOrderRequest(String order_sn,String token) {
-        return mApi.comfirmOrderRequest(order_sn, token).map(mTransform::transformTypeTwo);
+        return mApi.comfirmOrderRequest(order_sn, token).map(mTransform::transformCommon);
     }
     public Observable<ResponseData> remindSendGoodsRequest(String order_sn,String token) {
-        return mApi.remindSendGoodsRequest(order_sn, token).map(mTransform::transformTypeTwo);
+        return mApi.remindSendGoodsRequest(order_sn, token).map(mTransform::transformCommon);
     }
 
 //    public Observable<ResponseData> orderStatusListRequest(Integer status, Integer pageNo, Integer pageSize) {

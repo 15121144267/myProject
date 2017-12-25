@@ -26,7 +26,7 @@ public class OrderDetailModel {
 
 
     public Observable<ResponseData> orderDetailInfoRequest(String order_sn, String token) {
-        return mApi.requestOrderDetailInfo(order_sn, order_sn, token).map(mTransform::transformTypeTwo);
+        return mApi.requestOrderDetailInfo(order_sn, order_sn, token).map(mTransform::transformCommon);
     }
 
 }

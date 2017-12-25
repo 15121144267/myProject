@@ -30,8 +30,8 @@ public class OrdersDetailAdapter extends BaseQuickAdapter<OrderDetailResponse.Go
         ImageView view = helper.getView(R.id.adapter_order_detail_product_pic);
         mImageLoaderHelper.displayCircularImage(mContext, item.getGoods_img(), view);
         helper.setText(R.id.adapter_order_detail_product_name, item.getGoods_name());
-        if (!TextUtils.isEmpty(item.getGoods_price())) {
-            helper.setText(R.id.adapter_order_detail_product_price, "￥" + ValueUtil.formatAmount2(Double.parseDouble(item.getGoods_price())));
+        if (item.getGoods_price()>=0) {
+            helper.setText(R.id.adapter_order_detail_product_price, "￥" + ValueUtil.formatAmount2(item.getGoods_price()));
         }
         helper.setText(R.id.adapter_order_detail_product_count, "X" + item.getNumber());
     }

@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aries.ui.view.radius.RadiusTextView;
@@ -84,6 +86,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView stateTv;
     @BindView(R.id.order_detail_state_iv)
     ImageView stateIv;
+    @BindView(R.id.order_address_layout)
+    LinearLayout orderAddressLayout;
+    @BindView(R.id.order_zt_layout)
+    RelativeLayout orderZtLayout;
+    @BindView(R.id.order_unlinepay_layout)
+    LinearLayout orderUnlinepayLayout;
+
 
     private String order_sn;
     private String token;
@@ -213,7 +222,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             /**
              *  /**
              * 1.等待买家付款（待付款）
-              2.等待买家收货（已发货或待收货、待自提）
+             2.等待买家收货（已发货或待收货、待自提）
              3.等待卖家发货（待发货或已付款）自提订单无此状态
              4.交易成功（待评价或已完成）
              5.交易关闭（已取消）

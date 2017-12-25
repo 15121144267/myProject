@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 /**
  * Created by helei on 2017/4/27.
  * NoticeCenterActivity
+ * 我的通知
  */
 
 public class NoticeCenterActivity extends BaseActivity implements NoticeCenterControl.NoticeCenterView, BaseQuickAdapter.RequestLoadMoreListener {
@@ -124,10 +125,8 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     @Override
     public void queryNoticeListSuccess(NoticeResponse noticeResponse) {
-        if (noticeResponse != null) {
-            mList = noticeResponse.getList();
-            mNoticeAdapter.setNewData(mList);
-        }
+        mList = noticeResponse.getList();
+        mNoticeAdapter.setNewData(mList);
     }
 
     private void initData(Calendar calendar) {

@@ -254,6 +254,42 @@ public class TimeUtil {
         }
     }
 
+    /**
+     * 消息列表 显示日期格式
+     */
+    public static String getNoticeTime(String time, String format) {
+        long s = dateToStamp(transferLongToDate(TIME_YYMMDD, Long.parseLong(time)), TIME_YYMMDD);
+        long now = dateToStamp(getFullTime(TIME_YYMMDD), TIME_YYMMDD);
+        String HM = transferLongToDate(TIME_HHMM, Long.parseLong(time));//得到时分
+
+        if (s - now == 0) {
+            return "今天" + HM;
+        } else {
+            return transferLongToDate(format, Long.parseLong(time));
+        }
+    }
+
+    /**
+     * 将时间转换为时间戳
+     *
+     * @param time
+     * @param format
+     * @return
+     */
+    public static long dateToStamp(String time, String format) {
+        try {
+            String res;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+            Date date = simpleDateFormat.parse(time);
+            long ts = date.getTime();
+//            res = String.valueOf(ts);
+            return ts;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static boolean getTimeIsToday(String time) {
         long s = timeToLong(stringTimeToFormat(time, TIME_YYMMDD), TIME_YYMMDD);
         long now = timeToLong(getFullTime(TIME_YYMMDD), TIME_YYMMDD);

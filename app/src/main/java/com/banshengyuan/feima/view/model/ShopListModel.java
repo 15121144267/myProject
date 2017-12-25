@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.entity.GoodsCommentRequest;
+import com.banshengyuan.feima.entity.ShopRequest;
 import com.banshengyuan.feima.network.networkapi.ShopListApi;
 import com.google.gson.Gson;
 

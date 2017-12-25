@@ -139,23 +139,26 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
 
     @OnClick(R.id.toolbar_right_text)
     public void onViewClicked() {
+        if (toComment()) mPresenter.requestPublishComment(commentList, token);
+    }
 
+    private boolean toComment() {
+        boolean flag = true;
         for (int i = 0; i < mList.size(); i++) {
             GoodsCommentContentRequest request = new GoodsCommentContentRequest();
             EditText edit = (EditText) mAdapter.getViewByPosition(mRecyclerview, i, R.id.comment_content);
             request.setGoods_id(mList.get(i).getGoods_id());
-            if (!TextUtils.isEmpty(edit.getText().toString())) {
-                request.setContent(edit.getText().toString());
+            String contentEt = edit.getText().toString();
+            if (!TextUtils.isEmpty(contentEt)) {
+                if (contentEt.length() < 10) {
+                    showToast("至少评价10个字");
+                    flag = false;
+                }else {
+                    request.setContent(edit.getText().toString());
+                }
             }
             commentList.add(request);
         }
-
-        mPresenter.requestPublishComment(commentList, token);
-//        String content = commentontent.getText().toString();
-//        if (TextUtils.isEmpty(content)) {
-//            showToast("评论不能为空");
-//            return;
-//        }
-//        mPresenter.requestPublishComment(gId, content, token);
+        return flag;
     }
 }

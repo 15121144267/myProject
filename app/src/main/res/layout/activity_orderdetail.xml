@@ -22,6 +22,14 @@
 
             <include layout="@layout/order_address_layout" />
 
+            <include
+                layout="@layout/order_detail_zt_layout"
+                android:visibility="gone" />
+
+            <include
+                layout="@layout/order_detail_unlinepay_layout"
+                android:visibility="gone" />
+
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <RelativeLayout
@@ -72,7 +80,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-
 
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
@@ -155,7 +162,6 @@
                     android:layout_alignParentStart="true"
                     android:text="订单编号:122221466466446"
                     android:textColor="@color/color666" />
-
 
                 <com.aries.ui.view.radius.RadiusTextView
                     android:id="@+id/order_detail_copy_orderid"

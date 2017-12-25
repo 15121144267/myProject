@@ -10,8 +10,8 @@ public class OrderDetailResponse {
 
 
     /**
-     * info : {"member_name":"aaaa","member_mobile":"13262253731","member_province":"上海市","member_city":"上海市","member_area":"普陀区","member_street":"111","member_address":"111","sn":"2017122004380683791","payed":0,"total_fee":200,"freight":0,"create_time":1513759086,"deal_time":1513759119,"pay_status":3,"deliver_status":1,"receive_status":1,"comment_status":2,"comment_content":"11233sdss","logistics_name":"","logistics_sn":"","status":"等待卖家发货"}
-     * goods_list : {"store_name":"test00545545454","store_id":12,"store_mobile":"123343434434","product":[{"goods_id":102,"sku_name":"12112sa","goods_name":"1212","price":"1.00","number":2,"id":1,"goods_sku":"12112sa","goods_img":"[\"\\/upload\\/5a2f743a7517f79032.jpg\"]","goods_price":"1.00"}]}
+     * info : {"member_name":"","member_mobile":"","member_province":"","member_city":"","member_area":"","member_street":"","member_address":"","sn":"2017122504384835689","payed":0,"total_fee":12600,"freight":0,"create_time":1514191128,"deal_time":1514191139,"pay_status":3,"deliver_status":1,"receive_status":1,"comment_status":2,"comment_content":"潮流衣铺","logistics_name":"","logistics_sn":"","status":"交易关闭","order_type":2,"selffetch_code":""}
+     * goods_list : {"store_name":"test的店铺","store_id":8,"store_mobile":"15000319679","product":[{"goods_id":87,"sku_name":"1206","goods_name":"测试1206","number":1,"id":1,"goods_sku":"1206","goods_img":"http://ssapp.jixuanjk.com/upload/5a27c04cc812b24931.jpg","goods_price":12600}]}
      */
 
     private InfoBean info;
@@ -35,27 +35,29 @@ public class OrderDetailResponse {
 
     public static class InfoBean {
         /**
-         * member_name : aaaa
-         * member_mobile : 13262253731
-         * member_province : 上海市
-         * member_city : 上海市
-         * member_area : 普陀区
-         * member_street : 111
-         * member_address : 111
-         * sn : 2017122004380683791
+         * member_name :
+         * member_mobile :
+         * member_province :
+         * member_city :
+         * member_area :
+         * member_street :
+         * member_address :
+         * sn : 2017122504384835689
          * payed : 0
-         * total_fee : 200
+         * total_fee : 12600
          * freight : 0
-         * create_time : 1513759086
-         * deal_time : 1513759119
+         * create_time : 1514191128
+         * deal_time : 1514191139
          * pay_status : 3
          * deliver_status : 1
          * receive_status : 1
          * comment_status : 2
-         * comment_content : 11233sdss
+         * comment_content : 潮流衣铺
          * logistics_name :
          * logistics_sn :
-         * status : 等待卖家发货
+         * status : 交易关闭
+         * order_type : 2
+         * selffetch_code :
          */
 
         private String member_name;
@@ -79,6 +81,8 @@ public class OrderDetailResponse {
         private String logistics_name;
         private String logistics_sn;
         private String status;
+        private int order_type;
+        private String selffetch_code;
 
         public String getMember_name() {
             return member_name;
@@ -247,14 +251,30 @@ public class OrderDetailResponse {
         public void setStatus(String status) {
             this.status = status;
         }
+
+        public int getOrder_type() {
+            return order_type;
+        }
+
+        public void setOrder_type(int order_type) {
+            this.order_type = order_type;
+        }
+
+        public String getSelffetch_code() {
+            return selffetch_code;
+        }
+
+        public void setSelffetch_code(String selffetch_code) {
+            this.selffetch_code = selffetch_code;
+        }
     }
 
     public static class GoodsListBean {
         /**
-         * store_name : test00545545454
-         * store_id : 12
-         * store_mobile : 123343434434
-         * product : [{"goods_id":102,"sku_name":"12112sa","goods_name":"1212","price":"1.00","number":2,"id":1,"goods_sku":"12112sa","goods_img":"[\"\\/upload\\/5a2f743a7517f79032.jpg\"]","goods_price":"1.00"}]
+         * store_name : test的店铺
+         * store_id : 8
+         * store_mobile : 15000319679
+         * product : [{"goods_id":87,"sku_name":"1206","goods_name":"测试1206","number":1,"id":1,"goods_sku":"1206","goods_img":"http://ssapp.jixuanjk.com/upload/5a27c04cc812b24931.jpg","goods_price":12600}]
          */
 
         private String store_name;
@@ -296,26 +316,24 @@ public class OrderDetailResponse {
 
         public static class ProductBean {
             /**
-             * goods_id : 102
-             * sku_name : 12112sa
-             * goods_name : 1212
-             * price : 1.00
-             * number : 2
+             * goods_id : 87
+             * sku_name : 1206
+             * goods_name : 测试1206
+             * number : 1
              * id : 1
-             * goods_sku : 12112sa
-             * goods_img : ["\/upload\/5a2f743a7517f79032.jpg"]
-             * goods_price : 1.00
+             * goods_sku : 1206
+             * goods_img : http://ssapp.jixuanjk.com/upload/5a27c04cc812b24931.jpg
+             * goods_price : 12600
              */
 
             private int goods_id;
             private String sku_name;
             private String goods_name;
-            private String price;
             private int number;
             private int id;
             private String goods_sku;
             private String goods_img;
-            private String goods_price;
+            private int goods_price;
 
             public int getGoods_id() {
                 return goods_id;
@@ -339,14 +357,6 @@ public class OrderDetailResponse {
 
             public void setGoods_name(String goods_name) {
                 this.goods_name = goods_name;
-            }
-
-            public String getPrice() {
-                return price;
-            }
-
-            public void setPrice(String price) {
-                this.price = price;
             }
 
             public int getNumber() {
@@ -381,11 +391,11 @@ public class OrderDetailResponse {
                 this.goods_img = goods_img;
             }
 
-            public String getGoods_price() {
+            public int getGoods_price() {
                 return goods_price;
             }
 
-            public void setGoods_price(String goods_price) {
+            public void setGoods_price(int goods_price) {
                 this.goods_price = goods_price;
             }
         }

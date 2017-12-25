@@ -62,6 +62,6 @@ public class NoticeCenterModel {
     }
 
     public Observable<ResponseData> noticeListRequest(int pageNo, int pageSize,String token) {
-        return mApi.noticeListRequest(pageNo, pageSize,token).map(mTransform::transformTypeTwo);
+        return mApi.noticeListRequest(pageNo, pageSize,token).map(mTransform::transformCommon);
     }
 }
