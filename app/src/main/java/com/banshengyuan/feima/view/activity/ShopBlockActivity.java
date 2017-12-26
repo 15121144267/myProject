@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopBlockActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopBlockActivityModule;
-import com.banshengyuan.feima.entity.FairUnderLineResponse;
 import com.banshengyuan.feima.entity.ShopSortListResponse;
 import com.banshengyuan.feima.entity.StoreCategoryListResponse;
 import com.banshengyuan.feima.entity.StreetSortListResponse;
@@ -28,6 +27,7 @@ import com.banshengyuan.feima.view.adapter.ShopListAdapter;
 import com.banshengyuan.feima.view.adapter.ShopMenuAdapter;
 import com.banshengyuan.feima.view.adapter.StreetMenuAdapter;
 import com.banshengyuan.feima.view.customview.CustomPopWindow;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.ShopBlockView {
+public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.ShopBlockView, BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.shop_block_blocks_text)
     TextView mShopBlockBlocksText;
@@ -82,9 +82,11 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     private Integer mCategoryId;
     private CustomPopWindow mCustomPopWindow1;
     private CustomPopWindow mCustomPopWindow2;
-    private FairUnderLineResponse.ListBean mListItemBean;
     private ShopSortListResponse mShopListResponse;
     private StreetSortListResponse mStreetSortListResponse;
+    private Integer mPage = 1;
+    private Integer mPageSize = 10;
+    private StoreCategoryListResponse mResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,29 +135,52 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     }
 
     @Override
+    public void onLoadMoreRequested() {
+        if (mResponse.has_next_page) {
+            mPresenter.requestShopList(mStreetId, mCategoryId, ++mPage, mPageSize);
+        } else {
+            mAdapter.loadMoreEnd(true);
+        }
+    }
+
+    @Override
     public void getShopSortListFail(String des) {
         showToast(des);
     }
 
     @Override
     public void getShopListSuccess(StoreCategoryListResponse response) {
-        mAdapter.setNewData(response.list);
+        mResponse = response;
+        if (response.list != null && response.list.size() > 0) {
+            mAdapter.addData(response.list);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
     }
 
     @Override
     public void getShopListFail(String des) {
         showToast(des);
-        mShopBlockList.setVisibility(View.GONE);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
     }
 
     private void initData() {
         mPresenter.requestShopSortList();
         mPresenter.requestStreetSortList();
-        updateShopList();
+        mPresenter.requestShopList(mStreetId, mCategoryId, mPage, mPageSize);
     }
 
     void updateShopList() {
-        mPresenter.requestShopList(mStreetId, mCategoryId);
+        mPage = 1;
+        mAdapter.setNewData(null);
+        mPresenter.requestShopList(mStreetId, mCategoryId, mPage, mPageSize);
     }
 
     private void initView() {
@@ -164,6 +189,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
         mShopBlockList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShopListAdapter(null, this, mImageLoaderHelper);
         mShopBlockList.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this, mShopBlockList);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             StoreCategoryListResponse.ListBean bean = (StoreCategoryListResponse.ListBean) adapter.getItem(position);
             if (bean != null) {
@@ -208,7 +234,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                     StreetSortListResponse.ListBean listBean = (StreetSortListResponse.ListBean) adapter1.getItem(position);
                     if (listBean != null) {
                         mStreetId = listBean.id;
-                        mShopBlockBlocksText.setText(listBean.name+" ");
+                        mShopBlockBlocksText.setText(listBean.name + " ");
                         mCustomPopWindow1.dissmiss();
                         updateShopList();
                     }
@@ -241,7 +267,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                     ShopSortListResponse.ListBean listBean = (ShopSortListResponse.ListBean) adapter1.getItem(position);
                     if (listBean != null) {
                         mCategoryId = listBean.id;
-                        mShopBlockShopsText.setText(""+listBean.name + " ");
+                        mShopBlockShopsText.setText("" + listBean.name + " ");
                         mCustomPopWindow2.dissmiss();
                         updateShopList();
                     }

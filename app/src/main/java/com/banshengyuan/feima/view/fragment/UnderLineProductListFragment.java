@@ -26,6 +26,7 @@ import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockDetailProductAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ import butterknife.Unbinder;
  * TrendsFragment
  */
 
-public class UnderLineProductListFragment extends BaseFragment implements UnderLineFairControl.UnderLineFairView {
+public class UnderLineProductListFragment extends BaseFragment implements UnderLineFairControl.UnderLineFairView, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.fragment_trends_list_last)
     RecyclerView mFragmentTrendsListLast;
 
@@ -54,6 +55,9 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
     private Unbinder unbind;
     private BlockDetailProductAdapter mAdapter;
     private Integer mBlockId;
+    private Integer mPage = 1;
+    private Integer mPageSize = 10;
+    private BlockDetailProductListResponse mResponse;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,29 +82,36 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
     }
 
     @Override
-    public void getProductListSuccess(BlockDetailProductListResponse response) {
-        List<BlockDetailProductListResponse.ListBean> listBeen = response.list;
-        if (listBeen != null && listBeen.size() > 0) {
-            mAdapter.setNewData(listBeen);
+    public void onLoadMoreRequested() {
+        if (mResponse.has_next_page) {
+            mPresenter.requestBlockProductList(mBlockId, ++mPage, mPageSize);
         } else {
-            mFragmentTrendsListLast.setVisibility(View.GONE);
+            mAdapter.loadMoreEnd(true);
         }
     }
 
     @Override
-    public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
-
+    public void getProductListSuccess(BlockDetailProductListResponse response) {
+        mResponse = response;
+        List<BlockDetailProductListResponse.ListBean> listBean = response.list;
+        if (listBean != null && listBean.size() > 0) {
+            mAdapter.addData(listBean);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
     }
 
     @Override
-    public void getFairUnderLineFail() {
-
+    public void loadError(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
     }
 
     @Override
     public void getProductListFail(String des) {
         showToast(des);
-        mFragmentTrendsListLast.setVisibility(View.GONE);
+        mAdapter.loadMoreFail();
     }
 
     @Override
@@ -113,25 +124,38 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
     void onReceivePro(Context context, Intent intent) {
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.BLOCKDETAIL_UPDATE)) {
+            mAdapter.setNewData(null);
+            mPage = 1;
             mBlockId = intent.getIntExtra("blockId", 0);
             initData();
         }
     }
 
     private void initData() {
-        mPresenter.requestBlockProductList(mBlockId);
+        mPresenter.requestBlockProductList(mBlockId, mPage, mPageSize);
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mAdapter = new BlockDetailProductAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this, mFragmentTrendsListLast);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             BlockDetailProductListResponse.ListBean listBean = (BlockDetailProductListResponse.ListBean) adapter.getItem(position);
             if (listBean != null) {
-               startActivity( GoodDetailActivity.getIntent(getActivity(), listBean.id));
+                startActivity(GoodDetailActivity.getIntent(getActivity(), listBean.id));
             }
         });
+    }
+
+    @Override
+    public void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse) {
+
+    }
+
+    @Override
+    public void getFairUnderLineFail() {
+
     }
 
     @Override

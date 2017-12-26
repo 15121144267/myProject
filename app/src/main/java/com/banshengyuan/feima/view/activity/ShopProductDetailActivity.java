@@ -130,6 +130,11 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
         mPresenter.requestStoreDetail(mShopId);
     }
 
+    @Override
+    public void loadError(Throwable throwable) {
+
+    }
+
     private void initView() {
         mShopId = getIntent().getIntExtra("shopId", 0);
         mShopDetailDetailBanner.isAutoPlay(false);

@@ -26,6 +26,7 @@ import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.BlockFairListAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ import butterknife.Unbinder;
  * PendingOrderFragment
  */
 
-public class UnderLineFairFragment extends BaseFragment implements UnderLineFairControl.UnderLineFairView {
+public class UnderLineFairFragment extends BaseFragment implements UnderLineFairControl.UnderLineFairView, BaseQuickAdapter.RequestLoadMoreListener {
 
 
     @BindView(R.id.fragment_block_common)
@@ -57,6 +58,9 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
     private Unbinder unbinder;
     private BlockFairListAdapter mAdapter;
     private Integer mBlockId;
+    private Integer mPage = 1;
+    private Integer mPageSize = 10;
+    private BlockDetailFairListResponse mResponse;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,13 +85,36 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
     }
 
     @Override
+    public void onLoadMoreRequested() {
+        if (mResponse.has_next_page) {
+            mPresenter.requestBlockFairList(mBlockId, ++mPage, mPageSize);
+        } else {
+            mAdapter.loadMoreEnd(true);
+        }
+    }
+
+    @Override
     public void getBlockFairListSuccess(BlockDetailFairListResponse response) {
+        mResponse = response;
         List<BlockDetailFairListResponse.ListBean> listBean = response.list;
         if (listBean != null && listBean.size() > 0) {
-            mAdapter.setNewData(listBean);
+            mAdapter.addData(listBean);
+            mAdapter.loadMoreComplete();
         } else {
-            mFragmentBlockCommon.setVisibility(View.GONE);
+            mAdapter.loadMoreEnd();
         }
+    }
+
+    @Override
+    public void getBlockFairListFail(String des) {
+        showToast(des);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
     }
 
     @Override
@@ -100,11 +127,6 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
 
     }
 
-    @Override
-    public void getBlockFairListFail(String des) {
-        showToast(des);
-        mFragmentBlockCommon.setVisibility(View.GONE);
-    }
 
     @Override
     void addFilter() {
@@ -116,6 +138,8 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
     void onReceivePro(Context context, Intent intent) {
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.BLOCKDETAIL_UPDATE)) {
+            mPage = 1;
+            mAdapter.setNewData(null);
             mBlockId = intent.getIntExtra("blockId", 0);
             initData();
         }
@@ -125,6 +149,7 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new BlockFairListAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this, mFragmentBlockCommon);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             BlockDetailFairListResponse.ListBean bean = (BlockDetailFairListResponse.ListBean) adapter.getItem(position);
             if (bean != null) {
@@ -136,7 +161,7 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
 
     private void initData() {
         //请求街区下市集
-        mPresenter.requestBlockFairList(mBlockId);
+        mPresenter.requestBlockFairList(mBlockId, mPage, mPageSize);
     }
 
     @Override

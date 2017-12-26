@@ -34,11 +34,11 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
     }
 
     @Override
-    public void requestFairUnderLine(double longitude, double latitude) {
+    public void requestFairUnderLine(double longitude, double latitude, Integer page, Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.vistaListRequest(longitude,latitude).compose(mView.applySchedulers())
+        Disposable disposable = mModel.vistaListRequest(longitude, latitude, page, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getFairUnderLineSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.loadError(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -53,10 +53,10 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
     }
 
     @Override
-    public void requestBlockProductList(Integer blockId) {
+    public void requestBlockProductList(Integer blockId, Integer page, Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.productListRequest(blockId).compose(mView.applySchedulers())
-                .subscribe(this::getProductListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.productListRequest(blockId, page, pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess, throwable -> mView.loadError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
@@ -72,10 +72,10 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
     }
 
     @Override
-    public void requestBlockStoreList(Integer blockId) {
+    public void requestBlockStoreList(Integer blockId, Integer page, Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.storeListRequest(blockId).compose(mView.applySchedulers())
-                .subscribe(this::getStoreListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.storeListRequest(blockId, page, pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getStoreListSuccess, throwable -> mView.loadError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
@@ -91,10 +91,10 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
     }
 
     @Override
-    public void requestBlockFairList(Integer blockId) {
+    public void requestBlockFairList(Integer blockId, Integer page, Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.blockFairListRequest(blockId).compose(mView.applySchedulers())
-                .subscribe(this::getBlockFairListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.blockFairListRequest(blockId, page, pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getBlockFairListSuccess, throwable -> mView.loadError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
@@ -128,22 +128,6 @@ public class PresenterUnderLineFairImpl implements UnderLineFairControl.Presente
             mView.getBlockDetailFail(responseData.errorDesc);
         }
     }
-    /*@Override
-    public void requestAddAddress(AddAddressRequest request) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addAddressRequest(request).compose(mView.applySchedulers())
-                .subscribe(this::addAddressSuccess, throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void addAddressSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mView.addAddressSuccess();
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }*/
 
     @Override
     public void onCreate() {

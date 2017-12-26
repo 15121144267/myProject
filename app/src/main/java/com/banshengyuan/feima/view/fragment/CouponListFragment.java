@@ -121,6 +121,11 @@ public class CouponListFragment extends BaseFragment implements ShopProductDetai
     }
 
     @Override
+    public void loadError(Throwable throwable) {
+
+    }
+
+    @Override
     public void getStoreProductListSuccess(ShopDetailProductListResponse response) {
 
     }

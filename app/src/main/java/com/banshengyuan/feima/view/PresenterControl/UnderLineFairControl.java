@@ -14,13 +14,22 @@ import com.banshengyuan.feima.entity.FairUnderLineResponse;
 public class UnderLineFairControl {
     public interface UnderLineFairView extends LoadDataView {
         void getBlockDetailSuccess(BlockDetailResponse response);
+
         void getBlockDetailFail(String des);
+
         void getBlockFairListSuccess(BlockDetailFairListResponse response);
+
         void getBlockFairListFail(String des);
+
         void getStoreListSuccess(BlockStoreListResponse response);
+
         void getStoreListFail();
+
         void getProductListSuccess(BlockDetailProductListResponse response);
+
         void getProductListFail(String des);
+
+        void loadError(Throwable throwable);
 
         void getFairUnderLineSuccess(FairUnderLineResponse fairUnderLineResponse);
 
@@ -29,9 +38,13 @@ public class UnderLineFairControl {
 
     public interface PresenterUnderLineFair extends Presenter<UnderLineFairView> {
         void requestBlockDetail(Integer blockId);
-        void requestBlockFairList(Integer blockId);
-        void requestBlockStoreList(Integer blockId);
-        void requestBlockProductList(Integer blockId);
-        void requestFairUnderLine(double longitude, double latitude);
+
+        void requestBlockFairList(Integer blockId, Integer page, Integer pageSize);
+
+        void requestBlockStoreList(Integer blockId, Integer page, Integer pageSize);
+
+        void requestBlockProductList(Integer blockId, Integer page, Integer pageSize);
+
+        void requestFairUnderLine(double longitude, double latitude, Integer page, Integer pageSize);
     }
 }

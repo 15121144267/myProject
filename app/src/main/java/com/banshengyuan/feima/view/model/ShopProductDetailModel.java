@@ -34,8 +34,8 @@ public class ShopProductDetailModel {
         return mApi.shopDetailRequest(shopId).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> storeProductListRequest(Integer shopId) {
-        return mApi.storeProductListRequest(shopId).map(mTransform::transformCommon);
+    public Observable<ResponseData> storeProductListRequest(Integer shopId, Integer page, Integer pageSize) {
+        return mApi.storeProductListRequest(shopId, page, pageSize).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeCouponListRequest(Integer shopId) {

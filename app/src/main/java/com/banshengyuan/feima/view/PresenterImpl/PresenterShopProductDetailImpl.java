@@ -89,10 +89,10 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
     }
 
     @Override
-    public void requestStoreProductList(Integer shopId) {
+    public void requestStoreProductList(Integer shopId, Integer page, Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.storeProductListRequest(shopId).compose(mView.applySchedulers())
-                .subscribe(this::getStoreProductListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.storeProductListRequest(shopId, page, pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getStoreProductListSuccess, throwable -> mView.loadError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
@@ -103,6 +103,7 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
             ShopDetailProductListResponse response = (ShopDetailProductListResponse) responseData.parsedData;
             mView.getStoreProductListSuccess(response);
         } else {
+            mView.showToast(responseData.errorDesc);
             mView.getStoreProductListFail();
         }
     }

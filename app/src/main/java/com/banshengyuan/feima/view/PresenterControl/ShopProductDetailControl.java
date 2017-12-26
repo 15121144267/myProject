@@ -20,6 +20,8 @@ public class ShopProductDetailControl {
 
         void getStoreProductListFail();
 
+        void loadError(Throwable throwable);
+
         void getStoreCouponListSuccess(ShopDetailCouponListResponse response);
 
         void getStoreCouponListFail();
@@ -33,7 +35,7 @@ public class ShopProductDetailControl {
     public interface PresenterShopProductDetail extends Presenter<ShopProductDetailView> {
         void requestStoreDetail(Integer shopId);
 
-        void requestStoreProductList(Integer shopId);
+        void requestStoreProductList(Integer shopId, Integer page, Integer pageSize);
 
         void requestStoreCouponList(Integer shopId);
 

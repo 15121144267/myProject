@@ -74,6 +74,11 @@ public class SummaryFragment extends BaseFragment implements ShopProductDetailCo
 
     }
 
+    @Override
+    public void loadError(Throwable throwable) {
+
+    }
+
     public void setSummaryText(String summary) {
         mFragmentSummaryText.setText(summary);
     }

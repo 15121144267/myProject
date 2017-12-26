@@ -26,6 +26,7 @@ import com.banshengyuan.feima.view.PresenterControl.UnderLineFairControl;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.activity.UnderLineFairActivity;
 import com.banshengyuan.feima.view.adapter.BlockStoreListItemAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ import butterknife.Unbinder;
  * PendingOrderFragment
  */
 
-public class UnderLineShopFragment extends BaseFragment implements UnderLineFairControl.UnderLineFairView {
+public class UnderLineShopFragment extends BaseFragment implements UnderLineFairControl.UnderLineFairView, BaseQuickAdapter.RequestLoadMoreListener {
 
 
     @BindView(R.id.fragment_block_common)
@@ -57,6 +58,9 @@ public class UnderLineShopFragment extends BaseFragment implements UnderLineFair
     private Unbinder unbinder;
     private BlockStoreListItemAdapter mAdapter;
     private Integer mBlockId;
+    private Integer mPage = 1;
+    private Integer mPageSize = 10;
+    private BlockStoreListResponse mResponse;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,24 +85,71 @@ public class UnderLineShopFragment extends BaseFragment implements UnderLineFair
     }
 
     @Override
-    public void getStoreListSuccess(BlockStoreListResponse response) {
-        List<BlockStoreListResponse.ListBean> listBeen = response.list;
-        if (listBeen != null && listBeen.size() > 0) {
-            mAdapter.setNewData(listBeen);
+    public void onLoadMoreRequested() {
+        if (mResponse.has_next_page) {
+            mPresenter.requestBlockStoreList(mBlockId, ++mPage, mPageSize);
         } else {
-            mFragmentBlockCommon.setVisibility(View.GONE);
+            mAdapter.loadMoreEnd(true);
+        }
+    }
+
+    @Override
+    public void getStoreListSuccess(BlockStoreListResponse response) {
+        mResponse = response;
+        List<BlockStoreListResponse.ListBean> listBean = response.list;
+        if (listBean != null && listBean.size() > 0) {
+            mAdapter.addData(listBean);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
         }
     }
 
     @Override
     public void getStoreListFail() {
-        mFragmentBlockCommon.setVisibility(View.GONE);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
     }
 
     @Override
     void addFilter() {
         super.addFilter();
         mFilter.addAction(BroConstant.BLOCKDETAIL_UPDATE);
+    }
+
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        super.onReceivePro(context, intent);
+        if (intent.getAction().equals(BroConstant.BLOCKDETAIL_UPDATE)) {
+            mAdapter.setNewData(null);
+            mPage = 1;
+            mBlockId = intent.getIntExtra("blockId", 0);
+            initData();
+        }
+    }
+
+    private void initView() {
+        mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new BlockStoreListItemAdapter(null, getActivity(), mImageLoaderHelper);
+        mFragmentBlockCommon.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this, mFragmentBlockCommon);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BlockStoreListResponse.ListBean bean = (BlockStoreListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(ShopProductDetailActivity.getActivityDetailIntent(getContext(), bean.id));
+            }
+        });
+    }
+
+
+    private void initData() {
+        //請求商家列表
+        mPresenter.requestBlockStoreList(mBlockId, mPage, mPageSize);
     }
 
     @Override
@@ -111,32 +162,6 @@ public class UnderLineShopFragment extends BaseFragment implements UnderLineFair
 
     }
 
-    @Override
-    void onReceivePro(Context context, Intent intent) {
-        super.onReceivePro(context, intent);
-        if (intent.getAction().equals(BroConstant.BLOCKDETAIL_UPDATE)) {
-            mBlockId = intent.getIntExtra("blockId", 0);
-            initData();
-        }
-    }
-
-    private void initView() {
-        mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BlockStoreListItemAdapter(null, getActivity(), mImageLoaderHelper);
-        mFragmentBlockCommon.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            BlockStoreListResponse.ListBean bean = (BlockStoreListResponse.ListBean) adapter.getItem(position);
-            if (bean != null) {
-                startActivity(ShopProductDetailActivity.getActivityDetailIntent(getContext(), bean.id));
-            }
-        });
-    }
-
-
-    private void initData() {
-        //請求商家列表
-        mPresenter.requestBlockStoreList(mBlockId);
-    }
 
     @Override
     public void getBlockDetailSuccess(BlockDetailResponse response) {

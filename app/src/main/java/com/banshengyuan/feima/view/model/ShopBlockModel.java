@@ -24,16 +24,16 @@ public class ShopBlockModel {
         mTransform = transform;
     }
 
-    public Observable<ResponseData> shopSortListRequest( ) {
+    public Observable<ResponseData> shopSortListRequest() {
         return mApi.shopSortListRequest().map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> streetSortListRequest( ) {
+    public Observable<ResponseData> streetSortListRequest() {
         return mApi.streetSortListRequest().map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> shopListRequest(Integer streetId, Integer categoryId) {
-        return mApi.shopListRequest(streetId+"",categoryId+"",1,10).map(mTransform::transformCommon);
+    public Observable<ResponseData> shopListRequest(Integer streetId, Integer categoryId, Integer page, Integer pageSize) {
+        return mApi.shopListRequest(streetId + "", categoryId + "", page, pageSize).map(mTransform::transformCommon);
     }
 
 }

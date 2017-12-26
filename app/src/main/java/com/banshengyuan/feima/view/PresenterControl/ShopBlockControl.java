@@ -15,6 +15,7 @@ public class ShopBlockControl {
         void getShopSortListFail(String des);
         void getShopListSuccess(StoreCategoryListResponse response);
         void getShopListFail(String des);
+        void loadError(Throwable throwable);
         void getStreetSortListSuccess(StreetSortListResponse response);
         void getStreetSortListFail(String des);
     }
@@ -22,6 +23,6 @@ public class ShopBlockControl {
     public interface PresenterShopBlock extends Presenter<ShopBlockView> {
         void requestShopSortList();
         void requestStreetSortList();
-        void requestShopList(Integer streetId,Integer categoryId);
+        void requestShopList(Integer streetId,Integer categoryId,Integer page,Integer pageSize);
     }
 }

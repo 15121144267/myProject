@@ -139,9 +139,9 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
         mPresenter.requestBlockDetail(mBlockId);
         //请求线下街区
         if (mLocationInfo != null) {
-            mPresenter.requestFairUnderLine(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
+            mPresenter.requestFairUnderLine(mLocationInfo.getLongitude(), mLocationInfo.getLatitude(), 1, 10);
         } else {
-            mPresenter.requestFairUnderLine(0, 0);
+            mPresenter.requestFairUnderLine(0, 0, 1, 10);
         }
     }
 
@@ -175,9 +175,6 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
                     mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
-                } else {
-                    //中间状态
-                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
                 }
             }
         });
@@ -213,6 +210,11 @@ public class UnderLineFairActivity extends BaseActivity implements UnderLineFair
 
     @Override
     public void getStoreListSuccess(BlockStoreListResponse response) {
+
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
 
     }
 

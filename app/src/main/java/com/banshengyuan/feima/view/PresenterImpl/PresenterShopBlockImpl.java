@@ -51,10 +51,10 @@ public class PresenterShopBlockImpl implements ShopBlockControl.PresenterShopBlo
     }
 
     @Override
-    public void requestShopList(Integer streetId, Integer categoryId) {
+    public void requestShopList(Integer streetId, Integer categoryId,Integer page,Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.shopListRequest(streetId,categoryId).compose(mView.applySchedulers())
-                .subscribe(this::getShopListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.shopListRequest(streetId,categoryId,page,pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getShopListSuccess, throwable -> mView.loadError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

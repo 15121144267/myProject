@@ -22,6 +22,7 @@ import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
 import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ import butterknife.Unbinder;
  * TrendsFragment
  */
 
-public class ProductListFragment extends BaseFragment implements ShopProductDetailControl.ShopProductDetailView {
+public class ProductListFragment extends BaseFragment implements ShopProductDetailControl.ShopProductDetailView, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.fragment_trends_list_last)
     RecyclerView mFragmentTrendsListLast;
 
@@ -50,6 +51,9 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
     private Unbinder unbind;
     private FairDetailNewAdapter mAdapter;
     private Integer mShopId;
+    private Integer mPage = 1;
+    private Integer mPageSize = 10;
+    private ShopDetailProductListResponse mResponse;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,34 +77,50 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         initData();
     }
 
+    @Override
+    public void onLoadMoreRequested() {
+        if (mResponse.has_next_page) {
+            mPresenter.requestStoreProductList(mShopId, ++mPage, mPageSize);
+        } else {
+            mAdapter.loadMoreEnd(true);
+        }
+    }
 
     @Override
     public void getStoreProductListSuccess(ShopDetailProductListResponse response) {
+        mResponse = response;
         List<ShopDetailProductListResponse.ListBean> listBeen = response.list;
         if (listBeen != null && listBeen.size() > 0) {
-            mAdapter.setNewData(listBeen);
-        }else {
-            mFragmentTrendsListLast.setVisibility(View.GONE);
+            mAdapter.addData(response.list);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
         }
     }
 
     @Override
     public void getStoreProductListFail() {
-        mFragmentTrendsListLast.setVisibility(View.GONE);
+        mAdapter.loadMoreFail();
     }
 
+    @Override
+    public void loadError(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
 
     private void initData() {
-        mPresenter.requestStoreProductList(mShopId);
+        mPresenter.requestStoreProductList(mShopId, mPage, mPageSize);
     }
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mAdapter = new FairDetailNewAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new FairDetailNewAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(this,mFragmentTrendsListLast);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ShopDetailProductListResponse.ListBean bean = (ShopDetailProductListResponse.ListBean) adapter.getItem(position);
-            if(bean!=null){
+            if (bean != null) {
                 startActivity(GoodDetailActivity.getIntent(getActivity(), bean.id));
             }
         });
