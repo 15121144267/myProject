@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
@@ -18,6 +17,7 @@ import com.banshengyuan.feima.entity.ProductCategoryResponse;
 import com.banshengyuan.feima.view.PresenterControl.ProductListControl;
 import com.banshengyuan.feima.view.adapter.ProductCategoryListAdapter;
 import com.banshengyuan.feima.view.adapter.ProductListSortAdapter;
+import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
  * WelcomeActivity
  */
 
-public class ProductListActivity extends BaseActivity implements ProductListControl.ProductListView {
+public class ProductListActivity extends BaseActivity implements ProductListControl.ProductListView, BaseQuickAdapter.RequestLoadMoreListener {
 
 
     @BindView(R.id.middle_name)
@@ -58,6 +58,9 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
     private AllProductSortResponse mAllProductSortResponse;
     private Integer mCategoryId;
     private Integer mOriginPosition;
+    private Integer mPage = 1;
+    private Integer mPageSize = 10;
+    private ProductCategoryResponse mResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +71,37 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
         supportActionBar(mToolbar, true);
         initView();
         initData();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (mResponse.has_next_page) {
+            mPresenter.requestProductList(mCategoryId, ++mPage, mPageSize);
+        } else {
+            mProductAdapter.loadMoreEnd(true);
+        }
+    }
+
+    @Override
+    public void getProductListSuccess(ProductCategoryResponse response) {
+        mResponse = response;
+        if (response.list != null && response.list.size() > 0) {
+            mProductAdapter.addData(response.list);
+            mProductAdapter.loadMoreComplete();
+        } else {
+            mProductAdapter.loadMoreEnd();
+        }
+    }
+
+    @Override
+    public void getProductListFail(String des) {
+        mProductAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void loadError(Throwable throwable) {
+        showErrMessage(throwable);
+        mProductAdapter.loadMoreFail();
     }
 
     @Override
@@ -96,28 +130,13 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
         mPresenter.onDestroy();
     }
 
-    @Override
-    public void getProductListSuccess(ProductCategoryResponse response) {
-        if (response.list != null && response.list.size() > 0) {
-            mProductList.setVisibility(View.VISIBLE);
-            mProductAdapter.setNewData(response.list);
-        } else {
-            mProductList.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void getProductListFail(String des) {
-        mProductList.setVisibility(View.GONE);
-    }
-
     private void initData() {
-        mPresenter.requestProductList(mCategoryId);
+        mPresenter.requestProductList(mCategoryId, mPage, mPageSize);
     }
 
     private void initView() {
         mAllProductSortResponse = (AllProductSortResponse) getIntent().getSerializableExtra("allProductSortResponse");
-        mList = mAllProductSortResponse.list;
+
         mCategoryId = getIntent().getIntExtra("categoryId", 0);
 
         mMiddleName.setText("产品列表");
@@ -127,29 +146,37 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
         mProductAdapter = new ProductCategoryListAdapter(null, this, mImageLoaderHelper);
         mProductListSort.setAdapter(mProductListSortAdapter);
         mProductList.setAdapter(mProductAdapter);
+        mProductAdapter.setOnLoadMoreListener(this, mProductList);
 
-        for (int i = 0; i < mList.size(); i++) {
-            if (mList.get(i).id == mCategoryId) {
-                mOriginPosition = i;
-                mList.get(i).isRed = true;
+        if (mAllProductSortResponse != null) {
+            mList = mAllProductSortResponse.list;
+            for (int i = 0; i < mList.size(); i++) {
+                if (mList.get(i).id == mCategoryId) {
+                    mOriginPosition = i;
+                    mList.get(i).isRed = true;
+                }
             }
+            mProductListSortAdapter.setNewData(mList);
         }
-        mProductListSortAdapter.setNewData(mList);
+
+
         if (mOriginPosition != null) {
             mProductListSort.getLayoutManager().smoothScrollToPosition(mProductListSort, null, mOriginPosition);
         }
 
         mProductListSortAdapter.setOnItemClickListener((adapter, view, position) -> {
             AllProductSortResponse.ListBean item = (AllProductSortResponse.ListBean) adapter.getItem(position);
+            mPage = 1;
+            mProductAdapter.setNewData(null);
             for (int i = 0; i < mList.size(); i++) {
                 mList.get(i).isRed = i == position;
             }
             mProductListSortAdapter.setNewData(mList);
             mProductListSort.getLayoutManager().smoothScrollToPosition(mProductListSort, null, position);
             if (item != null) {
-                mPresenter.requestProductList(item.id);
+                mCategoryId = item.id;
+                mPresenter.requestProductList(item.id, mPage, mPageSize);
             }
-
         });
 
         mProductAdapter.setOnItemClickListener((adapter, view, position) -> {

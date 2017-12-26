@@ -76,15 +76,19 @@ public class GoodsCommentActivity extends BaseActivity implements ShopDetailCont
     @Override
     public void onLoadMoreRequested() {
         if (mResponse.has_next_page) {
-            mPresenter.requestGoodsComment(mGoodsId, mPage, mPageSize);
+            mPresenter.requestGoodsComment(mGoodsId, ++mPage, mPageSize);
         } else {
             mAdapter.loadMoreEnd(true);
         }
     }
 
+    @Override
+    public void loadFail() {
+        mAdapter.loadMoreFail();
+    }
 
     @Override
-    public void loadFail(Throwable throwable) {
+    public void loadError(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }

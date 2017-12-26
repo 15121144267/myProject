@@ -25,8 +25,8 @@ public class ProductListModel {
     }
 
 
-    public Observable<ResponseData> productListRequest(Integer categoryId) {
-        return mApi.productListRequest(categoryId,1,10).map(mTransform::transformCommon);
+    public Observable<ResponseData> productListRequest(Integer categoryId,Integer page,Integer pageSize) {
+        return mApi.productListRequest(categoryId,page,pageSize).map(mTransform::transformCommon);
     }
 
 }

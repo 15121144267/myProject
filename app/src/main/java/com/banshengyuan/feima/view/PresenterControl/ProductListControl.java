@@ -11,9 +11,10 @@ public class ProductListControl {
     public interface ProductListView extends LoadDataView {
         void getProductListSuccess(ProductCategoryResponse response);
         void getProductListFail(String des);
+        void loadError(Throwable throwable);
     }
 
     public interface PresenterProductList extends Presenter<ProductListView> {
-        void requestProductList(Integer categoryId);
+        void requestProductList(Integer categoryId,Integer page,Integer pageSize);
     }
 }

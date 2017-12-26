@@ -9,7 +9,8 @@ import com.banshengyuan.feima.entity.GoodsCommentResponse;
 
 public class ShopDetailControl {
     public interface ShopDetailView extends LoadDataView {
-        void loadFail(Throwable throwable);
+        void loadError(Throwable throwable);
+        void loadFail();
         void getGoodsCommentSuccess(GoodsCommentResponse response);
     }
 

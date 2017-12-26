@@ -30,10 +30,10 @@ public class PresenterProductListImpl implements ProductListControl.PresenterPro
     }
 
     @Override
-    public void requestProductList(Integer categoryId) {
+    public void requestProductList(Integer categoryId,Integer page,Integer pageSize) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.productListRequest(categoryId).compose(mView.applySchedulers())
-                .subscribe(this::getProductListSuccess, throwable -> mView.showErrMessage(throwable),
+        Disposable disposable = mModel.productListRequest(categoryId,page,pageSize).compose(mView.applySchedulers())
+                .subscribe(this::getProductListSuccess, throwable -> mView.loadError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

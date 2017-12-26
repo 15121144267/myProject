@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.network;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.google.gson.Gson;
@@ -98,8 +99,10 @@ public class RetrofitUtil {
                         Buffer buffer = new Buffer();
                         requestBody.writeTo(buffer);
                         String oldParamsJson = buffer.readUtf8();
-                        Gson mGson = new Gson();
-                        rootMap = mGson.fromJson(oldParamsJson, TreeMap.class);
+                        if(!TextUtils.isEmpty(oldParamsJson)){
+                            Gson mGson = new Gson();
+                            rootMap = mGson.fromJson(oldParamsJson, TreeMap.class);
+                        }
                     }
                 }
                 String timestamp = String.valueOf(System.currentTimeMillis());

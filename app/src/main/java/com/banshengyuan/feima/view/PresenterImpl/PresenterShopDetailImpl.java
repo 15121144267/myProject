@@ -35,7 +35,7 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mModel.goodsCommentRequest(goodsId, page, pageSize).compose(mView.applySchedulers())
                 .subscribe(this::getGoodsCommentSuccess
-                        , throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.loadError(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
@@ -46,6 +46,7 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
             mView.getGoodsCommentSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
+            mView.loadFail();
         }
     }
     /* @Override
