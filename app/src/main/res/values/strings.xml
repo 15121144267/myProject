@@ -64,6 +64,7 @@
     <string name="person_address">&#160;&#160;我的地址</string>
     <string name="person_info">&#160;&#160;我的信息</string>
     <string name="comment">评价</string>
+    <string name="app_default_des">未知</string>
 
 
     <!--相机相关-->

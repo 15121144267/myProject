@@ -38,7 +38,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:layout_marginTop="@dimen/dp_10"
-                android:text="大床生活馆大床生活馆活馆"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_15"/>
 
@@ -49,7 +49,7 @@
                 android:ellipsize="end"
                 android:layout_marginBottom="@dimen/dp_20"
                 android:maxLines="2"
-                android:text="半生缘街区啦啦啦半区啦啦啦"
+                android:text="@string/app_default_des"
                 android:textColor="@color/darkgrey1"
                 android:textSize="@dimen/sp_13"/>
         </LinearLayout>

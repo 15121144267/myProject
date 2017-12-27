@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集"
+        android:text="@string/app_default_des"
         />
 
     <TextView
@@ -29,7 +29,7 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集浮屠市集"
+        android:text="@string/app_default_des"
         />
     <TextView
         android:id="@+id/adapter_common_price"
@@ -38,6 +38,6 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="￥44.0"
+        android:text="￥0.00"
         />
 </LinearLayout>

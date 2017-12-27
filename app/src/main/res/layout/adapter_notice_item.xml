@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="80dp"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
-            android:src="@mipmap/notice_logo" />
+            android:src="@mipmap/notice_logo"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,9 +29,9 @@
                 android:id="@+id/notice_item_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="订单已签收"
+                android:text="@string/app_default_des"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_14"/>
 
             <TextView
                 android:id="@+id/notice_item_desc"
@@ -39,10 +39,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/notice_item_state"
                 android:layout_marginTop="@dimen/dp_5"
-                android:singleLine="true"
-                android:text="您购买的商品已经签收啦"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/app_default_des"
                 android:textColor="@color/color666"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_14"/>
 
             <TextView
                 android:id="@+id/notice_item_time"
@@ -50,13 +51,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@id/notice_item_state"
+                android:ellipsize="end"
                 android:gravity="right"
-                android:singleLine="true"
-                android:text="今天09：00"
+                android:maxLines="1"
+                android:text="@string/app_default_des"
                 android:textColor="@color/color666"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_14"/>
         </RelativeLayout>
     </LinearLayout>
 
-    <View style="@style/LineH_Yellow_Fill_Width1" />
+    <View style="@style/LineH_Yellow_Fill_Width1"/>
 </LinearLayout>

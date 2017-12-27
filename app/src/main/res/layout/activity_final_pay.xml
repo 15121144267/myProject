@@ -49,25 +49,13 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/final_pay_pay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/final_pay_pay"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="match_parent"
-            android:background="@drawable/gradient_style_pink"
-            android:gravity="center"
-            android:text="支付"
-            android:textColor="@color/tab_text_normal"/>
-    </LinearLayout>
+        android:background="@drawable/gradient_style_pink"
+        android:gravity="center"
+        android:text="支付"
+        android:textColor="@color/tab_text_normal"/>
 
 </LinearLayout>

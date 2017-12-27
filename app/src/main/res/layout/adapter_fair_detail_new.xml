@@ -19,8 +19,7 @@
             android:id="@+id/adapter_product_icon"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/header"/>
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/adapter_product_name"
@@ -31,7 +30,7 @@
             android:maxLines="2"
             android:paddingEnd="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
-            android:text="西班牙牛油果西班牙牛油果"
+            android:text="@string/app_default_des"
             android:textColor="@color/tab_text_normal"
             android:textSize="@dimen/sp_13"/>
 
@@ -43,7 +42,7 @@
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
-            android:text="价格10元"
+            android:text="@string/app_default_des"
             android:textColor="#ff0036"/>
     </LinearLayout>
 

@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="浮屠市集浮"
+        android:text="@string/app_default_des"
         />
 
     <TextView

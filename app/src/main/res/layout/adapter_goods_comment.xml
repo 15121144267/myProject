@@ -28,7 +28,7 @@
             android:layout_marginStart="@dimen/dp_10"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="名字"
+            android:text="@string/app_default_des"
             android:textColor="@color/tab_text_normal"
             android:textSize="@dimen/sp_14"/>
     </LinearLayout>

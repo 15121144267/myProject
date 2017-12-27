@@ -48,7 +48,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="打快点的考sf待过待过待过拉的痕迹大客户端打快点"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_13"
                 />
@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="￥174"
+                    android:text="￥0.00"
                     android:textColor="@color/light_red"
                     android:textSize="@dimen/sp_13"
                     />

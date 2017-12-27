@@ -84,7 +84,7 @@
                     android:layout_marginTop="15dp"
                     android:paddingEnd="@dimen/dp_20"
                     android:paddingStart="@dimen/dp_20"
-                    android:text="总有一款属于你总有一款属于你总有一款属于你总有一款属于你"
+                    android:text="@string/app_default_des"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_15"/>
 
@@ -95,7 +95,7 @@
                     android:layout_marginTop="15dp"
                     android:paddingEnd="@dimen/dp_20"
                     android:paddingStart="@dimen/dp_20"
-                    android:text="￥88"
+                    android:text="￥0.00"
                     android:textColor="@color/light_red"
                     android:textSize="25sp"/>
 
@@ -124,7 +124,7 @@
                         android:id="@+id/goods_detail_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="安徽合肥"
+                        android:text="未知"
                         android:textColor="@color/light_grey_dark"
                         android:textSize="@dimen/sp_12"/>
                 </LinearLayout>

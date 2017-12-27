@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="时间：2017-11-23"
+            android:text="@string/app_default_des"
             android:textColor="@color/color666"
             android:textSize="@dimen/sp_16" />
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="地点：绿地中心半生缘潮流街区"
+            android:text="@string/app_default_des"
             android:textColor="@color/color666"
             android:textSize="@dimen/sp_16" />
 

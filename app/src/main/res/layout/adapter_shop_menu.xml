@@ -8,7 +8,7 @@
    >
     <TextView
         android:id="@+id/menu_text_name"
-        android:text="丰富的"
+        android:text="@string/app_default_des"
         style="@style/TextColor_dark_black_14"
         android:gravity="center"
         android:layout_width="match_parent"

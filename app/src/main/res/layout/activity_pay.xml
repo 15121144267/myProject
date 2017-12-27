@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:text="合计：188"
+            android:text="@string/app_default_des"
             android:textSize="@dimen/sp_14"/>
 
         <TextView

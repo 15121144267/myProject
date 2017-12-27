@@ -27,8 +27,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/header"/>
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/adapter_brand_fair_name"
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_25"
                 android:gravity="center"
-                android:text="超市市集"
+                android:text="@string/app_default_des"
                 android:textStyle="bold"/>
 
             <TextView
@@ -47,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_25"
                 android:gravity="center"
-                android:text="超市市集"
+                android:text="@string/app_default_des"
                 />
         </LinearLayout>
 

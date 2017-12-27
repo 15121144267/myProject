@@ -16,14 +16,14 @@
             android:id="@+id/address_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="王先生" />
+            android:text="@string/app_default_des" />
 
         <TextView
             android:id="@+id/address_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="15121144267" />
+            android:text="@string/app_default_des" />
     </LinearLayout>
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_marginStart="15dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="上海市普陀区祁连山南路" />
+        android:text="@string/app_default_des" />
 
     <View
         style="@style/LineH_Fill_Width1_ForView"

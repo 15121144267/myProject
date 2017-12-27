@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="西装衬衫"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_15" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="西装衬衫"
+                android:text="@string/app_default_des"
                 android:textColor="@color/darkgrey1"
                 android:textSize="@dimen/sp_13" />
 
@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="￥86"
+                    android:text="￥0.00"
                     android:textColor="@color/light_red"
                     android:textSize="@dimen/sp_15" />
 

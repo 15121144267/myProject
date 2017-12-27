@@ -11,13 +11,12 @@
         android:id="@+id/common_icon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:background="@mipmap/header"/>
+        android:layout_weight="3"/>
 
     <TextView
         android:id="@+id/common_text"
         android:layout_weight="1"
-        android:text="购物车"
+        android:text="@string/app_default_des"
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

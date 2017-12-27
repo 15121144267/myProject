@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="暴走的萝莉：我的运动" />
+            android:text="@string/app_default_des" />
 
     </LinearLayout>
 
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="暴走的萝莉：我的运动，始于一身衣服"
+            android:text="@string/app_default_des"
             android:textColor="#666666"
             android:textSize="@dimen/sp_13" />
 

@@ -5,19 +5,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.ToolUtils;
 import com.google.zxing.WriterException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ActionCodeActivity extends BaseActivity {
 
@@ -33,8 +32,10 @@ public class ActionCodeActivity extends BaseActivity {
     ImageView actionCodeQrcode;
     @BindView(R.id.action_code_phone)
     TextView actionCodePhone;
-    @BindView(R.id.back)
-    ImageView back;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     private HotFairDetailResponse mHotFairDetailResponse = null;//热闹详情
     private String qrCode = null;
@@ -51,7 +52,8 @@ public class ActionCodeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_code);
         ButterKnife.bind(this);
-
+        supportActionBar(mToolbar, true);
+        mMiddleName.setText("活动凭证");
         initData();
 
     }
@@ -86,8 +88,4 @@ public class ActionCodeActivity extends BaseActivity {
         actionCodeQrcode.setImageBitmap(bitmap);
     }
 
-    @OnClick(R.id.back)
-    public void onViewClicked() {
-        finish();
-    }
 }

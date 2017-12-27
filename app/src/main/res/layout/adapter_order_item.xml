@@ -36,7 +36,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="价代发看来发送到价代发看来发送到价代发看来发送到价代发看来发送到价代发看来发送到价代发看来发送到价代发看来发送到价代发看来发送到"
+                    android:text="@string/app_default_des"
                     android:textColor="@color/light_grey_dark" />
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="￥50"
+                    android:text="￥0.00"
                     android:textColor="@color/darkblack" />
             </LinearLayout>
 
@@ -67,7 +67,7 @@
                     android:id="@+id/adapter_item_product_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="x50"
+                    android:text="x0"
                     android:textColor="@color/darkblack" />
             </LinearLayout>
         </LinearLayout>

@@ -11,17 +11,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
-        <!--   <TextView
-               android:id="@+id/shop_name"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:drawableEnd="@mipmap/order_arrow_right"
-               android:drawableStart="@mipmap/order_shop_name"
-               android:gravity="center_vertical"
-               android:paddingEnd="15dp"
-               android:paddingStart="15dp"
-               android:text="&#160;&#160; 梅子熟了"
-               android:textColor="@color/darkblack" />-->
 
         <TextView
             android:id="@+id/order_state"
@@ -43,7 +32,7 @@
             android:maxLines="1"
             android:paddingEnd="15dp"
             android:paddingStart="15dp"
-            android:text="梅子熟了梅子熟了"
+            android:text="@string/app_default_des"
             android:textSize="@dimen/sp_16" />
     </RelativeLayout>
 
@@ -80,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="合计：500"
+            android:text="合计：0.00"
             android:textSize="15sp" />
 
         <TextView

@@ -30,6 +30,6 @@
         android:layout_marginBottom="@dimen/dp_25"
         android:layout_marginTop="@dimen/dp_10"
         android:gravity="center"
-        android:text="半生缘街区"/>
+        android:text="@string/app_default_des"/>
 
 </LinearLayout>

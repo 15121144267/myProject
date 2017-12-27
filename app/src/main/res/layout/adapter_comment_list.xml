@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="名字"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_15"/>
 
@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="日期"
+                android:text="@string/app_default_des"
                 android:textColor="@color/dark_gray"
                 android:textSize="@dimen/sp_11"/>
 
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_25"
-                android:text="内容"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
                 android:textSize="@dimen/sp_13"/>
         </LinearLayout>

@@ -48,7 +48,7 @@
             android:layout_marginBottom="20dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="生活用品。"
+            android:text="@string/app_default_des"
             android:textColor="@color/gray_color" />
 
         <TextView

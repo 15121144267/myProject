@@ -1,33 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_action_code"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.banshengyuan.feima.view.activity.ActionCodeActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_action_code"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.banshengyuan.feima.view.activity.ActionCodeActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
+    <include layout="@layout/toolbar_common"/>
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:padding="@dimen/dp_10"
-            android:src="@mipmap/back_gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="活动凭证"
-            android:textColor="@color/tab_text_normal"
-            android:textSize="@dimen/sp_18" />
-    </RelativeLayout>
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -45,18 +27,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_40"
                 android:gravity="center_horizontal"
-                android:text="玩转文艺!"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_26" />
+                android:textSize="@dimen/sp_26"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
                 android:gravity="center_horizontal"
-                android:text="合肥半生缘街区市集嘉年华趣乐开启"
+                android:text="@string/app_default_des"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/sp_20" />
+                android:textSize="@dimen/sp_20"/>
 
             <TextView
                 android:id="@+id/action_code_number"
@@ -67,9 +49,9 @@
                 android:layout_marginTop="220dp"
                 android:background="@drawable/button_style_blue6_rightangle"
                 android:gravity="center"
-                android:text="券码：1234567890"
+                android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_20" />
+                android:textSize="@dimen/sp_20"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,13 +63,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="时间："
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_18"/>
 
                 <TextView
                     android:id="@+id/action_code_date"
                     style="@style/textview"
-                    android:text="2017-11-23"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="@string/app_default_des"
+                    android:textSize="@dimen/sp_18"/>
             </LinearLayout>
 
             <LinearLayout
@@ -100,13 +82,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="地点："
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_18"/>
 
                 <TextView
                     android:id="@+id/action_code_place"
                     style="@style/textview"
-                    android:text="半生缘潮流街区"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="@string/app_default_des"
+                    android:textSize="@dimen/sp_18"/>
             </LinearLayout>
 
 
@@ -115,9 +97,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@mipmap/freemud_logo" />
+                android:src="@mipmap/freemud_logo"/>
 
-            <View style="@style/LineH_Fill_Width_10_ForView" />
+            <View style="@style/LineH_Fill_Width_10_ForView"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,13 +111,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="报名手机号："
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_18"/>
 
                 <TextView
                     android:id="@+id/action_code_phone"
                     style="@style/textview"
-                    android:text="13262253731"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="@string/app_default_des"
+                    android:textSize="@dimen/sp_18"/>
             </LinearLayout>
         </LinearLayout>
 

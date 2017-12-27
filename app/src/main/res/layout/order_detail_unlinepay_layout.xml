@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/unlinepay_image"
-            android:text="大众生活馆"
+            android:text="@string/app_default_des"
             android:textColor="@color/color333"
             android:textSize="@dimen/sp_16" />
 
