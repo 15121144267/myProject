@@ -36,10 +36,11 @@
             android:id="@+id/order_detail_unlinepay_phoneTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_20"
-            android:text="联系商家" />
+            android:text="联系商家"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp" />
 
         <ImageView
             android:id="@+id/order_detail_unlinepay_phone"
@@ -50,6 +51,8 @@
             android:layout_toLeftOf="@id/order_detail_unlinepay_phoneTv"
             android:padding="@dimen/dp_10"
             android:src="@mipmap/phone" />
+
+
 
     </RelativeLayout>
 

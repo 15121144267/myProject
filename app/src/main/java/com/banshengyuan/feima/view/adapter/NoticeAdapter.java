@@ -25,18 +25,14 @@ public class NoticeAdapter extends BaseQuickAdapter<NoticeResponse.ListBean, Bas
         if (item == null) return;
 
         /**
-         * 1.等待买家付款（待付款）
-         2.等待买家收货（已发货或待收货、待自提）
-         3.等待卖家发货（待发货或已付款）自提订单无此状态
-         4.交易成功（待评价或已完成、线下收款）线下收款订单没有商品，故无评价
-         5.交易关闭（已取消）
+            3 订单发货、 4 订单签收、 2 提交订单、 1 系统消
          */
         switch (item.getType()) {
             case "1":
-                helper.setImageResource(R.id.notice_item_image, R.mipmap.notice_order_nofinish);
+                helper.setImageResource(R.id.notice_item_image, R.mipmap.notice_logo);
                 break;
             case "2":
-                helper.setImageResource(R.id.notice_item_image, R.mipmap.notice_deliery);
+                helper.setImageResource(R.id.notice_item_image, R.mipmap.notice_action_start);
                 break;
             case "3":
                 helper.setImageResource(R.id.notice_item_image, R.mipmap.notice_deliery);

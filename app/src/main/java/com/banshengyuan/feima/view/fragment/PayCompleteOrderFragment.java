@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -59,6 +62,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     PayCompleteControl.PresenterPayComplete mPresenter;
     private Unbinder unbind;
     private String mToken;
+    private View mEmptyView = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @Override
     public void onLoadMoreRequested() {
         if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(true);
+            mAdapter.loadMoreEnd();
         } else {
             mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -104,8 +108,11 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
-        if (response == null) return;
         mList = response.getList();
+        if (mPagerNo == 1 && mList.size() == 0) {
+            mAdapter.setEmptyView(mEmptyView);
+            return;
+        }
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -118,6 +125,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     public void getComfirmOrderSuccess(boolean flag) {
         if (flag) {
             showToast("确认收货成功");
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
         }
     }
 
@@ -131,6 +139,15 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         mAdapter = new MyOrdersAdapter(null, getActivity(), mImageLoaderHelper);
         mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
+
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.enpty_order_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.GONE);
+        emptyContent.setText(R.string.waitdelivery_order_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);

@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -52,6 +55,7 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
     private int page = 1;
     private int pageSize = 10;
     private String token;
+    private View mEmptyView = null;
 
     @Inject
     CouponAvailableControl.PresenterCouponAvailable mPresenter;
@@ -87,7 +91,17 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
         mList = new ArrayList<>();
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CouponAdapter(null, getActivity());
+        mAdapter.setOnLoadMoreListener(this, mCouponCommonList);
         mCouponCommonList.setAdapter(mAdapter);
+
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.empty_couple_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.VISIBLE);
+        emptyContent.setText(R.string.couple_no_use_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
     }
 
 
@@ -129,16 +143,23 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
 
     @Override
     public void getNoUseCouponListSuccess(MyCoupleResponse myCoupleResponse) {
-        if (myCoupleResponse != null) {
-            mList = myCoupleResponse.getList();
-            mAdapter.setNewData(mList);
+        mList = myCoupleResponse.getList();
+        if (page == 1 && mList.size() == 0) {
+            mAdapter.setEmptyView(mEmptyView);
+            return;
+        }
+        if (mList.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
         }
     }
 
     @Override
     public void onLoadMoreRequested() {
         if (mList.size() < pageSize) {
-            mAdapter.loadMoreEnd(true);
+            mAdapter.loadMoreEnd();
         } else {
             mPresenter.requestNoUseCouponList(state, ++page, pageSize, token);
         }

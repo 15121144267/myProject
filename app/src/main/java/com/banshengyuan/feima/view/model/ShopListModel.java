@@ -4,6 +4,7 @@ import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.entity.GoodsCommentRequest;
 import com.banshengyuan.feima.entity.ShopRequest;
 import com.banshengyuan.feima.network.networkapi.ShopListApi;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class ShopListModel {
     public Observable<ResponseData> publishCommentRequest(List<GoodsCommentContentRequest> mList, String token) {
         GoodsCommentRequest request = new GoodsCommentRequest();
         request.data =  mGson.toJson(mList);
+        LogUtils.i("mList="+mGson.toJson(mList));
         return mApi.publishCommentRequest(mGson.toJson(request),token).map(mTransform::transformCommon);
     }
 

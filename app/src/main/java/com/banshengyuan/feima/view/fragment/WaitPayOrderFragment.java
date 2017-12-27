@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -48,7 +51,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private final String mStatus = "1";//1.待付款 2.待收货 3. 待评价
-    private String token ;
+    private String token;
 
     public static WaitPayOrderFragment newInstance() {
         return new WaitPayOrderFragment();
@@ -60,6 +63,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private Unbinder unbind;
     private int mPos;
     private String mOrderSn = null;
+    private View mEmptyView = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +95,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     @Override
     public void onLoadMoreRequested() {
         if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(true);
+            mAdapter.loadMoreEnd();
         } else {
             mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, token);
         }
@@ -105,8 +109,11 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
 
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
-        if (response == null) return;
         mList = response.getList();
+        if (mPagerNo == 1 && mList.size() == 0) {
+            mAdapter.setEmptyView(mEmptyView);
+            return;
+        }
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -127,7 +134,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         token = mBuProcessor.getUserToken();
 //        token = Constant.TOKEN;
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize,mStatus, true, token);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
     }
 
     private void initView() {
@@ -135,6 +142,15 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         mAdapter = new MyOrdersAdapter(null, getActivity(), mImageLoaderHelper);
         mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
+
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.enpty_order_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.GONE);
+        emptyContent.setText(R.string.nopay_order_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
@@ -163,7 +179,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                             if (listBean.getPay_status() == 1) {//取消订单
 //                                helper.setText(R.id.order_left_btn, "取消订单");
 //                                helper.setText(R.id.order_right_btn, "立即付款");
-                                startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn,listBean.getOrder_type()));
+                                startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
                             } else if (listBean.getPay_status() == 2) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
 //                                helper.setText(R.id.order_right_btn, "确认收货");

@@ -89,5 +89,15 @@
     <string name="pay_verifying">支付结果确认中</string>
     <string name="pay_fail">支付失败</string>
 
+    <!-- 空界面-->
+    <string name="all_order_empty_view">订单为空，赶快去下单吧~</string>
+    <string name="nopay_order_empty_view">没有待付款商品，赶快去下单吧~</string>
+    <string name="waitdelivery_order_empty_view">没有待收货商品，赶快去下单吧~</string>
+    <string name="wait_comment_empty_view">没有待评价商品，赶快去下单吧~</string>
+    <string name="couple_no_use_empty_view">卡券为空，赶快去领取吧~</string>
+    <string name="couple_used_empty_view">没有已使用卡券，赶快去使用吧~</string>
+    <string name="couple_expired_empty_view">没有已过期卡券</string>
+
     <!--懒得写了-->
+
 </resources>

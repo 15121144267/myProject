@@ -30,4 +30,11 @@ public class GoodsCommentContentRequest implements Serializable{
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "goods_id=" + goods_id +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

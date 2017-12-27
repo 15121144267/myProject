@@ -39,7 +39,7 @@
         android:hint="快去告诉你的小伙伴们你的评价吧!(至少10个字哦)"
         android:padding="@dimen/dp_10"
         android:textColor="@color/color333"
-        android:textColorHint="@color/color333"
+        android:textColorHint="@color/color666"
         android:textSize="@dimen/sp_15" />
 
     <View

@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -22,9 +25,11 @@ import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -54,6 +59,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     private String mToken = null;
     private int mPos;
     private String mOrderSn = null;
+    private View mEmptyView = null;
 
 
     @Inject
@@ -90,7 +96,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @Override
     public void onLoadMoreRequested() {
         if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd(true);
+            mAdapter.loadMoreEnd();
         } else {
             mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -104,9 +110,12 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
-        if (response == null) return;
-//        ordersResponse = response;
         mList = response.getList();
+
+        if (mPagerNo == 1 && mList.size() == 0) {
+            mAdapter.setEmptyView(mEmptyView);
+            return;
+        }
         if (mList.size() > 0) {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
@@ -146,6 +155,16 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
 
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.enpty_order_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.VISIBLE);
+        emptyContent.setText(R.string.all_order_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
+//        RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));
+
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
@@ -173,7 +192,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             if (listBean.getPay_status() == 1) {//取消订单
 //                                helper.setText(R.id.order_left_btn, "取消订单");
 //                                helper.setText(R.id.order_right_btn, "立即付款");
-                                startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn,listBean.getOrder_type()));
+                                startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
                             } else if (listBean.getPay_status() == 2) {
 //                                helper.setText(R.id.order_left_btn, "再来一单");
 //                                helper.setText(R.id.order_right_btn, "确认收货");

@@ -1,13 +1,17 @@
 package com.banshengyuan.feima.view.activity;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,9 +26,11 @@ import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.entity.OrderDetailResponse;
 import com.banshengyuan.feima.utils.TimeUtil;
+import com.banshengyuan.feima.utils.ToolUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.OrderDetailControl;
 import com.banshengyuan.feima.view.adapter.OrdersDetailAdapter;
+import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +98,26 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     RelativeLayout orderZtLayout;
     @BindView(R.id.order_unlinepay_layout)
     LinearLayout orderUnlinepayLayout;
+    @BindView(R.id.order_detail_linepay_center_layout)
+    LinearLayout linepayCenterLayout;
+    //自提
+    @BindView(R.id.order_detail_zt_image)
+    ImageView orderDetailZtImage;
+    @BindView(R.id.order_detail_zt_code)
+    TextView orderDetailZtCode;
+    //线下支付
+    @BindView(R.id.unlinepay_image)
+    ImageView unlinepayImage;
+    @BindView(R.id.unlinepay_storename)
+    TextView unlinepayStorename;
+    @BindView(R.id.order_detail_unlinepay_phone)
+    ImageView orderSetailUnlinepayPhone;
+    @BindView(R.id.unlinepay_total_price)
+    TextView unlinepayTotalPrice;
+    @BindView(R.id.unlinepay_discount_price)
+    TextView unlinepayDiscountPrice;
+    @BindView(R.id.unlinepay_final_price)
+    TextView unlinepayFinalPrice;
 
 
     private String order_sn;
@@ -183,7 +209,12 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 }
                 break;
             case R.id.order_detail_copy_orderid:
-                showToast("copy");
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                String orderSnTv = orderDetailOrderId.getText().toString();
+                if(!TextUtils.isEmpty(orderSnTv)){
+                    cm.setText(orderSnTv);
+                }
                 break;
             case R.id.order_right_btn:
                 showToast("right");
@@ -205,6 +236,41 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             mList = orderDetailResponse.getGoods_list().getProduct();
             OrderDetailResponse.InfoBean infoBean = orderDetailResponse.getInfo();
 
+            if (infoBean.getOrder_type() == 1) {//线上订单
+                orderAddressLayout.setVisibility(View.VISIBLE);
+                orderZtLayout.setVisibility(View.GONE);
+                orderUnlinepayLayout.setVisibility(View.GONE);
+            } else if (infoBean.getOrder_type() == 2) {//门店自提
+                orderAddressLayout.setVisibility(View.GONE);
+                orderZtLayout.setVisibility(View.VISIBLE);
+                orderUnlinepayLayout.setVisibility(View.GONE);
+                String code = infoBean.getSelffetch_code();
+                if (TextUtils.isEmpty(code)) {
+                    code = "1122334455";
+                }
+                orderDetailZtCode.setText(code);
+                //生成二维码
+                getCodeBitmap(code);
+
+            } else if (infoBean.getOrder_type() == 3) {//线下付款
+                orderAddressLayout.setVisibility(View.GONE);
+                orderZtLayout.setVisibility(View.GONE);
+                linepayCenterLayout.setVisibility(View.GONE);
+                orderUnlinepayLayout.setVisibility(View.VISIBLE);
+
+//                mImageLoaderHelper.displayRoundedCornerImage(OrderDetailActivity.this,infoBean.get);
+                Integer totalPrice = infoBean.getTotal_fee();
+                Integer transPrice = infoBean.getFreight();
+                Integer shouldPrice = 0;
+
+                String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
+                unlinepayTotalPrice.setText(priceTotal);
+
+                unlinepayDiscountPrice.setText("-￥" + ValueUtil.formatAmount(transPrice));
+
+                shouldPrice = totalPrice - transPrice;
+                unlinepayFinalPrice.setText("￥" + ValueUtil.formatAmount(shouldPrice));
+            }
             adapter.setNewData(mList);
 
             receiptUser.setText(infoBean.getMember_name());
@@ -212,9 +278,10 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             String address = infoBean.getMember_province() + infoBean.getMember_city() + infoBean.getMember_area() +
                     infoBean.getMember_street() + infoBean.getMember_address();
 
+
             orderDetailShopName.setText(orderDetailResponse.getGoods_list().getStore_name());
             storePhone = orderDetailResponse.getGoods_list().getStore_mobile();
-            orderDetailOrderId.setText("订单编号：" + infoBean.getSn());
+            orderDetailOrderId.setText(infoBean.getSn());
             createDate.setText("创建时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getCreate_time()));
             payDate.setText("成交时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getDeal_time()));
             receiptAddress.setText(address);
@@ -258,10 +325,18 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
             orderDetailPrice.setText(priceTotal);
 
+            orderDetailDispatchPrice.setText("￥" + ValueUtil.formatAmount(transPrice));
+
             shouldPrice = totalPrice + transPrice;
             orderDetailShouldPay.setText("￥" + ValueUtil.formatAmount(shouldPrice));
 
-
         }
+    }
+
+    private void getCodeBitmap(String code) {
+        Bitmap qrBitmap = ToolUtils.generateBitmap(code, 400, 400);
+        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.freemud_logo);
+        Bitmap bitmap = ToolUtils.addLogo(qrBitmap, logoBitmap);//设置logo
+        orderDetailZtImage.setImageBitmap(qrBitmap);
     }
 }

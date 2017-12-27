@@ -48,7 +48,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     RecyclerView mRecyclerView;
     private int page = 1;
     private int pageSize = 10;
-    private String token ;
+    private String token;
     private List<NoticeResponse.ListBean> mList = new ArrayList<>();
 
     @Inject
@@ -109,7 +109,9 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mNoticeAdapter = new NoticeAdapter(null, getContext());
+        mNoticeAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mRecyclerView.setAdapter(mNoticeAdapter);
+
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
@@ -126,7 +128,13 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @Override
     public void queryNoticeListSuccess(NoticeResponse noticeResponse) {
         mList = noticeResponse.getList();
-        mNoticeAdapter.setNewData(mList);
+        if (mList.size() > 0) {
+            mNoticeAdapter.addData(mList);
+            mNoticeAdapter.loadMoreComplete();
+        } else {
+            mNoticeAdapter.loadMoreEnd();
+        }
+
     }
 
     private void initData(Calendar calendar) {
@@ -156,7 +164,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @Override
     public void onLoadMoreRequested() {
         if (mList.size() < pageSize) {
-            mNoticeAdapter.loadMoreEnd(true);
+            mNoticeAdapter.loadMoreEnd();
         } else {
             mPresenter.requestNoticeList(++page, pageSize, token);
         }
