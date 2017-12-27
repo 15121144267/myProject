@@ -217,10 +217,12 @@
                         android:layout_weight="1"/>
 
                     <TextView
+                        android:id="@+id/goods_detail_enter_shop"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:drawableEnd="@mipmap/order_arrow_right"
                         android:drawablePadding="@dimen/dp_5"
+                        android:gravity="center"
                         android:text="进店逛逛"
                         android:textColor="@color/light_red"
                         android:textSize="@dimen/sp_13"/>

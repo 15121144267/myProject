@@ -1,5 +1,6 @@
 package com.banshengyuan.feima.view.activity;
 
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -210,7 +211,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 // 将文本内容放到系统剪贴板里。
                 String orderSnTv = orderDetailOrderId.getText().toString();
                 if (!TextUtils.isEmpty(orderSnTv)) {
-                    cm.setText(orderSnTv);
+                    cm.setPrimaryClip(ClipData.newPlainText(null, orderSnTv));
+                    orderDetailCopyOrderid.setText("已复制");
                 }
                 break;
             case R.id.order_right_btn:

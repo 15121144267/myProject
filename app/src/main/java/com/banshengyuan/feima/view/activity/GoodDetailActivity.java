@@ -94,6 +94,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     LinearLayout mGoodsDetailBottomLayout;
     @BindView(R.id.goods_detail_content)
     LinearLayout mGoodsDetailContent;
+    @BindView(R.id.goods_detail_enter_shop)
+    TextView mGoodsDetailEnterShop;
 
     public static Intent getIntent(Context context, Integer productId) {
         Intent intent = new Intent(context, GoodDetailActivity.class);
@@ -311,6 +313,9 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
         RxView.clicks(mGoodsDetailComment).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsCommentActivity.getIntent(this, mProductId)));
+
+        RxView.clicks(mGoodsDetailEnterShop).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(ShopProductDetailActivity.getActivityDetailIntent(this, mInfoBean.store.id)));
 
     }
 
