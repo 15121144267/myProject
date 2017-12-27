@@ -96,7 +96,13 @@
     <string name="wait_comment_empty_view">没有待评价商品，赶快去下单吧~</string>
     <string name="couple_no_use_empty_view">卡券为空，赶快去领取吧~</string>
     <string name="couple_used_empty_view">没有已使用卡券，赶快去使用吧~</string>
-    <string name="couple_expired_empty_view">没有已过期卡券</string>
+    <string name="couple_expired_empty_view">没有已过期卡券，赶快去使用吧~</string>
+    <string name="connection_fair_empty_view">市集收藏为空，赶快去收藏吧~</string>
+    <string name="connection_products_empty_view">产品收藏为空，赶快去收藏吧~</string>
+    <string name="connection_hot_empty_view">热闹收藏为空，赶快去收藏吧~</string>
+    <string name="connection_shop_empty_view">商家收藏为空，赶快去收藏吧~</string>
+    <string name="connection_street_empty_view">街区收藏为空，赶快去收藏吧~</string>
+    <string name="mime_address_empty_view">收货地址为空，赶快去编写吧~</string>
 
     <!--懒得写了-->
 

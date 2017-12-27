@@ -7,8 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
@@ -65,6 +69,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     private List<AddressResponse.ListBean> mList = new ArrayList<>();
     private int deleteId = -1;//记录要删除的id
+    private View mEmptyView = null;
 
     @Inject
     AddressControl.PresenterAddress mPresenter;
@@ -114,6 +119,17 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         mAdapter = new AddressAdapter(null, this);
         mAddressList.setLayoutManager(new LinearLayoutManager(this));
         mAddressList.setAdapter(mAdapter);
+
+        mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mAddressList.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.empty_address_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.VISIBLE);
+        emptyContent.setText(R.string.mime_address_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
+
+
         RxView.clicks(mAddressAdd).throttleFirst(2, TimeUnit.SECONDS).subscribe(v -> requestAddAddress());
         if (fromFlag.equals("payActivity")) {
             mAdapter.setOnItemClickListener((adapter, view, position) -> {
@@ -189,16 +205,19 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
     @Override
     public void listAddressSuccess(AddressResponse addressResponse) {
-        if (addressResponse.getList() != null && addressResponse.getList().size() > 0) {
-            mList = addressResponse.getList();
+        mList = addressResponse.getList();
+        if (mList.size() > 0) {
             mAdapter.setNewData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.setEmptyView(mEmptyView);
         }
     }
-
 
     @Override
     public void deleteAddressSuccess() {
         mAdapter.remove(mPosition);
+        mPresenter.requestAddressList(token);
     }
 
     @Override

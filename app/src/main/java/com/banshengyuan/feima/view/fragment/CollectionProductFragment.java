@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -48,6 +51,8 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     private CollectionProductAdapter mAdapter;
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
+    private View mEmptyView = null;
+
     @Inject
     CollectionProductControl.PresenterCollectionProduct mPresenter;
     private String token;
@@ -82,7 +87,18 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CollectionProductAdapter(null, getActivity(), mImageLoaderHelper);
+        mAdapter.setOnLoadMoreListener(this, mCouponCommonList);
         mCouponCommonList.setAdapter(mAdapter);
+
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.empty_collection_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.VISIBLE);
+        emptyContent.setText(R.string.connection_products_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
+
 
         mCouponCommonList.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
@@ -138,14 +154,29 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
 
     @Override
     public void getMyCollectionListSuccess(MyCollectionProductsResponse response) {
-        if (response != null) {
-            mList = response.getList();
-            mAdapter.setNewData(mList);
+        mList = response.getList();
+        if (mPagerNo == 1 && mList.size() == 0) {
+            mAdapter.setEmptyView(mEmptyView);
+            return;
+        }
+        if (mList.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
         }
     }
 
     @Override
     public void onLoadMoreRequested() {
-
+        if(mPagerNo==1 && mList.size() < mPagerSize){
+            mAdapter.loadMoreEnd(true);
+        }else {
+            if (mList.size() < mPagerSize) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestCollectionProductList(++mPagerNo, mPagerSize, token);
+            }
+        }
     }
 }

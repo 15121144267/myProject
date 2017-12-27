@@ -158,10 +158,14 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < pageSize) {
-            mAdapter.loadMoreEnd();
-        } else {
-            mPresenter.requestNoUseCouponList(state, ++page, pageSize, token);
+        if(page==1 && mList.size() < pageSize){
+            mAdapter.loadMoreEnd(true);
+        }else {
+            if (mList.size() < pageSize) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestNoUseCouponList(state, ++page, pageSize, token);
+            }
         }
     }
 }

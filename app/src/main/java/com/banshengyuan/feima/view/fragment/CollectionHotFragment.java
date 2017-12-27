@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -19,6 +22,8 @@ import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.ExChangeAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,6 +50,8 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private String token;
+    private View mEmptyView = null;
+    private List<ExChangeResponse.ListBean> mList;
 
     @Inject
     CollectionHotControl.PresenterCollectionHot mPresenter;
@@ -78,7 +85,18 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new ExChangeAdapter(null, getActivity(), mImageLoaderHelper);
+        mAdapter.setOnLoadMoreListener(this, mCouponCommonList);
         mCouponCommonList.setAdapter(mAdapter);
+
+        mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        imageView.setImageResource(R.mipmap.empty_collection_view);
+        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyContent.setVisibility(View.VISIBLE);
+        emptyContent.setText(R.string.connection_hot_empty_view);
+        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        emptyButton.setVisibility(View.GONE);
+
     }
 
 
@@ -120,11 +138,29 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
 
     @Override
     public void getMyCollectionListSuccess(ExChangeResponse response) {
-        mAdapter.setNewData(response.getList());
+        mList = response.getList();
+        if (mPagerNo == 1 && mList.size() == 0) {
+            mAdapter.setEmptyView(mEmptyView);
+            return;
+        }
+        if (mList.size() > 0) {
+            mAdapter.addData(mList);
+            mAdapter.loadMoreComplete();
+        } else {
+            mAdapter.loadMoreEnd();
+        }
     }
 
     @Override
     public void onLoadMoreRequested() {
-
+        if(mPagerNo==1 && mList.size() < mPagerSize){
+            mAdapter.loadMoreEnd(true);
+        }else {
+            if (mList.size() < mPagerSize) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestCollectionHotList(++mPagerNo, mPagerSize, token);
+            }
+        }
     }
 }

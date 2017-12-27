@@ -95,7 +95,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
         imageView.setImageResource(R.mipmap.empty_couple_view);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
-        emptyContent.setVisibility(View.VISIBLE);
+        emptyContent.setVisibility(View.GONE);
         emptyContent.setText(R.string.couple_expired_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
@@ -155,10 +155,14 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < pageSize) {
-            mAdapter.loadMoreEnd();
-        } else {
-            mPresenter.requestExpiredCouponList(state, ++page, pageSize, token);
+        if(page==1 && mList.size() < pageSize){
+            mAdapter.loadMoreEnd(true);
+        }else {
+            if (mList.size() < pageSize) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestExpiredCouponList(state, ++page, pageSize, token);
+            }
         }
     }
 }

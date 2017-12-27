@@ -93,10 +93,14 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < mPagerSize) {
-            mAdapter.loadMoreEnd();
-        } else {
-            mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
+        if(mPagerNo==1 && mList.size() < mPagerSize){
+            mAdapter.loadMoreEnd(true);
+        }else {
+            if (mList.size() < mPagerSize) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
+            }
         }
     }
 

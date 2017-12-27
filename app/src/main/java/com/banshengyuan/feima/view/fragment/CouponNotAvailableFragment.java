@@ -81,7 +81,6 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
 
     private void initData() {
         token = mBuProcessor.getUserToken();
-//        token = Constant.TOKEN;
         mPresenter.requestUsedCouponList(state, page, pageSize, token);
     }
 
@@ -155,10 +154,14 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < pageSize) {
-            mAdapter.loadMoreEnd();
-        } else {
-            mPresenter.requestUsedCouponList(state, ++page, pageSize, token);
+        if(page==1 && mList.size() < pageSize){
+            mAdapter.loadMoreEnd(true);
+        }else {
+            if (mList.size() < pageSize) {
+                mAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestUsedCouponList(state, ++page, pageSize, token);
+            }
         }
     }
 }
