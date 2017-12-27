@@ -42,7 +42,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView"
             style="@style/TextColor_Black_30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,14 +54,12 @@
             android:id="@+id/send_fragment_fair"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/send_fragment_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             />
     </LinearLayout>
 

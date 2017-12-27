@@ -14,7 +14,7 @@ import java.util.List;
 
 public class BrandItemAdapter extends BaseQuickAdapter<RecommendBrandResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
     public BrandItemAdapter(List<RecommendBrandResponse.ListBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_recommend_brand_2, mList);
         mContext = context;

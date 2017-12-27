@@ -16,7 +16,7 @@ import javax.inject.Singleton;
 public class BuProcessor {
     private LoginUser mLoginUser = new LoginUser();
     private final SharePreferenceUtil sharePreferenceUtil;
-    private Context mContext;
+    private final Context mContext;
 
     @Inject
     public BuProcessor(Context arg1, SharePreferenceUtil arg2) {

@@ -48,7 +48,7 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     private Unbinder unbind;
     private List<CollectionShopResponse.ListBean> mList = new ArrayList<>();
     private CollectionShopAdapter mAdapter;
-    private Integer mPagerSize = 10;
+    private final Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private View mEmptyView = null;
     @Inject

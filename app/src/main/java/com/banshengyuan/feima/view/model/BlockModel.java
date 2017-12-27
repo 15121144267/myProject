@@ -25,14 +25,14 @@ public class BlockModel {
     }
 
     public Observable<ResponseData> hotListRequest(Integer blockId ) {
-        return mApi.hotListRequest(blockId,1,5,true).map(mTransform::transformCommon);
+        return mApi.hotListRequest(blockId,1,5).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> fairListRequest(Integer blockId ) {
-        return mApi.fairListRequest(blockId,1,5,true).map(mTransform::transformCommon);
+        return mApi.fairListRequest(blockId,1,5).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeListRequest(Integer blockId ) {
-        return mApi.storeListRequest(blockId,1,5,true).map(mTransform::transformCommon);
+        return mApi.storeListRequest(blockId,1,5).map(mTransform::transformCommon);
     }
 }

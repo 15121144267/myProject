@@ -146,15 +146,20 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     }
 
     private void initView() {
+
         mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mFairOfflineHotRecycleView.setNestedScrollingEnabled(false);
+        mFairBrandRecycleView.setNestedScrollingEnabled(false);
+        mFairHotRecycleView.setNestedScrollingEnabled(false);
         mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
         mUnderLineAdapter = new UnderLineBrandAdapter(null, getActivity(), mImageLoaderHelper);
         mHotFairAdapter = new MainHotFairAdapter(null, getActivity(), mImageLoaderHelper);
         mFairOfflineHotRecycleView.setAdapter(mUnderLineAdapter);
         mFairBrandRecycleView.setAdapter(mAdapter);
         mFairHotRecycleView.setAdapter(mHotFairAdapter);
+
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {

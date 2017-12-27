@@ -67,7 +67,6 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/payMethod_WXLine"
             style="@style/LineH_Fill_Width0_5_ForView" />
 
         <TextView

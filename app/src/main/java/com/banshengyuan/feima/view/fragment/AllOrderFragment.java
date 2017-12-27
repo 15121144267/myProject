@@ -25,11 +25,9 @@ import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
-import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -51,7 +49,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
     private List<MyOrdersResponse.ListBean> mList = new ArrayList<>();
-    private Integer mPagerSize = 10;
+    private final Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
     //1.待付款 2.待收货 3. 待评价
@@ -85,12 +83,6 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initData();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override

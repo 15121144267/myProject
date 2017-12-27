@@ -16,7 +16,6 @@
         android:src="@mipmap/address_icon2" />
 
     <RelativeLayout
-        android:id="@+id/address_center_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/dp_15"

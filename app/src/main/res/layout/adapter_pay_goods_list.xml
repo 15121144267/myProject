@@ -140,7 +140,6 @@
             />
 
         <TextView
-            android:id="@+id/adapter_shopping_card_dispatching_price"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"

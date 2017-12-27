@@ -148,7 +148,7 @@ public class CBLoopViewPager extends ViewPager {
 
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
-        if (canLoop == false) {
+        if (!canLoop) {
             setCurrentItem(getRealItem(), false);
         }
         if (mAdapter == null) return;

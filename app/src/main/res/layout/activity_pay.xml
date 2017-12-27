@@ -34,6 +34,7 @@
             android:background="@mipmap/pay_address_location" />
 
         <LinearLayout
+            android:id="@+id/pay_choose_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -64,29 +65,17 @@
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/pay_choose_address"
+            <TextView
+                android:id="@+id/pay_address_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="@dimen/dp_10">
-
-                <TextView
-                    android:id="@+id/pay_address_detail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:layout_weight="1"
-                    android:maxLines="2"
-                    android:text="请选择收货地址"
-                    android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/arrow_right" />
-            </LinearLayout>
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_10"
+                android:maxLines="2"
+                android:text="请选择收货地址"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:textColor="@color/darkblack"
+                android:textSize="@dimen/sp_14" />
 
         </LinearLayout>
 

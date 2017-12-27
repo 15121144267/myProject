@@ -14,7 +14,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerNoticeCenterActivityComponent;
 import com.banshengyuan.feima.dagger.module.NoticeCenterActivityModule;
 import com.banshengyuan.feima.database.OrderNotice;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.NoticeResponse;
 import com.banshengyuan.feima.entity.QueryParam;
 import com.banshengyuan.feima.utils.TimeUtil;
@@ -47,7 +46,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @BindView(R.id.notice_all)
     RecyclerView mRecyclerView;
     private int page = 1;
-    private int pageSize = 10;
+    private final int pageSize = 10;
     private String token;
     private List<NoticeResponse.ListBean> mList = new ArrayList<>();
 

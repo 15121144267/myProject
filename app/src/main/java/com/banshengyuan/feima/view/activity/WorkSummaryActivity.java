@@ -137,11 +137,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     @Override
     public void getGoodCollectionSuccess(CollectionResponse response) {
-        if (response.status == 1) {
-            itemBean.isCollection = true;
-        } else {
-            itemBean.isCollection = false;
-        }
+        itemBean.isCollection = response.status == 1;
         mBaseAdapter.setData(mItemPosition, itemBean);
     }
 

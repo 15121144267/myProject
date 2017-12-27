@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FairUnderLineItemAdapter extends BaseQuickAdapter<FairUnderLineResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
     public FairUnderLineItemAdapter(List<FairUnderLineResponse.ListBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_recommend_brand_2, mList);
         mContext = context;

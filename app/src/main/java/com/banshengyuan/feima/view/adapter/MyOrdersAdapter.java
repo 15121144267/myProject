@@ -5,7 +5,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
-import android.view.View;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
 
     public MyOrdersAdapter(List<MyOrdersResponse.ListBean> listBean, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_my_orders, listBean);

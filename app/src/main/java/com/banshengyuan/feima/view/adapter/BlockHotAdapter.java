@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BlockHotAdapter extends BaseQuickAdapter<BlockHotListResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
 
     public BlockHotAdapter(List<BlockHotListResponse.ListBean> mList, Context context,ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_hot_fair, mList);

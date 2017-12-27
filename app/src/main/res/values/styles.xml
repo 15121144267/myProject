@@ -20,16 +20,6 @@
         <item name="colorPrimary">@color/text_color_yellow_dark2</item>
     </style>
 
-    <style name="AnotherAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-    </style>
-
     <style name="Transparent_Activity">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -43,18 +33,6 @@
 
     <style name="StartTheme" parent="AppTheme">
         <item name="android:windowBackground">@mipmap/activity_welcome</item>
-    </style>
-
-    <style name="tweetName">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">15sp</item>
-    </style>
-
-    <style name="summaryText">
-        <item name="android:textSize">@dimen/sp_16</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingStart">@dimen/dp_16</item>
-        <item name="android:background">@color/white</item>
     </style>
 
     <style name="LineH_Fill_Width0_5_ForView">
@@ -320,15 +298,6 @@
         <item name="android:background">@drawable/button_style_blue4</item>
         <item name="android:layout_height">@dimen/dp_50</item>
         <item name="android:layout_width">265dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">16.0dip</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="join_action_Button_Style4">
-        <item name="android:background">@drawable/button_style_blue6_rightangle</item>
-        <item name="android:layout_height">@dimen/dp_50</item>
-        <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">16.0dip</item>
         <item name="android:textColor">@color/white</item>

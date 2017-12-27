@@ -11,11 +11,11 @@ import retrofit2.http.Query;
 
 public interface BlockApi {
     @GET("api/hot")
-    Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/fair-category")
-    Observable<String> fairListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> fairListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/store")
-    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 }

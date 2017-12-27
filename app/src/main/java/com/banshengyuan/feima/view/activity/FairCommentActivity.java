@@ -47,7 +47,7 @@ public class FairCommentActivity extends BaseActivity implements ClassifySearchC
     ClassifySearchControl.PresenterClassifySearch mPresenter;
 
     private Integer mPage = 1;
-    private Integer mPageSize = 10;
+    private final Integer mPageSize = 10;
     private Integer mFairId;
     private ClassifySearchListAdapter mAdapter;
     private ClassifySearchListResponse mResponse;

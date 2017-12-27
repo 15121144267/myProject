@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CommentAdapter extends BaseQuickAdapter<CommentListResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
     public CommentAdapter(List<CommentListResponse.ListBean> mList, Context context,ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_comment, mList);
         mContext = context;

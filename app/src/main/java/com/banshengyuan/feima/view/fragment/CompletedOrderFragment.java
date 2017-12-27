@@ -113,7 +113,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
 
     private Unbinder unbind;
     private PersonInfoResponse mResponse;
-    private String[] productNames = {"购物车", "我的订单", "我的卡券", "我的收藏"};
+    private final String[] productNames = {"购物车", "我的订单", "我的卡券", "我的收藏"};
     private List<MainProducts> mList;
     private MainProductsAdapter mAdapter;
 
@@ -269,10 +269,6 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         commonDialog.setContent(getString(R.string.clean_cache));
         commonDialog.setListener(this, DIALOG_TYPE_EXIT_OK);
         DialogFactory.showDialogFragment(getChildFragmentManager(), commonDialog, CommonDialog.TAG);
-    }
-
-    private void requestLoginOut() {
-
     }
 
     private void requestAddress() {

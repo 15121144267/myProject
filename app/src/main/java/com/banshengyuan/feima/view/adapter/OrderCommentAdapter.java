@@ -16,7 +16,7 @@ import java.util.List;
 
 public class OrderCommentAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean.ProductBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
 
     public OrderCommentAdapter(List<MyOrdersResponse.ListBean.ProductBean> beanList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.order_comment_adapter, beanList);

@@ -17,7 +17,6 @@
             android:background="@mipmap/shop_item_location" />
 
         <TextView
-            android:id="@+id/item_shop_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -52,7 +51,6 @@
             android:textColor="@color/gray_color" />
 
         <TextView
-            android:id="@+id/item_shop_content2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -62,7 +60,6 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/item_shop_content3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

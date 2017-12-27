@@ -184,7 +184,8 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
 
         mRecommendBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecommendDiscoverRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        mRecommendBrandRecycleView.setNestedScrollingEnabled(false);
+        mRecommendDiscoverRecycleView.setNestedScrollingEnabled(false);
         mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
         mDiscoverBrandAdapter = new RecommendDiscoverBrandAdapter(null, getActivity(), mImageLoaderHelper);
 

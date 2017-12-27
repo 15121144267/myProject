@@ -48,7 +48,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     RecyclerView mMyOrders;
     private MyOrdersAdapter mAdapter;
     private List<MyOrdersResponse.ListBean> mList;
-    private Integer mPagerSize = 10;
+    private final Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private final String mStatus = "2";//1.待付款 2.待收货 3. 待评价
     private int mPos;

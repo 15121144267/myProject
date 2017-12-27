@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MainHotFairAdapter extends BaseQuickAdapter<FairBottomResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
     public MainHotFairAdapter(List<FairBottomResponse.ListBean> mList, Context context,ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_hot_fair, mList);
         mContext = context;

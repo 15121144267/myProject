@@ -15,7 +15,7 @@ import java.util.List;
 
 public class OrdersItemAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean.ProductBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper mImageLoaderHelper;
+    private final ImageLoaderHelper mImageLoaderHelper;
 
     public OrdersItemAdapter(List<MyOrdersResponse.ListBean.ProductBean> notices, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_order_item, notices);

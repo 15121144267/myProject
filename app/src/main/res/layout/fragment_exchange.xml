@@ -16,7 +16,6 @@
         <TextView
             android:layout_marginEnd="@dimen/dp_20"
             android:layout_marginStart="@dimen/dp_20"
-            android:id="@+id/textView"
             style="@style/TextColor_Black_30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +39,6 @@
             android:id="@+id/hot_fragment_activities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             />
     </LinearLayout>
 

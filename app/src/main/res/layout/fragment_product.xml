@@ -43,7 +43,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView"
             style="@style/TextColor_Black_30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +71,7 @@
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_25"
             android:layout_weight="1"
-            android:nestedScrollingEnabled="false"/>
+            />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

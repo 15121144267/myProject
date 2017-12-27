@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/tab_icon_container"
         android:layout_gravity="center_horizontal"
         android:layout_width="45dp"
         android:layout_height="0dp"

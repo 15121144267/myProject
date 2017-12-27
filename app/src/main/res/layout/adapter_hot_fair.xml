@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/exchange_lv"
-    android:layout_width="match_parent"
+              android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="18dp"
     android:layout_marginEnd="@dimen/dp_20"
@@ -59,7 +58,6 @@
             android:textSize="@dimen/sp_13" />
 
         <TextView
-            android:id="@+id/hot_fair_time_second"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:ellipsize="end"

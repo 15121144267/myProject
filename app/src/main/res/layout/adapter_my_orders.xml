@@ -38,7 +38,6 @@
 
 
     <TextView
-        android:id="@+id/adapter_order_status"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:drawablePadding="@dimen/dp_10"

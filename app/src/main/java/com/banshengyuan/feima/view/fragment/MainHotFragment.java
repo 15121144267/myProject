@@ -81,6 +81,7 @@ public class MainHotFragment extends BaseFragment implements HotControl.HotView 
         mMainHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHotFairAdapter = new HotFairAdapter(null,getActivity());
         mMainHotRecycleView.setAdapter(mHotFairAdapter);
+        mMainHotRecycleView.setNestedScrollingEnabled(false);
     }
 
 

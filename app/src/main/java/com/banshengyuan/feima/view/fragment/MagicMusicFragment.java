@@ -100,11 +100,11 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
         mMagicFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity(), mImageLoaderHelper);
         mMagicFairRecycleView.setAdapter(mMagicMusicAdapter);
-
+        mMagicFairRecycleView.setNestedScrollingEnabled(false);
         mMagicHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMusicHotAdapter = new MagicMusicHotAdapter(null, getActivity(), mImageLoaderHelper);
         mMagicHotRecycleView.setAdapter(mMusicHotAdapter);
-
+        mMagicHotRecycleView.setNestedScrollingEnabled(false);
         mMagicMusicAdapter.setOnItemClickListener((adapter, view, position) -> {
             MusicListResponse.FairBean bean = (MusicListResponse.FairBean) adapter.getItem(position);
             if (bean != null) {

@@ -28,13 +28,11 @@
             android:id="@+id/magic_fair_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/magic_hot_recycle_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

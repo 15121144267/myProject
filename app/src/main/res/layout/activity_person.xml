@@ -59,7 +59,6 @@
             android:text="更改个人主页背景" />
 
         <ImageView
-            android:id="@+id/person_page_bg_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="fitXY"

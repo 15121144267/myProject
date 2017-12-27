@@ -48,7 +48,7 @@ public class GoodsCommentActivity extends BaseActivity implements ShopDetailCont
     private Integer mGoodsId;
     private GoodsCommentAdapter mAdapter;
     private Integer mPage = 1;
-    private Integer mPageSize = 10;
+    private final Integer mPageSize = 10;
     private GoodsCommentResponse mResponse;
 
     @Override

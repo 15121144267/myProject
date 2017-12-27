@@ -92,6 +92,7 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
 
     private void initView() {
         mMainFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mMainFairRecycleView.setNestedScrollingEnabled(false);
         mHotFairAdapter = new VistaFairAdapter(null, getActivity(),mImageLoaderHelper);
         mMainFairRecycleView.setAdapter(mHotFairAdapter);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {

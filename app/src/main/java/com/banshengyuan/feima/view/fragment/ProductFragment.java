@@ -158,6 +158,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
 
     private void initView() {
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mProductProducts.setNestedScrollingEnabled(false);
         mAdapter = new ProductAdapter(null, getActivity(), mImageLoaderHelper);
         mProductProducts.setAdapter(mAdapter);
 

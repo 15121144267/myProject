@@ -22,7 +22,7 @@ public class GoodsDetailModel {
     private final AddShoppingCardApi mAddShoppingCardApi;
     private final Gson mGson;
     private final ModelTransform mTransform;
-    private BuProcessor mBuProcessor;
+    private final BuProcessor mBuProcessor;
 
     @Inject
     public GoodsDetailModel(GoodsDetailApi api, AddShoppingCardApi addShoppingCardApi, Gson gson, ModelTransform transform, BuProcessor buProcessor) {

@@ -119,6 +119,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         mHotFragmentActivities.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHotFairAdapter = new ExChangeAdapter(null, getActivity(), mImageLoaderHelper);
         mHotFragmentActivities.setAdapter(mHotFairAdapter);
+        mHotFragmentActivities.setNestedScrollingEnabled(false);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
             ExChangeResponse.ListBean bean = mHotFairAdapter.getItem(position);
             if (bean != null) {

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ExChangeAdapter extends BaseQuickAdapter<ExChangeResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private ImageLoaderHelper imageLoaderHelper;
+    private final ImageLoaderHelper imageLoaderHelper;
 
     public ExChangeAdapter(List<ExChangeResponse.ListBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_hot_fair, mList);

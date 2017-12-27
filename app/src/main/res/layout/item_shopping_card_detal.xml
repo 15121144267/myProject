@@ -70,7 +70,6 @@
                     />
 
                 <LinearLayout
-                    android:id="@+id/item_shopping_card_count_layout"
                     android:layout_width="70dp"
                     android:layout_height="25dp"
                     android:background="@drawable/shape_line_blod"

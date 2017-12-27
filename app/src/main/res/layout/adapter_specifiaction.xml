@@ -7,7 +7,6 @@
 
     <TextView
         android:layout_marginTop="@dimen/dp_12"
-        android:id="@+id/adapter_specification_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -22,7 +21,6 @@
         android:layout_marginEnd="@dimen/dp_5"/>
 
     <View
-        android:id="@+id/specification_line"
         style="@style/LineH_Fill_Width1_5_ForView"
         android:layout_marginTop="@dimen/dp_12"
         />

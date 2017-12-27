@@ -142,6 +142,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     private void initView() {
         mShopTopGallery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mShopTopGallery.setNestedScrollingEnabled(false);
         mGallerySellerAdapter = new GallerySellerAdapter(getActivity(), null, mImageLoaderHelper);
         mShopTopGallery.setAdapter(mGallerySellerAdapter);
         mGallerySellerAdapter.setOnItemListener(this);
@@ -153,6 +154,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         mCardScaleHelper.attachToRecyclerView(mShopTopGallery);
 
         mShopBottomProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mShopBottomProducts.setNestedScrollingEnabled(false);
         mProductAdapter = new SellerStoreAdapter(null, getActivity(), mImageLoaderHelper);
         mShopBottomProducts.setAdapter(mProductAdapter);
         mProductAdapter.setOnItemChildClickListener((adapter, view, position) -> {
