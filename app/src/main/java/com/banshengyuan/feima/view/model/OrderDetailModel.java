@@ -29,4 +29,15 @@ public class OrderDetailModel {
         return mApi.requestOrderDetailInfo(order_sn, order_sn, token).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> cancelOrderRequest(String order_sn, String token) {
+        return mApi.cancelOrderRequest(order_sn, token).map(mTransform::transformCommon);
+    }
+
+    public Observable<ResponseData> comfirmOrderRequest(String order_sn, String token) {
+        return mApi.comfirmOrderRequest(order_sn, token).map(mTransform::transformCommon);
+    }
+    public Observable<ResponseData> remindSendGoodsRequest(String order_sn, String token) {
+        return mApi.remindSendGoodsRequest(order_sn, token).map(mTransform::transformCommon);
+    }
+
 }

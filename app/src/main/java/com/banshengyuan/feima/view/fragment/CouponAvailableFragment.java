@@ -52,7 +52,7 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
     private List<MyCoupleResponse.ListBean> mList;
     private String state = "1";//券状态 1未使用 2已使用 3已过期
     private int page = 1;
-    private final int pageSize = 10;
+    private int pageSize = 10;
     private String token;
     private View mEmptyView = null;
 

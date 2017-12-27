@@ -47,7 +47,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
 
     private Unbinder unbind;
     private ExChangeAdapter mAdapter;//HotFairAdapter
-    private final Integer mPagerSize = 10;
+    private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private String token;
     private View mEmptyView = null;

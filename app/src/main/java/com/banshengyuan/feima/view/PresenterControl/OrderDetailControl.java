@@ -11,10 +11,20 @@ public class OrderDetailControl {
     public interface OrderDetailView extends LoadDataView {
         void loadFail(Throwable throwable);
         void getOrderDetailInfoSuccess(OrderDetailResponse orderDetailResponse);
+
+        void getCancelOrderSuccess();
+
+        void getComfirmOrderSuccess();
     }
 
     public interface PresenterOrderDetail extends Presenter<OrderDetailView> {
-        void requestOrderDetailInfo(String order_sn, String token);
+        void requestOrderDetailInfo(String order_sn, String token);//订单详情
+
+        void requestCancelOrder(String order_sn, String token); //取消订单
+
+        void requestConfirmOrder(String order_sn, String token); //确认订单
+
+        void requestRemindSendGoods(String order_sn, String token);//提醒发货
     }
 
 }

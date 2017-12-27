@@ -1,11 +1,9 @@
 package com.banshengyuan.feima.view.activity;
 
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +21,7 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.OrderDetailActivityModule;
+import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.entity.OrderDetailResponse;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.utils.ToolUtils;
@@ -118,12 +117,15 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView unlinepayFinalPrice;
 
 
-    private String order_sn;
-    private String token;
+    private String mOrderSn;
+    private String mToken;
     //    private MyOrdersResponse.ListBean orderItemBean = null;
     List<OrderDetailResponse.GoodsListBean.ProductBean> mList = new ArrayList<>();
+    ArrayList<MyOrdersResponse.ListBean.ProductBean> mList1 = new ArrayList<>();//跳转评论需要订单entity
     private OrdersDetailAdapter adapter = null;
     private String storePhone = "";//商家电话
+    private OrderDetailResponse.InfoBean infoBean;
+    private OrderDetailResponse.GoodsListBean goodsListBean;
 
 
     public static Intent getOrderDetailIntent(Context context, String order_sn) {
@@ -145,12 +147,12 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void initData() {
-        token = mBuProcessor.getUserToken();
-        mPresenter.requestOrderDetailInfo(order_sn, token);
+        mToken = mBuProcessor.getUserToken();
+        mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
     }
 
     private void parseIntent() {
-        order_sn = getIntent().getStringExtra("order_sn");
+        mOrderSn = getIntent().getStringExtra("order_sn");
     }
 
     @Override
@@ -203,7 +205,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } catch (Exception e) {
-                    showToast("该设备暂无打电话功能");
+                    e.printStackTrace();
                 }
                 break;
             case R.id.order_detail_copy_orderid:
@@ -211,17 +213,55 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 // 将文本内容放到系统剪贴板里。
                 String orderSnTv = orderDetailOrderId.getText().toString();
                 if (!TextUtils.isEmpty(orderSnTv)) {
-                    cm.setPrimaryClip(ClipData.newPlainText(null, orderSnTv));
-                    orderDetailCopyOrderid.setText("已复制");
+                    cm.setText(orderSnTv);
                 }
                 break;
             case R.id.order_right_btn:
-                showToast("right");
+                if (infoBean.getPay_status() == 1) {//立即付款
+                    startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type()));
+                } else if (infoBean.getPay_status() == 2) {//再来一单
+                } else if (infoBean.getPay_status() == 3) {//再来一单
+                } else if (infoBean.getPay_status() == 4) {//再来一单
+                } else if (infoBean.getPay_status() == 5) {//交易完成
+                    showToast("交易完成");
+                }
                 break;
             case R.id.order_left_btn:
                 showToast("left");
+                if (infoBean.getPay_status() == 1) {//取消订单
+                    mPresenter.requestCancelOrder(mOrderSn, mToken);
+                } else if (infoBean.getPay_status() == 2) {//确认收货
+                    mPresenter.requestConfirmOrder(mOrderSn, mToken);
+                } else if (infoBean.getPay_status() == 3) {//提醒发货
+                    mPresenter.requestRemindSendGoods(mOrderSn, mToken);
+                } else if (infoBean.getPay_status() == 4) {//去评价
+                    for (OrderDetailResponse.GoodsListBean.ProductBean bean : mList) {
+                        MyOrdersResponse.ListBean.ProductBean productBean = new MyOrdersResponse.ListBean.ProductBean();
+                        productBean.setId(bean.getId());
+                        productBean.setName(bean.getGoods_name());
+                        productBean.setGoods_id(bean.getGoods_id());
+                        productBean.setPrice(bean.getGoods_price());
+                        productBean.setNumber(bean.getNumber());
+                        productBean.setCover_img(bean.getGoods_img());
+                        mList1.add(productBean);
+                    }
+                    startActivity(CommentActivity.getIntent(OrderDetailActivity.this, mList1));
+                }
                 break;
         }
+    }
+
+    @Override
+    public void getCancelOrderSuccess() {
+        showToast("取消成功");
+        mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
+    }
+
+    @Override
+    public void getComfirmOrderSuccess() {
+        //确认收货
+        showToast("确认订单成功");
+        mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
     }
 
     @Override
@@ -233,7 +273,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     public void getOrderDetailInfoSuccess(OrderDetailResponse orderDetailResponse) {
         if (orderDetailResponse != null) {
             mList = orderDetailResponse.getGoods_list().getProduct();
-            OrderDetailResponse.InfoBean infoBean = orderDetailResponse.getInfo();
+            infoBean = orderDetailResponse.getInfo();
+            goodsListBean = orderDetailResponse.getGoods_list();
 
             if (infoBean.getOrder_type() == 1) {//线上订单
                 orderAddressLayout.setVisibility(View.VISIBLE);
@@ -257,18 +298,22 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 linepayCenterLayout.setVisibility(View.GONE);
                 orderUnlinepayLayout.setVisibility(View.VISIBLE);
 
+//                mImageLoaderHelper.displayRoundedCornerImage(this,goodsListBean.get);
+                unlinepayStorename.setText(goodsListBean.getStore_name());
+
+
 //                mImageLoaderHelper.displayRoundedCornerImage(OrderDetailActivity.this,infoBean.get);
                 Integer totalPrice = infoBean.getTotal_fee();
                 Integer transPrice = infoBean.getFreight();
                 Integer shouldPrice = 0;
 
-                String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
+                String priceTotal = "￥" + ValueUtil.formatAmount4(totalPrice);
                 unlinepayTotalPrice.setText(priceTotal);
 
-                unlinepayDiscountPrice.setText("-￥" + ValueUtil.formatAmount(transPrice));
+                unlinepayDiscountPrice.setText("-￥" + ValueUtil.formatAmount4(transPrice));
 
                 shouldPrice = totalPrice - transPrice;
-                unlinepayFinalPrice.setText("￥" + ValueUtil.formatAmount(shouldPrice));
+                unlinepayFinalPrice.setText("￥" + ValueUtil.formatAmount4(shouldPrice));
             }
             adapter.setNewData(mList);
 
@@ -278,8 +323,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     infoBean.getMember_street() + infoBean.getMember_address();
 
 
-            orderDetailShopName.setText(orderDetailResponse.getGoods_list().getStore_name());
-            storePhone = orderDetailResponse.getGoods_list().getStore_mobile();
+            orderDetailShopName.setText(goodsListBean.getStore_name());
+            storePhone = goodsListBean.getStore_mobile();
             orderDetailOrderId.setText(infoBean.getSn());
             createDate.setText("创建时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getCreate_time()));
             payDate.setText("成交时间：" + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_HHMMSS, (long) infoBean.getDeal_time()));
@@ -321,21 +366,21 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             Integer transPrice = infoBean.getFreight();
             Integer shouldPrice = 0;
 
-            String priceTotal = "￥" + ValueUtil.formatAmount(totalPrice);
+            String priceTotal = "￥" + ValueUtil.formatAmount4(totalPrice);
             orderDetailPrice.setText(priceTotal);
 
-            orderDetailDispatchPrice.setText("￥" + ValueUtil.formatAmount(transPrice));
+            orderDetailDispatchPrice.setText("￥" + ValueUtil.formatAmount4(transPrice));
 
             shouldPrice = totalPrice + transPrice;
-            orderDetailShouldPay.setText("￥" + ValueUtil.formatAmount(shouldPrice));
+            orderDetailShouldPay.setText("￥" + ValueUtil.formatAmount4(shouldPrice));
 
         }
     }
 
     private void getCodeBitmap(String code) {
         Bitmap qrBitmap = ToolUtils.generateBitmap(code, 400, 400);
-        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.freemud_logo);
-        Bitmap bitmap = ToolUtils.addLogo(qrBitmap, logoBitmap);//设置logo
+//        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.freemud_logo);
+//        Bitmap bitmap = ToolUtils.addLogo(qrBitmap, logoBitmap);//设置logo
         orderDetailZtImage.setImageBitmap(qrBitmap);
     }
 }

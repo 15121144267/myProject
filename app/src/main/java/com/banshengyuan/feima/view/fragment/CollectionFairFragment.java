@@ -50,7 +50,7 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     private Unbinder unbind;
     private List<MyCollectionFairResponse.ListBean> mList = new ArrayList<>();
     private CollectionFairAdapter mAdapter;
-    private final Integer mPagerSize = 10;
+    private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private View mEmptyView = null;
 

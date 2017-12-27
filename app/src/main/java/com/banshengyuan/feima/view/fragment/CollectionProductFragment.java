@@ -49,7 +49,7 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     private Unbinder unbind;
     private List<MyCollectionProductsResponse.ListBean> mList;
     private CollectionProductAdapter mAdapter;
-    private final Integer mPagerSize = 10;
+    private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private View mEmptyView = null;
 

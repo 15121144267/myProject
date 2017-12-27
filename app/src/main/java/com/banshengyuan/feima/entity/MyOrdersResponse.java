@@ -3,6 +3,8 @@ package com.banshengyuan.feima.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.mylibrary.entity.MultiItemEntity;
+
 import java.util.List;
 
 /**
@@ -77,7 +79,18 @@ public class MyOrdersResponse implements Parcelable {
         this.list = list;
     }
 
-    public static class ListBean implements Parcelable {
+    public static class ListBean implements Parcelable ,MultiItemEntity {
+        public static final int LAYOUT_ONE = 1;
+        public static final int LAYOUT_TWO = 2;
+
+        @Override
+        public int getItemType() {
+            if(getOrder_type()==3){
+                return LAYOUT_TWO;
+            }else{
+                return LAYOUT_ONE;
+            }
+        }
         /**
          * order_sn : Z2017120106111625062
          * store_name : test的店铺
@@ -237,13 +250,15 @@ public class MyOrdersResponse implements Parcelable {
                 this.content = content;
             }
 
-            protected ProductBean(Parcel in) {
+            public ProductBean(Parcel in) {
                 id = in.readInt();
                 name = in.readString();
                 goods_id = in.readInt();
                 price = in.readInt();
                 number = in.readInt();
                 cover_img = in.readString();
+            }
+            public ProductBean() {
             }
 
             @Override

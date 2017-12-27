@@ -295,6 +295,12 @@ public class ValueUtil {
         return format.format(amount);
     }
 
+    public static String formatAmount4(double amount) {
+        double newAmount = amount / 100;
+        DecimalFormat format = new DecimalFormat("##0.00元");
+        return format.format(newAmount);
+    }
+
     public static SpannableStringBuilder setAllPriceText(double price, Context context) {
         String orderPricePartOne = "合计：";
         String orderPricePartTwo = ValueUtil.formatAmount2(price);

@@ -3,7 +3,6 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.entity.OrderDetailResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.OrderDetailControl;
@@ -39,6 +38,57 @@ public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrd
                 .subscribe(this::getOrderDetailInfoSuccess,
                         throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
+    }
+
+    @Override
+    public void requestCancelOrder(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.cancelOrderRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::cancelOrderSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    @Override
+    public void requestConfirmOrder(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.comfirmOrderRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::comfirmOrderSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    @Override
+    public void requestRemindSendGoods(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.remindSendGoodsRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::remindSendGoodsSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void cancelOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.getCancelOrderSuccess();
+        } else {
+            mView.showToast("操作失败");
+        }
+    }
+
+    private void comfirmOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.getComfirmOrderSuccess();
+        } else {
+            mView.showToast("操作失败");
+        }
+    }
+
+    private void remindSendGoodsSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.showToast("提醒成功");
+        } else {
+            mView.showToast("操作失败");
+        }
     }
 
     private void getOrderDetailInfoSuccess(ResponseData responseData) {

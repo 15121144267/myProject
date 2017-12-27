@@ -48,7 +48,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     List<MyCollectionBlockResponse.ListBean> mList = new ArrayList<>();
     private Unbinder unbind;
     private CollectionBlockAdapter mAdapter;
-    private final Integer mPagerSize = 10;
+    private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private String token;
     private View mEmptyView = null;

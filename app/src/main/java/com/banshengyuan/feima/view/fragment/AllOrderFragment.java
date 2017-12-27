@@ -23,7 +23,7 @@ import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
-import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
+import com.banshengyuan.feima.view.adapter.MyOrdersAdapter2;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -47,9 +47,9 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @BindView(R.id.activities_recycle_view)
     RecyclerView mMyOrders;
-    private MyOrdersAdapter mAdapter;
+    private MyOrdersAdapter2 mAdapter;
     private List<MyOrdersResponse.ListBean> mList = new ArrayList<>();
-    private final Integer mPagerSize = 10;
+    private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private Unbinder unbind;
     //1.待付款 2.待收货 3. 待评价
@@ -85,11 +85,12 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         initData();
     }
 
+
     @Override
     public void onLoadMoreRequested() {
-        if(mPagerNo==1 && mList.size() < mPagerSize){
+        if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
-        }else {
+        } else {
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
@@ -122,20 +123,17 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Override
     public void getCancelOrderSuccess(boolean flag) {
-        if (flag) {
-            showToast("取消成功");
-            mAdapter.remove(mPos);
-        }
+        showToast("取消成功");
+        mAdapter.remove(mPos);
     }
 
     @Override
     public void getComfirmOrderSuccess(boolean flag) {
         //确认收货
-        if (flag) {
-            showToast("确认订单成功");
-//            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
-        }
+        showToast("确认订单成功");
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
     }
+
 
     private void initData() {
         mToken = mBuProcessor.getUserToken();
@@ -147,7 +145,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     private void initView() {
         mMyOrders.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new MyOrdersAdapter(null, getActivity(), mImageLoaderHelper);
+        mAdapter = new MyOrdersAdapter2(null, getActivity(), mImageLoaderHelper);
         mAdapter.setOnLoadMoreListener(this, mMyOrders);
         mMyOrders.setAdapter(mAdapter);
 
@@ -161,7 +159,6 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         emptyButton.setVisibility(View.GONE);
 //        RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));
 
-
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
                     mPos = position;
@@ -171,39 +168,27 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));
                             break;
                         case R.id.order_left_btn:
-                            if (listBean.getPay_status() == 1) {//取消订单
-                                mPresenter.requestCancelOrder(mOrderSn, mToken);
-                            } else if (listBean.getPay_status() == 2) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-                            } else if (listBean.getPay_status() == 3) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-                            } else if (listBean.getPay_status() == 4) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-                            } else if (listBean.getPay_status() == 5) {
-//                              helper.setVisible(R.id.order_left_btn, false);
-//                                helper.setText(R.id.order_right_btn, "已取消");
+                            if (listBean.getOrder_type() == 1) {//线上
+                                if (listBean.getPay_status() == 1) {//取消订单
+                                    mPresenter.requestCancelOrder(mOrderSn, mToken);
+                                } else if (listBean.getPay_status() == 2) {//再来一单
+                                } else if (listBean.getPay_status() == 3) {//再来一单
+                                } else if (listBean.getPay_status() == 4) {//再来一单
+                                } else if (listBean.getPay_status() == 5) {//已取消
+                                }
                             }
                             break;
                         case R.id.order_right_btn:
-                            if (listBean.getPay_status() == 1) {//取消订单
-//                                helper.setText(R.id.order_left_btn, "取消订单");
-//                                helper.setText(R.id.order_right_btn, "立即付款");
+                            if (listBean.getPay_status() == 1) {//立即付款
                                 startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
-                            } else if (listBean.getPay_status() == 2) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-//                                helper.setText(R.id.order_right_btn, "确认收货");
+                            } else if (listBean.getPay_status() == 2) {//确认收货
                                 mPresenter.requestConfirmOrder(mOrderSn, mToken);
-                            } else if (listBean.getPay_status() == 3) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-//                                helper.setText(R.id.order_right_btn, "提醒发货");
+                            } else if (listBean.getPay_status() == 3) {//提醒发货
                                 mPresenter.requestRemindSendGoods(mOrderSn, mToken);
-                            } else if (listBean.getPay_status() == 4) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-//                                helper.setText(R.id.order_right_btn, "去评价");
+                            } else if (listBean.getPay_status() == 4) {//去评价
                                 startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
                             } else if (listBean.getPay_status() == 5) {
 //                                showToast("已取消");
-
                             }
                             break;
                     }
