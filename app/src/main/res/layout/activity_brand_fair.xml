@@ -6,17 +6,28 @@
 
     <include layout="@layout/toolbar_common"/>
 
-    <TextView
-        android:id="@+id/adapter_gallery_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="品牌市集"
-        android:textColor="@color/light_grey_dark1"
-        android:textSize="@dimen/sp_24"
-        android:layout_marginBottom="@dimen/dp_30"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"/>
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/adapter_gallery_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_30"
+            android:layout_marginTop="10dp"
+            android:drawableEnd="@drawable/shape_line_black"
+            android:drawablePadding="@dimen/dp_5"
+            android:drawableStart="@drawable/shape_line_black"
+            android:gravity="center_horizontal"
+            android:text="品牌市集"
+            android:textColor="@color/light_grey_dark1"
+            android:textSize="@dimen/sp_24"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
 
     <com.banshengyuan.feima.view.customview.recycleviewgallery.SpeedRecyclerView
         android:id="@+id/brand_fair_gallery"

@@ -22,15 +22,12 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.OrderDetailActivityModule;
-import com.banshengyuan.feima.entity.Constant;
-import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.entity.OrderDetailResponse;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.utils.ToolUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.OrderDetailControl;
 import com.banshengyuan.feima.view.adapter.OrdersDetailAdapter;
-import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,14 +202,14 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    showToast("该设备暂无打电话功能");
                 }
                 break;
             case R.id.order_detail_copy_orderid:
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
                 String orderSnTv = orderDetailOrderId.getText().toString();
-                if(!TextUtils.isEmpty(orderSnTv)){
+                if (!TextUtils.isEmpty(orderSnTv)) {
                     cm.setText(orderSnTv);
                 }
                 break;

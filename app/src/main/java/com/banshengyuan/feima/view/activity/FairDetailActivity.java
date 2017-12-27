@@ -29,9 +29,11 @@ import com.banshengyuan.feima.view.fragment.CelebrityFragment;
 import com.banshengyuan.feima.view.fragment.CommentFragment;
 import com.banshengyuan.feima.view.fragment.FollowFragment;
 import com.banshengyuan.feima.view.fragment.TrendsFragment;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -123,7 +125,7 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mMiddleName.setText(response.info.name);
             mFairDetailName.setText(TextUtils.isEmpty(response.info.name) ? "未知" : response.info.name);
             mFairDetailSummary.setText(TextUtils.isEmpty(response.info.summary) ? "未知" : response.info.summary);
-            mImageLoaderHelper.displayImage(this,response.info.cover_img,mFairDetailIcon);
+            mImageLoaderHelper.displayImage(this, response.info.cover_img, mFairDetailIcon);
         }
     }
 
@@ -166,7 +168,7 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         mFairDetailViewPager.setAdapter(adapter);
         mFairDetailTabLayout.setupWithViewPager(mFairDetailViewPager);
         ValueUtil.setIndicator(mFairDetailTabLayout, 40, 40);
-
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override

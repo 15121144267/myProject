@@ -164,6 +164,7 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
             }
         });
         RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> requestCollectionStatue());
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
         mBlockDetailBanner.isAutoPlay(false);
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {

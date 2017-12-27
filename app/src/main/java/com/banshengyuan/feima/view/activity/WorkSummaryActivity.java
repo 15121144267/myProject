@@ -262,10 +262,11 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         });
 
         RxView.clicks(mFairDetailComment).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> startActivity(FairCommentActivity.getIntent(this, mFairId)));
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
-            public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
                     mMiddleName.setVisibility(View.GONE);

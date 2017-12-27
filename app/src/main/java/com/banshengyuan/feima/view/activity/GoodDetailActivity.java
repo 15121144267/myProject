@@ -272,10 +272,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                 startActivity(intent);
             } catch (Exception e) {
-                showToast("该设备暂打电话功能");
+                showToast("该设备暂无打电话功能");
             }
         });
-
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
             if (mBuProcessor.isValidLogin()) {
                 if (mInfoBean.store != null) {

@@ -158,6 +158,9 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
                 showToast("该设备暂无打电话功能");
             }
         });
+
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
+
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
