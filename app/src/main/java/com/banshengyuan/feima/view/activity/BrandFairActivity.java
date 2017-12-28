@@ -58,6 +58,7 @@ public class BrandFairActivity extends BaseActivity implements BrandFairControl.
         supportActionBar(mToolbar, true);
         initView();
         initData();
+
     }
 
     @Override
