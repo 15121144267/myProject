@@ -12,9 +12,13 @@ public class OrderCompleteControl {
         void loadFail(Throwable throwable);
 
         void getMyOrderListSuccess(MyOrdersResponse response);
+
+        void getDeleteOrderSuccess();
     }
 
     public interface PresenterOrderComplete extends Presenter<OrderCompleteView> {
         void requestMyOrderList(Integer pageNo, Integer pageSize, String status, boolean flag, String token);
+
+        void requestDeleteOrder(String order_sn ,String token);
     }
 }

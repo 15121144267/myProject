@@ -15,6 +15,8 @@ public class OrderDetailControl {
         void getCancelOrderSuccess();
 
         void getComfirmOrderSuccess();
+
+        void getDeleteOrderSuccess();
     }
 
     public interface PresenterOrderDetail extends Presenter<OrderDetailView> {
@@ -25,6 +27,8 @@ public class OrderDetailControl {
         void requestConfirmOrder(String order_sn, String token); //确认订单
 
         void requestRemindSendGoods(String order_sn, String token);//提醒发货
+
+        void requestDeleteOrder(String order_sn ,String token);//删除订单
     }
 
 }

@@ -43,6 +43,10 @@ public class MyOrderModel {
         return mApi.remindSendGoodsRequest(order_sn, token).map(mTransform::transformCommon);
     }
 
+    public Observable<ResponseData> deleteOrderRequest(String order_sn,String token) {
+        return mApi.deleteOrderRequest(order_sn, token).map(mTransform::transformCommon);
+    }
+
 //    public Observable<ResponseData> orderStatusListRequest(Integer status, Integer pageNo, Integer pageSize) {
 //        return mApi.orderStatusListRequest(mBuProcessor.getUserId(), status, pageNo, pageSize).map(mTransform::transformTypeTwo);
 //    }

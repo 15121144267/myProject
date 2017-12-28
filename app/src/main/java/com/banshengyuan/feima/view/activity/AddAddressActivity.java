@@ -184,7 +184,6 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
 
     @Override
     public void addAddressSuccess() {
-        showToast("操作成功");
         setResult(RESULT_OK);
         finish();
     }

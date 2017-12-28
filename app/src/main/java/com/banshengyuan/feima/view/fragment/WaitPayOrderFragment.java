@@ -19,14 +19,12 @@ import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
-import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -94,9 +92,9 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
 
     @Override
     public void onLoadMoreRequested() {
-        if(mPagerNo==1 && mList.size() < mPagerSize){
+        if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
-        }else {
+        } else {
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
@@ -165,37 +163,50 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                             startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));
                             break;
                         case R.id.order_left_btn:
-                            if (listBean.getPay_status() == 1) {//取消订单
-                                mPresenter.requestCancelOrder(mOrderSn, token);
-                            } else if (listBean.getPay_status() == 2) {
-                                startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-                            } else if (listBean.getPay_status() == 3) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-                            } else if (listBean.getPay_status() == 4) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-                            } else if (listBean.getPay_status() == 5) {
-//                                helper.setVisible(R.id.order_left_btn, false);
-//                                helper.setText(R.id.order_right_btn, "已取消");
+                            if (listBean.getOrder_type() == 1) {
+                                //线上
+                                if (listBean.getPay_status() == 1) {//取消订单
+                                    mPresenter.requestCancelOrder(mOrderSn, token);
+                                } else if (listBean.getPay_status() == 2) {//false
+                                } else if (listBean.getPay_status() == 3) {//提醒发货
+                                } else if (listBean.getPay_status() == 4) {//删除
+                                } else if (listBean.getPay_status() == 5) {//删除
+                                }
+                            } else if (listBean.getOrder_type() == 2) {//2自提订单
+                                if (listBean.getPay_status() == 1) {//取消订单
+                                    mPresenter.requestCancelOrder(mOrderSn, token);
+                                } else if (listBean.getPay_status() == 2) {//false
+                                } else if (listBean.getPay_status() == 3) {//false
+                                } else if (listBean.getPay_status() == 4) {//删除
+                                } else if (listBean.getPay_status() == 5) {//删除
+                                }
+                            } else if (listBean.getOrder_type() == 3) {
+                                //3线下收款订单
+                                // false
                             }
                             break;
                         case R.id.order_right_btn:
-                            if (listBean.getPay_status() == 1) {//取消订单
-//                                helper.setText(R.id.order_left_btn, "取消订单");
-//                                helper.setText(R.id.order_right_btn, "立即付款");
-                                startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
-                            } else if (listBean.getPay_status() == 2) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-//                                helper.setText(R.id.order_right_btn, "确认收货");
-                            } else if (listBean.getPay_status() == 3) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-//                                helper.setText(R.id.order_right_btn, "提醒发货");
-                            } else if (listBean.getPay_status() == 4) {
-//                                helper.setText(R.id.order_left_btn, "再来一单");
-//                                helper.setText(R.id.order_right_btn, "去评价");
-                            } else if (listBean.getPay_status() == 5) {
-//                                helper.setVisible(R.id.order_left_btn, false);
-//                                helper.setText(R.id.order_right_btn, "已取消");
+                            if (listBean.getOrder_type() == 1) {
+                                //线上
+                                if (listBean.getPay_status() == 1) {//立即付款
+                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+                                } else if (listBean.getPay_status() == 2) {//确认收货
+                                } else if (listBean.getPay_status() == 3) {//确认收货
+                                } else if (listBean.getPay_status() == 4) {//去评价
+                                } else if (listBean.getPay_status() == 5) {//删除
+                                }
+                            } else if (listBean.getOrder_type() == 2) {
+                                //2自提订单
+                                if (listBean.getPay_status() == 1) {//立即付款
+                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+                                } else if (listBean.getPay_status() == 2) {//确认收货
+                                } else if (listBean.getPay_status() == 3) {//确认收货
+                                } else if (listBean.getPay_status() == 4) {//去评价
+                                } else if (listBean.getPay_status() == 5) {//删除
+                                }
+                            } else if (listBean.getOrder_type() == 3) {
+                                //3线下收款订单
+                                //删除
                             }
                             break;
                     }

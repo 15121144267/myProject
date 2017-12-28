@@ -67,6 +67,23 @@ public class PresenterPayCompleteImpl implements PayCompleteControl.PresenterPay
         mView.addSubscription(disposable);
     }
 
+    @Override
+    public void requestDeleteOrder(String order_sn, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.deleteOrderRequest(order_sn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+                .subscribe(this::deleteOrderSuccess,
+                        throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void deleteOrderSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            mView.getDeleteOrderSuccess();
+        } else {
+            mView.showToast("操作失败");
+        }
+    }
+
     private void remindSendGoodsSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             mView.showToast("提醒成功");
@@ -77,7 +94,7 @@ public class PresenterPayCompleteImpl implements PayCompleteControl.PresenterPay
 
     private void comfirmOrderSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
-            mView.getComfirmOrderSuccess(true);
+            mView.getComfirmOrderSuccess();
         } else {
             mView.showToast("操作失败");
         }

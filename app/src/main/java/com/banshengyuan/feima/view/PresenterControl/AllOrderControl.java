@@ -12,9 +12,11 @@ public class AllOrderControl {
         void loadFail(Throwable throwable);
         void getMyOrderListSuccess(MyOrdersResponse response);
 
-        void getCancelOrderSuccess(boolean flag);
+        void getCancelOrderSuccess();
 
-        void getComfirmOrderSuccess(boolean flag);
+        void getComfirmOrderSuccess();
+
+        void getDeleteOrderSuccess();
     }
 
     public interface PresenterAllOrderView extends Presenter<AllOrderView> {
@@ -25,6 +27,8 @@ public class AllOrderControl {
         void requestConfirmOrder(String order_sn,String token);
 
         void requestRemindSendGoods(String order_sn ,String token);
+
+        void requestDeleteOrder(String order_sn ,String token);
 
     }
 }

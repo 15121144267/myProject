@@ -26,4 +26,7 @@ public interface MyOrderApi {
     @POST("api/order/remind")
     Observable<String> remindSendGoodsRequest(@Query("order_sn") String order_sn, @Query("token") String token);
 
+    @POST("api/user/order/delete")
+    Observable<String> deleteOrderRequest(@Query("order_sn") String order_sn, @Query("token") String token);
+
 }

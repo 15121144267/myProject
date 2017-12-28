@@ -12,7 +12,9 @@ public class PayCompleteControl {
         void loadFail(Throwable throwable);
         void getMyOrderListSuccess(MyOrdersResponse response);
 
-        void getComfirmOrderSuccess(boolean flag);
+        void getComfirmOrderSuccess();
+
+        void getDeleteOrderSuccess();
     }
 
     public interface PresenterPayComplete extends Presenter<PayCompleteView> {
@@ -21,5 +23,7 @@ public class PayCompleteControl {
         void requestConfirmOrder(String order_sn,String token);
 
         void requestRemindSendGoods(String order_sn ,String token);
+
+        void requestDeleteOrder(String order_sn ,String token);
     }
 }

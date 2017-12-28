@@ -12,25 +12,37 @@ import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.SpannableStringUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
-import com.example.mylibrary.adapter.BaseQuickAdapter;
+import com.example.mylibrary.adapter.BaseMultiItemQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
 import java.util.List;
 
 
-public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean, BaseViewHolder> {
+public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
-    private final ImageLoaderHelper mImageLoaderHelper;
+    private ImageLoaderHelper mImageLoaderHelper;
 
-    public MyOrdersAdapter(List<MyOrdersResponse.ListBean> listBean, Context context, ImageLoaderHelper imageLoaderHelper) {
-        super(R.layout.adapter_my_orders, listBean);
+    public MyOrdersAdapter(List<MyOrdersResponse.ListBean> data, Context context, ImageLoaderHelper imageLoaderHelper) {
+        super(data);
         mContext = context;
         mImageLoaderHelper = imageLoaderHelper;
+        addItemType(MyOrdersResponse.ListBean.LAYOUT_ONE, R.layout.adapter_my_orders);
+        addItemType(MyOrdersResponse.ListBean.LAYOUT_TWO, R.layout.adapter_my_orders_unline);
     }
-
 
     @Override
     protected void convert(BaseViewHolder helper, MyOrdersResponse.ListBean item) {
+        switch (helper.getItemViewType()) {
+            case MyOrdersResponse.ListBean.LAYOUT_ONE:
+                showOneLayout(helper, item);
+                break;
+            case MyOrdersResponse.ListBean.LAYOUT_TWO:
+                showTwoLayout(helper, item);
+                break;
+        }
+    }
+
+    private void showOneLayout(BaseViewHolder helper, MyOrdersResponse.ListBean item) {
         if (item == null) return;
         helper.addOnClickListener(R.id.order_left_btn).addOnClickListener(R.id.order_right_btn).addOnClickListener(R.id.mime_order_lv);
 
@@ -66,28 +78,41 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
                 helper.setText(R.id.order_left_btn, "取消订单");
                 helper.setText(R.id.order_right_btn, "立即付款");
             } else if (item.getPay_status() == 2) {
-                helper.setText(R.id.order_left_btn, "再来一单");
+                helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "确认收货");
             } else if (item.getPay_status() == 3) {
-                helper.setText(R.id.order_left_btn, "再来一单");
-                helper.setText(R.id.order_right_btn, "提醒发货");
+                helper.setText(R.id.order_left_btn, "提醒发货");
+                helper.setText(R.id.order_right_btn, "确认收货");
             } else if (item.getPay_status() == 4) {
-                helper.setText(R.id.order_left_btn, "再来一单");
+                helper.setText(R.id.order_left_btn, "删除订单");
                 helper.setText(R.id.order_right_btn, "去评价");
             } else if (item.getPay_status() == 5) {
-//            helper.setText(R.id.order_left_btn, "已取消");
-//            helper.setVisible(R.id.order_right_btn, false);
                 helper.setVisible(R.id.order_left_btn, false);
-                helper.setText(R.id.order_right_btn, "已取消");
+                helper.setText(R.id.order_right_btn, "删除订单");
             }
-        } else if (item.getOrder_type() == 2) {
+        } else if (item.getOrder_type() == 2) {//2自提订单
+            helper.setVisible(R.id.order_left_btn, true);
+            helper.setVisible(R.id.order_right_btn, true);
+            if (item.getPay_status() == 1) {
+                helper.setText(R.id.order_left_btn, "取消订单");
+                helper.setText(R.id.order_right_btn, "立即付款");
+            } else if (item.getPay_status() == 2) {
+                helper.setVisible(R.id.order_left_btn, false);
+                helper.setText(R.id.order_right_btn, "确认收货");
+            } else if (item.getPay_status() == 3) {
+                helper.setVisible(R.id.order_left_btn, false);
+                helper.setText(R.id.order_right_btn, "确认收货");
+            } else if (item.getPay_status() == 4) {
+                helper.setText(R.id.order_left_btn, "删除订单");
+                helper.setText(R.id.order_right_btn, "去评价");
+            } else if (item.getPay_status() == 5) {
+                helper.setVisible(R.id.order_left_btn, false);
+                helper.setText(R.id.order_right_btn, "删除订单");
+            }
+        } else if (item.getOrder_type() == 3) {//3线下收款订单
             helper.setVisible(R.id.order_left_btn, false);
-            helper.setVisible(R.id.order_right_btn, false);
-        } else if (item.getOrder_type() == 3) {
-            helper.setVisible(R.id.order_left_btn, false);
-            helper.setVisible(R.id.order_right_btn, false);
+            helper.setText(R.id.order_right_btn, "删除订单");
         }
-
 
         Integer orderCount = 0;
         String orderPricePartOne = "合计：";
@@ -108,7 +133,18 @@ public class MyOrdersAdapter extends BaseQuickAdapter<MyOrdersResponse.ListBean,
 
         helper.setText(R.id.order_price, stringBuilder2 + "(含运费￥" + ValueUtil.formatAmount2(item.getFreight()) + ")");
         helper.setText(R.id.order_count, "共" + orderCount + "件商品");
-
     }
 
+    private void showTwoLayout(BaseViewHolder helper, MyOrdersResponse.ListBean item) {
+        if (item == null) return;
+        helper.addOnClickListener(R.id.order_left_btn).addOnClickListener(R.id.order_right_btn).addOnClickListener(R.id.mime_order_lv);
+
+        helper.setText(R.id.shop_name, "  " + item.getStore_name());
+        //pay_status :1 待付款 2已付款
+        //deliver_status : 1 待发货 2已发货
+        helper.setText(R.id.order_state, item.getPay_status_name());
+
+
+        helper.setText(R.id.order_price, "实付金额￥" + ValueUtil.formatAmount2(item.getTotal_fee()));
+    }
 }
