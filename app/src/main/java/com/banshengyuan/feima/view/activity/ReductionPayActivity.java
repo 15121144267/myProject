@@ -198,7 +198,6 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
                     if (min != -1 && max != -1) {
                         try {
                             double num = Double.parseDouble(s.toString());
-                            //判断当前edittext中的数字(可能一开始Edittext中有数字)是否大于max
                             if (num > max) {
                                 s = ValueUtil.getStringOutE(String.valueOf(max));//如果大于max，则内容为max
                                 mActivityReductionReducePrice.setText(s);
