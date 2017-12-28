@@ -39,7 +39,8 @@ ext{
             myPartOnePhoto :"com.soundcloud.android:android-crop:1.0.1@aar",
             myPartTwoPhoto :"com.darsh.multipleimageselect:multipleimageselect:1.0.4",
             myPartThreePhoto :"me.shaohui.advancedluban:library:1.3.5",
-            myGlide :"com.github.bumptech.glide:glide:3.7.0"
+            myGlide :"com.github.bumptech.glide:glide:3.7.0",
+            myWeChat :"com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+"
 
     ]
 }

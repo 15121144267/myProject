@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_20"
         android:paddingStart="@dimen/dp_20">
@@ -42,7 +43,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="0dp"
+                android:paddingBottom="@dimen/dp_10"
+                >
 
                 <TextView
                     android:id="@+id/pay_address_name"
