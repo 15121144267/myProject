@@ -112,7 +112,7 @@ public class SignActivity extends BaseActivity implements SignControl.SignView {
         if (mPhoneEditText != null)
             mPhoneEditText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
-                public void onMyTextChanged(CharSequence s) {
+                public void onMyTextChanged(CharSequence s,int start, int before, int count) {
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
                         mSignIdentifyingCode.setEnabled(false);

@@ -160,7 +160,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
-                public void onMyTextChanged(CharSequence s) {
+                public void onMyTextChanged(CharSequence s,int start, int before, int count) {
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
                         mLoginSubmit.setEnabled(false);

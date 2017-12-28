@@ -16,7 +16,7 @@ public abstract class MyTextWatchListener implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        onMyTextChanged(s);
+        onMyTextChanged(s,start,before,count);
     }
 
 
@@ -25,5 +25,5 @@ public abstract class MyTextWatchListener implements TextWatcher {
 
     }
 
-   public abstract void onMyTextChanged(CharSequence s) ;
+   public abstract void onMyTextChanged(CharSequence s,int start, int before, int count) ;
 }

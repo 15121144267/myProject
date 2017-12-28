@@ -26,6 +26,7 @@ import com.banshengyuan.feima.help.HtmlHelp.URLImageParser;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -270,6 +271,11 @@ public class ValueUtil {
             e.printStackTrace();
         }
         return value;
+    }
+
+    public static String getStringOutE(String str) {
+        BigDecimal bd = new BigDecimal(str);
+        return bd.toPlainString();
     }
 
     public static String formatDistance(float distance) {

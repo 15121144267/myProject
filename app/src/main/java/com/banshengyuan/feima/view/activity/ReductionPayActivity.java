@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +65,8 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     private double mNotCutPrice;
     private double mFinalPrice;
     private double mCouponPrice;
+    private double min = 0;
+    private double max = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,6 +143,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     }
 
     private void initView() {
+
         mMiddleName.setText("优惠买单");
         mShopId = getIntent().getIntExtra("shopId", 0);
         RxView.clicks(mActivityReductionCouponSize).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
@@ -146,6 +151,10 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
             if (price < 0) {
                 showToast("请输入正确金额");
                 return;
+            } else if (price == 0) {
+                if (mAllPrice != 0) {
+                    price = mAllPrice;
+                }
             }
             if (price != 0) {
                 mActivityReductionReducePrice.setEnabled(false);
@@ -156,7 +165,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
 
         mActivityReductionAllPrice.addTextChangedListener(new MyTextWatchListener() {
             @Override
-            public void onMyTextChanged(CharSequence s) {
+            public void onMyTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s)) {
                     mAllPrice = Double.parseDouble(s.toString());
                 } else {
@@ -165,29 +174,50 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
                 if (!(mAllPrice >= mNotCutPrice)) {
                     mActivityReductionPay.setEnabled(false);
                 }
+                max = mAllPrice;
+                mActivityReductionReducePrice.setFilters(new InputFilter[]{new InputFilter.LengthFilter(s.toString().length())});
                 countPrice();
             }
         });
 
         mActivityReductionReducePrice.addTextChangedListener(new MyTextWatchListener() {
             @Override
-            public void onMyTextChanged(CharSequence s) {
-                if (!TextUtils.isEmpty(s)) {
-                    mNotCutPrice = Double.parseDouble(s.toString());
-                } else {
-                    mNotCutPrice = 0;
-                }
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+            }
+
+            @Override
+            public void onMyTextChanged(CharSequence s, int start, int before, int count) {
                 if (mAllPrice == 0) {
                     showToast("请输入消费总额");
                     mActivityReductionPay.setEnabled(false);
                     return;
                 }
 
-                if (!(mAllPrice >= mNotCutPrice)) {
-                    showToast("不参与优惠金额不能大于消费总额");
-                    mActivityReductionPay.setEnabled(false);
+                if (start >= 0) {//从一输入就开始判断，
+                    if (min != -1 && max != -1) {
+                        try {
+                            double num = Double.parseDouble(s.toString());
+                            //判断当前edittext中的数字(可能一开始Edittext中有数字)是否大于max
+                            if (num > max) {
+                                s = ValueUtil.getStringOutE(String.valueOf(max));//如果大于max，则内容为max
+                                mActivityReductionReducePrice.setText(s);
+                                mActivityReductionReducePrice.setSelection(mActivityReductionReducePrice.getText().length());
+                                showToast("金额不能超过消费总额");
+                            } else if (num < min) {
+                                s = String.valueOf(min);//如果小于min,则内容为min
+                            }
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        return;
+                    }
+                }
+
+                if (!TextUtils.isEmpty(s)) {
+                    mNotCutPrice = Double.parseDouble(s.toString());
                 } else {
-                    mActivityReductionPay.setEnabled(true);
+                    mNotCutPrice = 0;
                 }
                 countPrice();
             }
@@ -216,8 +246,14 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
             mCouponPrice = mCheckData.getEnd_val();
             mFinalPrice = (mAllPrice - mNotCutPrice - mCheckData.getEnd_val()) + mNotCutPrice;
         } else {
-            mCouponPrice = (mAllPrice - mNotCutPrice) * mCheckData.getEnd_val();
-            mFinalPrice = ((mAllPrice - mNotCutPrice) * mCheckData.getEnd_val()) + mNotCutPrice;
+            if (mAllPrice - mNotCutPrice == 0 && mAllPrice != 0) {
+                mCouponPrice = (mAllPrice) * mCheckData.getEnd_val();
+                mFinalPrice = ((mAllPrice) * mCheckData.getEnd_val());
+            } else {
+                mCouponPrice = (mAllPrice - mNotCutPrice) * mCheckData.getEnd_val();
+                mFinalPrice = ((mAllPrice - mNotCutPrice) * mCheckData.getEnd_val()) + mNotCutPrice;
+            }
+
         }
         mActivityReductionFinalPrice.setText("￥" + ValueUtil.formatAmount3(mFinalPrice) + "");
         mActivityReductionCouponSize.setText("￥" + ValueUtil.formatAmount3(mCouponPrice) + "");

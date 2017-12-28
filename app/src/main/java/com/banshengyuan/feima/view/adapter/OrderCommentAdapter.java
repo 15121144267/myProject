@@ -33,7 +33,7 @@ public class OrderCommentAdapter extends BaseQuickAdapter<MyOrdersResponse.ListB
         EditText editText = helper.getView(R.id.comment_content);
         editText.addTextChangedListener(new MyTextWatchListener() {
             @Override
-            public void onMyTextChanged(CharSequence s) {
+            public void onMyTextChanged(CharSequence s,int start, int before, int count) {
                 item.setContent(s.toString());
             }
         });

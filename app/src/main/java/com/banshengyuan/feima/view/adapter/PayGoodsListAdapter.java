@@ -33,7 +33,7 @@ public class PayGoodsListAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         EditText editText = helper.getView(R.id.adapter_pay_suggestion);
         editText.addTextChangedListener(new MyTextWatchListener() {
             @Override
-            public void onMyTextChanged(CharSequence s) {
+            public void onMyTextChanged(CharSequence s,int start, int before, int count) {
                 if (!TextUtils.isEmpty(s)) {
                     item.remark = s.toString();
                 }
