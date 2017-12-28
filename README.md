@@ -20,23 +20,23 @@
 <h3>分支：helei_banshengyuan商城类app</h3><br/>
 <h3>以下为UI界面</h3><br/>
 <ol>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_1.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_2.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_3.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_4.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_5.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_6.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_7.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_8.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_9.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_10.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_11.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_12.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_13.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_14.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_15.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_16.png" height="350" width="230"></li>
-    <li><img src="https://gitlab.freemud.com/lei.he/android_banshengyuan/blob/helei_banshengyuan/readmepci/banshengyuan_17.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_1.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_2.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_3.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_4.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_5.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_6.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_7.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_8.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_9.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_10.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_11.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_12.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_13.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_14.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_15.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_16.png" height="350" width="230"></li>
+    <li><img src="http://gitlab.freemud.com/lei.he/android_banshengyuan/blob/banshengyuan_new_branch/readmepci/banshengyuan_17.png" height="350" width="230"></li>
 </ol>
 
 
