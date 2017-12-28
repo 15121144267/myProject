@@ -99,7 +99,7 @@ public class RetrofitUtil {
                         Buffer buffer = new Buffer();
                         requestBody.writeTo(buffer);
                         String oldParamsJson = buffer.readUtf8();
-                        if(!TextUtils.isEmpty(oldParamsJson)){
+                        if (!TextUtils.isEmpty(oldParamsJson)) {
                             Gson mGson = new Gson();
                             rootMap = mGson.fromJson(oldParamsJson, TreeMap.class);
                         }
