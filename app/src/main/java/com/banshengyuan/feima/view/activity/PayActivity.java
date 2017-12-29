@@ -86,7 +86,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
     private AddressResponse.ListBean mDataBean;
     private String mAddressId = "";
     private Integer mIsSelfFetch = 0;
-    private Integer mFlag;
     private Integer mCouponPosition;
 
     @Override
@@ -203,7 +202,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
         ValueUtil.setIndicator(mPayTabLayout, 60, 60);
         mOrderConfirm = (ShoppingCardListResponse) getIntent().getSerializableExtra("ShoppingCardListResponse");
 
-        mFlag = getIntent().getIntExtra("flag", 0);
+        Integer mFlag = getIntent().getIntExtra("flag", 0);
 
         mPayOrderList.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PayGoodsListAdapter(null, PayActivity.this, mImageLoaderHelper);
