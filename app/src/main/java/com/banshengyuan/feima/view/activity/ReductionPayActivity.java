@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -108,6 +107,8 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
             if (mCheckData != null) {
                 mActivityReductionCouponSize.setText(mCheckData.getName());
                 countFinalPrice(mCheckData);
+                mActivityReductionReducePrice.setEnabled(false);
+                mActivityReductionAllPrice.setEnabled(false);
             }
         }
     }
@@ -156,10 +157,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
                     price = mAllPrice;
                 }
             }
-            if (price != 0) {
-                mActivityReductionReducePrice.setEnabled(false);
-                mActivityReductionAllPrice.setEnabled(false);
-            }
+
             startActivityForResult(CouponActivity.getIntent(this, mResponse, price), 1);
         });
 
@@ -181,30 +179,21 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
         });
 
         mActivityReductionReducePrice.addTextChangedListener(new MyTextWatchListener() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                super.afterTextChanged(s);
-            }
 
             @Override
             public void onMyTextChanged(CharSequence s, int start, int before, int count) {
-                if (mAllPrice == 0) {
-                    showToast("请输入消费总额");
-                    mActivityReductionPay.setEnabled(false);
-                    return;
-                }
 
-                if (start >= 0) {//从一输入就开始判断，
+                if (start >= 0) {
                     if (min != -1 && max != -1) {
                         try {
                             double num = Double.parseDouble(s.toString());
                             if (num > max) {
-                                s = ValueUtil.getStringOutE(String.valueOf(max));//如果大于max，则内容为max
+                                s = ValueUtil.getStringOutE(String.valueOf(max));
                                 mActivityReductionReducePrice.setText(s);
                                 mActivityReductionReducePrice.setSelection(mActivityReductionReducePrice.getText().length());
                                 showToast("金额不能超过消费总额");
                             } else if (num < min) {
-                                s = String.valueOf(min);//如果小于min,则内容为min
+                                s = String.valueOf(min);
                             }
                         } catch (NumberFormatException e) {
                             e.printStackTrace();

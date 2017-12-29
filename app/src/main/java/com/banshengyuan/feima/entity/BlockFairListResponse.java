@@ -33,5 +33,6 @@ public class BlockFairListResponse implements Serializable {
         public String summary;
         public String cover_img;
         public String open_time;
+        public int create_time;
     }
 }

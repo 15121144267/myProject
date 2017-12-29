@@ -28,7 +28,9 @@ public class ImageLoaderHelper extends GlideLoader {
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.freemud_logo)
+                .skipMemoryCache(true)
                 .placeholder(R.mipmap.freemud_logo)
+                .dontAnimate()
                 .into(imageView);
     }
 
@@ -38,7 +40,9 @@ public class ImageLoaderHelper extends GlideLoader {
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(res)
+                .skipMemoryCache(true)
                 .placeholder(res)
+                .dontAnimate()
                 .into(imageView);
     }
 
@@ -48,8 +52,10 @@ public class ImageLoaderHelper extends GlideLoader {
                 .transform(new GlideCircleTransform(context))
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(true)
                 .error(R.mipmap.freemud_logo)
                 .placeholder(R.mipmap.freemud_logo)
+                .dontAnimate()
                 .into(imageView);
     }
 
@@ -58,9 +64,11 @@ public class ImageLoaderHelper extends GlideLoader {
         Glide.with(context).load(path)
                 .transform(new CenterCrop(context), new GlideRoundTransform(context, size))
                 .thumbnail(0.5f)
+                .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.freemud_logo)
                 .placeholder(R.mipmap.freemud_logo)
+                .dontAnimate()
                 .into(imageView);
     }
 }

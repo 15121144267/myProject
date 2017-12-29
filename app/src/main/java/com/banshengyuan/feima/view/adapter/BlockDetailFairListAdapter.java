@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.BlockFairListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
+import com.banshengyuan.feima.utils.TimeUtil;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -26,9 +27,9 @@ public class BlockDetailFairListAdapter extends BaseQuickAdapter<BlockFairListRe
     protected void convert(BaseViewHolder helper, BlockFairListResponse.ListBean item) {
         if (item == null) return;
         ImageView imageView = helper.getView(R.id.adapter_collection_fair);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.cover_img, imageView, 6);
-        helper.setText(R.id.adapter_collection_fair_name,item.name);
-        helper.setText(R.id.adapter_collection_fair_time, item.open_time);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.cover_img, imageView, 4);
+        helper.setText(R.id.adapter_collection_fair_name, item.name);
+        helper.setText(R.id.adapter_collection_fair_time, TimeUtil.transferLongToDate(TimeUtil.TIMEYYMMDD, (long) item.create_time));
     }
 
 }
