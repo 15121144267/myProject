@@ -29,7 +29,7 @@ public class CollectionProductAdapter extends BaseQuickAdapter<MyCollectionProdu
 
         helper.addOnClickListener(R.id.adapter_product_addcart).addOnClickListener(R.id.adapter_collection_product);
         ImageView imageView = helper.getView(R.id.adapter_collection_icon);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext, Constant.URL + item.getCover_img(), imageView, 6);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getCover_img(), imageView, 6);
 
         helper.setText(R.id.adapter_product_name, item.getName());
         helper.setText(R.id.adapter_product_summary, "暂无描述");

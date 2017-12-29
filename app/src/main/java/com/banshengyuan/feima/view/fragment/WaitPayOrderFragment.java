@@ -149,7 +149,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
         imageView.setImageResource(R.mipmap.enpty_order_view);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
-        emptyContent.setVisibility(View.GONE);
+        emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.nopay_order_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
@@ -168,7 +168,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                 if (listBean.getPay_status() == 1) {//取消订单
                                     mPresenter.requestCancelOrder(mOrderSn, token);
                                 } else if (listBean.getPay_status() == 2) {//false
-                                } else if (listBean.getPay_status() == 3) {//提醒发货
+                                } else if (listBean.getPay_status() == 3) {//false
                                 } else if (listBean.getPay_status() == 4) {//删除
                                 } else if (listBean.getPay_status() == 5) {//删除
                                 }
@@ -191,7 +191,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                 if (listBean.getPay_status() == 1) {//立即付款
                                     startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
                                 } else if (listBean.getPay_status() == 2) {//确认收货
-                                } else if (listBean.getPay_status() == 3) {//确认收货
+                                } else if (listBean.getPay_status() == 3) {//提醒发货
                                 } else if (listBean.getPay_status() == 4) {//去评价
                                 } else if (listBean.getPay_status() == 5) {//删除
                                 }

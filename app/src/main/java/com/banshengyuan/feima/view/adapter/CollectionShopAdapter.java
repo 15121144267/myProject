@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
@@ -27,10 +28,12 @@ public class CollectionShopAdapter extends BaseQuickAdapter<CollectionShopRespon
     protected void convert(BaseViewHolder helper, CollectionShopResponse.ListBean item) {
         if (item == null) return;
         ImageView imageView = helper.getView(R.id.item_shop_pic);
-        mImageLoaderHelper.displayImage(mContext, Constant.URL + item.getCover_img(), imageView);
+        mImageLoaderHelper.displayImage(mContext, item.getCover_img(), imageView);
 
         helper.setText(R.id.item_shop_name, item.getName());
-        helper.setText(R.id.item_shop_content1, item.getCategory());
+        if (!TextUtils.isEmpty(item.getCategory())) {
+            helper.setText(R.id.item_shop_content1, item.getCategory());
+        }
     }
 
 }

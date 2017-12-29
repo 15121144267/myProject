@@ -147,7 +147,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
         imageView.setImageResource(R.mipmap.enpty_order_view);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
-        emptyContent.setVisibility(View.GONE);
+        emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.wait_comment_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
@@ -165,7 +165,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
                                 //线上
                                 if (listBean.getPay_status() == 1) {//取消订单
                                 } else if (listBean.getPay_status() == 2) {//false
-                                } else if (listBean.getPay_status() == 3) {//提醒发货
+                                } else if (listBean.getPay_status() == 3) {//false
                                 } else if (listBean.getPay_status() == 4) {//删除
                                     mPresenter.requestDeleteOrder(mOrderSn, token);
                                 } else if (listBean.getPay_status() == 5) {//删除
@@ -190,7 +190,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
                                 //线上
                                 if (listBean.getPay_status() == 1) {//立即付款
                                 } else if (listBean.getPay_status() == 2) {//确认收货
-                                } else if (listBean.getPay_status() == 3) {//确认收货
+                                } else if (listBean.getPay_status() == 3) {//提醒发货
                                 } else if (listBean.getPay_status() == 4) {//去评价
                                     startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
                                 } else if (listBean.getPay_status() == 5) {//删除

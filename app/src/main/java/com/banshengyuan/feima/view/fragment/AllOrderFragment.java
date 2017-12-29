@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,10 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
+import com.banshengyuan.feima.entity.BroConstant;
+import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
@@ -34,6 +39,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by helei on 2017/5/3.
@@ -85,6 +92,20 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         initData();
     }
 
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
+            mPagerNo = 1;
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
+    }
 
     @Override
     public void onLoadMoreRequested() {
@@ -108,30 +129,41 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
-
-        if (mPagerNo == 1 && mList.size() == 0) {
-            mAdapter.setEmptyView(mEmptyView);
-            return;
-        }
-        if (mList.size() > 0) {
+        if (mPagerNo == 1) {
+            if (mList.size() == 0) {
+                mAdapter.setEmptyView(mEmptyView);
+            } else {
+                mAdapter.setNewData(mList);
+            }
+        } else {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
         }
+//        if (mPagerNo == 1 && mList.size() == 0) {
+//            mAdapter.setEmptyView(mEmptyView);
+//            return;
+//        }
+//        if (mList.size() > 0) {
+//            mAdapter.addData(mList);
+//            mAdapter.loadMoreComplete();
+//        } else {
+//            mAdapter.loadMoreEnd();
+//        }
     }
 
     @Override
     public void getCancelOrderSuccess() {
         showToast("取消成功");
-        mAdapter.remove(mPos);
+        mAdapter.getItem(mPos).setPay_status(5);
+        mAdapter.notifyItemChanged(mPos);
     }
 
     @Override
     public void getComfirmOrderSuccess() {
         //确认收货
         showToast("确认订单成功");
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        mAdapter.getItem(mPos).setPay_status(4);
+        mAdapter.notifyItemChanged(mPos);
     }
 
     @Override
@@ -171,7 +203,9 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                     mOrderSn = listBean.getOrder_sn();
                     switch (view.getId()) {
                         case R.id.mime_order_lv:
-                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));
+                            OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn);
+                            /*startActivityForResult();
+                            startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn), IntentConstant.ORDER_TO_ORDERDETAIL);*/
                             break;
                         case R.id.order_left_btn:
                             if (listBean.getOrder_type() == 1) {
@@ -179,14 +213,13 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                 if (listBean.getPay_status() == 1) {//取消订单
                                     mPresenter.requestCancelOrder(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 2) {//false
-                                } else if (listBean.getPay_status() == 3) {//提醒发货
-                                    mPresenter.requestRemindSendGoods(mOrderSn, mToken);
+                                } else if (listBean.getPay_status() == 3) {//false
                                 } else if (listBean.getPay_status() == 4) {//删除
                                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 5) {//删除
                                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 }
-                            }else if(listBean.getOrder_type() == 2){
+                            } else if (listBean.getOrder_type() == 2) {
                                 //2自提订单
                                 if (listBean.getPay_status() == 1) {//取消订单
                                     mPresenter.requestCancelOrder(mOrderSn, mToken);
@@ -197,7 +230,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                 } else if (listBean.getPay_status() == 5) {//删除
                                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 }
-                            }else if(listBean.getOrder_type() == 3){
+                            } else if (listBean.getOrder_type() == 3) {
                                 //3线下收款订单
                                 // false
                             }
@@ -209,14 +242,14 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                     startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
                                 } else if (listBean.getPay_status() == 2) {//确认收货
                                     mPresenter.requestConfirmOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 3) {//确认收货
-                                    mPresenter.requestConfirmOrder(mOrderSn, mToken);
+                                } else if (listBean.getPay_status() == 3) {//提醒发货
+                                    mPresenter.requestRemindSendGoods(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 4) {//去评价
                                     startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
                                 } else if (listBean.getPay_status() == 5) {//删除
                                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 }
-                            }else if(listBean.getOrder_type() == 2){
+                            } else if (listBean.getOrder_type() == 2) {
                                 //2自提订单
                                 if (listBean.getPay_status() == 1) {//立即付款
                                     startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
@@ -229,7 +262,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                 } else if (listBean.getPay_status() == 5) {//删除
                                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 }
-                            }else if(listBean.getOrder_type() == 3){
+                            } else if (listBean.getOrder_type() == 3) {
                                 //3线下收款订单
                                 //删除
                                 mPresenter.requestDeleteOrder(mOrderSn, mToken);

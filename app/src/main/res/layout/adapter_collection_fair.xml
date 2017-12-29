@@ -38,6 +38,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/app_default_des"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_14" />
 

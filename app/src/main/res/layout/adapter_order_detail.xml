@@ -12,11 +12,11 @@
 
         <ImageView
             android:id="@+id/adapter_order_detail_product_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:background="@drawable/shape_person_cion"
-            android:src="@mipmap/person_head_icon" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="19dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/freemud_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"

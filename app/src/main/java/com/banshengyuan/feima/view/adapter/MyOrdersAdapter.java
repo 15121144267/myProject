@@ -81,8 +81,8 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "确认收货");
             } else if (item.getPay_status() == 3) {
-                helper.setText(R.id.order_left_btn, "提醒发货");
-                helper.setText(R.id.order_right_btn, "确认收货");
+                helper.setVisible(R.id.order_left_btn, false);
+                helper.setText(R.id.order_right_btn, "提醒发货");
             } else if (item.getPay_status() == 4) {
                 helper.setText(R.id.order_left_btn, "删除订单");
                 helper.setText(R.id.order_right_btn, "去评价");

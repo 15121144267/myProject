@@ -28,7 +28,7 @@ public class CollectionBlockAdapter extends BaseQuickAdapter<MyCollectionBlockRe
         if (item == null) return;
 
         ImageView imageView = helper.getView(R.id.adapter_collection_block_pic);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext, Constant.URL + item.getCover_img(), imageView, 6);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getCover_img(), imageView, 6);
 
         helper.setText(R.id.adapter_collection_block_name, item.getName());
         helper.setText(R.id.adapter_collection_block_desc, item.getSummary());

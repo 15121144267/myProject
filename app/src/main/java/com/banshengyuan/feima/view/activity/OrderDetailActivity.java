@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.OrderDetailActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.entity.OrderDetailResponse;
 import com.banshengyuan.feima.utils.TimeUtil;
@@ -119,13 +121,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     private String mOrderSn;
     private String mToken;
-    //    private MyOrdersResponse.ListBean orderItemBean = null;
     List<OrderDetailResponse.GoodsListBean.ProductBean> mList = new ArrayList<>();
     ArrayList<MyOrdersResponse.ListBean.ProductBean> mList1 = new ArrayList<>();//跳转评论需要订单entity
     private OrdersDetailAdapter adapter = null;
     private String storePhone = "";//商家电话
     private OrderDetailResponse.InfoBean infoBean;
     private OrderDetailResponse.GoodsListBean goodsListBean;
+    private boolean isFreshOrder = false;
 
 
     public static Intent getOrderDetailIntent(Context context, String order_sn) {
@@ -214,6 +216,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 String orderSnTv = orderDetailOrderId.getText().toString();
                 if (!TextUtils.isEmpty(orderSnTv)) {
                     cm.setText(orderSnTv);
+                    showToast("已复制到剪切板");
                 }
                 break;
             case R.id.order_right_btn:
@@ -223,8 +226,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                         startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type()));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
-                    } else if (infoBean.getPay_status() == 3) {//确认收货
-                        mPresenter.requestConfirmOrder(mOrderSn, mToken);
+                    } else if (infoBean.getPay_status() == 3) {//提醒发货
+                        mPresenter.requestRemindSendGoods(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 4) {//去评价
                         for (OrderDetailResponse.GoodsListBean.ProductBean bean : mList) {
                             MyOrdersResponse.ListBean.ProductBean productBean = new MyOrdersResponse.ListBean.ProductBean();
@@ -240,7 +243,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     } else if (infoBean.getPay_status() == 5) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     }
-                }else if(infoBean.getOrder_type() == 2){
+                } else if (infoBean.getOrder_type() == 2) {
                     //2自提订单
                     if (infoBean.getPay_status() == 1) {//立即付款
                         startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type()));
@@ -263,7 +266,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     } else if (infoBean.getPay_status() == 5) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     }
-                }else if(infoBean.getOrder_type() == 3){
+                } else if (infoBean.getOrder_type() == 3) {
                     //3线下收款订单
                     //删除
                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
@@ -275,14 +278,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     if (infoBean.getPay_status() == 1) {//取消订单
                         mPresenter.requestCancelOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 2) {//false
-                    } else if (infoBean.getPay_status() == 3) {//提醒发货
-                        mPresenter.requestRemindSendGoods(mOrderSn, mToken);
+                    } else if (infoBean.getPay_status() == 3) {//false
                     } else if (infoBean.getPay_status() == 4) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 5) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     }
-                }else if(infoBean.getOrder_type() == 2){
+                } else if (infoBean.getOrder_type() == 2) {
                     //2自提订单
                     if (infoBean.getPay_status() == 1) {//取消订单
                         mPresenter.requestCancelOrder(mOrderSn, mToken);
@@ -293,7 +295,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     } else if (infoBean.getPay_status() == 5) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     }
-                }else if(infoBean.getOrder_type() == 3){
+                } else if (infoBean.getOrder_type() == 3) {
                     //3线下收款订单
                     // false
                 }
@@ -304,25 +306,27 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     @Override
     public void getCancelOrderSuccess() {
         showToast("取消成功");
+        isFreshOrder = true;
         mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
     }
 
     @Override
     public void getComfirmOrderSuccess() {
         //确认收货
+        isFreshOrder = true;
         showToast("确认订单成功");
         mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
     }
 
     @Override
     public void getDeleteOrderSuccess() {
+        isFreshOrder = true;
         showLoading("删除成功");
-        mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
+        finish();
     }
 
     @Override
     public void loadFail(Throwable throwable) {
-
     }
 
     @Override
@@ -336,18 +340,17 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 orderAddressLayout.setVisibility(View.VISIBLE);
                 orderZtLayout.setVisibility(View.GONE);
                 orderUnlinepayLayout.setVisibility(View.GONE);
+
             } else if (infoBean.getOrder_type() == 2) {//门店自提
                 orderAddressLayout.setVisibility(View.GONE);
                 orderZtLayout.setVisibility(View.VISIBLE);
                 orderUnlinepayLayout.setVisibility(View.GONE);
                 String code = infoBean.getSelffetch_code();
-                if (TextUtils.isEmpty(code)) {
-                    code = "1122334455";
+                if (!TextUtils.isEmpty(code)) {
+                    orderDetailZtCode.setText(code);
+                    //生成二维码
+                    getCodeBitmap(code);
                 }
-                orderDetailZtCode.setText(code);
-                //生成二维码
-                getCodeBitmap(code);
-
             } else if (infoBean.getOrder_type() == 3) {//线下付款
                 orderAddressLayout.setVisibility(View.GONE);
                 orderZtLayout.setVisibility(View.GONE);
@@ -396,26 +399,54 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
              * pay_status        1 待付款 2已付款
              * 	deliver_status   1 待发货 2已发货
              */
-            if (infoBean.getPay_status() == 1) {//待付款
-                stateIv.setImageResource(R.mipmap.order_detail_no_pay);
-                orderLeftBtn.setText("取消订单");
-                orderRightBtn.setText("立即付款");
-            } else if (infoBean.getPay_status() == 2) {//已付款
+            if (infoBean.getOrder_type() == 1) {
+                if (infoBean.getPay_status() == 1) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_pay);
+                    orderLeftBtn.setText("取消订单");
+                    orderRightBtn.setText("立即付款");
+                } else if (infoBean.getPay_status() == 2) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("确认收货");
+                } else if (infoBean.getPay_status() == 3) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("提醒发货");
+                } else if (infoBean.getPay_status() == 4) {
+                    stateIv.setImageResource(R.mipmap.order_detail_success);
+                    orderLeftBtn.setText("删除订单");
+                    orderRightBtn.setText("去评价");
+                } else if (infoBean.getPay_status() == 5) {
+                    stateIv.setImageResource(R.mipmap.order_detail_close);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("删除订单");
+                }
+            } else if (infoBean.getOrder_type() == 2) {//2自提订单
+                if (infoBean.getPay_status() == 1) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_pay);
+                    orderLeftBtn.setText("取消订单");
+                    orderRightBtn.setText("立即付款");
+                } else if (infoBean.getPay_status() == 2) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("确认收货");
+                } else if (infoBean.getPay_status() == 3) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("确认收货");
+                } else if (infoBean.getPay_status() == 4) {
+                    stateIv.setImageResource(R.mipmap.order_detail_success);
+                    orderLeftBtn.setText("删除订单");
+                    orderRightBtn.setText("去评价");
+                } else if (infoBean.getPay_status() == 5) {
+                    stateIv.setImageResource(R.mipmap.order_detail_close);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("删除订单");
+                }
+            } else if (infoBean.getOrder_type() == 3) {//3线下收款订单
                 stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
-                orderLeftBtn.setText("确认收货");
-                orderRightBtn.setText("再来一单");
-            } else if (infoBean.getPay_status() == 3) {
-                stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
-                orderLeftBtn.setText("提醒发货");
-                orderRightBtn.setText("再来一单");
-            } else if (infoBean.getPay_status() == 4) {
-                stateIv.setImageResource(R.mipmap.order_detail_success);
-                orderLeftBtn.setText("去评价");
-                orderRightBtn.setText("再来一单");
-            } else if (infoBean.getPay_status() == 5) {
-                stateIv.setImageResource(R.mipmap.order_detail_close);
                 orderLeftBtn.setVisibility(View.GONE);
-                orderRightBtn.setText("交易完成");
+                orderRightBtn.setText("删除订单");
             }
 
             Integer totalPrice = infoBean.getTotal_fee();
@@ -438,5 +469,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 //        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.freemud_logo);
 //        Bitmap bitmap = ToolUtils.addLogo(qrBitmap, logoBitmap);//设置logo
         orderDetailZtImage.setImageBitmap(qrBitmap);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isFreshOrder) {//刷新我的订单界面
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_ORDERDETAIL));
+        }
+        super.onBackPressed();
     }
 }

@@ -30,10 +30,10 @@ public class CollectionFairAdapter extends BaseQuickAdapter<MyCollectionFairResp
     protected void convert(BaseViewHolder helper, MyCollectionFairResponse.ListBean item) {
         if (item == null) return;
         ImageView imageView = helper.getView(R.id.adapter_collection_fair);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext, Constant.URL + item.getCover_img(), imageView, 6);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getCover_img(), imageView, 6);
         helper.setText(R.id.adapter_collection_fair_name, item.getName());
         if (item.getCreated_at() > 0) {
-            helper.setText(R.id.adapter_collection_fair_time, TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_CH, (long) item.getCreated_at()));
+            helper.setText(R.id.adapter_collection_fair_time, TimeUtil.transferLongToDate(TimeUtil.TIMEYYMMDD, (long) item.getCreated_at()));
         }
     }
 

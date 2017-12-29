@@ -28,9 +28,9 @@ public class OrdersDetailAdapter extends BaseQuickAdapter<OrderDetailResponse.Go
     protected void convert(BaseViewHolder helper, OrderDetailResponse.GoodsListBean.ProductBean item) {
         if (item == null) return;
         ImageView view = helper.getView(R.id.adapter_order_detail_product_pic);
-        mImageLoaderHelper.displayCircularImage(mContext, item.getGoods_img(), view);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getGoods_img(), view,6);
         helper.setText(R.id.adapter_order_detail_product_name, item.getGoods_name());
-        if (item.getGoods_price()>=0) {
+        if (item.getGoods_price() >= 0) {
             helper.setText(R.id.adapter_order_detail_product_price, "￥" + ValueUtil.formatAmount2(item.getGoods_price()));
         }
         helper.setText(R.id.adapter_order_detail_product_count, "X" + item.getNumber());

@@ -47,7 +47,7 @@
             android:layout_marginBottom="20dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@string/app_default_des"
+            android:text="未知分类"
             android:textColor="@color/gray_color" />
 
         <TextView

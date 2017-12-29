@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMyOrderActivityComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
+import com.banshengyuan.feima.entity.IntentConstant;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.MyOrderControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
@@ -68,7 +70,6 @@ public class MyOrderActivity extends BaseActivity implements MyOrderControl.MyOr
     }
 
     private void initData() {
-
     }
 
     private void initView() {
