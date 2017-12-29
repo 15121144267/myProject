@@ -149,6 +149,21 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         initData();
     }
 
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderDetailActivity)) {
+            isFreshOrder = true;
+            mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderDetailActivity);
+    }
+
     private void initData() {
         mToken = mBuProcessor.getUserToken();
         mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
@@ -224,7 +239,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 if (infoBean.getOrder_type() == 1) {
                     //线上
                     if (infoBean.getPay_status() == 1) {//立即付款
-                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type()));
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(),"OrderDetailActivity"));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 3) {//提醒发货
@@ -247,7 +262,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 } else if (infoBean.getOrder_type() == 2) {
                     //2自提订单
                     if (infoBean.getPay_status() == 1) {//立即付款
-                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type()));
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(),"OrderDetailActivity"));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 3) {//确认收货
