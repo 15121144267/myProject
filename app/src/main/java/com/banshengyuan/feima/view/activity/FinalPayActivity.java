@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,6 +19,7 @@ import com.banshengyuan.feima.entity.PayConstant;
 import com.banshengyuan.feima.entity.PayResponse;
 import com.banshengyuan.feima.help.PayZFBHelper;
 import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.FinalPayControl;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -48,11 +50,20 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
     RadioButton mFinalPayWx;
     @BindView(R.id.pay_choice_group)
     RadioGroup mPayChoiceGroup;
+    private String mActivityType = null;
 
     public static Intent getIntent(Context context, String order_sn, Integer type) {
         Intent intent = new Intent(context, FinalPayActivity.class);
         intent.putExtra("order_sn", order_sn);
         intent.putExtra("order_type", type);
+        return intent;
+    }
+
+    public static Intent getIntent(Context context, String order_sn, Integer type, String activityType) {
+        Intent intent = new Intent(context, FinalPayActivity.class);
+        intent.putExtra("order_sn", order_sn);
+        intent.putExtra("order_type", type);
+        intent.putExtra("activityType", activityType);
         return intent;
     }
 
@@ -91,6 +102,14 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS)) {
             showToast("跳转页面");
+            if (mActivityType != null) {
+                if (mActivityType.equals("OrderFragment")) {
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));
+                }  else if (mActivityType.equals("OrderDetailActivity")) {
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderDetailActivity));
+                }
+                finish();
+            }
         }
     }
 
@@ -116,6 +135,7 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
     }
 
     private void initView() {
+        mActivityType = getIntent().getStringExtra("activityType");
         mOrderSn = getIntent().getStringExtra("order_sn");
         mOrderType = getIntent().getIntExtra("order_type", 0);
         mPayChoiceGroup.setOnCheckedChangeListener(this);

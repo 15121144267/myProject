@@ -16,4 +16,6 @@ public class BroConstant {
     public static final String SHOW_SEARECH_LAYOUT ="show_search_layout";
     public static final String LOCAL_BROADCAST_WX_PAY_SUCCESS ="com.banshengyuan.feima.wxpaysuccess";
     public static final String ORDER_TO_ORDERDETAIL ="com.banshengyuan.feima.OrderDetailActivity";
+    public static final String ORDER_TO_PAY_OrderFragment ="OrderFragment";
+    public static final String ORDER_TO_PAY_OrderDetailActivity ="com.banshengyuan.feima.OrderDetailActivity";
 }

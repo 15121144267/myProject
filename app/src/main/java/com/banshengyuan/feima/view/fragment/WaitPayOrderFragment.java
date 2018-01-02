@@ -1,5 +1,7 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
@@ -49,7 +52,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private Integer mPagerSize = 10;
     private Integer mPagerNo = 1;
     private final String mStatus = "1";//1.待付款 2.待收货 3. 待评价
-    private String token;
+    private String mToken;
 
     public static WaitPayOrderFragment newInstance() {
         return new WaitPayOrderFragment();
@@ -85,10 +88,21 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
+            mPagerNo = 1;
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        }
+        super.onReceivePro(context, intent);
     }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
+        mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderFragment);
+    }
+
 
     @Override
     public void onLoadMoreRequested() {
@@ -98,7 +112,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
-                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, token);
+                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
             }
         }
     }
@@ -112,15 +126,15 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
-        if (mPagerNo == 1 && mList.size() == 0) {
-            mAdapter.setEmptyView(mEmptyView);
-            return;
-        }
-        if (mList.size() > 0) {
+        if (mPagerNo == 1) {
+            if (mList.size() == 0) {
+                mAdapter.setEmptyView(mEmptyView);
+            } else {
+                mAdapter.setNewData(mList);
+            }
+        } else {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
         }
     }
 
@@ -133,10 +147,10 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     private void initData() {
-        token = mBuProcessor.getUserToken();
-//        token = Constant.TOKEN;
+        mToken = mBuProcessor.getUserToken();
+//        mToken = Constant.TOKEN;
         //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
     }
 
     private void initView() {
@@ -166,7 +180,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                             if (listBean.getOrder_type() == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//取消订单
-                                    mPresenter.requestCancelOrder(mOrderSn, token);
+                                    mPresenter.requestCancelOrder(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 2) {//false
                                 } else if (listBean.getPay_status() == 3) {//false
                                 } else if (listBean.getPay_status() == 4) {//删除
@@ -174,7 +188,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                 }
                             } else if (listBean.getOrder_type() == 2) {//2自提订单
                                 if (listBean.getPay_status() == 1) {//取消订单
-                                    mPresenter.requestCancelOrder(mOrderSn, token);
+                                    mPresenter.requestCancelOrder(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 2) {//false
                                 } else if (listBean.getPay_status() == 3) {//false
                                 } else if (listBean.getPay_status() == 4) {//删除
@@ -189,7 +203,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                             if (listBean.getOrder_type() == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//立即付款
-                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(),"OrderFragment"));
                                 } else if (listBean.getPay_status() == 2) {//确认收货
                                 } else if (listBean.getPay_status() == 3) {//提醒发货
                                 } else if (listBean.getPay_status() == 4) {//去评价
@@ -198,7 +212,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                             } else if (listBean.getOrder_type() == 2) {
                                 //2自提订单
                                 if (listBean.getPay_status() == 1) {//立即付款
-                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(),"OrderFragment"));
                                 } else if (listBean.getPay_status() == 2) {//确认收货
                                 } else if (listBean.getPay_status() == 3) {//确认收货
                                 } else if (listBean.getPay_status() == 4) {//去评价

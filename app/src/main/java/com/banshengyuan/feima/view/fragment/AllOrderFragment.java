@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -94,7 +95,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Override
     void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -105,6 +106,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     void addFilter() {
         super.addFilter();
         mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
+        mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderFragment);
     }
 
     @Override
@@ -239,7 +241,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             if (listBean.getOrder_type() == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//立即付款
-                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+//                                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY));
+                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(),"OrderFragment"));
                                 } else if (listBean.getPay_status() == 2) {//确认收货
                                     mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 3) {//提醒发货
@@ -252,7 +255,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                             } else if (listBean.getOrder_type() == 2) {
                                 //2自提订单
                                 if (listBean.getPay_status() == 1) {//立即付款
-                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(),"OrderFragment"));
                                 } else if (listBean.getPay_status() == 2) {//确认收货
                                     mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                 } else if (listBean.getPay_status() == 3) {//确认收货
