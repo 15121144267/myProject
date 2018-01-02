@@ -118,7 +118,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
 
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
-        if(!TextUtils.isEmpty(response.order_sn)){
+        if (!TextUtils.isEmpty(response.order_sn)) {
             startActivity(FinalPayActivity.getIntent(this, response.order_sn, 1));
         }
     }
@@ -245,6 +245,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
                         break;
                 }
                 mAdapter.setNewData(mOrderConfirm.list);
+                initCountPrice();
             }
         });
 
@@ -362,21 +363,22 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
                     price += listBean.goods_price * listBean.number;
                 }
                 allPrice += price;
-                if (listBeanX.shop_freight_config != null) {
-                    if (listBeanX.shop_freight_config.freight == 1) {
-                        if (price >= listBeanX.shop_freight_config.free_shipping_price) {
-                            dispatchingPrice += 0;
-                        } else {
-                            dispatchingPrice += listBeanX.shop_freight_config.shipping_price;
+                if (mIsSelfFetch != 1) {
+                    if (listBeanX.shop_freight_config != null) {
+                        if (listBeanX.shop_freight_config.freight == 1) {
+                            if (price >= listBeanX.shop_freight_config.free_shipping_price) {
+                                dispatchingPrice += 0;
+                            } else {
+                                dispatchingPrice += listBeanX.shop_freight_config.shipping_price;
+                            }
                         }
-
                     }
-
                 }
+
                 if (listBeanX.reduceWay == 1) {
                     cutPrice += listBeanX.reduceValue * 100;
                 } else {
-                    cutPrice += price * (1-listBeanX.reduceValue);
+                    cutPrice += price * (1 - listBeanX.reduceValue);
                 }
             }
             mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice - cutPrice, this));
