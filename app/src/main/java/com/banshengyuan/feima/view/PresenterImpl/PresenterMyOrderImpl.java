@@ -24,25 +24,6 @@ public class PresenterMyOrderImpl implements MyOrderControl.PresenterMyOrder {
         mModel = model;
     }
 
-  /*  @Override
-    public void requestMyOrderList(Integer pageNo, Integer pageSize) {
-        Disposable disposable = mModel.myOrderListRequest(pageNo, pageSize).compose(mView.applySchedulers())
-                .subscribe(this::getMyOrderListSuccess,
-                        throwable -> mView.loadFail(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void getMyOrderListSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 100){
-            responseData.parseData(MyOrdersResponse.class);
-            MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
-            mView.getMyOrderListSuccess(response);
-        }else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }*/
-
     @Override
     public void onCreate() {
 

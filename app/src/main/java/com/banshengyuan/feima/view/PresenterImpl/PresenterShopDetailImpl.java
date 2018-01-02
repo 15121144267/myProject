@@ -49,25 +49,6 @@ public class PresenterShopDetailImpl implements ShopDetailControl.PresenterShopD
             mView.loadFail();
         }
     }
-    /* @Override
-    public void requestShopBanner(String partnerId, String storeCode) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.shopBannerRequest(partnerId, storeCode).compose(mView.applySchedulers())
-                .subscribe(this::getShopBannerSuccess
-                        , throwable -> mView.loadFail(throwable), () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void getShopBannerSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(GoodsCommentResponse.class);
-            GoodsCommentResponse response = (GoodsCommentResponse) responseData.parsedData;
-            mView.getShopBannerSuccess(response);
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }*/
-
 
     @Override
     public void onCreate() {

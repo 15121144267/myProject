@@ -19,6 +19,7 @@ import com.banshengyuan.feima.dagger.module.SearchFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
+import com.banshengyuan.feima.view.activity.BlockDetailActivity;
 import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailSellersAdapter;
 
@@ -75,22 +76,25 @@ public class SearchBlockFragment extends BaseFragment implements SearchControl.S
 
     @Override
     public void getSearchStreetListSuccess(SearchResultResponse response) {
-        if (response.list != null && response.list.size() > 0) {
-            mAdapter.setNewData(response.list);
-        } else {
-            mFragmentBlockCommon.setVisibility(View.GONE);
-        }
+        mAdapter.setNewData(response.list);
     }
 
     @Override
     public void getSearchStreetListFail(String des) {
-        mFragmentBlockCommon.setVisibility(View.GONE);
+
     }
 
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new FairDetailSellersAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new FairDetailSellersAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            SearchResultResponse.ListBean bean = (SearchResultResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(BlockDetailActivity.getIntent(getActivity(), bean.id));
+            }
+        });
     }
 
 

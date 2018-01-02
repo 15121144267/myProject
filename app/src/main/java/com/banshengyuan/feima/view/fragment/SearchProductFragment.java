@@ -19,6 +19,7 @@ import com.banshengyuan.feima.dagger.module.SearchFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
+import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.SearchActivity;
 import com.banshengyuan.feima.view.adapter.SearchProductAdapter;
 
@@ -72,16 +73,12 @@ public class SearchProductFragment extends BaseFragment implements SearchControl
 
     @Override
     public void getSearchProductListSuccess(SearchResultResponse response) {
-        if (response.list != null && response.list.size() > 0) {
-            mAdapter.setNewData(response.list);
-        } else {
-            mFragmentSearchProduct.setVisibility(View.GONE);
-        }
+        mAdapter.setNewData(response.list);
     }
 
     @Override
     public void getSearchProductListFail(String des) {
-        mFragmentSearchProduct.setVisibility(View.GONE);
+
     }
 
     private void initData() {
@@ -90,8 +87,15 @@ public class SearchProductFragment extends BaseFragment implements SearchControl
 
     private void initView() {
         mFragmentSearchProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new SearchProductAdapter(null, getActivity(),mImageLoaderHelper);
+        mAdapter = new SearchProductAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentSearchProduct.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            SearchResultResponse.ListBean bean = (SearchResultResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(GoodDetailActivity.getIntent(getActivity(), bean.id));
+            }
+        });
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
 import com.banshengyuan.feima.view.activity.SearchActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.SearchFairAdapter;
 
 import javax.inject.Inject;
@@ -75,17 +76,12 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
 
     @Override
     public void getSearchFairListSuccess(SearchResultResponse response) {
-        if (response.list != null && response.list.size() > 0) {
-            mAdapter.setNewData(response.list);
-        } else {
-            mFragmentBlockCommon.setVisibility(View.GONE);
-        }
+        mAdapter.setNewData(response.list);
     }
 
     @Override
     public void getSearchFairListFail(String des) {
         showToast(des);
-        mFragmentBlockCommon.setVisibility(View.GONE);
     }
 
     @Override
@@ -137,6 +133,13 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new SearchFairAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentBlockCommon.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            SearchResultResponse.ListBean bean = (SearchResultResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
+            }
+        });
     }
 
 

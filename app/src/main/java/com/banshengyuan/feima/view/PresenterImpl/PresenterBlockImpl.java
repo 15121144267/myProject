@@ -87,22 +87,6 @@ public class PresenterBlockImpl implements BlockControl.PresenterBlock {
             mView.getHotListFail();
         }
     }
-    /* @Override
-    public void requestDeleteAddress(AddAddressRequest request) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.deleteAddressRequest(request).compose(mView.applySchedulers())
-                .subscribe(this::deleteAddressSuccess, throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void deleteAddressSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 100){
-            mView.deleteAddressSuccess();
-        }else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }*/
 
     @Override
     public void onCreate() {

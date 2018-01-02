@@ -32,8 +32,8 @@ public class StoreListResponse implements Serializable {
              */
 
             public int id;
-            public String name;
-            public String cover_img;
+            public String shop_name;
+            public String shop_logo;
         }
     }
 }

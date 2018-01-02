@@ -18,7 +18,7 @@ public class CustomCachingGlideModule implements GlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
         // 设置磁盘缓存为50M，缓存在内部缓存目录
-        int cacheSize100MegaBytes = 50 * 1024 * 1024;
+        int cacheSize100MegaBytes = 100 * 1024 * 1024;
         builder.setDiskCache(
                 new InternalCacheDiskCacheFactory(context, cacheSize100MegaBytes)
         );

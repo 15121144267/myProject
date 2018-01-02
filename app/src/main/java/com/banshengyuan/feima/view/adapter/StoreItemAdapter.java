@@ -27,8 +27,8 @@ public class StoreItemAdapter extends BaseQuickAdapter<StoreListResponse.Categor
     protected void convert(BaseViewHolder helper, StoreListResponse.CategoryBean.GoodsBean item) {
         if (item == null) return;
         ImageView imageView = helper.getView(R.id.adapter_common_icon);
-        mImageLoaderHelper.displayRoundedCornerImage(mContext,item.cover_img,imageView,6);
-        helper.setText(R.id.adapter_recommend_text, item.name);
+        mImageLoaderHelper.displayRoundedCornerImage(mContext,item.shop_logo,imageView,6);
+        helper.setText(R.id.adapter_recommend_text, item.shop_name);
     }
 
 }

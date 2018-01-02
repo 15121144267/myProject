@@ -6,7 +6,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
-import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.model.GoodsDetailModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -115,16 +114,6 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     @Override
     public void requestGoodsSpecification(String productId) {
 
-    }
-
-    private void goodInfoSpecificationSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(SpecificationResponse.class);
-            SpecificationResponse response = (SpecificationResponse) responseData.parsedData;
-            mView.goodInfoSpecificationSuccess(response);
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
     }
 
     @Override

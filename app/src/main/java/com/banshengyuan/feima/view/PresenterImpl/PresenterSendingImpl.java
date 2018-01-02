@@ -2,10 +2,8 @@ package com.banshengyuan.feima.view.PresenterImpl;
 
 import android.content.Context;
 
-import com.banshengyuan.feima.entity.FairContentDetailResponse;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
 import com.banshengyuan.feima.view.model.MainModel;
-import com.banshengyuan.feima.view.model.ResponseData;
 
 import javax.inject.Inject;
 
@@ -41,17 +39,6 @@ public class PresenterSendingImpl implements SendingOrderControl.PresenterSendin
                 .subscribe(this::getCompleteOrderSuccess
                         , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);*/
-    }
-
-
-    private void getSendingOrderSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            responseData.parseData(FairContentDetailResponse.class);
-            FairContentDetailResponse response = (FairContentDetailResponse) responseData.parsedData;
-            mView.getSendingOrderSuccess(response);
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
     }
 
     @Override

@@ -53,8 +53,7 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
                 .take(61)
                 .compose(mView.applySchedulers())
                 .subscribe(aLong -> mView.setButtonEnable(false, aLong),
-                        throwable -> {
-                        },
+                        throwable -> {},
                         () -> mView.setButtonEnable(true, (long) 0));
         if (responseData.resultCode == 200) {
             mView.showToast(mContext.getString(R.string.verity_send_success));
