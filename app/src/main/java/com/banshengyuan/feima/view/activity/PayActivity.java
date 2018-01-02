@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerPayActivityComponent;
 import com.banshengyuan.feima.dagger.module.PayActivityModule;
-import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MyCoupleResponse;

@@ -1,4 +1,4 @@
-package com.banshengyuan.feima.dagger.module;
+package com.banshengyuan.feima.entity;
 
 import java.io.Serializable;
 import java.util.List;

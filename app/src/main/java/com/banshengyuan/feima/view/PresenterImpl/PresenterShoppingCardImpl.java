@@ -3,7 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShoppingCardModel;

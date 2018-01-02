@@ -2,7 +2,7 @@ package com.banshengyuan.feima.view.PresenterControl;
 
 import android.widget.CheckBox;
 
-import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.view.adapter.ShoppingCardItemAdapter;
 
 /**

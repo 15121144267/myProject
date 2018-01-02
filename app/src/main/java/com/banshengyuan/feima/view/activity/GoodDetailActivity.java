@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
-import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;

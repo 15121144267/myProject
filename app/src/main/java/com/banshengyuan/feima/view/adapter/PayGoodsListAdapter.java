@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.dagger.module.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.listener.MyTextWatchListener;
 import com.banshengyuan.feima.utils.ValueUtil;
