@@ -117,7 +117,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     @Override
     public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
-        mPartnerPosition = parentPosition;
         ShoppingCardListResponse.ListBeanX mProduct = mAdapter.getItem(parentPosition);
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             mChildPosition = position;
@@ -157,7 +156,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     break;
                 case R.id.item_shopping_card_delete:
                 case R.id.item_shopping_card__slip_delete:
-                    requestDeleteProduct(mChildProduct, itemAdapter, position);
+                    requestDeleteProduct(mChildProduct, itemAdapter, position,parentPosition);
                     break;
                 case R.id.item_shopping_card_price:
                 case R.id.item_shopping_card_des:
@@ -169,8 +168,9 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         });
     }
 
-    private void requestDeleteProduct(ShoppingCardListResponse.ListBeanX.ListBean childProduct, BaseQuickAdapter adapter, Integer childPosition) {
+    private void requestDeleteProduct(ShoppingCardListResponse.ListBeanX.ListBean childProduct, BaseQuickAdapter adapter, Integer childPosition, Integer parentPosition) {
         mShoppingCardItemAdapter = (ShoppingCardItemAdapter) adapter;
+        mPartnerPosition = parentPosition;
         mChildPosition = childPosition;
         mPresenter.requestDeleteProduct(childProduct.goods_id);
     }
