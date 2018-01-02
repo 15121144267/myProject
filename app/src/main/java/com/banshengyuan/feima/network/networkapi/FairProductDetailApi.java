@@ -25,4 +25,7 @@ public interface FairProductDetailApi {
     @POST("api/hot/{id}/sign-up")
     Observable<String> hotFairJoinActionRequest(@Path("id") String id,@Query("id") String id2, @Query("mobile") String mobile,@Query("token") String token);
 
+    @POST("api/collect")
+    Observable<String> hotFairCollectionRequest(@Query("id") String id,@Query("type") String type, @Query("token") String token);
+
 }

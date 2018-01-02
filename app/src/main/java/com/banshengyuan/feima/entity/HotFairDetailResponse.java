@@ -64,6 +64,7 @@ public class HotFairDetailResponse implements Parcelable{
          * sales_type : 2
          * sales_price : 11100
          * order_sn :
+         * is_collection
          */
 
         private int id;
@@ -78,6 +79,15 @@ public class HotFairDetailResponse implements Parcelable{
         private int sales_type;
         private int sales_price;
         private String order_sn;
+        private int is_collection;
+
+        public int getIs_collection() {
+            return is_collection;
+        }
+
+        public void setIs_collection(int is_collection) {
+            this.is_collection = is_collection;
+        }
 
         protected InfoBean(Parcel in) {
             id = in.readInt();
@@ -91,6 +101,7 @@ public class HotFairDetailResponse implements Parcelable{
             sales_type = in.readInt();
             sales_price = in.readInt();
             order_sn = in.readString();
+            is_collection = in.readInt();
         }
 
         @Override
@@ -106,6 +117,7 @@ public class HotFairDetailResponse implements Parcelable{
             dest.writeInt(sales_type);
             dest.writeInt(sales_price);
             dest.writeString(order_sn);
+            dest.writeInt(is_collection);
         }
 
         @Override

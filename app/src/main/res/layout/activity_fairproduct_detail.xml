@@ -1,36 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:rv="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <include layout="@layout/toolbar_common"/>
-
-    <View style="@style/LineH_Yellow_Fill_Width1"/>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-
-    <com.aries.ui.view.radius.RadiusTextView
-        android:id="@+id/join"
+    <!--
+    <include layout="@layout/toolbar_common" />
+    <View style="@style/LineH_Yellow_Fill_Width1" />
+    -->
+    <RelativeLayout
+        android:id="@+id/fair_detail_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:clickable="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="报名参加"
-        rv:rv_backgroundColor="#fffc00"
-        rv:rv_backgroundEnabledColor="#fbbc00"
-        rv:rv_backgroundPressedColor="#fbbc00"
-        rv:rv_strokeColor="#383838"
-        rv:rv_textColor="@color/tab_text_normal"
-        rv:rv_textEnabledColor="#fbbc00"
-        rv:rv_textPressedColor="#ffffff"/>
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/fair_detail_collection"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:src="@mipmap/shop_detail_uncollection" />
+
+        <com.aries.ui.view.radius.RadiusTextView
+            android:id="@+id/join"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/fair_detail_collection"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="报名参加"
+            rv:rv_backgroundColor="#fffc00"
+            rv:rv_backgroundEnabledColor="#fbbc00"
+            rv:rv_backgroundPressedColor="#fbbc00"
+            rv:rv_strokeColor="#383838"
+            rv:rv_textColor="@color/tab_text_normal"
+            rv:rv_textEnabledColor="#fbbc00"
+            rv:rv_textPressedColor="#ffffff" />
+    </RelativeLayout>
 
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/fair_detail_bottom_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/fair_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/fair_detail_webcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:src="@mipmap/back_background" />
+
+</RelativeLayout>

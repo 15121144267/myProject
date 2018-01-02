@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aries.ui.view.radius.RadiusTextView;
@@ -18,9 +18,11 @@ import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
+import com.zzhoujay.richtext.RichText;
 
 import javax.inject.Inject;
 
@@ -37,10 +39,14 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     @BindView(R.id.join)
     RadiusTextView join;
-    @BindView(R.id.middle_name)
-    TextView mMiddleName;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    @BindView(R.id.fair_detail_image)
+    ImageView fairDetailImage;
+    @BindView(R.id.fair_detail_webcontent)
+    TextView fairDetailWebcontent;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.fair_detail_collection)
+    ImageView fairDetailCollection;
 
     public static Intent getIntent(Context context, String fId) {
         Intent intent = new Intent(context, FairProductDetailActivity.class);
@@ -60,11 +66,10 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SystemStatusManager.setbannerStatus(this);
         setContentView(R.layout.activity_fairproduct_detail);
         ButterKnife.bind(this);
         initializeInjector();
-        supportActionBar(mToolbar, true);
-        mMiddleName.setText("热闹详情");
         initView();
         initData();
     }
@@ -152,7 +157,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     @Override
     public void getHotFairDetailSuccess(HotFairDetailResponse response) {
         hotFairDetailResponse = response;
-        if (response.getInfo() != null) {
+        HotFairDetailResponse.InfoBean infoBean = response.getInfo();
+        if (infoBean != null) {
+            fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
+            RichText.from(response.getInfo().getContent()).into(fairDetailWebcontent);
+            mImageLoaderHelper.displayImage(this, response.getInfo().getCover_img(), fairDetailImage);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 order_sn = response.getInfo().getOrder_sn();
                 mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询
@@ -186,11 +195,28 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         }
     }
 
-    @OnClick({R.id.join})
+    @Override
+    public void getHotFairCollectionSuccess(int state) {
+        fairDetailCollection.setImageResource(state == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
+        if (state == 1) {
+            showToast("收藏成功");
+        } else {
+            showToast("取消收藏");
+        }
+
+    }
+
+    @OnClick({R.id.join, R.id.back, R.id.fair_detail_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.join:
                 join();
+                break;
+            case R.id.back:
+                finish();
+                break;
+            case R.id.fair_detail_collection:
+                mPresenter.requestHotFairCollection(String.valueOf(hotFairDetailResponse.getInfo().getId()), token);
                 break;
         }
     }
@@ -198,4 +224,5 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     private void switchToLogin2() {
         startActivityForResult(LoginActivity.getLoginIntent(FairProductDetailActivity.this), IntentConstant.ORDER_POSITION_ONE);
     }
+
 }

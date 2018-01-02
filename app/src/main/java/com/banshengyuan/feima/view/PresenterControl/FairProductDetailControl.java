@@ -16,14 +16,17 @@ public class FairProductDetailControl {
         void getHotFairStateSuccess(HotFairStateResponse response);
 
         void getHotFairJoinActionSuccess(OrderConfirmedResponse response);
+
+        void getHotFairCollectionSuccess(int state);
     }
 
     public interface PresenterFairProductDetail extends Presenter<FairProductDetailView> {
-        void requestHotFairDetail(String id,String token);//请求热闹详情
+        void requestHotFairDetail(String id, String token);//请求热闹详情
 
-        void requestHotFairState(String id, String order_sn,String token);//热闹-报名订单状态查询
+        void requestHotFairState(String id, String order_sn, String token);//热闹-报名订单状态查询
 
-        void requestHotFairJoinAction(String id, String phone,String token);//热闹-报名
+        void requestHotFairJoinAction(String id, String phone, String token);//热闹-报名
 
+        void requestHotFairCollection(String id, String token);//热闹 收藏/取消收藏
     }
 }

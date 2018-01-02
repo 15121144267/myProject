@@ -233,6 +233,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 if (!TextUtils.isEmpty(orderSnTv)) {
                     cm.setPrimaryClip(new ClipData(ClipData.newPlainText(null,orderSnTv)));
                     orderDetailCopyOrderid.setText("已复制");
+                    showToast("已复制到粘贴板");
                 }
                 break;
             case R.id.order_right_btn:

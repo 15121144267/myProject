@@ -40,6 +40,11 @@ public class FairProductDetailModel {
         return mApi.hotFairJoinActionRequest(id, id,phone, token).map(mTransform::transformCommon);
     }
 
+    //热闹收藏/取消收藏
+    public Observable<ResponseData> hotFairCollectionRequest(String id, String token) {
+        return mApi.hotFairCollectionRequest(id, "hot", token).map(mTransform::transformCommon);
+    }
+
     /*public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
         request.partnerId = BuildConfig.PARTNER_ID;
         return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);

@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.PresenterImpl;
 import android.content.Context;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.entity.FairDetailCollectionResponse;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
@@ -72,6 +73,26 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
                         , throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
+    }
+
+    @Override
+    public void requestHotFairCollection(String id, String token) {
+        mView.showLoading(mContext.getString(R.string.loading));
+        Disposable disposable = mModel.hotFairCollectionRequest(id, token).compose(mView.applySchedulers())
+                .subscribe(this::getHotFairCollectionSuccess
+                        , throwable -> mView.showErrMessage(throwable),
+                        () -> mView.dismissLoading());
+        mView.addSubscription(disposable);
+    }
+
+    private void getHotFairCollectionSuccess(ResponseData responseData) {
+        if (responseData.resultCode == 200) {
+            responseData.parseData(FairDetailCollectionResponse.class);
+            FairDetailCollectionResponse response = (FairDetailCollectionResponse) responseData.parsedData;
+            mView.getHotFairCollectionSuccess(response.getStatus());
+        } else {
+            mView.showToast(responseData.errorDesc);
+        }
     }
 
     private void getHotFairDetailSuccess(ResponseData responseData) {
