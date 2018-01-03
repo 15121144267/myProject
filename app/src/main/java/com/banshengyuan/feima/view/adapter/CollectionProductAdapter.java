@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
@@ -27,10 +26,8 @@ public class CollectionProductAdapter extends BaseQuickAdapter<MyCollectionProdu
     protected void convert(BaseViewHolder helper, MyCollectionProductsResponse.ListBean item) {
         if (item == null) return;
 
-        helper.addOnClickListener(R.id.adapter_product_addcart).addOnClickListener(R.id.adapter_collection_product);
         ImageView imageView = helper.getView(R.id.adapter_collection_icon);
         mImageLoaderHelper.displayRoundedCornerImage(mContext, item.getCover_img(), imageView, 6);
-
         helper.setText(R.id.adapter_product_name, item.getName());
         helper.setText(R.id.adapter_product_summary, "暂无描述");
         helper.setText(R.id.adapter_product_price, "￥" + item.getPrice());
