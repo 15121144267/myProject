@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="18dp"
     android:layout_marginEnd="@dimen/dp_20"
     android:layout_marginStart="@dimen/dp_20"
     android:layout_marginTop="12dp"
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="222dp"
         android:layout_marginBottom="@dimen/dp_10"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,13 +33,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_10">
 
         <TextView
             android:id="@+id/adapter_collection_block_desc"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/app_default_des"
             android:textColor="#666666"
