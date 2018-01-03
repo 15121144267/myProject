@@ -64,12 +64,11 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false">
 
-                <com.youth.banner.Banner
-                    android:id="@+id/block_detail_banner"
+                <ImageView
+                    android:id="@+id/fair_detail_banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     app:indicator_drawable_selected="@drawable/shape_banner_selected"
                     app:indicator_drawable_unselected="@drawable/shape_banner_unselected"

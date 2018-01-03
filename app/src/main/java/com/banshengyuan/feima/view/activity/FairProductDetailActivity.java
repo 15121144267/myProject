@@ -52,8 +52,8 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     TextView fairDetailWebcontent;
     @BindView(R.id.fair_detail_collection)
     ImageView fairDetailCollection;
-    @BindView(R.id.block_detail_banner)
-    Banner mBlockDetailBanner;
+    @BindView(R.id.fair_detail_banner)
+    ImageView mFairDetailBanner;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
     @BindView(R.id.toolbar_right_icon)
@@ -200,14 +200,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
 //            RichText.from(response.getInfo().getContent()).into(fairDetailWebcontent);
             ValueUtil.setHtmlContent(this,response.getInfo().getContent(),fairDetailWebcontent);
-            List<String> list = new ArrayList<>();
-            if (!TextUtils.isEmpty(infoBean.getCover_img())) {
-                list.add(infoBean.getCover_img());
-                mBlockDetailBanner.setImages(list).setImageLoader(new GlideLoader()).start();
-            } else {
-                mBlockDetailBanner.setBackground(ContextCompat.getDrawable(this, R.color.white));
-            }
-//            mImageLoaderHelper.displayImage(this, response.getInfo().getCover_img(), fairDetailImage);
+            mImageLoaderHelper.displayImage(this,infoBean.getCover_img(),mFairDetailBanner);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 order_sn = response.getInfo().getOrder_sn();
                 mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询
