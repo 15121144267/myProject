@@ -124,6 +124,8 @@
                     android:id="@+id/fair_detail_webcontent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_20"
+                    android:paddingEnd="@dimen/dp_20"
                     android:orientation="vertical" />
 
             </LinearLayout>
