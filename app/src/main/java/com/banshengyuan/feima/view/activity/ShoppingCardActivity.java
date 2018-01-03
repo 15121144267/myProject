@@ -247,26 +247,28 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mActivityShoppingCardList.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             ShoppingCardListResponse.ListBeanX product = mAdapter.getItem(position);
-            CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
-            switch (view.getId()) {
-                case R.id.adapter_shopping_card_check:
-                    if (!checkBox.isChecked()) {
-                        product.checkFlag = false;
-                        for (ShoppingCardListResponse.ListBeanX.ListBean productsBean : product.list) {
-                            productsBean.childCheckFlag = false;
+            if(product!=null){
+                CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
+                switch (view.getId()) {
+                    case R.id.adapter_shopping_card_check:
+                        if (!checkBox.isChecked()) {
+                            product.checkFlag = false;
+                            for (ShoppingCardListResponse.ListBeanX.ListBean productsBean : product.list) {
+                                productsBean.childCheckFlag = false;
+                            }
+                            if (mActivityShoppingCardCheck.isChecked()) {
+                                mActivityShoppingCardCheck.setChecked(false);
+                            }
+                        } else {
+                            product.checkFlag = true;
+                            for (ShoppingCardListResponse.ListBeanX.ListBean productsBean : product.list) {
+                                productsBean.childCheckFlag = true;
+                            }
                         }
-                        if (mActivityShoppingCardCheck.isChecked()) {
-                            mActivityShoppingCardCheck.setChecked(false);
-                        }
-                    } else {
-                        product.checkFlag = true;
-                        for (ShoppingCardListResponse.ListBeanX.ListBean productsBean : product.list) {
-                            productsBean.childCheckFlag = true;
-                        }
-                    }
-                    countPrice();
-                    mAdapter.setData(position, product);
-                    break;
+                        countPrice();
+                        mAdapter.setData(position, product);
+                        break;
+                }
             }
         });
 
