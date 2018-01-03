@@ -189,7 +189,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
                             startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn), IntentConstant.ORDER_TO_ORDERDETAIL);
                             break;
                         case R.id.order_left_btn:
-                            if (listBean.getOrder_type() == 1) {
+                            if ((listBean != null ? listBean.getOrder_type() : 0) == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//取消订单
                                 } else if (listBean.getPay_status() == 2) {//false
@@ -214,7 +214,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
                             }
                             break;
                         case R.id.order_right_btn:
-                            if (listBean.getOrder_type() == 1) {
+                            if ((listBean != null ? listBean.getOrder_type() : 0) == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//立即付款
                                 } else if (listBean.getPay_status() == 2) {//确认收货
