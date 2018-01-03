@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +20,7 @@ import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
-import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
@@ -40,8 +37,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by helei on 2017/5/3.
@@ -202,76 +197,79 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
                     mPos = position;
-                    mOrderSn = listBean.getOrder_sn();
-                    switch (view.getId()) {
-                        case R.id.mime_order_lv:
-                            OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn);
+                    if (listBean != null) {
+                        mOrderSn = listBean.getOrder_sn();
+                        switch (view.getId()) {
+                            case R.id.mime_order_lv:
+                                OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn);
                             /*startActivityForResult();
                             startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn), IntentConstant.ORDER_TO_ORDERDETAIL);*/
-                            break;
-                        case R.id.order_left_btn:
-                            if (listBean.getOrder_type() == 1) {
-                                //线上
-                                if (listBean.getPay_status() == 1) {//取消订单
-                                    mPresenter.requestCancelOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 2) {//false
-                                } else if (listBean.getPay_status() == 3) {//false
-                                } else if (listBean.getPay_status() == 4) {//删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 5) {//删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                break;
+                            case R.id.order_left_btn:
+                                if (listBean.getOrder_type() == 1) {
+                                    //线上
+                                    if (listBean.getPay_status() == 1) {//取消订单
+                                        mPresenter.requestCancelOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 2) {//false
+                                    } else if (listBean.getPay_status() == 3) {//false
+                                    } else if (listBean.getPay_status() == 4) {//删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 5) {//删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    }
+                                } else if (listBean.getOrder_type() == 2) {
+                                    //2自提订单
+                                    if (listBean.getPay_status() == 1) {//取消订单
+                                        mPresenter.requestCancelOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 2) {//false
+                                    } else if (listBean.getPay_status() == 3) {//false
+                                    } else if (listBean.getPay_status() == 4) {//删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 5) {//删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    }
+                                } else if (listBean.getOrder_type() == 3) {
+                                    //3线下收款订单
+                                    // false
                                 }
-                            } else if (listBean.getOrder_type() == 2) {
-                                //2自提订单
-                                if (listBean.getPay_status() == 1) {//取消订单
-                                    mPresenter.requestCancelOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 2) {//false
-                                } else if (listBean.getPay_status() == 3) {//false
-                                } else if (listBean.getPay_status() == 4) {//删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 5) {//删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
-                                }
-                            } else if (listBean.getOrder_type() == 3) {
-                                //3线下收款订单
-                                // false
-                            }
-                            break;
-                        case R.id.order_right_btn:
-                            if (listBean.getOrder_type() == 1) {
-                                //线上
-                                if (listBean.getPay_status() == 1) {//立即付款
+                                break;
+                            case R.id.order_right_btn:
+                                if (listBean.getOrder_type() == 1) {
+                                    //线上
+                                    if (listBean.getPay_status() == 1) {//立即付款
 //                                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY));
-                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(),"OrderFragment"));
-                                } else if (listBean.getPay_status() == 2) {//确认收货
-                                    mPresenter.requestConfirmOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 3) {//提醒发货
-                                    mPresenter.requestRemindSendGoods(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 4) {//去评价
-                                    startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
-                                } else if (listBean.getPay_status() == 5) {//删除
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));
+                                    } else if (listBean.getPay_status() == 2) {//确认收货
+                                        mPresenter.requestConfirmOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 3) {//提醒发货
+                                        mPresenter.requestRemindSendGoods(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 4) {//去评价
+                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                    } else if (listBean.getPay_status() == 5) {//删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    }
+                                } else if (listBean.getOrder_type() == 2) {
+                                    //2自提订单
+                                    if (listBean.getPay_status() == 1) {//立即付款
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));
+                                    } else if (listBean.getPay_status() == 2) {//确认收货
+                                        mPresenter.requestConfirmOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 3) {//确认收货
+                                        mPresenter.requestConfirmOrder(mOrderSn, mToken);
+                                    } else if (listBean.getPay_status() == 4) {//去评价
+                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                    } else if (listBean.getPay_status() == 5) {//删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    }
+                                } else if (listBean.getOrder_type() == 3) {
+                                    //3线下收款订单
+                                    //删除
                                     mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 }
-                            } else if (listBean.getOrder_type() == 2) {
-                                //2自提订单
-                                if (listBean.getPay_status() == 1) {//立即付款
-                                    startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(),"OrderFragment"));
-                                } else if (listBean.getPay_status() == 2) {//确认收货
-                                    mPresenter.requestConfirmOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 3) {//确认收货
-                                    mPresenter.requestConfirmOrder(mOrderSn, mToken);
-                                } else if (listBean.getPay_status() == 4) {//去评价
-                                    startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
-                                } else if (listBean.getPay_status() == 5) {//删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
-                                }
-                            } else if (listBean.getOrder_type() == 3) {
-                                //3线下收款订单
-                                //删除
-                                mPresenter.requestDeleteOrder(mOrderSn, mToken);
-                            }
-                            break;
+                                break;
+                        }
                     }
+
                 }
         );
     }
