@@ -19,7 +19,6 @@ import com.banshengyuan.feima.entity.PayConstant;
 import com.banshengyuan.feima.entity.PayResponse;
 import com.banshengyuan.feima.help.PayZFBHelper;
 import com.banshengyuan.feima.help.WXPayHelp.PayWXHelper;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.FinalPayControl;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -101,7 +100,6 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
     void onReceivePro(Context context, Intent intent) {
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS)) {
-            showToast("跳转页面");
             if (mActivityType != null) {
                 if (mActivityType.equals("OrderFragment")) {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));

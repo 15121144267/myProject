@@ -123,6 +123,14 @@ public class BaseFragment extends Fragment {
         }
     }
 
+    public void judgeToken(Integer code) {
+        if (code == 100401 || code == 100107) {
+            showBaseToast("登入过期,请重新登入");
+            clearSwitchToLogin();
+            return;
+        }
+    }
+
     public void clearSwitchToLogin() {
         mBuProcessor.clearLoginUser();
         startActivity(LoginActivity.getLoginIntent(getActivity()));

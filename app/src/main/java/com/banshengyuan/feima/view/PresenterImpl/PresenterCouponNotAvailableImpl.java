@@ -52,6 +52,7 @@ public class PresenterCouponNotAvailableImpl implements CouponNotAvailableContro
     }
 
     private void usedCoupleSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyCoupleResponse.class);
             MyCoupleResponse response = (MyCoupleResponse) responseData.parsedData;

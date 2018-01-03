@@ -80,6 +80,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     private void deleteOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getDeleteOrderSuccess();
         } else {
@@ -88,6 +89,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     private void cancelOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getCancelOrderSuccess();
         } else {
@@ -96,6 +98,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     private void comfirmOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getComfirmOrderSuccess();
         } else {
@@ -104,6 +107,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     private void remindSendGoodsSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.showToast("提醒成功");
         } else {
@@ -112,6 +116,7 @@ public class PresenterAllOrderImpl implements AllOrderControl.PresenterAllOrderV
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;

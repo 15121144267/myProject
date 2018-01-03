@@ -40,9 +40,9 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     }
 
     @Override
-    public void requestAddressAdd(AddAddressRequest request,String token) {
+    public void requestAddressAdd(AddAddressRequest request, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.addAddressRequest(request,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.addAddressRequest(request, token).compose(mView.applySchedulers())
                 .subscribe(this::addAddressSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -51,7 +51,7 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     @Override
     public void requestAddressUpdate(int addressId, AddAddressRequest request, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.updateAddressRequest(addressId ,request,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.updateAddressRequest(addressId, request, token).compose(mView.applySchedulers())
                 .subscribe(this::updateAddressSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -61,6 +61,9 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     private void addAddressSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             mView.addAddressSuccess();
+        } else if (responseData.resultCode == 100401 || responseData.resultCode == 100107) {
+            mView.showToast("登入过期,请重新登入");
+            mView.clearSwitchToLogin();
         } else {
             mView.showToast(responseData.errorDesc);
         }
@@ -69,6 +72,9 @@ public class PresenterAddAddressImpl implements AddAddressControl.PresenterAddAd
     private void updateAddressSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             mView.updateAddressSuccess();
+        } else if (responseData.resultCode == 100401 || responseData.resultCode == 100107) {
+            mView.showToast("登入过期,请重新登入");
+            mView.clearSwitchToLogin();
         } else {
             mView.showToast(responseData.errorDesc);
         }

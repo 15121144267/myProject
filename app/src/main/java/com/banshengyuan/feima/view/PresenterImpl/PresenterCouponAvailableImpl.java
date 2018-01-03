@@ -39,6 +39,7 @@ public class PresenterCouponAvailableImpl implements CouponAvailableControl.Pres
     }
 
     private void noUseCoupleSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyCoupleResponse.class);
             MyCoupleResponse response = (MyCoupleResponse) responseData.parsedData;

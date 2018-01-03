@@ -39,6 +39,7 @@ public class PresenterPersonCenterImpl implements PersonCenterControl.PresenterP
     }
 
     private void updatePersonInfoSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.updatePersonInfoSuccess();
         } else {

@@ -35,7 +35,6 @@ import com.banshengyuan.feima.entity.PersonInfoResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.DataCleanManager;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
 import com.banshengyuan.feima.view.activity.AddressActivity;
@@ -270,14 +269,6 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         commonDialog.setContent(getString(R.string.clean_cache));
         commonDialog.setListener(this, DIALOG_TYPE_EXIT_OK);
         DialogFactory.showDialogFragment(getChildFragmentManager(), commonDialog, CommonDialog.TAG);
-    }
-
-    private void requestAddress() {
-        startActivity(AddressActivity.getIntent(getActivity(), "completedOrderFragment"));
-    }
-
-    private void requestOrder() {
-        startActivity(MyOrderActivity.getIntent(getActivity()));
     }
 
     @Override

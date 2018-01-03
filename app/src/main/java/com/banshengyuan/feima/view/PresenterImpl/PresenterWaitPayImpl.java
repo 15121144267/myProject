@@ -39,6 +39,7 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
@@ -58,6 +59,7 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
     }
 
     private void cancelOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getCancelOrderSuccess(true);
         } else {

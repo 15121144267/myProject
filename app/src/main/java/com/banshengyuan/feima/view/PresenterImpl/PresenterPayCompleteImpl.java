@@ -39,6 +39,7 @@ public class PresenterPayCompleteImpl implements PayCompleteControl.PresenterPay
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if(responseData.resultCode == 200){
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;
@@ -77,6 +78,7 @@ public class PresenterPayCompleteImpl implements PayCompleteControl.PresenterPay
     }
 
     private void deleteOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getDeleteOrderSuccess();
         } else {
@@ -85,6 +87,7 @@ public class PresenterPayCompleteImpl implements PayCompleteControl.PresenterPay
     }
 
     private void remindSendGoodsSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.showToast("提醒成功");
         } else {
@@ -93,6 +96,7 @@ public class PresenterPayCompleteImpl implements PayCompleteControl.PresenterPay
     }
 
     private void comfirmOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getComfirmOrderSuccess();
         } else {

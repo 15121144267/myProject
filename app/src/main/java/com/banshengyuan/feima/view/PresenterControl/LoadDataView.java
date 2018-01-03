@@ -16,6 +16,8 @@ public interface LoadDataView {
 
     void clearSwitchToLogin();
 
+    void judgeToken(Integer code);
+
     <T> ObservableTransformer<T, T> applySchedulers();
 
     void addSubscription(Disposable disposable);

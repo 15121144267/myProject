@@ -24,22 +24,6 @@ public class PresenterSendingImpl implements SendingOrderControl.PresenterSendin
         mView = view;
     }
 
-    @Override
-    public void requestSendingOrder(String token, String uId) {
-       /* mView.showLoading(mContext.getString(R.string.loading));
-        mMainModel.SendingOrderInfoRequest(token, uId).compose(mView.applySchedulers())
-                .subscribe(this::getSendingOrderSuccess
-                        , throwable -> mView.getOrderError(throwable), () -> mView.getOrderComplete());*/
-    }
-
-    @Override
-    public void requestCompleteOrder(String token, String uId, String deliveryId) {
-       /* mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mMainModel.TakeOrderRequest(1,token, uId,deliveryId).compose(mView.applySchedulers())
-                .subscribe(this::getCompleteOrderSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
-        mView.addSubscription(disposable);*/
-    }
 
     @Override
     public void onCreate() {

@@ -40,6 +40,7 @@ public class PresenterCollectionShopImpl implements CollectionShopControl.Presen
     }
 
     private void getCollectionShopSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(CollectionShopResponse.class);
             CollectionShopResponse response = (CollectionShopResponse) responseData.parsedData;

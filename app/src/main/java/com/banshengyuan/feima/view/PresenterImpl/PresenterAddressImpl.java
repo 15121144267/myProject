@@ -42,16 +42,16 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
     @Override
     public void requestDeleteAddress(String addressId, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.deleteAddressRequest(addressId,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.deleteAddressRequest(addressId, token).compose(mView.applySchedulers())
                 .subscribe(this::deleteAddressSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     @Override
-    public void requestUpdateAddress(String addressId, AddAddressRequest request , String token) {
+    public void requestUpdateAddress(String addressId, AddAddressRequest request, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.updateAddressRequest(addressId,request,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.updateAddressRequest(addressId, request, token).compose(mView.applySchedulers())
                 .subscribe(this::updateAddressSuccess, throwable -> mView.updateAddressError(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -59,32 +59,34 @@ public class PresenterAddressImpl implements AddressControl.PresenterAddress {
 
 
     private void addressListRequestSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 200){
+        mView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 200) {
             responseData.parseData(AddressResponse.class);
-            AddressResponse response  = (AddressResponse) responseData.parsedData;
+            AddressResponse response = (AddressResponse) responseData.parsedData;
             mView.listAddressSuccess(response);
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }
 
     private void deleteAddressSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 200){
+        mView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 200) {
             mView.deleteAddressSuccess();
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
         }
     }
 
     private void updateAddressSuccess(ResponseData responseData) {
-        if(responseData.resultCode == 200){
+        mView.judgeToken(responseData.resultCode);
+        if (responseData.resultCode == 200) {
             mView.updateAddressSuccess();
-        }else {
+        } else {
             mView.showToast(responseData.errorDesc);
             mView.updateAddressFail();
         }
     }
-
 
     @Override
     public void onCreate() {

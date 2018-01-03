@@ -86,6 +86,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     }
 
     private void getHotFairCollectionSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(FairDetailCollectionResponse.class);
             FairDetailCollectionResponse response = (FairDetailCollectionResponse) responseData.parsedData;
@@ -96,6 +97,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     }
 
     private void getHotFairDetailSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFairDetailResponse.class);
             HotFairDetailResponse response = (HotFairDetailResponse) responseData.parsedData;
@@ -106,6 +108,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     }
 
     private void getHotFairStateSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFairStateResponse.class);
             HotFairStateResponse response = (HotFairStateResponse) responseData.parsedData;
@@ -116,6 +119,7 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
     }
 
     private void getHotFairJoinActionSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(OrderConfirmedResponse.class);
             OrderConfirmedResponse response = (OrderConfirmedResponse) responseData.parsedData;

@@ -45,6 +45,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     private void getCouponListRequestSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyCoupleResponse.class);
             MyCoupleResponse response = (MyCoupleResponse) responseData.parsedData;
@@ -64,6 +65,7 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
     }
 
     private void addressListRequestSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(AddressResponse.class);
             AddressResponse response = (AddressResponse) responseData.parsedData;
@@ -72,24 +74,6 @@ public class PresenterPayImpl implements PayControl.PresenterPay {
             mView.showToast(responseData.errorDesc);
         }
     }
-
-    @Override
-    public void updateOrderStatus(PayAccessRequest request) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.updateOrderStatusRequest(request).compose(mView.applySchedulers())
-                .subscribe(this::updateOrderStatusSuccess, throwable -> mView.showErrMessage(throwable),
-                        () -> mView.dismissLoading());
-        mView.addSubscription(disposable);
-    }
-
-    private void updateOrderStatusSuccess(ResponseData responseData) {
-        if (responseData.resultCode == 100) {
-            mView.updateOrderStatusSuccess();
-        } else {
-            mView.showToast(responseData.errorDesc);
-        }
-    }
-
 
     @Override
     public void requestOrderConfirmed(String addressId, List<OrderConfirmItem> list, Integer self) {

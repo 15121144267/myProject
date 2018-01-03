@@ -181,16 +181,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
         initCountPrice();
     }
 
-    @Override
-    public void updateOrderStatusSuccess() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        this.finish();
-    }
-
-
     private void initData() {
         mPresenter.requestAddressList(mBuProcessor.getUserToken());
     }

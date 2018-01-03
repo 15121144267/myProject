@@ -30,15 +30,16 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
     }
 
     @Override
-    public void requestCollectionBlockList(int page, int pageSize,String token) {
+    public void requestCollectionBlockList(int page, int pageSize, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.collectionBlockRequest(page, pageSize,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.collectionBlockRequest(page, pageSize, token).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionBlockSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getCollectionBlockSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyCollectionBlockResponse.class);
             MyCollectionBlockResponse response = (MyCollectionBlockResponse) responseData.parsedData;
@@ -47,6 +48,7 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
             mView.showToast(responseData.errorDesc);
         }
     }
+
     @Override
     public void onCreate() {
 

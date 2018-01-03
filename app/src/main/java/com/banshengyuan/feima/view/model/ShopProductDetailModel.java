@@ -50,7 +50,6 @@ public class ShopProductDetailModel {
     }
 
     public Observable<ResponseData> collectionRequest(String id, String type) {
-
         CollectionRequest request = new CollectionRequest();
         request.id = id;
         request.type = type;

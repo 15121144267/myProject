@@ -27,7 +27,7 @@ public class FairDetailSellersAdapter extends BaseQuickAdapter<SearchResultRespo
         ImageView imageView = helper.getView(R.id.adapter_store_icon);
         mImageLoaderHelper.displayImage(mContext,item.cover_img,imageView);
         helper.setText(R.id.adapter_store_name,item.name);
-        helper.setText(R.id.adapter_store_category,item.category);
+        helper.setText(R.id.adapter_store_category,item.summary);
     }
 
 }

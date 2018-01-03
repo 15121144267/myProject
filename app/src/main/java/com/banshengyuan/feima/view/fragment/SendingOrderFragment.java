@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.FairContentDetailResponse;
 import com.banshengyuan.feima.listener.TabCheckListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.SendingOrderControl;
@@ -98,11 +96,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     @Override
     public void onMyEditorAction() {
         String searchName = mSearchEdit.getEditText().trim();
-        if (TextUtils.isEmpty(searchName)) {
-            showToast("搜索栏不能为空");
-        } else {
-            startActivity(SearchActivity.getIntent(getActivity(), searchName));
-        }
+        startActivity(SearchActivity.getIntent(getActivity(), searchName));
     }
 
     @Override
@@ -159,26 +153,6 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
             mHashMap.put(mDiscoverTabLayout.getSelectedTabPosition(), 0);
         }
         showSearchLayout = !flag;
-    }
-
-    @Override
-    public void getSendingOrderSuccess(FairContentDetailResponse response) {
-
-    }
-
-    @Override
-    public void updateOrderStatusSuccess() {
-
-    }
-
-    @Override
-    public void getOrderComplete() {
-
-    }
-
-    @Override
-    public void getOrderError(Throwable throwable) {
-
     }
 
     @Override

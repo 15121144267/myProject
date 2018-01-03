@@ -39,6 +39,7 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     private void changeProductNumberSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.changeProductNumberSuccess();
         } else {
@@ -56,6 +57,7 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     private void deleteProductSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.deleteProductSuccess();
         } else {
@@ -74,6 +76,7 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     private void shoppingCardListSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(ShoppingCardListResponse.class);
             ShoppingCardListResponse response = (ShoppingCardListResponse) responseData.parsedData;

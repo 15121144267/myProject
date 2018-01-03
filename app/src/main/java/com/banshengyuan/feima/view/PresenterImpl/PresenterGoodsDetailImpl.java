@@ -43,6 +43,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     private void getGoodsCollectionSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(CollectionResponse.class);
             CollectionResponse response = (CollectionResponse) responseData.parsedData;
@@ -63,6 +64,7 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     private void addShoppingCardSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.addShoppingCardSuccess();
         } else {

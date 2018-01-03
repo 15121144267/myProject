@@ -194,6 +194,14 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
         return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 
+    public void judgeToken(Integer code) {
+        if (code == 100401 || code == 100107) {
+            showBaseToast("登入过期,请重新登入");
+            clearSwitchToLogin();
+            return;
+        }
+    }
+
     private final ObservableTransformer schedulersTransformer = (observable) -> (
             observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()));

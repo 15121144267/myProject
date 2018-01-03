@@ -39,7 +39,6 @@ import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -96,7 +95,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     private WorkSummaryAdapter mAdapter;
     private Integer mFairId;
     private FairContentDetailResponse.InfoBean mInfoBean;
-    private List<FairContentDetailResponse.DetailBean> mDetailBeanList;
     private Integer mProductCount = 0;
     private View mHeadView;
     private TextView mHeadTextView;
@@ -169,7 +167,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
         }
         if (response.detail != null) {
-            mDetailBeanList = response.detail;
             mAdapter.setNewData(response.detail);
             for (FairContentDetailResponse.DetailBean detailBean : response.detail) {
                 if (detailBean.product != null) {

@@ -49,14 +49,14 @@ public class PresenterNoticeCenterImpl implements NoticeCenterControl.PresenterN
     @Override
     public void requestNoticeList(int page, int pageSize, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-
         Disposable disposable = mNoticeCenterModel.noticeListRequest(page, pageSize, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getNoticeInfoSuccess
-                        , throwable -> mView.showErrMessage(throwable),() -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getNoticeInfoSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(NoticeResponse.class);
             NoticeResponse response = (NoticeResponse) responseData.parsedData;

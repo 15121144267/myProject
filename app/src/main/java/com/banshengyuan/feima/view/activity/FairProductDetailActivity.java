@@ -19,10 +19,10 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.utils.SystemStatusManager;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
-import com.zzhoujay.richtext.RichText;
 
 import javax.inject.Inject;
 
@@ -160,7 +160,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         HotFairDetailResponse.InfoBean infoBean = response.getInfo();
         if (infoBean != null) {
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
-            RichText.from(response.getInfo().getContent()).into(fairDetailWebcontent);
+            ValueUtil.setHtmlContent(this,response.getInfo().getContent(),fairDetailWebcontent);
             mImageLoaderHelper.displayImage(this, response.getInfo().getCover_img(), fairDetailImage);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 order_sn = response.getInfo().getOrder_sn();

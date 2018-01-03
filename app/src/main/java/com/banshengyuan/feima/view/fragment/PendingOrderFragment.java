@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,11 +92,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @Override
     public void onMyEditorAction() {
         String searchName = mSearchEdit.getEditText().trim();
-        if (TextUtils.isEmpty(searchName)) {
-            showToast("搜索栏不能为空");
-        } else {
-            startActivity(SearchActivity.getIntent(getActivity(),searchName));
-        }
+        startActivity(SearchActivity.getIntent(getActivity(),searchName));
     }
 
     @Override

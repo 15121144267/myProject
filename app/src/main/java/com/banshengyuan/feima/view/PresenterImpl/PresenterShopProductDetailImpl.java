@@ -43,6 +43,7 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
     }
 
     private void getCollectionSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(CollectionResponse.class);
             CollectionResponse response = (CollectionResponse) responseData.parsedData;
@@ -62,6 +63,7 @@ public class PresenterShopProductDetailImpl implements ShopProductDetailControl.
     }
 
     private void getCouponInfoSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getCouponInfoSuccess();
         } else {

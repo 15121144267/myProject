@@ -41,6 +41,7 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
     }
 
     private void getFairPraiseSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(FairPraiseResponse.class);
             FairPraiseResponse response = (FairPraiseResponse) responseData.parsedData;
@@ -60,6 +61,7 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
     }
 
     private void getFairCollectionSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(CollectionResponse.class);
             CollectionResponse response = (CollectionResponse) responseData.parsedData;
@@ -79,6 +81,7 @@ public class PresenterWorkSummaryImpl implements WorkSummaryControl.PresenterWor
     }
 
     private void getGoodCollectionSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(CollectionResponse.class);
             CollectionResponse response = (CollectionResponse) responseData.parsedData;

@@ -39,6 +39,7 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
    }
 
     private void getCollectionProductSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyCollectionProductsResponse.class);
             MyCollectionProductsResponse response = (MyCollectionProductsResponse) responseData.parsedData;

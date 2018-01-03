@@ -57,13 +57,11 @@ public class PresenterCompletedImpl implements CompletedOrderControl.PresenterCo
 
 
     private void getPersonInfoSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(PersonInfoResponse.class);
             PersonInfoResponse response = (PersonInfoResponse) responseData.parsedData;
             mView.getPersonInfoSuccess(response);
-        } else if (responseData.resultCode == 100401 || responseData.resultCode == 100107) {
-            mView.showToast("登入过期,请重新登入");
-            mView.clearSwitchToLogin();
         } else {
             mView.showToast(responseData.errorDesc);
         }

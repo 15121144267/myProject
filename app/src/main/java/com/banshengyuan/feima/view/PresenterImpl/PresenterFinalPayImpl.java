@@ -30,15 +30,16 @@ public class PresenterFinalPayImpl implements FinalPayControl.PresenterFinalPay 
     }
 
     @Override
-    public void requestPayInfo(String orderId, Integer payType,Integer orderType) {
+    public void requestPayInfo(String orderId, Integer payType, Integer orderType) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.payRequest(orderId, payType,orderType).compose(mView.applySchedulers())
+        Disposable disposable = mModel.payRequest(orderId, payType, orderType).compose(mView.applySchedulers())
                 .subscribe(this::getPayInfoSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }
 
     private void getPayInfoSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 100) {
             responseData.parseData(PayResponse.class);
             PayResponse response = (PayResponse) responseData.parsedData;

@@ -48,6 +48,7 @@ public class PresenterOrderCompleteImpl implements OrderCompleteControl.Presente
     }
 
     private void deleteOrderSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             mView.getDeleteOrderSuccess();
         } else {
@@ -56,6 +57,7 @@ public class PresenterOrderCompleteImpl implements OrderCompleteControl.Presente
     }
 
     private void getMyOrderListSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyOrdersResponse.class);
             MyOrdersResponse response = (MyOrdersResponse) responseData.parsedData;

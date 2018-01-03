@@ -59,12 +59,11 @@ public class PresenterReductionPayImpl implements ReductionPayControl.PresenterR
     }
 
     private void getCouponListRequestSuccess(ResponseData responseData) {
+        mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
             responseData.parseData(MyCoupleResponse.class);
             MyCoupleResponse response = (MyCoupleResponse) responseData.parsedData;
             mView.getCouponListRequestSuccess(response);
-        } else if (responseData.resultCode == 100401 || responseData.resultCode == 100107) {
-            mView.clearSwitchToLogin();
         } else {
             mView.showToast(responseData.errorDesc);
         }
