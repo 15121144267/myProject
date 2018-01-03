@@ -62,6 +62,7 @@
         android:icon="@mipmap/freemud_logo_new"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
 
         <provider

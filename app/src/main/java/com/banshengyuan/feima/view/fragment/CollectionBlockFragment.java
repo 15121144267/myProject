@@ -19,8 +19,8 @@ import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
+import com.banshengyuan.feima.view.activity.BlockDetailActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
-import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.CollectionBlockAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -91,7 +91,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_collection_view,imageView);
+        mImageLoaderHelper.displayImage(getActivity(), R.mipmap.empty_collection_view, imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.connection_street_empty_view);
@@ -101,7 +101,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             MyCollectionBlockResponse.ListBean bean = (MyCollectionBlockResponse.ListBean) adapter.getItem(position);
             if (bean != null) {
-                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.getId()));
+                startActivity(BlockDetailActivity.getIntent(getActivity(), bean.getId()));
             }
         });
     }
