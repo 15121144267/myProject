@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,11 +21,17 @@ import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.help.GlideLoader;
+import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
+import com.youth.banner.Banner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,14 +48,20 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     @BindView(R.id.join)
     RadiusTextView join;
-    @BindView(R.id.fair_detail_image)
-    ImageView fairDetailImage;
     @BindView(R.id.fair_detail_webcontent)
     TextView fairDetailWebcontent;
-    @BindView(R.id.back)
-    ImageView back;
     @BindView(R.id.fair_detail_collection)
     ImageView fairDetailCollection;
+    @BindView(R.id.block_detail_banner)
+    Banner mBlockDetailBanner;
+    @BindView(R.id.middle_name)
+    TextView mMiddleName;
+    @BindView(R.id.toolbar_right_icon)
+    ImageView mToolbarRightIcon;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     public static Intent getIntent(Context context, String fId) {
         Intent intent = new Intent(context, FairProductDetailActivity.class);
@@ -69,6 +84,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         SystemStatusManager.setbannerStatus(this);
         setContentView(R.layout.activity_fairproduct_detail);
         ButterKnife.bind(this);
+        supportActionBar(mToolbar, true);
         initializeInjector();
         initView();
         initData();
@@ -104,6 +120,28 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (getIntent() != null) {
             fId = getIntent().getStringExtra("fId");
         }
+
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mMiddleName.setVisibility(View.GONE);
+                    mToolbar.setNavigationIcon(R.mipmap.arrow_left);
+                    mToolbarRightIcon.setImageResource(R.mipmap.share_white);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    mToolbar.setNavigationIcon(R.drawable.vector_arrow_left);
+                    mToolbarRightIcon.setImageResource(R.mipmap.common_share);
+                    mMiddleName.setVisibility(View.VISIBLE);
+                    mMiddleName.setText("热闹详情");
+                } else {
+                    //中间状态
+                    mMiddleName.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -160,8 +198,16 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         HotFairDetailResponse.InfoBean infoBean = response.getInfo();
         if (infoBean != null) {
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
+//            RichText.from(response.getInfo().getContent()).into(fairDetailWebcontent);
             ValueUtil.setHtmlContent(this,response.getInfo().getContent(),fairDetailWebcontent);
-            mImageLoaderHelper.displayImage(this, response.getInfo().getCover_img(), fairDetailImage);
+            List<String> list = new ArrayList<>();
+            if (!TextUtils.isEmpty(infoBean.getCover_img())) {
+                list.add(infoBean.getCover_img());
+                mBlockDetailBanner.setImages(list).setImageLoader(new GlideLoader()).start();
+            } else {
+                mBlockDetailBanner.setBackground(ContextCompat.getDrawable(this, R.color.white));
+            }
+//            mImageLoaderHelper.displayImage(this, response.getInfo().getCover_img(), fairDetailImage);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 order_sn = response.getInfo().getOrder_sn();
                 mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询
@@ -206,14 +252,14 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     }
 
-    @OnClick({R.id.join, R.id.back, R.id.fair_detail_collection})
+    @OnClick({R.id.join, R.id.toolbar_right_icon, R.id.fair_detail_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.join:
                 join();
                 break;
-            case R.id.back:
-                finish();
+            case R.id.toolbar_right_icon:
+                //分享
                 break;
             case R.id.fair_detail_collection:
                 mPresenter.requestHotFairCollection(String.valueOf(hotFairDetailResponse.getInfo().getId()), token);
@@ -225,4 +271,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         startActivityForResult(LoginActivity.getLoginIntent(FairProductDetailActivity.this), IntentConstant.ORDER_POSITION_ONE);
     }
 
+    @OnClick()
+    public void onViewClicked() {
+    }
 }

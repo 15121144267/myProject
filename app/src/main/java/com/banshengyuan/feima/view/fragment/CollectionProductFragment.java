@@ -92,7 +92,7 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.empty_collection_view);
+        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_collection_view,imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.connection_products_empty_view);

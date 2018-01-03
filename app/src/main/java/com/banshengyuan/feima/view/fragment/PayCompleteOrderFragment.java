@@ -156,8 +156,6 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        showToast("2222");
-        LogUtils.i("requestCode=" + requestCode + "  resultCode=" + resultCode);
         if (requestCode == IntentConstant.ORDER_TO_ORDERDETAIL && resultCode == RESULT_OK) {
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
@@ -172,7 +170,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.enpty_order_view);
+        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.enpty_order_view,imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.GONE);
         emptyContent.setText(R.string.waitdelivery_order_empty_view);

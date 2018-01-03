@@ -76,14 +76,6 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     @Override
     public void querySuccess(List<OrderNotice> list) {
-//        dismissLoading();
-//        Collections.sort(list, (o1, o2) -> {
-//            if (o1.getOrderTime().before(o2.getOrderTime())) {
-//                return 1;
-//            }
-//            return -1;
-//        });
-//        mNoticeAdapter.setNewData(list);
     }
 
     @Override

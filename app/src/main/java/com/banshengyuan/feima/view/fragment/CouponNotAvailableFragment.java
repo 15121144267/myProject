@@ -86,13 +86,13 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CouponAdapter(null, getActivity());
+        mAdapter = new CouponAdapter(null, getActivity(),mImageLoaderHelper);
         mAdapter.setOnLoadMoreListener(this, mCouponCommonList);
         mCouponCommonList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.empty_couple_view);
+        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_couple_view,imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.couple_used_empty_view);

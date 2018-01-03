@@ -87,13 +87,13 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
 
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new CouponAdapter(null, getActivity());
+        mAdapter = new CouponAdapter(null, getActivity(),mImageLoaderHelper);
         mAdapter.setOnLoadMoreListener(this,mCouponCommonList);
         mCouponCommonList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.empty_couple_view);
+        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_couple_view,imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.GONE);
         emptyContent.setText(R.string.couple_expired_empty_view);

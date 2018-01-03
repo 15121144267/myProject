@@ -5,7 +5,9 @@ import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
+import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.TimeUtil;
+import com.bumptech.glide.Glide;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
@@ -14,10 +16,12 @@ import java.util.List;
 
 public class CouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListBean, BaseViewHolder> {
     private final Context mContext;
+    private ImageLoaderHelper mImageLoaderHelper;
 
-    public CouponAdapter(List<MyCoupleResponse.ListBean> mList, Context context) {
+    public CouponAdapter(List<MyCoupleResponse.ListBean> mList, Context context, ImageLoaderHelper imageLoaderHelper) {
         super(R.layout.adapter_coupon_item, mList);
         mContext = context;
+        mImageLoaderHelper = imageLoaderHelper;
     }
 
     @Override
@@ -25,16 +29,16 @@ public class CouponAdapter extends BaseQuickAdapter<MyCoupleResponse.ListBean, B
         ImageView imageView = helper.getView(R.id.adapter_coupon_image);
         switch (item.getStatus()) {
             case 1:
-                imageView.setImageResource(R.mipmap.nouse_couple_bg);
+                mImageLoaderHelper.displayImage(mContext,R.mipmap.nouse_couple_bg,imageView);
                 break;
             case 2:
-                imageView.setImageResource(R.mipmap.used_couple_bg);
+                mImageLoaderHelper.displayImage(mContext,R.mipmap.used_couple_bg,imageView);
                 break;
             case 3:
-                imageView.setImageResource(R.mipmap.expired_couple_bg);
+                mImageLoaderHelper.displayImage(mContext,R.mipmap.expired_couple_bg,imageView);
                 break;
             default:
-                imageView.setImageResource(R.mipmap.expired_couple_bg);
+                mImageLoaderHelper.displayImage(mContext,R.mipmap.expired_couple_bg,imageView);
                 break;
         }
 

@@ -122,7 +122,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
 
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mAddressList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.empty_address_view);
+        mImageLoaderHelper.displayImage(this,R.mipmap.empty_address_view,imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.mime_address_empty_view);

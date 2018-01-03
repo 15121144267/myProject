@@ -368,6 +368,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     //生成二维码
                     getCodeBitmap(code);
                 }
+
             } else if (infoBean.getOrder_type() == 3) {//线下付款
                 orderAddressLayout.setVisibility(View.GONE);
                 orderZtLayout.setVisibility(View.GONE);
@@ -377,18 +378,20 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 //                mImageLoaderHelper.displayRoundedCornerImage(this,goodsListBean.get);
                 unlinepayStorename.setText(goodsListBean.getStore_name());
 
-
-//                mImageLoaderHelper.displayRoundedCornerImage(OrderDetailActivity.this,infoBean.get);
-                Integer totalPrice = infoBean.getTotal_fee();
+                Integer totalPrice = 0;
                 Integer transPrice = infoBean.getFreight();
-                Integer shouldPrice = 0;
+                Integer shouldPrice = infoBean.getTotal_fee();
+
+                for (OrderDetailResponse.GoodsListBean.ProductBean productBean :mList){
+                    totalPrice = totalPrice +productBean.getGoods_price();
+                }
 
                 String priceTotal = "￥" + ValueUtil.formatAmount4(totalPrice);
                 unlinepayTotalPrice.setText(priceTotal);
 
                 unlinepayDiscountPrice.setText("-￥" + ValueUtil.formatAmount4(transPrice));
 
-                shouldPrice = totalPrice - transPrice;
+//                shouldPrice = totalPrice - transPrice;
                 unlinepayFinalPrice.setText("￥" + ValueUtil.formatAmount4(shouldPrice));
             }
             adapter.setNewData(mList);

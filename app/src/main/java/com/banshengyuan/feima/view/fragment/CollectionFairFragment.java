@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
@@ -92,6 +93,8 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_collection_view,imageView);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.connection_fair_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);

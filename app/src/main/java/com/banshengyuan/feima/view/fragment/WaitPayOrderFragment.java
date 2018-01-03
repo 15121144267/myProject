@@ -166,7 +166,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.enpty_order_view);
+        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.enpty_order_view,imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.nopay_order_empty_view);
