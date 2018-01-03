@@ -166,8 +166,17 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     protected void onNewIntent(Intent intent) {
-        mViewBottomNavigation.setSelectedItemId(R.id.action_one);
         super.onNewIntent(intent);
+        setIntent(intent);
+        Integer code = intent.getIntExtra("codeFlag", 0);
+        if (code != 0) {
+            if (code == 11) {
+                mViewBottomNavigation.setSelectedItemId(R.id.action_four);
+                startActivity(MyOrderActivity.getIntent(this));
+            }
+        } else {
+            mViewBottomNavigation.setSelectedItemId(R.id.action_one);
+        }
     }
 
     private void showDialog() {

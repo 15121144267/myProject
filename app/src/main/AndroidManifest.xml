@@ -240,7 +240,6 @@
 
         <activity
             android:name=".view.activity.NoticeCenterActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             />
 

@@ -202,6 +202,13 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
         }
     }
 
+    public Intent getSingTaskMainIntent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
+
     private final ObservableTransformer schedulersTransformer = (observable) -> (
             observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()));

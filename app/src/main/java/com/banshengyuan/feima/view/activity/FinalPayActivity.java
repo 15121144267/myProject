@@ -86,7 +86,10 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
 
     @Override
     public void orderPaySuccess() {
-
+        Intent i = getSingTaskMainIntent();
+        i.putExtra("codeFlag", 11);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -103,9 +106,14 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
             if (mActivityType != null) {
                 if (mActivityType.equals("OrderFragment")) {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));
-                }  else if (mActivityType.equals("OrderDetailActivity")) {
+                } else if (mActivityType.equals("OrderDetailActivity")) {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderDetailActivity));
                 }
+                finish();
+            } else {
+                Intent i = getSingTaskMainIntent();
+                i.putExtra("codeFlag", 11);
+                startActivity(i);
                 finish();
             }
         }
