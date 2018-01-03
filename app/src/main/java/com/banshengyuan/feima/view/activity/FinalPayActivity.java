@@ -89,7 +89,6 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
         Intent i = getSingTaskMainIntent();
         i.putExtra("codeFlag", 11);
         startActivity(i);
-        finish();
     }
 
     @Override
@@ -114,7 +113,6 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
                 Intent i = getSingTaskMainIntent();
                 i.putExtra("codeFlag", 11);
                 startActivity(i);
-                finish();
             }
         }
     }
