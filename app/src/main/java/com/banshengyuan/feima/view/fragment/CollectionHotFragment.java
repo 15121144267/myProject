@@ -19,6 +19,7 @@ import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
+import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.ExChangeAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
@@ -96,7 +97,12 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
         emptyContent.setText(R.string.connection_hot_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
-
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            ExChangeResponse.ListBean bean = (ExChangeResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId())));
+            }
+        });
     }
 
 
@@ -153,9 +159,9 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
 
     @Override
     public void onLoadMoreRequested() {
-        if(mPagerNo==1 && mList.size() < mPagerSize){
+        if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
-        }else {
+        } else {
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {

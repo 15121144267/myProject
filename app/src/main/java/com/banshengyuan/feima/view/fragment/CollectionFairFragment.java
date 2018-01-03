@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
@@ -20,6 +19,7 @@ import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionFairControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.CollectionFairAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -87,7 +87,7 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     private void initView() {
         mCouponCommonList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new CollectionFairAdapter(null, getActivity(), mImageLoaderHelper);
-        mAdapter.setOnLoadMoreListener(this,mCouponCommonList);
+        mAdapter.setOnLoadMoreListener(this, mCouponCommonList);
         mCouponCommonList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
@@ -96,6 +96,13 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
         emptyContent.setText(R.string.connection_fair_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            MyCollectionFairResponse.ListBean bean = (MyCollectionFairResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.getId()));
+            }
+        });
     }
 
 
@@ -153,9 +160,9 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
 
     @Override
     public void onLoadMoreRequested() {
-        if(mPagerNo==1 && mList.size() < mPagerSize){
+        if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
-        }else {
+        } else {
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {

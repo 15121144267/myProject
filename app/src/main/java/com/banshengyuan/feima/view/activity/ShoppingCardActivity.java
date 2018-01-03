@@ -247,7 +247,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mActivityShoppingCardList.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             ShoppingCardListResponse.ListBeanX product = mAdapter.getItem(position);
-            if(product!=null){
+            if (product != null) {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
                 switch (view.getId()) {
                     case R.id.adapter_shopping_card_check:
@@ -277,7 +277,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     private void setEmptyView() {
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        imageView.setImageResource(R.mipmap.empty_shopping_card);
+        mImageLoaderHelper.displayImage(this, R.mipmap.empty_shopping_card, imageView);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setText("去逛逛");
         RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));

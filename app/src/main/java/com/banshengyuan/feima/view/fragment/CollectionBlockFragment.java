@@ -20,6 +20,7 @@ import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.activity.WorkSummaryActivity;
 import com.banshengyuan.feima.view.adapter.CollectionBlockAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -96,6 +97,13 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
         emptyContent.setText(R.string.connection_street_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            MyCollectionBlockResponse.ListBean bean = (MyCollectionBlockResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.getId()));
+            }
+        });
     }
 
 
@@ -152,9 +160,9 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
 
     @Override
     public void onLoadMoreRequested() {
-        if(mPagerNo==1 && mList.size() < mPagerSize){
+        if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
-        }else {
+        } else {
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd(true);
             } else {

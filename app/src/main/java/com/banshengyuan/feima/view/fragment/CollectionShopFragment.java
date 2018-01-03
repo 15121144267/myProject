@@ -20,6 +20,7 @@ import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.CollectionShopResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionShopControl;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
+import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.CollectionShopAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
@@ -95,6 +96,13 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
         emptyContent.setText(R.string.connection_shop_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
+
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            CollectionShopResponse.ListBean bean = (CollectionShopResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(ShopProductDetailActivity.getActivityDetailIntent(getActivity(), bean.getId()));
+            }
+        });
     }
 
 

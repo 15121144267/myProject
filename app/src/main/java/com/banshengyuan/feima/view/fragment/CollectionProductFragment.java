@@ -19,10 +19,10 @@ import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
+import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
 import com.banshengyuan.feima.view.adapter.CollectionProductAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
-import com.example.mylibrary.listener.OnItemChildClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,17 +100,10 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
         emptyButton.setVisibility(View.GONE);
 
 
-        mCouponCommonList.addOnItemTouchListener(new OnItemChildClickListener() {
-            @Override
-            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.adapter_collection_product:
-                        showToast("pos=" + position);
-                        break;
-                    case R.id.adapter_product_addcart:
-                        showToast("addcart");
-                        break;
-                }
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            MyCollectionProductsResponse.ListBean bean = (MyCollectionProductsResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(GoodDetailActivity.getIntent(getActivity(), bean.getId()));
             }
         });
     }
@@ -169,9 +162,9 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
 
     @Override
     public void onLoadMoreRequested() {
-        if(mPagerNo==1 && mList.size() < mPagerSize){
+        if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
-        }else {
+        } else {
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
