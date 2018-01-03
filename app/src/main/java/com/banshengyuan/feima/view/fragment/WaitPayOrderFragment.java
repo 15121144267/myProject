@@ -21,7 +21,6 @@ import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -177,13 +176,13 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
                     mPos = position;
-                    mOrderSn = listBean.getOrder_sn();
+                    mOrderSn = listBean != null ? listBean.getOrder_sn() : null;
                     switch (view.getId()) {
                         case R.id.mime_order_lv:
                             startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));
                             break;
                         case R.id.order_left_btn:
-                            if (listBean.getOrder_type() == 1) {
+                            if ((listBean != null ? listBean.getOrder_type() : 0) == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//取消订单
                                     mPresenter.requestCancelOrder(mOrderSn, mToken);
@@ -206,7 +205,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                             }
                             break;
                         case R.id.order_right_btn:
-                            if (listBean.getOrder_type() == 1) {
+                            if ((listBean != null ? listBean.getOrder_type() : 0) == 1) {
                                 //线上
                                 if (listBean.getPay_status() == 1) {//立即付款
                                     startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));

@@ -20,7 +20,6 @@ import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.view.PresenterControl.OrderCompleteControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
-import com.banshengyuan.feima.view.activity.FinalPayActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
 import com.banshengyuan.feima.view.adapter.MyOrdersAdapter;
@@ -87,12 +86,6 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
     public void onLoadMoreRequested() {
         if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
@@ -155,7 +148,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
                     mPos = position;
-                    mOrderSn = listBean.getOrder_sn();
+                    mOrderSn = listBean != null ? listBean.getOrder_sn() : null;
                     switch (view.getId()) {
                         case R.id.mime_order_lv:
                             startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));

@@ -37,7 +37,7 @@ public interface MainApi {
     @GET("api/fair")
     Observable<String> recommendBottomRequest(@Query("is_recommend") Integer is_recommend, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
-    @GET("api/fair-category")
+    @GET("api/fair")
     Observable<String> requestFairBottom(@Query("order_by") String orderBy, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/street")

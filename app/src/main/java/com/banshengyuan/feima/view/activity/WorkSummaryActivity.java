@@ -158,6 +158,17 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     public void getFairDetailSuccess(FairContentDetailResponse response) {
         if (response.info != null) {
             mInfoBean = response.info;
+            if (mInfoBean.is_collection == 1) {
+                ValueUtil.setTextDrawable(this, mFairDetailCollection, R.mipmap.shop_detail_collection, 2);
+            } else {
+                ValueUtil.setTextDrawable(this, mFairDetailCollection, R.mipmap.shop_detail_uncollection, 2);
+            }
+
+            if (mInfoBean.is_zan == 1) {
+                ValueUtil.setTextDrawable(this, mFairDetailPraise, R.mipmap.praise_icon_check, 2);
+            } else {
+                ValueUtil.setTextDrawable(this, mFairDetailPraise, R.mipmap.praise_icon, 2);
+            }
             mFairDetailTitle.setText(mInfoBean.name);
             mFairDetailReadCount.setText(" " + mInfoBean.read_count + "");
             mFairDetailComment.setText("" + mInfoBean.comment_count + " 评论");

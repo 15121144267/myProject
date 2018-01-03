@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -47,6 +48,8 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     RecyclerView mFairBrandRecycleView;
     @BindView(R.id.fair_hot_recycle_view)
     RecyclerView mFairHotRecycleView;
+    @BindView(R.id.fair_hot_text_view)
+    TextView mFairHotTextView;
 
     public static MainFairFragment newInstance() {
         return new MainFairFragment();
@@ -130,6 +133,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     @Override
     public void getFairBottomFail() {
         mFairHotRecycleView.setVisibility(View.GONE);
+        mFairHotTextView.setVisibility(View.GONE);
     }
 
     private void initData() {

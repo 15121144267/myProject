@@ -24,8 +24,6 @@ public class MagicMusicHotAdapter extends BaseQuickAdapter<MusicListResponse.Hot
 
     @Override
     protected void convert(BaseViewHolder helper, MusicListResponse.HotBean item) {
-        if (item == null) return;
-        helper.setText(R.id.adapter_magic_music_text, item.name);
         ImageView imageView = helper.getView(R.id.adapter_magic_music_background);
         mImageLoaderHelper.displayImage(mContext,item.cover_img,imageView);
     }

@@ -44,6 +44,8 @@ public class FairContentDetailResponse implements Serializable {
         public int collected_count;
         public int zan_count;
         public int street_id;
+        public int is_collection;
+        public int is_zan;
         public String street_name;
         public String category_1_id;
         public String category_2_id;

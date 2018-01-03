@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCollectionActivityComponent;
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
+import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.CollectionControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.fragment.CollectionBlockFragment;
@@ -107,6 +108,7 @@ public class MyCollectionActivity extends BaseActivity implements CollectionCont
         mCouponViewpager.setOffscreenPageLimit(mFragments.size() - 1);
         mCouponViewpager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mCouponViewpager);
+        ValueUtil.setIndicator(mTabLayout, 15, 15);
     }
 
     private void initializeInjector() {

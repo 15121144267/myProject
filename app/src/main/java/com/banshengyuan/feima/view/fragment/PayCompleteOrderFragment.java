@@ -182,7 +182,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
                     mPos = position;
-                    mOrderSn = listBean.getOrder_sn();
+                    mOrderSn = listBean != null ? listBean.getOrder_sn() : null;
                     switch (view.getId()) {
                         case R.id.mime_order_lv:
 //                            startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));

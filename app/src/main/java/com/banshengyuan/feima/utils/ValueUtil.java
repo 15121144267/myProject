@@ -58,9 +58,7 @@ public class ValueUtil {
             mDigest.update(info.getBytes("UTF-8"));
             // 计算摘要
             digesta = mDigest.digest();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
@@ -408,7 +406,6 @@ public class ValueUtil {
         switch (position) {
             case 0:
                 textView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
-//                textView.setCompoundDrawables(drawable, null, null, null);
                 break;
             case 1:
                 textView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable, null, null);

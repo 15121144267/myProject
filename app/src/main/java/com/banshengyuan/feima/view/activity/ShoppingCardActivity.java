@@ -117,52 +117,54 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     @Override
     public void setChildAdapter(Integer parentPosition, ShoppingCardItemAdapter itemAdapter, CheckBox partnerCheckBox) {
-        ShoppingCardListResponse.ListBeanX mProduct = mAdapter.getItem(parentPosition);
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             mChildPosition = position;
+            ShoppingCardListResponse.ListBeanX mProduct = mAdapter.getItem(parentPosition);
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
             mChildProduct = itemAdapter.getItem(position);
-            switch (view.getId()) {
-                case R.id.item_shopping_card_check:
-                    if (!checkBox.isChecked()) {
-                        mChildProduct.childCheckFlag = false;
-                        if (mProduct.checkFlag) {
-                            partnerCheckBox.setChecked(false);
-                            mProduct.checkFlag = false;
-                            if (mActivityShoppingCardCheck.isChecked()) {
-                                mActivityShoppingCardCheck.setChecked(false);
+            if (mProduct != null && mChildPosition != null) {
+                switch (view.getId()) {
+                    case R.id.item_shopping_card_check:
+                        if (!checkBox.isChecked()) {
+                            mChildProduct.childCheckFlag = false;
+                            if (mProduct.checkFlag) {
+                                partnerCheckBox.setChecked(false);
+                                mProduct.checkFlag = false;
+                                if (mActivityShoppingCardCheck.isChecked()) {
+                                    mActivityShoppingCardCheck.setChecked(false);
+                                }
                             }
+                        } else {
+                            mChildProduct.childCheckFlag = true;
                         }
-                    } else {
-                        mChildProduct.childCheckFlag = true;
-                    }
 
-                    countPrice2(partnerCheckBox, mProduct);
-                    itemAdapter.setData(position, mChildProduct);
-                    break;
-                case R.id.item_shopping_card_reduce:
-                    Integer count = mChildProduct.number;
-                    if (count - 1 == 0) {
-                        showToast("宝贝不能再减少了哦");
-                    } else {
-                        mChildProduct.number = count - 1;
-                        requestProductNumber(mChildProduct, count, itemAdapter, position);
-                    }
-                    break;
-                case R.id.item_shopping_card_add:
-                    Integer count2 = mChildProduct.number;
-                    mChildProduct.number = count2 + 1;
-                    requestProductNumber(mChildProduct, count2, itemAdapter, position);
-                    break;
-                case R.id.item_shopping_card_delete:
-                case R.id.item_shopping_card__slip_delete:
-                    requestDeleteProduct(mChildProduct, itemAdapter, position,parentPosition);
-                    break;
-                case R.id.item_shopping_card_price:
-                case R.id.item_shopping_card_des:
-                case R.id.item_shopping_card_icon:
-                    startActivity(GoodDetailActivity.getIntent(this, mChildProduct.goods_id));
-                    break;
+                        countPrice2(partnerCheckBox, mProduct);
+                        itemAdapter.setData(position, mChildProduct);
+                        break;
+                    case R.id.item_shopping_card_reduce:
+                        Integer count = mChildProduct.number;
+                        if (count - 1 == 0) {
+                            showToast("宝贝不能再减少了哦");
+                        } else {
+                            mChildProduct.number = count - 1;
+                            requestProductNumber(mChildProduct, count, itemAdapter, position);
+                        }
+                        break;
+                    case R.id.item_shopping_card_add:
+                        Integer count2 = mChildProduct.number;
+                        mChildProduct.number = count2 + 1;
+                        requestProductNumber(mChildProduct, count2, itemAdapter, position);
+                        break;
+                    case R.id.item_shopping_card_delete:
+                    case R.id.item_shopping_card__slip_delete:
+                        requestDeleteProduct(mChildProduct, itemAdapter, position, parentPosition);
+                        break;
+                    case R.id.item_shopping_card_price:
+                    case R.id.item_shopping_card_des:
+                    case R.id.item_shopping_card_icon:
+                        startActivity(GoodDetailActivity.getIntent(this, mChildProduct.goods_id));
+                        break;
+                }
             }
 
         });
