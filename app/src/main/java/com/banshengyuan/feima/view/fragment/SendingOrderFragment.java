@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ import com.banshengyuan.feima.view.customview.MyNoScrollViewPager;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -67,7 +67,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
 
     private boolean showSearchLayout = true;
     private final String[] modules = {"市集", "产品", "商家"};
-    private HashMap<Integer, Integer> mHashMap;
+    private SparseIntArray mHashMap;
     @Inject
     SendingOrderControl.PresenterSendingOrder mPresenter;
     private Unbinder unbind;
@@ -95,13 +95,14 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
 
     @Override
     public void onMyEditorAction() {
-        String searchName = mSearchEdit.getEditText().trim();
-        startActivity(SearchActivity.getIntent(getActivity(), searchName));
+
     }
 
     @Override
     public void onMyTouchAction() {
-
+        hideSoftInput(mSearchEdit);
+        String searchName = mSearchEdit.getEditText().trim();
+        startActivity(SearchActivity.getIntent(getActivity(), searchName));
     }
 
     private void initData() {
@@ -109,12 +110,12 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     }
 
     private void initView() {
-        mHashMap = new HashMap<>();
+        mHashMap = new SparseIntArray();
         for (int i = 0; i < modules.length; i++) {
             mHashMap.put(i, 0);
         }
         mSearchEdit.setEditHint("请输入市集、街区、产品、商家");
-        mSearchEdit.setOnMyEditorActionListener(this, false);
+        mSearchEdit.setOnMyEditorActionListener(this, true);
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(FairFragment.newInstance());
         mFragments.add(ProductFragment.newInstance());

@@ -247,5 +247,3 @@
 -keep class com.tencent.mm.sdk.** {
    *;
 }
-
--keep class * com.banshengyuan.feima.help.GlideHelper.CustomCachingGlideModule

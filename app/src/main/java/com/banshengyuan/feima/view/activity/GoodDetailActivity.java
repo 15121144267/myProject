@@ -235,6 +235,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         orderConfirm.add(product);
         response.list = orderConfirm;
         startActivity(PayActivity.getIntent(this, response, 1));
+        mDialog.closeDialog();
+
     }
 
     @Override

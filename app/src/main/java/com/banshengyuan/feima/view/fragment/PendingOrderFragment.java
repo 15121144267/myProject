@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,6 @@ import com.banshengyuan.feima.view.customview.MyNoScrollViewPager;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -72,7 +72,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     private Unbinder unbinder;
     private boolean showSearchLayout = true;
     private final String[] modules = {"推荐", "市集", "街景", "魔门"};
-    private HashMap<Integer, Integer> mHashMap;
+    private SparseIntArray mHashMap;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,17 +91,19 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
 
     @Override
     public void onMyEditorAction() {
-        String searchName = mSearchEdit.getEditText().trim();
-        startActivity(SearchActivity.getIntent(getActivity(),searchName));
+
+
     }
 
     @Override
     public void onMyTouchAction() {
-
+        hideSoftInput(mSearchEdit);
+        String searchName = mSearchEdit.getEditText().trim();
+        startActivity(SearchActivity.getIntent(getActivity(), searchName));
     }
 
     private void initView() {
-        mHashMap = new HashMap<>();
+        mHashMap = new SparseIntArray();
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(RecommendFragment.newInstance());
         mFragments.add(MainFairFragment.newInstance());
@@ -119,7 +121,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         });
         RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
-        mSearchEdit.setOnMyEditorActionListener(this, false);
+        mSearchEdit.setOnMyEditorActionListener(this, true);
         mSearchEdit.setEditHint("请输入市集、街区、产品、商家");
 
         for (int i = 0; i < modules.length; i++) {

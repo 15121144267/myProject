@@ -264,7 +264,6 @@ public class ClearEditText extends LinearLayout {
         if (!isAlwaysShowDeleteBtn) {
             mBtnClear.setVisibility(View.GONE);
         }
-        editText.requestFocus();
     }
 
     public void setEditGravity(int gravityId) {
