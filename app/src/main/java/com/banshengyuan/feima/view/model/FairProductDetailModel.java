@@ -1,7 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.entity.HotFariJoinActionRequest;
-import com.banshengyuan.feima.entity.HotFariStateRequest;
 import com.banshengyuan.feima.network.networkapi.FairProductDetailApi;
 import com.google.gson.Gson;
 

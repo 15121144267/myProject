@@ -1,11 +1,8 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.PersonInfoRequest;
 import com.banshengyuan.feima.entity.PersonInfoResponse;
-import com.banshengyuan.feima.entity.UpdatePersonInfoRequest;
 import com.banshengyuan.feima.network.networkapi.PersonCenterApi;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;

@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.network.networkapi.CollectionApi;
 import com.google.gson.Gson;
 

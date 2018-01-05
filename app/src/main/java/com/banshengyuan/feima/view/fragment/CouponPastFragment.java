@@ -17,7 +17,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerCouponFragmentComponent;
 import com.banshengyuan.feima.dagger.module.CoupleActivityModule;
 import com.banshengyuan.feima.dagger.module.CouponFragmentModule;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.view.PresenterControl.CouponPastAvailableControl;
 import com.banshengyuan.feima.view.activity.CoupleActivity;

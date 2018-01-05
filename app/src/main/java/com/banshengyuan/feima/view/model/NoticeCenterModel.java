@@ -1,10 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.database.OrderNotice;
-import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.QueryParam;
-import com.banshengyuan.feima.gen.OrderNoticeDao;
-import com.banshengyuan.feima.network.networkapi.MyOrderApi;
 import com.banshengyuan.feima.network.networkapi.NoticeApi;
 import com.google.gson.Gson;
 

@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerSetNewPasswordActivityComponent;
 import com.banshengyuan.feima.dagger.module.SetNewPasswordActivityModule;
-import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.SetPasswordRequest;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.SetNewPasswordControl;
 import com.jakewharton.rxbinding2.view.RxView;
 

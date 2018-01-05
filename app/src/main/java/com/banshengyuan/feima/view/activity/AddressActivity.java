@@ -20,7 +20,6 @@ import com.banshengyuan.feima.dagger.component.DaggerAddressActivityComponent;
 import com.banshengyuan.feima.dagger.module.AddressActivityModule;
 import com.banshengyuan.feima.entity.AddAddressRequest;
 import com.banshengyuan.feima.entity.AddressResponse;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.SpConstant;
 import com.banshengyuan.feima.help.DialogFactory;

@@ -5,7 +5,6 @@ import android.widget.EditText;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
-import com.banshengyuan.feima.entity.NoticeResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.listener.MyTextWatchListener;
 import com.example.mylibrary.adapter.BaseQuickAdapter;

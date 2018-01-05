@@ -53,9 +53,8 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     @BindView(R.id.search_view_pager)
     ViewPager mSearchViewPager;
 
-    public static Intent getIntent(Context context, String searchName) {
+    public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra("searchName", searchName);
         return intent;
     }
 
@@ -63,7 +62,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     SearchControl.PresenterSearch mPresenter;
 
     private final String[] modules = {"市集", "产品", "商家", "街区"};
-    private String searchName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,8 +87,8 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     }
 
     private void initView() {
-        searchName = getIntent().getStringExtra("searchName");
-        mSearchGoods.setEditText(searchName);
+        mSearchGoods.setEditHint("请输入市集、街区、产品、商家");
+        mSearchGoods.setLinearBackgroundResource(R.drawable.shape_line_blod2);
         List<Fragment> mFragments = new ArrayList<>();
         mFragments.add(SearchFairFragment.newInstance());
         mFragments.add(SearchProductFragment.newInstance());
@@ -104,10 +102,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
 
         mSearchGoods.setOnMyEditorActionListener(this, false);
         RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());
-    }
-
-    public String getSearchName() {
-        return searchName;
     }
 
     private void initData() {

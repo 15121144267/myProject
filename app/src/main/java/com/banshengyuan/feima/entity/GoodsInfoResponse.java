@@ -39,6 +39,7 @@ public class GoodsInfoResponse implements Serializable {
         public String content;
         public boolean is_collected;
         public String main_sku;
+        public String shop_cover_img;
         public int stock;
         public int freight;
         public int shipping_price;
@@ -61,6 +62,7 @@ public class GoodsInfoResponse implements Serializable {
             public String location;
             public String name;
             public String mobile;
+            public String shop_cover_img;
         }
 
         public static class OtherSpecBean {

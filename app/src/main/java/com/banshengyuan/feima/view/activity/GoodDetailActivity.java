@@ -159,6 +159,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             if (store != null) {
                 mGoodsDetailAddress.setText(TextUtils.isEmpty(store.location) ? "未知" : store.location);
                 mGoodsDetailShopName.setText(TextUtils.isEmpty(store.name) ? "未知" : store.name);
+                mImageLoaderHelper.displayImage(this,store.shop_cover_img,mGoodsDetailShopIcon);
             }
             if (!TextUtils.isEmpty(mInfoBean.content)) {
                 ValueUtil.setHtmlContent(this, mInfoBean.content, mGoodsDetailHtml);
@@ -236,7 +237,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         response.list = orderConfirm;
         startActivity(PayActivity.getIntent(this, response, 1));
         mDialog.closeDialog();
-
     }
 
     @Override

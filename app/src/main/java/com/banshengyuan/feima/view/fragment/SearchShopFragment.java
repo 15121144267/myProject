@@ -19,8 +19,8 @@ import com.banshengyuan.feima.dagger.module.SearchFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.SearchResultResponse;
 import com.banshengyuan.feima.view.PresenterControl.SearchControl;
-import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.SearchActivity;
+import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.SearchShopAdapter;
 
 import javax.inject.Inject;
@@ -56,7 +56,6 @@ public class SearchShopFragment extends BaseFragment implements SearchControl.Se
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        mSearchName = ((SearchActivity) getActivity()).getSearchName();
     }
 
     @Nullable
@@ -92,7 +91,7 @@ public class SearchShopFragment extends BaseFragment implements SearchControl.Se
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             SearchResultResponse.ListBean bean = (SearchResultResponse.ListBean) adapter.getItem(position);
             if (bean != null) {
-                startActivity(GoodDetailActivity.getIntent(getActivity(), bean.id));
+                startActivity(ShopProductDetailActivity.getActivityDetailIntent(getActivity(), bean.id));
             }
         });
     }

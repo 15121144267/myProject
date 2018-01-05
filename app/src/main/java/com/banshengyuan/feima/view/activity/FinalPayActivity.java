@@ -143,7 +143,7 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
         mOrderSn = getIntent().getStringExtra("order_sn");
         mOrderType = getIntent().getIntExtra("order_type", 0);
         mPayChoiceGroup.setOnCheckedChangeListener(this);
-        RxView.clicks(mFinalPayPay).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+        RxView.clicks(mFinalPayPay).throttleFirst(5, TimeUnit.SECONDS).subscribe(o -> {
             if (payType != 0) {
                 mPresenter.requestPayInfo(mOrderSn, payType, mOrderType);
             } else {

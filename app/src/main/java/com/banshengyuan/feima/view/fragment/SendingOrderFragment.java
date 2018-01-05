@@ -101,8 +101,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     @Override
     public void onMyTouchAction() {
         hideSoftInput(mSearchEdit);
-        String searchName = mSearchEdit.getEditText().trim();
-        startActivity(SearchActivity.getIntent(getActivity(), searchName));
+        startActivity(SearchActivity.getIntent(getActivity()));
     }
 
     private void initData() {

@@ -7,7 +7,6 @@ import com.banshengyuan.feima.entity.AddressResponse;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
-import com.banshengyuan.feima.entity.PayAccessRequest;
 import com.banshengyuan.feima.view.PresenterControl.PayControl;
 import com.banshengyuan.feima.view.model.PayModel;
 import com.banshengyuan.feima.view.model.ResponseData;

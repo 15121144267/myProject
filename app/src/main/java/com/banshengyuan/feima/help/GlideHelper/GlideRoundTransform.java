@@ -34,9 +34,9 @@ public class GlideRoundTransform extends BitmapTransformation {
     private static Bitmap roundCrop(BitmapPool pool, Bitmap source) {
         if (source == null) return null;
 
-        Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.RGB_565);
+        Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         if (result == null) {
-            result = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.RGB_565);
+            result = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         }
 
         Canvas canvas = new Canvas(result);

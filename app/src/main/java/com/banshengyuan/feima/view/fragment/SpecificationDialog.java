@@ -122,8 +122,8 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogAddGoods.setEnabled(true);
         mStock = infoBean.stock;
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), infoBean.img, mDialogPersonIcon, 4);
-        mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(infoBean.price));
-        mDialogGoodsChoiceCount.setText("库存:" + infoBean.stock);
+        mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(infoBean.price)+"");
+        mDialogGoodsChoiceCount.setText("库存:" + infoBean.stock+"");
     }
 
     @Override
@@ -159,13 +159,13 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogBuyGoods.setText("确定");
         }
         if (mSkuInfoBean == null) {
-            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price));
+            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price)+"");
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.top_img.get(0), mDialogPersonIcon, 6);
-            mDialogGoodsChoiceCount.setText("库存:" + mInfoBean.stock);
+            mDialogGoodsChoiceCount.setText("库存:" + mInfoBean.stock+"");
         } else {
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mSkuInfoBean.img, mDialogPersonIcon, 4);
-            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mSkuInfoBean.price));
-            mDialogGoodsChoiceCount.setText("库存:" + mSkuInfoBean.stock);
+            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mSkuInfoBean.price)+"");
+            mDialogGoodsChoiceCount.setText("库存:" + mSkuInfoBean.stock+"");
         }
         if (mSelectProMap != null) {
             setTextContent();

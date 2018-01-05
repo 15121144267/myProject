@@ -110,6 +110,7 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
     }
 
     private void initData() {
+
         mPresenter.requestStoreProductList(mShopId, mPage, mPageSize);
     }
 
@@ -117,7 +118,7 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mAdapter = new FairDetailNewAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
-        mAdapter.setOnLoadMoreListener(this,mFragmentTrendsListLast);
+        mAdapter.setOnLoadMoreListener(this, mFragmentTrendsListLast);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ShopDetailProductListResponse.ListBean bean = (ShopDetailProductListResponse.ListBean) adapter.getItem(position);
             if (bean != null) {

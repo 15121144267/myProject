@@ -18,7 +18,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
@@ -52,7 +54,20 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         mPresenter.onCreate();
+        initView();
         initData();
+    }
+
+    private void initView() {
+        RxView.clicks(mWelcomeNumber).throttleFirst(5, TimeUnit.SECONDS).subscribe(o -> {
+            if (mHandler.hasMessages(1)) {
+                mHandler.removeMessages(1);
+            }
+            if (mShowGuideFinish) {
+                startActivity(MainActivity.getMainIntent(WelcomeActivity.this));
+                finish();
+            }
+        });
     }
 
     private void initData() {

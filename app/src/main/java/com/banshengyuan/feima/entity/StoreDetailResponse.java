@@ -33,6 +33,7 @@ public class StoreDetailResponse implements Serializable {
         public String mobile;
         public String summary;
         public boolean is_collected;
+        public boolean is_catering;
         public List<String> top_img;
     }
 }

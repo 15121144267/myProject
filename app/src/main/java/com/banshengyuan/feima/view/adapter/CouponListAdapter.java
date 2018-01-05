@@ -32,7 +32,7 @@ public class CouponListAdapter extends BaseQuickAdapter<ShopDetailCouponListResp
             helper.setText(R.id.adapter_coupon_price, "" + item.price * 10 + "");
             helper.setText(R.id.adapter_coupon_des, "领取即可用" + item.end_val * 10 + "折优惠券");
         }
-        if (item.is_received) {
+        if (item.is_received == 0) {
             helper.setBackgroundColor(R.id.adapter_coupon_background, ContextCompat.getColor(mContext, R.color.gray));
             helper.setText(R.id.adapter_coupon_state, "已经领取");
             helper.setEnable(R.id.adapter_coupon_state, false);

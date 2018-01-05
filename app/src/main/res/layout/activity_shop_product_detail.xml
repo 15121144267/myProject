@@ -82,6 +82,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/shop_detail_lay_out"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -153,8 +154,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/shop_detail_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="37dp"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -167,6 +167,7 @@
         android:textColor="@color/tab_text_normal"
         android:background="@drawable/button_common_right"
         android:gravity="center"
+        android:visibility="gone"
         android:text="优惠买单"/>
 
 </android.support.design.widget.CoordinatorLayout>

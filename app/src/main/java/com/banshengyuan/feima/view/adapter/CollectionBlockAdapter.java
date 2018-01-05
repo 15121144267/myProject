@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.entity.Constant;
 import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.example.mylibrary.adapter.BaseQuickAdapter;

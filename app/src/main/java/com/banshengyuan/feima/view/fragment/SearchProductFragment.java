@@ -53,7 +53,6 @@ public class SearchProductFragment extends BaseFragment implements SearchControl
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        mSearchName = ((SearchActivity) getActivity()).getSearchName();
     }
 
     @Nullable

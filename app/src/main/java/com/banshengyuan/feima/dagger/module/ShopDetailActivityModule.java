@@ -6,7 +6,6 @@ import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.ShopDetailApi;
-import com.banshengyuan.feima.network.networkapi.ShopDetailOtherApi;
 import com.banshengyuan.feima.view.PresenterControl.ShopDetailControl;
 import com.banshengyuan.feima.view.PresenterImpl.PresenterShopDetailImpl;
 import com.banshengyuan.feima.view.model.ModelTransform;

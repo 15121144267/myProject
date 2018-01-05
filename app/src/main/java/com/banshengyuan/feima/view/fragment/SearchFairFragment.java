@@ -56,7 +56,6 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        mSearchName = ((SearchActivity) getActivity()).getSearchName();
     }
 
     @Nullable

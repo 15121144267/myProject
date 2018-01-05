@@ -24,7 +24,6 @@ import com.example.mylibrary.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;

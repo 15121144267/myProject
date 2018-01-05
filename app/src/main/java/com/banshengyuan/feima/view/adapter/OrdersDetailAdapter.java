@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.view.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;

@@ -56,7 +56,6 @@ public class SearchBlockFragment extends BaseFragment implements SearchControl.S
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        mSearchName = ((SearchActivity) getActivity()).getSearchName();
     }
 
     @Nullable

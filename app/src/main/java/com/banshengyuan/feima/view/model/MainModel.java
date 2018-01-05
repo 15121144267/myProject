@@ -65,7 +65,7 @@ public class MainModel {
     }
 
     public Observable<ResponseData> allProductSortRequest() {
-        return mMainApi.allProductSortRequest().map(mTransform::transformCommon);
+        return mMainApi.allProductSortRequest(2, 1, 100).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeListRequest() {

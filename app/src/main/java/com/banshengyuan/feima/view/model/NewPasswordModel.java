@@ -1,6 +1,5 @@
 package com.banshengyuan.feima.view.model;
 
-import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.SetPasswordRequest;
 import com.banshengyuan.feima.network.networkapi.NewPasswordApi;
 import com.google.gson.Gson;

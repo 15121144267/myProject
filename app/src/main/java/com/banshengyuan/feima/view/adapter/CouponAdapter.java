@@ -7,7 +7,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.TimeUtil;
-import com.bumptech.glide.Glide;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 
