@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -278,8 +277,9 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(this, R.mipmap.empty_shopping_card, imageView);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
-        emptyButton.setText("去逛逛");
+        TextView emptyButton = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        emptyButton.setVisibility(View.VISIBLE);
+        emptyButton.setText("还没有选择商品,去逛逛吧");
         RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));
     }
 
