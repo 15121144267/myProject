@@ -72,7 +72,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     private ShoppingCardItemAdapter mShoppingCardItemAdapter;
     private Integer mChildPosition;
     private Integer mPartnerPosition;
-    private List<ShoppingCardListResponse.ListBeanX> mBeanXList;
     private ShoppingCardListResponse.ListBeanX.ListBean mChildProduct;
     private Integer originalNumber;
 
@@ -213,7 +212,6 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     public void shoppingCardListSuccess(ShoppingCardListResponse response) {
         if (response.list != null && response.list.size() > 0) {
             mToolbarRightText.setVisibility(View.VISIBLE);
-            mBeanXList = response.list;
             mActivityShoppingCardBottomView.setVisibility(View.VISIBLE);
             mAdapter.setNewData(response.list);
         } else {

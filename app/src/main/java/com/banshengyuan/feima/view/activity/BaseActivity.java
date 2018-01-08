@@ -134,8 +134,7 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
     public void showErrMessage(Throwable e) {
         dismissDialogLoading();
         String mErrMessage;
-        if (e instanceof HttpException || e instanceof ConnectException
-                || e instanceof RuntimeException) {
+        if (e instanceof HttpException || e instanceof ConnectException) {
             mErrMessage = getString(R.string.text_check_internet);
         } else {
             mErrMessage = getString(R.string.text_wait_try);
