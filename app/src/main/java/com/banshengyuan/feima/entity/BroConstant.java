@@ -18,4 +18,5 @@ public class BroConstant {
     public static final String ORDER_TO_ORDERDETAIL ="com.banshengyuan.feima.OrderDetailActivity";
     public static final String ORDER_TO_PAY_OrderFragment ="OrderFragment";
     public static final String ORDER_TO_PAY_OrderDetailActivity ="com.banshengyuan.feima.OrderDetailActivity";
+    public static final String ORDER_REFRESH ="AllOrderFragment";
 }

@@ -21,6 +21,7 @@ import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
@@ -90,7 +91,8 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Override
     void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment) ||
+                intent.getAction().equals(BroConstant.ORDER_REFRESH)) {
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -102,6 +104,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         super.addFilter();
         mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
         mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderFragment);
+        mFilter.addAction(BroConstant.ORDER_REFRESH);
     }
 
     @Override
@@ -127,10 +130,11 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
         if (mPagerNo == 1) {
-            if (mList.size() == 0) {
-                mAdapter.setEmptyView(mEmptyView);
-            } else {
+            if (mList!= null && mList.size()>0) {
                 mAdapter.setNewData(mList);
+            } else {
+                mAdapter.setNewData(null);
+                mAdapter.setEmptyView(mEmptyView);
             }
         } else {
             mAdapter.addData(mList);
@@ -186,7 +190,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.enpty_order_view,imageView);
+        mImageLoaderHelper.displayImage(getActivity(), R.mipmap.enpty_order_view, imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.all_order_empty_view);

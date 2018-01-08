@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="com.banshengyuan.feima.view.activity.ActionCodeActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.banshengyuan.feima.view.activity.ActionCodeActivity">
 
-    <include layout="@layout/toolbar_common"/>
+    <include layout="@layout/toolbar_common" />
 
-    <View style="@style/LineH_Fill_Width1_5_ForView"/>
+    <View style="@style/LineH_Fill_Width1_5_ForView" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -28,16 +28,15 @@
                 android:gravity="center_horizontal"
                 android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_26"/>
+                android:textSize="@dimen/sp_26" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
                 android:gravity="center_horizontal"
-                android:text="@string/app_default_des"
                 android:textColor="@color/color333"
-                android:textSize="@dimen/sp_20"/>
+                android:textSize="@dimen/sp_20" />
 
             <TextView
                 android:id="@+id/action_code_number"
@@ -50,7 +49,7 @@
                 android:gravity="center"
                 android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_20"/>
+                android:textSize="@dimen/sp_18" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,13 +61,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="时间："
-                    android:textSize="@dimen/sp_18"/>
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/action_code_date"
                     style="@style/textview"
                     android:text="@string/app_default_des"
-                    android:textSize="@dimen/sp_18"/>
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,13 +80,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="地点："
-                    android:textSize="@dimen/sp_18"/>
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/action_code_place"
                     style="@style/textview"
                     android:text="@string/app_default_des"
-                    android:textSize="@dimen/sp_18"/>
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
 
 
@@ -96,9 +95,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@mipmap/freemud_logo"/>
+                android:src="@mipmap/freemud_logo" />
 
-            <View style="@style/LineH_Fill_Width_10_ForView"/>
+            <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,13 +109,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="报名手机号："
-                    android:textSize="@dimen/sp_18"/>
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/action_code_phone"
                     style="@style/textview"
                     android:text="@string/app_default_des"
-                    android:textSize="@dimen/sp_18"/>
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
         </LinearLayout>
 
