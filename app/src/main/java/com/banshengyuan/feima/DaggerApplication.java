@@ -30,8 +30,6 @@ public class DaggerApplication extends Application {
     @Inject
     AMapLocationClientOption mAMapLocationClientOption;
 
-//    private String mUId;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,11 +38,6 @@ public class DaggerApplication extends Application {
         mAppComponent.inject(this);
         Utils.init(this);
         mBuProcessor.reSetUserData();
-        /*//本地服务
-        mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        if (!TextUtils.isEmpty(mUId)) {
-            startService(CustomerService.newIntent(getApplicationContext()));
-        }*/
         mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
         mAMapLocationClient.startLocation();
     }
@@ -55,15 +48,6 @@ public class DaggerApplication extends Application {
 
     public void transformLocation(AMapLocation aMapLocation) {
         this.aMapLocation = aMapLocation;
-        /*if (TextUtils.isEmpty(mUId)) {
-            mUId = mSharePreferenceUtil.getStringValue(SpConstant.USER_ID);
-        } else {
-            Intent intent = new Intent(CustomerService.ACTION);
-            intent.setClass(getApplicationContext(), CustomerService.class);
-            intent.putExtra(IntentConstant.LONGITUDE, aMapLocation.getLongitude());
-            intent.putExtra(IntentConstant.LATITUDE, aMapLocation.getLatitude());
-            startService(intent);
-        }*/
     }
 
     public AMapLocation getMapLocation() {

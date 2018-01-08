@@ -96,7 +96,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     private Integer mFairId;
     private FairContentDetailResponse.InfoBean mInfoBean;
     private Integer mProductCount = 0;
-    private View mHeadView;
     private TextView mHeadTextView;
     private Menu mMenu;
     private BaseQuickAdapter<FairContentDetailResponse.DetailBean.ProductBean, BaseViewHolder> mBaseAdapter;
@@ -230,7 +229,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     private void initView() {
         mFairId = getIntent().getIntExtra("fairId", 0);
-        mHeadView = mFairProductList.getHeaderView(0);
+        View mHeadView = mFairProductList.getHeaderView(0);
         mHeadTextView = (TextView) mHeadView.findViewById(R.id.product_count_title);
         mFairDetailProductList.setNestedScrollingEnabled(false);
         mToolbarRightIcon.setVisibility(View.VISIBLE);
