@@ -15,5 +15,5 @@ public interface GoodsClassifyApi {
     Observable<String> commentListRequest(@Path("id") String fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/all-fail-category")
-    Observable<String> allFairListRequest(@Query("flag") boolean flag);
+    Observable<String> allFairListRequest();
 }

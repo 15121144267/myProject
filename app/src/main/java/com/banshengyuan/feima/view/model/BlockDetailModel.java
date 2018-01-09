@@ -30,26 +30,25 @@ public class BlockDetailModel {
 
 
     public Observable<ResponseData> blockDetailRequest(Integer blockId) {
-        return mApi.blockDetailRequest(blockId,true).map(mTransform::transformCommon);
+        return mApi.blockDetailRequest(blockId).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> hotListRequest(Integer blockId ) {
-        return mApi.hotListRequest(blockId,1,3,true).map(mTransform::transformCommon);
+        return mApi.hotListRequest(blockId,1,3).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> fairListRequest(Integer blockId ) {
-        return mApi.fairListRequest(blockId,1,3,true).map(mTransform::transformCommon);
+        return mApi.fairListRequest(blockId,1,3).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeListRequest(Integer blockId ) {
-        return mApi.storeListRequest(blockId,1,3,true).map(mTransform::transformCommon);
+        return mApi.storeListRequest(blockId,1,3).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> streetCollectionRequest(String id, String type) {
         CollectionRequest request = new CollectionRequest();
         request.id = id;
         request.type = type;
-        request.flag = true;
         request.token = mBuProcessor.getUserToken();
         return mApi.streetCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }

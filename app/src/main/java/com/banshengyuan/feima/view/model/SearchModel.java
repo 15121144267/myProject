@@ -29,6 +29,6 @@ public class SearchModel {
 
 
     public Observable<ResponseData> requestSearchList(String searchName, String searchType) {
-        return mApi.requestSearchList(searchName, searchType, true).map(mTransform::transformCommon);
+        return mApi.requestSearchList(searchName, searchType).map(mTransform::transformCommon);
     }
 }

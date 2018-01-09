@@ -85,10 +85,10 @@ public class RetrofitUtil {
                 if (method.equals("GET")) {
                     HttpUrl httpUrlurl = request.url();
                     Set<String> parameterNames = httpUrlurl.queryParameterNames();
+
                     for (String key : parameterNames) {
                         rootMap.put(key, httpUrlurl.queryParameter(key));
                     }
-
                 } else {
                     RequestBody requestBody = request.body();
                     if (requestBody instanceof FormBody) {
@@ -108,6 +108,11 @@ public class RetrofitUtil {
                 String timestamp = String.valueOf(System.currentTimeMillis());
                 rootMap.put("timestamp", timestamp);
                 String sign = ValueUtil.getSign(rootMap);
+               /* if (!request.url().toString().contains("token")) {
+                    newRequest =  request.newBuilder().url(request.url() + "?token = 123").addHeader("ssapp-token", sign).build();
+                }else {
+
+                }*/
                 newRequest = request.newBuilder().addHeader("ssapp-token", sign).build();
                 return chain.proceed(newRequest);
             }

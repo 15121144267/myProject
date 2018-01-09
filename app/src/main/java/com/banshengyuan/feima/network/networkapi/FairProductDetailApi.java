@@ -1,7 +1,6 @@
 package com.banshengyuan.feima.network.networkapi;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -13,8 +12,6 @@ import retrofit2.http.Query;
  */
 
 public interface FairProductDetailApi {
-    @POST("member/deliveraddress")
-    Observable<String> addAddressRequest(@Body String request);
 
     @GET("api/hot/{id}")
     Observable<String> hotFairDetailRequest(@Path("id") String id,@Query("id") String id2,@Query("token") String token);

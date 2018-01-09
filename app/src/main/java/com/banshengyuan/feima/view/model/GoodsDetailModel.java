@@ -35,20 +35,19 @@ public class GoodsDetailModel {
 
 
     public Observable<ResponseData> goodInfoRequest(Integer productId) {
-        return mApi.goodInfoRequest(productId, true).map(mTransform::transformCommon);
+        return mApi.goodInfoRequest(productId).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> goodsCollectionRequest(String shopId, String type) {
         CollectionRequest request = new CollectionRequest();
         request.id = shopId;
         request.type = type;
-        request.flag = true;
         request.token = mBuProcessor.getUserToken();
         return mApi.goodsCollectionRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> goodInfoSpecificationRequest(Integer productId, String sku) {
-        return mApi.goodInfoSpecificationRequest(productId + "", sku, true).map(mTransform::transformCommon);
+        return mApi.goodInfoSpecificationRequest(productId + "", sku).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> requestAddShoppingCard(String productId, String sku, Integer count) {

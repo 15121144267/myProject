@@ -24,30 +24,24 @@ public class CollectionModel {
         mTransform = transform;
     }
 
-
-  /*  public Observable<ResponseData> addAddressRequest(AddAddressRequest request) {
-        request.partnerId = BuildConfig.PARTNER_ID;
-        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }*/
-
     public Observable<ResponseData> collectionFairRequest(Integer page, Integer pageSize, String token) {
-        return mApi.collectionFairRequest(page, pageSize, true, token).map(mTransform::transformCommon);
+        return mApi.collectionFairRequest(page, pageSize, token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> collectionProduceRequest(Integer page, Integer pageSize, String token) {
-        return mApi.collectionProductRequest(page, pageSize, true, token).map(mTransform::transformCommon);
+        return mApi.collectionProductRequest(page, pageSize, token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> collectionHotRequest(Integer page, Integer pageSize, String token) {
-        return mApi.collectionHotRequest(page, pageSize, true, token).map(mTransform::transformCommon);
+        return mApi.collectionHotRequest(page, pageSize, token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> collectionShopRequest(Integer page, Integer pageSize, String token) {
-        return mApi.collectionShopRequest(page, pageSize, true, token).map(mTransform::transformCommon);
+        return mApi.collectionShopRequest(page, pageSize, token).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> collectionBlockRequest(Integer page, Integer pageSize, String token) {
-        return mApi.collectionBlockRequest(page, pageSize, true, token).map(mTransform::transformCommon);
+        return mApi.collectionBlockRequest(page, pageSize, token).map(mTransform::transformCommon);
     }
 
 

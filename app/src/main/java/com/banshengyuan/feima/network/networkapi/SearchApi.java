@@ -11,6 +11,6 @@ import retrofit2.http.Query;
 
 public interface SearchApi {
     @GET("api/search")
-    Observable<String> requestSearchList(@Query("kw") String searchName, @Query("type") String searchType, @Query("flag") boolean flag);
+    Observable<String> requestSearchList(@Query("kw") String searchName, @Query("type") String searchType);
 
 }

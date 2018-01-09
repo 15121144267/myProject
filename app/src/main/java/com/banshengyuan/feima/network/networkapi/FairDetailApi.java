@@ -12,16 +12,16 @@ import retrofit2.http.Query;
 
 public interface FairDetailApi {
     @GET("api/fair")
-    Observable<String> fairListRequest(@Query("category_2_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> fairListRequest(@Query("category_2_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/store")
-    Observable<String> storeListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> storeListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/goods")
-    Observable<String> productListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> productListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/fair/{id}/comment")
-    Observable<String> commentListRequest(@Path("id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize, @Query("flag") boolean flag);
+    Observable<String> commentListRequest(@Path("id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/fair-category/{id}")
     Observable<String> categoryInfoRequest(@Path("id") Integer id);

@@ -25,19 +25,19 @@ public class FairDetailModel {
     }
 
     public Observable<ResponseData> fairListRequest(Integer fairId) {
-        return mApi.fairListRequest(fairId,1,5,true).map(mTransform::transformCommon);
+        return mApi.fairListRequest(fairId,1,5).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeListRequest(Integer fairId) {
-        return mApi.storeListRequest(fairId,1,5,true).map(mTransform::transformCommon);
+        return mApi.storeListRequest(fairId,1,5).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> productListRequest(Integer fairId) {
-        return mApi.productListRequest(fairId,1,8,true).map(mTransform::transformCommon);
+        return mApi.productListRequest(fairId,1,8).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> commentListRequest(Integer fairId) {
-        return mApi.commentListRequest(fairId,1,5,true).map(mTransform::transformCommon);
+        return mApi.commentListRequest(fairId,1,5).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> categoryInfoRequest(Integer fairCategoryId) {

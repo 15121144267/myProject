@@ -154,7 +154,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 mGoodsDetailDispatchingPrice.setText("快递:免邮  ");
             }
 
-
             GoodsInfoResponse.InfoBean.StoreBean store = mInfoBean.store;
             if (store != null) {
                 mGoodsDetailAddress.setText(TextUtils.isEmpty(store.location) ? "未知" : store.location);

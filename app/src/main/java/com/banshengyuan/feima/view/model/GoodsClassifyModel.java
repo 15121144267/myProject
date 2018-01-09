@@ -30,6 +30,6 @@ public class GoodsClassifyModel {
     }
 
     public Observable<ResponseData> allFairListRequest() {
-        return mApi.allFairListRequest(true).map(mTransform::transformCommon);
+        return mApi.allFairListRequest().map(mTransform::transformCommon);
     }
 }
