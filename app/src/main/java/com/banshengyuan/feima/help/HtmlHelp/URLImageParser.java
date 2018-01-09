@@ -31,7 +31,7 @@ public class URLImageParser implements Html.ImageGetter {
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 urlDrawable.bitmap = resource;
                 urlDrawable.setHeight(resource.getHeight());
-                urlDrawable.setBounds(0,0,mContext.getResources().getDisplayMetrics().widthPixels ,resource.getHeight());
+                urlDrawable.setBounds(0,0,resource.getWidth() ,resource.getHeight());
                 mTextView.invalidate();
                 mTextView.setText(mTextView.getText());
             }

@@ -51,7 +51,6 @@ public class SearchBlockFragment extends BaseFragment implements SearchControl.S
     private Unbinder unbinder;
     private FairDetailSellersAdapter mAdapter;
     private String mSearchName;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
