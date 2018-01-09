@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
+import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.utils.ToolUtils;
 import com.google.zxing.WriterException;
+
+import java.sql.Time;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +42,7 @@ public class ActionCodeActivity extends BaseActivity {
 
     private HotFairDetailResponse mHotFairDetailResponse = null;//热闹详情
     private String qrCode = null;
+    private HotFairDetailResponse.InfoBean infoBean = null;
 
     public static Intent getIntent(Context context, HotFairDetailResponse hotFairDetailResponse, String qrCode) {
         Intent intent = new Intent(context, ActionCodeActivity.class);
@@ -62,12 +66,35 @@ public class ActionCodeActivity extends BaseActivity {
         if (getIntent() != null) {
             mHotFairDetailResponse = getIntent().getParcelableExtra("hotFairDetailResponse");
             qrCode = getIntent().getStringExtra("qrCode");
-            if (!TextUtils.isEmpty(qrCode)) {
-                setQRCodeBitmap("1234567890");
+
+            infoBean = mHotFairDetailResponse.getInfo();
+            if (infoBean != null) {
+                String codeNum;
+                if (!TextUtils.isEmpty(infoBean.getOrder_sn())) {
+                    codeNum = infoBean.getOrder_sn();
+                    setQRCodeBitmap(infoBean.getOrder_sn());
+                } else {
+                    codeNum = "未知";
+                }
+                actionCodeNumber.setText("券码：" + codeNum);
+
+                if (infoBean.getStart_time() > 0) {
+                    actionCodeDate.setText(TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD, (long) infoBean.getStart_time()));
+                }
+                if (!TextUtils.isEmpty(infoBean.getStreet_name())) {
+                    actionCodePlace.setText(infoBean.getStreet_name());
+                }
+
+                if (!TextUtils.isEmpty(infoBean.getName())) {
+                    actionCodeTitle.setText(infoBean.getName());
+                }
+
+                //手机
+//                if(TextUtils.isEmpty(infoBean.get)){
+//
+//                }
             }
-            if (mHotFairDetailResponse != null) {
-                actionCodeTitle.setText(mHotFairDetailResponse.getInfo().getName());
-            }
+
         }
     }
 

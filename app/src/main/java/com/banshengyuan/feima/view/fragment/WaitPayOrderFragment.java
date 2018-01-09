@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.WaitPayControl;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -53,7 +55,6 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private Integer mPagerNo = 1;
     private final String mStatus = "1";//1.待付款 2.待收货 3. 待评价
     private String mToken;
-    private boolean isOneList = false;
 
     public static WaitPayOrderFragment newInstance() {
         return new WaitPayOrderFragment();
@@ -91,7 +92,6 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     @Override
     void onReceivePro(Context context, Intent intent) {
         if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
-            isOneList = true;
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -129,13 +129,11 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
         if (mPagerNo == 1) {
-            if (isOneList) {
-                mAdapter.remove(mPos);
-            }
-            if (mList.size() == 0) {
-                mAdapter.setEmptyView(mEmptyView);
-            } else {
+            if (mList!=null && mList.size()>0) {
                 mAdapter.setNewData(mList);
+            } else {
+                mAdapter.setNewData(null);
+                mAdapter.setEmptyView(mEmptyView);
             }
         } else {
             mAdapter.addData(mList);
@@ -148,6 +146,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         if (flag) {
             showToast("取消成功");
             mAdapter.remove(mPos);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
         }
     }
 

@@ -1,7 +1,10 @@
 package com.banshengyuan.feima.view.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +20,9 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerOrderFragmentComponent;
 import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.OrderCompleteControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.MyOrderActivity;
@@ -86,6 +91,21 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     }
 
     @Override
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
+            mPagerNo = 1;
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
+    }
+
+    @Override
     public void onLoadMoreRequested() {
         if (mPagerNo == 1 && mList.size() < mPagerSize) {
             mAdapter.loadMoreEnd(true);
@@ -107,22 +127,31 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     @Override
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
-        if (mPagerNo == 1 && mList.size() == 0) {
-            mAdapter.setEmptyView(mEmptyView);
-            return;
-        }
-        if (mList.size() > 0) {
+        if (mPagerNo == 1) {
+            if (mList!=null &&mList.size()> 0) {
+                mAdapter.setNewData(mList);
+            } else {
+                mAdapter.setNewData(null);
+                mAdapter.setEmptyView(mEmptyView);
+            }
+        } else {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
         }
     }
 
     @Override
     public void getDeleteOrderSuccess() {
+        reFreshOrder();
         showToast("删除成功");
         mAdapter.remove(mPos);
+    }
+
+    /**
+     * 为了刷新 AllOrderFragment
+     */
+    private void reFreshOrder(){
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
     }
 
     private void initData() {
@@ -138,7 +167,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.enpty_order_view,imageView);
+        mImageLoaderHelper.displayImage(getActivity(), R.mipmap.enpty_order_view, imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.wait_comment_empty_view);

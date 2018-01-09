@@ -339,6 +339,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     public void getDeleteOrderSuccess() {
         isFreshOrder = true;
         showLoading("删除成功");
+        refreshOrder();
         finish();
     }
 
@@ -493,9 +494,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     @Override
     public void onBackPressed() {
+        refreshOrder();
+        super.onBackPressed();
+    }
+
+    private void refreshOrder(){
         if (isFreshOrder) {//刷新我的订单界面
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_ORDERDETAIL));
         }
-        super.onBackPressed();
     }
 }
