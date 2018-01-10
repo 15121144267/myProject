@@ -25,7 +25,7 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
     private final WelcomeModel mModel;
     private SharePreferenceUtil mSharePreferenceUtil;
     private final Context mContext;
-    private boolean firstOpen = false; //是否第一次打开程序，如果是，则执行静默网络访问(网络发生故障，不报告)
+    private boolean firstOpen = false;
 
     @Inject
     public PresenterWelcomeImpl(Context context, WelcomeModel model, WelcomeControl.WelcomeView view, SharePreferenceUtil sharePreferenceUtil) {
@@ -44,6 +44,7 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
                         , throwable -> mView.showErrMessage(throwable));
         mView.addSubscription(disposable);
     }
+
     private void getPicSuccess(ResponseData responseData) {
         if (responseData.resultCode == 200) {
             responseData.parseData(AdResponse.class);

@@ -105,8 +105,6 @@ public class RetrofitUtil {
                         }
                     }
                 }
-                String timestamp = String.valueOf(System.currentTimeMillis());
-                rootMap.put("timestamp", timestamp);
                 String sign = ValueUtil.getSign(rootMap);
                /* if (!request.url().toString().contains("token")) {
                     newRequest =  request.newBuilder().url(request.url() + "?token = 123").addHeader("ssapp-token", sign).build();

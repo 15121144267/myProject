@@ -17,6 +17,7 @@
         android:layout_margin="@dimen/dp_20"
         android:gravity="center"
         android:padding="@dimen/dp_10"
+        android:visibility="gone"
         android:textStyle="bold"
         android:textSize="@dimen/sp_15"
         android:background="@drawable/shape_number_indicator_background"

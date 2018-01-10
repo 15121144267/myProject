@@ -433,7 +433,8 @@ public class ValueUtil {
             result = sb.substring(0, sb.length() - 1);
         }
         String md5Sign = encryptToMD5(result + BuildConfig.USER_KEY);
-        String finalResult = treeMap.get("timestamp") + "," + md5Sign;
+        String time = String.valueOf(System.currentTimeMillis()/1000);
+        String finalResult = String.valueOf(Integer.valueOf(time))+ "," + md5Sign;
         return Base64.encodeToString(finalResult.getBytes(), Base64.DEFAULT).trim();
     }
 }

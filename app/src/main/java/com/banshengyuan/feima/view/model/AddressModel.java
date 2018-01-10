@@ -27,25 +27,6 @@ public class AddressModel {
         mTransform = transform;
     }
 
-
-//    public Observable<ResponseData> addressListRequest(String phone) {
-//        return mApi.addressListRequest(partnerId, phone).map(mTransform::transformTypeThree);
-//    }
-
-//    public Observable<ResponseData> addressDefaultRequest(AddressResponse.ListBean addressRequest) {
-//        AddAddressRequest request = new AddAddressRequest();
-//        request.name = addressRequest.getName().toString();
-//        request.mobile = addressRequest.getMobile();
-//        request.address = addressRequest.getAddress();
-//        request.area = addressRequest.getArea();
-////        request.phone = addressRequest.phone;
-//        request.isDefault = "1";
-////        request.partnerId = partnerId;
-////        request.id = addressRequest.id;
-//        return mApi.addressDefaultRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-//    }
-
-
     public Observable<ResponseData> listAddressRequest(String token) {
         return mApi.listAddressRequest(token).map(mTransform::transformCommon);
     }
