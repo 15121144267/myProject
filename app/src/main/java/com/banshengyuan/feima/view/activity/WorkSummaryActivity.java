@@ -182,7 +182,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 if (detailBean.product != null) {
                     mProductCount += detailBean.product.size();
                     for (int i = 0; i < detailBean.product.size(); i++) {
-                        MenuItem item = mMenu.add(i, detailBean.product.get(i).id, i, detailBean.product.get(i).name);
+                        MenuItem item = mMenu.add(detailBean.product.get(i).id, detailBean.product.get(i).id, i, detailBean.product.get(i).name);
                         Glide.with(this).load(detailBean.product.get(i).image).asBitmap()
                                 .into(new SimpleTarget<Bitmap>() {
                                     @Override

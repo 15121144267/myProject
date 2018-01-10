@@ -21,7 +21,6 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
@@ -145,7 +144,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (mBuProcessor.isValidLogin()) {
             mPresenter.requestHotFairDetail(fId, token);//根据id查看热闹详情
         } else {
-            mPresenter.requestHotFairDetail(fId, null);//根据id查看热闹详情
+            mPresenter.requestHotFairDetail(fId, "");//根据id查看热闹详情
         }
 
 

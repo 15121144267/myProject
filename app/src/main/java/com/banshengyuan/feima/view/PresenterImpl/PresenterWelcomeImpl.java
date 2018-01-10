@@ -71,5 +71,4 @@ public class PresenterWelcomeImpl implements WelcomeControl.PresenterWelcome {
         mView = null;
     }
 
-
 }
