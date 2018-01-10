@@ -45,7 +45,7 @@ public class ShoppingCardModel {
         ShoppingCardChangeNumberRequest request = new ShoppingCardChangeNumberRequest();
         request.goods_id = productId.toString();
         request.goods_sku = sku;
-        request.number = number;
+        request.number = number+"";
         request.token = mBuProcessor.getUserToken();
         return mApi.changeProductNumberRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }

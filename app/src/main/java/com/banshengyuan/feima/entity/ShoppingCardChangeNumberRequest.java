@@ -9,5 +9,5 @@ public class ShoppingCardChangeNumberRequest {
     public String goods_id;
     public String goods_sku;
     public String token;
-    public Integer number;
+    public String number;
 }

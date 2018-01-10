@@ -5,11 +5,19 @@ import android.text.TextUtils;
 
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -68,7 +76,26 @@ public class RetrofitUtil {
     }
 
     private Retrofit initRetrofit() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(
+                        new TypeToken<TreeMap<String, Object>>() {
+                        }.getType(),
+                        new JsonDeserializer<TreeMap<String, Object>>() {
+                            @Override
+                            public TreeMap<String, Object> deserialize(
+                                    JsonElement json, Type typeOfT,
+                                    JsonDeserializationContext context) throws JsonParseException {
+
+                                TreeMap<String, Object> treeMap = new TreeMap<>();
+                                JsonObject jsonObject = json.getAsJsonObject();
+                                Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+                                for (Map.Entry<String, JsonElement> entry : entrySet) {
+                                    treeMap.put(entry.getKey(), entry.getValue());
+                                }
+                                return treeMap;
+                            }
+                        }).create();
+
         OkHttpClient okHttpClient;
         OkHttpClient.Builder okHttpClientBuilder =
                 new OkHttpClient.Builder()
@@ -100,17 +127,12 @@ public class RetrofitUtil {
                         requestBody.writeTo(buffer);
                         String oldParamsJson = buffer.readUtf8();
                         if (!TextUtils.isEmpty(oldParamsJson)) {
-                            Gson mGson = new Gson();
-                            rootMap = mGson.fromJson(oldParamsJson, TreeMap.class);
+                            rootMap = gson.fromJson(oldParamsJson, new TypeToken<TreeMap<String, Object>>() {
+                            }.getType());
                         }
                     }
                 }
                 String sign = ValueUtil.getSign(rootMap);
-               /* if (!request.url().toString().contains("token")) {
-                    newRequest =  request.newBuilder().url(request.url() + "?token = 123").addHeader("ssapp-token", sign).build();
-                }else {
-
-                }*/
                 newRequest = request.newBuilder().addHeader("ssapp-token", sign).build();
                 return chain.proceed(newRequest);
             }
@@ -140,6 +162,7 @@ public class RetrofitUtil {
                 .client(okHttpClient)
                 .build();
     }
+
 
     public <T> T create(final Class<T> service) {
         return retrofit.create(service);

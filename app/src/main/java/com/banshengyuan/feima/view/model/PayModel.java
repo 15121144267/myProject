@@ -5,7 +5,6 @@ import android.content.Context;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
 import com.banshengyuan.feima.entity.OrderConfirmedRequest;
-import com.banshengyuan.feima.entity.PayAccessRequest;
 import com.banshengyuan.feima.network.networkapi.PayApi;
 import com.google.gson.Gson;
 
@@ -39,16 +38,11 @@ public class PayModel {
 
     public Observable<ResponseData> orderConfirmedRequest(String addressId, List<OrderConfirmItem> list, Integer self) {
         OrderConfirmedRequest request = new OrderConfirmedRequest();
-        request.address_id = addressId;
+        request.address_id = Integer.valueOf(addressId);
         request.detail = mGson.toJson(list);
         request.token = mBuProcessor.getUserToken();
         request.is_selffetch = self;
         return mApi.orderConfirmedRequest(mGson.toJson(request)).map(mTransform::transformCommon);
-    }
-
-
-    public Observable<ResponseData> updateOrderStatusRequest(PayAccessRequest request) {
-        return mApi.updateOrderStatusRequest(mGson.toJson(request)).map(mTransform::transformTypeTwo);
     }
 
     public Observable<ResponseData> listAddressRequest(String token) {

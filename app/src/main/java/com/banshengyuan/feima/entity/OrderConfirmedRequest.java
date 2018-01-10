@@ -6,9 +6,9 @@ package com.banshengyuan.feima.entity;
  */
 
 public class OrderConfirmedRequest {
-    public String address_id;
+    public int address_id;
     public String detail;
     public String token;
-    public Integer is_selffetch;
+    public int is_selffetch;
 
 }
