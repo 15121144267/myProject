@@ -141,5 +141,4 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
     compile 'com.github.AriesHoo:RadiusView:1.1.0'
     compile 'com.alibaba:fastjson:1.2.44'
-    compile 'com.alibaba:fastjson:1.1.67.android'
 }

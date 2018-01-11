@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.entity.OrderConfirmItem;
@@ -38,7 +39,9 @@ public class PayModel {
 
     public Observable<ResponseData> orderConfirmedRequest(String addressId, List<OrderConfirmItem> list, Integer self) {
         OrderConfirmedRequest request = new OrderConfirmedRequest();
-        request.address_id = Integer.valueOf(addressId);
+        if(!TextUtils.isEmpty(addressId)){
+            request.address_id = Integer.valueOf(addressId);
+        }
         request.detail = mGson.toJson(list);
         request.token = mBuProcessor.getUserToken();
         request.is_selffetch = self;
