@@ -14,6 +14,7 @@ public class AddAddressRequest {
     public String street;
     public String address;
     public String is_default;
+    public String token;
 
     public String getName() {
         return name;

@@ -1,6 +1,7 @@
 package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.entity.BuProcessor;
+import com.banshengyuan.feima.entity.OrderRequest;
 import com.banshengyuan.feima.network.networkapi.MyOrderApi;
 import com.google.gson.Gson;
 
@@ -33,18 +34,30 @@ public class MyOrderModel {
     }
 
     public Observable<ResponseData> cancelOrderRequest(String order_sn,String token) {
-        return mApi.cancelOrderRequest(order_sn, token).map(mTransform::transformCommon);
+        OrderRequest request = new OrderRequest();
+        request.order_sn = order_sn;
+        request.token = token;
+        return mApi.cancelOrderRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> comfirmOrderRequest(String order_sn,String token) {
-        return mApi.comfirmOrderRequest(order_sn, token).map(mTransform::transformCommon);
+        OrderRequest request = new OrderRequest();
+        request.order_sn = order_sn;
+        request.token = token;
+        return mApi.comfirmOrderRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
     public Observable<ResponseData> remindSendGoodsRequest(String order_sn,String token) {
-        return mApi.remindSendGoodsRequest(order_sn, token).map(mTransform::transformCommon);
+        OrderRequest request = new OrderRequest();
+        request.order_sn = order_sn;
+        request.token = token;
+        return mApi.remindSendGoodsRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> deleteOrderRequest(String order_sn,String token) {
-        return mApi.deleteOrderRequest(order_sn, token).map(mTransform::transformCommon);
+        OrderRequest request = new OrderRequest();
+        request.order_sn = order_sn;
+        request.token = token;
+        return mApi.deleteOrderRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 //    public Observable<ResponseData> orderStatusListRequest(Integer status, Integer pageNo, Integer pageSize) {

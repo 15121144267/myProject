@@ -27,11 +27,13 @@ public class AddAddressModel {
 
 
     public Observable<ResponseData> addAddressRequest(AddAddressRequest request, String token) {
-        return mApi.addAddressRequest(mGson.toJson(request), token).map(mTransform::transformCommon);
+        request.token = token;
+        return mApi.addAddressRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> updateAddressRequest(int addressId, AddAddressRequest request, String token) {
-        return mApi.updateAddressRequest(addressId, mGson.toJson(request), token).map(mTransform::transformCommon);
+        request.token = token;
+        return mApi.updateAddressRequest(addressId, mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 

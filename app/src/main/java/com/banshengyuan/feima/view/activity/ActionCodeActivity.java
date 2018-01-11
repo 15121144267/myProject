@@ -90,9 +90,8 @@ public class ActionCodeActivity extends BaseActivity {
                 }
 
                 //手机
-//                if(TextUtils.isEmpty(infoBean.get)){
-//
-//                }
+                String phone = TextUtils.isEmpty(mBuProcessor.getUserPhone()) ? "未知：" : mBuProcessor.getUserPhone();
+                actionCodePhone.setText(phone);
             }
 
         }

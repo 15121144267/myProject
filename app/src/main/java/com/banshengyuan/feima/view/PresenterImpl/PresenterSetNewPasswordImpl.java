@@ -29,8 +29,8 @@ public class PresenterSetNewPasswordImpl implements SetNewPasswordControl.Presen
     }
 
     @Override
-    public void onRequestForSure(SetPasswordRequest request ,String token) {
-        Disposable disposable = mModel.setPasswordRequest(request, token)
+    public void onRequestForSure(SetPasswordRequest request) {
+        Disposable disposable = mModel.setPasswordRequest(request)
                 .compose(mView.applySchedulers())
                 .subscribe(this::setPasswordSuccess
                         , throwable -> mView.showErrMessage(throwable));

@@ -26,8 +26,8 @@ public class NewPasswordModel {
     }
 
 
-    public Observable<ResponseData> setPasswordRequest(SetPasswordRequest request,String token) {
-        return mForgetApi.setPasswordRequest(mGson.toJson(request),token).map(mTransform::transformCommon);
+    public Observable<ResponseData> setPasswordRequest(SetPasswordRequest request) {
+        return mForgetApi.setPasswordRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 }

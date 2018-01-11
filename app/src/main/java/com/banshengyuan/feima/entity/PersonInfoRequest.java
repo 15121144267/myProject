@@ -6,44 +6,12 @@ package com.banshengyuan.feima.entity;
  */
 
 public class PersonInfoRequest {
-    private int id;
-    private String token;
-    private String token_expire;
     private String name;
-    private String mobile;
-    private String password;
-    private String salt;
-    private int reg_source;
-//    private String head_img;
+    private String head_img;
     private int sex;
     private String birthday;
-    private int status;
-    private String created_at;
-    private String updated_at;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getToken_expire() {
-        return token_expire;
-    }
-
-    public void setToken_expire(String token_expire) {
-        this.token_expire = token_expire;
-    }
+    private String salt;
+    private String token;
 
     public String getName() {
         return name;
@@ -53,36 +21,12 @@ public class PersonInfoRequest {
         this.name = name;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getHead_img() {
+        return head_img;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public int getReg_source() {
-        return reg_source;
-    }
-
-    public void setReg_source(int reg_source) {
-        this.reg_source = reg_source;
+    public void setHead_img(String head_img) {
+        this.head_img = head_img;
     }
 
     public int getSex() {
@@ -101,27 +45,19 @@ public class PersonInfoRequest {
         this.birthday = birthday;
     }
 
-    public int getStatus() {
-        return status;
+    public String getSalt() {
+        return salt;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getToken() {
+        return token;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
+    public void setToken(String token) {
+        this.token = token;
     }
 }

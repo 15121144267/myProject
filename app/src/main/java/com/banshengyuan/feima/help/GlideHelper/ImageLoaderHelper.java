@@ -1,12 +1,18 @@
 package com.banshengyuan.feima.help.GlideHelper;
 
 import android.content.Context;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
+import com.banshengyuan.feima.utils.AppDeviceUtil;
+import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import javax.inject.Inject;
 
@@ -74,7 +80,21 @@ public class ImageLoaderHelper extends GlideLoader {
     }
 
     @Override
-    public void displayMatchImage(Context context, Object path, ImageView imageView) {
-
+    public void displayMatchImage(Context context, Object path, ImageView imageView, Integer size) {
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation glideAnimation) {
+                int width = AppDeviceUtil.getScreenWidth(context);//屏幕的宽度
+                imageView.setImageDrawable(resource);
+                ViewGroup.LayoutParams linearParams = imageView.getLayoutParams();
+                linearParams.height = (int) ((float) resource.getMinimumHeight() / (float) resource.getMinimumWidth() * width);// 控件的宽强制设成适应
+                imageView.setLayoutParams(linearParams);
+            }
+        };
+        Glide.with(context).load(path).placeholder(R.mipmap.freemud_logo)
+                .transform(new CenterCrop(context), new GlideRoundTransform(context, size))
+                .error(R.mipmap.freemud_logo).dontAnimate().
+                into(simpleTarget);
     }
 }

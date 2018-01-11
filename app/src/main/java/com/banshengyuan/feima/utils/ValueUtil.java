@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -420,6 +421,7 @@ public class ValueUtil {
         }
     }
 
+
     public static String getSign(TreeMap<String, Object> treeMap) {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Object> stringStringEntry : treeMap.entrySet()) {
@@ -427,6 +429,7 @@ public class ValueUtil {
                 sb.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue()).append("&");
             }
         }
+
 
         String result = "";
         if (sb.length() > 0) {

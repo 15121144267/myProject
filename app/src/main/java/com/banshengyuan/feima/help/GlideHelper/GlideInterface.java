@@ -17,7 +17,7 @@ public interface GlideInterface<T extends View> {
 
     void displayRoundedCornerImage(Context context, Object path, T imageView, Integer size);
 
-    void displayMatchImage(Context context, Object path, T imageView);
+    void displayMatchImage(Context context, Object path, T imageView, Integer res);
 
     T createImageView(Context context);
 }

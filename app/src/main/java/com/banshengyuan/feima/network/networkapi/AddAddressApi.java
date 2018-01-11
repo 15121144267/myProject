@@ -13,8 +13,8 @@ import retrofit2.http.Query;
 
 public interface AddAddressApi {
     @POST("api/user/receiving-address/create")
-    Observable<String> addAddressRequest(@Body String request,@Query("token") String token);
+    Observable<String> addAddressRequest(@Body String request);
 
     @POST("api/user/receiving-address/update/{id}")
-    Observable<String> updateAddressRequest(@Path("id") Integer addressId, @Body String request ,@Query("token") String token);
+    Observable<String> updateAddressRequest(@Path("id") Integer addressId, @Body String request );
 }

@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 
 public interface PersonCenterApi {
     @POST("api/user/modify")
-    Observable<String> updatePersonInfoRequest(@Body String request, @Query("token") String token);
+    Observable<String> updatePersonInfoRequest(@Body String request);
 
 }

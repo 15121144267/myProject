@@ -137,7 +137,8 @@ public class SetNewPasswordActivity extends BaseActivity implements SetNewPasswo
         request.old_password = originalPwd;
         request.password = password;
         request.confirm_password = passwordAgain;
-        mPresenter.onRequestForSure(request, mBuProcessor.getUserToken());
+        request.token = mBuProcessor.getUserToken();
+        mPresenter.onRequestForSure(request);
 
     }
 

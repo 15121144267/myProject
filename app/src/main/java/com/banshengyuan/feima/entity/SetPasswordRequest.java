@@ -10,4 +10,5 @@ public class SetPasswordRequest {
     public String old_password;
     public String password;
     public String confirm_password;
+    public String token;
 }

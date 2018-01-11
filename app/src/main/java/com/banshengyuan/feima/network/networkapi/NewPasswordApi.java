@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 
 public interface NewPasswordApi {
     @POST("api/user/change-password")
-    Observable<String> setPasswordRequest(@Body String request, @Query("token") String token);
+    Observable<String> setPasswordRequest(@Body String request);
 
 }

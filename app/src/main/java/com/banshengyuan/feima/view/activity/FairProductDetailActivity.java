@@ -16,7 +16,9 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairProductDetailActivityModule;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
+import com.banshengyuan.feima.entity.HotFairStateRequest;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
+import com.banshengyuan.feima.entity.HotFariStateRequest;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
@@ -169,7 +171,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
                 }
             } else {//报名参加
                 JoinActionDialog joinActionDialog = JoinActionDialog.newInstance();
-                joinActionDialog.setData(mPresenter, fId, token, hotFairDetailResponse);
+                joinActionDialog.setData(mPresenter, fId, token, hotFairDetailResponse,mBuProcessor.getUserPhone());
 
                 DialogFactory.showDialogFragment(getSupportFragmentManager(), joinActionDialog, CommonDialog.TAG);
             }
@@ -194,7 +196,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
 //            RichText.from(response.getInfo().getContent()).into(fairDetailWebcontent);
             ValueUtil.setHtmlContent(this,response.getInfo().getContent(),fairDetailWebcontent);
-            mImageLoaderHelper.displayImage(this,infoBean.getCover_img(),mFairDetailBanner);
+            mImageLoaderHelper.displayMatchImage(this,infoBean.getCover_img(),mFairDetailBanner,0);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 order_sn = response.getInfo().getOrder_sn();
                 mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询

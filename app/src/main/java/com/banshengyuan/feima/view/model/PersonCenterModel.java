@@ -29,23 +29,16 @@ public class PersonCenterModel {
 
     public Observable<ResponseData> updatePersonInfoRequest(PersonInfoResponse response, String token, boolean avatalFlag) {
         if (avatalFlag) {
-            return mApi.updatePersonInfoRequest(mGson.toJson(response.getInfo()), token).map(mTransform::transformCommon);
+            return mApi.updatePersonInfoRequest(mGson.toJson(response.getInfo())).map(mTransform::transformCommon);
         } else {//不更新头像
             PersonInfoRequest request = new PersonInfoRequest();
             request.setBirthday(response.getInfo().getBirthday());
-            request.setMobile(response.getInfo().getMobile());
-            request.setCreated_at(response.getInfo().getCreated_at());
-            request.setId(response.getInfo().getId());
             request.setName(response.getInfo().getName());
-            request.setPassword(response.getInfo().getPassword());
-            request.setReg_source(response.getInfo().getReg_source());
             request.setSalt(response.getInfo().getSalt());
             request.setSex(response.getInfo().getSex());
-            request.setStatus(response.getInfo().getStatus());
-            request.setToken(response.getInfo().getToken());
-            request.setToken_expire(response.getInfo().getToken_expire());
+            request.setToken(token);
 
-            return mApi.updatePersonInfoRequest(mGson.toJson(request), token).map(mTransform::transformCommon);
+            return mApi.updatePersonInfoRequest(mGson.toJson(request)).map(mTransform::transformCommon);
         }
     }
 

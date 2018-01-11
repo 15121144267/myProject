@@ -13,7 +13,7 @@ public class SetNewPasswordControl {
     }
 
     public interface PresenterSetNewPassword extends Presenter<SetNewPasswordView> {
-        void onRequestForSure(SetPasswordRequest request ,String token);
+        void onRequestForSure(SetPasswordRequest request );
     }
 
 }

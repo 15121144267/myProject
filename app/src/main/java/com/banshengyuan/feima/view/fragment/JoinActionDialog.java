@@ -39,7 +39,7 @@ public class JoinActionDialog extends BaseDialogFragment {
     @BindView(R.id.join_action_money)
     TextView joinActionMoney;
     @BindView(R.id.join_action_phone)
-    EditText joinActionPhone;
+    TextView joinActionPhone;
     @BindView(R.id.cancal_btn)
     RadiusTextView cancalBtn;
     @BindView(R.id.sure_btn)
@@ -53,6 +53,7 @@ public class JoinActionDialog extends BaseDialogFragment {
     private String id;
     private String mToken;
     private HotFairDetailResponse mHotFairDetailResponse = null;//热闹详情
+    private String mPhone;
 
     public static JoinActionDialog newInstance() {
         return new JoinActionDialog();
@@ -62,11 +63,12 @@ public class JoinActionDialog extends BaseDialogFragment {
         this.mListener = listener;
     }
 
-    public void setData(FairProductDetailControl.PresenterFairProductDetail presenter, String fId, String token, HotFairDetailResponse hotFairDetailResponse) {
+    public void setData(FairProductDetailControl.PresenterFairProductDetail presenter, String fId, String token, HotFairDetailResponse hotFairDetailResponse, String phone) {
         mPresenter = presenter;
         id = fId;
         mToken = token;
         mHotFairDetailResponse = hotFairDetailResponse;
+        mPhone = phone;
     }
 
     @Override
@@ -85,6 +87,8 @@ public class JoinActionDialog extends BaseDialogFragment {
             joinActionTitle.setText(infoBean.getName());
             String date = "时间: " + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD, (long) infoBean.getStart_time());
             String place = TextUtils.isEmpty(infoBean.getStreet_name()) ? "未知街区  " : infoBean.getName();
+            mPhone = TextUtils.isEmpty(mPhone) ? "未知  " : mPhone;
+            joinActionPhone.setText(mPhone);
             if (infoBean.getSales_price() > 0) {
                 String money = "￥" + ValueUtil.formatAmount2(infoBean.getSales_price());
                 joinActionMoney.setText(money);
