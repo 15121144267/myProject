@@ -15,6 +15,7 @@ import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairProductDetailActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
@@ -70,7 +71,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     private HotFairDetailResponse hotFairDetailResponse = null;//热闹详情
     private HotFairStateResponse hotFairStateResponse = null;
     private String token;
-    private String order_sn;
+    private String mOrderSn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,12 +111,24 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         mPresenter.onDestroy();
     }
 
+    @Override
+    void onReceivePro(Context context, Intent intent) {
+        if (intent.getAction().equals(BroConstant.PAY_TO_EXCHANGEDETAIL_ACTIVITY)) {
+            mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
+        }
+        super.onReceivePro(context, intent);
+    }
+
+    @Override
+    void addFilter() {
+        super.addFilter();
+        mFilter.addAction(BroConstant.PAY_TO_EXCHANGEDETAIL_ACTIVITY);
+    }
+
     private void initView() {
         if (getIntent() != null) {
             fId = getIntent().getStringExtra("fId");
         }
-
-
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -140,14 +153,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     private void initData() {
         token = mBuProcessor.getUserToken();
-//        token = Constant.TOKEN;
         if (mBuProcessor.isValidLogin()) {
             mPresenter.requestHotFairDetail(fId, token);//根据id查看热闹详情
         } else {
             mPresenter.requestHotFairDetail(fId, "");//根据id查看热闹详情
         }
-
-
     }
 
     /**
@@ -163,7 +173,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (hotFairDetailResponse != null) {
             if (hotFairStateResponse != null) {//付款完成
                 if (hotFairStateResponse.getStatus().equals("1")) {//已报名 未付款
-                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, order_sn, 2));
+                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, mOrderSn, 2,"ExchangeFragment"));
                 } else {// 已付款
                     startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
                 }
@@ -193,10 +203,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (infoBean != null) {
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
             ValueUtil.setHtmlContent(this,response.getInfo().getContent(),fairDetailWebcontent);
+//            mImageLoaderHelper.displayMatchImage(this,infoBean.getCover_img(),mFairDetailBanner,0);
             mImageLoaderHelper.displayImage(this,infoBean.getCover_img(),mFairDetailBanner);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
-                order_sn = response.getInfo().getOrder_sn();
-                mPresenter.requestHotFairState(fId, order_sn, token); //热闹-报名订单状态查询
+                mOrderSn = response.getInfo().getOrder_sn();
+                mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
             } else {
                 join.setText("报名参加");
             }
@@ -209,22 +220,16 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         hotFairStateResponse = response;
         if (response.getStatus().equals("2")) {//付款完成
             join.setText("查看二维码");
-//                join.setBackgroundColor(Color.parseColor("#212121"));
-//                join.setTextColor(Color.WHITE);
         } else {
             join.setText("去付款");
-//                join.setBackgroundResource(R.drawable.button_style_blue6_rightangle);
-//                join.setTextColor(Color.parseColor("#212121"));
         }
     }
 
     @Override
     public void getHotFairJoinActionSuccess(OrderConfirmedResponse response) {
         showToast("报名成功");
-        if (!TextUtils.isEmpty(response.order_sn)) {//判断订单号是否为空
-            //直接唤起支付
-            mPresenter.requestHotFairState(fId, response.order_sn, token); //热闹-报名订单状态查询
-        }
+        //直接唤起支付
+        mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
     }
 
     @Override
@@ -257,7 +262,4 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         startActivityForResult(LoginActivity.getLoginIntent(FairProductDetailActivity.this), IntentConstant.ORDER_POSITION_ONE);
     }
 
-    @OnClick()
-    public void onViewClicked() {
-    }
 }

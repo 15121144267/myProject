@@ -94,7 +94,8 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
     @Override
     void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3) ||
+                intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -105,6 +106,8 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     void addFilter() {
         super.addFilter();
         mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
+        mFilter.addAction(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3);
+        mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderFragment);
     }
 
 
@@ -131,7 +134,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
         if (mPagerNo == 1) {
-            if (mList.size() > 0 && mList!=null) {
+            if (mList.size() > 0 && mList != null) {
                 mAdapter.setNewData(mList);
             } else {
                 mAdapter.setNewData(null);
@@ -147,6 +150,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     public void getComfirmOrderSuccess() {
         showToast("确认收货成功");
         reFreshOrder();
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
         mPagerNo = 1;
         mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
     }
@@ -175,7 +179,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     /**
      * 为了刷新 AllOrderFragment
      */
-    private void reFreshOrder(){
+    private void reFreshOrder() {
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
     }
 
@@ -187,7 +191,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.enpty_order_view,imageView);
+        mImageLoaderHelper.displayImage(getActivity(), R.mipmap.enpty_order_view, imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.GONE);
         emptyContent.setText(R.string.waitdelivery_order_empty_view);

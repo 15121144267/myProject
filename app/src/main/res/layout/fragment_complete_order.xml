@@ -127,18 +127,6 @@
             <View style="@style/LineH_Fill_Width_10_ForView" />
 
             <TextView
-                android:id="@+id/person_enter_safe_page"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:drawableEnd="@mipmap/arrow_right"
-                android:gravity="center_vertical"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:text="安全设置" />
-
-            <View style="@style/LineH_Yellow_Fill_Width1" />
-
-            <TextView
                 android:id="@+id/person_enter_personal_page"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -159,6 +147,18 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:text="收货地址" />
+
+            <View style="@style/LineH_Fill_Width_10_ForView" />
+
+            <TextView
+                android:id="@+id/person_enter_safe_page"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableEnd="@mipmap/arrow_right"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:text="安全设置" />
 
             <View style="@style/LineH_Fill_Width_10_ForView" />
 

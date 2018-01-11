@@ -92,7 +92,8 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
 
     @Override
     void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) ||
+                intent.getAction().equals(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4)) {
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
         }
@@ -103,6 +104,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     void addFilter() {
         super.addFilter();
         mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
+        mFilter.addAction(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4);
     }
 
     @Override
@@ -128,7 +130,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
         if (mPagerNo == 1) {
-            if (mList!=null &&mList.size()> 0) {
+            if (mList != null && mList.size() > 0) {
                 mAdapter.setNewData(mList);
             } else {
                 mAdapter.setNewData(null);
@@ -150,7 +152,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     /**
      * 为了刷新 AllOrderFragment
      */
-    private void reFreshOrder(){
+    private void reFreshOrder() {
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
     }
 

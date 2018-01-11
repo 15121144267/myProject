@@ -86,9 +86,7 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
 
     @Override
     public void orderPaySuccess() {
-        Intent i = getSingTaskMainIntent();
-        i.putExtra("codeFlag", 11);
-        startActivity(i);
+        toIntentActivity();
     }
 
     @Override
@@ -102,21 +100,26 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
     void onReceivePro(Context context, Intent intent) {
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.LOCAL_BROADCAST_WX_PAY_SUCCESS)) {
-            if (mActivityType != null) {
-                if (mActivityType.equals("OrderFragment")) {
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));
-                } else if (mActivityType.equals("OrderDetailActivity")) {
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderDetailActivity));
-                }
-                finish();
-            } else {
-                Intent i = getSingTaskMainIntent();
-                i.putExtra("codeFlag", 11);
-                startActivity(i);
-            }
+            toIntentActivity();
         }
     }
 
+    private void toIntentActivity(){
+        if (mActivityType != null) {
+            if (mActivityType.equals("OrderFragment")) {
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));
+            } else if (mActivityType.equals("OrderDetailActivity")) {
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderDetailActivity));
+            }else if(mActivityType.equals("ExchangeFragment")){
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.PAY_TO_EXCHANGEDETAIL_ACTIVITY));
+            }
+            finish();
+        } else {
+            Intent i = getSingTaskMainIntent();
+            i.putExtra("codeFlag", 11);
+            startActivity(i);
+        }
+    }
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
         if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode + "")) {

@@ -7,4 +7,5 @@ package com.banshengyuan.feima.entity;
 public class GoodsCommentRequest {
     public String data;
     public String content;
+    public String token;
 }

@@ -91,7 +91,8 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
 
     @Override
     void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)||
+                intent.getAction().equals(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2)   ) {
             mPagerNo = 1;
             mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
         }
@@ -103,6 +104,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         super.addFilter();
         mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
         mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderFragment);
+        mFilter.addAction(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2);
     }
 
 

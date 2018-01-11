@@ -32,8 +32,8 @@ public class ShopListModel {
     public Observable<ResponseData> publishCommentRequest(List<GoodsCommentContentRequest> mList, String token) {
         GoodsCommentRequest request = new GoodsCommentRequest();
         request.data =  mGson.toJson(mList);
-        LogUtils.i("mList="+mGson.toJson(mList));
-        return mApi.publishCommentRequest(mGson.toJson(request),token).map(mTransform::transformCommon);
+        request.token = token;
+        return mApi.publishCommentRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
 

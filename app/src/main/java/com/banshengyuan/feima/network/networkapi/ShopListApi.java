@@ -13,6 +13,6 @@ import retrofit2.http.Query;
 public interface ShopListApi {
 
     @POST("api/user/order/comment")
-    Observable<String> publishCommentRequest(@Body String request,@Query("token") String token);
+    Observable<String> publishCommentRequest(@Body String request);
 
 }

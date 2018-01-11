@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -154,23 +155,26 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
 
     @Override
     public void getCancelOrderSuccess() {
-        showToast("取消成功");
+        //取消成功
         mAdapter.getItem(mPos).setPay_status(5);
         mAdapter.notifyItemChanged(mPos);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2));
     }
 
     @Override
     public void getComfirmOrderSuccess() {
         //确认收货
-        showToast("确认订单成功");
         mAdapter.getItem(mPos).setPay_status(4);
         mAdapter.notifyItemChanged(mPos);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3));
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
     }
 
     @Override
     public void getDeleteOrderSuccess() {
-        showToast("删除成功");
+        //删除成功
         mAdapter.remove(mPos);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
     }
 
 
