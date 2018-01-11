@@ -18,6 +18,6 @@ public class ReductionPayControl {
     public interface PresenterReductionPay extends Presenter<ReductionPayView> {
         void requestCouponList(String storeId, String status);
 
-        void requestPay(String storeId, String amount, String discount, String payed);
+        void requestPay(Integer storeId, String amount, String discount,Integer couponId);
     }
 }

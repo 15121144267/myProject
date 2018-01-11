@@ -32,12 +32,12 @@ public class ReductionPayModel {
         return mApi.couponListRequest(mBuProcessor.getUserToken(), storeId, status).map(mTransform::transformCommon);
     }
 
-    public Observable<ResponseData> payConfirmRequest(String storeId, String amount, String discount, String payed) {
+    public Observable<ResponseData> payConfirmRequest(Integer storeId, String amount, String discount,Integer couponId) {
         UnderPayRequest request = new UnderPayRequest();
         request.store_id = storeId;
         request.amount = amount;
-        request.discount = discount;
-        request.payed = payed;
+        request.no_discount = discount;
+        request.coupon_id = couponId;
         request.token = mBuProcessor.getUserToken();
         return mApi.payConfirmRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }

@@ -66,6 +66,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     private double mCouponPrice;
     private double min = 0;
     private double max = 0;
+    private int mCoupon_id = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
         if (requestCode == 1 && resultCode == RESULT_OK) {
             MyCoupleResponse.ListBean mCheckData = (MyCoupleResponse.ListBean) data.getSerializableExtra("mCheckData");
             if (mCheckData != null) {
+                mCoupon_id = mCheckData.getId();
                 mActivityReductionCouponSize.setText(mCheckData.getName());
                 countFinalPrice(mCheckData);
                 mActivityReductionReducePrice.setEnabled(false);
@@ -219,7 +221,7 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
             showToast("请输入金额");
             return;
         }
-        mPresenter.requestPay(mShopId + "", mActivityReductionAllPrice.getText().toString(), mCouponPrice + "", mFinalPrice + "");
+        mPresenter.requestPay(mShopId , mActivityReductionAllPrice.getText().toString(), mActivityReductionReducePrice.getText().toString() + "",mCoupon_id);
 
     }
 

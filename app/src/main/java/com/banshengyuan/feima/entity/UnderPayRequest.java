@@ -5,9 +5,9 @@ package com.banshengyuan.feima.entity;
  */
 
 public class UnderPayRequest {
-    public String store_id;
+    public Integer store_id;
     public String amount;
-    public String discount;
-    public String payed;
+    public String no_discount;
+    public Integer coupon_id;
     public String token;
 }

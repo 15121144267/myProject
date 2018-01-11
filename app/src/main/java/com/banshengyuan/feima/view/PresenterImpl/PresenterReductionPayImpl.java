@@ -31,9 +31,9 @@ public class PresenterReductionPayImpl implements ReductionPayControl.PresenterR
     }
 
     @Override
-    public void requestPay(String storeId, String amount, String discount, String payed) {
+    public void requestPay(Integer storeId, String amount, String discount,Integer couponId) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.payConfirmRequest(storeId, amount, discount, payed).compose(mView.applySchedulers())
+        Disposable disposable = mModel.payConfirmRequest(storeId, amount, discount,couponId).compose(mView.applySchedulers())
                 .subscribe(this::getPayRequestSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
