@@ -3,7 +3,6 @@ package com.banshengyuan.feima.view.PresenterControl;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
-import com.banshengyuan.feima.entity.SpecificationResponse;
 
 import java.util.TreeMap;
 
@@ -19,8 +18,6 @@ public class GoodsDetailControl {
         void getGoodsInfoFail(String data);
 
         void getGoodsCollectionSuccess(CollectionResponse response);
-
-        void goodInfoSpecificationSuccess(SpecificationResponse data);
 
         void getUniqueGoodInfoSuccess(SkuProductResponse data);
 
@@ -46,7 +43,6 @@ public class GoodsDetailControl {
 
         void requestAddShoppingCard(String productId,String sku,Integer count);
 
-        void requestGoodsSpecification(String productId);
     }
 
 }

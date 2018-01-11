@@ -18,12 +18,11 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
-import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
+import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
-import com.banshengyuan.feima.entity.SpecificationResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.utils.ValueUtil;
@@ -125,11 +124,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         supportActionBar(mToolbar, true);
         initView();
         initData();
-    }
-
-    @Override
-    public void goodInfoSpecificationSuccess(SpecificationResponse data) {
-//        mProduct = data.products.get(0);
     }
 
     @Override
@@ -361,6 +355,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         }
         if (!TextUtils.isEmpty(skuName)) {
             mPresenter.requestUniqueGoodInfo(mProductId, skuName);
+        }else {
+            showToast("数据出错");
         }
 
     }
@@ -372,7 +368,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         } else {
             showToast("数据异常");
         }
-
     }
 
     @Override

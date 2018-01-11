@@ -216,6 +216,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
             mAdapter.setNewData(response.list);
         } else {
             mActivityShoppingCardBottomView.setVisibility(View.GONE);
+            mAdapter.setNewData(null);
             mAdapter.setEmptyView(mEmptyView);
             mToolbarRightText.setVisibility(View.GONE);
         }
@@ -317,9 +318,18 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         if (orderConfirm.size() > 0) {
             ShoppingCardListResponse response = new ShoppingCardListResponse();
             response.list = orderConfirm;
-            startActivity(PayActivity.getIntent(this, response, 2));
+            startActivityForResult(PayActivity.getIntent(this, response, 2), 1);
         } else {
             showToast("您还没有选择宝贝哦");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0, this));
+            mPresenter.requestShoppingCardList();
         }
     }
 

@@ -114,11 +114,6 @@ public class PresenterGoodsDetailImpl implements GoodsDetailControl.PresenterGoo
     }
 
     @Override
-    public void requestGoodsSpecification(String productId) {
-
-    }
-
-    @Override
     public void onCreate() {
 
     }

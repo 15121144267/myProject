@@ -119,6 +119,7 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
         if (!TextUtils.isEmpty(response.order_sn)) {
+            setResult(RESULT_OK);
             startActivity(FinalPayActivity.getIntent(this, response.order_sn, 1));
         }
     }
@@ -141,6 +142,11 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override
@@ -339,7 +345,6 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
                 }
             }
         }
-
     }
 
     private void initCountPrice() {

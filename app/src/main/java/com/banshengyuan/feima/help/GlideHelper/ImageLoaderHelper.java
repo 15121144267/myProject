@@ -6,7 +6,6 @@ import android.widget.ImageView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.utils.AppDeviceUtil;
-import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -80,8 +79,7 @@ public class ImageLoaderHelper extends GlideLoader {
     }
 
     @Override
-    public void displayMatchImage(Context context, Object path, ImageView imageView, Integer size) {
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+    public void displayMatchImage(Context context, Object path, ImageView imageView) {
         SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation glideAnimation) {
@@ -93,7 +91,7 @@ public class ImageLoaderHelper extends GlideLoader {
             }
         };
         Glide.with(context).load(path).placeholder(R.mipmap.freemud_logo)
-                .transform(new CenterCrop(context), new GlideRoundTransform(context, size))
+                .transform(new CenterCrop(context))
                 .error(R.mipmap.freemud_logo).dontAnimate().
                 into(simpleTarget);
     }
