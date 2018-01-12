@@ -54,8 +54,7 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
     ViewPager mSearchViewPager;
 
     public static Intent getIntent(Context context) {
-        Intent intent = new Intent(context, SearchActivity.class);
-        return intent;
+        return new Intent(context, SearchActivity.class);
     }
 
     @Inject
@@ -70,7 +69,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         ButterKnife.bind(this);
         initializeInjector();
         initView();
-        initData();
     }
 
     @Override
@@ -104,50 +102,10 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         RxView.clicks(mSearchGoodsCancel).subscribe(o -> onBackPressed());
     }
 
-    private void initData() {
-
-    }
-
     @Override
-    public void getSearchFairListSuccess(SearchResultResponse response) {
+    public void getSearchListSuccess(SearchResultResponse response) {
 
     }
-
-    @Override
-    public void getSearchStoreListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchStreetListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchProductListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchFairListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchStoreListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchStreetListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchProductListFail(String des) {
-
-    }
-
 
     @Override
     public void showLoading(String msg) {
@@ -174,7 +132,6 @@ public class SearchActivity extends BaseActivity implements SearchControl.Search
         super.onDestroy();
         mPresenter.onDestroy();
     }
-
 
     private void initializeInjector() {
         DaggerSearchActivityComponent.builder()

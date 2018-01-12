@@ -29,7 +29,6 @@ public class SearchProductAdapter extends BaseQuickAdapter<SearchResultResponse.
         ImageView imageView = helper.getView(R.id.adapter_collection_icon);
         mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
         helper.setText(R.id.adapter_product_name, item.name);
-        helper.setText(R.id.adapter_product_summary, item.summary);
         helper.setText(R.id.adapter_product_price, "￥"+ValueUtil.formatAmount2(item.price));
     }
 

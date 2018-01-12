@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ import com.example.mylibrary.adapter.BaseQuickAdapter;
 import com.example.mylibrary.adapter.BaseViewHolder;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -68,7 +71,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
     @BindView(R.id.fair_detail_read_count)
     TextView mFairDetailReadCount;
     @BindView(R.id.fair_detail_product_list)
-    RecyclerView mFairDetailProductList;
+    LinearLayout mFairDetailProductList;
     @BindView(R.id.fair_detail_comment)
     TextView mFairDetailComment;
     @BindView(R.id.fair_detail_collection)
@@ -92,7 +95,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     @Inject
     WorkSummaryControl.PresenterWorkSummary mPresenter;
-    private WorkSummaryAdapter mAdapter;
     private Integer mFairId;
     private FairContentDetailResponse.InfoBean mInfoBean;
     private Integer mProductCount = 0;
@@ -177,7 +179,18 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
         }
         if (response.detail != null) {
-            mAdapter.setNewData(response.detail);
+            for (FairContentDetailResponse.DetailBean detailBean : response.detail) {
+                List<FairContentDetailResponse.DetailBean> list = new ArrayList<>();
+                list.add(detailBean);
+                RecyclerView recycle = new RecyclerView(this);
+                RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                recycle.setLayoutParams(params);
+                recycle.setNestedScrollingEnabled(false);
+                recycle.setLayoutManager(new LinearLayoutManager(this));
+                WorkSummaryAdapter adapter = new WorkSummaryAdapter(list, WorkSummaryActivity.this, mImageLoaderHelper, this);
+                recycle.setAdapter(adapter);
+                mFairDetailProductList.addView(recycle);
+            }
             for (FairContentDetailResponse.DetailBean detailBean : response.detail) {
                 if (detailBean.product != null) {
                     mProductCount += detailBean.product.size();
@@ -231,14 +244,11 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         mFairId = getIntent().getIntExtra("fairId", 0);
         View mHeadView = mFairProductList.getHeaderView(0);
         mHeadTextView = (TextView) mHeadView.findViewById(R.id.product_count_title);
-        mFairDetailProductList.setNestedScrollingEnabled(false);
+
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mFairProductList.setNavigationItemSelectedListener(this);
         mFairProductList.setItemIconTintList(null);
         mMenu = mFairProductList.getMenu();
-        mFairDetailProductList.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new WorkSummaryAdapter(null, WorkSummaryActivity.this, mImageLoaderHelper, this);
-        mFairDetailProductList.setAdapter(mAdapter);
 
         RxView.clicks(mFairDetailCollection).subscribe(o -> {
             if (mBuProcessor.isValidLogin()) {

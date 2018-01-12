@@ -136,7 +136,6 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
 
     private void initView() {
         mAllProductSortResponse = (AllProductSortResponse) getIntent().getSerializableExtra("allProductSortResponse");
-
         mCategoryId = getIntent().getIntExtra("categoryId", 0);
 
         mMiddleName.setText("产品列表");

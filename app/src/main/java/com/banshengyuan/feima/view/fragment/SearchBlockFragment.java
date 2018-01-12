@@ -67,19 +67,8 @@ public class SearchBlockFragment extends BaseFragment implements SearchControl.S
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initData();
-    }
-
-    @Override
-    public void getSearchStreetListSuccess(SearchResultResponse response) {
+    public void getSearchListSuccess(SearchResultResponse response) {
         mAdapter.setNewData(response.list);
-    }
-
-    @Override
-    public void getSearchStreetListFail(String des) {
-
     }
 
     private void initView() {
@@ -113,36 +102,6 @@ public class SearchBlockFragment extends BaseFragment implements SearchControl.S
             mSearchName = intent.getStringExtra("broSearchName");
             initData();
         }
-    }
-
-    @Override
-    public void getSearchFairListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchStoreListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchProductListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchFairListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchStoreListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchProductListFail(String des) {
-
     }
 
     @Override

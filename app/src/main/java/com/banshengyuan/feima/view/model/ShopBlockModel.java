@@ -33,7 +33,7 @@ public class ShopBlockModel {
     }
 
     public Observable<ResponseData> shopListRequest(Integer streetId, Integer categoryId, Integer page, Integer pageSize) {
-        return mApi.shopListRequest(streetId + "", categoryId + "", page, pageSize).map(mTransform::transformCommon);
+        return mApi.shopListRequest(streetId + "", categoryId + "", page+"", pageSize+"").map(mTransform::transformCommon);
     }
 
 }

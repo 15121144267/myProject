@@ -9,14 +9,7 @@ import com.banshengyuan.feima.entity.SearchResultResponse;
 
 public class SearchControl {
     public interface SearchView extends LoadDataView {
-        void getSearchFairListSuccess(SearchResultResponse response);
-        void getSearchStoreListSuccess(SearchResultResponse response);
-        void getSearchStreetListSuccess(SearchResultResponse response);
-        void getSearchProductListSuccess(SearchResultResponse response);
-        void getSearchFairListFail(String des);
-        void getSearchStoreListFail(String des);
-        void getSearchStreetListFail(String des);
-        void getSearchProductListFail(String des);
+        void getSearchListSuccess(SearchResultResponse response);
     }
 
     public interface PresenterSearch extends Presenter<SearchView> {

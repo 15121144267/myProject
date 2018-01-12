@@ -68,20 +68,10 @@ public class SearchShopFragment extends BaseFragment implements SearchControl.Se
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initData();
-    }
-
-    @Override
-    public void getSearchStoreListSuccess(SearchResultResponse response) {
+    public void getSearchListSuccess(SearchResultResponse response) {
         mAdapter.setNewData(response.list);
     }
 
-    @Override
-    public void getSearchStoreListFail(String des) {
-
-    }
 
     private void initView() {
         mFragmentBlockCommon.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -114,37 +104,6 @@ public class SearchShopFragment extends BaseFragment implements SearchControl.Se
             mSearchName = intent.getStringExtra("broSearchName");
             initData();
         }
-    }
-
-    @Override
-    public void getSearchFairListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchStreetListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchProductListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchFairListFail(String des) {
-
-    }
-
-
-    @Override
-    public void getSearchStreetListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchProductListFail(String des) {
-
     }
 
     @Override

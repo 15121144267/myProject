@@ -3,11 +3,11 @@ package com.banshengyuan.feima.view.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.webkit.WebView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.FairContentDetailResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
 import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
@@ -30,7 +30,12 @@ public class WorkSummaryAdapter extends BaseQuickAdapter<FairContentDetailRespon
 
     @Override
     protected void convert(BaseViewHolder helper, FairContentDetailResponse.DetailBean item) {
-        ValueUtil.setHtmlContent(mContext, item.content, helper.getView(R.id.adapter_fair_product_html));
+        WebView webView = helper.getView(R.id.adapter_fair_product_html);
+        webView.setLayoutParams( webView.getLayoutParams());
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.loadDataWithBaseURL(null, item.content, "text/html", "utf-8", null);
         if (item.product != null) {
             RecyclerView recyclerView = helper.getView(R.id.adapter_fair_product_list);
             recyclerView.setNestedScrollingEnabled(false);
@@ -48,7 +53,7 @@ public class WorkSummaryAdapter extends BaseQuickAdapter<FairContentDetailRespon
                 if (bean != null) {
                     switch (view.getId()) {
                         case R.id.product_collection:
-                            mView.requestCollection(adapter,position,bean);
+                            mView.requestCollection(adapter, position, bean);
                             break;
                         case R.id.product_buy:
                             mContext.startActivity(GoodDetailActivity.getIntent(mContext, bean.id));

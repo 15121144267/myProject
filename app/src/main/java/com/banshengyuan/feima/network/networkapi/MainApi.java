@@ -26,7 +26,7 @@ public interface MainApi {
     Observable<String> storeListRequest();
 
     @GET("api/goods-category")
-    Observable<String> allProductSortRequest(@Query("is_recommend") Integer is_recommend, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
+    Observable<String> allProductSortRequest(@Query("is_recommend") Integer is_recommend, @Query("page") String page, @Query("pageSize") String pageSize);
 
     @GET("api/nearest-street-one")
     Observable<String> recommendTopRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude);

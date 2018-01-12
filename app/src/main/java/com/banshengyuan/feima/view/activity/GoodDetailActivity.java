@@ -10,6 +10,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +27,7 @@ import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideLoader;
+import com.banshengyuan.feima.help.MyWebViewClient;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
 import com.banshengyuan.feima.view.fragment.PhotoChoiceDialog;
@@ -78,7 +81,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     @BindView(R.id.goods_detail_shop_name)
     TextView mGoodsDetailShopName;
     @BindView(R.id.goods_detail_html)
-    TextView mGoodsDetailHtml;
+    WebView mGoodsDetailHtml;
     @BindView(R.id.goods_detail_phone)
     ImageView mGoodsDetailPhone;
     @BindView(R.id.goods_detail_collection)
@@ -152,18 +155,17 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
             if (store != null) {
                 mGoodsDetailAddress.setText(TextUtils.isEmpty(store.location) ? "未知" : store.location);
                 mGoodsDetailShopName.setText(TextUtils.isEmpty(store.name) ? "未知" : store.name);
-                mImageLoaderHelper.displayImage(this,store.shop_cover_img,mGoodsDetailShopIcon);
+                mImageLoaderHelper.displayImage(this, store.shop_cover_img, mGoodsDetailShopIcon);
             }
             if (!TextUtils.isEmpty(mInfoBean.content)) {
-                ValueUtil.setHtmlContent(this, mInfoBean.content, mGoodsDetailHtml);
+                mGoodsDetailHtml.loadDataWithBaseURL(null, mInfoBean.content, "text/html", "utf-8", null);
+                mGoodsDetailHtml.setWebViewClient(new MyWebViewClient(mGoodsDetailHtml));
             }
 
         } else {
             mGoodsDetailBottomLayout.setVisibility(View.GONE);
             mGoodsDetailContent.setVisibility(View.GONE);
         }
-
-
     }
 
     @Override
@@ -259,6 +261,10 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     private void initView() {
+        mGoodsDetailHtml.getSettings().setAllowFileAccess(true);
+        mGoodsDetailHtml.getSettings().setJavaScriptEnabled(true);
+        mGoodsDetailHtml.getSettings().setDomStorageEnabled(true);
+        mGoodsDetailHtml.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mProductId = getIntent().getIntExtra("productId", 0);
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
@@ -355,7 +361,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         }
         if (!TextUtils.isEmpty(skuName)) {
             mPresenter.requestUniqueGoodInfo(mProductId, skuName);
-        }else {
+        } else {
             showToast("数据出错");
         }
 

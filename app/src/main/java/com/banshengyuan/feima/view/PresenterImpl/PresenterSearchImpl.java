@@ -44,9 +44,9 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         if (responseData.resultCode == 200) {
             responseData.parseData(SearchResultResponse.class);
             SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
-            mView.getSearchStoreListSuccess(response);
+            mView.getSearchListSuccess(response);
         } else {
-            mView.getSearchStoreListFail(responseData.errorDesc);
+            mView.showToast(responseData.errorDesc);
         }
     }
 
@@ -63,9 +63,9 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         if (responseData.resultCode == 200) {
             responseData.parseData(SearchResultResponse.class);
             SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
-            mView.getSearchStreetListSuccess(response);
+            mView.getSearchListSuccess(response);
         } else {
-            mView.getSearchStreetListFail(responseData.errorDesc);
+            mView.showToast(responseData.errorDesc);
         }
     }
 
@@ -82,9 +82,9 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         if (responseData.resultCode == 200) {
             responseData.parseData(SearchResultResponse.class);
             SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
-            mView.getSearchProductListSuccess(response);
+            mView.getSearchListSuccess(response);
         } else {
-            mView.getSearchProductListFail(responseData.errorDesc);
+            mView.showToast(responseData.errorDesc);
         }
     }
 
@@ -101,9 +101,9 @@ public class PresenterSearchImpl implements SearchControl.PresenterSearch {
         if (responseData.resultCode == 200) {
             responseData.parseData(SearchResultResponse.class);
             SearchResultResponse response = (SearchResultResponse) responseData.parsedData;
-            mView.getSearchFairListSuccess(response);
+            mView.getSearchListSuccess(response);
         } else {
-            mView.getSearchFairListFail(responseData.errorDesc);
+            mView.showToast(responseData.errorDesc);
         }
     }
 

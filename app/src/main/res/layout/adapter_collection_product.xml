@@ -47,6 +47,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/app_default_des"
+                android:visibility="invisible"
                 android:textColor="@color/darkgrey1"
                 android:textSize="@dimen/sp_13" />
 

@@ -2,7 +2,9 @@ package com.banshengyuan.feima.help.HtmlHelp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.text.Html;
 import android.widget.TextView;
 
@@ -25,17 +27,18 @@ public class URLImageParser implements Html.ImageGetter {
     }
 
     public Drawable getDrawable(String source) {
-        final URLDrawable urlDrawable = new URLDrawable(mContext);
+        final LevelListDrawable drawable = new LevelListDrawable();
         Glide.with(mContext).load(source).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                urlDrawable.bitmap = resource;
-                urlDrawable.setHeight(resource.getHeight());
-                urlDrawable.setBounds(0,0,mContext.getResources().getDisplayMetrics().widthPixels ,resource.getHeight());
+                BitmapDrawable bitmapDrawable = new BitmapDrawable(null,resource);
+                drawable.addLevel(1, 1, bitmapDrawable);
+                drawable.setBounds(0,0,bitmapDrawable.getIntrinsicWidth() ,bitmapDrawable.getMinimumHeight());
+                drawable.setLevel(1);
                 mTextView.invalidate();
                 mTextView.setText(mTextView.getText());
             }
         });
-        return urlDrawable;
+        return drawable;
     }
 }

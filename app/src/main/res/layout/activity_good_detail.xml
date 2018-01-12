@@ -229,15 +229,12 @@
                 </LinearLayout>
 
                 <View style="@style/LineH_Fill_Width_12_ForView"/>
-
-                <TextView
+                <WebView
                     android:id="@+id/goods_detail_html"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    />
+                    android:background="#ffffff"/>
             </LinearLayout>
 
 

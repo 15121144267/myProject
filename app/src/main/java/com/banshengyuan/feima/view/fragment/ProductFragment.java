@@ -114,7 +114,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
                 public NetworkImageHolderView createHolder() {
                     return new NetworkImageHolderView(mImageLoaderHelper, mView);
                 }
-            }, mListAll).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
+            }, mListAll).setPointViewVisible(mListAll.size() > 1).setPageIndicator(new int[]{R.drawable.shape_line2, R.drawable.shape_line_banner});
         } else {
             mConvenientBanner.setVisibility(View.GONE);
         }

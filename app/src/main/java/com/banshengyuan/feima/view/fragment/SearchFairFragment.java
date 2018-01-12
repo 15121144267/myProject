@@ -68,19 +68,8 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initData();
-    }
-
-    @Override
-    public void getSearchFairListSuccess(SearchResultResponse response) {
+    public void getSearchListSuccess(SearchResultResponse response) {
         mAdapter.setNewData(response.list);
-    }
-
-    @Override
-    public void getSearchFairListFail(String des) {
-        showToast(des);
     }
 
     @Override
@@ -94,38 +83,8 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.SEARCH_UPDATE)) {
             mSearchName = intent.getStringExtra("broSearchName");
-            initData();
+            mPresenter.requestSearchFairList(mSearchName, "fair");
         }
-    }
-
-    @Override
-    public void getSearchStoreListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchStreetListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchProductListSuccess(SearchResultResponse response) {
-
-    }
-
-    @Override
-    public void getSearchStoreListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchStreetListFail(String des) {
-
-    }
-
-    @Override
-    public void getSearchProductListFail(String des) {
-
     }
 
     private void initView() {
@@ -139,11 +98,6 @@ public class SearchFairFragment extends BaseFragment implements SearchControl.Se
                 startActivity(WorkSummaryActivity.getSummaryIntent(getActivity(), bean.id));
             }
         });
-    }
-
-
-    private void initData() {
-        mPresenter.requestSearchFairList(mSearchName, "fair");
     }
 
     @Override
