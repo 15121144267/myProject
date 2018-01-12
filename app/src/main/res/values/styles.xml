@@ -16,7 +16,6 @@
     </style>
 
     <style name="YellowAppTheme" parent="AppTheme">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/text_color_yellow_dark2</item>
     </style>
 

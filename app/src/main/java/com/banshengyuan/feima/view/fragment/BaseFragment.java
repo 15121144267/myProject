@@ -5,20 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.amap.api.location.AMapLocation;
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
-import com.banshengyuan.feima.dagger.HasComponent;
 import com.banshengyuan.feima.entity.BuProcessor;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
@@ -104,23 +100,6 @@ public class BaseFragment extends Fragment {
             mDisposable = new CompositeDisposable();
         }
         mDisposable.add(subscription);
-    }
-
-    <C> C getComponent(Class<C> componentType) {
-        //noinspection unchecked
-        return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
-    }
-
-    protected void initStatus() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            View decoderView = getActivity().getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decoderView.setSystemUiVisibility(option);
-            getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else {
-            WindowManager.LayoutParams localLayoutParams = getActivity().getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
     }
 
     public void judgeToken(Integer code) {

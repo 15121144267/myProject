@@ -131,7 +131,6 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         } else {
             ValueUtil.setTextDrawable(this, mFairDetailCollection, R.mipmap.shop_detail_uncollection, 2);
         }
-
     }
 
     @Override
