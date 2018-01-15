@@ -163,7 +163,13 @@ public class BlockDetailActivity extends BaseActivity implements BlockDetailCont
                     break;
             }
         });
-        RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> requestCollectionStatue());
+        RxView.clicks(mBlockDetailCollection).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            if (mBuProcessor.isValidLogin()) {
+                requestCollectionStatue();
+            } else {
+                switchToLogin();
+            }
+        });
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
         mBlockDetailBanner.isAutoPlay(false);
         mToolbarRightIcon.setVisibility(View.VISIBLE);

@@ -18,7 +18,7 @@ public interface FairDetailApi {
     Observable<String> storeListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/goods")
-    Observable<String> productListRequest(@Query("category_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
+    Observable<String> productListRequest(@Query("fair_category_2_id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/fair/{id}/comment")
     Observable<String> commentListRequest(@Path("id") Integer fairId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);

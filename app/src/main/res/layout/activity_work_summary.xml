@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -52,8 +52,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:maxLines="1"
                         android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         />
@@ -103,11 +103,11 @@
                     android:id="@+id/fair_detail_read_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_25"
+                    android:drawablePadding="@dimen/dp_10"
                     android:drawableStart="@mipmap/fair_read_count"
                     android:paddingEnd="@dimen/dp_20"
                     android:paddingStart="@dimen/dp_20"
-                    android:layout_marginBottom="@dimen/dp_25"
-                    android:drawablePadding="@dimen/dp_10"
                     android:text="未知"
                     android:textColor="@color/tab_text_normal"/>
 
@@ -141,9 +141,9 @@
                     android:id="@+id/fair_detail_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:drawableEnd="@mipmap/comment_icon"
-                    android:gravity="center"
+                    android:drawableStart="@mipmap/comment_icon"
                     android:drawablePadding="@dimen/dp_10"
+                    android:gravity="center"
                     android:text="0 评论"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
@@ -166,9 +166,9 @@
                     android:id="@+id/fair_detail_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:drawableEnd="@mipmap/shop_detail_uncollection"
-                    android:gravity="center"
                     android:drawablePadding="@dimen/dp_10"
+                    android:drawableStart="@mipmap/shop_detail_uncollection"
+                    android:gravity="center"
                     android:text="0 收藏"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
@@ -186,9 +186,9 @@
                     android:id="@+id/fair_detail_praise"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:drawableEnd="@mipmap/praise_icon"
-                    android:gravity="center"
+                    android:drawableStart="@mipmap/praise_icon"
                     android:drawablePadding="@dimen/dp_10"
+                    android:gravity="center"
                     android:text="0 赞"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
@@ -212,8 +212,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:drawableEnd="@mipmap/arror_right_grey"
-                    android:gravity="center"
                     android:drawablePadding="@dimen/dp_10"
+                    android:gravity="center"
                     android:text="0 产品"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>

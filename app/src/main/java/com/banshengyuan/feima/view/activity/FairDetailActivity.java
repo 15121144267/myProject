@@ -152,7 +152,6 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
             mFragments.add(FollowFragment.newInstance());
             mFragments.add(CelebrityFragment.newInstance());
             mFragments.add(TrendsFragment.newInstance());
-//            mPresenter.request
         } else if (layoutFlag == 2) {
             list.add("市集");
             list.add("产品");

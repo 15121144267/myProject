@@ -20,7 +20,7 @@ public interface ShopProductDetailApi {
     Observable<String> storeProductListRequest(@Query("store_id") Integer shopId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/store/{id}/ticket")
-    Observable<String> storeCouponListRequest(@Path("id") Integer shopId);
+    Observable<String> storeCouponListRequest(@Path("id") String shopId, @Query("token") String token);
 
     @POST("api/store/ticket/receive")
     Observable<String> couponInfoRequest(@Body String request);

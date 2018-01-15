@@ -8,6 +8,5 @@ import java.io.Serializable;
 
 public class CouponInfoRequest implements Serializable {
     public String id;
-    public boolean flag;
     public String token;
 }

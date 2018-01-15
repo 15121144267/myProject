@@ -84,7 +84,6 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
         } else {
             mView.shoppingCardListFail(responseData.errorDesc);
         }
-
     }
 
     @Override

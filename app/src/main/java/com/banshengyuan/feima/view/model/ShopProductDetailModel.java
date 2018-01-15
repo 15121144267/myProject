@@ -39,7 +39,7 @@ public class ShopProductDetailModel {
     }
 
     public Observable<ResponseData> storeCouponListRequest(Integer shopId) {
-        return mApi.storeCouponListRequest(shopId).map(mTransform::transformCommon);
+        return mApi.storeCouponListRequest(shopId+"",mBuProcessor.getUserToken()).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> couponInfoRequest(Integer couponId) {

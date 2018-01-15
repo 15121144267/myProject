@@ -29,7 +29,7 @@ public interface MainApi {
     Observable<String> allProductSortRequest(@Query("is_recommend") Integer is_recommend, @Query("page") String page, @Query("pageSize") String pageSize);
 
     @GET("api/nearest-street-one")
-    Observable<String> recommendTopRequest(@Query("longitude") String partnerId, @Query("latitude") String latitude);
+    Observable<String> recommendTopRequest(@Query("longitude") String longitude, @Query("latitude") String latitude);
 
     @GET("api/fair-category")
     Observable<String> recommendTopRequest(@Query("type") String type, @Query("page") Integer page, @Query("pageSize") Integer pageSize);

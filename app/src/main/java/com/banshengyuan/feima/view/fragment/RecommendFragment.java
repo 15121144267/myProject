@@ -161,7 +161,9 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
 
     private void requestRecommend() {
         if (mLocationInfo != null) {
-            mPresenter.requestRecommendTop(mLocationInfo.getLongitude(), mLocationInfo.getLatitude());
+            double longitude = mLocationInfo.getLongitude();
+            double latitude = mLocationInfo.getLatitude();
+            mPresenter.requestRecommendTop(longitude,latitude);
         } else {
             mPresenter.requestRecommendTop(0, 0);
         }
