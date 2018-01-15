@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
@@ -22,8 +23,10 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.banshengyuan.feima.utils.ValueUtil;
+import com.banshengyuan.feima.utils.VirtualConflict;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
@@ -78,6 +81,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         super.onCreate(savedInstanceState);
         SystemStatusManager.setbannerStatus(this);
         setContentView(R.layout.activity_fairproduct_detail);
+        VirtualConflict.assistActivity(findViewById(android.R.id.content));//解决虚拟键冲突
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         initializeInjector();
@@ -114,6 +118,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     @Override
     void onReceivePro(Context context, Intent intent) {
         if (intent.getAction().equals(BroConstant.PAY_TO_EXCHANGEDETAIL_ACTIVITY)) {
+            SystemClock.sleep(500);//后台状态反应时间
             mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
         }
         super.onReceivePro(context, intent);
@@ -173,13 +178,13 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (hotFairDetailResponse != null) {
             if (hotFairStateResponse != null) {//付款完成
                 if (hotFairStateResponse.getStatus().equals("1")) {//已报名 未付款
-                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, mOrderSn, 2,"ExchangeFragment"));
+                    startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, mOrderSn, 2, "ExchangeFragment"));
                 } else {// 已付款
                     startActivity(ActionCodeActivity.getIntent(FairProductDetailActivity.this, hotFairDetailResponse, hotFairStateResponse.getQrcode()));
                 }
             } else {//报名参加
                 JoinActionDialog joinActionDialog = JoinActionDialog.newInstance();
-                joinActionDialog.setData(mPresenter, fId, token, hotFairDetailResponse,mBuProcessor.getUserPhone());
+                joinActionDialog.setData(mPresenter, fId, token, hotFairDetailResponse, mBuProcessor.getUserPhone());
 
                 DialogFactory.showDialogFragment(getSupportFragmentManager(), joinActionDialog, CommonDialog.TAG);
             }
@@ -202,9 +207,9 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         HotFairDetailResponse.InfoBean infoBean = response.getInfo();
         if (infoBean != null) {
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
-            ValueUtil.setHtmlContent(this,response.getInfo().getContent(),fairDetailWebcontent);
+            ValueUtil.setHtmlContent(this, response.getInfo().getContent(), fairDetailWebcontent);
 //            mImageLoaderHelper.displayMatchImage(this,infoBean.getCover_img(),mFairDetailBanner,0);
-            mImageLoaderHelper.displayImage(this,infoBean.getCover_img(),mFairDetailBanner);
+            mImageLoaderHelper.displayImage(this, infoBean.getCover_img(), mFairDetailBanner);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 mOrderSn = response.getInfo().getOrder_sn();
                 mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
@@ -227,9 +232,9 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     @Override
     public void getHotFairJoinActionSuccess(OrderConfirmedResponse response) {
-        showToast("报名成功");
         //直接唤起支付
         mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
+        startActivity(FinalPayActivity.getIntent(FairProductDetailActivity.this, mOrderSn, 2, "ExchangeFragment"));
     }
 
     @Override

@@ -12,12 +12,16 @@ public class WaitPayControl {
         void loadFail(Throwable throwable);
         void getMyOrderListSuccess(MyOrdersResponse response);
 
-        void getCancelOrderSuccess(boolean flag);
+        void getCancelOrderSuccess();
+
+        void getDeleteOrderSuccess();
     }
 
     public interface PresenterWaitPay extends Presenter<WaitPayView> {
         void requestMyOrderList(Integer pageNo,Integer pageSize,String status,boolean flag,String token);
 
         void requestCancelOrder(String order_sn,String token);
+
+        void requestDeleteOrder(String order_sn,String token);
     }
 }

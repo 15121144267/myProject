@@ -25,10 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_40"
+                android:ellipsize="end"
                 android:gravity="center_horizontal"
+                android:maxLines="2"
                 android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_26" />
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:textSize="@dimen/sp_24" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -49,7 +53,7 @@
                 android:gravity="center"
                 android:text="@string/app_default_des"
                 android:textColor="@color/tab_text_normal"
-                android:textSize="@dimen/sp_18" />
+                android:textSize="@dimen/sp_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,13 +65,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="时间："
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/action_code_date"
                     style="@style/textview"
                     android:text="@string/app_default_des"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
             <LinearLayout
@@ -75,18 +79,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:gravity="center"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
                 android:orientation="horizontal">
 
                 <TextView
                     style="@style/textview"
                     android:text="地点："
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/action_code_place"
                     style="@style/textview"
                     android:text="@string/app_default_des"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
 
@@ -109,13 +115,13 @@
                 <TextView
                     style="@style/textview"
                     android:text="报名手机号："
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/action_code_phone"
                     style="@style/textview"
                     android:text="@string/app_default_des"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
         </LinearLayout>
 

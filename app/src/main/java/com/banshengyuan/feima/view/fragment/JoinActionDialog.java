@@ -94,7 +94,7 @@ public class JoinActionDialog extends BaseDialogFragment {
                 joinActionMoney.setText(money);
             }
             joinActionDate.setText(date);
-            joinActionPlace.setText("地点： " + place);
+            joinActionPlace.setText("地点: " + place);
         }
     }
 

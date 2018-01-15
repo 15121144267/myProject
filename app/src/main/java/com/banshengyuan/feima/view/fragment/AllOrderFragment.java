@@ -158,7 +158,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         //取消成功
         mAdapter.getItem(mPos).setPay_status(5);
         mAdapter.notifyItemChanged(mPos);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2));
+        updateWaitPayOrderFragment();
     }
 
     @Override
@@ -166,15 +166,15 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         //确认收货
         mAdapter.getItem(mPos).setPay_status(4);
         mAdapter.notifyItemChanged(mPos);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3));
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
+        updatePayCompleteOrderFragment();
+        updateOrderCompleteFragment();
     }
 
     @Override
     public void getDeleteOrderSuccess() {
         //删除成功
         mAdapter.remove(mPos);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
+        updateOrderCompleteFragment();
     }
 
 
@@ -200,7 +200,6 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         emptyContent.setText(R.string.all_order_empty_view);
         Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
-//        RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     MyOrdersResponse.ListBean listBean = (MyOrdersResponse.ListBean) adapter.getItem(position);
@@ -209,7 +208,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                         mOrderSn = listBean.getOrder_sn();
                         switch (view.getId()) {
                             case R.id.mime_order_lv:
-                                OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn);
+                                startActivity(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn));
                             /*startActivityForResult();
                             startActivityForResult(OrderDetailActivity.getOrderDetailIntent(getActivity(), mOrderSn), IntentConstant.ORDER_TO_ORDERDETAIL);*/
                                 break;
@@ -308,6 +307,16 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    private void updateWaitPayOrderFragment(){
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2));
+    }
+    private void updatePayCompleteOrderFragment(){
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3));
+    }
+    private void updateOrderCompleteFragment(){
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
     }
 
     private void initialize() {

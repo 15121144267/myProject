@@ -29,7 +29,7 @@
             android:layout_gravity="left"
             android:ellipsize="end"
             android:gravity="center_horizontal"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="活动报名标题"
             android:textStyle="bold"
             android:textColor="@color/tab_text_normal"
@@ -43,7 +43,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/app_default_des"
             android:textColor="@color/color666"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/join_action_place"
@@ -53,7 +53,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/app_default_des"
             android:textColor="@color/color666"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/join_action_money"
@@ -63,6 +63,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:gravity="center_horizontal"
             android:text="￥0.00"
+            android:textStyle="bold"
             android:textColor="@color/light_red"
             android:textSize="30sp" />
 

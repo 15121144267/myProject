@@ -36,9 +36,9 @@
         android:layout_marginRight="@dimen/dp_15"
         android:background="@color/eee"
         android:gravity="left|top"
-        android:hint="快去告诉你的小伙伴们你的评价吧!(至少10个字哦)"
+        android:hint="快去告诉你的小伙伴们你的评价吧!(至少10个字)"
         android:padding="@dimen/dp_10"
-        android:textColor="@color/color333"
+        android:textColor="@color/color666"
         android:textColorHint="@color/color666"
         android:textSize="@dimen/sp_15" />
 

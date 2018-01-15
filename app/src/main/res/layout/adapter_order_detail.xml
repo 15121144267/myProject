@@ -65,5 +65,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View style="@style/LineV_Fill_Height0_5_ForView" />
+    <View style="@style/LineH_Fill_Width1_5_ForView" />
 </LinearLayout>

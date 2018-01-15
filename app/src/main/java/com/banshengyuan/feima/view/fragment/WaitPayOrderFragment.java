@@ -144,18 +144,20 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     }
 
     @Override
-    public void getCancelOrderSuccess(boolean flag) {
-        if (flag) {
-            showToast("取消成功");
-            mAdapter.remove(mPos);
-            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
-        }
+    public void getCancelOrderSuccess() {
+        showToast("取消成功");
+        mAdapter.remove(mPos);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
+    }
+
+    @Override
+    public void getDeleteOrderSuccess() {
+        mAdapter.remove(mPos);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH));
     }
 
     private void initData() {
         mToken = mBuProcessor.getUserToken();
-//        mToken = Constant.TOKEN;
-        //search_status 状态搜索 1待付款 2待收货 3待评价   全部传""
         mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
     }
 
@@ -228,6 +230,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                 } else if (listBean.getOrder_type() == 3) {
                                     //3线下收款订单
                                     //删除
+                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                 }
                                 break;
                         }
