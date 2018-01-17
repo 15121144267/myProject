@@ -119,6 +119,10 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
     @Override
     public void orderConfirmedSuccess(OrderConfirmedResponse response) {
         if (!TextUtils.isEmpty(response.order_sn)) {
+            if (response.total_fee < 0) {
+                showToast("数据出错,请稍后重试");
+                return;
+            }
             setResult(RESULT_OK);
             startActivity(FinalPayActivity.getIntent(this, response.order_sn, 1));
         }

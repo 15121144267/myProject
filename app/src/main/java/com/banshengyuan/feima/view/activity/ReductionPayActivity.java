@@ -82,6 +82,10 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
     @Override
     public void getPayRequestSuccess(OrderConfirmedResponse response) {
         if (!TextUtils.isEmpty(response.order_sn)) {
+            if (response.total_fee < 0) {
+                showToast("数据出错,请稍后重试");
+                return;
+            }
             startActivity(FinalPayActivity.getIntent(this, response.order_sn, 3));
         }
     }
@@ -243,7 +247,6 @@ public class ReductionPayActivity extends BaseActivity implements ReductionPayCo
                 mCouponPrice = (mAllPrice - mNotCutPrice) * mCheckData.getEnd_val();
                 mFinalPrice = ((mAllPrice - mNotCutPrice) * mCheckData.getEnd_val()) + mNotCutPrice;
             }
-
         }
         mActivityReductionFinalPrice.setText("￥" + ValueUtil.formatAmount3(mFinalPrice) + "");
         mActivityReductionCouponSize.setText("￥" + ValueUtil.formatAmount3(mCouponPrice) + "");

@@ -124,7 +124,6 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        initStatus();
         initialize();
     }
 
@@ -155,7 +154,8 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     }
 
     private void initView() {
-        RxView.clicks(mPersonEnterPersonalPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> startActivityForResult(PersonCenterActivity.getPersonIntent(getActivity(), mResponse), IntentConstant.ORDER_POSITION_ONE));
+        RxView.clicks(mPersonEnterPersonalPage).throttleFirst(1, TimeUnit.SECONDS).subscribe(o ->
+                startActivityForResult(PersonCenterActivity.getPersonIntent(getActivity(), mResponse), IntentConstant.ORDER_POSITION_ONE));
 
         RxView.clicks(mPersonEnterSafePage).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(SafeSettingActivity.getIntent(getActivity())));

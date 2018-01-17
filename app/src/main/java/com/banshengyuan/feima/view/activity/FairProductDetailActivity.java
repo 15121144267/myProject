@@ -23,13 +23,13 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
-import com.banshengyuan.feima.utils.LogUtils;
-import com.banshengyuan.feima.utils.SystemStatusManager;
 import com.banshengyuan.feima.utils.ValueUtil;
-import com.banshengyuan.feima.utils.VirtualConflict;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -79,9 +79,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SystemStatusManager.setbannerStatus(this);
         setContentView(R.layout.activity_fairproduct_detail);
-        VirtualConflict.assistActivity(findViewById(android.R.id.content));//解决虚拟键冲突
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         initializeInjector();
@@ -131,6 +129,8 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     }
 
     private void initView() {
+        mToolbarRightIcon.setVisibility(View.VISIBLE);
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
         if (getIntent() != null) {
             fId = getIntent().getStringExtra("fId");
         }

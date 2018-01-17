@@ -120,6 +120,7 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
             startActivity(i);
         }
     }
+
     @Override
     public void orderPayInfoSuccess(PayResponse response) {
         if (PayConstant.PAY_TYPE_WX.equals(response.pay_ebcode + "")) {

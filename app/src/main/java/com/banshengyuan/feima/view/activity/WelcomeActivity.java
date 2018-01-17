@@ -59,7 +59,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
         ButterKnife.bind(this);
         mPresenter.onCreate();
         initView();
-        initData();
     }
 
     private void initView() {
@@ -74,9 +73,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
         });
     }
 
-    private void initData() {
-        switchToMain();
-    }
 
     @Override
     public boolean handleMessage(Message msg) {
@@ -149,6 +145,7 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
     @Override
     protected void onResume() {
         super.onResume();
+        switchToMain();
     }
 
     @Override

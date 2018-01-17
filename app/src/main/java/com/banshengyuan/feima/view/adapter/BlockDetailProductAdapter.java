@@ -27,7 +27,7 @@ public class BlockDetailProductAdapter extends BaseQuickAdapter<BlockDetailProdu
     protected void convert(BaseViewHolder helper, BlockDetailProductListResponse.ListBean item) {
         if (item == null) return;
         ImageView imageView = helper.getView(R.id.adapter_product_icon);
-        mImageLoaderHelper.displayImage(mContext, null, imageView);
+        mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
         helper.setText(R.id.adapter_product_name, item.name);
         helper.setText(R.id.adapter_product_price, "￥" + ValueUtil.formatAmount2(item.price));
     }

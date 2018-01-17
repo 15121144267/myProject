@@ -25,6 +25,7 @@ public class ShoppingCardListResponse implements Serializable {
         public ShopFreightConfigBean shop_freight_config;
         public List<UserTicketBean> user_ticket;
         public List<ListBean> list;
+
         public boolean checkFlag;
         public int freightWay;
         public int reduceWay = 1;

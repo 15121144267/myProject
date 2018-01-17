@@ -94,7 +94,6 @@ public class CelebrityFragment extends BaseFragment implements CelebrityControl.
         mFragmentTrendsListMiddle.setAdapter(mAdapter);
     }
 
-
     @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
