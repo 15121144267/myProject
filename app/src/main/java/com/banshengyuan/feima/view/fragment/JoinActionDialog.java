@@ -86,7 +86,7 @@ public class JoinActionDialog extends BaseDialogFragment {
             HotFairDetailResponse.InfoBean infoBean = mHotFairDetailResponse.getInfo();
             joinActionTitle.setText(infoBean.getName());
             String date = "时间: " + TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD, (long) infoBean.getStart_time());
-            String place = TextUtils.isEmpty(infoBean.getStreet_name()) ? "未知街区  " : infoBean.getName();
+            String place = TextUtils.isEmpty(infoBean.getStreet_name()) ? "未知街区  " : infoBean.getStreet_name();
             mPhone = TextUtils.isEmpty(mPhone) ? "未知  " : mPhone;
             joinActionPhone.setText(mPhone);
             if (infoBean.getSales_price() > 0) {
