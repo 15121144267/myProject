@@ -10,7 +10,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -264,7 +263,6 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         mGoodsDetailHtml.getSettings().setAllowFileAccess(true);
         mGoodsDetailHtml.getSettings().setJavaScriptEnabled(true);
         mGoodsDetailHtml.getSettings().setDomStorageEnabled(true);
-        mGoodsDetailHtml.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mProductId = getIntent().getIntExtra("productId", 0);
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
