@@ -26,9 +26,9 @@ public class SearchShopAdapter extends BaseQuickAdapter<SearchResultResponse.Lis
     protected void convert(BaseViewHolder helper, SearchResultResponse.ListBean item) {
         if (item == null) return;
         ImageView imageView = helper.getView(R.id.adapter_collection_icon);
-        mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
+        mImageLoaderHelper.displayImage(mContext, item.shop_logo, imageView);
         helper.setText(R.id.adapter_product_name, item.name);
-        helper.setText(R.id.adapter_product_summary, item.summary);
+        helper.setText(R.id.adapter_product_summary, item.category);
     }
 
 }

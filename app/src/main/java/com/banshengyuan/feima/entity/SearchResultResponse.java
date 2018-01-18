@@ -32,6 +32,7 @@ public class SearchResultResponse implements Serializable{
         public String name;
         public String summary;
         public String cover_img;
+        public String shop_logo;
         public int price;
         public String category;
     }
