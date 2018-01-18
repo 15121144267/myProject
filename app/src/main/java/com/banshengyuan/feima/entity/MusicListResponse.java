@@ -34,5 +34,6 @@ public class MusicListResponse implements Serializable {
         public int id;
         public String name;
         public String cover_img;
+        public int status;
     }
 }

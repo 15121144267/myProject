@@ -27,14 +27,12 @@ public class ExChangeAdapter extends BaseQuickAdapter<ExChangeResponse.ListBean,
     protected void convert(BaseViewHolder helper, ExChangeResponse.ListBean item) {
         if (item == null) return;
         helper.setText(R.id.hot_fair_time_name, item.getName());
-        helper.setText(R.id.adapter_fair_summary, item.getSummary());
         imageLoaderHelper.displayRoundedCornerImage(mContext, item.getCover_img(), helper.getView(R.id.hot_fair_pic), 4);
 //        imageLoaderHelper.displayMatchImage(mContext, item.getCover_img(), helper.getView(R.id.hot_fair_pic), 4);
         if (!TextUtils.isEmpty(item.getEnd_time())) {
             helper.setVisible(R.id.hot_fair_time_first, true);
-            helper.setText(R.id.hot_fair_time_first, TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH,Long.parseLong(item.getEnd_time())));
+            helper.setText(R.id.hot_fair_time_first, TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH,Long.parseLong(item.getStart_time())));
         }
-
         helper.setText(R.id.adapter_fair_summary,item.getStreet_name());
     }
 

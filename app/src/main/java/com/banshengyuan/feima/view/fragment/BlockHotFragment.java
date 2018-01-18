@@ -123,7 +123,7 @@ public class BlockHotFragment extends BaseFragment implements BlockControl.Block
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             BlockHotListResponse.ListBean bean = (BlockHotListResponse.ListBean) adapter.getItem(position);
             if(bean!=null){
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id+""));
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id+"",bean.status));
             }
         });
     }

@@ -123,7 +123,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
             ExChangeResponse.ListBean bean = mHotFairAdapter.getItem(position);
             if (bean != null) {
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId())));
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId()),bean.getStatus()));
             }
         });
     }

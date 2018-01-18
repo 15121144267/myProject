@@ -83,6 +83,7 @@ public class MainActivityModule {
                 .isHttps(!BuildConfig.DEBUG)
                 .key(BuildConfig.STORE_NAME, BuildConfig.STORE_PASSWORD)
                 .isToJson(false)
+
                 .builder()
                 .create(MainApi.class), gson, modelTransform);
     }

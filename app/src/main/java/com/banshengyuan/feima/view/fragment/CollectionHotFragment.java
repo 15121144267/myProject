@@ -100,7 +100,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ExChangeResponse.ListBean bean = (ExChangeResponse.ListBean) adapter.getItem(position);
             if (bean != null) {
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId())));
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId()),bean.getStatus()));
             }
         });
     }

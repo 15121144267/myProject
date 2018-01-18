@@ -54,6 +54,7 @@ public class ExChangeResponse {
          * summary : 热闹1的简介
          * street_id : 1
          * street_name : 街区名字
+         * status  1 进行中  2 未开始   3 已结束
          */
 
         private int id;
@@ -64,6 +65,7 @@ public class ExChangeResponse {
         private String summary;
         private String street_id;
         private String street_name;
+        private int status;
 
         public int getId() {
             return id;
@@ -127,6 +129,14 @@ public class ExChangeResponse {
 
         public void setStreet_name(String street_name) {
             this.street_name = street_name;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 }

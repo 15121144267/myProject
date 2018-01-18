@@ -29,6 +29,7 @@ public class BlockHotListResponse implements Serializable {
          * summary : 热闹1的简介
          * street_id : 1
          * street_name : 街区名字
+         * status
          */
 
         public int id;
@@ -39,5 +40,6 @@ public class BlockHotListResponse implements Serializable {
         public String summary;
         public int street_id;
         public String street_name;
+        public int status;
     }
 }

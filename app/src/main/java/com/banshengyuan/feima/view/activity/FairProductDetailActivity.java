@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
+import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
@@ -45,7 +47,13 @@ import butterknife.OnClick;
 public class FairProductDetailActivity extends BaseActivity implements FairProductDetailControl.FairProductDetailView {
 
     @BindView(R.id.join)
-    RadiusTextView join;
+    TextView join;
+    @BindView(R.id.fair_detail_title)
+    TextView fairDetailTitle;
+    @BindView(R.id.fair_detail_date)
+    TextView fairDetailDate;
+    @BindView(R.id.fair_detail_place)
+    TextView fairDetailPlace;
     @BindView(R.id.fair_detail_webcontent)
     WebView fairDetailWebcontent;
     @BindView(R.id.fair_detail_collection)
@@ -60,10 +68,16 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     AppBarLayout mAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    private int mStatus;//1 进行中  2 未开始   3 已结束
+    private String yelloColoor = "#fffc00";
+    private String yelloTextColoor = "#212121";
+    private String grayColor = "#eeeeee";
+    private String grayTextColor = "#666666";
 
-    public static Intent getIntent(Context context, String fId) {
+    public static Intent getIntent(Context context, String fId, int status) {
         Intent intent = new Intent(context, FairProductDetailActivity.class);
         intent.putExtra("fId", fId);
+        intent.putExtra("status", status);
         return intent;
     }
 
@@ -136,6 +150,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
         if (getIntent() != null) {
             fId = getIntent().getStringExtra("fId");
+            mStatus = getIntent().getIntExtra("status", 1);
         }
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
@@ -209,15 +224,29 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         hotFairDetailResponse = response;
         HotFairDetailResponse.InfoBean infoBean = response.getInfo();
         if (infoBean != null) {
+            fairDetailTitle.setText(infoBean.getName());
+            String date = infoBean.getStart_time() != 0 ? TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_CH, (long) infoBean.getEnd_time()) : "未知";
+            String place = TextUtils.isEmpty(infoBean.getStreet_name()) ? "未知" : infoBean.getStreet_name();
+            fairDetailDate.setText("时间：" + date);
+            fairDetailPlace.setText("地点：" + place);
+
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
             fairDetailWebcontent.loadDataWithBaseURL(null, response.getInfo().getContent(), "text/html", "utf-8", null);
             mImageLoaderHelper.displayImage(this, infoBean.getCover_img(), mFairDetailBanner);
-            if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
-                mOrderSn = response.getInfo().getOrder_sn();
-                mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
+
+            if (mStatus == 3) {
+                timeOutAction();
+                join.setText("已结束");
             } else {
-                join.setText("报名参加");
+                timeIngAction();
+                if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
+                    mOrderSn = response.getInfo().getOrder_sn();
+                    mPresenter.requestHotFairState(fId, mOrderSn, token); //热闹-报名订单状态查询
+                } else {
+                    join.setText("报名参加");
+                }
             }
+
         }
 
     }
@@ -254,7 +283,9 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.join:
-                join();
+                if (mStatus != 3) {
+                    join();
+                }
                 break;
             case R.id.toolbar_right_icon:
                 //分享
@@ -267,6 +298,16 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     private void switchToLogin2() {
         startActivityForResult(LoginActivity.getLoginIntent(FairProductDetailActivity.this), IntentConstant.ORDER_POSITION_ONE);
+    }
+
+    private void timeOutAction() {
+        join.setTextColor(Color.parseColor(grayTextColor));
+        join.setBackgroundColor(Color.parseColor(grayColor));
+    }
+
+    private void timeIngAction() {
+        join.setTextColor(Color.parseColor(yelloTextColoor));
+        join.setBackgroundColor(Color.parseColor(yelloColoor));
     }
 
 }
