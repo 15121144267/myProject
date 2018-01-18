@@ -206,10 +206,12 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
                     //折叠状态
                     mPersonTips.setVisibility(View.GONE);
                     mMiddleName.setVisibility(View.VISIBLE);
+                    ((MainActivity) getActivity()).setBackGroundColor(R.color.text_color_yellow_dark2);
                 } else {
                     //中间状态
                     mPersonTips.setVisibility(View.VISIBLE);
                     mMiddleName.setVisibility(View.GONE);
+                    ((MainActivity) getActivity()).setBackGroundColor(R.drawable.yellow_style);
                 }
             }
         });

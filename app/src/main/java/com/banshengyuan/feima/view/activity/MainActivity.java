@@ -54,6 +54,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     public static final int SWITCH_SECOND_PAGE = 1;
     public static final int SWITCH_THIRD_PAGE = 2;
     public static final int SWITCH_FORTH_PAGE = 3;
+    private int mBackgroundColor = R.drawable.yellow_style;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,7 +137,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        mMainLayOut.setBackgroundResource(item.getItemId() == R.id.action_four ? R.color.text_color_yellow_dark2 : R.color.white);
+        mMainLayOut.setBackgroundResource(item.getItemId() == R.id.action_four ? mBackgroundColor : R.color.white);
         switch (item.getItemId()) {
             case R.id.action_one:
                 mViewSwapper.setCurrentItem(SWITCH_FIRST_PAGE, false);
@@ -183,6 +184,11 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         } else {
             mViewBottomNavigation.setSelectedItemId(R.id.action_one);
         }
+    }
+
+    public void setBackGroundColor(int res) {
+        mBackgroundColor = res;
+        mMainLayOut.setBackgroundResource(res);
     }
 
     private void showDialog() {
