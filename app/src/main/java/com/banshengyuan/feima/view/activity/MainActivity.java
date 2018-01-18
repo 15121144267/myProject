@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerMainActivityComponent;
@@ -34,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainControl.MainView, BottomNavigationView.OnNavigationItemSelectedListener, CommonDialog.CommonDialogListener {
+
     public static Intent getMainIntent(Context context) {
         return new Intent(context, MainActivity.class);
     }
@@ -43,6 +45,9 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     ViewPager mViewSwapper;
     @BindView(R.id.view_bottom_navigation)
     BottomNavigationView mViewBottomNavigation;
+    @BindView(R.id.main_lay_out)
+    RelativeLayout mMainLayOut;
+
     @Inject
     MainControl.PresenterMain mPresenter;
     public static final int SWITCH_FIRST_PAGE = 0;
@@ -131,6 +136,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mMainLayOut.setBackgroundResource(item.getItemId() == R.id.action_four ? R.color.text_color_yellow_dark2 : R.color.white);
         switch (item.getItemId()) {
             case R.id.action_one:
                 mViewSwapper.setCurrentItem(SWITCH_FIRST_PAGE, false);

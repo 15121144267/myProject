@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common" />
+    <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView" />
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/login_userName"
@@ -24,7 +25,7 @@
             android:inputType="number"
             android:paddingBottom="15dp"
             android:textColor="@color/black"
-            android:theme="@style/MyEditText3" />
+            android:theme="@style/MyEditText3"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -42,7 +43,7 @@
             android:inputType="textPassword"
             android:paddingBottom="15dp"
             android:textColor="@color/black"
-            android:theme="@style/MyEditText3" />
+            android:theme="@style/MyEditText3"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -55,7 +56,7 @@
         android:enabled="false"
         android:text="@string/app_login"
         android:textColor="@color/tab_text_normal"
-        android:textSize="@dimen/sp_15" />
+        android:textSize="@dimen/sp_15"/>
 
 
     <LinearLayout
@@ -72,7 +73,7 @@
             android:layout_weight="1"
             android:text="注册"
             android:textColor="@color/darkgrey1"
-            android:textSize="@dimen/sp_13" />
+            android:textSize="@dimen/sp_13"/>
 
         <TextView
             android:id="@+id/login_forget_password"
@@ -80,6 +81,6 @@
             android:layout_height="wrap_content"
             android:text="忘记密码?"
             android:textColor="@color/darkgrey1"
-            android:textSize="@dimen/sp_13" />
+            android:textSize="@dimen/sp_13"/>
     </LinearLayout>
 </LinearLayout>

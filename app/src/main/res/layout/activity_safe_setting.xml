@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common" />
+    <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width_12_ForView" />
+    <View style="@style/LineH_Fill_Width_12_ForView"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,17 +21,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="手机号" />
+            android:text="手机号"/>
 
         <TextView
             android:id="@+id/setting_phone"
             style="@style/TextColor_dark_black_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text=""/>
     </LinearLayout>
 
-    <View style="@style/LineH_Yellow_Fill_Width1" />
+    <View style="@style/LineH_Yellow_Fill_Width1"/>
 
     <TextView
         android:id="@+id/safe_change_password"
@@ -41,11 +42,11 @@
         android:gravity="center_vertical"
         android:paddingEnd="@dimen/dp_20"
         android:paddingStart="@dimen/dp_20"
-        android:text="修改登入密码" />
+        android:text="修改登入密码"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/line_grey_bg" />
+        android:background="@color/line_grey_bg"/>
 </LinearLayout>

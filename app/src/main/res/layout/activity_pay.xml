@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/pay_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/pay_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common" />
+    <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView" />
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/pay_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        app:tabIndicatorColor="@color/yellow_color" />
+        app:tabIndicatorColor="@color/yellow_color"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView" />
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <LinearLayout
         android:id="@+id/pay_order_address_layout"
@@ -24,15 +25,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_20"
-        android:paddingStart="@dimen/dp_20">
+        android:paddingStart="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_10">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/pay_address_location" />
+            android:background="@mipmap/pay_address_location"/>
 
         <LinearLayout
             android:id="@+id/pay_choose_address"
@@ -43,9 +44,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/dp_10"
-                android:paddingEnd="0dp"
                 android:paddingBottom="@dimen/dp_10"
+                android:paddingEnd="0dp"
+                android:paddingStart="@dimen/dp_10"
                 >
 
                 <TextView
@@ -56,7 +57,7 @@
                     android:maxLines="1"
                     android:text="收货人:未知"
                     android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_14"/>
 
                 <TextView
                     android:id="@+id/pay_address_phone"
@@ -66,7 +67,7 @@
                     android:maxLines="1"
                     android:text="未知"
                     android:textColor="@color/darkblack"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_14"/>
             </LinearLayout>
 
             <TextView
@@ -75,11 +76,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_10"
                 android:layout_marginStart="@dimen/dp_10"
+                android:drawableEnd="@mipmap/arrow_right"
                 android:maxLines="2"
                 android:text="请选择收货地址"
-                android:drawableEnd="@mipmap/arrow_right"
                 android:textColor="@color/darkblack"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_14"/>
 
         </LinearLayout>
 
@@ -90,8 +91,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/line_grey_bg2" />
+        android:background="@color/line_grey_bg2"/>
 
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <LinearLayout
         android:layout_width="match_parent"

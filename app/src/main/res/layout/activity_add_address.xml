@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common" />
+    <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView" />
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收货人" />
+            android:text="收货人"/>
 
         <EditText
             android:id="@+id/add_address_name"
@@ -29,10 +29,10 @@
             android:background="@null"
             android:hint="请填写收货人姓名"
             android:textColorHint="@color/light_grey_dark"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+    <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="联系方式" />
+            android:text="联系方式"/>
 
         <EditText
             android:id="@+id/add_address_tel"
@@ -55,10 +55,10 @@
             android:hint="请填写收货人手机号"
             android:inputType="number"
             android:textColorHint="@color/light_grey_dark"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+    <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <LinearLayout
         android:id="@+id/add_address_location"
@@ -71,7 +71,7 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="所在区域" />
+            android:text="所在区域"/>
 
         <TextView
             android:id="@+id/add_address_location_text"
@@ -83,24 +83,24 @@
             android:gravity="center_vertical"
             android:text="省、市、区"
             android:textColor="@color/light_grey_dark"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:background="@color/line_grey_bg2" />
+            android:background="@color/line_grey_bg2"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
-            android:background="@mipmap/address_location" />
+            android:background="@mipmap/address_location"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+    <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,7 +112,7 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="所在街道" />
+            android:text="所在街道"/>
 
         <EditText
             android:id="@+id/add_address_location_street"
@@ -121,10 +121,10 @@
             android:layout_marginStart="40dp"
             android:background="@null"
             android:inputType="text"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+    <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,7 +136,7 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="详细地址" />
+            android:text="详细地址"/>
 
         <EditText
             android:id="@+id/add_address_location_detail"
@@ -145,10 +145,10 @@
             android:layout_marginStart="40dp"
             android:background="@null"
             android:inputType="text"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+    <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -161,7 +161,7 @@
             style="@style/TextColor_dark_black_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收货时间" />
+            android:text="收货时间"/>
 
         <TextView
             android:id="@+id/add_address_time"
@@ -175,11 +175,11 @@
             android:gravity="center_vertical"
             android:text="周一至周五收货"
             android:textColor="@color/light_grey_dark"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width_5_ForView" />
+    <View style="@style/LineH_Fill_Width_5_ForView"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -192,7 +192,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="设为默认地址" />
+            android:text="设为默认地址"/>
 
         <CheckBox
             android:id="@+id/add_address_default"
@@ -200,16 +200,16 @@
             android:layout_height="16dp"
             android:layout_marginEnd="25dp"
             android:background="@drawable/selector_check"
-            android:button="@null" />
+            android:button="@null"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView2" />
+    <View style="@style/LineH_Fill_Width1_5_ForView2"/>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/line_grey_bg2" />
+        android:background="@color/line_grey_bg2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -219,7 +219,7 @@
         <Button
             android:id="@+id/address_save"
             style="@style/Login_Button_Style_person"
-            android:text="保存" />
+            android:text="保存"/>
     </LinearLayout>
 
 </LinearLayout>

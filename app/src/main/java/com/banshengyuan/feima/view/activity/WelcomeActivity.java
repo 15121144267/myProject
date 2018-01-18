@@ -51,8 +51,6 @@ public class WelcomeActivity extends BaseActivity implements WelcomeControl.Welc
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        getWindow().setBackgroundDrawable(null);
-        initStatus();
         super.onCreate(savedInstanceState);
         initializeInjector();
         setContentView(R.layout.activity_welcome);

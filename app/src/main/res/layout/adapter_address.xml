@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-    <View style="@style/LineH_Fill_Width_5_ForView" />
+    <View style="@style/LineH_Fill_Width_5_ForView"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,14 +15,14 @@
             android:id="@+id/address_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_default_des" />
+            android:text="@string/app_default_des"/>
 
         <TextView
             android:id="@+id/address_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="@string/app_default_des" />
+            android:text="@string/app_default_des"/>
     </LinearLayout>
 
     <TextView
@@ -35,11 +34,11 @@
         android:layout_marginStart="15dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="@string/app_default_des" />
+        android:text="@string/app_default_des"/>
 
     <View
         style="@style/LineH_Fill_Width1_ForView"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,28 +53,28 @@
             android:id="@+id/address_default"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:button="@drawable/selector_check" />
+            android:button="@drawable/selector_check"/>
 
         <TextView
             android:id="@+id/address_default_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
-            android:text="默认地址" />
+            android:text="默认地址"/>
 
         <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/address_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_5"
             android:drawableStart="@mipmap/address_edit"
             android:gravity="center_vertical"
-            android:drawablePadding="@dimen/dp_5"
-            android:text="@string/address_edit" />
+            android:text="@string/address_edit"/>
 
         <TextView
             android:id="@+id/address_delete"
@@ -85,6 +84,6 @@
             android:drawablePadding="@dimen/dp_5"
             android:drawableStart="@mipmap/address_cycle"
             android:gravity="center_vertical"
-            android:text="@string/address_delete" />
+            android:text="@string/address_delete"/>
     </LinearLayout>
 </LinearLayout>

@@ -28,9 +28,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7"
-                android:orientation="vertical">
+                app:layout_collapseParallaxMultiplier="0.7">
 
                 <com.youth.banner.Banner
                     android:id="@+id/shop_detail_detail_banner"

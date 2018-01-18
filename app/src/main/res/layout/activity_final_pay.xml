@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/line_grey_bg"
+              android:fitsSystemWindows="true"
               android:orientation="vertical">
 
     <include layout="@layout/toolbar_common"/>
@@ -27,8 +27,8 @@
             android:button="@drawable/selector_check"
             android:drawablePadding="@dimen/dp_10"
             android:drawableStart="@mipmap/img_pay_zfb"
-            android:paddingStart="50dp"
             android:paddingEnd="0dp"
+            android:paddingStart="50dp"
             android:text="支付宝支付"/>
 
         <View style="@style/LineH_Yellow_Fill_Width1"/>
@@ -40,8 +40,8 @@
             android:button="@drawable/selector_check"
             android:drawablePadding="@dimen/dp_10"
             android:drawableStart="@mipmap/img_pay_wx"
-            android:paddingStart="50dp"
             android:paddingEnd="0dp"
+            android:paddingStart="50dp"
             android:text="微信支付"/>
     </RadioGroup>
 
@@ -49,7 +49,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:background="@color/line_grey_bg"/>
 
     <TextView
         android:id="@+id/final_pay_pay"

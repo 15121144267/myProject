@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     app:layout_collapseMode="pin"
-    app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:title=" "
-    android:background="@color/white"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     <TextView
         android:id="@+id/middle_name"

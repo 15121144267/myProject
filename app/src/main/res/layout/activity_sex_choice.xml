@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
-    <include layout="@layout/toolbar_common" />
+    <include layout="@layout/toolbar_common"/>
 
-    <View style="@style/LineH_Fill_Width1_5_ForView" />
+    <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <LinearLayout
         android:id="@+id/person_sex_man_layout"
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="男" />
+            android:text="男"/>
 
         <ImageView
             android:id="@+id/person_sex_man_choice"
@@ -29,10 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/vector_gou" />
+            app:srcCompat="@drawable/vector_gou"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView" />
+    <View style="@style/LineH_Fill_Width1_ForView"/>
 
     <LinearLayout
         android:id="@+id/person_sex_women_layout"
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="女" />
+            android:text="女"/>
 
         <ImageView
             android:id="@+id/person_sex_women_choice"
@@ -54,9 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/vector_gou" />
+            app:srcCompat="@drawable/vector_gou"/>
     </LinearLayout>
 
-    <View style="@style/LineH_Fill_Width1_ForView" />
+    <View style="@style/LineH_Fill_Width1_ForView"/>
 </LinearLayout>
 

@@ -3,11 +3,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
+              android:fitsSystemWindows="true"
               android:orientation="vertical">
 
     <include layout="@layout/toolbar_common"/>
 
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/forget_phone"
         android:layout_width="275dp"

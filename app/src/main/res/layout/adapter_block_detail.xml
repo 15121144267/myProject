@@ -16,8 +16,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableStart="@drawable/shape_line_yellow"
             android:drawablePadding="@dimen/dp_10"
+            android:drawableStart="@drawable/shape_line_yellow"
             android:text="品牌市集"
             android:textStyle="bold"/>
 
