@@ -3,20 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/translucentDark</item>
         <item name="colorPrimary">@color/white</item>
         <item name="android:textColorPrimary">@color/tab_text_normal</item>
         <item name="colorAccent">@color/arrived_destination_color</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-    </style>
-
-    <style name="transparentAppTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="YellowAppTheme" parent="AppTheme">
         <item name="colorPrimary">@color/text_color_yellow_dark2</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="AnotherAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">

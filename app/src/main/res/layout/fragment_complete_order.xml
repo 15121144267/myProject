@@ -26,6 +26,7 @@
                     android:id="@+id/person_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
                     android:background="@drawable/yellow_style"
                     android:contentDescription="@string/app_name"
                     android:scaleType="centerCrop" />
