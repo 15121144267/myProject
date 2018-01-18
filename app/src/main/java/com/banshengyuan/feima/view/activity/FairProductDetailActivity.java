@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,6 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
-import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
@@ -47,7 +47,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     @BindView(R.id.join)
     RadiusTextView join;
     @BindView(R.id.fair_detail_webcontent)
-    TextView fairDetailWebcontent;
+    WebView fairDetailWebcontent;
     @BindView(R.id.fair_detail_collection)
     ImageView fairDetailCollection;
     @BindView(R.id.fair_detail_banner)
@@ -129,6 +129,9 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     }
 
     private void initView() {
+        fairDetailWebcontent.getSettings().setAllowFileAccess(true);
+        fairDetailWebcontent.getSettings().setJavaScriptEnabled(true);
+        fairDetailWebcontent.getSettings().setDomStorageEnabled(true);
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
         if (getIntent() != null) {
@@ -207,8 +210,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         HotFairDetailResponse.InfoBean infoBean = response.getInfo();
         if (infoBean != null) {
             fairDetailCollection.setImageResource(infoBean.getIs_collection() == 1 ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
-            ValueUtil.setHtmlContent(this, response.getInfo().getContent(), fairDetailWebcontent);
-//            mImageLoaderHelper.displayMatchImage(this,infoBean.getCover_img(),mFairDetailBanner,0);
+            fairDetailWebcontent.loadDataWithBaseURL(null, response.getInfo().getContent(), "text/html", "utf-8", null);
             mImageLoaderHelper.displayImage(this, infoBean.getCover_img(), mFairDetailBanner);
             if (!TextUtils.isEmpty(response.getInfo().getOrder_sn())) {
                 mOrderSn = response.getInfo().getOrder_sn();
