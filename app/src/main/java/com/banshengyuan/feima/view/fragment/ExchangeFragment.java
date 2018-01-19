@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,12 +36,14 @@ import butterknife.Unbinder;
  * 热闹
  */
 
-public class ExchangeFragment extends BaseFragment implements ExChangeControl.ExChangeView {
+public class ExchangeFragment extends BaseFragment implements ExChangeControl.ExChangeView,SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.hot_fragment_activities)
     RecyclerView mHotFragmentActivities;
     @Inject
     ExChangeControl.PresenterExChange mPresenter;
+    @BindView(R.id.hot_fragment_refresh)
+    SwipeRefreshLayout mHotFragmentRefresh;
     private Unbinder unbind;
     private ExChangeAdapter mHotFairAdapter;
     private String streetId = "0";//街区ID
@@ -70,6 +73,10 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         initData();
     }
 
+    @Override
+    public void onRefresh() {
+        initData();
+    }
 
     @Override
     void addFilter() {
@@ -116,6 +123,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
     }
 
     private void initView() {
+        mHotFragmentRefresh.setOnRefreshListener(this);
         mHotFragmentActivities.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHotFairAdapter = new ExChangeAdapter(null, getActivity(), mImageLoaderHelper);
         mHotFragmentActivities.setAdapter(mHotFairAdapter);
@@ -123,7 +131,7 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
             ExChangeResponse.ListBean bean = mHotFairAdapter.getItem(position);
             if (bean != null) {
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId()),bean.getStatus()));
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), String.valueOf(bean.getId()), bean.getStatus()));
             }
         });
     }
@@ -138,6 +146,9 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
 
     @Override
     public void getHotFairInfoSuccess(ExChangeResponse response) {
+        if(mHotFragmentRefresh.isRefreshing()){
+            mHotFragmentRefresh.setRefreshing(false);
+        }
         mHotFairAdapter.setNewData(response.getList());
     }
 }

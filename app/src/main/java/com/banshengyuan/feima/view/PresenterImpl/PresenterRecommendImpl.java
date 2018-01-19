@@ -36,7 +36,7 @@ public class PresenterRecommendImpl implements RecommendControl.PresenterRecomme
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.requestRecommendBottom().compose(mView.applySchedulers())
                 .subscribe(this::getRecommendBottomSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.requestRecommendBottomComplete());
         mView.addSubscription(disposable);
     }
 
@@ -55,7 +55,7 @@ public class PresenterRecommendImpl implements RecommendControl.PresenterRecomme
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.requestRecommendBrand().compose(mView.applySchedulers())
                 .subscribe(this::getRecommendBrandSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.requestRecommendBrandComplete());
         mView.addSubscription(disposable);
     }
 
@@ -74,7 +74,7 @@ public class PresenterRecommendImpl implements RecommendControl.PresenterRecomme
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.recommendTopRequest(longitude, latitude).compose(mView.applySchedulers())
                 .subscribe(this::getRecommendTopSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.requestRecommendTopComplete());
         mView.addSubscription(disposable);
     }
 

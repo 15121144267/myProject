@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class RecommendFragment extends BaseFragment implements RecommendControl.RecommendView {
+public class RecommendFragment extends BaseFragment implements RecommendControl.RecommendView, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.recommend_brand_recycle_view)
     RecyclerView mRecommendBrandRecycleView;
     @BindView(R.id.recommend_discover_recycle_view)
@@ -61,6 +62,8 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     ImageView mRecommendBlockDetailTopIcon;
     @BindView(R.id.recommend_discover_text)
     TextView mRecommendDiscoverText;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static RecommendFragment newInstance() {
         return new RecommendFragment();
@@ -73,6 +76,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     private RecommendBrandAdapter mAdapter;
     private RecommendDiscoverBrandAdapter mDiscoverBrandAdapter;
     private RecommendTopResponse.InfoBean mInfoBean;
+    private boolean firstFlag, secondFlag, thirdFlag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +100,40 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     }
 
     @Override
+    public void onRefresh() {
+        thirdFlag = false;
+        secondFlag = false;
+        firstFlag = false;
+        initData();
+    }
+
+    @Override
+    public void requestRecommendBottomComplete() {
+        thirdFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void requestRecommendBrandComplete() {
+        secondFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void requestRecommendTopComplete() {
+        firstFlag = true;
+        dismissLoading();
+    }
+
+    private void checkUpDataFinish() {
+        if (firstFlag && secondFlag && thirdFlag) {
+            if (mRefreshLayOut.isRefreshing()) {
+                mRefreshLayOut.setRefreshing(false);
+            }
+        }
+    }
+
+    @Override
     public void getRecommendTopSuccess(RecommendTopResponse recommendTopResponse) {
         mInfoBean = recommendTopResponse.info;
         if (mInfoBean != null) {
@@ -103,7 +141,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
             if (mInfoBean.distance.equals("0")) {
                 mRecommendBlockDetailDistance.setText("距离未知,请开启权限");
             } else {
-                mRecommendBlockDetailDistance.setText("距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance))+"");
+                mRecommendBlockDetailDistance.setText("距您" + ValueUtil.formatDistance(Float.parseFloat(mInfoBean.distance)) + "");
             }
             mRecommendBlockDetailName.setText(mInfoBean.name);
         }
@@ -163,7 +201,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         if (mLocationInfo != null) {
             double longitude = mLocationInfo.getLongitude();
             double latitude = mLocationInfo.getLatitude();
-            mPresenter.requestRecommendTop(longitude,latitude);
+            mPresenter.requestRecommendTop(longitude, latitude);
         } else {
             mPresenter.requestRecommendTop(0, 0);
         }
@@ -180,7 +218,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     }
 
     private void initView() {
-
+        mRefreshLayOut.setOnRefreshListener(this);
         RxView.clicks(mRecommendBlockDetailTopIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(BlockDetailActivity.getIntent(getActivity(), mInfoBean.id)));
 
@@ -217,6 +255,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     @Override
     public void dismissLoading() {
         dismissDialogLoading();
+        checkUpDataFinish();
     }
 
     @Override

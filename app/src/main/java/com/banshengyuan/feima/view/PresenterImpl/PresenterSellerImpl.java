@@ -35,7 +35,7 @@ public class PresenterSellerImpl implements SellerControl.PresenterSeller {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.storeListRequest().compose(mView.applySchedulers())
                 .subscribe(this::getStoreListSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getStoreListComplete());
         mView.addSubscription(disposable);
     }
 
@@ -54,7 +54,7 @@ public class PresenterSellerImpl implements SellerControl.PresenterSeller {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.vistaListRequest(longitude, latitude).compose(mView.applySchedulers())
                 .subscribe(this::getBlockListSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getBlockListComplete());
         mView.addSubscription(disposable);
     }
 

@@ -16,6 +16,9 @@ public class RecommendControl {
         void getRecommendBrandFail();
         void getRecommendBottomSuccess(RecommendBottomResponse recommendBottomResponse);
         void getRecommendBottomFail();
+        void requestRecommendBottomComplete();
+        void requestRecommendBrandComplete();
+        void requestRecommendTopComplete();
     }
 
     public interface PresenterRecommend extends Presenter<RecommendView> {

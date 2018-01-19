@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,9 +34,11 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class MainVistaFragment extends BaseFragment implements VistaControl.VistaView {
+public class MainVistaFragment extends BaseFragment implements VistaControl.VistaView, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.main_fair_recycle_view)
     RecyclerView mMainFairRecycleView;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static MainVistaFragment newInstance() {
         return new MainVistaFragment();
@@ -69,9 +72,17 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
     }
 
     @Override
+    public void onRefresh() {
+        initData();
+    }
+
+    @Override
     public void getVistaListSuccess(VistaListResponse vistaListResponse) {
+        if (mRefreshLayOut.isRefreshing()) {
+            mRefreshLayOut.setRefreshing(false);
+        }
         List<VistaListResponse.ListBean> list = vistaListResponse.list;
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             mHotFairAdapter.setNewData(list);
         }
     }
@@ -91,14 +102,15 @@ public class MainVistaFragment extends BaseFragment implements VistaControl.Vist
     }
 
     private void initView() {
+        mRefreshLayOut.setOnRefreshListener(this);
         mMainFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMainFairRecycleView.setNestedScrollingEnabled(false);
-        mHotFairAdapter = new VistaFairAdapter(null, getActivity(),mImageLoaderHelper);
+        mHotFairAdapter = new VistaFairAdapter(null, getActivity(), mImageLoaderHelper);
         mMainFairRecycleView.setAdapter(mHotFairAdapter);
         mHotFairAdapter.setOnItemClickListener((adapter, view, position) -> {
-            VistaListResponse.ListBean bean = (VistaListResponse.ListBean)adapter.getItem(position);
-            if(bean!=null){
-                startActivity(BlockDetailActivity.getIntent(getActivity(),bean.id));
+            VistaListResponse.ListBean bean = (VistaListResponse.ListBean) adapter.getItem(position);
+            if (bean != null) {
+                startActivity(BlockDetailActivity.getIntent(getActivity(), bean.id));
             }
         });
     }

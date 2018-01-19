@@ -36,7 +36,7 @@ public class PresenterMainFairImpl implements MainFairControl.PresenterFair {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.requestFairBottom().compose(mView.applySchedulers())
                 .subscribe(this::getFairBottomSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getFairBottomComplete());
         mView.addSubscription(disposable);
     }
 
@@ -55,7 +55,7 @@ public class PresenterMainFairImpl implements MainFairControl.PresenterFair {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.vistaListRequest(longitude,latitude).compose(mView.applySchedulers())
                 .subscribe(this::getFairUnderLineSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getFairUnderLineComplete());
         mView.addSubscription(disposable);
     }
 
@@ -74,7 +74,7 @@ public class PresenterMainFairImpl implements MainFairControl.PresenterFair {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.requestRecommendBrand().compose(mView.applySchedulers())
                 .subscribe(this::getRecommendBrandSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getRecommendBrandComplete());
         mView.addSubscription(disposable);
     }
 

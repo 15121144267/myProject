@@ -35,7 +35,7 @@ public class PresenterFairImpl implements FairControl.PresenterFair {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.fairListRequest().compose(mView.applySchedulers())
                 .subscribe(this::getFairListSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getFairListComplete());
         mView.addSubscription(disposable);
     }
 
@@ -54,7 +54,7 @@ public class PresenterFairImpl implements FairControl.PresenterFair {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.requestRecommendBrand().compose(mView.applySchedulers())
                 .subscribe(this::getFairBrandSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getFairBrandComplete());
         mView.addSubscription(disposable);
     }
 

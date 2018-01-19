@@ -1,77 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:id="@+id/refresh_lay_out"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="wrap_content"
+    >
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:background="@color/white">
 
         <LinearLayout
-            android:id="@+id/search_layout"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             >
 
-            <com.banshengyuan.feima.view.customview.ClearEditText
-                android:id="@+id/recommend_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="1"/>
+            <LinearLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                >
+
+                <com.banshengyuan.feima.view.customview.ClearEditText
+                    android:id="@+id/recommend_search"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="取消"
+                    android:textColor="#212121"
+                    android:textSize="15sp"/>
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                style="@style/TextColor_Black_30"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="取消"
-                android:textColor="#212121"
-                android:textSize="15sp"/>
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="25dp"
+                android:text="推荐分类"
+                android:textStyle="bold"/>
+
+            <com.banshengyuan.feima.view.customview.banner.ConvenientBanner
+                android:id="@+id/convenientBanner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                app:canLoop="false"/>
+
+            <View style="@style/LineH_Yellow_Fill_Width1"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/product_products"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_25"
+                android:layout_weight="1"
+                />
         </LinearLayout>
 
-        <TextView
-            style="@style/TextColor_Black_30"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="25dp"
-            android:text="推荐分类"
-            android:textStyle="bold"/>
-
-        <com.banshengyuan.feima.view.customview.banner.ConvenientBanner
-            android:id="@+id/convenientBanner"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            app:canLoop="false"/>
-
-        <View style="@style/LineH_Yellow_Fill_Width1"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/product_products"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_25"
-            android:layout_weight="1"
-            />
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

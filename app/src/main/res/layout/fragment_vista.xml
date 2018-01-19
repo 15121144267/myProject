@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_lay_out"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_20"
-        android:descendantFocusability="blocksDescendants"
-        android:orientation="vertical"
         >
 
-        <TextView
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            style="@style/TextColor_Black_30"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="25dp"
-            android:text="街景"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_fair_recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+            <TextView
+                style="@style/TextColor_Black_30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="25dp"
+                android:text="街景"
+                android:textStyle="bold"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_fair_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

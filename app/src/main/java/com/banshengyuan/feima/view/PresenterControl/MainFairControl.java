@@ -22,6 +22,12 @@ public class MainFairControl {
         void getFairBottomSuccess(FairBottomResponse fairBottomResponse);
 
         void getFairBottomFail();
+
+        void getRecommendBrandComplete();
+
+        void getFairUnderLineComplete();
+
+        void getFairBottomComplete();
     }
 
     public interface PresenterFair extends Presenter<MainFairView> {

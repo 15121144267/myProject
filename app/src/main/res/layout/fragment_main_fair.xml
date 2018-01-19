@@ -1,62 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_lay_out"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_20"
-        android:orientation="vertical"
-        android:descendantFocusability="blocksDescendants"
         >
 
-        <TextView
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            style="@style/TextColor_Black_30"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="25dp"
-            android:text="市集"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            >
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            android:id="@+id/fair_offline_hot_recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            <TextView
+                style="@style/TextColor_Black_30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="25dp"
+                android:text="市集"
+                android:textStyle="bold"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            android:id="@+id/fair_brand_recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fair_offline_hot_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                />
 
-        <TextView
-            android:id="@+id/fair_hot_text_view"
-            style="@style/TextColor_Black_18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_25"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_25"
-            android:text="热门市集"
-            android:textStyle="bold"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fair_brand_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fair_hot_recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/fair_hot_text_view"
+                style="@style/TextColor_Black_18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_25"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_25"
+                android:text="热门市集"
+                android:textStyle="bold"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fair_hot_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

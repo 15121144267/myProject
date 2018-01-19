@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,22 +40,24 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class SellerFragment extends BaseFragment implements SellerControl.SellerView, GallerySellerAdapter.SellerClickListener {
+public class SellerFragment extends BaseFragment implements SellerControl.SellerView, GallerySellerAdapter.SellerClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.recommend_search)
     ClearEditText mRecommendSearch;
     @BindView(R.id.search_layout)
     LinearLayout mSearchLayout;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
+    @BindView(R.id.shop_top_gallery)
+    SpeedRecyclerView mShopTopGallery;
+    @BindView(R.id.shop_bottom_products)
+    RecyclerView mShopBottomProducts;
 
     public static SellerFragment newInstance() {
         return new SellerFragment();
     }
 
-    @BindView(R.id.shop_top_gallery)
-    SpeedRecyclerView mShopTopGallery;
-    @BindView(R.id.shop_bottom_products)
-    RecyclerView mShopBottomProducts;
     @Inject
     SellerControl.PresenterSeller mPresenter;
     private Unbinder unbind;
@@ -62,6 +65,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     private CardScaleHelper mCardScaleHelper;
     private GallerySellerAdapter mGallerySellerAdapter;
     private FairUnderLineResponse mBlockBean;
+    private boolean firstFlag, secondFlag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,9 +89,22 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onRefresh() {
+        firstFlag = false;
+        secondFlag = false;
+        initData();
+    }
 
+    @Override
+    public void getStoreListComplete() {
+        firstFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void getBlockListComplete() {
+        secondFlag = true;
+        dismissLoading();
     }
 
     @Override
@@ -136,11 +153,11 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
 
     @Override
     public void sellerClickItemListener(int position) {
-
         startActivity(ShopBlockActivity.getActivityDetailIntent(getActivity(), mBlockBean.list.get(position).id, 0));
     }
 
     private void initView() {
+        mRefreshLayOut.setOnRefreshListener(this);
         mShopTopGallery.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mShopTopGallery.setNestedScrollingEnabled(false);
         mGallerySellerAdapter = new GallerySellerAdapter(getActivity(), null, mImageLoaderHelper);
@@ -171,7 +188,6 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         });
     }
 
-
     @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
@@ -180,6 +196,7 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     @Override
     public void dismissLoading() {
         dismissDialogLoading();
+        checkUpDataFinish();
     }
 
     @Override
@@ -197,6 +214,14 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    private void checkUpDataFinish() {
+        if (firstFlag && secondFlag) {
+            if (mRefreshLayOut.isRefreshing()) {
+                mRefreshLayOut.setRefreshing(false);
+            }
+        }
     }
 
     private void initialize() {

@@ -1,98 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_lay_out"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_20"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:descendantFocusability="blocksDescendants"
-        android:layout_marginStart="@dimen/dp_20"
-        android:orientation="vertical"
         >
 
-        <TextView
-            style="@style/TextColor_Black_30"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="25dp"
-            android:text="为你推荐"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            >
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_marginBottom="25dp"
-            android:layout_height="140dp">
-
-            <ImageView
-                android:id="@+id/recommend_block_detail_top_icon"
-                android:layout_width="match_parent"
-                android:scaleType="fitXY"
-                android:layout_height="match_parent"/>
-
-            <LinearLayout
+            <TextView
+                style="@style/TextColor_Black_30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingEnd="25dp"
-                android:paddingStart="35dp">
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="25dp"
+                android:text="为你推荐"
+                android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/recommend_block_detail_distance"
-                    android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginBottom="25dp">
+
+                <ImageView
+                    android:id="@+id/recommend_block_detail_top_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="58dp"
-                    android:drawableStart="@mipmap/white_location"
-                    android:text="距您1.4km"
-                    android:alpha="0.9"
-                    android:drawablePadding="@dimen/dp_5"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_15"
-                    />
+                    android:orientation="vertical"
+                    android:paddingEnd="25dp"
+                    android:paddingStart="35dp">
 
-                <TextView
-                    android:id="@+id/recommend_block_detail_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="14dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:alpha="0.9"
-                    android:text="半生缘潮流音乐会街区"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_30"
-                    />
-            </LinearLayout>
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/recommend_block_detail_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="58dp"
+                        android:alpha="0.9"
+                        android:drawablePadding="@dimen/dp_5"
+                        android:drawableStart="@mipmap/white_location"
+                        android:text="距您1.4km"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_15"
+                        />
 
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recommend_brand_recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-        <TextView
-            android:id="@+id/recommend_discover_text"
-            style="@style/TextColor_Black_18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:text="发现精彩"
-            android:textStyle="bold"
-            />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recommend_discover_recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/recommend_block_detail_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp"
+                        android:alpha="0.9"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="半生缘潮流音乐会街区"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_30"
+                        />
+                </LinearLayout>
+            </FrameLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recommend_brand_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/recommend_discover_text"
+                style="@style/TextColor_Black_18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:text="发现精彩"
+                android:textStyle="bold"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recommend_discover_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

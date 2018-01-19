@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class FairFragment extends BaseFragment implements FairControl.FairView {
+public class FairFragment extends BaseFragment implements FairControl.FairView, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.send_fragment_fair)
     RecyclerView mSendFragmentFair;
     @BindView(R.id.send_fragment_product)
@@ -48,6 +49,8 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     ClearEditText mRecommendSearch;
     @BindView(R.id.search_layout)
     LinearLayout mSearchLayout;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static FairFragment newInstance() {
         return new FairFragment();
@@ -60,6 +63,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     private RecommendBrandAdapter mAdapter;
     private FairProductAdapter mFairProductAdapter;
     private List<RecommendBrandResponse> mList;
+    private boolean firstFlag, secondFlag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +84,25 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initData();
+    }
+
+    @Override
+    public void onRefresh() {
+        firstFlag = false;
+        secondFlag = false;
+        initData();
+    }
+
+    @Override
+    public void getFairBrandComplete() {
+        firstFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void getFairListComplete() {
+        secondFlag = true;
+        dismissLoading();
     }
 
     @Override
@@ -122,6 +145,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     }
 
     private void initView() {
+        mRefreshLayOut.setOnRefreshListener(this);
         mSendFragmentFair.setLayoutManager(new LinearLayoutManager(getActivity()));
         mSendFragmentProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new RecommendBrandAdapter(null, getActivity(), mImageLoaderHelper);
@@ -159,6 +183,7 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     @Override
     public void dismissLoading() {
         dismissDialogLoading();
+        checkUpDataFinish();
     }
 
     @Override
@@ -176,6 +201,14 @@ public class FairFragment extends BaseFragment implements FairControl.FairView {
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    private void checkUpDataFinish() {
+        if (firstFlag && secondFlag) {
+            if (mRefreshLayOut.isRefreshing()) {
+                mRefreshLayOut.setRefreshing(false);
+            }
+        }
     }
 
     private void initialize() {

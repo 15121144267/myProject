@@ -19,6 +19,10 @@ public class ProductControl {
 
         void getProductListFail();
 
+        void getAllProductSortComplete();
+
+        void getProductListComplete();
+
         void switchToProductList(BaseQuickAdapter adapter, Integer position);
     }
 

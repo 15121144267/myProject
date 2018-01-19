@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +42,7 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class MainFairFragment extends BaseFragment implements MainFairControl.MainFairView {
+public class MainFairFragment extends BaseFragment implements MainFairControl.MainFairView, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.fair_offline_hot_recycle_view)
     RecyclerView mFairOfflineHotRecycleView;
     @BindView(R.id.fair_brand_recycle_view)
@@ -50,6 +51,8 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     RecyclerView mFairHotRecycleView;
     @BindView(R.id.fair_hot_text_view)
     TextView mFairHotTextView;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static MainFairFragment newInstance() {
         return new MainFairFragment();
@@ -65,6 +68,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     private List<RecommendBrandResponse> mList;
     private List<FairUnderLineResponse> mList2;
     private FairUnderLineResponse mFairUnderLineResponse;
+    private boolean firstFlag, secondFlag, thirdFlag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +89,32 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initData();
+    }
+
+    @Override
+    public void onRefresh() {
+        firstFlag = false;
+        secondFlag = false;
+        thirdFlag = false;
+        initData();
+    }
+
+    @Override
+    public void getRecommendBrandComplete() {
+        secondFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void getFairUnderLineComplete() {
+        thirdFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void getFairBottomComplete() {
+        firstFlag = true;
+        dismissLoading();
     }
 
     @Override
@@ -150,7 +180,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     }
 
     private void initView() {
-
+        mRefreshLayOut.setOnRefreshListener(this);
         mFairOfflineHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairBrandRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mFairHotRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -197,6 +227,7 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     @Override
     public void dismissLoading() {
         dismissDialogLoading();
+        checkUpDataFinish();
     }
 
     @Override
@@ -214,6 +245,14 @@ public class MainFairFragment extends BaseFragment implements MainFairControl.Ma
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    private void checkUpDataFinish() {
+        if (firstFlag && secondFlag && thirdFlag) {
+            if (mRefreshLayOut.isRefreshing()) {
+                mRefreshLayOut.setRefreshing(false);
+            }
+        }
     }
 
     private void initialize() {

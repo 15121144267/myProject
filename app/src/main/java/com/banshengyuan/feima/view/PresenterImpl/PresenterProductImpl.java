@@ -35,7 +35,7 @@ public class PresenterProductImpl implements ProductControl.PresenterProduct {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.productListRequest().compose(mView.applySchedulers())
                 .subscribe(this::getProductListSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getProductListComplete());
         mView.addSubscription(disposable);
     }
 
@@ -54,7 +54,7 @@ public class PresenterProductImpl implements ProductControl.PresenterProduct {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mMainModel.allProductSortRequest().compose(mView.applySchedulers())
                 .subscribe(this::getAllProductSortSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.getAllProductSortComplete());
         mView.addSubscription(disposable);
     }
 

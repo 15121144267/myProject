@@ -14,6 +14,8 @@ public class FairControl {
         void getFairBrandFail();
         void getFairListSuccess(FairListResponse response);
         void getFairListFail();
+        void getFairBrandComplete();
+        void getFairListComplete();
     }
 
     public interface PresenterFair extends Presenter<FairView> {

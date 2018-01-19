@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,7 @@ import static com.banshengyuan.feima.R.id.convenientBanner;
  * SendingOrderFragment
  */
 
-public class ProductFragment extends BaseFragment implements ProductControl.ProductView {
+public class ProductFragment extends BaseFragment implements ProductControl.ProductView, SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(convenientBanner)
@@ -54,6 +55,8 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     ClearEditText mRecommendSearch;
     @BindView(R.id.search_layout)
     LinearLayout mSearchLayout;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static ProductFragment newInstance() {
         return new ProductFragment();
@@ -67,6 +70,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     private ProductAdapter mAdapter;
     private AllProductSortResponse mAllProductSortResponse;
     private ProductControl.ProductView mView;
+    private boolean firstFlag, secondFlag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,9 +95,22 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onRefresh() {
+        firstFlag = false;
+        secondFlag = false;
+        initData();
+    }
 
+    @Override
+    public void getAllProductSortComplete() {
+        firstFlag = true;
+        dismissLoading();
+    }
+
+    @Override
+    public void getProductListComplete() {
+        secondFlag = true;
+        dismissLoading();
     }
 
     @Override
@@ -157,6 +174,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     }
 
     private void initView() {
+        mRefreshLayOut.setOnRefreshListener(this);
         mProductProducts.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProductProducts.setNestedScrollingEnabled(false);
         mAdapter = new ProductAdapter(null, getActivity(), mImageLoaderHelper);
@@ -182,6 +200,7 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     @Override
     public void dismissLoading() {
         dismissDialogLoading();
+        checkUpDataFinish();
     }
 
     @Override
@@ -199,6 +218,14 @@ public class ProductFragment extends BaseFragment implements ProductControl.Prod
     public void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    private void checkUpDataFinish() {
+        if (firstFlag && secondFlag) {
+            if (mRefreshLayOut.isRefreshing()) {
+                mRefreshLayOut.setRefreshing(false);
+            }
+        }
     }
 
     private void initialize() {

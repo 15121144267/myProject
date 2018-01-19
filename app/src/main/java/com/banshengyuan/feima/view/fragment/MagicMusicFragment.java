@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,12 +36,14 @@ import butterknife.Unbinder;
  * SendingOrderFragment
  */
 
-public class MagicMusicFragment extends BaseFragment implements MagicMusicControl.MagicMusicView {
+public class MagicMusicFragment extends BaseFragment implements MagicMusicControl.MagicMusicView ,SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.magic_fair_recycle_view)
     RecyclerView mMagicFairRecycleView;
     @BindView(R.id.magic_hot_recycle_view)
     RecyclerView mMagicHotRecycleView;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static MagicMusicFragment newInstance() {
         return new MagicMusicFragment();
@@ -75,7 +78,15 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
     }
 
     @Override
+    public void onRefresh() {
+        initData();
+    }
+
+    @Override
     public void getMusicListSuccess(MusicListResponse musicListResponse) {
+        if (mRefreshLayOut.isRefreshing()) {
+            mRefreshLayOut.setRefreshing(false);
+        }
         List<MusicListResponse.FairBean> fairList = musicListResponse.fair;
         List<MusicListResponse.HotBean> hotList = musicListResponse.hot;
         if (fairList != null && fairList.size() > 0) {
@@ -97,6 +108,7 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
     }
 
     private void initView() {
+        mRefreshLayOut.setOnRefreshListener(this);
         mMagicFairRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMagicMusicAdapter = new MagicMusicAdapter(null, getActivity(), mImageLoaderHelper);
         mMagicFairRecycleView.setAdapter(mMagicMusicAdapter);
@@ -115,7 +127,7 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
         mMusicHotAdapter.setOnItemClickListener((adapter, view, position) -> {
             MusicListResponse.HotBean bean = (MusicListResponse.HotBean) adapter.getItem(position);
             if (bean != null) {
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id + "",bean.status));
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id + "", bean.status));
             }
         });
     }

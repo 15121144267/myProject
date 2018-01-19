@@ -88,12 +88,6 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initData();
-    }
-
-    @Override
     public void onMyEditorAction() {
 
     }
@@ -102,10 +96,6 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
     public void onMyTouchAction() {
         hideSoftInput(mSearchEdit);
         startActivity(SearchActivity.getIntent(getActivity()));
-    }
-
-    private void initData() {
-
     }
 
     private void initView() {

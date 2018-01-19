@@ -14,6 +14,8 @@ public class SellerControl {
         void getStoreListSuccess(StoreListResponse response);
         void getBlockListFail();
         void getStoreListFail();
+        void getStoreListComplete();
+        void getBlockListComplete();
     }
 
     public interface PresenterSeller extends Presenter<SellerView> {
