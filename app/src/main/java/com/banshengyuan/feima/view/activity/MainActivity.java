@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
     public static final int SWITCH_SECOND_PAGE = 1;
     public static final int SWITCH_THIRD_PAGE = 2;
     public static final int SWITCH_FORTH_PAGE = 3;
-    private int mBackgroundColor = R.drawable.yellow_style;
+    private int mBackgroundColor = R.color.white;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,17 +137,15 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mBackgroundColor = R.color.white;
         switch (item.getItemId()) {
             case R.id.action_one:
-                mBackgroundColor = R.color.white;
                 mViewSwapper.setCurrentItem(SWITCH_FIRST_PAGE, false);
                 break;
             case R.id.action_two:
-                mBackgroundColor = R.color.white;
                 mViewSwapper.setCurrentItem(SWITCH_SECOND_PAGE, false);
                 break;
             case R.id.action_three:
-                mBackgroundColor = R.color.white;
                 mViewSwapper.setCurrentItem(SWITCH_THIRD_PAGE, false);
                 break;
             case R.id.action_four:
