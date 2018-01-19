@@ -72,7 +72,7 @@ public class ActionCodeActivity extends BaseActivity {
                 String codeNum;
                 if (!TextUtils.isEmpty(infoBean.getOrder_sn())) {
                     codeNum = infoBean.getOrder_sn();
-                    setQRCodeBitmap(infoBean.getOrder_sn());
+                    setQRCodeBitmap(qrCode);//infoBean.getOrder_sn()
                 } else {
                     codeNum = "未知";
                 }

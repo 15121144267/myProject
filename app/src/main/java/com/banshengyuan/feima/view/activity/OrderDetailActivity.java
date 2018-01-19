@@ -59,8 +59,8 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     TextView orderDetailShopName;
     @BindView(R.id.order_detail_product_list)
     RecyclerView orderDetailProductList;
-    @BindView(R.id.order_detail_price)
-    TextView orderDetailPrice;
+    @BindView(R.id.order_detail_total_price)
+    TextView orderDetailTotalPrice;
     @BindView(R.id.order_detail_dispatch_price)
     TextView orderDetailDispatchPrice;
     @BindView(R.id.order_detail_should_pay)
@@ -231,7 +231,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 // 将文本内容放到系统剪贴板里。
                 String orderSnTv = orderDetailOrderId.getText().toString();
                 if (!TextUtils.isEmpty(orderSnTv)) {
-                    cm.setPrimaryClip(new ClipData(ClipData.newPlainText(null,orderSnTv)));
+                    cm.setPrimaryClip(new ClipData(ClipData.newPlainText(null, orderSnTv)));
                     orderDetailCopyOrderid.setText("已复制");
                     showToast("已复制到粘贴板");
                 }
@@ -240,7 +240,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 if (infoBean.getOrder_type() == 1) {
                     //线上
                     if (infoBean.getPay_status() == 1) {//立即付款
-                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(),"OrderDetailActivity"));
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(), "OrderDetailActivity"));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 3) {//提醒发货
@@ -263,7 +263,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 } else if (infoBean.getOrder_type() == 2) {
                     //2自提订单
                     if (infoBean.getPay_status() == 1) {//立即付款
-                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(),"OrderDetailActivity"));
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(), "OrderDetailActivity"));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 3) {//确认收货
@@ -331,7 +331,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     public void getComfirmOrderSuccess() {
         //确认收货
         isFreshOrder = true;
-        showToast("确认订单成功");
         mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
     }
 
@@ -379,20 +378,14 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 //                mImageLoaderHelper.displayRoundedCornerImage(this,goodsListBean.get);
                 unlinepayStorename.setText(goodsListBean.getStore_name());
 
-                Integer totalPrice = 0;
+                Integer totalPrice = infoBean.getTotal_fee();
                 Integer transPrice = infoBean.getFreight();
-                Integer shouldPrice = infoBean.getTotal_fee();
+                Integer shouldPrice = infoBean.getPayed();
 
-                for (OrderDetailResponse.GoodsListBean.ProductBean productBean :mList){
-                    totalPrice = totalPrice +productBean.getGoods_price();
-                }
-
-                String priceTotal = "￥" + ValueUtil.formatAmount4(totalPrice);
-                unlinepayTotalPrice.setText(priceTotal);
+                unlinepayTotalPrice.setText("￥" + ValueUtil.formatAmount4(totalPrice));
 
                 unlinepayDiscountPrice.setText("-￥" + ValueUtil.formatAmount4(transPrice));
 
-//                shouldPrice = totalPrice - transPrice;
                 unlinepayFinalPrice.setText("￥" + ValueUtil.formatAmount4(shouldPrice));
             }
             adapter.setNewData(mList);
@@ -472,14 +465,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
             Integer totalPrice = infoBean.getTotal_fee();
             Integer transPrice = infoBean.getFreight();
-            Integer shouldPrice = 0;
+            Integer shouldPrice = infoBean.getPayed();
 
             String priceTotal = "￥" + ValueUtil.formatAmount4(totalPrice);
-            orderDetailPrice.setText(priceTotal);
+            orderDetailTotalPrice.setText(priceTotal);
 
             orderDetailDispatchPrice.setText("￥" + ValueUtil.formatAmount4(transPrice));
 
-            shouldPrice = totalPrice + transPrice;
             orderDetailShouldPay.setText("￥" + ValueUtil.formatAmount4(shouldPrice));
 
         }
@@ -487,8 +479,6 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     private void getCodeBitmap(String code) {
         Bitmap qrBitmap = ToolUtils.generateBitmap(code, 400, 400);
-//        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.freemud_logo);
-//        Bitmap bitmap = ToolUtils.addLogo(qrBitmap, logoBitmap);//设置logo
         orderDetailZtImage.setImageBitmap(qrBitmap);
     }
 
@@ -498,7 +488,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
         super.onBackPressed();
     }
 
-    private void refreshOrder(){
+    private void refreshOrder() {
         if (isFreshOrder) {//刷新我的订单界面
             LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_ORDERDETAIL));
         }

@@ -127,7 +127,7 @@ public class MagicMusicFragment extends BaseFragment implements MagicMusicContro
         mMusicHotAdapter.setOnItemClickListener((adapter, view, position) -> {
             MusicListResponse.HotBean bean = (MusicListResponse.HotBean) adapter.getItem(position);
             if (bean != null) {
-                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id + "", bean.status));
+                startActivity(FairProductDetailActivity.getIntent(getActivity(), bean.id + ""));
             }
         });
     }

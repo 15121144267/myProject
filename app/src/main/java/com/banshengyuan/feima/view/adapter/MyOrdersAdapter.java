@@ -122,7 +122,7 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
             }
         }
 
-        String orderPricePartTwo = "￥" + ValueUtil.formatAmount2(item.getTotal_fee());
+        String orderPricePartTwo = "￥" + ValueUtil.formatAmount2(item.getTotal_fee() + item.getFreight());
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
                 .setForegroundColor(ContextCompat.getColor(mContext, R.color.order_price_color))
                 .setSize(18, true)
@@ -145,6 +145,6 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
         helper.setText(R.id.order_state, item.getPay_status_name());
 
 
-        helper.setText(R.id.order_price, "实付金额￥" + ValueUtil.formatAmount2(item.getTotal_fee()));
+        helper.setText(R.id.order_price, "实付金额：￥" + ValueUtil.formatAmount2(item.getTotal_fee()));
     }
 }

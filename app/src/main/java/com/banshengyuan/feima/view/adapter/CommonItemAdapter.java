@@ -37,7 +37,7 @@ public class CommonItemAdapter extends BaseQuickAdapter<BlockHotListResponse, Ba
         itemAdapter.setOnItemClickListener((adapter, view, position) -> {
             BlockHotListResponse.ListBean bean = (BlockHotListResponse.ListBean) adapter.getItem(position);
             if (bean != null) {
-                mContext.startActivity(FairProductDetailActivity.getIntent(mContext, bean.id + "", bean.status));
+                mContext.startActivity(FairProductDetailActivity.getIntent(mContext, bean.id + ""));
             }
         });
     }
