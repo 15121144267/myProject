@@ -26,7 +26,6 @@ import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairDetailControl;
 import com.banshengyuan.feima.view.adapter.MyOrderFragmentAdapter;
 import com.banshengyuan.feima.view.fragment.CelebrityFragment;
-import com.banshengyuan.feima.view.fragment.CommentFragment;
 import com.banshengyuan.feima.view.fragment.FollowFragment;
 import com.banshengyuan.feima.view.fragment.TrendsFragment;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -155,12 +154,12 @@ public class FairDetailActivity extends BaseActivity implements FairDetailContro
         } else if (layoutFlag == 2) {
             list.add("市集");
             list.add("产品");
-            list.add("点评");
+//            list.add("点评");
             modules = new String[list.size()];
             list.toArray(modules);
             mFragments.add(FollowFragment.newInstance());
             mFragments.add(TrendsFragment.newInstance());
-            mFragments.add(CommentFragment.newInstance());
+//            mFragments.add(CommentFragment.newInstance());
         }
         MyOrderFragmentAdapter adapter = new MyOrderFragmentAdapter(getSupportFragmentManager(), mFragments, modules);
         mFairDetailViewPager.setOffscreenPageLimit(mFragments.size() - 1);

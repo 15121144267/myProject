@@ -172,7 +172,6 @@ public class FairFragment extends BaseFragment implements FairControl.FairView, 
             }
         });
 
-
     }
 
     @Override

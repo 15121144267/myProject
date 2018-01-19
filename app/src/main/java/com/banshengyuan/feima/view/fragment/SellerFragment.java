@@ -116,7 +116,6 @@ public class SellerFragment extends BaseFragment implements SellerControl.Seller
         } else {
             mShopTopGallery.setVisibility(View.GONE);
         }
-
     }
 
     @Override

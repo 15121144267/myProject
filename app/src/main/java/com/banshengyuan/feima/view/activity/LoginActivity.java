@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerLoginActivityComponent;
 import com.banshengyuan.feima.dagger.module.LoginActivityModule;
@@ -120,6 +121,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
             clearActivity();
         }
         mBuProcessor.setLoginUser(myPhone, response.token);
+        mLocationInfo = ((DaggerApplication) getApplicationContext()).getMapLocation();
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_INFO));
         setResult(RESULT_OK);
         finish();
@@ -160,7 +162,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         if (editText != null)
             editText.addTextChangedListener(new MyTextWatchListener() {
                 @Override
-                public void onMyTextChanged(CharSequence s,int start, int before, int count) {
+                public void onMyTextChanged(CharSequence s, int start, int before, int count) {
                     String phone = s.toString();
                     if (ValueUtil.isMobilePhone(phone)) {
                         mLoginSubmit.setEnabled(false);
@@ -204,7 +206,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE).subscribe(permission -> {
             if (permission) {
-                if (flag) {
+                if (flag || mLocationInfo == null) {
                     mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
                     mAMapLocationClient.startLocation();
                 }

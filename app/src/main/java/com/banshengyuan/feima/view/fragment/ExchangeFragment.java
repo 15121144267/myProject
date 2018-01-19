@@ -117,7 +117,6 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
         mPresenter.onDestroy();
     }
 
-
     private void initData() {
         mPresenter.requestHotFairInfo(streetId);
     }

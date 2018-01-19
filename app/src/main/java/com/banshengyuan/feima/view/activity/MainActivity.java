@@ -137,27 +137,32 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        mMainLayOut.setBackgroundResource(item.getItemId() == R.id.action_four ? mBackgroundColor : R.color.white);
         switch (item.getItemId()) {
             case R.id.action_one:
+                mBackgroundColor = R.color.white;
                 mViewSwapper.setCurrentItem(SWITCH_FIRST_PAGE, false);
                 break;
             case R.id.action_two:
+                mBackgroundColor = R.color.white;
                 mViewSwapper.setCurrentItem(SWITCH_SECOND_PAGE, false);
                 break;
             case R.id.action_three:
+                mBackgroundColor = R.color.white;
                 mViewSwapper.setCurrentItem(SWITCH_THIRD_PAGE, false);
                 break;
             case R.id.action_four:
                 if (mBuProcessor.isValidLogin()) {
+                    mBackgroundColor = R.drawable.yellow_style;
                     mViewSwapper.setCurrentItem(SWITCH_FORTH_PAGE, false);
                     CompletedOrderFragment.setmHandler(mHandler);
                 } else {
+                    mBackgroundColor = R.color.white;
                     switchToMyLogin();
                     return false;
                 }
                 break;
         }
+        mMainLayOut.setBackgroundResource(mBackgroundColor);
         return true;
     }
 

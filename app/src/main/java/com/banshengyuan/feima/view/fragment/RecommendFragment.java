@@ -192,6 +192,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     void onReceivePro(Context context, Intent intent) {
         super.onReceivePro(context, intent);
         if (intent.getAction().equals(BroConstant.UPDATE_PERSON_INFO)) {
+            mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getMapLocation();
             requestRecommend();
         }
 
