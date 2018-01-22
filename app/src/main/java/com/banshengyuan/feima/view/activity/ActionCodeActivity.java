@@ -41,13 +41,13 @@ public class ActionCodeActivity extends BaseActivity {
     Toolbar mToolbar;
 
     private HotFairDetailResponse mHotFairDetailResponse = null;//热闹详情
-    private String qrCode = null;
     private HotFairDetailResponse.InfoBean infoBean = null;
+    private String mOrderSn;
 
-    public static Intent getIntent(Context context, HotFairDetailResponse hotFairDetailResponse, String qrCode) {
+    public static Intent getIntent(Context context, HotFairDetailResponse hotFairDetailResponse, String orderSn) {
         Intent intent = new Intent(context, ActionCodeActivity.class);
         intent.putExtra("hotFairDetailResponse", hotFairDetailResponse);
-        intent.putExtra("qrCode", qrCode);
+        intent.putExtra("orderSn", orderSn);
         return intent;
     }
 
@@ -65,14 +65,13 @@ public class ActionCodeActivity extends BaseActivity {
     private void initData() {
         if (getIntent() != null) {
             mHotFairDetailResponse = getIntent().getParcelableExtra("hotFairDetailResponse");
-            qrCode = getIntent().getStringExtra("qrCode");
-
+            mOrderSn = getIntent().getStringExtra("orderSn");
             infoBean = mHotFairDetailResponse.getInfo();
             if (infoBean != null) {
                 String codeNum;
-                if (!TextUtils.isEmpty(infoBean.getOrder_sn())) {
-                    codeNum = infoBean.getOrder_sn();
-                    setQRCodeBitmap(qrCode);//infoBean.getOrder_sn()
+                codeNum = mOrderSn;
+                if (!TextUtils.isEmpty(mOrderSn)) {
+                    setQRCodeBitmap(codeNum);//infoBean.getOrder_sn()
                 } else {
                     codeNum = "未知";
                 }

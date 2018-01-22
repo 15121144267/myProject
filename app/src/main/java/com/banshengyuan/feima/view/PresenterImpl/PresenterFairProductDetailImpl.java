@@ -110,6 +110,9 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
     private void getHotFairStateSuccess(ResponseData responseData) {
         mView.judgeToken(responseData.resultCode);
+        LogUtils.i("responseData="+responseData);
+        LogUtils.i("responseData.resultCode="+responseData.resultCode);
+        LogUtils.i("responseData.errorDesc="+responseData.errorDesc);
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFairStateResponse.class);
             HotFairStateResponse response = (HotFairStateResponse) responseData.parsedData;
