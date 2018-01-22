@@ -31,7 +31,7 @@ public class ShopProductDetailModel {
 
 
     public Observable<ResponseData> shopDetailRequest(Integer shopId) {
-        return mApi.shopDetailRequest(shopId).map(mTransform::transformCommon);
+        return mApi.shopDetailRequest(shopId,mBuProcessor.getUserToken()).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> storeProductListRequest(Integer shopId, Integer page, Integer pageSize) {

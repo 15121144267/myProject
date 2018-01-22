@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -40,6 +41,8 @@ import butterknife.Unbinder;
 public class ProductListFragment extends BaseFragment implements ShopProductDetailControl.ShopProductDetailView, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.fragment_trends_list_last)
     RecyclerView mFragmentTrendsListLast;
+    @BindView(R.id.fragment_trends_image)
+    ImageView mFragmentTrendsImage;
 
     public static ProductListFragment newInstance() {
         return new ProductListFragment();
@@ -90,12 +93,21 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
     public void getStoreProductListSuccess(ShopDetailProductListResponse response) {
         mResponse = response;
         List<ShopDetailProductListResponse.ListBean> listBeen = response.list;
-        if (listBeen != null && listBeen.size() > 0) {
-            mAdapter.addData(response.list);
-            mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
+        if (listBeen != null) {
+            if (listBeen.size() == 1 && listBeen.get(0).summary_img != null) {
+                mFragmentTrendsImage.setVisibility(View.VISIBLE);
+                mFragmentTrendsListLast.setVisibility(View.GONE);
+                mImageLoaderHelper.displayMatchImage(getActivity(), listBeen.get(0).summary_img, mFragmentTrendsImage);
+            } else {
+                if (listBeen.size() > 0) {
+                    mAdapter.addData(response.list);
+                    mAdapter.loadMoreComplete();
+                } else {
+                    mAdapter.loadMoreEnd();
+                }
+            }
         }
+
     }
 
     @Override
@@ -110,7 +122,6 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
     }
 
     private void initData() {
-
         mPresenter.requestStoreProductList(mShopId, mPage, mPageSize);
     }
 
@@ -119,6 +130,7 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         mAdapter = new FairDetailNewAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this, mFragmentTrendsListLast);
+
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ShopDetailProductListResponse.ListBean bean = (ShopDetailProductListResponse.ListBean) adapter.getItem(position);
             if (bean != null) {

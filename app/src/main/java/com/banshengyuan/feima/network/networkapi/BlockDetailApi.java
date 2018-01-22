@@ -14,16 +14,16 @@ import retrofit2.http.Query;
 
 public interface BlockDetailApi {
     @GET("api/street/{id}")
-    Observable<String> blockDetailRequest(@Path("id") Integer blockId);
+    Observable<String> blockDetailRequest(@Path("id") Integer blockId, @Query("token") String token);
 
     @GET("api/hot")
-    Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize);
+    Observable<String> hotListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/fair")
-    Observable<String> fairListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize);
+    Observable<String> fairListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @GET("api/store")
-    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page,@Query("pageSize") Integer pageSize);
+    Observable<String> storeListRequest(@Query("street_id") Integer blockId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
 
     @POST("api/collect")
     Observable<String> streetCollectionRequest(@Body String request);

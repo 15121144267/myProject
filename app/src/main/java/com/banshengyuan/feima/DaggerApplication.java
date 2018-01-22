@@ -53,4 +53,8 @@ public class DaggerApplication extends Application {
     public AMapLocation getMapLocation() {
         return aMapLocation;
     }
+
+    public void setMapLocation(AMapLocation location) {
+        this.aMapLocation = location;
+    }
 }

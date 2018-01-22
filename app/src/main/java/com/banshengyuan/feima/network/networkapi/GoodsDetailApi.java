@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface GoodsDetailApi {
     @GET("api/goods/{id}")
-    Observable<String> goodInfoRequest(@Path("id") Integer id);
+    Observable<String> goodInfoRequest(@Path("id") Integer id, @Query("token") String token);
 
     @POST("api/collect")
     Observable<String> goodsCollectionRequest(@Body String request);

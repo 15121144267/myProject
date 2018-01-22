@@ -35,7 +35,7 @@ public class GoodsDetailModel {
 
 
     public Observable<ResponseData> goodInfoRequest(Integer productId) {
-        return mApi.goodInfoRequest(productId).map(mTransform::transformCommon);
+        return mApi.goodInfoRequest(productId,mBuProcessor.getUserToken()).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> goodsCollectionRequest(String shopId, String type) {

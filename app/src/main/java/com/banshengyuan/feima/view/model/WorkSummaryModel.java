@@ -30,7 +30,7 @@ public class WorkSummaryModel {
     }
 
     public Observable<ResponseData> fairDetailRequest(Integer fairId) {
-        return mApi.fairDetailRequest(fairId + "").map(mTransform::transformCommon);
+        return mApi.fairDetailRequest(fairId + "",mBuProcessor.getUserToken()).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> goodCollectionRequest(Integer goodId) {

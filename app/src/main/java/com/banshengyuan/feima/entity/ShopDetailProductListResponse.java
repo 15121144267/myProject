@@ -29,7 +29,8 @@ public class ShopDetailProductListResponse implements Serializable {
 
         public int id;
         public String name;
-        public String cover_img;
+        public String summary_img;
+        public String image;
         public int price;
     }
 }

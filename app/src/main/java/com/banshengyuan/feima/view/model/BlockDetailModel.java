@@ -30,7 +30,7 @@ public class BlockDetailModel {
 
 
     public Observable<ResponseData> blockDetailRequest(Integer blockId) {
-        return mApi.blockDetailRequest(blockId).map(mTransform::transformCommon);
+        return mApi.blockDetailRequest(blockId,mBuProcessor.getUserToken()).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> hotListRequest(Integer blockId ) {

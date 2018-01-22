@@ -116,7 +116,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     private final String[] productNames = {"购物车", "我的订单", "我的卡券", "我的收藏"};
     private List<MainProducts> mList;
     private MainProductsAdapter mAdapter;
-
+    private int resourceColor = R.drawable.yellow_style;
     public static void setmHandler(Handler handler) {
         mHandler = handler;
     }
@@ -206,12 +206,14 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
                     //折叠状态
                     mPersonTips.setVisibility(View.GONE);
                     mMiddleName.setVisibility(View.VISIBLE);
-                    ((MainActivity) getActivity()).setBackGroundColor(R.color.text_color_yellow_dark2);
+                    resourceColor = R.color.text_color_yellow_dark2;
+                    ((MainActivity) getActivity()).setBackGroundColor(resourceColor);
                 } else {
                     //中间状态
                     mPersonTips.setVisibility(View.VISIBLE);
                     mMiddleName.setVisibility(View.GONE);
-                    ((MainActivity) getActivity()).setBackGroundColor(R.drawable.yellow_style);
+                    resourceColor = R.drawable.yellow_style;
+                    ((MainActivity) getActivity()).setBackGroundColor(resourceColor);
                 }
             }
         });
@@ -237,6 +239,9 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         }
     }
 
+    public int getResourceColor() {
+        return resourceColor;
+    }
 
     private void initData() {
         mList = new ArrayList<>();

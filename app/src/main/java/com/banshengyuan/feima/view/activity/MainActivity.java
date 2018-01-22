@@ -63,10 +63,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         ButterKnife.bind(this);
         initializeInjector();
         initView();
-        initData();
-    }
-
-    private void initData() {
     }
 
     @Override
@@ -150,11 +146,10 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                 break;
             case R.id.action_four:
                 if (mBuProcessor.isValidLogin()) {
-                    mBackgroundColor = R.drawable.yellow_style;
+                    mBackgroundColor = ((CompletedOrderFragment) getSupportFragmentManager().getFragments().get(3)).getResourceColor();
                     mViewSwapper.setCurrentItem(SWITCH_FORTH_PAGE, false);
                     CompletedOrderFragment.setmHandler(mHandler);
                 } else {
-                    mBackgroundColor = R.color.white;
                     switchToMyLogin();
                     return false;
                 }

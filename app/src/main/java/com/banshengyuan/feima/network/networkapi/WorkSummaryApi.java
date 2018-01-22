@@ -5,6 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by helei on 2017/4/27.
@@ -14,7 +15,7 @@ import retrofit2.http.Path;
 public interface WorkSummaryApi {
 
     @GET("api/fair/{id}")
-    Observable<String> fairDetailRequest(@Path("id") String fairId);
+    Observable<String> fairDetailRequest(@Path("id") String fairId, @Query("token") String token);
 
     @POST("api/collect")
     Observable<String> collectionRequest(@Body String request);

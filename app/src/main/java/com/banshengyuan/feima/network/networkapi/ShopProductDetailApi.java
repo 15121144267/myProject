@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface ShopProductDetailApi {
     @GET("api/store/{id}")
-    Observable<String> shopDetailRequest(@Path("id") Integer shopId);
+    Observable<String> shopDetailRequest(@Path("id") Integer shopId, @Query("token") String token);
 
     @GET("api/goods")
     Observable<String> storeProductListRequest(@Query("store_id") Integer shopId, @Query("page") Integer page, @Query("pageSize") Integer pageSize);
