@@ -172,7 +172,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
             mFairDetailTitle.setText(mInfoBean.name);
             mFairDetailReadCount.setText(" " + mInfoBean.read_count + "");
             mFairDetailComment.setText("" + mInfoBean.comment_count + " 评论");
-            mFairDetailCollection.setText("" + mInfoBean.collected_count + " 收藏");
+            mFairDetailCollection.setText("收藏");
             mFairDetailPraise.setText("" + mInfoBean.zan_count + " 赞");
             mImageLoaderHelper.displayImage(this, mInfoBean.cover_img, mBlockDetailBackground);
 

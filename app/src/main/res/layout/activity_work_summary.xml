@@ -143,10 +143,8 @@
                     android:id="@+id/fair_detail_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:drawableStart="@mipmap/comment_icon"
                     android:drawablePadding="@dimen/dp_10"
                     android:gravity="center"
-                    android:text="0 评论"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
 
@@ -169,9 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:drawablePadding="@dimen/dp_10"
-                    android:drawableStart="@mipmap/shop_detail_uncollection"
                     android:gravity="center"
-                    android:text="0 收藏"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
             </LinearLayout>
@@ -188,10 +184,8 @@
                     android:id="@+id/fair_detail_praise"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:drawableStart="@mipmap/praise_icon"
                     android:drawablePadding="@dimen/dp_10"
                     android:gravity="center"
-                    android:text="0 赞"
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
             </LinearLayout>
@@ -220,7 +214,6 @@
                     android:textColor="@color/tab_text_normal"
                     android:textSize="@dimen/sp_14"/>
             </LinearLayout>
-
 
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

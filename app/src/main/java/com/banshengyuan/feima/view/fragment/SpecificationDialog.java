@@ -122,8 +122,8 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogAddGoods.setEnabled(true);
         mStock = infoBean.stock;
         mImageLoaderHelper.displayRoundedCornerImage(getActivity(), infoBean.img, mDialogPersonIcon, 4);
-        mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(infoBean.price)+"");
-        mDialogGoodsChoiceCount.setText("库存:" + infoBean.stock+"");
+        mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(infoBean.price) + "");
+        mDialogGoodsChoiceCount.setText("库存:" + infoBean.stock + "");
     }
 
     @Override
@@ -158,22 +158,25 @@ public class SpecificationDialog extends BaseDialogFragment {
             mDialogAddGoods.setVisibility(View.GONE);
             mDialogBuyGoods.setText("确定");
         }
+
         if (mSkuInfoBean == null) {
-            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price)+"");
+            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mInfoBean.price) + "");
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mInfoBean.top_img.get(0), mDialogPersonIcon, 6);
-            mDialogGoodsChoiceCount.setText("库存:" + mInfoBean.stock+"");
+            mDialogGoodsChoiceCount.setText("库存:" + mInfoBean.stock + "");
         } else {
             mImageLoaderHelper.displayRoundedCornerImage(getActivity(), mSkuInfoBean.img, mDialogPersonIcon, 4);
-            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mSkuInfoBean.price)+"");
-            mDialogGoodsChoiceCount.setText("库存:" + mSkuInfoBean.stock+"");
+            mDialogGoodsPrice.setText("￥" + ValueUtil.formatAmount2(mSkuInfoBean.price) + "");
+            mDialogGoodsChoiceCount.setText("库存:" + mSkuInfoBean.stock + "");
         }
+
         if (mSelectProMap != null) {
             setTextContent();
         } else {
             mDialogGoodsChoiceSpecification.setText("请选择");
         }
+
         if (mInfoBean.other_spec.size() > 0) {
-            if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size()&&mSkuInfoBean!=null) {
+            if (mSelectProMap != null && mInfoBean.other_spec.size() == mSelectProMap.size() && mSkuInfoBean != null) {
                 mDialogBuyGoods.setEnabled(true);
                 mDialogAddGoods.setEnabled(true);
             } else {
@@ -209,9 +212,9 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     private View getFootView() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.recycleview_foot_specification, null);
-        mDialogGoodsReduce = (TextView) view.findViewById(R.id.dialog_goods_reduce);
-        mDialogGoodsAdd = (TextView) view.findViewById(R.id.dialog_goods_add);
-        mDialogGoodsCount = (TextView) view.findViewById(R.id.dialog_goods_count);
+        mDialogGoodsReduce = view.findViewById(R.id.dialog_goods_reduce);
+        mDialogGoodsAdd = view.findViewById(R.id.dialog_goods_add);
+        mDialogGoodsCount = view.findViewById(R.id.dialog_goods_count);
         mDialogGoodsReduce.setOnClickListener(this);
         mDialogGoodsAdd.setOnClickListener(this);
         return view;
@@ -237,25 +240,28 @@ public class SpecificationDialog extends BaseDialogFragment {
                 mDialogGoodsCount.setText(String.valueOf(--count));
                 break;
             case R.id.dialog_goods_add:
-                if (count.equals(mStock) || mStock == 0) {
-                    ToastUtils.showShortToast("数量超出范围");
+                if (count.equals(mStock) || mStock <= 0) {
+                    ToastUtils.showShortToast("库存不足");
                     return;
                 }
                 mDialogGoodsCount.setText(String.valueOf(++count));
                 break;
 
             case R.id.dialog_buy_goods:
+                if (mStock <= 0) {
+                    ToastUtils.showShortToast("库存不足");
+                    return;
+                }
                 if (mSkuInfoBean == null) {
                     mSku = mInfoBean.main_sku;
                 } else {
                     mSku = mSkuInfoBean.sku;
                 }
                 if (mAddOrBugFlag == 3) {
-                    mView.addToShoppingCard(mSku,count);
+                    mView.addToShoppingCard(mSku, count);
                 } else {
                     dialogListener.buyButtonListener(mSkuInfoBean, count);
                 }
-
                 break;
 
             case R.id.dialog_add_goods:
@@ -264,13 +270,12 @@ public class SpecificationDialog extends BaseDialogFragment {
                 } else {
                     mSku = mSkuInfoBean.sku;
                 }
-                mView.addToShoppingCard(mSku,count);
+                mView.addToShoppingCard(mSku, count);
                 break;
         }
     }
 
     private void onDismiss() {
-
         if (mSkuInfoBean == null && mSelectProMap != null) {
             mView.closeSpecificationDialog(mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(), mInfoBean, mDoFlag);
         } else if (mSkuInfoBean != null) {
@@ -286,7 +291,7 @@ public class SpecificationDialog extends BaseDialogFragment {
     }
 
     public interface specificationDialogListener {
-        void buyButtonListener( SkuProductResponse.InfoBean sku, Integer count);
+        void buyButtonListener(SkuProductResponse.InfoBean sku, Integer count);
     }
 
 
