@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShopListActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShopListActivityModule;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
 import com.banshengyuan.feima.view.adapter.OrderCommentAdapter;
 
@@ -36,11 +39,12 @@ import butterknife.OnClick;
 public class CommentActivity extends BaseActivity implements ShopListControl.ShopListView {
 
     private List<MyOrdersResponse.ListBean.ProductBean> mList;
-    private List<GoodsCommentContentRequest> commentList ;
+    private List<GoodsCommentContentRequest> commentList;
 
-    public static Intent getIntent(Context context, ArrayList<MyOrdersResponse.ListBean.ProductBean> mList) {
+    public static Intent getIntent(Context context, ArrayList<MyOrdersResponse.ListBean.ProductBean> mList, String order_sn) {
         Intent intent = new Intent(context, CommentActivity.class);
         intent.putParcelableArrayListExtra("mList", mList);
+        intent.putExtra("order_sn", order_sn);
         return intent;
     }
 
@@ -56,6 +60,7 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
     ShopListControl.PresenterShopList mPresenter;
     private String token;
     private OrderCommentAdapter mAdapter;
+    private String mOrderSn;
 
 
     @Override
@@ -111,6 +116,7 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
         toolbarRightText.setVisibility(View.VISIBLE);
         toolbarRightText.setText("提交");
 
+        mOrderSn = getIntent().getStringExtra("order_sn");
         mList = getIntent().getParcelableArrayListExtra("mList");
 
         mRecyclerview.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
@@ -120,6 +126,7 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
 
     private void initData() {
         token = mBuProcessor.getUserToken();
+
     }
 
     private void initializeInjector() {
@@ -132,12 +139,13 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
     @Override
     public void getCommentSuccess() {
         showToast("评论成功");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_ORDERDETAIL));
         finish();
     }
 
     @OnClick(R.id.toolbar_right_text)
     public void onViewClicked() {
-        if (toComment()) mPresenter.requestPublishComment(commentList, token);
+        if (toComment()) mPresenter.requestPublishComment(commentList, mOrderSn,token);
     }
 
     private boolean toComment() {
@@ -145,18 +153,11 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
         boolean flag = true;
         for (int i = 0; i < mList.size(); i++) {
             GoodsCommentContentRequest request = new GoodsCommentContentRequest();
-//            EditText edit = (EditText) mAdapter.getViewByPosition(mRecyclerview, i, R.id.comment_content);
-//            mAdapter.getViewByPosition()
             request.setGoods_id(mList.get(i).getGoods_id());
             String contentEt = mList.get(i).getContent();
             if (!TextUtils.isEmpty(contentEt)) {
-                if (contentEt.length() < 10) {
-                    showToast("至少评价10个字");
-                    flag = false;
-                }else {
-                    request.setContent(contentEt);
-                }
-            }else {
+                request.setContent(contentEt);
+            } else {
                 request.setContent("");
             }
             commentList.add(request);

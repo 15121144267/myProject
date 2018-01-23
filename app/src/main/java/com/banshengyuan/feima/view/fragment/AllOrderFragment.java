@@ -141,16 +141,6 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
         }
-//        if (mPagerNo == 1 && mList.size() == 0) {
-//            mAdapter.setEmptyView(mEmptyView);
-//            return;
-//        }
-//        if (mList.size() > 0) {
-//            mAdapter.addData(mList);
-//            mAdapter.loadMoreComplete();
-//        } else {
-//            mAdapter.loadMoreEnd();
-//        }
     }
 
     @Override
@@ -250,8 +240,12 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 3) {//提醒发货
                                         mPresenter.requestRemindSendGoods(mOrderSn, mToken);
-                                    } else if (listBean.getPay_status() == 4) {//去评价
-                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                    } else if (listBean.getPay_status() == 4) {
+                                        if(listBean.getIs_evaluate()==0){//去评价
+                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
+                                        }else {//删除订单
+                                            mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                        }
                                     } else if (listBean.getPay_status() == 5) {//删除
                                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                     }
@@ -264,7 +258,11 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                     } else if (listBean.getPay_status() == 3) {//确认收货
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 4) {//去评价
-                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                        if(listBean.getIs_evaluate()==0){//去评价
+                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
+                                        }else {//删除订单
+                                            mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                        }
                                     } else if (listBean.getPay_status() == 5) {//删除
                                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                     }

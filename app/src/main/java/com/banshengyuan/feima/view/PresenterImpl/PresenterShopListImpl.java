@@ -33,9 +33,9 @@ public class PresenterShopListImpl implements ShopListControl.PresenterShopList 
     }
 
     @Override
-    public void requestPublishComment(List<GoodsCommentContentRequest> mList, String token) {
+    public void requestPublishComment(List<GoodsCommentContentRequest> mList, String mOrderSn, String token) {
         mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.publishCommentRequest(mList, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
+        Disposable disposable = mModel.publishCommentRequest(mList, mOrderSn, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getCommentSuccess,
                         throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
         mView.addSubscription(disposable);

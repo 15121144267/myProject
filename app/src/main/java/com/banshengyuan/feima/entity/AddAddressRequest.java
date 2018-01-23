@@ -15,6 +15,7 @@ public class AddAddressRequest {
     public String address;
     public String is_default;
     public String token;
+    public String addressId;
 
     public String getName() {
         return name;
@@ -78,5 +79,21 @@ public class AddAddressRequest {
 
     public void setIs_default(String is_default) {
         this.is_default = is_default;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -187,6 +187,7 @@
             <View style="@style/LineH_Yellow_Fill_Width1" />
 
             <TextView
+                android:id="@+id/personc_enter_share"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:drawableEnd="@mipmap/arrow_right"
@@ -198,6 +199,7 @@
             <View style="@style/LineH_Yellow_Fill_Width1" />
 
             <TextView
+                android:id="@+id/personc_enter_suggest"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:drawableEnd="@mipmap/arrow_right"
@@ -209,6 +211,7 @@
             <View style="@style/LineH_Yellow_Fill_Width1" />
 
             <TextView
+                android:id="@+id/personc_enter_about_us"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:drawableEnd="@mipmap/arrow_right"

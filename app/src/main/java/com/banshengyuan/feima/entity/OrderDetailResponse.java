@@ -58,6 +58,7 @@ public class OrderDetailResponse {
          * status : 交易关闭
          * order_type : 2
          * selffetch_code :
+         * is_evaluate 1、已评价 0、未评价
          */
 
         private String member_name;
@@ -83,6 +84,7 @@ public class OrderDetailResponse {
         private String status;
         private int order_type;
         private String selffetch_code;
+        private int is_evaluate;
 
         public String getMember_name() {
             return member_name;
@@ -264,6 +266,14 @@ public class OrderDetailResponse {
             return selffetch_code;
         }
 
+        public int getIs_evaluate() {
+            return is_evaluate;
+        }
+
+        public void setIs_evaluate(int is_evaluate) {
+            this.is_evaluate = is_evaluate;
+        }
+
         public void setSelffetch_code(String selffetch_code) {
             this.selffetch_code = selffetch_code;
         }
@@ -273,6 +283,7 @@ public class OrderDetailResponse {
         /**
          * store_name : test的店铺
          * store_id : 8
+         * cover_image
          * store_mobile : 15000319679
          * product : [{"goods_id":87,"sku_name":"1206","goods_name":"测试1206","number":1,"id":1,"goods_sku":"1206","goods_img":"http://ssapp.jixuanjk.com/upload/5a27c04cc812b24931.jpg","goods_price":12600}]
          */
@@ -280,6 +291,7 @@ public class OrderDetailResponse {
         private String store_name;
         private int store_id;
         private String store_mobile;
+        private String cover_image;
         private List<ProductBean> product;
 
         public String getStore_name() {
@@ -312,6 +324,14 @@ public class OrderDetailResponse {
 
         public void setProduct(List<ProductBean> product) {
             this.product = product;
+        }
+
+        public String getCover_image() {
+            return cover_image;
+        }
+
+        public void setCover_image(String cover_image) {
+            this.cover_image = cover_image;
         }
 
         public static class ProductBean {

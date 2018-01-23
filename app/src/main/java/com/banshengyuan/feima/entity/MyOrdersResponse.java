@@ -95,31 +95,37 @@ public class MyOrdersResponse implements Parcelable {
          * order_sn : Z2017120106111625062
          * store_name : test的店铺
          * store_id : 8
+         * cover_image
          * product : [{"id":3,"name":"测试商品","goods_id":1,"price":12000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"},{"id":6,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"},{"id":7,"name":"测试商品","goods_id":1,"price":15000,"number":1,"cover_img":"http://ssapp.jixuanjk.com/upload/example.jpg"}]
          * pay_status : 1
          * pay_status_name : 等待买家付款
          * total_fee : 42000
          * freight : 0
+         * is_evaluate  1、已评价 0、未评价
          */
 
         private String order_sn;
         private String store_name;
         private int store_id;
+        private String cover_image;
         private int pay_status;
         private String pay_status_name;
         private int total_fee;
         private int freight;
         private int order_type;
+        private int is_evaluate;
         private List<ProductBean> product;
 
         protected ListBean(Parcel in) {
             order_sn = in.readString();
             store_name = in.readString();
+            cover_image = in.readString();
             store_id = in.readInt();
             pay_status = in.readInt();
             pay_status_name = in.readString();
             total_fee = in.readInt();
             freight = in.readInt();
+            is_evaluate = in.readInt();
             product = in.createTypedArrayList(ProductBean.CREATOR);
         }
 
@@ -127,11 +133,13 @@ public class MyOrdersResponse implements Parcelable {
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(order_sn);
             dest.writeString(store_name);
+            dest.writeString(cover_image);
             dest.writeInt(store_id);
             dest.writeInt(pay_status);
             dest.writeString(pay_status_name);
             dest.writeInt(total_fee);
             dest.writeInt(freight);
+            dest.writeInt(is_evaluate);
             dest.writeTypedList(product);
         }
 
@@ -216,8 +224,24 @@ public class MyOrdersResponse implements Parcelable {
             this.freight = freight;
         }
 
+        public int getIs_evaluate() {
+            return is_evaluate;
+        }
+
+        public void setIs_evaluate(int is_evaluate) {
+            this.is_evaluate = is_evaluate;
+        }
+
         public List<ProductBean> getProduct() {
             return product;
+        }
+
+        public String getCover_image() {
+            return cover_image;
+        }
+
+        public void setCover_image(String cover_image) {
+            this.cover_image = cover_image;
         }
 
         public void setProduct(List<ProductBean> product) {
@@ -240,7 +264,7 @@ public class MyOrdersResponse implements Parcelable {
             private int price;
             private int number;
             private String cover_img;
-            private String content;
+            private String content;//content 用来订单评价用
 
             public String getContent() {
                 return content;

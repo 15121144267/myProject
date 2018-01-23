@@ -18,8 +18,8 @@ public interface AddressApi {
     Observable<String> listAddressRequest(@Query("token") String token);
 
     @POST("api/user/receiving-address/delete/{id}")
-    Observable<String> deleteAddressRequest(@Path("id") String addressId, @Query("token") String token);
+    Observable<String> deleteAddressRequest(@Path("id") String addressId,@Body String request);
 
     @POST("api/user/receiving-address/update/{id}")
-    Observable<String> updateAddressRequest(@Path("id") String addressId, @Body String request ,@Query("token") String token);
+    Observable<String> updateAddressRequest(@Path("id") String addressId, @Body String request);
 }

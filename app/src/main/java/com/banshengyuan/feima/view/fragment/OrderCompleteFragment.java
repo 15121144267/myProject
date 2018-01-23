@@ -217,7 +217,11 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                     } else if (listBean.getPay_status() == 3) {//提醒发货
                                     } else if (listBean.getPay_status() == 4) {//去评价
-                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                        if(listBean.getIs_evaluate()==0){//去评价
+                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
+                                        }else {//删除订单
+                                            mPresenter.requestDeleteOrder(mOrderSn, token);
+                                        }
                                     } else if (listBean.getPay_status() == 5) {//删除
                                         mPresenter.requestDeleteOrder(mOrderSn, token);
                                     }
@@ -227,7 +231,11 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                     } else if (listBean.getPay_status() == 3) {//确认收货
                                     } else if (listBean.getPay_status() == 4) {//去评价
-                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                        if(listBean.getIs_evaluate()==0){//去评价
+                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
+                                        }else {//删除订单
+                                            mPresenter.requestDeleteOrder(mOrderSn, token);
+                                        }
                                     } else if (listBean.getPay_status() == 5) {//删除
                                         mPresenter.requestDeleteOrder(mOrderSn, token);
                                     }

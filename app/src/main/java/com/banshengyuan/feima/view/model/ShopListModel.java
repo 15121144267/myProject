@@ -29,10 +29,12 @@ public class ShopListModel {
         mTransform = transform;
     }
 
-    public Observable<ResponseData> publishCommentRequest(List<GoodsCommentContentRequest> mList, String token) {
+    public Observable<ResponseData> publishCommentRequest(List<GoodsCommentContentRequest> mList, String mOrderSn ,String token) {
         GoodsCommentRequest request = new GoodsCommentRequest();
         request.data =  mGson.toJson(mList);
+        request.order_sn = mOrderSn;
         request.token = token;
+        LogUtils.i("mGson.toJson(request)="+mGson.toJson(request));
         return mApi.publishCommentRequest(mGson.toJson(request)).map(mTransform::transformCommon);
     }
 

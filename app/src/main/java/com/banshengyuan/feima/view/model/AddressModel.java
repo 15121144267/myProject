@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.model;
 
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.entity.AddAddressRequest;
+import com.banshengyuan.feima.entity.AddressRequest;
 import com.banshengyuan.feima.network.networkapi.AddressApi;
 import com.google.gson.Gson;
 
@@ -32,12 +33,15 @@ public class AddressModel {
     }
 
     public Observable<ResponseData> deleteAddressRequest(String addressId, String token) {
-        return mApi.deleteAddressRequest(addressId, token).map(mTransform::transformCommon);
+        AddressRequest request =new AddressRequest();
+        request.setAddressId(addressId);
+        request.setToken(token);
+        return mApi.deleteAddressRequest(addressId, mGson.toJson(request)).map(mTransform::transformCommon);
     }
 
     public Observable<ResponseData> updateAddressRequest(String addressId, AddAddressRequest request, String token) {
-        return mApi.updateAddressRequest(addressId, mGson.toJson(request), token).map(mTransform::transformCommon);
+        request.setToken(token);
+        return mApi.updateAddressRequest(addressId, mGson.toJson(request)).map(mTransform::transformCommon);
     }
-
 
 }

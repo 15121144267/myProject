@@ -242,7 +242,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
                                     } else if (listBean.getPay_status() == 3) {//提醒发货
                                         mPresenter.requestRemindSendGoods(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 4) {//去评价
-                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
                                     } else if (listBean.getPay_status() == 5) {//删除
                                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                     }
@@ -255,7 +255,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
                                     } else if (listBean.getPay_status() == 3) {//确认收货
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 4) {//去评价
-                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct()));
+                                        startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
                                     } else if (listBean.getPay_status() == 5) {//删除
                                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                     }

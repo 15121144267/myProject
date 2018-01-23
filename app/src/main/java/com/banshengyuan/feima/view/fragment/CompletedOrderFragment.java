@@ -103,6 +103,12 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     @BindView(R.id.login_submit)
     Button mLoginSubmit;
     private static Handler mHandler;
+    @BindView(R.id.personc_enter_share)
+    TextView mPersoncEnterShare;
+    @BindView(R.id.personc_enter_suggest)
+    TextView mPersoncEnterSuggest;
+    @BindView(R.id.personc_enter_about_us)
+    TextView mPersoncEnterAboutUs;
 
     public static CompletedOrderFragment newInstance() {
         return new CompletedOrderFragment();
@@ -117,6 +123,7 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     private List<MainProducts> mList;
     private MainProductsAdapter mAdapter;
     private int resourceColor = R.drawable.yellow_style;
+
     public static void setmHandler(Handler handler) {
         mHandler = handler;
     }
@@ -173,6 +180,15 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
 
         RxView.clicks(mLoginSubmit).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> exitLogin());
+
+        RxView.clicks(mPersoncEnterShare).throttleFirst(1,TimeUnit.SECONDS).subscribe(
+                o ->showToast("正在完善中..."));
+
+        RxView.clicks(mPersoncEnterSuggest).throttleFirst(1,TimeUnit.SECONDS).subscribe(
+                o ->showToast("正在完善中..."));
+
+        RxView.clicks(mPersoncEnterAboutUs).throttleFirst(1,TimeUnit.SECONDS).subscribe(
+                o ->showToast("正在完善中..."));
 
         mPersonListEnter.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mAdapter = new MainProductsAdapter(null, getActivity());

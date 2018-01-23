@@ -151,7 +151,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
     @Override
     void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderDetailActivity)) {
+        if (intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderDetailActivity) || intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
             isFreshOrder = true;
             mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
         }
@@ -162,6 +162,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     void addFilter() {
         super.addFilter();
         mFilter.addAction(BroConstant.ORDER_TO_PAY_OrderDetailActivity);
+        mFilter.addAction(BroConstant.ORDER_TO_ORDERDETAIL);
     }
 
     private void initData() {
@@ -246,17 +247,21 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     } else if (infoBean.getPay_status() == 3) {//提醒发货
                         mPresenter.requestRemindSendGoods(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 4) {//去评价
-                        for (OrderDetailResponse.GoodsListBean.ProductBean bean : mList) {
-                            MyOrdersResponse.ListBean.ProductBean productBean = new MyOrdersResponse.ListBean.ProductBean();
-                            productBean.setId(bean.getId());
-                            productBean.setName(bean.getGoods_name());
-                            productBean.setGoods_id(bean.getGoods_id());
-                            productBean.setPrice(bean.getGoods_price());
-                            productBean.setNumber(bean.getNumber());
-                            productBean.setCover_img(bean.getGoods_img());
-                            mList1.add(productBean);
+                        if (infoBean.getIs_evaluate() == 0) {
+                            for (OrderDetailResponse.GoodsListBean.ProductBean bean : mList) {
+                                MyOrdersResponse.ListBean.ProductBean productBean = new MyOrdersResponse.ListBean.ProductBean();
+                                productBean.setId(bean.getId());
+                                productBean.setName(bean.getGoods_name());
+                                productBean.setGoods_id(bean.getGoods_id());
+                                productBean.setPrice(bean.getGoods_price());
+                                productBean.setNumber(bean.getNumber());
+                                productBean.setCover_img(bean.getGoods_img());
+                                mList1.add(productBean);
+                            }
+                            startActivity(CommentActivity.getIntent(OrderDetailActivity.this, mList1, infoBean.getSn()));
+                        } else {//删除
+                            mPresenter.requestDeleteOrder(mOrderSn, mToken);
                         }
-                        startActivity(CommentActivity.getIntent(OrderDetailActivity.this, mList1));
                     } else if (infoBean.getPay_status() == 5) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     }
@@ -269,17 +274,21 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     } else if (infoBean.getPay_status() == 3) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 4) {//去评价
-                        for (OrderDetailResponse.GoodsListBean.ProductBean bean : mList) {
-                            MyOrdersResponse.ListBean.ProductBean productBean = new MyOrdersResponse.ListBean.ProductBean();
-                            productBean.setId(bean.getId());
-                            productBean.setName(bean.getGoods_name());
-                            productBean.setGoods_id(bean.getGoods_id());
-                            productBean.setPrice(bean.getGoods_price());
-                            productBean.setNumber(bean.getNumber());
-                            productBean.setCover_img(bean.getGoods_img());
-                            mList1.add(productBean);
+                        if (infoBean.getIs_evaluate() == 0) {
+                            for (OrderDetailResponse.GoodsListBean.ProductBean bean : mList) {
+                                MyOrdersResponse.ListBean.ProductBean productBean = new MyOrdersResponse.ListBean.ProductBean();
+                                productBean.setId(bean.getId());
+                                productBean.setName(bean.getGoods_name());
+                                productBean.setGoods_id(bean.getGoods_id());
+                                productBean.setPrice(bean.getGoods_price());
+                                productBean.setNumber(bean.getNumber());
+                                productBean.setCover_img(bean.getGoods_img());
+                                mList1.add(productBean);
+                            }
+                            startActivity(CommentActivity.getIntent(OrderDetailActivity.this, mList1, infoBean.getSn()));
+                        } else {//删除
+                            mPresenter.requestDeleteOrder(mOrderSn, mToken);
                         }
-                        startActivity(CommentActivity.getIntent(OrderDetailActivity.this, mList1));
                     } else if (infoBean.getPay_status() == 5) {//删除
                         mPresenter.requestDeleteOrder(mOrderSn, mToken);
                     }
@@ -375,7 +384,9 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 linepayCenterLayout.setVisibility(View.GONE);
                 orderUnlinepayLayout.setVisibility(View.VISIBLE);
 
-//                mImageLoaderHelper.displayRoundedCornerImage(this,goodsListBean.get);
+                if (!TextUtils.isEmpty(goodsListBean.getCover_image())) {
+                    mImageLoaderHelper.displayCircularImage(this, goodsListBean.getCover_image(), unlinepayImage);
+                }
                 unlinepayStorename.setText(goodsListBean.getStore_name());
 
                 Integer totalPrice = infoBean.getTotal_fee();
@@ -428,8 +439,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     orderRightBtn.setText("提醒发货");
                 } else if (infoBean.getPay_status() == 4) {
                     stateIv.setImageResource(R.mipmap.order_detail_success);
-                    orderLeftBtn.setText("删除订单");
-                    orderRightBtn.setText("去评价");
+                    if (infoBean.getIs_evaluate() == 0) {
+                        orderLeftBtn.setText("删除订单");
+                        orderRightBtn.setText("去评价");
+                    } else {
+                        orderLeftBtn.setVisibility(View.GONE);
+                        orderRightBtn.setText("删除订单");
+                    }
                 } else if (infoBean.getPay_status() == 5) {
                     stateIv.setImageResource(R.mipmap.order_detail_close);
                     orderLeftBtn.setVisibility(View.GONE);
@@ -450,8 +466,13 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     orderRightBtn.setText("确认收货");
                 } else if (infoBean.getPay_status() == 4) {
                     stateIv.setImageResource(R.mipmap.order_detail_success);
-                    orderLeftBtn.setText("删除订单");
-                    orderRightBtn.setText("去评价");
+                    if (infoBean.getIs_evaluate() == 0) {
+                        orderLeftBtn.setText("删除订单");
+                        orderRightBtn.setText("去评价");
+                    } else {
+                        orderLeftBtn.setVisibility(View.GONE);
+                        orderRightBtn.setText("删除订单");
+                    }
                 } else if (infoBean.getPay_status() == 5) {
                     stateIv.setImageResource(R.mipmap.order_detail_close);
                     orderLeftBtn.setVisibility(View.GONE);

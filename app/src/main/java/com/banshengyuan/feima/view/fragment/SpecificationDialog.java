@@ -212,9 +212,9 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     private View getFootView() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.recycleview_foot_specification, null);
-        mDialogGoodsReduce = view.findViewById(R.id.dialog_goods_reduce);
-        mDialogGoodsAdd = view.findViewById(R.id.dialog_goods_add);
-        mDialogGoodsCount = view.findViewById(R.id.dialog_goods_count);
+        mDialogGoodsReduce = (TextView) view.findViewById(R.id.dialog_goods_reduce);
+        mDialogGoodsAdd = (TextView) view.findViewById(R.id.dialog_goods_add);
+        mDialogGoodsCount = (TextView) view.findViewById(R.id.dialog_goods_count);
         mDialogGoodsReduce.setOnClickListener(this);
         mDialogGoodsAdd.setOnClickListener(this);
         return view;

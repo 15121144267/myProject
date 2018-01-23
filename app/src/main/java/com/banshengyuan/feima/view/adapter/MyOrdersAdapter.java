@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.SpannableStringUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;
@@ -70,6 +71,7 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
          4.交易成功（待评价或已完成、线下收款）线下收款订单没有商品，故无评价
          5.交易关闭（已取消）
          * 	deliver_status   1 待发货 2已发货
+         * 	is_evaluate 是否评价 1、已评价 0、未评价
          */
         if (item.getOrder_type() == 1) {
             helper.setVisible(R.id.order_left_btn, true);
@@ -84,8 +86,13 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "提醒发货");
             } else if (item.getPay_status() == 4) {
-                helper.setText(R.id.order_left_btn, "删除订单");
-                helper.setText(R.id.order_right_btn, "去评价");
+                if(item.getIs_evaluate()==0){
+                    helper.setText(R.id.order_left_btn, "删除订单");
+                    helper.setText(R.id.order_right_btn, "去评价");
+                }else {
+                    helper.setVisible(R.id.order_left_btn, false);
+                    helper.setText(R.id.order_right_btn, "删除订单");
+                }
             } else if (item.getPay_status() == 5) {
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "删除订单");
@@ -103,8 +110,13 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setVisible(R.id.order_right_btn, false);
             } else if (item.getPay_status() == 4) {
-                helper.setText(R.id.order_left_btn, "删除订单");
-                helper.setText(R.id.order_right_btn, "去评价");
+                if(item.getIs_evaluate()==0){
+                    helper.setText(R.id.order_left_btn, "删除订单");
+                    helper.setText(R.id.order_right_btn, "去评价");
+                }else {
+                    helper.setVisible(R.id.order_left_btn, false);
+                    helper.setText(R.id.order_right_btn, "删除订单");
+                }
             } else if (item.getPay_status() == 5) {
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "删除订单");
@@ -122,7 +134,7 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
             }
         }
 
-        String orderPricePartTwo = "￥" + ValueUtil.formatAmount2(item.getTotal_fee() + item.getFreight());
+        String orderPricePartTwo = "￥" + ValueUtil.formatAmount2(item.getTotal_fee());
         SpannableStringBuilder stringBuilder = SpannableStringUtils.getBuilder(orderPricePartTwo)
                 .setForegroundColor(ContextCompat.getColor(mContext, R.color.order_price_color))
                 .setSize(18, true)
@@ -139,6 +151,7 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
         if (item == null) return;
         helper.addOnClickListener(R.id.order_left_btn).addOnClickListener(R.id.order_right_btn).addOnClickListener(R.id.mime_order_lv);
 
+        mImageLoaderHelper.displayCircularImage(mContext, item.getCover_image(), helper.getView(R.id.shop_img));
         helper.setText(R.id.shop_name, "  " + item.getStore_name());
         //pay_status :1 待付款 2已付款
         //deliver_status : 1 待发货 2已发货

@@ -15,7 +15,7 @@ public class ShopListControl {
     }
 
     public interface PresenterShopList extends Presenter<ShopListView> {
-        void requestPublishComment(List<GoodsCommentContentRequest> mList, String token);
+        void requestPublishComment(List<GoodsCommentContentRequest> mList,String mOrderSn , String token);
     }
 
 }
