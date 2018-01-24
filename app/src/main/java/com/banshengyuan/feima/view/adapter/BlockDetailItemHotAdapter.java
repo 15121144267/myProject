@@ -30,7 +30,7 @@ public class BlockDetailItemHotAdapter extends BaseQuickAdapter<BlockHotListResp
         mImageLoaderHelper.displayRoundedCornerImage(mContext,item.cover_img,imageView,4);
         helper.setText(R.id.adapter_recommend_text,item.name);
         helper.setText(R.id.adapter_common_des,item.summary);
-        helper.setText(R.id.adapter_common_date, TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH,Long.parseLong(item.end_time)));
+        helper.setText(R.id.adapter_common_date, TimeUtil.transferLongToDate(TimeUtil.TIME_MMDD_CH,Long.parseLong(item.start_time)));
     }
 
 }
