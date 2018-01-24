@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,8 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
     RecyclerView mFragmentTrendsListLast;
     @BindView(R.id.fragment_trends_image)
     ImageView mFragmentTrendsImage;
+    @BindView(R.id.fragment_trends_sco_view)
+    NestedScrollView mFragmentTrendsScoView;
 
     public static ProductListFragment newInstance() {
         return new ProductListFragment();
@@ -95,7 +98,7 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         List<ShopDetailProductListResponse.ListBean> listBeen = response.list;
         if (listBeen != null) {
             if (listBeen.size() == 1 && listBeen.get(0).summary_img != null) {
-                mFragmentTrendsImage.setVisibility(View.VISIBLE);
+                mFragmentTrendsScoView.setVisibility(View.VISIBLE);
                 mFragmentTrendsListLast.setVisibility(View.GONE);
                 mImageLoaderHelper.displayMatchImage(getActivity(), listBeen.get(0).summary_img, mFragmentTrendsImage);
             } else {

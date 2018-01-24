@@ -110,6 +110,8 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogAddGoods.setEnabled(false);
         setTextContent();
         if (mInfoBean.other_spec.size() == selectProMap.size()) {
+            count = 1;
+            mDialogGoodsCount.setText(String.valueOf(count));
             //查询PID
             mView.checkProductId(skuProMap);
         }
