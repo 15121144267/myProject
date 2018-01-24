@@ -25,7 +25,7 @@ public class ProductCategoryListAdapter extends BaseQuickAdapter<ProductCategory
     @Override
     protected void convert(BaseViewHolder helper, ProductCategoryResponse.ListBean item) {
         ImageView imageView = helper.getView(R.id.adapter_collection_icon);
-        mImageLoaderHelper.displayImage(mContext,item.cover_img,imageView);
+        mImageLoaderHelper.displayImage(mContext,item.image,imageView);
         helper.setVisible(R.id.adapter_price_layout,true);
         helper.setText(R.id.adapter_product_price, ValueUtil.formatAmount2(item.price));
         helper.setText(R.id.adapter_product_name, item.name);
