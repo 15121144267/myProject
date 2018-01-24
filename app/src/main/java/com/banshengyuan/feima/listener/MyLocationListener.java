@@ -17,6 +17,7 @@ import com.banshengyuan.feima.utils.TimeUtil;
 
 public class MyLocationListener implements AMapLocationListener {
     private final DaggerApplication mDaggerApplication;
+    private boolean mFlag = false;
 
     public MyLocationListener(DaggerApplication application) {
         this.mDaggerApplication = application;
@@ -27,7 +28,10 @@ public class MyLocationListener implements AMapLocationListener {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
                 mDaggerApplication.transformLocation(amapLocation);
-                LocalBroadcastManager.getInstance(mDaggerApplication.getApplicationContext()).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_LOCATION));
+                if (!mFlag) {
+                    LocalBroadcastManager.getInstance(mDaggerApplication.getApplicationContext()).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_LOCATION));
+                    mFlag = true;
+                }
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
