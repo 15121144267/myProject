@@ -74,7 +74,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
     private String mPassword;
-    private boolean flag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -206,13 +205,12 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE).subscribe(permission -> {
             if (permission) {
-                if (flag || mLocationInfo == null) {
+                if (mLocationInfo == null) {
                     mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
                     mAMapLocationClient.startLocation();
                 }
                 mPresenterLogin.onRequestLogin(myPhone, mPassword);
             } else {
-                flag = true;
                 showDialog();
             }
         });

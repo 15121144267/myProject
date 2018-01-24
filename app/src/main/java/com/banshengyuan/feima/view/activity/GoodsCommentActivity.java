@@ -130,7 +130,7 @@ public class GoodsCommentActivity extends BaseActivity implements ShopDetailCont
 
 
     private void initData() {
-        mPresenter.requestGoodsComment(1, mPage, mPageSize);
+        mPresenter.requestGoodsComment(mGoodsId, mPage, mPageSize);
     }
 
     private void initializeInjector() {

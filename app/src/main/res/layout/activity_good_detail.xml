@@ -172,7 +172,7 @@
                 android:layout_height="34dp"
                 android:drawableEnd="@mipmap/order_arrow_right"
                 android:gravity="center_vertical"
-                android:hint="商品评论(0)"
+                android:hint="商品评论"
                 android:paddingEnd="@dimen/dp_20"
                 android:paddingStart="@dimen/dp_20"
                 />

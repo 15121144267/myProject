@@ -53,7 +53,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     RecyclerView mRecommendBrandRecycleView;
     @BindView(R.id.recommend_discover_recycle_view)
     RecyclerView mRecommendDiscoverRecycleView;
-
     @BindView(R.id.recommend_block_detail_distance)
     TextView mRecommendBlockDetailDistance;
     @BindView(R.id.recommend_block_detail_name)
@@ -185,20 +184,20 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     @Override
     void addFilter() {
         super.addFilter();
-        mFilter.addAction(BroConstant.UPDATE_PERSON_INFO);
+        mFilter.addAction(BroConstant.UPDATE_PERSON_LOCATION);
     }
 
     @Override
     void onReceivePro(Context context, Intent intent) {
         super.onReceivePro(context, intent);
-        if (intent.getAction().equals(BroConstant.UPDATE_PERSON_INFO)) {
-            mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getMapLocation();
+        if (intent.getAction().equals(BroConstant.UPDATE_PERSON_LOCATION)) {
             requestRecommend();
         }
 
     }
 
     private void requestRecommend() {
+        mLocationInfo = ((DaggerApplication) getActivity().getApplicationContext()).getMapLocation();
         if (mLocationInfo != null) {
             double longitude = mLocationInfo.getLongitude();
             double latitude = mLocationInfo.getLatitude();

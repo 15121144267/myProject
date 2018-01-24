@@ -1,10 +1,13 @@
 package com.banshengyuan.feima.listener;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.banshengyuan.feima.DaggerApplication;
+import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.utils.TimeUtil;
 
 /**
@@ -24,6 +27,7 @@ public class MyLocationListener implements AMapLocationListener {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
                 mDaggerApplication.transformLocation(amapLocation);
+                LocalBroadcastManager.getInstance(mDaggerApplication.getApplicationContext()).sendBroadcast(new Intent(BroConstant.UPDATE_PERSON_LOCATION));
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"

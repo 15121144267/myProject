@@ -38,8 +38,10 @@ public class DaggerApplication extends Application {
         mAppComponent.inject(this);
         Utils.init(this);
         mBuProcessor.reSetUserData();
-        mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
-        mAMapLocationClient.startLocation();
+        if (aMapLocation == null) {
+            mAMapLocationClient.setLocationOption(mAMapLocationClientOption);
+            mAMapLocationClient.startLocation();
+        }
     }
 
     public ApplicationComponent getApplicationComponent() {

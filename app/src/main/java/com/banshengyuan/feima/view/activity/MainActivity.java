@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        mBackgroundColor = R.color.white;
+        mBackgroundColor = R.color.gray_color;
         switch (item.getItemId()) {
             case R.id.action_one:
                 mViewSwapper.setCurrentItem(SWITCH_FIRST_PAGE, false);

@@ -12,7 +12,5 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/activity_goods_comment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/dp_20"
-        android:paddingStart="@dimen/dp_20"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>
