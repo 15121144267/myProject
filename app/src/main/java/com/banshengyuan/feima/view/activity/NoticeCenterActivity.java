@@ -101,6 +101,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mNoticeAdapter = new NoticeAdapter(null, getContext());
         mNoticeAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        mNoticeAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
         mRecyclerView.setAdapter(mNoticeAdapter);
 
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {

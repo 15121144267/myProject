@@ -227,7 +227,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (infoBean != null) {
             salePrice = infoBean.getSales_price();
             fairDetailTitle.setText(infoBean.getName());
-            String date = infoBean.getStart_time() != 0 ? TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_CH, (long) infoBean.getEnd_time()) : "未知";
+            String date = infoBean.getStart_time() != 0 ? TimeUtil.transferLongToDate(TimeUtil.TIME_YYMMDD_CH, (long) infoBean.getStart_time()) : "未知";
             String place = TextUtils.isEmpty(infoBean.getStreet_name()) ? "未知" : infoBean.getStreet_name();
             fairDetailDate.setText("时间：" + date);
             fairDetailPlace.setText("地点：" + place);
