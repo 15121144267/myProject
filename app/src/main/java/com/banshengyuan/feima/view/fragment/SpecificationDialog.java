@@ -18,7 +18,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.help.AniCreator;
-import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
 import com.banshengyuan.feima.utils.ToastUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
@@ -137,6 +136,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         mDialogBuyGoods.setOnClickListener(this);
         mDialogAddGoods.setOnClickListener(this);
         mDialogClose.setOnClickListener(this);
+        mRechargeDialogLayout.setOnClickListener(this);
 
         this.getDialog().setOnKeyListener((DialogInterface arg0, int keyCode, KeyEvent arg2) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -274,6 +274,9 @@ public class SpecificationDialog extends BaseDialogFragment {
                 }
                 mView.addToShoppingCard(mSku, count);
                 break;
+            default:
+                onDismiss();
+                break;
         }
     }
 
@@ -283,7 +286,7 @@ public class SpecificationDialog extends BaseDialogFragment {
         } else if (mSkuInfoBean != null) {
             mView.closeSpecificationDialog2(mSkuInfoBean, mSelectProMap, mSkuProMap, mDialogGoodsChoiceSpecification.getText().toString(), mInfoBean, mDoFlag);
         }
-        closeDialog();
+        closeDialog(TAG);
     }
 
     @Override
@@ -294,14 +297,5 @@ public class SpecificationDialog extends BaseDialogFragment {
 
     public interface specificationDialogListener {
         void buyButtonListener(SkuProductResponse.InfoBean sku, Integer count);
-    }
-
-
-    public void closeDialog() {
-        try {
-            this.dismiss();
-        } catch (Exception e) {
-            DialogFactory.dismissDialogFragment(getActivity().getSupportFragmentManager(), TAG);
-        }
     }
 }

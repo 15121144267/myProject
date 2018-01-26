@@ -64,6 +64,7 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
     @BindView(R.id.refresh_lay_out)
     SwipeRefreshLayout mRefreshLayOut;
 
+
     public static RecommendFragment newInstance() {
         return new RecommendFragment();
     }
@@ -212,7 +213,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         requestRecommend();
         //请求推荐页品牌布局
         mPresenter.requestRecommendBrand();
-
         //请求推荐页发现精彩
         mPresenter.requestRecommendBottom();
     }

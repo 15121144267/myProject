@@ -34,8 +34,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/freemud_logo_new"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <provider
@@ -48,8 +48,9 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <meta-data android:name="com.banshengyuan.feima.help.GlideHelper.CustomCachingGlideModule"
-                   android:value="GlideModule"/>
+        <meta-data
+            android:name="com.banshengyuan.feima.help.GlideHelper.CustomCachingGlideModule"
+            android:value="GlideModule"/>
         <!--7.0文件适配-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -112,6 +113,10 @@
 
         <activity
             android:name=".view.activity.CouponActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".view.activity.AboutActivity"
             android:screenOrientation="portrait"/>
 
         <activity
@@ -223,8 +228,8 @@
 
         <activity
             android:name=".view.activity.CommentActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <activity
             android:name=".view.activity.GoodsCommentActivity"

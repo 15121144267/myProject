@@ -8,10 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 
+import com.banshengyuan.feima.help.DialogFactory;
+import com.banshengyuan.feima.utils.ToastUtils;
+
 /**
  * @author helei
  */
-public class BaseDialogFragment extends DialogFragment implements View.OnClickListener{
+public class BaseDialogFragment extends DialogFragment implements View.OnClickListener {
     public static final String TAG = BaseDialogFragment.class.getSimpleName();
 
     @Override
@@ -35,6 +38,18 @@ public class BaseDialogFragment extends DialogFragment implements View.OnClickLi
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
+    }
+
+    public void closeDialog(String Tag) {
+        try {
+            dismiss();
+        } catch (Exception e) {
+            DialogFactory.dismissDialogFragment(getActivity().getSupportFragmentManager(), Tag);
+        }
+    }
+
+    public void showToast(String des) {
+        ToastUtils.showLongToast(des);
     }
 
     @Override

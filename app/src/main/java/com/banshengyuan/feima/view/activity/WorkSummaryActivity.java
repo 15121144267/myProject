@@ -117,6 +117,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
 
     @Override
     public void getFairPraiseSuccess(FairPraiseResponse response) {
+        mFairDetailPraise.setText("" + response.count + " 赞");
         if (response.status == 1) {
             ValueUtil.setTextDrawable(this, mFairDetailPraise, R.mipmap.praise_icon_check, 2);
         } else {

@@ -37,6 +37,7 @@ import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.DataCleanManager;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.CompletedOrderControl;
+import com.banshengyuan.feima.view.activity.AboutActivity;
 import com.banshengyuan.feima.view.activity.AddressActivity;
 import com.banshengyuan.feima.view.activity.CoupleActivity;
 import com.banshengyuan.feima.view.activity.MainActivity;
@@ -107,8 +108,8 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
     TextView mPersoncEnterShare;
     @BindView(R.id.personc_enter_suggest)
     TextView mPersoncEnterSuggest;
-    @BindView(R.id.personc_enter_about_us)
-    TextView mPersoncEnterAboutUs;
+    @BindView(R.id.person_enter_about_us)
+    TextView mPersonEnterAboutUs;
 
     public static CompletedOrderFragment newInstance() {
         return new CompletedOrderFragment();
@@ -181,14 +182,16 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
         RxView.clicks(mLoginSubmit).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> exitLogin());
 
-        RxView.clicks(mPersoncEnterShare).throttleFirst(1,TimeUnit.SECONDS).subscribe(
-                o ->showToast("正在完善中..."));
+        RxView.clicks(mPersoncEnterShare).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> {
 
-        RxView.clicks(mPersoncEnterSuggest).throttleFirst(1,TimeUnit.SECONDS).subscribe(
-                o ->showToast("正在完善中..."));
+                }/*showToast("正在完善中...")*/);
 
-        RxView.clicks(mPersoncEnterAboutUs).throttleFirst(1,TimeUnit.SECONDS).subscribe(
-                o ->showToast("正在完善中..."));
+        RxView.clicks(mPersoncEnterSuggest).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> showToast("正在完善中..."));
+
+        RxView.clicks(mPersonEnterAboutUs).throttleFirst(1, TimeUnit.SECONDS).subscribe(
+                o -> startActivity(AboutActivity.getIntent(getActivity())));
 
         mPersonListEnter.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mAdapter = new MainProductsAdapter(null, getActivity());

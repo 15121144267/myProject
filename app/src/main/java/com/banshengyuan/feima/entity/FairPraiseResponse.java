@@ -12,4 +12,5 @@ public class FairPraiseResponse implements Serializable{
       */
 
      public int status;
+     public int count;
 }

@@ -22,6 +22,7 @@ import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
+import com.banshengyuan.feima.entity.ShareInfo;
 import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.help.DialogFactory;
@@ -29,7 +30,7 @@ import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.help.MyWebViewClient;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
-import com.banshengyuan.feima.view.fragment.PhotoChoiceDialog;
+import com.banshengyuan.feima.view.fragment.ShareDialog;
 import com.banshengyuan.feima.view.fragment.SpecificationDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
@@ -230,7 +231,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         orderConfirm.add(product);
         response.list = orderConfirm;
         startActivity(PayActivity.getIntent(this, response, 1));
-        mDialog.closeDialog();
+        mDialog.closeDialog(SpecificationDialog.TAG);
     }
 
     @Override
@@ -276,7 +277,21 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 showToast("该设备暂无打电话功能");
             }
         });
-        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
+
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            ShareDialog dialog = ShareDialog.getInstance();
+            if (mInfoBean != null) {
+                ShareInfo info = new ShareInfo();
+                info.title = mInfoBean.name;
+                info.content = "￥" + ValueUtil.formatAmount2(mInfoBean.price) + "";
+                info.imageUrl = mInfoBean.top_img.get(0);
+                info.linkUrl = mInfoBean.top_img.get(0);
+                dialog.setContent(info);
+            }
+            DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);
+//            showToast("该功能暂未开放");
+        });
+
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
             if (mBuProcessor.isValidLogin()) {
                 if (mInfoBean.store != null) {
@@ -322,7 +337,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         mDialog = SpecificationDialog.newInstance();
         mDialog.setContent(mInfoBean, addOrBugFlag, mImageLoaderHelper, this, mDialog, mSkuProMap, mSelectProMap, mSkuInfoBean, mDoFlag);
         mDialog.setListener(this);
-        DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, PhotoChoiceDialog.TAG);
+        DialogFactory.showDialogFragment(getSupportFragmentManager(), mDialog, SpecificationDialog.TAG);
 
     }
 
