@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardNumberResponse;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
 import com.banshengyuan.feima.view.model.ResponseData;
 import com.banshengyuan.feima.view.model.ShoppingCardModel;
@@ -41,7 +42,9 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     private void changeProductNumberSuccess(ResponseData responseData) {
         mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
-            mView.changeProductNumberSuccess();
+            responseData.parseData(ShoppingCardNumberResponse.class);
+            ShoppingCardNumberResponse response = (ShoppingCardNumberResponse) responseData.parsedData;
+            mView.changeProductNumberSuccess(response);
         } else {
             mView.changeProductNumberFail(responseData.errorDesc);
         }

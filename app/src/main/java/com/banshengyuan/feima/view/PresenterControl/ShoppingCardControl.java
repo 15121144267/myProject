@@ -3,6 +3,7 @@ package com.banshengyuan.feima.view.PresenterControl;
 import android.widget.CheckBox;
 
 import com.banshengyuan.feima.entity.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardNumberResponse;
 import com.banshengyuan.feima.view.adapter.ShoppingCardItemAdapter;
 
 /**
@@ -18,7 +19,7 @@ public class ShoppingCardControl {
 
         void deleteProductSuccess();
 
-        void changeProductNumberSuccess();
+        void changeProductNumberSuccess(ShoppingCardNumberResponse response);
 
         void changeProductNumberFail(String des);
 

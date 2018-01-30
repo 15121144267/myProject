@@ -20,6 +20,7 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerShoppingCardActivityComponent;
 import com.banshengyuan.feima.dagger.module.ShoppingCardActivityModule;
 import com.banshengyuan.feima.entity.ShoppingCardListResponse;
+import com.banshengyuan.feima.entity.ShoppingCardNumberResponse;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.ShoppingCardControl;
 import com.banshengyuan.feima.view.adapter.ShoppingCardAdapter;
@@ -191,7 +192,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     @Override
-    public void changeProductNumberSuccess() {
+    public void changeProductNumberSuccess(ShoppingCardNumberResponse response) {
         mShoppingCardItemAdapter.setData(mChildPosition, mChildProduct);
         countPrice();
     }
