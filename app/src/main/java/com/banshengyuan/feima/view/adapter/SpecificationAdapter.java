@@ -50,6 +50,7 @@ public class SpecificationAdapter extends BaseQuickAdapter<GoodsInfoResponse.Inf
     @Override
     protected void convert(BaseViewHolder helper, GoodsInfoResponse.InfoBean.OtherSpecBean item) {
         Integer type = helper.getAdapterPosition();
+        helper.setText(R.id.adapter_specification_name, item.name);
         MyLinearLayout myLinearLayout = helper.getView(R.id.adapter_specification);
         List<GoodsInfoResponse.InfoBean.OtherSpecBean.ValueBean> mList = item.value;
         if (myLinearLayout.getChildCount() == 0) {

@@ -36,6 +36,7 @@ public class ShoppingCardAdapter extends BaseQuickAdapter<ShoppingCardListRespon
         helper.setText(R.id.adapter_shopping_card_shop_name, TextUtils.isEmpty(item.stoer_name) ? "  未知店铺" : item.stoer_name);
         helper.setChecked(R.id.adapter_shopping_card_check, item.checkFlag);
         RecyclerView recyclerView = helper.getView(R.id.adapter_shopping_card_list1);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         ShoppingCardItemAdapter itemAdapter = new ShoppingCardItemAdapter(item.list, mContext, mImageLoaderHelper);
         recyclerView.setAdapter(itemAdapter);

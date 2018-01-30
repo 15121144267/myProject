@@ -152,9 +152,8 @@ public class DialogFactory {
     }
 
     public static Dialog showLoadingDialog(Context context, String msg) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.view_loading, (ViewGroup) ((BaseActivity)context).getWindow().getDecorView(),false);// 得到加载view
-        final Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);// 创建自定义样式dialog
+        View v = LayoutInflater.from(context).inflate(R.layout.view_loading, (ViewGroup) ((BaseActivity)context).getWindow().getDecorView(),false);
+        final Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
         loadingDialog.setCancelable(false);
         loadingDialog.setContentView(v);
         return loadingDialog;

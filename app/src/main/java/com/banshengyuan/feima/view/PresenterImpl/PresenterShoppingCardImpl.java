@@ -30,7 +30,7 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
     }
 
     @Override
-    public void requestChangeProductNumber(Integer productId,String sku,Integer number) {
+    public void requestChangeProductNumber(Integer productId, String sku, Integer number) {
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mShoppingCardModel.changeProductNumberRequest(productId, sku, number).compose(mView.applySchedulers())
                 .subscribe(this::changeProductNumberSuccess
@@ -71,7 +71,7 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
         mView.showLoading(mContext.getString(R.string.loading));
         Disposable disposable = mShoppingCardModel.shoppingCardListRequest().compose(mView.applySchedulers())
                 .subscribe(this::shoppingCardListSuccess
-                        , throwable -> mView.showErrMessage(throwable), () -> mView.dismissLoading());
+                        , throwable -> mView.showErrMessage(throwable), () -> mView.completeLoading());
         mView.addSubscription(disposable);
     }
 

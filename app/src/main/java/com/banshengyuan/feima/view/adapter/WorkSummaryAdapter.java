@@ -36,6 +36,7 @@ public class WorkSummaryAdapter extends BaseQuickAdapter<FairContentDetailRespon
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.loadDataWithBaseURL(null, item.content, "text/html", "utf-8", null);
+//        webView.setWebViewClient(new MyWebViewClient(webView));
         if (item.product != null) {
             RecyclerView recyclerView = helper.getView(R.id.adapter_fair_product_list);
             recyclerView.setNestedScrollingEnabled(false);

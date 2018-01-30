@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
  * AddressActivity
  */
 
-public class ShoppingCardActivity extends BaseActivity implements ShoppingCardControl.ShoppingCardView {
+public class ShoppingCardActivity extends BaseActivity implements ShoppingCardControl.ShoppingCardView, SwipeRefreshLayout.OnRefreshListener {
 
 
     @BindView(R.id.middle_name)
@@ -59,6 +60,8 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     TextView mActivityShoppingCardBalance;
     @BindView(R.id.activity_shopping_card_bottom_view)
     LinearLayout mActivityShoppingCardBottomView;
+    @BindView(R.id.refresh_lay_out)
+    SwipeRefreshLayout mRefreshLayOut;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, ShoppingCardActivity.class);
@@ -84,6 +87,11 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         supportActionBar(mToolbar, true);
         mMiddleName.setText("我的购物车");
         initView();
+        initData();
+    }
+
+    @Override
+    public void onRefresh() {
         initData();
     }
 
@@ -160,7 +168,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
                     case R.id.item_shopping_card_price:
                     case R.id.item_shopping_card_des:
                     case R.id.item_shopping_card_icon:
-                        startActivity(GoodDetailActivity.getIntent(this, mChildProduct.goods_id));
+                        startActivityForResult(GoodDetailActivity.getIntent(this, mChildProduct.goods_id), 2);
                         break;
                 }
             }
@@ -229,11 +237,18 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mAdapter.setEmptyView(mEmptyView);
     }
 
+    @Override
+    public void completeLoading() {
+        dismissDialogLoading();
+        mRefreshLayOut.setRefreshing(false);
+    }
+
     private void initData() {
         mPresenter.requestShoppingCardList();
     }
 
     private void initView() {
+        mRefreshLayOut.setOnRefreshListener(this);
         mToolbarRightText.setText("编辑");
         setEmptyView();
         mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0, this));
@@ -329,8 +344,15 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             mActivityShoppingCardPrice.setText(ValueUtil.setAllPriceText(0, this));
-            mPresenter.requestShoppingCardList();
+            refreshShoppingCardList();
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
+            refreshShoppingCardList();
         }
+    }
+
+    private void refreshShoppingCardList() {
+        mRefreshLayOut.post(() -> mRefreshLayOut.setRefreshing(true));
+        this.onRefresh();
     }
 
     private void countPrice2(CheckBox partnerCheckBox, ShoppingCardListResponse.ListBeanX mProduct) {

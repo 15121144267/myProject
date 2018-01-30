@@ -71,8 +71,6 @@ public class PresenterLoginImpl implements LoginControl.PresenterLogin {
             }else {
                 mLoginView.getPersonInfoSuccess(null);
             }
-
-
         } else {
             mLoginView.showToast(responseData.errorDesc);
         }

@@ -1,7 +1,5 @@
 package com.banshengyuan.feima.view.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,7 +15,6 @@ import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFragmentComponent;
 import com.banshengyuan.feima.dagger.module.FragmentModule;
 import com.banshengyuan.feima.dagger.module.MainActivityModule;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.ExChangeResponse;
 import com.banshengyuan.feima.view.PresenterControl.ExChangeControl;
 import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
@@ -76,18 +73,6 @@ public class ExchangeFragment extends BaseFragment implements ExChangeControl.Ex
     @Override
     public void onRefresh() {
         initData();
-    }
-
-    @Override
-    void addFilter() {
-        mFilter.addAction(BroConstant.UPDATE_SHOPPING_CARD_INFO);
-    }
-
-    @Override
-    void onReceivePro(Context context, Intent intent) {
-        if (intent.getAction().equals(BroConstant.UPDATE_SHOPPING_CARD_INFO)) {
-            initData();
-        }
     }
 
     @Override

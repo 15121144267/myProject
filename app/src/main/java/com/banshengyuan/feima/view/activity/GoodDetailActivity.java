@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,10 +18,8 @@ import android.widget.TextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerGoodsDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.GoodsDetailActivityModule;
-import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.GoodsInfoResponse;
-import com.banshengyuan.feima.entity.ShareInfo;
 import com.banshengyuan.feima.entity.ShoppingCardListResponse;
 import com.banshengyuan.feima.entity.SkuProductResponse;
 import com.banshengyuan.feima.help.DialogFactory;
@@ -30,7 +27,6 @@ import com.banshengyuan.feima.help.GlideLoader;
 import com.banshengyuan.feima.help.MyWebViewClient;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.GoodsDetailControl;
-import com.banshengyuan.feima.view.fragment.ShareDialog;
 import com.banshengyuan.feima.view.fragment.SpecificationDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.youth.banner.Banner;
@@ -255,6 +251,11 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
@@ -279,7 +280,7 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
         });
 
         RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
-            ShareDialog dialog = ShareDialog.getInstance();
+            /*ShareDialog dialog = ShareDialog.getInstance();
             if (mInfoBean != null) {
                 ShareInfo info = new ShareInfo();
                 info.title = mInfoBean.name;
@@ -288,8 +289,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
                 info.linkUrl = mInfoBean.top_img.get(0);
                 dialog.setContent(info);
             }
-            DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);
-//            showToast("该功能暂未开放");
+            DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);*/
+            showToast("该功能暂未开放");
         });
 
         RxView.clicks(mGoodsDetailCollection).subscribe(v -> {
@@ -353,8 +354,8 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     public void addShoppingCardSuccess() {
+        setResult(RESULT_OK);
         showToast("添加购物车成功");
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.UPDATE_SHOPPING_CARD_INFO));
     }
 
     @Override
