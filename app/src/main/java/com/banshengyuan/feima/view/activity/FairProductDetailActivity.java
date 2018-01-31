@@ -296,7 +296,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     }
 
-    @OnClick({R.id.join, R.id.toolbar_right_icon, R.id.fair_detail_collection})
+    @OnClick({R.id.join,  R.id.fair_detail_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.join:
@@ -304,10 +304,11 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
                     join();
                 }
                 break;
-            case R.id.toolbar_right_icon:
-                //分享
-                break;
             case R.id.fair_detail_collection:
+                if (!mBuProcessor.isValidLogin()) {
+                    switchToLogin2();
+                    return;
+                }
                 mPresenter.requestHotFairCollection(String.valueOf(hotFairDetailResponse.getInfo().getId()), token);
                 break;
         }

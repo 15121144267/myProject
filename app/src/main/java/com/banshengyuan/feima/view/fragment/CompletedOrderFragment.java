@@ -183,12 +183,10 @@ public class CompletedOrderFragment extends BaseFragment implements CompletedOrd
                 o -> exitLogin());
 
         RxView.clicks(mPersoncEnterShare).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> {
-
-                }/*showToast("正在完善中...")*/);
+                o -> showToast("该功能暂未开放"));
 
         RxView.clicks(mPersoncEnterSuggest).throttleFirst(1, TimeUnit.SECONDS).subscribe(
-                o -> showToast("正在完善中..."));
+                o -> showToast("该功能暂未开放"));
 
         RxView.clicks(mPersonEnterAboutUs).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(AboutActivity.getIntent(getActivity())));

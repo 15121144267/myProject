@@ -499,7 +499,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     }
 
     private void getCodeBitmap(String code) {
-        Bitmap qrBitmap = ToolUtils.generateBitmap(code, 400, 400);
+        Bitmap qrBitmap = ToolUtils.generateBitmap(code, 300, 300);
         orderDetailZtImage.setImageBitmap(qrBitmap);
     }
 
