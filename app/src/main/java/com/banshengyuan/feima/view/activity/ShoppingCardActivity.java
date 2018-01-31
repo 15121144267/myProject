@@ -192,7 +192,15 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
     }
 
     @Override
-    public void changeProductNumberSuccess(ShoppingCardNumberResponse response) {
+    public void changeProductNumberSuccess(boolean flag, ShoppingCardNumberResponse response) {
+        if (!flag) {
+            if (response.stock == 0) {
+                mRefreshLayOut.setRefreshing(true);
+                this.onRefresh();
+            }else {
+                mChildProduct.number = response.stock;
+            }
+        }
         mShoppingCardItemAdapter.setData(mChildPosition, mChildProduct);
         countPrice();
     }

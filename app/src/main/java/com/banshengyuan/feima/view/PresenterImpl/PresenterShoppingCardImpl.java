@@ -41,10 +41,15 @@ public class PresenterShoppingCardImpl implements ShoppingCardControl.PresenterS
 
     private void changeProductNumberSuccess(ResponseData responseData) {
         mView.judgeToken(responseData.resultCode);
-        if (responseData.resultCode == 200) {
+        if (responseData.resultCode == 200 || responseData.resultCode == 300010) {
             responseData.parseData(ShoppingCardNumberResponse.class);
             ShoppingCardNumberResponse response = (ShoppingCardNumberResponse) responseData.parsedData;
-            mView.changeProductNumberSuccess(response);
+            if (responseData.resultCode == 200) {
+                mView.changeProductNumberSuccess(true, response);
+            } else {
+                mView.showToast(responseData.errorDesc);
+                mView.changeProductNumberSuccess(false, response);
+            }
         } else {
             mView.changeProductNumberFail(responseData.errorDesc);
         }

@@ -6,6 +6,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,7 +101,9 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
             if (listBeen.size() == 1 && listBeen.get(0).summary_img != null) {
                 mFragmentTrendsScoView.setVisibility(View.VISIBLE);
                 mFragmentTrendsListLast.setVisibility(View.GONE);
-                mImageLoaderHelper.displayMatchImage(getActivity(), listBeen.get(0).summary_img, mFragmentTrendsImage);
+                if(!TextUtils.isEmpty(listBeen.get(0).summary_img)){
+                    mImageLoaderHelper.displayMatchImage(getActivity(), listBeen.get(0).summary_img, mFragmentTrendsImage);
+                }
             } else {
                 if (listBeen.size() > 0) {
                     mAdapter.addData(response.list);

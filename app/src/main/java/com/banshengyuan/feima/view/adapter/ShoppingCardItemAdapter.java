@@ -31,6 +31,7 @@ public class ShoppingCardItemAdapter extends BaseQuickAdapter<ShoppingCardListRe
                 .addOnClickListener(R.id.item_shopping_card__slip_delete).addOnClickListener(R.id.item_shopping_card_price);
 
         helper.setText(R.id.item_shopping_card_des,item.goods_name);
+        helper.setText(R.id.item_shopping_spec_name,item.spec_name);
         if(item.childEditFlag){
             helper.setVisible(R.id.item_shopping_card_delete,true);
             helper.setVisible(R.id.item_shopping_card__slip_delete,false);

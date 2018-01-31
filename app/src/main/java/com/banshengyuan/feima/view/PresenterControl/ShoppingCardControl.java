@@ -19,7 +19,7 @@ public class ShoppingCardControl {
 
         void deleteProductSuccess();
 
-        void changeProductNumberSuccess(ShoppingCardNumberResponse response);
+        void changeProductNumberSuccess(boolean flag, ShoppingCardNumberResponse response);
 
         void changeProductNumberFail(String des);
 

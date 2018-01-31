@@ -85,6 +85,7 @@ public class ShoppingCardListResponse implements Serializable {
             public int goods_id;
             public String goods_sku;
             public String goods_name;
+            public String spec_name;
             public String goods_img;
             public double goods_price;
             public int number;
