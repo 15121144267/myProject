@@ -38,7 +38,7 @@ public class PresenterCollectionShopImpl implements CollectionShopControl.Presen
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.collectionShopRequest(page, pageSize,token).compose(mView.applySchedulers())
-                .subscribe(this::getCollectionShopSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::getCollectionShopSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

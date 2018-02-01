@@ -37,7 +37,7 @@ public class PresenterCollectionHotImpl implements CollectionHotControl.Presente
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.collectionHotRequest(page, pageSize, token).compose(mView.applySchedulers())
-                .subscribe(this::getCollectionHotSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::getCollectionHotSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

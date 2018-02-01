@@ -9,6 +9,7 @@ import com.banshengyuan.feima.entity.MyCollectionFairResponse;
 
 public class CollectionFairControl {
     public interface CollectionFairView extends LoadDataView {
+        void loadFail(Throwable throwable);
         void getMyCollectionListSuccess(MyCollectionFairResponse response);
     }
 

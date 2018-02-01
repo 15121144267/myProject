@@ -13,6 +13,7 @@ import java.util.List;
 
 public class NoticeCenterControl {
     public interface NoticeCenterView extends LoadDataView{
+        void loadFail(Throwable throwable);
         void querySuccess(List<OrderNotice> list);
         void updateSuccess();
         void queryNoticeListSuccess(NoticeResponse noticeResponse);

@@ -81,7 +81,7 @@ public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrd
         if (responseData.resultCode == 200) {
             mView.getDeleteOrderSuccess();
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(responseData.errorDesc);
         }
     }
 
@@ -90,7 +90,7 @@ public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrd
         if (responseData.resultCode == 200) {
             mView.getCancelOrderSuccess();
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(responseData.errorDesc);
         }
     }
 
@@ -99,16 +99,16 @@ public class PresenterOrderDetailImpl implements OrderDetailControl.PresenterOrd
         if (responseData.resultCode == 200) {
             mView.getComfirmOrderSuccess();
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(mContext.getString(R.string.remind_deliver));
         }
     }
 
     private void remindSendGoodsSuccess(ResponseData responseData) {
         mView.judgeToken(responseData.resultCode);
         if (responseData.resultCode == 200) {
-            mView.showToast("提醒成功");
+            mView.showToast(mContext.getString(R.string.remind_deliver));
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(responseData.errorDesc);
         }
     }
 

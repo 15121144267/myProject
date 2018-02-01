@@ -9,6 +9,7 @@ import com.banshengyuan.feima.entity.ExChangeResponse;
 
 public class CollectionHotControl {
     public interface CollectionHotView extends LoadDataView {
+        void loadFail(Throwable throwable);
         void getMyCollectionListSuccess(ExChangeResponse response);
     }
 

@@ -9,6 +9,7 @@ import com.banshengyuan.feima.entity.MyCoupleResponse;
 
 public class CouponAvailableControl {
     public interface CouponAvailableView extends LoadDataView {
+        void loadFail(Throwable throwable);
         void getNoUseCouponListSuccess(MyCoupleResponse myCoupleResponse);
     }
 

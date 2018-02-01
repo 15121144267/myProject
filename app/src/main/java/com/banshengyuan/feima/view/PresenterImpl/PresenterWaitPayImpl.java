@@ -72,7 +72,7 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
         if (responseData.resultCode == 200) {
             mView.getDeleteOrderSuccess();
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(responseData.errorDesc);
         }
     }
 
@@ -81,7 +81,7 @@ public class PresenterWaitPayImpl implements WaitPayControl.PresenterWaitPay {
         if (responseData.resultCode == 200) {
             mView.getCancelOrderSuccess();
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(responseData.errorDesc);
         }
     }
 

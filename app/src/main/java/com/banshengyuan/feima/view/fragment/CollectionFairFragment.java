@@ -111,6 +111,12 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
 
 
     @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }

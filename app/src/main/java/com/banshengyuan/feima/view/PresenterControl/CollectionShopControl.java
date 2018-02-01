@@ -9,6 +9,7 @@ import com.banshengyuan.feima.entity.CollectionShopResponse;
 
 public class CollectionShopControl {
     public interface CollectionShopView extends LoadDataView {
+        void loadFail(Throwable throwable);
         void getMyCollectionListSuccess(CollectionShopResponse response);
     }
 

@@ -52,7 +52,7 @@ public class PresenterOrderCompleteImpl implements OrderCompleteControl.Presente
         if (responseData.resultCode == 200) {
             mView.getDeleteOrderSuccess();
         } else {
-            mView.showToast("操作失败");
+            mView.showToast(responseData.errorDesc);
         }
     }
 

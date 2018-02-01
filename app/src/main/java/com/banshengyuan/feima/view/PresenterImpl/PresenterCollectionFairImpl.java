@@ -49,7 +49,7 @@ public class PresenterCollectionFairImpl implements CollectionFairControl.Presen
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.collectionFairRequest(page, pageSize,token).compose(mView.applySchedulers())
-                .subscribe(this::getCollectionFairSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::getCollectionFairSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

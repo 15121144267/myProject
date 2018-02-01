@@ -36,7 +36,7 @@ public class PresenterCouponPastImpl implements CouponPastAvailableControl.Prese
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).compose(mView.applySchedulers())
-                .subscribe(this::expiredCoupleSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::expiredCoupleSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

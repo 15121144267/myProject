@@ -50,7 +50,7 @@ public class PresenterCouponNotAvailableImpl implements CouponNotAvailableContro
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).compose(mView.applySchedulers())
-                .subscribe(this::usedCoupleSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::usedCoupleSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

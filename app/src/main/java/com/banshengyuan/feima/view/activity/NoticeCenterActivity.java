@@ -78,6 +78,12 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     }
 
     @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mNoticeAdapter.loadMoreFail();
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }

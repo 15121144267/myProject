@@ -108,6 +108,11 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
         });
     }
 
+    @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
 
     @Override
     public void showLoading(String msg) {

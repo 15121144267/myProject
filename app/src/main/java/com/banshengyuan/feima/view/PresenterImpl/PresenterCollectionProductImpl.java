@@ -37,7 +37,7 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
            mView.showLoading(mContext.getString(R.string.loading));
        }
        Disposable disposable = mModel.collectionProduceRequest(page, pageSize,token).compose(mView.applySchedulers())
-               .subscribe(this::getCollectionProductSuccess, throwable -> mView.showErrMessage(throwable),
+               .subscribe(this::getCollectionProductSuccess, throwable -> mView.loadFail(throwable),
                        () -> mView.dismissLoading());
        mView.addSubscription(disposable);
    }

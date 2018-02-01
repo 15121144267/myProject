@@ -105,6 +105,11 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
         });
     }
 
+    @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
 
     @Override
     public void showLoading(String msg) {

@@ -37,7 +37,7 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
             mView.showLoading(mContext.getString(R.string.loading));
         }
         Disposable disposable = mModel.collectionBlockRequest(page, pageSize, token).compose(mView.applySchedulers())
-                .subscribe(this::getCollectionBlockSuccess, throwable -> mView.showErrMessage(throwable),
+                .subscribe(this::getCollectionBlockSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
     }

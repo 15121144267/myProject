@@ -101,6 +101,12 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
 
 
     @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
     public void showLoading(String msg) {
         showDialogLoading(msg);
     }

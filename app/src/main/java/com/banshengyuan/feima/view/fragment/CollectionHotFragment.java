@@ -106,7 +106,12 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
             }
         });
     }
-
+    
+    @Override
+    public void loadFail(Throwable throwable) {
+        showErrMessage(throwable);
+        mAdapter.loadMoreFail();
+    }
 
     @Override
     public void showLoading(String msg) {
