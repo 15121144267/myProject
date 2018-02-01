@@ -21,6 +21,7 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
     private CollectionBlockControl.CollectionBlockView mView;
     private Context mContext;
     private CollectionModel mModel;
+    private boolean isShow = true;
 
     @Inject
     public PresenterCollectionBlockImpl(Context context, CollectionBlockControl.CollectionBlockView view, CollectionModel model) {
@@ -31,7 +32,10 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
 
     @Override
     public void requestCollectionBlockList(int page, int pageSize, String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.collectionBlockRequest(page, pageSize, token).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionBlockSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());

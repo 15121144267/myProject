@@ -21,6 +21,7 @@ public class PresenterCollectionFairImpl implements CollectionFairControl.Presen
     private CollectionFairControl.CollectionFairView mView;
     private Context mContext;
     private CollectionModel mModel;
+    private boolean isShow =true;
 
     @Inject
     public PresenterCollectionFairImpl(Context context, CollectionFairControl.CollectionFairView view, CollectionModel model) {
@@ -43,7 +44,10 @@ public class PresenterCollectionFairImpl implements CollectionFairControl.Presen
 
     @Override
     public void requestCollectionFairList(int page, int pageSize,String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.collectionFairRequest(page, pageSize,token).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionFairSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());

@@ -21,6 +21,7 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
     private CollectionProductControl.CollectionProductView mView;
     private Context mContext;
     private CollectionModel mModel;
+    private boolean isShow = true;
 
     @Inject
     public PresenterCollectionProductImpl(Context context, CollectionProductControl.CollectionProductView view, CollectionModel model) {
@@ -31,7 +32,10 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
 
    @Override
    public void requestCollectionProductList(int page, int pageSize,String token) {
-       mView.showLoading(mContext.getString(R.string.loading));
+       if (isShow) {
+           isShow = false;
+           mView.showLoading(mContext.getString(R.string.loading));
+       }
        Disposable disposable = mModel.collectionProduceRequest(page, pageSize,token).compose(mView.applySchedulers())
                .subscribe(this::getCollectionProductSuccess, throwable -> mView.showErrMessage(throwable),
                        () -> mView.dismissLoading());

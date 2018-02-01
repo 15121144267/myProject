@@ -2,6 +2,7 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.ExChangeResponse;
+import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
 import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
@@ -145,15 +147,16 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     @Override
     public void getMyCollectionListSuccess(ExChangeResponse response) {
         mList = response.getList();
-        if (mPagerNo == 1 && mList.size() == 0) {
-            mAdapter.setEmptyView(mEmptyView);
-            return;
-        }
-        if (mList.size() > 0) {
+        if (mPagerNo == 1) {
+            if (mList!= null && mList.size()>0) {
+                mAdapter.setNewData(mList);
+            } else {
+                mAdapter.setNewData(null);
+                mAdapter.setEmptyView(mEmptyView);
+            }
+        } else {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
         }
     }
 
@@ -169,4 +172,5 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
             }
         }
     }
+
 }

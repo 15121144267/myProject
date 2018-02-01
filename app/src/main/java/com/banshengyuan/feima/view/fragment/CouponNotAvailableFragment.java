@@ -139,15 +139,16 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     @Override
     public void getUsedCoupleListSuccess(MyCoupleResponse myCoupleResponse) {
         mList = myCoupleResponse.getList();
-        if (page == 1 && mList.size() == 0) {
-            mAdapter.setEmptyView(mEmptyView);
-            return;
-        }
-        if (mList.size() > 0) {
+        if (page == 1) {
+            if (mList!= null && mList.size()>0) {
+                mAdapter.setNewData(mList);
+            } else {
+                mAdapter.setNewData(null);
+                mAdapter.setEmptyView(mEmptyView);
+            }
+        } else {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
         }
     }
 

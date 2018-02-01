@@ -21,6 +21,7 @@ public class PresenterCouponPastImpl implements CouponPastAvailableControl.Prese
     private CouponPastAvailableControl.CouponPastAvailableView mView;
     private Context mContext;
     private CoupleModel mModel;
+    private boolean isShow =true;
     @Inject
     public PresenterCouponPastImpl(Context context, CouponPastAvailableControl.CouponPastAvailableView view,CoupleModel coupleModel) {
         mContext = context;
@@ -30,7 +31,10 @@ public class PresenterCouponPastImpl implements CouponPastAvailableControl.Prese
 
     @Override
     public void requestExpiredCouponList(String state, int page, int pageSize, String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).compose(mView.applySchedulers())
                 .subscribe(this::expiredCoupleSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());

@@ -21,6 +21,7 @@ public class PresenterCouponNotAvailableImpl implements CouponNotAvailableContro
     private CouponNotAvailableControl.CouponNotAvailableView mView;
     private Context mContext;
     private CoupleModel mModel;
+    private boolean isShow =true;
 
     @Inject
     public PresenterCouponNotAvailableImpl(Context context, CouponNotAvailableControl.CouponNotAvailableView view,CoupleModel coupleModel) {
@@ -44,7 +45,10 @@ public class PresenterCouponNotAvailableImpl implements CouponNotAvailableContro
 
     @Override
     public void requestUsedCouponList(String state, int page, int pageSize, String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).compose(mView.applySchedulers())
                 .subscribe(this::usedCoupleSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());

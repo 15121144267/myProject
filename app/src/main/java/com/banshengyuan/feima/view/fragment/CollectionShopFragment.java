@@ -145,15 +145,16 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     @Override
     public void getMyCollectionListSuccess(CollectionShopResponse response) {
         mList = response.getList();
-        if (mPagerNo == 1 && mList.size() == 0) {
-            mAdapter.setEmptyView(mEmptyView);
-            return;
-        }
-        if (mList.size() > 0) {
+        if (mPagerNo == 1) {
+            if (mList!= null && mList.size()>0) {
+                mAdapter.setNewData(mList);
+            } else {
+                mAdapter.setNewData(null);
+                mAdapter.setEmptyView(mEmptyView);
+            }
+        } else {
             mAdapter.addData(mList);
             mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
         }
     }
 

@@ -21,6 +21,7 @@ public class PresenterCollectionHotImpl implements CollectionHotControl.Presente
     private CollectionHotControl.CollectionHotView mView;
     private Context mContext;
     private CollectionModel mModel;
+    private boolean isShow = true;
 
     @Inject
     public PresenterCollectionHotImpl(Context context, CollectionHotControl.CollectionHotView view, CollectionModel model) {
@@ -30,9 +31,12 @@ public class PresenterCollectionHotImpl implements CollectionHotControl.Presente
     }
 
     @Override
-    public void requestCollectionHotList(int page, int pageSize,String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
-        Disposable disposable = mModel.collectionHotRequest(page, pageSize,token).compose(mView.applySchedulers())
+    public void requestCollectionHotList(int page, int pageSize, String token) {
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
+        Disposable disposable = mModel.collectionHotRequest(page, pageSize, token).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionHotSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);
@@ -47,6 +51,7 @@ public class PresenterCollectionHotImpl implements CollectionHotControl.Presente
             mView.showToast(responseData.errorDesc);
         }
     }
+
     @Override
     public void onCreate() {
 

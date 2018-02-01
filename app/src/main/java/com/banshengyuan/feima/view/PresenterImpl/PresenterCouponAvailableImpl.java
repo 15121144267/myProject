@@ -21,6 +21,7 @@ public class PresenterCouponAvailableImpl implements CouponAvailableControl.Pres
     private CouponAvailableControl.CouponAvailableView mView;
     private Context mContext;
     private CoupleModel mModel;
+    private boolean isShow =true;
 
     @Inject
     public PresenterCouponAvailableImpl(Context context, CouponAvailableControl.CouponAvailableView view, CoupleModel coupleModel) {
@@ -31,7 +32,10 @@ public class PresenterCouponAvailableImpl implements CouponAvailableControl.Pres
 
     @Override
     public void requestNoUseCouponList(String state, int page, int pageSize, String token) {
-        mView.showLoading(mContext.getString(R.string.loading));
+        if (isShow) {
+            isShow = false;
+            mView.showLoading(mContext.getString(R.string.loading));
+        }
         Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).compose(mView.applySchedulers())
                 .subscribe(this::noUseCoupleSuccess, throwable -> mView.showErrMessage(throwable),
                         () -> mView.dismissLoading());
