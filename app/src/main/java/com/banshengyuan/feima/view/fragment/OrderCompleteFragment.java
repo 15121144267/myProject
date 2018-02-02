@@ -95,7 +95,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
         if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) ||
                 intent.getAction().equals(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4)) {
             mPagerNo = 1;
-            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, token);
         }
         super.onReceivePro(context, intent);
     }
@@ -115,7 +115,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
-                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, token);
+                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, token);
             }
         }
     }
@@ -124,6 +124,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -158,7 +159,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
 
     private void initData() {
         token = mBuProcessor.getUserToken();
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, token);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, token);
     }
 
     private void initView() {

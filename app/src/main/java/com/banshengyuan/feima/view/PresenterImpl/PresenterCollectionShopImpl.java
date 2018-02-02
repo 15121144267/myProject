@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.CollectionShopResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.CollectionShopControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -37,7 +38,7 @@ public class PresenterCollectionShopImpl implements CollectionShopControl.Presen
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
-        Disposable disposable = mModel.collectionShopRequest(page, pageSize,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.collectionShopRequest(page, pageSize,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionShopSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

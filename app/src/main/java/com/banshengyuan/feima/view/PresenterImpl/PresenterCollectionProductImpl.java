@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCollectionProductsResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.CollectionProductControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -36,7 +37,7 @@ public class PresenterCollectionProductImpl implements CollectionProductControl.
            isShow = false;
            mView.showLoading(mContext.getString(R.string.loading));
        }
-       Disposable disposable = mModel.collectionProduceRequest(page, pageSize,token).compose(mView.applySchedulers())
+       Disposable disposable = mModel.collectionProduceRequest(page, pageSize,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                .subscribe(this::getCollectionProductSuccess, throwable -> mView.loadFail(throwable),
                        () -> mView.dismissLoading());
        mView.addSubscription(disposable);

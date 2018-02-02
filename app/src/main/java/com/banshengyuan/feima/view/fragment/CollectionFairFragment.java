@@ -114,6 +114,7 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override

@@ -97,7 +97,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3) ||
                 intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)) {
             mPagerNo = 1;
-            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, mToken);
         }
         super.onReceivePro(context, intent);
     }
@@ -119,7 +119,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
-                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
+                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, mToken);
             }
         }
     }
@@ -128,6 +128,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -152,7 +153,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         reFreshOrder();
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
         mPagerNo = 1;
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus,mToken);
     }
 
     @Override
@@ -164,7 +165,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
 
     private void initData() {
         mToken = mBuProcessor.getUserToken();
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus,  mToken);
     }
 
     @Override
@@ -172,7 +173,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentConstant.ORDER_TO_ORDERDETAIL && resultCode == RESULT_OK) {
             mPagerNo = 1;
-            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, mToken);
         }
     }
 

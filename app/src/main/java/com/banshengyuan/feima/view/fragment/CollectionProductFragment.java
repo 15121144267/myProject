@@ -112,6 +112,7 @@ public class CollectionProductFragment extends BaseFragment implements Collectio
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override

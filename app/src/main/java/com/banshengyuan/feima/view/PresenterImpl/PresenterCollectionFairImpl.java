@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCollectionFairResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.CollectionFairControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -48,7 +49,7 @@ public class PresenterCollectionFairImpl implements CollectionFairControl.Presen
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
-        Disposable disposable = mModel.collectionFairRequest(page, pageSize,token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.collectionFairRequest(page, pageSize,token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionFairSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

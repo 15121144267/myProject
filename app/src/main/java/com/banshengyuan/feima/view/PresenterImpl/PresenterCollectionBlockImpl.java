@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCollectionBlockResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.CollectionBlockControl;
 import com.banshengyuan.feima.view.model.CollectionModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -36,7 +37,7 @@ public class PresenterCollectionBlockImpl implements CollectionBlockControl.Pres
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
-        Disposable disposable = mModel.collectionBlockRequest(page, pageSize, token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.collectionBlockRequest(page, pageSize, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::getCollectionBlockSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

@@ -94,7 +94,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
         if (intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL) || intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderFragment)||
                 intent.getAction().equals(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2)   ) {
             mPagerNo = 1;
-            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+            mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, mToken);
         }
         super.onReceivePro(context, intent);
     }
@@ -116,7 +116,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
             if (mList.size() < mPagerSize) {
                 mAdapter.loadMoreEnd();
             } else {
-                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, true, mToken);
+                mPresenter.requestMyOrderList(++mPagerNo, mPagerSize, mStatus, mToken);
             }
         }
     }
@@ -125,6 +125,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -158,7 +159,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
 
     private void initData() {
         mToken = mBuProcessor.getUserToken();
-        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, true, mToken);
+        mPresenter.requestMyOrderList(mPagerNo, mPagerSize, mStatus, mToken);
     }
 
     private void initView() {

@@ -18,7 +18,7 @@ public class WaitPayControl {
     }
 
     public interface PresenterWaitPay extends Presenter<WaitPayView> {
-        void requestMyOrderList(Integer pageNo,Integer pageSize,String status,boolean flag,String token);
+        void requestMyOrderList(Integer pageNo,Integer pageSize,String status,String token);
 
         void requestCancelOrder(String order_sn,String token);
 

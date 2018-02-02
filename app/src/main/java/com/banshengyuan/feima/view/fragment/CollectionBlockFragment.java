@@ -111,6 +111,7 @@ public class CollectionBlockFragment extends BaseFragment implements CollectionB
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override

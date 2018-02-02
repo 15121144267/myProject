@@ -52,7 +52,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     private Unbinder unbind;
     private List<MyCoupleResponse.ListBean> mList = new ArrayList<>();
     private String state = "3";//券状态 1未使用 2已使用 3已过期
-    private int page = 1;
+    private int mPagerNo = 1;
     private int pageSize = 10;
     private String token;
     private View mEmptyView = null;
@@ -81,7 +81,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     private void initData() {
         token = mBuProcessor.getUserToken();
 //        token = Constant.TOKEN;
-        mPresenter.requestExpiredCouponList(state, page, pageSize, token);
+        mPresenter.requestExpiredCouponList(state, mPagerNo, pageSize, token);
     }
 
     private void initView() {
@@ -105,6 +105,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -146,7 +147,7 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
     @Override
     public void getExpiredCoupleListSuccess(MyCoupleResponse myCoupleResponse) {
         mList = myCoupleResponse.getList();
-        if (page == 1) {
+        if (mPagerNo == 1) {
             if (mList!= null && mList.size()>0) {
                 mAdapter.setNewData(mList);
             } else {
@@ -161,13 +162,13 @@ public class CouponPastFragment extends BaseFragment implements CouponPastAvaila
 
     @Override
     public void onLoadMoreRequested() {
-        if(page==1 && mList.size() < pageSize){
+        if(mPagerNo==1 && mList.size() < pageSize){
             mAdapter.loadMoreEnd(true);
         }else {
             if (mList.size() < pageSize) {
                 mAdapter.loadMoreEnd();
             } else {
-                mPresenter.requestExpiredCouponList(state, ++page, pageSize, token);
+                mPresenter.requestExpiredCouponList(state, ++mPagerNo, pageSize, token);
             }
         }
     }

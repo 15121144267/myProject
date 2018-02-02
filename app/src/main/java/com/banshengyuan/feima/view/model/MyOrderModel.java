@@ -29,7 +29,7 @@ public class MyOrderModel {
     }
 
 
-    public Observable<ResponseData> myOrderListRequest(int pageNo, int pageSize,String search_status,boolean flag,String token) {
+    public Observable<ResponseData> myOrderListRequest(int pageNo, int pageSize,String search_status,String token) {
         return mApi.orderListRequest(pageNo, pageSize, search_status,token).map(mTransform::transformCommon);
     }
 

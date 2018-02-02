@@ -18,7 +18,7 @@ public class PayCompleteControl {
     }
 
     public interface PresenterPayComplete extends Presenter<PayCompleteView> {
-        void requestMyOrderList(Integer pageNo,Integer pageSize,String status,boolean flag,String token);
+        void requestMyOrderList(Integer pageNo,Integer pageSize,String status,String token);
 
         void requestConfirmOrder(String order_sn,String token);
 

@@ -45,7 +45,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     Toolbar mToolbar;
     @BindView(R.id.notice_all)
     RecyclerView mRecyclerView;
-    private int page = 1;
+    private int mPagerNo = 1;
     private final int pageSize = 10;
     private String token;
     private List<NoticeResponse.ListBean> mList = new ArrayList<>();
@@ -81,6 +81,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mNoticeAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -143,7 +144,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
         param.tomorrow = calendar.getTime();
 //        mPresenter.requestDbNotices(param);
 
-        mPresenter.requestNoticeList(page, pageSize, token);
+        mPresenter.requestNoticeList(mPagerNo, pageSize, token);
     }
 
     private void initializeInjector() {
@@ -164,7 +165,7 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
         if (mList.size() < pageSize) {
             mNoticeAdapter.loadMoreEnd();
         } else {
-            mPresenter.requestNoticeList(++page, pageSize, token);
+            mPresenter.requestNoticeList(++mPagerNo, pageSize, token);
         }
     }
 }

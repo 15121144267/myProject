@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyCoupleResponse;
+import com.banshengyuan.feima.help.RetryWithDelay;
 import com.banshengyuan.feima.view.PresenterControl.CouponAvailableControl;
 import com.banshengyuan.feima.view.model.CoupleModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -36,7 +37,7 @@ public class PresenterCouponAvailableImpl implements CouponAvailableControl.Pres
             isShow = false;
             mView.showLoading(mContext.getString(R.string.loading));
         }
-        Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).compose(mView.applySchedulers())
+        Disposable disposable = mModel.myCoupleRequest(state, page, pageSize, token).retryWhen(new RetryWithDelay(10, 3000)).compose(mView.applySchedulers())
                 .subscribe(this::noUseCoupleSuccess, throwable -> mView.loadFail(throwable),
                         () -> mView.dismissLoading());
         mView.addSubscription(disposable);

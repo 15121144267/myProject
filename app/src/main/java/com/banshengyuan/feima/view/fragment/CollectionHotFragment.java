@@ -93,7 +93,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
         ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
-        mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_collection_view,imageView);
+        mImageLoaderHelper.displayImage(getActivity(), R.mipmap.empty_collection_view, imageView);
         TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.connection_hot_empty_view);
@@ -106,11 +106,12 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
             }
         });
     }
-    
+
     @Override
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -153,7 +154,7 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
     public void getMyCollectionListSuccess(ExChangeResponse response) {
         mList = response.getList();
         if (mPagerNo == 1) {
-            if (mList!= null && mList.size()>0) {
+            if (mList != null && mList.size() > 0) {
                 mAdapter.setNewData(mList);
             } else {
                 mAdapter.setNewData(null);

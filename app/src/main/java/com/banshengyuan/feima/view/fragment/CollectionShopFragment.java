@@ -109,6 +109,7 @@ public class CollectionShopFragment extends BaseFragment implements CollectionSh
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override

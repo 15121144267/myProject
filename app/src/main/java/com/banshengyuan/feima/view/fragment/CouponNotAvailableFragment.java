@@ -52,7 +52,7 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     private Unbinder unbind;
     private List<MyCoupleResponse.ListBean> mList = new ArrayList<>();
     private String state = "2";//券状态 1未使用 2已使用 3已过期
-    private int page = 1;
+    private int mPagerNo = 1;
     private int pageSize = 10;
     private String token;
     private View mEmptyView = null;
@@ -80,7 +80,7 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
 
     private void initData() {
         token = mBuProcessor.getUserToken();
-        mPresenter.requestUsedCouponList(state, page, pageSize, token);
+        mPresenter.requestUsedCouponList(state, mPagerNo, pageSize, token);
     }
 
     private void initView() {
@@ -104,6 +104,7 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     public void loadFail(Throwable throwable) {
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
+        if (mPagerNo > 1) mPagerNo--;
     }
 
     @Override
@@ -145,7 +146,7 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
     @Override
     public void getUsedCoupleListSuccess(MyCoupleResponse myCoupleResponse) {
         mList = myCoupleResponse.getList();
-        if (page == 1) {
+        if (mPagerNo == 1) {
             if (mList!= null && mList.size()>0) {
                 mAdapter.setNewData(mList);
             } else {
@@ -160,13 +161,13 @@ public class CouponNotAvailableFragment extends BaseFragment implements CouponNo
 
     @Override
     public void onLoadMoreRequested() {
-        if(page==1 && mList.size() < pageSize){
+        if(mPagerNo==1 && mList.size() < pageSize){
             mAdapter.loadMoreEnd(true);
         }else {
             if (mList.size() < pageSize) {
                 mAdapter.loadMoreEnd();
             } else {
-                mPresenter.requestUsedCouponList(state, ++page, pageSize, token);
+                mPresenter.requestUsedCouponList(state, ++mPagerNo, pageSize, token);
             }
         }
     }

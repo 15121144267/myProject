@@ -20,7 +20,7 @@ public class AllOrderControl {
     }
 
     public interface PresenterAllOrderView extends Presenter<AllOrderView> {
-        void requestMyOrderList(Integer pageNo, Integer pageSize,String search_status,boolean flag,String token);
+        void requestMyOrderList(Integer pageNo, Integer pageSize,String search_status,String token);
 
         void requestCancelOrder(String order_sn,String token);
 
