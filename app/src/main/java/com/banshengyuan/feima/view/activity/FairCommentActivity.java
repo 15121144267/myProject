@@ -84,6 +84,19 @@ public class FairCommentActivity extends BaseActivity implements ClassifySearchC
         }
     }
 
+    @Override
+    public void loadError(Throwable error) {
+        mPage--;
+        showErrMessage(error);
+        mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void getCommentListFail() {
+        mPage--;
+        mAdapter.loadMoreFail();
+    }
+
     private void initView() {
         mFairId = getIntent().getIntExtra("fairId", 0);
         mMiddleName.setText("全部评论");
@@ -95,12 +108,6 @@ public class FairCommentActivity extends BaseActivity implements ClassifySearchC
 
     private void initData() {
         mPresenter.requestCommentList(mFairId, mPage, mPageSize);
-    }
-
-    @Override
-    public void loadError(Throwable error) {
-        showErrMessage(error);
-        mAdapter.loadMoreFail();
     }
 
     @Override

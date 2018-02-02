@@ -85,14 +85,10 @@ public class BaseFragment extends Fragment {
     void addFilter() {
     }
 
-    @SuppressWarnings("RedundantCast")
-    private final ObservableTransformer schedulersTransformer = (observable) -> (
-            ((Observable) observable).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()));
-
     public <T> ObservableTransformer<T, T> applySchedulers() {
-        //noinspection unchecked
-        return (ObservableTransformer<T, T>) schedulersTransformer;
+        return (observable) -> (
+                ((Observable) observable).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()));
     }
 
     public void addSubscription(Disposable subscription) {

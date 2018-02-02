@@ -104,12 +104,14 @@ public class UnderLineProductListFragment extends BaseFragment implements UnderL
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void getProductListFail(String des) {
+        mPage--;
         showToast(des);
         mAdapter.loadMoreFail();
     }

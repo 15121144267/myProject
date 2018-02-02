@@ -95,11 +95,13 @@ public class ProductListActivity extends BaseActivity implements ProductListCont
 
     @Override
     public void getProductListFail(String des) {
+        mPage--;
         mProductAdapter.loadMoreFail();
     }
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mProductAdapter.loadMoreFail();
     }

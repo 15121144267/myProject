@@ -46,6 +46,7 @@ public class PresenterClassifySearchImpl implements ClassifySearchControl.Presen
             mView.getCommentListSuccess(response);
         } else {
             mView.showToast(responseData.errorDesc);
+            mView.getCommentListFail();
         }
     }
 

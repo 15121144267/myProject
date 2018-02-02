@@ -107,11 +107,13 @@ public class UnderLineShopFragment extends BaseFragment implements UnderLineFair
 
     @Override
     public void getStoreListFail() {
+        mPage--;
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }

@@ -118,11 +118,13 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
 
     @Override
     public void getStoreProductListFail() {
+        mPage--;
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }

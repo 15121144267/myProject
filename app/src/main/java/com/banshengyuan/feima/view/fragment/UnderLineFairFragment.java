@@ -107,12 +107,14 @@ public class UnderLineFairFragment extends BaseFragment implements UnderLineFair
 
     @Override
     public void getBlockFairListFail(String des) {
+        mPage--;
         showToast(des);
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }

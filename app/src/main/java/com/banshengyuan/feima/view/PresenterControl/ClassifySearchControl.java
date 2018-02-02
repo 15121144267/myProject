@@ -10,11 +10,14 @@ import com.banshengyuan.feima.entity.ClassifySearchListResponse;
 public class ClassifySearchControl {
     public interface ClassifySearchView extends LoadDataView {
         void getCommentListSuccess(ClassifySearchListResponse response);
+
         void loadError(Throwable error);
+
+        void getCommentListFail();
     }
 
     public interface PresenterClassifySearch extends Presenter<ClassifySearchView> {
-        void requestCommentList(Integer fairId,Integer page,Integer pageSize);
+        void requestCommentList(Integer fairId, Integer page, Integer pageSize);
     }
 
 }

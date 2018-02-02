@@ -174,8 +174,9 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
     }
 
     public <T> ObservableTransformer<T, T> applySchedulers() {
-        //noinspection unchecked
-        return (ObservableTransformer<T, T>) schedulersTransformer;
+        return (observable) -> (
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()));
     }
 
     public void judgeToken(Integer code) {
@@ -192,10 +193,6 @@ public class BaseActivity extends AppCompatActivity implements Handler.Callback 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
-
-    private final ObservableTransformer schedulersTransformer = (observable) -> (
-            observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()));
 
     protected void hideSoftInput(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -84,11 +84,13 @@ public class GoodsCommentActivity extends BaseActivity implements ShopDetailCont
 
     @Override
     public void loadFail() {
+        mPage--;
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }

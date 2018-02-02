@@ -92,7 +92,7 @@
                 android:layout_marginLeft="@dimen/dp_10"
                 android:background="@drawable/round_phone_bg"
                 android:textColor="@color/color666"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:padding="@dimen/dp_10"
                 android:text="未知"
                 android:textSize="@dimen/sp_15" />

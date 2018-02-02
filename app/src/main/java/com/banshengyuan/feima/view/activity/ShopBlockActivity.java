@@ -161,12 +161,14 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
 
     @Override
     public void getShopListFail(String des) {
+        mPage--;
         showToast(des);
         mAdapter.loadMoreFail();
     }
 
     @Override
     public void loadError(Throwable throwable) {
+        mPage--;
         showErrMessage(throwable);
         mAdapter.loadMoreFail();
     }
@@ -234,7 +236,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
                     StreetSortListResponse.ListBean listBean = (StreetSortListResponse.ListBean) adapter1.getItem(position);
                     if (listBean != null) {
                         mStreetId = listBean.id;
-                        mShopBlockBlocksText.setText(listBean.name + " ");
+                        mShopBlockBlocksText.setText(""+listBean.name + " ");
                         mCustomPopWindow1.dissmiss();
                         updateShopList();
                     }
