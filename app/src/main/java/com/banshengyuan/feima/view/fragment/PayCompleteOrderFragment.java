@@ -60,6 +60,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
     private final String mStatus = "2";//1.待付款 2.待收货 3. 待评价
     private int mPos;
     private String mOrderSn = null;
+    private int orderPayType = 1;
 
     public static PayCompleteOrderFragment newInstance() {
         return new PayCompleteOrderFragment();
@@ -250,7 +251,7 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
                                 } else if (listBean.getOrder_type() == 2) {
                                     //2自提订单
                                     if (listBean.getPay_status() == 1) {//立即付款
-                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type()));
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, orderPayType));
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 3) {//确认收货

@@ -54,6 +54,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
     private Integer mPagerNo = 1;
     private final String mStatus = "1";//1.待付款 2.待收货 3. 待评价
     private String mToken;
+    private int orderPayType =1;
 
     public static WaitPayOrderFragment newInstance() {
         return new WaitPayOrderFragment();
@@ -205,14 +206,16 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                     }
                                 } else if (listBean.getOrder_type() == 3) {
                                     //3线下收款订单
-                                    // false
+                                    if (listBean.getPay_status() == 1) {//取消订单
+                                        mPresenter.requestCancelOrder(mOrderSn, mToken);
+                                    }
                                 }
                                 break;
                             case R.id.order_right_btn:
                                 if ((listBean.getOrder_type() == 1)) {
                                     //线上
                                     if (listBean.getPay_status() == 1) {//立即付款
-                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, orderPayType, "OrderFragment"));
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                     } else if (listBean.getPay_status() == 3) {//提醒发货
                                     } else if (listBean.getPay_status() == 4) {//去评价
@@ -221,7 +224,7 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                 } else if (listBean.getOrder_type() == 2) {
                                     //2自提订单
                                     if (listBean.getPay_status() == 1) {//立即付款
-                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, orderPayType, "OrderFragment"));
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                     } else if (listBean.getPay_status() == 3) {//确认收货
                                     } else if (listBean.getPay_status() == 4) {//去评价
@@ -229,8 +232,9 @@ public class WaitPayOrderFragment extends BaseFragment implements WaitPayControl
                                     }
                                 } else if (listBean.getOrder_type() == 3) {
                                     //3线下收款订单
-                                    //删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    if (listBean.getPay_status() == 1) {//立即付款
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, 3, "OrderFragment"));
+                                    }
                                 }
                                 break;
                         }

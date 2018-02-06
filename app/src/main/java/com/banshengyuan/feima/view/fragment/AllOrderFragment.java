@@ -62,6 +62,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     private int mPos;
     private String mOrderSn = null;
     private View mEmptyView = null;
+    private int orderPayType = 1;
 
 
     @Inject
@@ -131,7 +132,7 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
     public void getMyOrderListSuccess(MyOrdersResponse response) {
         mList = response.getList();
         if (mPagerNo == 1) {
-            if (mList!= null && mList.size()>0) {
+            if (mList != null && mList.size() > 0) {
                 mAdapter.setNewData(mList);
             } else {
                 mAdapter.setNewData(null);
@@ -228,6 +229,9 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                 } else if (listBean.getOrder_type() == 3) {
                                     //3线下收款订单
                                     // false
+                                    if (listBean.getPay_status() == 1) {//取消订单
+                                        mPresenter.requestCancelOrder(mOrderSn, mToken);
+                                    }
                                 }
                                 break;
                             case R.id.order_right_btn:
@@ -235,15 +239,15 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                     //线上
                                     if (listBean.getPay_status() == 1) {//立即付款
 //                                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY));
-                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, orderPayType, "OrderFragment"));
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 3) {//提醒发货
                                         mPresenter.requestRemindSendGoods(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 4) {
-                                        if(listBean.getIs_evaluate()==0){//去评价
-                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
-                                        }else {//删除订单
+                                        if (listBean.getIs_evaluate() == 0) {//去评价
+                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(), listBean.getOrder_sn()));
+                                        } else {//删除订单
                                             mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                         }
                                     } else if (listBean.getPay_status() == 5) {//删除
@@ -252,15 +256,15 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                 } else if (listBean.getOrder_type() == 2) {
                                     //2自提订单
                                     if (listBean.getPay_status() == 1) {//立即付款
-                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, listBean.getOrder_type(), "OrderFragment"));
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, orderPayType, "OrderFragment"));
                                     } else if (listBean.getPay_status() == 2) {//确认收货
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 3) {//确认收货
                                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                                     } else if (listBean.getPay_status() == 4) {//去评价
-                                        if(listBean.getIs_evaluate()==0){//去评价
-                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(),listBean.getOrder_sn()));
-                                        }else {//删除订单
+                                        if (listBean.getIs_evaluate() == 0) {//去评价
+                                            startActivity(CommentActivity.getIntent(getActivity(), (ArrayList<MyOrdersResponse.ListBean.ProductBean>) listBean.getProduct(), listBean.getOrder_sn()));
+                                        } else {//删除订单
                                             mPresenter.requestDeleteOrder(mOrderSn, mToken);
                                         }
                                     } else if (listBean.getPay_status() == 5) {//删除
@@ -268,8 +272,12 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
                                     }
                                 } else if (listBean.getOrder_type() == 3) {
                                     //3线下收款订单
-                                    //删除
-                                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    if (listBean.getPay_status() == 1) {//立即付款
+                                        startActivity(FinalPayActivity.getIntent(getActivity(), mOrderSn, 3, "OrderFragment"));
+                                    } else if (listBean.getPay_status() == 4 || listBean.getPay_status() == 5) {
+                                        //删除
+                                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                                    }
                                 }
                                 break;
                         }
@@ -307,13 +315,15 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         mPresenter.onDestroy();
     }
 
-    private void updateWaitPayOrderFragment(){
+    private void updateWaitPayOrderFragment() {
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT2));
     }
-    private void updatePayCompleteOrderFragment(){
+
+    private void updatePayCompleteOrderFragment() {
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT3));
     }
-    private void updateOrderCompleteFragment(){
+
+    private void updateOrderCompleteFragment() {
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(BroConstant.ORDER_REFRESH_ORDERFRAGMENT4));
     }
 
