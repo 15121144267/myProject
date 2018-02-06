@@ -85,6 +85,7 @@ public class OrderDetailResponse {
         private int order_type;
         private String selffetch_code;
         private int is_evaluate;
+        private int discount;
 
         public String getMember_name() {
             return member_name;
@@ -276,6 +277,14 @@ public class OrderDetailResponse {
 
         public void setSelffetch_code(String selffetch_code) {
             this.selffetch_code = selffetch_code;
+        }
+
+        public int getDiscount() {
+            return discount;
+        }
+
+        public void setDiscount(int discount) {
+            this.discount = discount;
         }
     }
 

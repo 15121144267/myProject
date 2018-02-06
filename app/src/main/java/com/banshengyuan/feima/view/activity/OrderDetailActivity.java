@@ -402,13 +402,11 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 unlinepayStorename.setText(goodsListBean.getStore_name());
 
                 Integer totalPrice = infoBean.getTotal_fee();
-                Integer transPrice = infoBean.getFreight();
+                Integer transPrice = infoBean.getDiscount();
                 Integer shouldPrice = infoBean.getPayed();
 
                 unlinepayTotalPrice.setText("￥" + ValueUtil.formatAmount4(totalPrice));
-
                 unlinepayDiscountPrice.setText("-￥" + ValueUtil.formatAmount4(transPrice));
-
                 unlinepayFinalPrice.setText("￥" + ValueUtil.formatAmount4(shouldPrice));
             }
             adapter.setNewData(mList);
@@ -520,6 +518,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
             Integer totalPrice = infoBean.getTotal_fee();
             Integer transPrice = infoBean.getFreight();
             Integer shouldPrice = infoBean.getPayed();
+
 
             String priceTotal = "￥" + ValueUtil.formatAmount4(totalPrice);
             orderDetailTotalPrice.setText(priceTotal);
