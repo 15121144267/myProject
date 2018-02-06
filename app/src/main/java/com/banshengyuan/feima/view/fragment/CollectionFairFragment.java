@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -93,12 +92,12 @@ public class CollectionFairFragment extends BaseFragment implements CollectionFa
         mCouponCommonList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
-        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        TextView emptyContent = mEmptyView.findViewById(R.id.empty_content);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_collection_view,imageView);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.connection_fair_empty_view);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        Button emptyButton = mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
 
         mAdapter.setOnItemClickListener((adapter, view, position) -> {

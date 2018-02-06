@@ -225,7 +225,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
 
     private void showStreetPopMenu(View view, List<StreetSortListResponse.ListBean> list) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(), false);
-        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
+        RecyclerView recyclerView = contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         StreetMenuAdapter adapter = new StreetMenuAdapter(list, ShopBlockActivity.this);
         recyclerView.setAdapter(adapter);
@@ -258,7 +258,7 @@ public class ShopBlockActivity extends BaseActivity implements ShopBlockControl.
     private void showPopMenu(View view, List<ShopSortListResponse.ListBean> list) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.shop_block_menu, (ViewGroup) mShopBlockBlocksLayout.getParent(), false);
 
-        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.menu_list);
+        RecyclerView recyclerView = contentView.findViewById(R.id.menu_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(ShopBlockActivity.this));
         ShopMenuAdapter adapter = new ShopMenuAdapter(list, ShopBlockActivity.this);
         recyclerView.setAdapter(adapter);

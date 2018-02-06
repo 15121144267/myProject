@@ -40,11 +40,11 @@ public class PayMethodDialog extends BaseDialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_pay_method_dialog, container, true);
 
-        mLayout = (RelativeLayout) view.findViewById(R.id.payMethod_dialog_layout);
-        mCancelBrn = (TextView) view.findViewById(R.id.payMethod_dialog_cancel);
-        LinearLayout mAnimLayout = (LinearLayout) view.findViewById(R.id.payMethod_dialog_animLayout);
-        mBtnZFBPay = (LinearLayout) view.findViewById(R.id.payMethod_ZFBLayout);
-        mBtnWXPay = (LinearLayout) view.findViewById(R.id.payMethod_WXLayout);
+        mLayout = view.findViewById(R.id.payMethod_dialog_layout);
+        mCancelBrn = view.findViewById(R.id.payMethod_dialog_cancel);
+        LinearLayout mAnimLayout = view.findViewById(R.id.payMethod_dialog_animLayout);
+        mBtnZFBPay = view.findViewById(R.id.payMethod_ZFBLayout);
+        mBtnWXPay = view.findViewById(R.id.payMethod_WXLayout);
         AniCreator.getInstance().apply_animation_translate(mAnimLayout, AniCreator.ANIMATION_MODE_POPUP, View.VISIBLE, false, null);
         return view;
     }

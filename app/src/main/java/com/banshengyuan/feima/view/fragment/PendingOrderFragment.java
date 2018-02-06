@@ -116,7 +116,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
         RxView.clicks(mPendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
         RxView.clicks(mSearchCancel).subscribe(o -> {
             mSearchEdit.clearContent();
-            mSearchLayout.setVisibility(View.GONE);
+            showSearchLayout(showSearchLayout);
         });
         RxView.clicks(mPendingEnterClassify).throttleFirst(1, TimeUnit.SECONDS).subscribe(
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));

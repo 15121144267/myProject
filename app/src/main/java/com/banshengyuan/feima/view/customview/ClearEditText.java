@@ -57,9 +57,9 @@ public class ClearEditText extends LinearLayout {
         mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_custom_edittext, this);
-        editText = (EditText) findViewById(R.id.custom_edittext);
-        mBtnClear = (ImageView) findViewById(R.id.custom_edittext_img);
-        linearFather = (LinearLayout) findViewById(R.id.linear_father);
+        editText = findViewById(R.id.custom_edittext);
+        mBtnClear = findViewById(R.id.custom_edittext_img);
+        linearFather = findViewById(R.id.linear_father);
         if (isAlwaysShowDeleteBtn) {
             mBtnClear.setVisibility(View.VISIBLE);
         } else {

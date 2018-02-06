@@ -84,8 +84,8 @@ public class ConvenientBanner<T> extends LinearLayout {
     private void init(Context context) {
         View hView = LayoutInflater.from(context).inflate(
                 R.layout.include_viewpager, this, true);
-        viewPager = (CBLoopViewPager) hView.findViewById(R.id.cbLoopViewPager);
-        loPageTurningPoint = (ViewGroup) hView
+        viewPager = hView.findViewById(R.id.cbLoopViewPager);
+        loPageTurningPoint = hView
                 .findViewById(R.id.loPageTurningPoint);
         initViewPagerScroll();
 

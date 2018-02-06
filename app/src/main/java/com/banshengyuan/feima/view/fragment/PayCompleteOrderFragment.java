@@ -191,12 +191,12 @@ public class PayCompleteOrderFragment extends BaseFragment implements PayComplet
         mMyOrders.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(getActivity(), R.mipmap.enpty_order_view, imageView);
-        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        TextView emptyContent = mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.GONE);
         emptyContent.setText(R.string.waitdelivery_order_empty_view);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        Button emptyButton = mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {

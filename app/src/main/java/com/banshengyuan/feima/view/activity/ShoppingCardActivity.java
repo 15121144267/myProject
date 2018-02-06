@@ -127,7 +127,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         itemAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             mChildPosition = position;
             ShoppingCardListResponse.ListBeanX mProduct = mAdapter.getItem(parentPosition);
-            CheckBox checkBox = (CheckBox) view.findViewById(R.id.item_shopping_card_check);
+            CheckBox checkBox = view.findViewById(R.id.item_shopping_card_check);
             mChildProduct = itemAdapter.getItem(position);
             if (mProduct != null && mChildPosition != null) {
                 switch (view.getId()) {
@@ -270,7 +270,7 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             ShoppingCardListResponse.ListBeanX product = mAdapter.getItem(position);
             if (product != null) {
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_shopping_card_check);
+                CheckBox checkBox = view.findViewById(R.id.adapter_shopping_card_check);
                 switch (view.getId()) {
                     case R.id.adapter_shopping_card_check:
                         if (!checkBox.isChecked()) {
@@ -298,9 +298,9 @@ public class ShoppingCardActivity extends BaseActivity implements ShoppingCardCo
 
     private void setEmptyView() {
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mActivityShoppingCardList.getParent(), false);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(this, R.mipmap.empty_shopping_card, imageView);
-        TextView emptyButton = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        TextView emptyButton = mEmptyView.findViewById(R.id.empty_content);
         emptyButton.setVisibility(View.VISIBLE);
         emptyButton.setText("还没有选择商品,去逛逛吧");
         RxView.clicks(emptyButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("去逛逛"));

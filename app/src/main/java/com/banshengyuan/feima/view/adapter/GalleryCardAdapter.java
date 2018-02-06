@@ -80,10 +80,10 @@ public class GalleryCardAdapter extends RecyclerView.Adapter<GalleryCardAdapter.
 
         private ViewHolder(final View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.imageView);
-            mNameTextView = (TextView) itemView.findViewById(R.id.adapter_brand_fair_name);
-            mSummaryTextView = (TextView) itemView.findViewById(R.id.adapter_brand_fair_summary);
-            mGalleryLayout = (LinearLayout) itemView.findViewById(R.id.gallery_layout);
+            mImageView = itemView.findViewById(R.id.imageView);
+            mNameTextView = itemView.findViewById(R.id.adapter_brand_fair_name);
+            mSummaryTextView = itemView.findViewById(R.id.adapter_brand_fair_summary);
+            mGalleryLayout = itemView.findViewById(R.id.gallery_layout);
         }
 
     }

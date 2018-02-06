@@ -81,7 +81,7 @@ public class CouponActivity extends BaseActivity {
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             MyCoupleResponse.ListBean bean = (MyCoupleResponse.ListBean) adapter.getItem(position);
-            CheckBox checkBox = (CheckBox) view.findViewById(R.id.adapter_couple_check);
+            CheckBox checkBox = view.findViewById(R.id.adapter_couple_check);
             if (bean != null) {
                 switch (view.getId()) {
                     case R.id.adapter_couple_check:

@@ -3,7 +3,6 @@ package com.banshengyuan.feima.utils;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 /**
  * Created by li.liu on 2017/7/31.
@@ -21,11 +20,7 @@ public class VirtualConflict {
 
     private VirtualConflict(View content) {
         mChildOfContent = content;
-        mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            public void onGlobalLayout() {
-                possiblyResizeChildOfContent();
-            }
-        });
+        mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(this::possiblyResizeChildOfContent);
         frameLayoutParams = mChildOfContent.getLayoutParams();
     }
 

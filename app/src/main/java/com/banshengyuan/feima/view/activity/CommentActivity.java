@@ -18,7 +18,6 @@ import com.banshengyuan.feima.dagger.module.ShopListActivityModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.GoodsCommentContentRequest;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.ShopListControl;
 import com.banshengyuan.feima.view.adapter.OrderCommentAdapter;
 
@@ -145,12 +144,11 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
 
     @OnClick(R.id.toolbar_right_text)
     public void onViewClicked() {
-        if (toComment()) mPresenter.requestPublishComment(commentList, mOrderSn,token);
+        toComment();
     }
 
-    private boolean toComment() {
+    private void toComment() {
         commentList = new ArrayList<>();
-        boolean flag = true;
         for (int i = 0; i < mList.size(); i++) {
             GoodsCommentContentRequest request = new GoodsCommentContentRequest();
             request.setGoods_id(mList.get(i).getGoods_id());
@@ -162,6 +160,6 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
             }
             commentList.add(request);
         }
-        return flag;
+        mPresenter.requestPublishComment(commentList, mOrderSn, token);
     }
 }

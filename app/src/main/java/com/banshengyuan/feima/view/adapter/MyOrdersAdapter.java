@@ -9,7 +9,6 @@ import android.text.SpannableStringBuilder;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
 import com.banshengyuan.feima.help.GlideHelper.ImageLoaderHelper;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.SpannableStringUtils;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.activity.OrderDetailActivity;

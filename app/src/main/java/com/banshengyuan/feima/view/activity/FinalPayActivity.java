@@ -106,12 +106,16 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
 
     private void toIntentActivity(){
         if (mActivityType != null) {
-            if (mActivityType.equals("OrderFragment")) {
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));
-            } else if (mActivityType.equals("OrderDetailActivity")) {
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderDetailActivity));
-            }else if(mActivityType.equals("ExchangeFragment")){
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.PAY_TO_EXCHANGEDETAIL_ACTIVITY));
+            switch (mActivityType) {
+                case "OrderFragment":
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderFragment));
+                    break;
+                case "OrderDetailActivity":
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.ORDER_TO_PAY_OrderDetailActivity));
+                    break;
+                case "ExchangeFragment":
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(BroConstant.PAY_TO_EXCHANGEDETAIL_ACTIVITY));
+                    break;
             }
             finish();
         } else {

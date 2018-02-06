@@ -2,7 +2,6 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.banshengyuan.feima.dagger.component.DaggerCollectionFragmentComponent
 import com.banshengyuan.feima.dagger.module.CollectionActivityModule;
 import com.banshengyuan.feima.dagger.module.CollectionFragmentModule;
 import com.banshengyuan.feima.entity.ExChangeResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.CollectionHotControl;
 import com.banshengyuan.feima.view.activity.FairProductDetailActivity;
 import com.banshengyuan.feima.view.activity.MyCollectionActivity;
@@ -92,12 +90,12 @@ public class CollectionHotFragment extends BaseFragment implements CollectionHot
         mCouponCommonList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(getActivity(), R.mipmap.empty_collection_view, imageView);
-        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        TextView emptyContent = mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.connection_hot_empty_view);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        Button emptyButton = mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             ExChangeResponse.ListBean bean = (ExChangeResponse.ListBean) adapter.getItem(position);

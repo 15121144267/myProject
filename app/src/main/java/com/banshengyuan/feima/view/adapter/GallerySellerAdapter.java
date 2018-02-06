@@ -76,8 +76,8 @@ public class GallerySellerAdapter extends RecyclerView.Adapter<GallerySellerAdap
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.adapter_seller_icon);
-            mTextView = (TextView) itemView.findViewById(R.id.adapter_seller_name);
+            mImageView = itemView.findViewById(R.id.adapter_seller_icon);
+            mTextView = itemView.findViewById(R.id.adapter_seller_name);
         }
 
     }

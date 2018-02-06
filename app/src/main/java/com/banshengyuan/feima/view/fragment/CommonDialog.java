@@ -107,13 +107,13 @@ public class CommonDialog extends BaseDialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_common_dialog, container, true);
 
-        mLayout = (RelativeLayout) view.findViewById(R.id.common_dialog_layout);
-        mSureBtn = (Button) view.findViewById(R.id.common_dialog_ok);
-        mCancelBrn = (Button) view.findViewById(R.id.common_dialog_cancel);
-        mTitle = (TextView) view.findViewById(R.id.common_dialog_title);
-        mContentTextView = (TextView) view.findViewById(R.id.common_dialog_content);
+        mLayout = view.findViewById(R.id.common_dialog_layout);
+        mSureBtn = view.findViewById(R.id.common_dialog_ok);
+        mCancelBrn = view.findViewById(R.id.common_dialog_cancel);
+        mTitle = view.findViewById(R.id.common_dialog_title);
+        mContentTextView = view.findViewById(R.id.common_dialog_content);
         mBtnLine = view.findViewById(R.id.common_dialog_btnLine);
-        mButtonLayout = (LinearLayout) view.findViewById(R.id.common_dialog_btnLayout);
+        mButtonLayout = view.findViewById(R.id.common_dialog_btnLayout);
         mBtnLayoutLine = view.findViewById(R.id.common_dialog_btnLayoutLine);
         return view;
     }

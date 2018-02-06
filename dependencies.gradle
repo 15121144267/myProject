@@ -3,18 +3,18 @@ ext{
     myVersionCode = 1
     myVersionName = "1.0"
 
-    myCompileSdkVersion = 25
-    myBuildToolsVersion = "25.0.3"
+    myCompileSdkVersion = 26
+    myBuildToolsVersion = "26.0.1"
     myApplicationId = "com.banshengyuan.feima"
     myReleaseSignFile = 'releasekeystore.jks'
     mySignStorePassword = '64569845'
     mySignAlias = 'feimareleasekey'
     mySignKeyPassword = '64569845'
     myMinSdkVersion = 19
-    myTargetSdkVersion = 25
+    myTargetSdkVersion = 26
     myDependencies = [
             myGreendao: "org.greenrobot:greendao:3.2.2",
-            myDsign: "com.android.support:design:25.3.1",
+            myDsign: "com.android.support:design:26.0.0-alpha1",
             myRetrofit2: "com.squareup.retrofit2:retrofit:2.2.0",
             myRetrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:2.2.0",
             myRetrofit2ConverterScalars: "com.squareup.retrofit2:converter-scalars:2.2.0",
@@ -29,7 +29,7 @@ ext{
             myDaggerJavaxAnnotation: "org.glassfish:javax.annotation:10.0-b28",
             myButterknife :"com.jakewharton:butterknife:8.4.0",
             myButterknifeApt :"com.jakewharton:butterknife-compiler:8.4.0",
-            myCardview :"com.android.support:cardview-v7:25.3.1",
+            myCardview :"com.android.support:cardview-v7:26.0.0-alpha1",
             myCharts :"com.github.lecho:hellocharts-library:1.5.8@aar",
             my3DMap :"com.amap.api:3dmap:latest.integration",
             mySearch :"com.amap.api:search:latest.integration",
