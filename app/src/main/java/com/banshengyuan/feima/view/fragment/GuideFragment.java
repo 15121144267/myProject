@@ -36,8 +36,8 @@ public final class GuideFragment extends BaseFragment {
     }
 
     private void deal(View v) {
-        ImageView imageView = (ImageView)v.findViewById(R.id.guide_img_id);
-        Button btn = (Button)v.findViewById(R.id.begin_to_use);
+        ImageView imageView = v.findViewById(R.id.guide_img_id);
+        Button btn = v.findViewById(R.id.begin_to_use);
         switch (p) {
             case 0:
                 imageView.setImageResource(R.mipmap.guide_first);

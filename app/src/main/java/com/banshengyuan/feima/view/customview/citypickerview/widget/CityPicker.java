@@ -227,13 +227,13 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         popview = layoutInflater.inflate(R.layout.pop_citypicker, null);
 
-        mViewProvince = (WheelView) popview.findViewById(R.id.id_province);
-        mViewCity = (WheelView) popview.findViewById(R.id.id_city);
-        mViewDistrict = (WheelView) popview.findViewById(R.id.id_district);
-        mRelativeTitleBg = (RelativeLayout) popview.findViewById(R.id.rl_title);
-        mTvOK = (TextView) popview.findViewById(R.id.tv_confirm);
-        mTvTitle = (TextView) popview.findViewById(R.id.tv_title);
-        mTvCancel = (TextView) popview.findViewById(R.id.tv_cancel);
+        mViewProvince = popview.findViewById(R.id.id_province);
+        mViewCity = popview.findViewById(R.id.id_city);
+        mViewDistrict = popview.findViewById(R.id.id_district);
+        mRelativeTitleBg = popview.findViewById(R.id.rl_title);
+        mTvOK = popview.findViewById(R.id.tv_confirm);
+        mTvTitle = popview.findViewById(R.id.tv_title);
+        mTvCancel = popview.findViewById(R.id.tv_cancel);
 
 
         popwindow = new PopupWindow(popview, LinearLayout.LayoutParams.MATCH_PARENT,

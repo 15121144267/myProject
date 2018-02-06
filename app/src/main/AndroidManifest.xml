@@ -105,6 +105,7 @@
 
         <activity
             android:name=".view.activity.LoginActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <activity

@@ -94,12 +94,12 @@ public class CouponAvailableFragment extends BaseFragment implements CouponAvail
         mCouponCommonList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mCouponCommonList.getParent(), false);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(getActivity(),R.mipmap.empty_couple_view,imageView);
-        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        TextView emptyContent = mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.couple_no_use_empty_view);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        Button emptyButton = mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
     }
 

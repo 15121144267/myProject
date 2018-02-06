@@ -22,7 +22,6 @@ import com.banshengyuan.feima.dagger.module.MyOrderActivityModule;
 import com.banshengyuan.feima.dagger.module.OrderFragmentModule;
 import com.banshengyuan.feima.entity.BroConstant;
 import com.banshengyuan.feima.entity.MyOrdersResponse;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.AllOrderControl;
 import com.banshengyuan.feima.view.activity.CommentActivity;
 import com.banshengyuan.feima.view.activity.FinalPayActivity;
@@ -185,12 +184,12 @@ public class AllOrderFragment extends BaseFragment implements AllOrderControl.Al
         mMyOrders.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.empty_view, (ViewGroup) mMyOrders.getParent(), false);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(getActivity(), R.mipmap.enpty_order_view, imageView);
-        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        TextView emptyContent = mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.all_order_empty_view);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        Button emptyButton = mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {

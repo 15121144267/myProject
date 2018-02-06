@@ -16,8 +16,6 @@ import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.utils.ToolUtils;
 import com.google.zxing.WriterException;
 
-import java.sql.Time;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

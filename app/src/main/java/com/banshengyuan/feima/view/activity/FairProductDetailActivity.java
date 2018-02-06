@@ -14,7 +14,6 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aries.ui.view.radius.RadiusTextView;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairProductDetailActivityModule;
@@ -25,7 +24,6 @@ import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;

@@ -31,7 +31,7 @@ public class NetworkImageHolderView implements Holder<List> {
     @Override
     public View createView(final Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.banner_recycleview, null);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.demo_recycle);
+        mRecyclerView = view.findViewById(R.id.demo_recycle);
         mRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
         mAdapter = new MainProductsSecondAdapter(null, context, mImageLoaderHelper);
         mRecyclerView.setAdapter(mAdapter);

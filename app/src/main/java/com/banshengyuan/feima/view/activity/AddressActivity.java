@@ -120,12 +120,12 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         mAddressList.setAdapter(mAdapter);
 
         mEmptyView = LayoutInflater.from(this).inflate(R.layout.empty_view, (ViewGroup) mAddressList.getParent(), false);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.empty_icon);
+        ImageView imageView = mEmptyView.findViewById(R.id.empty_icon);
         mImageLoaderHelper.displayImage(this,R.mipmap.empty_address_view,imageView);
-        TextView emptyContent = (TextView) mEmptyView.findViewById(R.id.empty_content);
+        TextView emptyContent = mEmptyView.findViewById(R.id.empty_content);
         emptyContent.setVisibility(View.VISIBLE);
         emptyContent.setText(R.string.mime_address_empty_view);
-        Button emptyButton = (Button) mEmptyView.findViewById(R.id.empty_text);
+        Button emptyButton = mEmptyView.findViewById(R.id.empty_text);
         emptyButton.setVisibility(View.GONE);
 
 
@@ -144,7 +144,7 @@ public class AddressActivity extends BaseActivity implements AddressControl.Addr
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                     mPosition = position;
                     mBean = (AddressResponse.ListBean) adapter.getItem(position);
-                    mCheckBox = (CheckBox) view.findViewById(R.id.address_default);
+                    mCheckBox = view.findViewById(R.id.address_default);
                     switch (view.getId()) {
                         case R.id.address_edit:
                             startActivityForResult(AddAddressActivity.getIntent(this, mBean), IntentConstant.ORDER_POSITION_ONE);

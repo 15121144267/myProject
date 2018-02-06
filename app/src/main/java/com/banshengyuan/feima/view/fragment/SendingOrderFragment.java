@@ -118,7 +118,7 @@ public class SendingOrderFragment extends BaseFragment implements SendingOrderCo
                 o -> startActivity(GoodsClassifyActivity.getIntent(getActivity())));
         RxView.clicks(mSearchCancel).subscribe(o -> {
             mSearchEdit.clearContent();
-            mSearchLayout.setVisibility(View.GONE);
+            showSearchLayout(showSearchLayout);
         });
         RxView.clicks(mSendingShowSearch).subscribe(o -> showSearchLayout(showSearchLayout));
         mDiscoverTabLayout.addOnTabSelectedListener(new TabCheckListener() {
