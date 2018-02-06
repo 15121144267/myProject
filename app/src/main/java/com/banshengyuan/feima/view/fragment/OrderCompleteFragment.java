@@ -58,6 +58,7 @@ public class OrderCompleteFragment extends BaseFragment implements OrderComplete
     private int mPos;
     private String mOrderSn = null;
     private View mEmptyView = null;
+    private int orderPayType = 1;
 
     public static OrderCompleteFragment newInstance() {
         return new OrderCompleteFragment();

@@ -97,7 +97,8 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "删除订单");
             }
-        } else if (item.getOrder_type() == 2) {//2自提订单
+        } else if (item.getOrder_type() == 2) {
+            //2自提订单
             helper.setVisible(R.id.order_left_btn, true);
             helper.setVisible(R.id.order_right_btn, true);
             if (item.getPay_status() == 1) {
@@ -121,9 +122,6 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
                 helper.setVisible(R.id.order_left_btn, false);
                 helper.setText(R.id.order_right_btn, "删除订单");
             }
-        } else if (item.getOrder_type() == 3) {//3线下收款订单
-            helper.setVisible(R.id.order_left_btn, false);
-            helper.setText(R.id.order_right_btn, "删除订单");
         }
 
         Integer orderCount = 0;
@@ -157,7 +155,21 @@ public class MyOrdersAdapter extends BaseMultiItemQuickAdapter<MyOrdersResponse.
         //deliver_status : 1 待发货 2已发货
         helper.setText(R.id.order_state, item.getPay_status_name());
 
-
+        if (item.getOrder_type() == 3) {
+            //3线下收款订单
+            helper.setVisible(R.id.order_left_btn, true);
+            helper.setVisible(R.id.order_right_btn, true);
+            if (item.getPay_status() == 1) {
+                helper.setText(R.id.order_left_btn, "取消订单");
+                helper.setText(R.id.order_right_btn, "立即付款");
+            } else if (item.getPay_status() == 2 || item.getPay_status() == 3) {
+                helper.setVisible(R.id.order_left_btn, false);
+                helper.setVisible(R.id.order_right_btn, false);
+            } else if (item.getPay_status() == 4 || item.getPay_status() == 5) {
+                helper.setVisible(R.id.order_left_btn, false);
+                helper.setText(R.id.order_right_btn, "删除订单");
+            }
+        }
         helper.setText(R.id.order_price, "实付金额：￥" + ValueUtil.formatAmount2(item.getTotal_fee()));
     }
 }

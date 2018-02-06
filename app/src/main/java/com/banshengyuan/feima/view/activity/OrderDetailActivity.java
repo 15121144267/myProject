@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -129,6 +130,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     private OrderDetailResponse.InfoBean infoBean;
     private OrderDetailResponse.GoodsListBean goodsListBean;
     private boolean isFreshOrder = false;
+//    private String payOrderSn;
 
 
     public static Intent getOrderDetailIntent(Context context, String order_sn) {
@@ -152,6 +154,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
     @Override
     void onReceivePro(Context context, Intent intent) {
         if (intent.getAction().equals(BroConstant.ORDER_TO_PAY_OrderDetailActivity) || intent.getAction().equals(BroConstant.ORDER_TO_ORDERDETAIL)) {
+            SystemClock.sleep(500);//后台状态改变时间
             isFreshOrder = true;
             mPresenter.requestOrderDetailInfo(mOrderSn, mToken);
         }
@@ -241,7 +244,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 if (infoBean.getOrder_type() == 1) {
                     //线上
                     if (infoBean.getPay_status() == 1) {//立即付款
-                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(), "OrderDetailActivity"));
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, 1, "OrderDetailActivity"));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 3) {//提醒发货
@@ -268,7 +271,7 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                 } else if (infoBean.getOrder_type() == 2) {
                     //2自提订单
                     if (infoBean.getPay_status() == 1) {//立即付款
-                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, infoBean.getOrder_type(), "OrderDetailActivity"));
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, 1, "OrderDetailActivity"));
                     } else if (infoBean.getPay_status() == 2) {//确认收货
                         mPresenter.requestConfirmOrder(mOrderSn, mToken);
                     } else if (infoBean.getPay_status() == 3) {//确认收货
@@ -294,8 +297,11 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     }
                 } else if (infoBean.getOrder_type() == 3) {
                     //3线下收款订单
-                    //删除
-                    mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                    if (infoBean.getPay_status() == 1) {//立即付款
+                        startActivity(FinalPayActivity.getIntent(OrderDetailActivity.this, mOrderSn, 3, "OrderDetailActivity"));
+                    } else if (infoBean.getPay_status() == 4 ||infoBean.getPay_status() == 5) {//删除
+                        mPresenter.requestDeleteOrder(mOrderSn, mToken);
+                    }
                 }
                 break;
             case R.id.order_left_btn:
@@ -323,7 +329,10 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     }
                 } else if (infoBean.getOrder_type() == 3) {
                     //3线下收款订单
-                    // false
+                    if (infoBean.getPay_status() == 1) {
+                        //取消订单
+                        mPresenter.requestCancelOrder(mOrderSn, mToken);
+                    }
                 }
                 break;
         }
@@ -369,15 +378,18 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
 
             } else if (infoBean.getOrder_type() == 2) {//门店自提
                 orderAddressLayout.setVisibility(View.GONE);
-                orderZtLayout.setVisibility(View.VISIBLE);
+                orderZtLayout.setVisibility(View.GONE);
                 orderUnlinepayLayout.setVisibility(View.GONE);
-                String code = infoBean.getSelffetch_code();
-                if (!TextUtils.isEmpty(code)) {
-                    orderDetailZtCode.setText(code);
-                    //生成二维码
-                    getCodeBitmap(code);
+                if(infoBean.getPay_status() == 2){
+                    //已付款
+                    orderZtLayout.setVisibility(View.VISIBLE);
+                    String code = infoBean.getSelffetch_code();
+                    if (!TextUtils.isEmpty(code)) {
+                        orderDetailZtCode.setText(code);
+                        //生成二维码
+                        getCodeBitmap(code);
+                    }
                 }
-
             } else if (infoBean.getOrder_type() == 3) {//线下付款
                 orderAddressLayout.setVisibility(View.GONE);
                 orderZtLayout.setVisibility(View.GONE);
@@ -478,10 +490,31 @@ public class OrderDetailActivity extends BaseActivity implements OrderDetailCont
                     orderLeftBtn.setVisibility(View.GONE);
                     orderRightBtn.setText("删除订单");
                 }
-            } else if (infoBean.getOrder_type() == 3) {//3线下收款订单
-                stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
-                orderLeftBtn.setVisibility(View.GONE);
-                orderRightBtn.setText("删除订单");
+            } else if (infoBean.getOrder_type() == 3) {
+                //3线下收款订单
+                orderLeftBtn.setVisibility(View.VISIBLE);
+                orderRightBtn.setVisibility(View.VISIBLE);
+                if (infoBean.getPay_status() == 1) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_pay);
+                    orderLeftBtn.setText("取消订单");
+                    orderRightBtn.setText("立即付款");
+                } else if (infoBean.getPay_status() == 2) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_receipt);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setVisibility(View.GONE);
+                } else if (infoBean.getPay_status() == 3) {
+                    stateIv.setImageResource(R.mipmap.order_detail_no_deliver);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setVisibility(View.GONE);
+                } else if (infoBean.getPay_status() == 4 ) {
+                    stateIv.setImageResource(R.mipmap.order_detail_success);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("删除订单");
+                } else if (infoBean.getPay_status() == 5) {
+                    stateIv.setImageResource(R.mipmap.order_detail_close);
+                    orderLeftBtn.setVisibility(View.GONE);
+                    orderRightBtn.setText("删除订单");
+                }
             }
 
             Integer totalPrice = infoBean.getTotal_fee();

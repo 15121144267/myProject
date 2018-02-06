@@ -95,7 +95,7 @@
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:paddingTop="10dp"
-            android:text="删除订单"
+            android:text="确认订单"
             rv:rv_backgroundColor="#ffffff"
             rv:rv_backgroundPressedColor="#ff0036"
             rv:rv_radiusHalfHeightEnable="true"
@@ -126,7 +126,7 @@
             rv:rv_strokeWidth="1dp"
             rv:rv_textColor="#333333"
             rv:rv_textPressedColor="#ffffff"
-            android:visibility="gone"/>
+            />
     </RelativeLayout>
 
 
