@@ -127,13 +127,14 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
     @Override
     public void queryNoticeListSuccess(NoticeResponse noticeResponse) {
         mList = noticeResponse.getList();
-        if (mList.size() > 0) {
+        if (mPagerNo == 1) {
+            if (mList!= null && mList.size()>0) {
+                mNoticeAdapter.setNewData(mList);
+            }
+        } else {
             mNoticeAdapter.addData(mList);
             mNoticeAdapter.loadMoreComplete();
-        } else {
-            mNoticeAdapter.loadMoreEnd();
         }
-
     }
 
     private void initData(Calendar calendar) {
@@ -162,10 +163,14 @@ public class NoticeCenterActivity extends BaseActivity implements NoticeCenterCo
 
     @Override
     public void onLoadMoreRequested() {
-        if (mList.size() < pageSize) {
-            mNoticeAdapter.loadMoreEnd();
+        if (mPagerNo == 1 && mList.size() < pageSize) {
+            mNoticeAdapter.loadMoreEnd(true);
         } else {
-            mPresenter.requestNoticeList(++mPagerNo, pageSize, token);
+            if (mList.size() < pageSize) {
+                mNoticeAdapter.loadMoreEnd();
+            } else {
+                mPresenter.requestNoticeList(++mPagerNo, pageSize, token);
+            }
         }
     }
 }
