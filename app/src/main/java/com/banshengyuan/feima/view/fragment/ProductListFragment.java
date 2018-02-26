@@ -2,15 +2,14 @@ package com.banshengyuan.feima.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.banshengyuan.feima.DaggerApplication;
 import com.banshengyuan.feima.R;
@@ -25,8 +24,10 @@ import com.banshengyuan.feima.view.PresenterControl.ShopProductDetailControl;
 import com.banshengyuan.feima.view.activity.GoodDetailActivity;
 import com.banshengyuan.feima.view.activity.ShopProductDetailActivity;
 import com.banshengyuan.feima.view.adapter.FairDetailNewAdapter;
+import com.banshengyuan.feima.view.adapter.ProductAnotherAdapter;
 import com.example.mylibrary.adapter.BaseQuickAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,10 +44,8 @@ import butterknife.Unbinder;
 public class ProductListFragment extends BaseFragment implements ShopProductDetailControl.ShopProductDetailView, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.fragment_trends_list_last)
     RecyclerView mFragmentTrendsListLast;
-    @BindView(R.id.fragment_trends_image)
-    ImageView mFragmentTrendsImage;
-    @BindView(R.id.fragment_trends_sco_view)
-    NestedScrollView mFragmentTrendsScoView;
+    @BindView(R.id.fragment_trends_list_another)
+    RecyclerView mFragmentTrendsListAnother;
 
     public static ProductListFragment newInstance() {
         return new ProductListFragment();
@@ -57,6 +56,7 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
 
     private Unbinder unbind;
     private FairDetailNewAdapter mAdapter;
+    private ProductAnotherAdapter mAnotherAdapter;
     private Integer mShopId;
     private Integer mPage = 1;
     private Integer mPageSize = 10;
@@ -99,10 +99,12 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         List<ShopDetailProductListResponse.ListBean> listBeen = response.list;
         if (listBeen != null) {
             if (listBeen.size() == 1 && listBeen.get(0).summary_img != null) {
-                mFragmentTrendsScoView.setVisibility(View.VISIBLE);
+                mFragmentTrendsListAnother.setVisibility(View.VISIBLE);
                 mFragmentTrendsListLast.setVisibility(View.GONE);
-                if(!TextUtils.isEmpty(listBeen.get(0).summary_img)){
-                    mImageLoaderHelper.displayMatchImage(getActivity(), listBeen.get(0).summary_img, mFragmentTrendsImage);
+                if (!TextUtils.isEmpty(listBeen.get(0).summary_img)) {
+                    List<String> list = new ArrayList<>();
+                    list.add(listBeen.get(0).summary_img);
+                    mAnotherAdapter.setNewData(list);
                 }
             } else {
                 if (listBeen.size() > 0) {
@@ -135,8 +137,11 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
 
     private void initView() {
         mFragmentTrendsListLast.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        mFragmentTrendsListAnother.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new FairDetailNewAdapter(null, getActivity(), mImageLoaderHelper);
+        mAnotherAdapter = new ProductAnotherAdapter(null, getActivity(), mImageLoaderHelper);
         mFragmentTrendsListLast.setAdapter(mAdapter);
+        mFragmentTrendsListAnother.setAdapter(mAnotherAdapter);
         mAdapter.setOnLoadMoreListener(this, mFragmentTrendsListLast);
 
         mAdapter.setOnItemClickListener((adapter, view, position) -> {

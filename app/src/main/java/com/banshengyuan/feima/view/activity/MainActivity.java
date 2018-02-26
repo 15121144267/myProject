@@ -202,7 +202,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
                 .build().inject(this);
     }
 
-
     private void switchToMyLogin() {
         startActivityForResult(LoginActivity.getLoginIntent(MainActivity.this), IntentConstant.ORDER_POSITION_ONE);
     }
