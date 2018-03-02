@@ -1,7 +1,7 @@
 ext{
 
     myVersionCode = 1
-    myVersionName = "1.0"
+    myVersionName = "1.0.0"
 
     myCompileSdkVersion = 26
     myBuildToolsVersion = "26.0.1"
