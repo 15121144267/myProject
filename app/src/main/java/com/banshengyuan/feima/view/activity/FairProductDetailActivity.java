@@ -289,12 +289,12 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         if (state == 1) {
             showToast("收藏成功");
         } else {
-            showToast("取消收藏");
+//            showToast("取消收藏");
         }
 
     }
 
-    @OnClick({R.id.join,  R.id.fair_detail_collection})
+    @OnClick({R.id.join, R.id.fair_detail_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.join:
@@ -303,17 +303,25 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
                 }
                 break;
             case R.id.fair_detail_collection:
-                if (!mBuProcessor.isValidLogin()) {
+                if (mBuProcessor.isValidLogin()) {
+                    mPresenter.requestHotFairCollection(String.valueOf(hotFairDetailResponse.getInfo().getId()), token);
+                } else {
                     switchToLogin2();
-                    return;
                 }
-                mPresenter.requestHotFairCollection(String.valueOf(hotFairDetailResponse.getInfo().getId()), token);
                 break;
         }
     }
 
     private void switchToLogin2() {
         startActivityForResult(LoginActivity.getLoginIntent(FairProductDetailActivity.this), IntentConstant.ORDER_POSITION_ONE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentConstant.ORDER_POSITION_ONE && resultCode == RESULT_OK) {
+            token = mBuProcessor.getUserToken();
+        }
     }
 
     private void timeOutAction() {
