@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.R;
 
 import butterknife.BindView;
@@ -18,6 +19,9 @@ import butterknife.ButterKnife;
  */
 
 public class AboutActivity extends BaseActivity {
+
+    @BindView(R.id.about_version)
+    TextView mAboutVersion;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, AboutActivity.class);
@@ -35,6 +39,7 @@ public class AboutActivity extends BaseActivity {
         ButterKnife.bind(this);
         supportActionBar(mToolbar, true);
         mMiddleName.setText("关于我们");
+        mAboutVersion.setText("版本: "+BuildConfig.VERSION_NAME+"");
     }
 
 }

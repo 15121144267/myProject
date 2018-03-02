@@ -99,8 +99,6 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
         List<ShopDetailProductListResponse.ListBean> listBeen = response.list;
         if (listBeen != null) {
             if (listBeen.size() == 1 && listBeen.get(0).summary_img != null) {
-                mFragmentTrendsListAnother.setVisibility(View.VISIBLE);
-                mFragmentTrendsListLast.setVisibility(View.GONE);
                 if (!TextUtils.isEmpty(listBeen.get(0).summary_img)) {
                     List<String> list = new ArrayList<>();
                     list.add(listBeen.get(0).summary_img);
@@ -116,6 +114,11 @@ public class ProductListFragment extends BaseFragment implements ShopProductDeta
             }
         }
 
+    }
+
+    public void changeView(boolean flag) {
+        mFragmentTrendsListAnother.setVisibility(flag ? View.VISIBLE : View.GONE);
+        mFragmentTrendsListLast.setVisibility(flag ? View.GONE : View.VISIBLE);
     }
 
     @Override

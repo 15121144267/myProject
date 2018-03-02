@@ -12,21 +12,30 @@
     <View style="@style/LineH_Fill_Width1_5_ForView"/>
 
     <ImageView
-        android:contentDescription="@string/app_name"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_40"
-        android:background="@mipmap/freemud_logo_new"/>
+        android:background="@mipmap/freemud_logo_new"
+        android:contentDescription="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/about_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_40"
+        android:gravity="center"
+        android:text="版本: 1.0.0"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:textSize="@dimen/sp_16"
         android:paddingEnd="@dimen/dp_20"
         android:paddingStart="@dimen/dp_20"
-        android:text="@string/app_about"/>
+        android:text="@string/app_about"
+        android:textSize="@dimen/sp_16"/>
 
     <TextView
         android:layout_width="wrap_content"

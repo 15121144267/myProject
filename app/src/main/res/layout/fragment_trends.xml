@@ -10,6 +10,7 @@
         android:id="@+id/fragment_trends_list_last"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginStart="@dimen/dp_5"
         android:paddingTop="@dimen/dp_15"/>

@@ -34,6 +34,7 @@ public class StoreDetailResponse implements Serializable {
         public String summary;
         public boolean is_collected;
         public boolean is_catering;
+        public boolean is_discount_buy;
         public List<String> top_img;
     }
 }

@@ -100,19 +100,20 @@ public class ShopProductDetailActivity extends BaseActivity implements ShopProdu
         mToolbarRightIcon.setVisibility(View.VISIBLE);
         initView();
         initData();
-
     }
 
     @Override
     public void getStoreDetailSuccess(StoreDetailResponse response) {
         mInfoBean = response.info;
         if (mInfoBean != null) {
+            ((ProductListFragment) getSupportFragmentManager().getFragments().get(0)).changeView(mInfoBean.is_catering);
             if (mInfoBean.top_img != null && mInfoBean.top_img.size() > 0) {
                 mShopDetailDetailBanner.setImages(mInfoBean.top_img).setImageLoader(new GlideLoader()).start();
             }
-            if (mInfoBean.is_catering) {
+            if (mInfoBean.is_discount_buy) {
                 mShopDetailPay.setVisibility(View.VISIBLE);
             }
+
             mShopDetailCollection.setImageResource(mInfoBean.is_collected ? R.mipmap.shop_detail_collection : R.mipmap.shop_detail_uncollection);
             mShopDetailName.setText(mInfoBean.name);
             mMiddleName.setText(mInfoBean.name);

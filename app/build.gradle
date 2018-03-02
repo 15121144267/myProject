@@ -96,9 +96,9 @@ android {
             def file = output.outputFile
             def fileName
             if (variant.buildType.name == 'release') {
-                fileName = "dispatching-v" + rootProject.ext.myVersionName +  ".apk"
+                fileName = "shanshi-v" + rootProject.ext.myVersionName +  ".apk"
             } else if (variant.buildType.name == 'debug') {
-                fileName = "dispatching-v" + rootProject.ext.myVersionName +  "_debug.apk"
+                fileName = "shanshi-v" + rootProject.ext.myVersionName +  "_debug.apk"
             }
             output.outputFile = new File(file.parent,
                     fileName)

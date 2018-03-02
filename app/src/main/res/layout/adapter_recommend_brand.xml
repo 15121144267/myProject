@@ -15,10 +15,10 @@
     <TextView
         android:id="@+id/adapter_recommend_text"
         style="@style/TextColor_Black_15"
-       android:layout_marginTop="12dp"
+        android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="2"
+        android:maxLines="1"
         android:ellipsize="end"
         android:text="未知"
         />
@@ -29,11 +29,12 @@
         android:layout_marginTop="12dp"
         android:visibility="gone"
         android:layout_width="wrap_content"
-        android:maxLines="2"
+        android:maxLines="1"
         android:ellipsize="end"
         android:layout_height="wrap_content"
         android:text="未知"
         />
+
     <TextView
         android:id="@+id/adapter_common_price"
         style="@style/TextColor_red_14"

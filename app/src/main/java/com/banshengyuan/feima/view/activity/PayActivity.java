@@ -373,7 +373,11 @@ public class PayActivity extends BaseActivity implements PayControl.PayView {
                     }
                 }
 
-
+                if (listBeanX.reduceWay == 1) {
+                    cutPrice += listBeanX.reduceValue * 100;
+                } else {
+                    cutPrice += price * (1 - listBeanX.reduceValue);
+                }
             }
             mPayPrice.setText(ValueUtil.setAllPriceText(allPrice + dispatchingPrice - cutPrice, this));
         }

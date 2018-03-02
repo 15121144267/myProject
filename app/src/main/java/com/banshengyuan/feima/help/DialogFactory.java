@@ -154,7 +154,7 @@ public class DialogFactory {
     public static Dialog showLoadingDialog(Context context, String msg) {
         View v = LayoutInflater.from(context).inflate(R.layout.view_loading, (ViewGroup) ((BaseActivity)context).getWindow().getDecorView(),false);
         final Dialog loadingDialog = new Dialog(context, R.style.loading_dialog);
-        loadingDialog.setCancelable(false);
+        loadingDialog.setCancelable(true);
         loadingDialog.setContentView(v);
         return loadingDialog;
 
