@@ -58,6 +58,7 @@ public class FinalPayActivity extends BaseActivity implements FinalPayControl.Fi
         return intent;
     }
 
+    //type  1、线上订单   2、 活动报名（热闹报名） 3、 线下订单
     public static Intent getIntent(Context context, String order_sn, Integer type, String activityType) {
         Intent intent = new Intent(context, FinalPayActivity.class);
         intent.putExtra("order_sn", order_sn);
