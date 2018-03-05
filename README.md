@@ -1,5 +1,5 @@
 
-感谢各种开源框架的协助<br/>
+感谢各种开源框架的协助 （下面图片展示是第一版app页面，第二版图片暂未上传 如需查看请扫描二维码下载）<br/>
 
 <h1>功能介绍：</h1><br/>
 <h3>有三个分支可以切换</h3><br/>
@@ -36,6 +36,7 @@
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_15.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_16.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_17.png" height="350" width="230"></li>
+    <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/xiazai.png" height="350" width="350"></li>
 </ol>
 
 
