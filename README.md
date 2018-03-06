@@ -19,6 +19,8 @@
 <h3>分支：helei_banshengyuan商城类app</h3><br/>
 <h3>以下为UI界面</h3><br/>
 <ol>
+    <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/xiazai.png" height="350" width="350"></li>
+    <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/feima.png" height="350" width="350"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_1.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_2.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_3.png" height="350" width="230"></li>
@@ -36,7 +38,6 @@
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_15.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_16.png" height="350" width="230"></li>
     <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/banshengyuan_17.png" height="350" width="230"></li>
-    <li><img src="https://github.com/15121144267/myProject/blob/banshengyuan_new_branch/readmepci/xiazai.png" height="350" width="350"></li>
 </ol>
 
 
