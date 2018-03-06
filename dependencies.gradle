@@ -3,15 +3,15 @@ ext{
     myVersionCode = 1
     myVersionName = "1.0"
 
-    myCompileSdkVersion = 25
-    myBuildToolsVersion = "25.0.3"
+    myCompileSdkVersion = 26
+    myBuildToolsVersion = "26.0.1"
     myApplicationId = "com.dispatching.feima"
     myReleaseSignFile = 'releasekeystore.jks'
     mySignStorePassword = '64569845'
     mySignAlias = 'feimareleasekey'
     mySignKeyPassword = '64569845'
     myMinSdkVersion = 19
-    myTargetSdkVersion = 25
+    myTargetSdkVersion = 26
     myDependencies = [
             myGreendao: "org.greenrobot:greendao:3.2.2",
             myDsign: "com.android.support:design:25.0.1",
