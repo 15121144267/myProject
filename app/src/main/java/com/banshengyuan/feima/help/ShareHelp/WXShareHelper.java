@@ -63,7 +63,7 @@ class WXShareHelper {
                     }
 
                     WXWebpageObject webPage = new WXWebpageObject();
-                    webPage.webpageUrl = url;
+                    webPage.webpageUrl = TextUtils.isEmpty(url) ? "wwww.baidu.com" : url;
                     WXMediaMessage msg = new WXMediaMessage(webPage);
                     msg.title = title;
                     msg.description = content;

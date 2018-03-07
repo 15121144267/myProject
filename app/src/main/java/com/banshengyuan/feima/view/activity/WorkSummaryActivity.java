@@ -29,10 +29,13 @@ import com.banshengyuan.feima.dagger.module.WorkSummaryActivityModule;
 import com.banshengyuan.feima.entity.CollectionResponse;
 import com.banshengyuan.feima.entity.FairContentDetailResponse;
 import com.banshengyuan.feima.entity.FairPraiseResponse;
+import com.banshengyuan.feima.entity.ShareInfo;
+import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.ValueUtil;
 import com.banshengyuan.feima.view.PresenterControl.WorkSummaryControl;
 import com.banshengyuan.feima.view.adapter.WorkSummaryAdapter;
+import com.banshengyuan.feima.view.fragment.ShareDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -275,7 +278,17 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
         });
 
         RxView.clicks(mFairDetailComment).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> startActivity(FairCommentActivity.getIntent(this, mFairId)));
-        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            ShareDialog dialog = ShareDialog.getInstance();
+            if (mInfoBean != null) {
+                ShareInfo info = new ShareInfo();
+                info.title = "市集  好玩的市集每天逛";
+                info.content = "用你喜欢的方式，逛遍整个市集";
+//                info.linkUrl = mInfoBean.top_img.get(0);
+                dialog.setContent(info);
+            }
+            DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);
+        });
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override

@@ -22,12 +22,14 @@ import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.IntentConstant;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
+import com.banshengyuan.feima.entity.ShareInfo;
 import com.banshengyuan.feima.help.DialogFactory;
 import com.banshengyuan.feima.listener.AppBarStateChangeListener;
 import com.banshengyuan.feima.utils.TimeUtil;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.fragment.CommonDialog;
 import com.banshengyuan.feima.view.fragment.JoinActionDialog;
+import com.banshengyuan.feima.view.fragment.ShareDialog;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -37,6 +39,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.banshengyuan.feima.R.id.appBarLayout;
 
 /**
  * Created by lei.he on 2017/6/28.
@@ -63,7 +67,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     TextView mMiddleName;
     @BindView(R.id.toolbar_right_icon)
     ImageView mToolbarRightIcon;
-    @BindView(R.id.appBarLayout)
+    @BindView(appBarLayout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -147,7 +151,15 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
         fairDetailWebcontent.getSettings().setJavaScriptEnabled(true);
         fairDetailWebcontent.getSettings().setDomStorageEnabled(true);
         mToolbarRightIcon.setVisibility(View.VISIBLE);
-        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> showToast("该功能暂未开放"));
+        RxView.clicks(mToolbarRightIcon).throttleFirst(1, TimeUnit.SECONDS).subscribe(o -> {
+            ShareDialog dialog = ShareDialog.getInstance();
+            ShareInfo info = new ShareInfo();
+            info.title = "热闹  好玩的市集每天逛";
+            info.content = "吃喝玩逛全不同？嘿，我只想给你点好玩的";
+//                info.linkUrl = mInfoBean.top_img.get(0);
+            dialog.setContent(info);
+            DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);
+        });
         if (getIntent() != null) {
             fId = getIntent().getStringExtra("fId");
         }

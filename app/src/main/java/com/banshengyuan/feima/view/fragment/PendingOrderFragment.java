@@ -92,7 +92,6 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     @Override
     public void onMyEditorAction() {
 
-
     }
 
     @Override

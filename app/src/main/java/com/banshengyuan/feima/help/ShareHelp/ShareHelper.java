@@ -1,9 +1,9 @@
 package com.banshengyuan.feima.help.ShareHelp;
 
 import android.app.Activity;
-import android.widget.Toast;
 
 import com.banshengyuan.feima.entity.ShareInfo;
+import com.banshengyuan.feima.utils.ToastUtils;
 
 
 /**
@@ -31,7 +31,7 @@ public class ShareHelper {
 
     public void shareInfo(Activity context, ShareInfo shareInfo, Integer type) {
         if (shareInfo == null) {
-            Toast.makeText(context, "分享失败", Toast.LENGTH_SHORT).show();
+            ToastUtils.showLongToast("分享失败");
         } else {
             if (type == 1) {
                 WXShareHelper.registerWxApi(context);
@@ -40,7 +40,7 @@ public class ShareHelper {
                 WXShareHelper.registerWxApi(context);
                 WXShareHelper.shareWx(context, shareInfo.linkUrl, shareInfo.title, shareInfo.content, shareInfo.imageUrl, WXShareHelper.SHARE_WX_FRIENDS);
             } else {
-                Toast.makeText(context, "分享失败", Toast.LENGTH_SHORT).show();
+                ToastUtils.showLongToast("分享失败");
             }
         }
     }
