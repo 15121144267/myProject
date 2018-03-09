@@ -9,7 +9,7 @@
 
     <View style="@style/LineH_Fill_Width1_5_ForView" />
 
-    <com.banshengyuan.feima.view.customview.timepickview.ClearEditText2
+    <com.banshengyuan.feima.view.customview.ClearEditText
         android:id="@+id/change_name"
         android:layout_width="match_parent"
         android:layout_height="45dp"

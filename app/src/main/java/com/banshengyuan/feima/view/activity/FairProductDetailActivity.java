@@ -2,18 +2,21 @@ package com.banshengyuan.feima.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerFairProductDetailActivityComponent;
 import com.banshengyuan.feima.dagger.module.FairProductDetailActivityModule;
@@ -73,10 +76,6 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     Toolbar mToolbar;
     private int mStatus;//0未开始  1进行中  2已结束
     private int mIsSignUp;//1：已报名   0：未报名
-    private String yelloColoor = "#fffc00";
-    private String yelloTextColoor = "#212121";
-    private String grayColor = "#eeeeee";
-    private String grayTextColor = "#666666";
     private int salePrice;
     private int btnState = -1;//0报名参加 1去付款  2 查看二维码 3已结束
 
@@ -127,6 +126,15 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
 
     @Override
     protected void onDestroy() {
+        if (fairDetailWebcontent != null) {
+            ViewParent parent = fairDetailWebcontent.getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(fairDetailWebcontent);
+            }
+            fairDetailWebcontent.removeAllViews();
+            fairDetailWebcontent.destroy();
+            fairDetailWebcontent = null;
+        }
         super.onDestroy();
         mPresenter.onDestroy();
     }
@@ -156,7 +164,7 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
             ShareInfo info = new ShareInfo();
             info.title = "热闹  好玩的市集每天逛";
             info.content = "吃喝玩逛全不同？嘿，我只想给你点好玩的";
-//                info.linkUrl = mInfoBean.top_img.get(0);
+            info.linkUrl = BuildConfig.DISPATCH_SERVICE + "api/share/hot/" + fId;
             dialog.setContent(info);
             DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);
         });
@@ -337,13 +345,13 @@ public class FairProductDetailActivity extends BaseActivity implements FairProdu
     }
 
     private void timeOutAction() {
-        join.setTextColor(Color.parseColor(grayTextColor));
-        join.setBackgroundColor(Color.parseColor(grayColor));
+        join.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.eee));
+        join.setTextColor(ContextCompat.getColor(getContext(), R.color.darkgrey1));
     }
 
     private void timeIngAction() {
-        join.setTextColor(Color.parseColor(yelloTextColoor));
-        join.setBackgroundColor(Color.parseColor(yelloColoor));
+        join.setTextColor(ContextCompat.getColor(getContext(), R.color.tab_text_normal));
+        join.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.text_color_yellow_dark2));
     }
 
 }

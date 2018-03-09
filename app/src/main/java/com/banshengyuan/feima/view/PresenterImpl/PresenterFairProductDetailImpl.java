@@ -8,7 +8,6 @@ import com.banshengyuan.feima.entity.HotFairDetailResponse;
 import com.banshengyuan.feima.entity.HotFairStateResponse;
 import com.banshengyuan.feima.entity.OrderConfirmedResponse;
 import com.banshengyuan.feima.help.RetryWithDelay;
-import com.banshengyuan.feima.utils.LogUtils;
 import com.banshengyuan.feima.view.PresenterControl.FairProductDetailControl;
 import com.banshengyuan.feima.view.model.FairProductDetailModel;
 import com.banshengyuan.feima.view.model.ResponseData;
@@ -110,9 +109,6 @@ public class PresenterFairProductDetailImpl implements FairProductDetailControl.
 
     private void getHotFairStateSuccess(ResponseData responseData) {
         mView.judgeToken(responseData.resultCode);
-        LogUtils.i("responseData="+responseData);
-        LogUtils.i("responseData.resultCode="+responseData.resultCode);
-        LogUtils.i("responseData.errorDesc="+responseData.errorDesc);
         if (responseData.resultCode == 200) {
             responseData.parseData(HotFairStateResponse.class);
             HotFairStateResponse response = (HotFairStateResponse) responseData.parsedData;

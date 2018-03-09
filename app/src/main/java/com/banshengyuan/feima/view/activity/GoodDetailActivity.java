@@ -9,6 +9,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -257,8 +259,19 @@ public class GoodDetailActivity extends BaseActivity implements GoodsDetailContr
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mPresenter.onDestroy();
+        if (mGoodsDetailHtml != null) {
+            ViewParent parent = mGoodsDetailHtml.getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(mGoodsDetailHtml);
+            }
+            mGoodsDetailHtml.removeAllViews();
+            mGoodsDetailHtml.destroy();
+            mGoodsDetailHtml = null;
+        }
+        super.onDestroy();
+
+
     }
 
     private void initView() {

@@ -15,10 +15,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:paddingStart="5dp"
+        android:paddingEnd="0dp"
         android:imeOptions="actionSearch"
         android:background="@null"
-        android:drawableStart="@mipmap/search_icon"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColorHint="#b8b8bf"/>
 
     <ImageView

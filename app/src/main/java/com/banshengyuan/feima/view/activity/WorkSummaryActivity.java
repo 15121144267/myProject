@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.dagger.component.DaggerWorkSummaryComponent;
 import com.banshengyuan.feima.dagger.module.WorkSummaryActivityModule;
@@ -284,7 +285,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
                 ShareInfo info = new ShareInfo();
                 info.title = "市集  好玩的市集每天逛";
                 info.content = "用你喜欢的方式，逛遍整个市集";
-//                info.linkUrl = mInfoBean.top_img.get(0);
+                info.linkUrl = BuildConfig.DISPATCH_SERVICE+"api/share/town/"+mInfoBean.id;
                 dialog.setContent(info);
             }
             DialogFactory.showDialogFragment(getSupportFragmentManager(), dialog, ShareDialog.TAG);
@@ -294,7 +295,7 @@ public class WorkSummaryActivity extends BaseActivity implements WorkSummaryCont
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
-                    //展开状态
+                    //展开状态1324
                     mMiddleName.setVisibility(View.GONE);
                     mToolbar.setNavigationIcon(R.mipmap.arrow_left);
                     mToolbarRightIcon.setImageResource(R.mipmap.share_white);

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.banshengyuan.feima.R;
 import com.banshengyuan.feima.utils.ValueUtil;
-import com.banshengyuan.feima.view.customview.timepickview.ClearEditText2;
+import com.banshengyuan.feima.view.customview.ClearEditText;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import butterknife.BindView;
@@ -32,11 +32,12 @@ public class PersonNameActivity extends BaseActivity {
     @BindView(R.id.toolbar_right_text)
     TextView mToolbarRightText;
     @BindView(R.id.change_name)
-    ClearEditText2 mChangeName;
+    ClearEditText mChangeName;
 
-    public static Intent getIntent(Context context,String name) {
+
+    public static Intent getIntent(Context context, String name) {
         Intent intent = new Intent(context, PersonNameActivity.class);
-        intent.putExtra("name",name);
+        intent.putExtra("name", name);
         return intent;
     }
 
@@ -51,8 +52,9 @@ public class PersonNameActivity extends BaseActivity {
     }
 
     private void initView() {
+        mChangeName.setDrawableIcon(false);
         String name = getIntent().getStringExtra("name");
-        if(!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
             mChangeName.setEditText(name);
         }
         mToolbarRightText.setVisibility(View.VISIBLE);
@@ -61,12 +63,12 @@ public class PersonNameActivity extends BaseActivity {
 
     private void requestSure() {
         String name = mChangeName.getEditText();
-        if(ValueUtil.checkSpecialString1(name)){
+        if (ValueUtil.checkSpecialString1(name)) {
             Intent intent = new Intent();
-            intent.putExtra("name",name);
-            setResult(RESULT_OK,intent);
+            intent.putExtra("name", name);
+            setResult(RESULT_OK, intent);
             finish();
-        }else {
+        } else {
             showBaseToast("不符合");
         }
     }

@@ -1,6 +1,8 @@
 package com.banshengyuan.feima.view.customview;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -60,6 +62,7 @@ public class ClearEditText extends LinearLayout {
         editText = findViewById(R.id.custom_edittext);
         mBtnClear = findViewById(R.id.custom_edittext_img);
         linearFather = findViewById(R.id.linear_father);
+        setDrawableIcon(true);
         if (isAlwaysShowDeleteBtn) {
             mBtnClear.setVisibility(View.VISIBLE);
         } else {
@@ -194,6 +197,15 @@ public class ClearEditText extends LinearLayout {
             editText.setSelection(str.length());
         }
 
+    }
+
+    public void setDrawableIcon(boolean flag) {
+        if (flag) {
+            Drawable drawable = ContextCompat.getDrawable(mContext, R.mipmap.search_icon);
+            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
+        } else {
+            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+        }
     }
 
     /**
