@@ -18,7 +18,7 @@
         android:paddingEnd="0dp"
         android:imeOptions="actionSearch"
         android:background="@null"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textColorHint="#b8b8bf"/>
 
     <ImageView

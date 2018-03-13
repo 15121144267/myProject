@@ -97,7 +97,6 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     private void initView() {
         //默认停用滑动效果
-
         BottomNavigationViewHelper.disableShiftMode(mViewBottomNavigation);
         List<Fragment> fragments = new ArrayList<>();
         PendingOrderFragment pendingOrderFragment = PendingOrderFragment.newInstance();
