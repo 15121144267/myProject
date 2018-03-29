@@ -90,7 +90,6 @@ dependencies {
     compile rootProject.ext.myDependencies["myRxbinding"]
     compile rootProject.ext.myDependencies["myRabbitmq"]
     compile rootProject.ext.myDependencies["myRxPermission"]
-    compile rootProject.ext.myDependencies["my3DMap"]
     compile rootProject.ext.myDependencies["mySearch"]
     compile rootProject.ext.myDependencies["myLocation"]
 }
