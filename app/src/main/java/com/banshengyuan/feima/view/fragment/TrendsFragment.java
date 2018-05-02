@@ -58,7 +58,7 @@ public class TrendsFragment extends BaseFragment implements TrendsControl.Trends
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trends, container, false);
+        View view = inflater.inflate(R.layout.fragment_comment, container, false);
         unbind = ButterKnife.bind(this, view);
         initView();
         return view;

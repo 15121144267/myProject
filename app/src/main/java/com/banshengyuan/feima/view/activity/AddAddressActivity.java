@@ -218,7 +218,7 @@ public class AddAddressActivity extends BaseActivity implements AddAddressContro
                 mDistrict = citySelected[2];
 
                 if (citySelected[0].equals(citySelected[1])) {
-                    mAddAddressLocationText.setText(citySelected[0] + citySelected[2]);
+                    mAddAddressLocationText.setText(citySelected[0] + citySelected[2]+"");
                 } else {
                     mAddAddressLocationText.setText(citySelected[0] + citySelected[1]
                             + citySelected[2]);

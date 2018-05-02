@@ -58,7 +58,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     TextView mLoginForgetPassword;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    private static String clearActivity = null;
     @BindView(R.id.middle_name)
     TextView mMiddleName;
 
@@ -74,6 +73,7 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
     LoginControl.PresenterLogin mPresenterLogin;
     private String myPhone;
     private String mPassword;
+    private static String clearActivity = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

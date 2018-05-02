@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.banshengyuan.feima.BuildConfig;
 import com.banshengyuan.feima.dagger.PerActivity;
 import com.banshengyuan.feima.entity.BuProcessor;
-import com.banshengyuan.feima.gen.DaoSession;
 import com.banshengyuan.feima.network.RetrofitUtil;
 import com.banshengyuan.feima.network.networkapi.AddShoppingCardApi;
 import com.banshengyuan.feima.network.networkapi.MainApi;
@@ -76,7 +75,7 @@ public class MainActivityModule {
 
     @Provides
     @PerActivity
-    MainModel provideMainModel(Gson gson, ModelTransform modelTransform, DaoSession daoSession) {
+    MainModel provideMainModel(Gson gson, ModelTransform modelTransform) {
         return new MainModel(new RetrofitUtil.Builder()
                 .context(activity)
                 .baseUrl(BuildConfig.DISPATCH_SERVICE)

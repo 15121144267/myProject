@@ -25,9 +25,8 @@ public class FairDetailProductListAdapter extends BaseQuickAdapter<FairDetailPro
 
     @Override
     protected void convert(BaseViewHolder helper, FairDetailProductListResponse.ListBean item) {
-        if (item == null) return;
         ImageView imageView = helper.getView(R.id.adapter_product_icon);
-        mImageLoaderHelper.displayImage(mContext, item.cover_img, imageView);
+        mImageLoaderHelper.displayImage(mContext, item.image, imageView);
         helper.setText(R.id.adapter_product_name, item.name);
         helper.setText(R.id.adapter_product_price, "￥" + ValueUtil.formatAmount2(item.price));
     }

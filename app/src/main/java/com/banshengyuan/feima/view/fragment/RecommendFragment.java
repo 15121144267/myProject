@@ -157,7 +157,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         } else {
             mRecommendBrandRecycleView.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -194,7 +193,6 @@ public class RecommendFragment extends BaseFragment implements RecommendControl.
         if (intent.getAction().equals(BroConstant.UPDATE_PERSON_LOCATION)) {
             requestRecommend();
         }
-
     }
 
     private void requestRecommend() {
