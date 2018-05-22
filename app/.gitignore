@@ -10,5 +10,4 @@
 src/androidTest/
 src/test/
 *.jks
-/gradle.properties
 /proguard-rules.pro

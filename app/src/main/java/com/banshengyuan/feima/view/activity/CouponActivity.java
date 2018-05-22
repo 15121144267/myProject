@@ -109,12 +109,9 @@ public class CouponActivity extends BaseActivity {
                             setResult(RESULT_OK, intent);
                             finish();
                         }
-
                         break;
                 }
-
             }
-
         });
     }
 

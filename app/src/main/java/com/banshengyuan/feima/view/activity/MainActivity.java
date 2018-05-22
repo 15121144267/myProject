@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
         return new Intent(context, MainActivity.class);
     }
 
-    public static final Integer DIALOG_TYPE_EXIT_OK = 1;
+
     @BindView(R.id.view_swapper)
     ViewPager mViewSwapper;
     @BindView(R.id.view_bottom_navigation)
@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity implements MainControl.MainView, 
 
     @Inject
     MainControl.PresenterMain mPresenter;
+    public static final Integer DIALOG_TYPE_EXIT_OK = 1;
     public static final int SWITCH_FIRST_PAGE = 0;
     public static final int SWITCH_SECOND_PAGE = 1;
     public static final int SWITCH_THIRD_PAGE = 2;

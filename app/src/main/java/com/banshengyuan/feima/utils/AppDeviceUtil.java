@@ -1,6 +1,8 @@
 package com.banshengyuan.feima.utils;
 
 import android.app.ActivityManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -16,8 +18,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import static android.content.Context.JOB_SCHEDULER_SERVICE;
 
 
 public class AppDeviceUtil {
@@ -223,6 +228,7 @@ public class AppDeviceUtil {
 
     /**
      * 获得屏幕高度
+     *
      * @param context
      * @return
      */
@@ -232,5 +238,16 @@ public class AppDeviceUtil {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
+    }
+
+    public static void doService(Context context, Class<?> cls) {
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(JOB_SCHEDULER_SERVICE);
+        JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(context, cls.getName()))
+                .setMinimumLatency(TimeUnit.MILLISECONDS.toMillis(10))//执行的最小延迟时间
+                .setOverrideDeadline(TimeUnit.MILLISECONDS.toMillis(15)) //执行的最长延时时间
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING) //非漫游网络状态
+                .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_LINEAR) //线性重试方案
+                .setRequiresCharging(false); // 未充电状态
+        jobScheduler.schedule(builder.build());
     }
 }

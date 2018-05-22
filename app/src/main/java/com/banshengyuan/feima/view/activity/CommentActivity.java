@@ -54,7 +54,7 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
     @BindView(R.id.toolbar_right_text)
     TextView toolbarRightText;
     @BindView(R.id.comment_recyclerview)
-    RecyclerView mRecyclerview;
+    RecyclerView mRecyclerView;
     @Inject
     ShopListControl.PresenterShopList mPresenter;
     private String token;
@@ -118,14 +118,13 @@ public class CommentActivity extends BaseActivity implements ShopListControl.Sho
         mOrderSn = getIntent().getStringExtra("order_sn");
         mList = getIntent().getParcelableArrayListExtra("mList");
 
-        mRecyclerview.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
         mAdapter = new OrderCommentAdapter(mList, CommentActivity.this, mImageLoaderHelper);
-        mRecyclerview.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void initData() {
         token = mBuProcessor.getUserToken();
-
     }
 
     private void initializeInjector() {

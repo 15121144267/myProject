@@ -54,9 +54,8 @@ android {
             buildConfigField "String", "STORE_PASSWORD", HTTPS_STORE_PASSWORD
             buildConfigField "String", "WX_APP_ID", DEBUG_WX_APP_ID
             buildConfigField "String", "USER_KEY", DEBUG_USER_KEY
-
-
         }
+
         release {
             debuggable true
             minifyEnabled true
