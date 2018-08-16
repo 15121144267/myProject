@@ -112,7 +112,6 @@ public class LoginActivity extends BaseActivity implements LoginControl.LoginVie
         mPresenterLogin.onDestroy();
     }
 
-
     @Override
     public void loginSuccess(LoginResponse response) {
         showToast("登录成功");

@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
@@ -16,7 +14,7 @@ android {
         versionName rootProject.ext.myVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        ndk {  abiFilters "armeabi", "armeabi-v7a", "x86" }
+        ndk { abiFilters "armeabi", "armeabi-v7a", "x86" }
     }
 
     signingConfigs {
@@ -80,7 +78,7 @@ android {
             buildConfigField "String", "USER_KEY", RELEASE_USER_KEY
         }
     }
-    greendao{
+    greendao {
         schemaVersion 1
         daoPackage 'com.banshengyuan.feima.gen'
         targetGenDir 'src/main/java'
@@ -91,19 +89,18 @@ android {
     }
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def file = output.outputFile
+        variant.outputs.all { output ->
             def fileName
             if (variant.buildType.name == 'release') {
-                fileName = "shanshi-v" + rootProject.ext.myVersionName +  ".apk"
+                fileName = "shanshi-v" + rootProject.ext.myVersionName + ".apk"
             } else if (variant.buildType.name == 'debug') {
-                fileName = "shanshi-v" + rootProject.ext.myVersionName +  "_debug.apk"
+                fileName = "shanshi-v" + rootProject.ext.myVersionName + "_debug.apk"
             }
-            output.outputFile = new File(file.parent,
-                    fileName)
+            outputFileName = fileName
             //生成的文件名
         }
     }
+
 }
 
 dependencies {
@@ -119,10 +116,10 @@ dependencies {
     compile rootProject.ext.myDependencies["myRxjava"]
     compile rootProject.ext.myDependencies["myRxandroid"]
     compile rootProject.ext.myDependencies["myDagger"]
-    apt rootProject.ext.myDependencies["myDaggerCompiler"]
+    annotationProcessor rootProject.ext.myDependencies["myDaggerCompiler"]
     provided rootProject.ext.myDependencies["myDaggerJavaxAnnotation"]
     compile rootProject.ext.myDependencies["myButterknife"]
-    apt rootProject.ext.myDependencies["myButterknifeApt"]
+    annotationProcessor rootProject.ext.myDependencies["myButterknifeApt"]
     compile rootProject.ext.myDependencies["myCardview"]
     compile rootProject.ext.myDependencies["myRxbinding"]
     compile rootProject.ext.myDependencies["myRxPermission"]

@@ -52,7 +52,7 @@ public class CompressImageImpl implements CompressImage {
         }
 
         File file = new File(image.getOriginalPath());
-        if (file == null || !file.exists() || !file.isFile()){
+        if (!file.exists() || !file.isFile()){
             continueCompress(image,false);
             return;
         }

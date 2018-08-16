@@ -71,7 +71,6 @@ public class RetrofitUtil {
 
     private Retrofit initRetrofit() {
         Gson gson = new GsonBuilder().create();
-
         OkHttpClient okHttpClient;
         OkHttpClient.Builder okHttpClientBuilder =
                 new OkHttpClient.Builder()
@@ -88,7 +87,6 @@ public class RetrofitUtil {
                 if (method.equals("GET")) {
                     HttpUrl httpUrlurl = request.url();
                     Set<String> parameterNames = httpUrlurl.queryParameterNames();
-
                     for (String key : parameterNames) {
                         rootMap.put(key, httpUrlurl.queryParameter(key));
                     }

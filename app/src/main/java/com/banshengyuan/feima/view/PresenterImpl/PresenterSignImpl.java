@@ -48,7 +48,7 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
     }
 
     private void getVerifyCodeSuccess(ResponseData responseData) {
-        Observable.interval(0, 1, TimeUnit.SECONDS)
+        Disposable disposable =Observable.interval(0, 1, TimeUnit.SECONDS)
                 .map(aLong -> 60 - aLong)
                 .take(61)
                 .compose(mView.applySchedulers())
@@ -60,6 +60,7 @@ public class PresenterSignImpl implements SignControl.PresenterSign {
         } else {
             mView.showToast("请稍后重试");
         }
+        mView.addSubscription(disposable);
     }
 
     @Override

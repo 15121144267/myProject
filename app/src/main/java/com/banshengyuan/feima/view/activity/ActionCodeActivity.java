@@ -57,7 +57,6 @@ public class ActionCodeActivity extends BaseActivity {
         supportActionBar(mToolbar, true);
         mMiddleName.setText("活动凭证");
         initData();
-
     }
 
     private void initData() {

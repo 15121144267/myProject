@@ -74,6 +74,7 @@ public class PendingOrderFragment extends BaseFragment implements PendingOrderCo
     private final String[] modules = {"推荐", "市集", "街景", "魔门"};
     private SparseIntArray mHashMap;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

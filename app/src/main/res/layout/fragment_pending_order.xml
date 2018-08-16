@@ -16,8 +16,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:src="@mipmap/common_classfiy"
-            />
+            android:src="@mipmap/common_classfiy"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab_layout"

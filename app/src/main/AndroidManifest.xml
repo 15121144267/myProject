@@ -28,7 +28,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:name=".DaggerApplication"
         android:allowBackup="true"
@@ -270,6 +270,10 @@
                 <action android:name="com.dispatching.customerservice"/>
             </intent-filter>
         </service>
+
+        <service
+            android:name=".entity.TestService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <activity android:name=".view.activity.ActionCodeActivity">
         </activity>

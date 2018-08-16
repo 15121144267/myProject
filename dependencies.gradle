@@ -4,7 +4,7 @@ ext{
     myVersionName = "1.0.0"
 
     myCompileSdkVersion = 26
-    myBuildToolsVersion = "26.0.1"
+    myBuildToolsVersion = "26.0.2"
     myApplicationId = "com.banshengyuan.feima"
     myReleaseSignFile = 'releasekeystore.jks'
     mySignStorePassword = '64569845'
@@ -14,7 +14,7 @@ ext{
     myTargetSdkVersion = 26
     myDependencies = [
             myGreendao: "org.greenrobot:greendao:3.2.2",
-            myDsign: "com.android.support:design:26.0.0-alpha1",
+            myDsign: "com.android.support:design:26.0.0",
             myRetrofit2: "com.squareup.retrofit2:retrofit:2.2.0",
             myRetrofit2ConverterGson: "com.squareup.retrofit2:converter-gson:2.2.0",
             myRetrofit2ConverterScalars: "com.squareup.retrofit2:converter-scalars:2.2.0",

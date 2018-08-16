@@ -15,12 +15,12 @@
         <attr name="leftSwipe" format="boolean"/>
     </declare-styleable>
 
-    <!--<declare-styleable name="MainNavigateTabBar">
+    <declare-styleable name="MainNavigateTabBar">
         <attr name="navigateTabTextColor" format="color|reference"/>
         <attr name="navigateTabSelectedTextColor" format="color|reference"/>
         <attr name="containerId" format="integer|reference"/>
         <attr name="navigateTabTextSize" format="dimension|reference"/>
-    </declare-styleable>-->
+    </declare-styleable>
 
     <declare-styleable name="ConvenientBanner">
         <attr name="canLoop" format="boolean"/>
